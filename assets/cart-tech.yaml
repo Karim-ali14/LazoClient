@@ -1,0 +1,60 @@
+openapi: 3.0.0
+info:
+  title: Test API REST
+  description: test
+  version: latest
+paths:
+  /city/all:
+    get:
+      tags:
+        - Cities
+      summary: Get list of cities
+      description: Returns list of cities
+      operationId: getCitiesList
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: string
+              example:
+                name: project
+                items:
+                  - id: integer
+                    name_en: string
+                    name_ar: string
+                    name: string
+                    created_at: string
+  /city/add:
+    post:
+      summary: Add City
+      operationId: 00a7fc2a7d55091042505f1e124d12e2
+      parameters:
+        - name: name_en
+          in: query
+          description: Add a new city English name
+          required: true
+          schema:
+            type: string
+        - name: name_ar
+          in: query
+          description: Add a new city Arabic name
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: string
+              example:
+                name: project
+                items:
+                  - id: integer
+                    name_en: string
+                    name_ar: string
+                    name: string
+                    created_at: string

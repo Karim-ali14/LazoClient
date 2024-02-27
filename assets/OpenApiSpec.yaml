@@ -1,0 +1,581 @@
+openapi: 3.0.0
+info:
+  title: CarTech
+  description: >-
+    # 🚀 Get started here
+
+
+    This template guides you through CRUD operations (GET, POST, PUT, DELETE),
+    variables, and tests.
+
+
+    ## 🔖 **How to use this template**
+
+
+    #### **Step 1: Send requests**
+
+
+    RESTful APIs allow you to perform CRUD operations using the POST, GET, PUT,
+    and DELETE HTTP methods.
+
+
+    This collection contains each of these
+    [request](https://learning.postman.com/docs/sending-requests/requests/)
+    types. Open each request and click "Send" to see what happens.
+
+
+    #### **Step 2: View responses**
+
+
+    Observe the response tab for status code (200 OK), response time, and size.
+
+
+    #### **Step 3: Send new Body data**
+
+
+    Update or add new data in "Body" in the POST request. Typically, Body data
+    is also used in PUT request.
+
+
+    ```
+
+    {
+        "name": "Add your name in the body"
+    }
+
+     ```
+
+    #### **Step 4: Update the variable**
+
+
+    Variables enable you to store and reuse values in Postman. We have created a
+    [variable](https://learning.postman.com/docs/sending-requests/variables/)
+    called `base_url` with the sample request
+    [https://postman-api-learner.glitch.me](https://postman-api-learner.glitch.me).
+    Replace it with your API endpoint to customize this collection.
+
+
+    #### **Step 5: Add tests in the "Tests" tab**
+
+
+    Tests help you confirm that your API is working as expected. You can write
+    test scripts in JavaScript and view the output in the "Test Results" tab.
+
+
+    <img
+    src="https://content.pstmn.io/b5f280a7-4b09-48ec-857f-0a7ed99d7ef8/U2NyZWVuc2hvdCAyMDIzLTAzLTI3IGF0IDkuNDcuMjggUE0ucG5n">
+
+
+    ## 💪 Pro tips
+
+
+    - Use folders to group related requests and organize the collection.
+
+    - Add more
+    [scripts](https://learning.postman.com/docs/writing-scripts/intro-to-scripts/)
+    in "Tests" to verify if the API works as expected and execute workflows.
+    
+    
+    ## 💡Related templates
+
+
+    [API testing
+    basics](https://go.postman.co/redirect/workspace?type=personal&collectionTemplateId=e9a37a28-055b-49cd-8c7e-97494a21eb54&sourceTemplateId=ddb19591-3097-41cf-82af-c84273e56719)  
+
+    [API
+    documentation](https://go.postman.co/redirect/workspace?type=personal&collectionTemplateId=e9c28f47-1253-44af-a2f3-20dce4da1f18&sourceTemplateId=ddb19591-3097-41cf-82af-c84273e56719)  
+
+    [Authorization
+    methods](https://go.postman.co/redirect/workspace?type=personal&collectionTemplateId=31a9a6ed-4cdf-4ced-984c-d12c9aec1c27&sourceTemplateId=ddb19591-3097-41cf-82af-c84273e56719)
+  version: 1.0.0
+servers:
+  - url: http://{{prod_url}}
+  - url: http://{{localhost}}
+components:
+  securitySchemes:
+    noauthAuth:
+      type: http
+      scheme: noauth
+    bearerAuth:
+      type: http
+      scheme: bearer
+tags:
+  - name: public
+  - name: public > verification code
+  - name: public > authentication
+  - name: client
+  - name: client > car
+  - name: admin
+  - name: admin > car brand
+  - name: admin > car model
+  - name: admin > city
+  - name: admin > service
+paths:
+  /otp/send:
+    post:
+      tags:
+        - public > verification code
+      summary: send OTP code
+      requestBody:
+        description: ""
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                phone:
+                  type: integer
+                  description: phone number
+                  example: '588888886'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+  /otp/verify:
+    post:
+      tags:
+        - public > verification code
+      summary: verify OTP code
+      requestBody:
+        description: ""
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                phone:
+                  type: integer
+                  description: ID of user to be verified
+                  example: '588888886'
+                otp:
+                  type: integer
+                  description: otp code (4 digits)
+                  example: '5555'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+  /auth/client/register:
+    post:
+      tags:
+        - public > authentication
+      summary: register user
+      requestBody:
+        description: ""
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: ahmed khaled
+                email:
+                  type: string
+                  example: ahmd@khahgled.comm
+                country_code:
+                  type: string
+                  example: '+966'
+                phone:
+                  type: integer
+                  example: '599999992'
+                terms_and_conditions:
+                  type: integer
+                  example: '1'
+      parameters:
+        - name: lang
+          in: header
+          schema:
+            type: string
+          example: ar
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+  /auth/client/login:
+    post:
+      tags:
+        - public > authentication
+      summary: login user
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                phone:
+                  type: integer
+                  example: '588888886'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+  /auth/admin/login:
+    post:
+      tags:
+        - public > authentication
+      summary: login admin
+      requestBody:
+        description: ""
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  example: admin@cartech.com
+                password:
+                  type: string
+                  example: password
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+  /files/upload:
+    post:
+      tags:
+        - public
+      summary: upload file(s)
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                context:
+                  type: string
+                  description: >-
+                    optional | posible values: mentainance_reports, brands,
+                    service_images, banners, car_issues
+                  example: services
+                files[0]:
+                  type: string
+                  description: files to be uploaded
+                  format: binary
+                files[1]:
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+  /city/all:
+    get:
+      tags:
+        - public
+      summary: show all cities
+      parameters:
+        - name: Authorization
+          in: header
+          description: ""
+          style: simple
+          schema:
+            type: string
+      security:
+        - noauthAuth: []
+      responses:
+        '200':
+          description: OK
+          headers:
+            Server:
+              schema:
+                type: string
+                example: nginx
+            Date:
+              schema:
+                type: string
+                example: Tue, 27 Feb 2024 12:30:03 GMT
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            Transfer-Encoding:
+              schema:
+                type: string
+                example: chunked
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Cache-Control:
+              schema:
+                type: string
+                example: no-cache, private
+            X-RateLimit-Limit:
+              schema:
+                type: integer
+                example: '60'
+            X-RateLimit-Remaining:
+              schema:
+                type: integer
+                example: '59'
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                status: true
+                message: عرض جميع المدن
+                data:
+                  - id: 1
+                    name_en: Arielleton
+                    name_ar: عربي
+                    created_at: '2024-02-14T17:52:46.000000Z'
+                    updated_at: '2024-02-14T17:52:46.000000Z'
+                    name: عربي
+                  - id: 2
+                    name_en: Furmanburgh
+                    name_ar: عربي
+                    created_at: '2024-02-14T17:52:46.000000Z'
+                    updated_at: '2024-02-14T17:52:46.000000Z'
+                    name: عربي
+                  - id: 3
+                    name_en: New Jeffereymouth
+                    name_ar: عربي
+                    created_at: '2024-02-14T17:52:46.000000Z'
+                    updated_at: '2024-02-14T17:52:46.000000Z'
+                    name: عربي
+                  - id: 4
+                    name_en: Port Jairoview
+                    name_ar: عربي
+                    created_at: '2024-02-14T17:52:46.000000Z'
+                    updated_at: '2024-02-14T17:52:46.000000Z'
+                    name: عربي
+                  - id: 5
+                    name_en: Lehnerborough
+                    name_ar: عربي
+                    created_at: '2024-02-14T17:52:46.000000Z'
+                    updated_at: '2024-02-14T17:52:46.000000Z'
+                    name: عربي
+                  - id: 6
+                    name_en: New Joanie
+                    name_ar: عربي
+                    created_at: '2024-02-14T17:52:46.000000Z'
+                    updated_at: '2024-02-14T17:52:46.000000Z'
+                    name: عربي
+                  - id: 7
+                    name_en: Port Henderson
+                    name_ar: عربي
+                    created_at: '2024-02-14T17:52:46.000000Z'
+                    updated_at: '2024-02-14T17:52:46.000000Z'
+                    name: عربي
+                  - id: 8
+                    name_en: Port Ednastad
+                    name_ar: عربي
+                    created_at: '2024-02-14T17:52:46.000000Z'
+                    updated_at: '2024-02-14T17:52:46.000000Z'
+                    name: عربي
+                  - id: 9
+                    name_en: Lake Miracle
+                    name_ar: عربي
+                    created_at: '2024-02-14T17:52:46.000000Z'
+                    updated_at: '2024-02-14T17:52:46.000000Z'
+                    name: عربي
+                  - id: 10
+                    name_en: Brendanchester
+                    name_ar: عربي
+                    created_at: '2024-02-14T17:52:47.000000Z'
+                    updated_at: '2024-02-14T17:52:47.000000Z'
+                    name: عربي
+                  - id: 11
+                    name_en: Jadda
+                    name_ar: جدة
+                    created_at: '2024-02-15T00:46:39.000000Z'
+                    updated_at: '2024-02-15T00:46:39.000000Z'
+                    name: جدة
+                  - id: 13
+                    name_en: Jadda
+                    name_ar: جدة
+                    created_at: '2024-02-15T00:50:16.000000Z'
+                    updated_at: '2024-02-15T00:50:16.000000Z'
+                    name: جدة
+  /brand/all:
+    get:
+      tags:
+        - public
+      summary: show all brands
+      security:
+        - noauthAuth: []
+      responses:
+        '200':
+          description: OK
+          headers:
+            Server:
+              schema:
+                type: string
+                example: nginx
+            Date:
+              schema:
+                type: string
+                example: Tue, 27 Feb 2024 12:30:21 GMT
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            Transfer-Encoding:
+              schema:
+                type: string
+                example: chunked
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Cache-Control:
+              schema:
+                type: string
+                example: no-cache, private
+            X-RateLimit-Limit:
+              schema:
+                type: integer
+                example: '60'
+            X-RateLimit-Remaining:
+              schema:
+                type: integer
+                example: '58'
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                status: true
+                message: عرض جميع علامات السيارات
+                data:
+                  - id: 1
+                    brand_name_en: Bmw
+                    brand_name_ar: ب م دبل يو
+                    is_brand_served: 1
+                    created_at: '2024-02-15T00:53:02.000000Z'
+                    updated_at: '2024-02-15T00:53:02.000000Z'
+                    brand_name: ب م دبل يو
+                    logo_url: >-
+                      https://cartech-backend.fateen.info/public/uploads\images\reports\02-2024\file_qWRFVttDOB_1707668480.jpg
+                  - id: 2
+                    brand_name_en: Bmw
+                    brand_name_ar: ب م دبل يو
+                    is_brand_served: 1
+                    created_at: '2024-02-25T14:22:49.000000Z'
+                    updated_at: '2024-02-25T14:22:49.000000Z'
+                    brand_name: ب م دبل يو
+                    logo_url: >-
+                      https://cartech-backend.fateen.info/public/uploads/services/02-2024/Wx8fz1MLz1_1708869887.jpg
+  /model/all:
+    get:
+      tags:
+        - public
+      summary: show brand's models
+      security:
+        - noauthAuth: []
+      parameters:
+        - name: brand_id
+          in: query
+          schema:
+            type: integer
+          description: required
+          example: '1'
+      responses:
+        '200':
+          description: OK
+          headers:
+            Server:
+              schema:
+                type: string
+                example: nginx
+            Date:
+              schema:
+                type: string
+                example: Tue, 27 Feb 2024 12:30:37 GMT
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            Transfer-Encoding:
+              schema:
+                type: string
+                example: chunked
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Cache-Control:
+              schema:
+                type: string
+                example: no-cache, private
+            X-RateLimit-Limit:
+              schema:
+                type: integer
+                example: '60'
+            X-RateLimit-Remaining:
+              schema:
+                type: integer
+                example: '57'
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                status: true
+                message: عرض جميع موديلات السيارات
+                data:
+                  - id: 1
+                    brand_id: 1
+                    model_name_en: A
+                    model_name_ar: ا
+                    created_at: '2024-02-15T00:53:21.000000Z'
+                    updated_at: '2024-02-15T00:53:21.000000Z'
+                    model_name: ا
+                  - id: 2
+                    brand_id: 1
+                    model_name_en: B
+                    model_name_ar: ب
+                    created_at: '2024-02-18T15:32:55.000000Z'
+                    updated_at: '2024-02-18T15:32:55.000000Z'
+                    model_name: ب
+  /model/year/all:
+    get:
+      tags:
+        - public
+      summary: show model's manufacture years
+      security:
+        - noauthAuth: []
+      parameters:
+        - name: model_id
+          in: query
+          schema:
+            type: integer
+          example: '2'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
