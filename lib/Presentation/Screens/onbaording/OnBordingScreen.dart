@@ -12,6 +12,7 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../../../Constants.dart';
 import '../../../Constants/Constants.dart';
+import '../../Widgets/FlatAppButton.dart';
 
 class OnBoardingScreen extends StatefulWidget {
   const OnBoardingScreen({super.key});
@@ -63,12 +64,30 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                             const SizedBox(
                               height: 24,
                             ),
-                            Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 20),
-                              child: Text(
-                                "Lorem ipsum dolor sit amet consectetur Sed.",
-                                textAlign: TextAlign.center,
-                                style: AppTheme.styleWithTextBlackAdelleSansExtendedFonts20w700,),
+                            Center(
+                              child: Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 20),
+                                child: index == 0 ?RichText(text: TextSpan(
+                                    style: AppTheme.styleWithTextBlackAdelleSansExtendedFonts20w700,
+                                    children: [
+                                      TextSpan(
+                                        style: AppTheme.styleWithTextBlackAdelleSansExtendedFonts20w700,
+                                        text: "Welcome to"
+                                      ),
+                                      TextSpan(
+                                        style: AppTheme.styleWithTextBlackAdelleSansExtendedFonts20w700.copyWith(color: AppTheme.appSwatch),
+                                        text: " LAZO"
+                                      ),
+                                      TextSpan(
+                                        style: AppTheme.styleWithTextBlackAdelleSansExtendedFonts20w700,
+                                        text: "!"
+                                      ),
+                                    ]
+                                ))
+                                : Text(ConstantsMethods.getOnBoardingTitleList(context)[index],
+                                  textAlign: TextAlign.center,
+                                  style: AppTheme.styleWithTextBlackAdelleSansExtendedFonts20w700,),
+                              ),
                             ),
                             Padding(
                               padding: EdgeInsets.symmetric(horizontal: 20,vertical: 10),
@@ -110,21 +129,27 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                 const SizedBox(
                   height: 30,
                 ),
-                isLastPage
-                    ? AppButton(
-                  text: "Let’s Start",
-                  onPress: getStarted,
-                  width: context.getScreenSize.width * .95,
-                  height: 56,
-                )
-                    : const SizedBox()
               ],
             ),
+            isLastPage
+                ? Align(
+              alignment: AlignmentDirectional.bottomCenter,
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: 16),
+                    child: AppButton(
+                                  text: "Let’s Start",
+                                  onPress: getStarted,
+                                  width: context.getScreenSize.width * .95,
+                                  height: 56,
+                                ),
+                  ),
+                )
+                : const SizedBox(),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
+              padding: const EdgeInsets.symmetric(vertical: 10.0,horizontal: 8),
               child: Align(
                 alignment: AlignmentDirectional.topEnd,
-                child: InkWell(onTap: getStarted, child: const Text("Skip")),
+                child: Align(alignment:AlignmentDirectional.topEnd,child: FlatAppButton(onPress:getStarted,text: "Skip",txtColor: AppTheme.appSwatch,)),
               ),
             )
           ],

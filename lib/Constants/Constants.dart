@@ -21,9 +21,9 @@ class ConstantsMethods{
   }
   static List<String> getOnBoardingTitleList(BuildContext context) {
     List<String> titles = [
-      context.tr(onBoardingOneKey),
-      context.tr(onBoardingTwoKey),
-      context.tr(onBoardingThreeKey),
+      context.tr(onBoardingTitleOneKey),
+      context.tr(onBoardingTitleTwoKey),
+      context.tr(onBoardingTitleThreeKey),
     ];
     return titles;
   }
