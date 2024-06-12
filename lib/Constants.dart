@@ -9,4 +9,5 @@ const coverPlaceholder = "assets/images/app_placeholder.png";
 const R_splashScreenRout = '/';
 const R_MainScreen = '/mainScreen';
 const R_OTP = '/otp';
+const R_OnBoardingScreen = '/onBoardingScreen';
 //EXTRAS

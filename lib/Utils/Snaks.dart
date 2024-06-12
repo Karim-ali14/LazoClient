@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../UI/Theme/AppColors.dart';
-import '../UI/Widgets/SimpleAlert.dart';
+import '../Presentation/Theme/AppTheme.dart';
+import '../Presentation/Widgets/SimpleAlert.dart';
 
 class AppSnackBar {
   static showSnackBar(context,{required bool isSuccess,required String message,action}){
@@ -11,7 +11,7 @@ class AppSnackBar {
       showCloseIcon: true,
       margin: const EdgeInsets.symmetric(horizontal: 10,vertical: 30),
       behavior: SnackBarBehavior.floating,
-      closeIconColor: AppColors.appGrey,
+      closeIconColor: AppTheme.appGrey,
       padding: const EdgeInsets.all(0),
       backgroundColor: Colors.white,
       content: IntrinsicHeight(
@@ -22,7 +22,7 @@ class AppSnackBar {
               width: 8,
 
               decoration: BoxDecoration(
-                  color: isSuccess == false ? AppColors.failureColor : AppColors.successColor,
+                  color: isSuccess == false ? AppTheme.failureColor : AppTheme.successColor,
                   borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(6),
                     bottomLeft: Radius.circular(6),
@@ -32,7 +32,7 @@ class AppSnackBar {
               padding: const EdgeInsets.symmetric(vertical: 14.0),
               child: Icon(
                 isSuccess == false ? Icons.cancel :Icons.check_circle,
-                color: isSuccess == false ? AppColors.failureColor : AppColors.successColor,
+                color: isSuccess == false ? AppTheme.failureColor : AppTheme.successColor,
                 size: 29,
               ),
             ),
@@ -42,7 +42,7 @@ class AppSnackBar {
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
                   message,
-                  style: AppColors.appTextTheme.titleLarge?.copyWith(fontWeight: FontWeight.w500),
+                  style: AppTheme.appTextTheme.titleLarge?.copyWith(fontWeight: FontWeight.w500),
                 ),
               ),
             ),

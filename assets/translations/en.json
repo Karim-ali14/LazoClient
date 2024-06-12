@@ -1,3 +1,10 @@
 {
-  "appName" : "Base"
+  "appName" : "Base",
+  "onBoardingOne" : "Unique platform to make gift giving a special and easy experience. Discover carefully selected products and services for every occasion.",
+  "onBoardingTwo" : "Choose products from different stores and design your own gift. We will wrap it in an elegant style befitting your loved one.",
+  "onBoardingThree" : "Choose from ready-made gifts or service cards, a seamless purchasing experience and fast delivery.",
+
+  "onBoardingTitleOne" : "Welcome to LAZO!",
+  "onBoardingTitleTwo" : "Create your perfect gift",
+  "onBoardingTitleThree" : "Distinctive gifts and services"
 }

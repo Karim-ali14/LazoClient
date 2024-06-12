@@ -1,5 +1,6 @@
 import 'dart:convert';
-import 'package:base_flutter_app/UI/Dialogs/LoadingDialog.dart';
+import 'package:flutter/services.dart';
+import 'package:lazo_client/Presentation/Dialogs/LoadingDialog.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
@@ -9,7 +10,6 @@ import 'package:flutter/material.dart';
 import '../Constants.dart';
 import '../Localization/AppLocalizations.dart';
 const imagePickOptions = ["Open Camera","Pick From Gallery"];
-
 
 extension ContextMethods on BuildContext {
   Size get getScreenSize => MediaQuery.of(this).size;

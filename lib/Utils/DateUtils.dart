@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import '../UI/Theme/AppColors.dart';
+import '../Presentation/Theme/AppTheme.dart';
 
 typedef OnDateValue = Function(DateTime?);
 
@@ -73,7 +73,7 @@ void showModalDatePicker(BuildContext context, CupertinoDatePickerMode mode, dou
                       },
                       child: const Text(
                         "Confirm",
-                        style: TextStyle(color: AppColors.appSwatch),
+                        style: TextStyle(color: AppTheme.appSwatch),
                       )),
                 )
               ],

@@ -8,9 +8,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:timeago/timeago.dart' as ago;
 
 import '../../../../../Constants.dart';
-import '../../../../../UI/Screens/SplashScreen.dart';
+import '../../../../../Presentation/Screens/SplashScreen.dart';
 
-import 'UI/Theme/AppColors.dart';
+import 'Presentation//Theme/AppTheme.dart';
+import 'Presentation/Screens/onbaording/OnBordingScreen.dart';
 
 
 late SharedPreferences prefs;
@@ -122,8 +123,8 @@ class MyApp extends ConsumerWidget {
         debugShowCheckedModeBanner: false,
         title: 'BaseFlutter',
         themeMode:ThemeMode.light,
-        theme: AppColors.lightTheme,
-        darkTheme: AppColors.darkTheme,
+        theme: AppTheme.lightTheme,
+        darkTheme: AppTheme.darkTheme,
         localizationsDelegates: context.localizationDelegates,
         supportedLocales: context.supportedLocales,
         locale: context.locale,
@@ -139,6 +140,10 @@ class MyApp extends ConsumerWidget {
       GoRoute(
         path: R_splashScreenRout,
         builder: (BuildContext context, GoRouterState state) => SplashScreen(),
+      ),
+      GoRoute(
+        path: R_OnBoardingScreen,
+        builder: (BuildContext context, GoRouterState state) => OnBoardingScreen(),
       ),
     ],
   );
