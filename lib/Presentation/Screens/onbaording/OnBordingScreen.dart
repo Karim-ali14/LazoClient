@@ -159,6 +159,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
   }
 
   void getStarted(){
-
+    context.push(R_LoginScreen);
   }
+
 }

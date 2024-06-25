@@ -10,4 +10,5 @@ const R_splashScreenRout = '/';
 const R_MainScreen = '/mainScreen';
 const R_OTP = '/otp';
 const R_OnBoardingScreen = '/onBoardingScreen';
+const R_LoginScreen = '/LoginScreen';
 //EXTRAS

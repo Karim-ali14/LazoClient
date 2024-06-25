@@ -1,9 +1,9 @@
-
 import 'package:animated_theme_switcher/animated_theme_switcher.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:lazo_client/Presentation/Screens/Auth/LoginSreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:timeago/timeago.dart' as ago;
 
@@ -12,7 +12,6 @@ import '../../../../../Presentation/Screens/SplashScreen.dart';
 
 import 'Presentation//Theme/AppTheme.dart';
 import 'Presentation/Screens/onbaording/OnBordingScreen.dart';
-
 
 late SharedPreferences prefs;
 
@@ -78,7 +77,6 @@ void _handleMessage(RemoteMessage message,BuildContext context) {
 }*/
 
 void main() async {
-
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
 
@@ -99,30 +97,26 @@ void main() async {
 
   ago.setLocaleMessages('ar', ago.ArMessages());
   //Main App
-  runApp(ProviderScope(child: EasyLocalization(
-      supportedLocales: const [
-        Locale("en"),
-        Locale("ar"),
-      ],
-      path: 'assets/translations',
-      child: MyApp())));
-
+  runApp(ProviderScope(
+      child: EasyLocalization(supportedLocales: const [
+    Locale("en"),
+    Locale("ar"),
+  ], path: 'assets/translations', child: MyApp())));
 }
-
 
 class MyApp extends ConsumerWidget {
   final appLang;
   MyApp({Key? key, this.appLang}) : super(key: key);
 
   @override
-  Widget build(BuildContext context,WidgetRef ref) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return ThemeProvider(
       initTheme: Theme.of(context),
       duration: const Duration(milliseconds: 500),
       child: MaterialApp.router(
         debugShowCheckedModeBanner: false,
-        title: 'BaseFlutter',
-        themeMode:ThemeMode.light,
+        title: 'Lazo',
+        themeMode: ThemeMode.light,
         theme: AppTheme.lightTheme,
         darkTheme: AppTheme.darkTheme,
         localizationsDelegates: context.localizationDelegates,
@@ -139,12 +133,18 @@ class MyApp extends ConsumerWidget {
     routes: <GoRoute>[
       GoRoute(
         path: R_splashScreenRout,
-        builder: (BuildContext context, GoRouterState state) => SplashScreen(),
+        builder: (BuildContext context, GoRouterState state) =>
+            const SplashScreen(),
       ),
       GoRoute(
         path: R_OnBoardingScreen,
-        builder: (BuildContext context, GoRouterState state) => OnBoardingScreen(),
+        builder: (BuildContext context, GoRouterState state) =>
+            const OnBoardingScreen(),
       ),
+      GoRoute(
+          path: R_LoginScreen,
+          builder: (BuildContext context, GoRouterState state) =>
+              const LoginScreen())
     ],
   );
 }

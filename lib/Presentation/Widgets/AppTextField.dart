@@ -25,6 +25,7 @@ class AppTextField extends StatefulWidget {
   final String? endText;
   final String? Function(String?)? validate;
   final TextInputFormatter? mask;
+  final AutovalidateMode? mode;
   AppTextField(
       {Key? key,
       required this.hint,
@@ -41,7 +42,7 @@ class AppTextField extends StatefulWidget {
       this.changeValueCallback,
       this.mask,
       required this.textEditingController,
-      this.textFieldColor, this.textInputAction, this.textFieldBorderColor, this.disabled, this.onClick, this.endText, this.validate})
+      this.textFieldColor, this.textInputAction, this.textFieldBorderColor, this.disabled, this.onClick, this.endText, this.validate, this.mode})
       : super(key: key);
 
   @override
@@ -60,6 +61,7 @@ class _AppTextFieldState extends State<AppTextField> {
       child: Container(
         width: widget.width,
         child:TextFormField(
+            autovalidateMode: widget.mode,
             inputFormatters: widget.mask != null ? [widget.mask!] : null,
             onTapOutside: (val){
               FocusManager.instance.primaryFocus?.unfocus();
@@ -108,17 +110,17 @@ class _AppTextFieldState extends State<AppTextField> {
 
   InputBorder get getBorder => widget.textFieldBorderColor != null ?  OutlineInputBorder(
     borderSide: BorderSide(color: widget.textFieldBorderColor??Colors.transparent),
-    borderRadius: widget.borderRidus?? BorderRadius.circular(10),
+    borderRadius: widget.borderRidus?? BorderRadius.circular(4),
   ) : UnderlineInputBorder(
     borderSide: BorderSide(color:Colors.transparent),
-    borderRadius: widget.borderRidus?? BorderRadius.circular(10),
+    borderRadius: widget.borderRidus?? BorderRadius.circular(4),
   );
 
   InputBorder get getErrBorder => widget.textFieldBorderColor != null ?  OutlineInputBorder(
     borderSide: BorderSide(color: Colors.red),
-    borderRadius: widget.borderRidus?? BorderRadius.circular(10),
+    borderRadius: widget.borderRidus?? BorderRadius.circular(4),
   ) : UnderlineInputBorder(
     borderSide: BorderSide(color:Colors.transparent),
-    borderRadius: widget.borderRidus?? BorderRadius.circular(10),
+    borderRadius: widget.borderRidus?? BorderRadius.circular(4),
   );
 }

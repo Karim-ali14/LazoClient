@@ -6,5 +6,21 @@
 
   "onBoardingTitleOne" : "Welcome to LAZO!",
   "onBoardingTitleTwo" : "Create your perfect gift",
-  "onBoardingTitleThree" : "Distinctive gifts and services"
+  "onBoardingTitleThree" : "Distinctive gifts and services",
+  "login" : "Log In",
+  "arabic" : "اللغة العربية",
+  "phoneNumber" : "Phone Number",
+  "OTP" : "OTP",
+  "signUp" : "Sign Up",
+  "dontHaveAnAccount" : "Don’t have an account?",
+  "enterYourPhone" : "Enter your phone",
+  "pleaseEnterTheVerificationCodeYouReceivedFrom" : "Please enter the verification code you\nreceived from",
+  "verificationCodeWillBeSentWithin" : "Verification code will be sent within",
+  "resendVerificationCode" : "Resend verification code",
+  "fullName" : "Full Name",
+  "emailAddressOptional" : "Email Address (optional)",
+  "chooseCity" : "Choose City",
+  "yourAccountHasBlock" : "Your account has block",
+  "pleaseContactUsToLearnMore" : "please contact us to learn more",
+  "contactUs" : "Contact Us"
 }
