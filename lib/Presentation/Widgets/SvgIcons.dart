@@ -39,7 +39,13 @@ class SVGIcons {
       height: height,
     );
   }
-
+  static Widget editIcon({double? width , double? height }){
+    return SvgPicture.asset(
+      editIc,
+      width: width,
+      height: height,
+    );
+  }
   static Widget onBoardingOneIcon(){
     return SvgPicture.asset(
       onBoardingOneIconSvg

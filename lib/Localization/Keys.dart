@@ -22,3 +22,7 @@ const yourAccountHasBlockKey = "yourAccountHasBlock";
 const pleaseContactUsToLearnMoreKey = "pleaseContactUsToLearnMore";
 const contactUsKey = "contactUs";
 const enterYourPhoneKey = "enterYourPhone";
+
+// Params Keys
+const String doneLandingKey = "doneLanding";
+const String accountType = "client";

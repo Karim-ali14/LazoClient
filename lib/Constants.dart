@@ -8,7 +8,11 @@ const coverPlaceholder = "assets/images/app_placeholder.png";
 //PAGES_ROUTS
 const R_splashScreenRout = '/';
 const R_MainScreen = '/mainScreen';
-const R_OTP = '/otp';
+const R_OTP = 'otp';
 const R_OnBoardingScreen = '/onBoardingScreen';
 const R_LoginScreen = '/LoginScreen';
+const R_SignUp = '/SignUp';
+const R_HomeScreen = '/HomeScreen';
 //EXTRAS
+const userKey = "LazoClientKey";
+

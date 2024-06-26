@@ -1,4 +1,5 @@
 import 'package:flutter/services.dart';
+import 'package:lazo_client/Presentation/StateNotifiersViewModel/UserAuthStateNotifiers.dart';
 import 'package:lazo_client/Utils/Extintions.dart';
 
 import '../../../../../Data/Providers/UserProvider.dart';
@@ -7,6 +8,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../Constants.dart';
 import '../../Data/Models/User.dart';
+import '../../Localization/Keys.dart';
 import '../../Localization/LanguageProvider.dart';
 import '../../Utils/UtilsExts.dart';
 import '../../main.dart';
@@ -30,7 +32,17 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
     Future.delayed(const Duration(seconds: 4), () {
       UtilsExts.handleStatusBarColorWithIcon(
           statusBarColor: AppTheme.mainAppColor);
-      context.go(R_OnBoardingScreen);
+
+      final client = ref.read(clientStateProvider.notifier).checkIfUserExist();
+      if(client != null){
+        context.go(R_HomeScreen);
+      }else {
+        if(prefs.getBool(doneLandingKey) == true){
+          context.go(R_LoginScreen);
+        }else {
+          context.push(R_OnBoardingScreen);
+        }
+      }
     });
     super.initState();
   }

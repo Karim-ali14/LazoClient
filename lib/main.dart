@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lazo_client/Presentation/Screens/Auth/LoginSreen.dart';
+import 'package:lazo_client/Presentation/Screens/Auth/SignUpScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:timeago/timeago.dart' as ago;
 
@@ -11,6 +12,8 @@ import '../../../../../Constants.dart';
 import '../../../../../Presentation/Screens/SplashScreen.dart';
 
 import 'Presentation//Theme/AppTheme.dart';
+import 'Presentation/Screens/Auth/Otp/OTPScreen.dart';
+import 'Presentation/Screens/HomeScreen.dart';
 import 'Presentation/Screens/onbaording/OnBordingScreen.dart';
 
 late SharedPreferences prefs;
@@ -142,9 +145,29 @@ class MyApp extends ConsumerWidget {
             const OnBoardingScreen(),
       ),
       GoRoute(
+        path: R_HomeScreen,
+        builder: (BuildContext context, GoRouterState state) =>
+            const HomeScreen(),
+      ),
+      GoRoute(
           path: R_LoginScreen,
-          builder: (BuildContext context, GoRouterState state) =>
-              const LoginScreen())
+          builder: (BuildContext context, GoRouterState state) => const LoginScreen(),
+          routes: [
+            GoRoute(
+                path: R_OTP,
+                builder: (BuildContext context, GoRouterState state) {
+                  var extra = state.extra as Map;
+                  return OTPScreen(phone:extra["phone"], otpType: extra["type"],);
+                }
+            )
+          ]
+      ),
+      GoRoute(
+          path: R_SignUp,
+          builder: (BuildContext context, GoRouterState state) {
+            return const SignUpScreen();
+          }
+      ),
     ],
   );
 }

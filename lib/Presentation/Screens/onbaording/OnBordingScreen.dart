@@ -8,6 +8,7 @@ import 'package:lazo_client/Presentation/Theme/AppTheme.dart';
 import 'package:lazo_client/Presentation/Widgets/AppButton.dart';
 import 'package:lazo_client/Presentation/Widgets/SvgIcons.dart';
 import 'package:lazo_client/Utils/Extintions.dart';
+import 'package:lazo_client/main.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../../../Constants.dart';
@@ -160,6 +161,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
 
   void getStarted(){
     context.push(R_LoginScreen);
+    prefs.setBool(doneLandingKey, true);
   }
 
 }

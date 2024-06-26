@@ -8,10 +8,10 @@ class OTPFields extends StatefulWidget {
   const OTPFields({Key? key}) : super(key: key);
 
   @override
-  State<OTPFields> createState() => OTPFieldsState();
+  State<OTPFields> createState() => OTPFieldState();
 }
 
-class OTPFieldsState extends State<OTPFields> {
+class OTPFieldState extends State<OTPFields> {
 
   TextEditingController otp1 = TextEditingController();
   TextEditingController otp2 = TextEditingController();
@@ -20,7 +20,7 @@ class OTPFieldsState extends State<OTPFields> {
 
 
   late FocusNode firstFocusNode;
-  late FocusNode secondFocusNode;
+  late FocusNode secondFocusNode; 
   late FocusNode thirdFocusNode;
   late FocusNode fourthFocusNode;
 

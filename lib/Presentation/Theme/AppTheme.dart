@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class AppTheme {
 
@@ -233,3 +234,9 @@ const appGradiant = LinearGradient(
   begin: AlignmentDirectional.bottomStart,
   end: AlignmentDirectional.topEnd,
 );
+
+class TextFormatters {
+  static FilteringTextInputFormatter onlyLetters = FilteringTextInputFormatter.allow(RegExp('[a-z A-Z ا-ي]'));
+  static FilteringTextInputFormatter nonStartingZero =  FilteringTextInputFormatter.deny(RegExp(r'^0+'),);
+  static FilteringTextInputFormatter nonArabicPhone =  FilteringTextInputFormatter.allow(RegExp('[0-9]'),);
+}
