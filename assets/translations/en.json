@@ -22,5 +22,6 @@
   "chooseCity" : "Choose City",
   "yourAccountHasBlock" : "Your account has block",
   "pleaseContactUsToLearnMore" : "please contact us to learn more",
-  "contactUs" : "Contact Us"
+  "contactUs" : "Contact Us",
+  "thisPhoneIsNotExits" : "This phone is not exits"
 }

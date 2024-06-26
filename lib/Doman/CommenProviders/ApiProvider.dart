@@ -150,7 +150,7 @@ extension GenericRequest<T> on StateNotifier<StateModel<T>> {
 }
 
 extension RequestHandle<T> on ConsumerState {
-  void handleState<T>(AutoDisposeStateNotifierProvider<dynamic,StateModel<T>> provider,{bool? showLoading,bool? showToast,GlobalKey<SimpleAlertState>? alertKey,Function(StateModel<T>)? onSuccess ,Function(StateModel<T>)? onFail }){
+  void handleState<T>(AutoDisposeStateNotifierProvider<dynamic,StateModel<T>> provider,{bool? showLoading,bool? showToast,GlobalKey<SimpleAlertState>? alertKey,Function(StateModel<T>)? onSuccess ,Function(StateModel<T>)? onLoading ,Function(StateModel<T>)? onFail }){
     ref.listen(provider, (previous, next) {
       print("User Request Here $next");
       next.handelStateWithoutWidget(
@@ -188,7 +188,10 @@ extension RequestHandle<T> on ConsumerState {
 
             onFail?.call(state as StateModel<T>);
           },
-          onLoading: (state)=> showLoading == true ? context.showLoadingDialog() : print("loading")
+          onLoading: (state) {
+            onLoading?.call(state as StateModel<T>);
+            showLoading == true ? context.showLoadingDialog() : print("loading");
+          }
       );
     });
   }

@@ -9,7 +9,7 @@ final loginStateNotifierProvider =
     StateNotifierProvider.autoDispose<LoginUseCase, StateModel<ClientLogin200Response>>(
         (ref) => LoginUseCase(ref, ref.read(clientAuthApi)));
 
-final sendOtpStateProvider = StateNotifierProvider.autoDispose<SendOtpUseCase,StateModel<Object>>((ref) => SendOtpUseCase(ref, ref.read(publicAuthApi)));
+final sendOtpStateProvider = StateNotifierProvider.autoDispose<SendOtpUseCase,StateModel<CodeSendResponse>>((ref) => SendOtpUseCase(ref, ref.read(publicAuthApi)));
 final confirmResetCodeStateProvider = StateNotifierProvider.autoDispose<ConfirmResetCodeUseCase,StateModel<Object>>((ref) => ConfirmResetCodeUseCase(ref, ref.read(publicAuthApi)));
 
 final clientStateProvider = StateNotifierProvider<UserProvider,ClientLogin200ResponseData?>((ref) => UserProvider(ref));

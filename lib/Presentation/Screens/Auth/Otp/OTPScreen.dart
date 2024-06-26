@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lazo_client/Constants.dart';
 import 'package:lazo_client/Doman/CommenProviders/ApiProvider.dart';
+import 'package:lazo_client/Presentation/Dialogs/LoadingDialog.dart';
 import 'package:lazo_client/Utils/Extintions.dart';
 
 import '../../../../Constants/Constants.dart';
@@ -39,7 +40,20 @@ class _OtpScreenState extends ConsumerState<OTPScreen> {
       timerKey.currentState?.restart();
     });
 
-    handleState(confirmResetCodeStateProvider,showLoading: true,showToast: true,onSuccess: (state){
+    handleState(confirmResetCodeStateProvider,onSuccess: (state){
+      login();
+    },onLoading: (res){
+      context.showLoadingDialog();
+    });
+
+    handleState(loginStateNotifierProvider,showLoading: true, onSuccess: (res) {
+      if(context.isThereCurrentDialogShowing()){
+        try{
+          context.pop();
+        }catch(e){
+          print("NAV cannont pop");
+        }
+      }
       context.go(R_HomeScreen);
     });
 
@@ -124,12 +138,7 @@ class _OtpScreenState extends ConsumerState<OTPScreen> {
                     decoration: TextDecoration.underline, // Underline the text
                   ),
                   recognizer: TapGestureRecognizer()..onTap = !readyToResendOtp ? null : (){
-                    // if(widget.otpType == OTPType.SignUp){
-                    //   ref.read(resendOTPStateNotifier.notifier).sendSignUpOtp(widget.emailOrPhone??"");
-                    // }
-                    // if(widget.otpType == OTPType.Login){
-                    //   ref.read(resendOTPStateNotifier.notifier).sendLoginOtp(widget.emailOrPhone??"");
-                    // }
+                    sendOtp();
                     setState(() {
                       readyToResendOtp = false;
                     });
@@ -143,11 +152,16 @@ class _OtpScreenState extends ConsumerState<OTPScreen> {
     );
   }
 
-  void sendOtp(String emailOrPhone) async {
-    ref.read(sendOtpStateProvider.notifier).sendOtp(emailOrPhone);
+  void sendOtp() async {
+    ref.read(sendOtpStateProvider.notifier).sendOtp(widget.phone);
   }
 
   void verifyPhone(String phone,String? code) async {
     ref.read(confirmResetCodeStateProvider.notifier).confirmReset(phone, code);
+  }
+
+  void login() async {
+    ref.read(loginStateNotifierProvider.notifier)
+        .login(widget.phone);
   }
 }

@@ -7,6 +7,7 @@ import 'package:lazo_client/Constants.dart';
 import 'package:lazo_client/Constants/Constants.dart';
 import 'package:lazo_client/Constants/Eunms.dart';
 import 'package:lazo_client/Doman/CommenProviders/ApiProvider.dart';
+import 'package:lazo_client/Presentation/Dialogs/LoadingDialog.dart';
 import 'package:lazo_client/Presentation/StateNotifiersViewModel/UserAuthStateNotifiers.dart';
 import 'package:lazo_client/Presentation/Theme/AppTheme.dart';
 import 'package:lazo_client/Presentation/Widgets/AppButton.dart';
@@ -15,6 +16,7 @@ import 'package:lazo_client/Presentation/Widgets/SvgIcons.dart';
 import 'package:lazo_client/Utils/Extintions.dart';
 
 import '../../../Localization/Keys.dart';
+import '../../../Utils/Snaks.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
@@ -29,11 +31,19 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   @override
   Widget build(BuildContext context) {
 
-    handleState(loginStateNotifierProvider,showLoading: true,showToast: true, onSuccess: (res) {
-      context.push("$R_LoginScreen/$R_OTP", extra: {
-        "phone": phoneController.text.toString(),
-        "type": OTPType.Login
-      });
+    handleState(sendOtpStateProvider,showLoading: true, onSuccess: (res) {
+      if(res.data?.isExist == true){
+        AppSnackBar.showSnackBar(context, isSuccess: true, message: res.data?.message ?? "Success !");
+
+        context.push("$R_LoginScreen/$R_OTP", extra: {
+          "phone": phoneController.text.toString(),
+          "type": OTPType.Login
+        });
+      }else{
+        AppSnackBar.showSnackBar(context, isSuccess: false, message: context.tr(thisPhoneIsNotExitsKey));
+      }
+    },onFail: (res){
+      AppSnackBar.showSnackBar(context, isSuccess: false, message: res.message ?? "");
     });
 
     return Scaffold(
@@ -71,8 +81,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   textInputType: TextInputType.phone,
                   textFieldBorderColor: AppTheme.appGrey3,
                   mode: AutovalidateMode.onUserInteraction,
-                  hint: "hint",
-                  label: "label",
+                  hint: context.tr(phoneNumberKey),
+                  label: context.tr(phoneNumberKey),
                   textEditingController: phoneController,
                   validate: (value) {
                     if (value?.isEmpty == true) {
@@ -88,7 +98,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 AppButton(
                   width: context.getScreenSize.width,
                   height: 46,
-                  onPress: login,
+                  onPress: sendOtp,
                   child: Text(
                     loginKey,
                     style: AppTheme
@@ -108,7 +118,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                           .styleWithTextBlackAdelleSansExtendedFonts16w400,
                     ),
                     InkWell(
-                      onTap: signUp,
+                      onTap: sendOtp,
                       child: Text(
                         context.tr(signUpKey),
                         style: AppTheme
@@ -133,6 +143,12 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       ref
           .read(loginStateNotifierProvider.notifier)
           .login(phoneController.text.toString());
+    }
+  }
+
+  void sendOtp() async {
+    if (formKey.currentState?.validate() == true) {
+      ref.read(sendOtpStateProvider.notifier).sendOtp(phoneController.text.toString());
     }
   }
 

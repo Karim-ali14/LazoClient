@@ -24,14 +24,14 @@ class LoginUseCase extends StateNotifier<StateModel<ClientLogin200Response>> {
 }
 
 
-class SendOtpUseCase extends StateNotifier<StateModel<Object>>{
+class SendOtpUseCase extends StateNotifier<StateModel<CodeSendResponse>>{
   final Ref ref;
   final PublicAuthApi authApi;
   SendOtpUseCase( this.ref, this.authApi):super(StateModel());
 
   void sendOtp(String? phone) async {
     state = StateModel.loading();
-    request(() => authApi.resetCodeSendPost(emailOrPhone: phone,accountType : accountType));
+    request(() => authApi.codeSendPost(emailOrPhone: phone,accountType : accountType));
   }
 }
 
