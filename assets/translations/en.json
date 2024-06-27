@@ -14,6 +14,7 @@
   "signUp" : "Sign Up",
   "dontHaveAnAccount" : "Don’t have an account?",
   "enterYourPhone" : "Enter your phone",
+  "enterYourFullName" : "Enter your full name",
   "pleaseEnterTheVerificationCodeYouReceivedFrom" : "Please enter the verification code you\nreceived from",
   "verificationCodeWillBeSentWithin" : "Verification code will be sent within",
   "resendVerificationCode" : "Resend verification code",

@@ -118,7 +118,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                           .styleWithTextBlackAdelleSansExtendedFonts16w400,
                     ),
                     InkWell(
-                      onTap: sendOtp,
+                      onTap: signUp,
                       child: Text(
                         context.tr(signUpKey),
                         style: AppTheme

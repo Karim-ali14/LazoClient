@@ -46,6 +46,17 @@ class ConfirmResetCodeUseCase extends StateNotifier<StateModel<Object>>{
   }
 }
 
+class UploadFilesUseCase extends StateNotifier<StateModel<Object>>{
+  final Ref ref;
+  final PublicApi publicApi;
+  UploadFilesUseCase( this.ref, this.publicApi):super(StateModel());
+
+  void uploadFilesPost(MultipartFile? filesLeftSquareBracket0RightSquareBracket) async {
+    state = StateModel.loading();
+    request(() => publicApi.uploadFilesPost());
+  }
+}
+
 
 
 

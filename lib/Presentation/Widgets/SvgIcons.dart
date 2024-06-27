@@ -46,6 +46,18 @@ class SVGIcons {
       height: height,
     );
   }
+  static Widget placeHolderForPickImagesSvgIcon(){
+    return SvgPicture.asset(
+        placeHolderForPickImagesSvg
+    );
+  }
+  static Widget bottomRedArrowIcon(){
+    return SvgPicture.asset(
+      bottomRedArrowSvg,
+      width: 24,
+      height: 24, fit: BoxFit.scaleDown
+    );
+  }
   static Widget onBoardingOneIcon(){
     return SvgPicture.asset(
       onBoardingOneIconSvg

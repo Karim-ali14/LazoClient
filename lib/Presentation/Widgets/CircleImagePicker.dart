@@ -11,7 +11,7 @@ import 'SvgIcons.dart';
 class CircleImgPicker extends StatefulWidget {
   final String? initialImg;
   final double? size;
-  final String? placeHolder;
+  final Widget? placeHolder;
   final Function(String, String) onResult;
   CircleImgPicker(
       {Key? key,
@@ -49,10 +49,8 @@ class _CircleImgPickerState extends State<CircleImgPicker> {
                   )
                 : (widget.initialImg != null
                     ? CircleImage(
-                        placeHolder: widget.placeHolder,
                         initialImg: widget.initialImg)
-                    : Image.asset(widget.placeHolder??"",
-                        fit: BoxFit.cover)),
+                    : widget.placeHolder),
           ),
           Positioned(
               right: -2,

@@ -39,4 +39,6 @@ const orderPlaceHolderIconSvg = "assets/images/orderPlaceHolderIcon.svg";
 const onBoardingOneIconSvg = "assets/images/on_boarding_one.svg";
 const onBoardingTwoIconSvg = "assets/images/on_boarding_two.svg";
 const onBoardingThreeIconSvg = "assets/images/on_boarding_three.svg";
+const placeHolderForPickImagesSvg = "assets/images/placeHolderForPickImages.svg";
+const bottomRedArrowSvg = "assets/images/bottomRedArrow.svg";
 

@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 typedef StringCallBack = Function(String);
 
 class AppTextField extends StatefulWidget {
+  final bool? readOnly;
   final String hint;
   final String label;
   final StringCallBack? value;
@@ -26,6 +27,8 @@ class AppTextField extends StatefulWidget {
   final String? Function(String?)? validate;
   final TextInputFormatter? mask;
   final AutovalidateMode? mode;
+  final Widget? endWidget;
+  final Widget? startWidget;
   AppTextField(
       {Key? key,
       required this.hint,
@@ -42,7 +45,7 @@ class AppTextField extends StatefulWidget {
       this.changeValueCallback,
       this.mask,
       required this.textEditingController,
-      this.textFieldColor, this.textInputAction, this.textFieldBorderColor, this.disabled, this.onClick, this.endText, this.validate, this.mode})
+      this.textFieldColor, this.textInputAction, this.textFieldBorderColor, this.disabled, this.onClick, this.endText, this.validate, this.mode, this.readOnly = false, this.endWidget, this.startWidget})
       : super(key: key);
 
   @override
@@ -61,6 +64,7 @@ class _AppTextFieldState extends State<AppTextField> {
       child: Container(
         width: widget.width,
         child:TextFormField(
+          readOnly: widget.readOnly ?? false,
             autovalidateMode: widget.mode,
             inputFormatters: widget.mask != null ? [widget.mask!] : null,
             onTapOutside: (val){
@@ -86,11 +90,12 @@ class _AppTextFieldState extends State<AppTextField> {
                 suffixText: widget.endText,
                 labelText: widget.label,
                 hintText: widget.hint,
-                suffixIcon: widget.secured!
+                prefixIcon: widget.startWidget,
+                suffixIcon:  widget.secured!
                     ? IconButton(
                   onPressed: () => setState(() => _visiblePassword = !_visiblePassword),
                   icon: Icon(_visiblePassword ? Icons.visibility_off : Icons.visibility),color: Colors.grey,)
-                    : null,
+                    : widget.endWidget,
                 labelStyle: TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.w100,

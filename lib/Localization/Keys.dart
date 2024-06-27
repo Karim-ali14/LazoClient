@@ -23,6 +23,7 @@ const pleaseContactUsToLearnMoreKey = "pleaseContactUsToLearnMore";
 const contactUsKey = "contactUs";
 const enterYourPhoneKey = "enterYourPhone";
 const thisPhoneIsNotExitsKey = "thisPhoneIsNotExits";
+const enterYourFullNameKey = "enterYourFullName";
 
 // Params Keys
 const String doneLandingKey = "doneLanding";
