@@ -131,6 +131,7 @@ doc/UpdateProfile200Response.md
 doc/UpdateProfile200ResponseData.md
 doc/UpdateProfile200ResponseDataCity.md
 doc/UploadFiles.md
+doc/UploadFilesResponse.md
 doc/WishlistApi.md
 git_push.sh
 lib/api.dart
@@ -272,4 +273,6 @@ lib/model/update_profile200_response.dart
 lib/model/update_profile200_response_data.dart
 lib/model/update_profile200_response_data_city.dart
 lib/model/upload_files.dart
+lib/model/upload_files_response.dart
 pubspec.yaml
+test/upload_files_response_test.dart

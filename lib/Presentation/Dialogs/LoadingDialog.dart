@@ -38,7 +38,7 @@ extension Dialogs on BuildContext {
 
   showSuccessDialog({String? message,required String description,VoidCallback? onCancel,VoidCallback? onConfirm,Color? headerColor}) async {
     showAppDialog(this , Dialog(
-      backgroundColor:  Theme.of(this).primaryColor,
+
 
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8)
@@ -51,7 +51,7 @@ extension Dialogs on BuildContext {
           mainAxisSize: MainAxisSize.min,
           children: [
             const SizedBox(height: 10,),
-            Align(alignment:Alignment.centerLeft,child: Text(message ?? "Success!" "👍",style: Theme.of(this).textTheme.bodyMedium?.copyWith(color: AppTheme.successColor),textAlign: TextAlign.center,)),
+            Align(alignment:Alignment.centerLeft,child: Text(message ?? "Success!" "✅",style: Theme.of(this).textTheme.bodyMedium?.copyWith(color: AppTheme.successColor),textAlign: TextAlign.center,)),
             const SizedBox(height: 8,),
             Text(textAlign: TextAlign.start , description,style: Theme.of(this).textTheme.titleLarge?.copyWith(fontSize: 16),),
             const SizedBox(height: 10,),
@@ -76,7 +76,6 @@ extension Dialogs on BuildContext {
 
   showFailDialog({ required String message,String? description,VoidCallback? onClose}) async {
     showAppDialog(this , Dialog(
-      backgroundColor:  Theme.of(this).primaryColor,
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20)
       ),
@@ -104,7 +103,6 @@ extension Dialogs on BuildContext {
 
   showAlertDialog({required String description,String? header,String? action,VoidCallback? onClose,VoidCallback? onCancel}) async {
     showAppDialog(this , Dialog(
-      backgroundColor:  Theme.of(this).primaryColor,
 
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8)
@@ -143,7 +141,6 @@ extension Dialogs on BuildContext {
 
   showTermsAndConditionsDialog(WidgetRef ref , String terms){
     showAppDialog(this, Container(
-      color: Theme.of(this).primaryColor.withOpacity(0.8),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         mainAxisSize: MainAxisSize.min,

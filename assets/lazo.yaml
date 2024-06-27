@@ -334,6 +334,18 @@ components:
           type: string
           format: binary
 
+    UploadFilesResponse:
+      type: object
+      properties:
+        status:
+          type: boolean
+        message:
+          type: string
+        data:
+          type: array
+          items:
+            type: string
+
     ProviderProfileShowResponse:
       type: object
       properties:
@@ -2306,7 +2318,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/UploadFiles'
+                $ref: '#/components/schemas/UploadFilesResponse'
 
   /cities:
     get:
