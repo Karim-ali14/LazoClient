@@ -262,6 +262,7 @@ Class | Method | HTTP request | Description
  - [UpdateProfile200ResponseData](doc//UpdateProfile200ResponseData.md)
  - [UpdateProfile200ResponseDataCity](doc//UpdateProfile200ResponseDataCity.md)
  - [UploadFiles](doc//UploadFiles.md)
+ - [UploadFilesResponse](doc//UploadFilesResponse.md)
 
 
 ## Documentation For Authorization

@@ -198,7 +198,6 @@ class AppTheme {
 
 
   static ThemeData darkTheme = ThemeData(
-    brightness: Brightness.dark,
     primaryColor: secondaryAppColorDark,
     primaryColorLight: mainAppColor,
     expansionTileTheme: const ExpansionTileThemeData(backgroundColor: Colors.transparent,collapsedBackgroundColor: Colors.transparent),

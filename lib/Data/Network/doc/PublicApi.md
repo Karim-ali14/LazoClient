@@ -843,7 +843,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **uploadFilesPost**
-> UploadFiles uploadFilesPost(filesLeftSquareBracket0RightSquareBracket)
+> UploadFilesResponse uploadFilesPost(filesLeftSquareBracket0RightSquareBracket)
 
 upload file(s)
 
@@ -870,7 +870,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**UploadFiles**](UploadFiles.md)
+[**UploadFilesResponse**](UploadFilesResponse.md)
 
 ### Authorization
 

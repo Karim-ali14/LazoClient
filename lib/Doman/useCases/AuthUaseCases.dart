@@ -1,14 +1,17 @@
 import 'dart:convert';
-
+import 'dart:io';
+import 'package:collection/collection.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lazo_client/Data/Models/StateModel.dart';
 import 'package:lazo_client/Data/Network/lib/api.dart';
 import 'package:lazo_client/Doman/CommenProviders/ApiProvider.dart';
 import 'package:lazo_client/Presentation/StateNotifiersViewModel/UserAuthStateNotifiers.dart';
 import 'package:lazo_client/main.dart';
-
+import 'package:http/http.dart' as http;
+import 'package:http_parser/http_parser.dart';
 import '../../Constants.dart';
 import '../../Localization/Keys.dart';
+import 'package:mime/mime.dart';
 
 class LoginUseCase extends StateNotifier<StateModel<ClientLogin200Response>> {
   final Ref ref;
@@ -46,18 +49,40 @@ class ConfirmResetCodeUseCase extends StateNotifier<StateModel<Object>>{
   }
 }
 
-class UploadFilesUseCase extends StateNotifier<StateModel<Object>>{
+class UploadFilesUseCase extends StateNotifier<StateModel<UploadFilesResponse>>{
   final Ref ref;
   final PublicApi publicApi;
   UploadFilesUseCase( this.ref, this.publicApi):super(StateModel());
 
-  // void uploadFilesPost(MultipartFile? filesLeftSquareBracket0RightSquareBracket) async {
-  //   state = StateModel.loading();
-  //   request(() => publicApi.uploadFilesPost());
-  // }
+  void uploadFilesPost(List<File> files) async {
+    state = StateModel.loading();
+    var list = await filesToMultipart(files);
+    request(() => publicApi.uploadFilesPost(filesLeftSquareBracket0RightSquareBracket: list.first),onComplete: (resp){
+      print("File Response ${resp.data}");
+    });
+  }
 }
 
+Future<List<http.MultipartFile>> filesToMultipart(List<File> files) async {
+  List<http.MultipartFile> multipartFiles = [];
 
+  // Using Future.forEach to process files asynchronously
+  await Future.forEach(files.asMap().entries, (MapEntry<int, File> entry) async {
+    File file = entry.value;
+    int index = entry.key;
+
+    String fileName = file.path.split('/').last; // Get file name
+    http.MultipartFile multipartFile = await http.MultipartFile.fromPath(
+      'files[$index]', // This is the key to send, e.g., 'files[0]', 'files[1]', etc.
+      file.path,
+      contentType: MediaType(lookupMimeType(file.path)?.split("/").first ?? "", lookupMimeType(file.path)?.split("/").last ?? ""),
+      filename: fileName,
+    );
+    multipartFiles.add(multipartFile);
+  });
+
+  return multipartFiles;
+}
 
 
 class UserProvider extends StateNotifier<ClientLogin200ResponseData?> {

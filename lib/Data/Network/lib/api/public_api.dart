@@ -1220,7 +1220,7 @@ class PublicApi {
   /// Parameters:
   ///
   /// * [MultipartFile] filesLeftSquareBracket0RightSquareBracket:
-  Future<UploadFiles?> uploadFilesPost({ MultipartFile? filesLeftSquareBracket0RightSquareBracket, }) async {
+  Future<UploadFilesResponse?> uploadFilesPost({ MultipartFile? filesLeftSquareBracket0RightSquareBracket, }) async {
     final response = await uploadFilesPostWithHttpInfo( filesLeftSquareBracket0RightSquareBracket: filesLeftSquareBracket0RightSquareBracket, );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
@@ -1229,7 +1229,7 @@ class PublicApi {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
-      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'UploadFiles',) as UploadFiles;
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'UploadFilesResponse',) as UploadFilesResponse;
     
     }
     return null;

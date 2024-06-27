@@ -158,6 +158,7 @@ part 'model/update_profile200_response.dart';
 part 'model/update_profile200_response_data.dart';
 part 'model/update_profile200_response_data_city.dart';
 part 'model/upload_files.dart';
+part 'model/upload_files_response.dart';
 
 
 const _delimiters = {'csv': ',', 'ssv': ' ', 'tsv': '\t', 'pipes': '|'};
