@@ -38,7 +38,7 @@ extension Dialogs on BuildContext {
 
   showSuccessDialog({String? message,required String description,VoidCallback? onCancel,VoidCallback? onConfirm,Color? headerColor}) async {
     showAppDialog(this , Dialog(
-      backgroundColor:  Theme.of(this).backgroundColor,
+      backgroundColor:  Theme.of(this).primaryColor,
 
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8)
@@ -76,7 +76,7 @@ extension Dialogs on BuildContext {
 
   showFailDialog({ required String message,String? description,VoidCallback? onClose}) async {
     showAppDialog(this , Dialog(
-      backgroundColor:  Theme.of(this).backgroundColor,
+      backgroundColor:  Theme.of(this).primaryColor,
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20)
       ),
@@ -88,9 +88,9 @@ extension Dialogs on BuildContext {
           children: [
             const Icon(Icons.error,color: AppTheme.failureColor,size: 100,),
             const SizedBox(height: 20,),
-            Text(message,style: Theme.of(this).textTheme.bodyText2?.copyWith(color: AppTheme.failureColor),textAlign: TextAlign.center,),
+            Text(message,style: Theme.of(this).textTheme.bodyMedium?.copyWith(color: AppTheme.failureColor),textAlign: TextAlign.center,),
             const SizedBox(height: 8,),
-            if(description != null) Text(description,style: Theme.of(this).textTheme.subtitle1,textAlign: TextAlign.center,),
+            if(description != null) Text(description,style: Theme.of(this).textTheme.bodyMedium,textAlign: TextAlign.center,),
             const SizedBox(height: 10,),
             FlatAppButton(onPress: (){
               Navigator.pop(this);
@@ -104,7 +104,7 @@ extension Dialogs on BuildContext {
 
   showAlertDialog({required String description,String? header,String? action,VoidCallback? onClose,VoidCallback? onCancel}) async {
     showAppDialog(this , Dialog(
-      backgroundColor:  Theme.of(this).backgroundColor,
+      backgroundColor:  Theme.of(this).primaryColor,
 
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8)
@@ -143,14 +143,14 @@ extension Dialogs on BuildContext {
 
   showTermsAndConditionsDialog(WidgetRef ref , String terms){
     showAppDialog(this, Container(
-      color: Theme.of(this).backgroundColor.withOpacity(0.8),
+      color: Theme.of(this).primaryColor.withOpacity(0.8),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         mainAxisSize: MainAxisSize.min,
         children: [
           const SizedBox(height: 25,),
           Center(child: Text("")),
-          Expanded(child: SingleChildScrollView(padding: const EdgeInsets.all(15),child: Text(terms,style: Theme.of(this).textTheme.bodyText1))),
+          Expanded(child: SingleChildScrollView(padding: const EdgeInsets.all(15),child: Text(terms,style: Theme.of(this).textTheme.bodyMedium))),
           const SizedBox(height: 10,),
           FlatAppButton(onPress: ()=> Navigator.pop(this),text: 'close',txtColor: AppTheme.appSwatch,)
         ],

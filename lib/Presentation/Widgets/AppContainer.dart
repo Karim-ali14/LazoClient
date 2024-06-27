@@ -18,14 +18,14 @@ class AppContainer extends StatelessWidget {
       padding: padding??EdgeInsets.all(2),
       decoration: BoxDecoration(
           borderRadius: borderRadius??BorderRadius.circular(10),
-          color: color != null ? color : themeData.backgroundColor,
+          color: color != null ? color : themeData.primaryColor,
           border: borderColor != null ? Border.all(color: borderColor!,width: 1.5) : null,
           boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.1),blurRadius: 15)]
       ),
       child: ClipRRect(
         borderRadius: borderRadius??BorderRadius.circular(10),
         child: Material(
-          color: color != null ? color : themeData.backgroundColor,
+          color: color != null ? color : themeData.primaryColor,
           child: InkWell(
             onTap: onClick != null ? onClick : null,
             child: child,

@@ -51,10 +51,10 @@ class UploadFilesUseCase extends StateNotifier<StateModel<Object>>{
   final PublicApi publicApi;
   UploadFilesUseCase( this.ref, this.publicApi):super(StateModel());
 
-  void uploadFilesPost(MultipartFile? filesLeftSquareBracket0RightSquareBracket) async {
-    state = StateModel.loading();
-    request(() => publicApi.uploadFilesPost());
-  }
+  // void uploadFilesPost(MultipartFile? filesLeftSquareBracket0RightSquareBracket) async {
+  //   state = StateModel.loading();
+  //   request(() => publicApi.uploadFilesPost());
+  // }
 }
 
 

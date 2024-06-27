@@ -85,7 +85,7 @@ class _AppTextFieldState extends State<AppTextField> {
             maxLength: widget.maxLen,
             maxLines: widget.secured == true ? 1 : widget.maxLines,
             onFieldSubmitted: (val) =>  widget.value!(val),
-            style: widget.style ?? TextStyle(color: Theme.of(context).textTheme.bodyText1!.color,fontSize: 16),
+            style: widget.style ?? TextStyle(color: Theme.of(context).textTheme.bodyMedium!.color,fontSize: 16),
             decoration: InputDecoration(
                 suffixText: widget.endText,
                 labelText: widget.label,
@@ -99,7 +99,7 @@ class _AppTextFieldState extends State<AppTextField> {
                 labelStyle: TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.w100,
-                    color: Theme.of(context).textTheme.bodyText1!.color),
+                    color: Theme.of(context).textTheme.bodyMedium!.color),
                 focusedBorder: getBorder,
                 errorBorder: getErrBorder,
                 focusedErrorBorder: getErrBorder,

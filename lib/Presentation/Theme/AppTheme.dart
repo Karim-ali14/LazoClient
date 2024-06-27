@@ -118,14 +118,14 @@ class AppTheme {
       ),
       primaryColorLight: mainAppColor,
       scaffoldBackgroundColor: mainBackgroundLightColor,
-      bottomAppBarColor: Colors.white,
-      backgroundColor: Colors.white,
+      bottomAppBarTheme: BottomAppBarTheme(
+        color:  Colors.white,
+      ),
       dividerColor:Colors.transparent,
       expansionTileTheme: const ExpansionTileThemeData(backgroundColor: Colors.transparent,collapsedBackgroundColor: Colors.transparent),
       radioTheme: RadioThemeData(fillColor: MaterialStateProperty.all(appSwatch)),
       hintColor: Colors.grey,
       fontFamily: 'Proxima',
-      primarySwatch: appSwatch,
       elevatedButtonTheme: ElevatedButtonThemeData(style: ButtonStyle(backgroundColor: MaterialStateProperty.all(mainBackgroundDarkColor))),
       popupMenuTheme: const PopupMenuThemeData(color: Colors.white),
       checkboxTheme: CheckboxThemeData(checkColor: MaterialStateProperty.all(Colors.white),fillColor: MaterialStateProperty.all(appSwatch)),
@@ -134,7 +134,7 @@ class AppTheme {
           indicatorColor:mainAppColor,
           unselectedLabelColor:appGrey2,
           labelColor: mainAppColor
-      )
+      ), colorScheme: ColorScheme.fromSwatch(primarySwatch: appSwatch).copyWith(background: Colors.white)
   );
 
   // Text style
@@ -208,17 +208,14 @@ class AppTheme {
         titleTextStyle: TextStyle(
             color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold)),
     hintColor: Colors.grey,
-    primarySwatch: appSwatch,
     dividerColor:Colors.transparent,
     scaffoldBackgroundColor: mainBackgroundDarkColor,
     fontFamily: 'Proxima',
-    backgroundColor: mainBackgroundSemiDarkColor,
-    bottomAppBarColor: mainBackgroundSemiDarkColor,
     elevatedButtonTheme: ElevatedButtonThemeData(style: ButtonStyle(backgroundColor: MaterialStateProperty.all(mainBackgroundDarkColor))),
     checkboxTheme: CheckboxThemeData(checkColor: MaterialStateProperty.all(Colors.white),fillColor: MaterialStateProperty.all(appSwatch)),
     popupMenuTheme: const PopupMenuThemeData(color:mainBackgroundSemiDarkColor),
     cardColor: cardColor,
-    textTheme: appTextTheme,
+    textTheme: appTextTheme, bottomAppBarTheme: BottomAppBarTheme(color: mainBackgroundSemiDarkColor), colorScheme: ColorScheme.fromSwatch(primarySwatch: appSwatch).copyWith(background: mainBackgroundSemiDarkColor),
   );
 
   static ThemeData expandedTileTheme =

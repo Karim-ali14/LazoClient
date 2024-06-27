@@ -53,14 +53,14 @@ class _DialogBody extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: context.appTheme.backgroundColor,
+        color: context.appTheme.primaryColor,
         borderRadius: BorderRadius.circular(15)
       ),
       child: Column(
         children: [
           if(header != null) Padding(
             padding: const EdgeInsets.all(10.0),
-            child: Text(header!,style: context.appTheme.textTheme.bodyText2,),
+            child: Text(header!,style: context.appTheme.textTheme.bodyMedium,),
           ),
           Expanded(child: Padding(
             padding: const EdgeInsets.all(8.0),
@@ -68,7 +68,7 @@ class _DialogBody extends StatelessWidget {
               magnification: 1.22,
               squeeze: 1,
               useMagnifier: true,
-              backgroundColor: context.appTheme.backgroundColor,
+              backgroundColor: context.appTheme.primaryColor,
               itemExtent: _kItemExtent,
               onSelectedItemChanged: (int selectedItem) {
                 selected = selectedItem;
