@@ -54,215 +54,213 @@ try {
 
 ## Documentation for API Endpoints
 
-All URIs are relative to *http://}*
+All URIs are relative to *http://localhost*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
-*AuthApi* | [**clientLogin**](doc//AuthApi.md#clientlogin) | **POST** /client/login | client login
-*AuthApi* | [**clientSignup**](doc//AuthApi.md#clientsignup) | **POST** /client/register | client signup
-*CartApi* | [**addProductServiceToCartCartItem**](doc//CartApi.md#addproductservicetocartcartitem) | **POST** /client/cart/create | Add product/service to cart (cart-item)
-*CartApi* | [**deleteCartItem**](doc//CartApi.md#deletecartitem) | **POST** /client/cart-item/delete | Delete cart item
-*CartApi* | [**resetCartForClient**](doc//CartApi.md#resetcartforclient) | **GET** /client/cart/delete | Reset cart for client
-*CartApi* | [**showCartDetails**](doc//CartApi.md#showcartdetails) | **GET** /client/cart/show | show cart details
-*CartApi* | [**updateCartItemQuantity**](doc//CartApi.md#updatecartitemquantity) | **POST** /client/cart/update | Update cart item quantity
-*ClientApi* | [**addProductServiceToCartCartItem**](doc//ClientApi.md#addproductservicetocartcartitem) | **POST** /client/cart/create | Add product/service to cart (cart-item)
-*ClientApi* | [**assignChatNotificationToAProvider**](doc//ClientApi.md#assignchatnotificationtoaprovider) | **POST** /client/chat/notification/assign | Assign chat notification to a provider
-*ClientApi* | [**clientAccountDeleteGet**](doc//ClientApi.md#clientaccountdeleteget) | **GET** /client/account-delete | client\\'s account deleted successfully
-*ClientApi* | [**clientLogoutGet**](doc//ClientApi.md#clientlogoutget) | **GET** /client/logout | client logout
-*ClientApi* | [**createOrder**](doc//ClientApi.md#createorder) | **POST** /client/order/create | Create order
-*ClientApi* | [**deleteCartItem**](doc//ClientApi.md#deletecartitem) | **POST** /client/cart-item/delete | Delete cart item
-*ClientApi* | [**manageOrder**](doc//ClientApi.md#manageorder) | **POST** /client/order/manage | Manage order
-*ClientApi* | [**rateOrder**](doc//ClientApi.md#rateorder) | **POST** /client/order/rating | Rate order
-*ClientApi* | [**readANotification122**](doc//ClientApi.md#readanotification122) | **POST** /client/notification/read | read a notification
-*ClientApi* | [**resetCartForClient**](doc//ClientApi.md#resetcartforclient) | **GET** /client/cart/delete | Reset cart for client
-*ClientApi* | [**showNotifications2**](doc//ClientApi.md#shownotifications2) | **GET** /client/notifications | show notifications
-*ClientApi* | [**showOrderDetails**](doc//ClientApi.md#showorderdetails) | **GET** /client/order/show | Show order details
-*ClientApi* | [**showOrders**](doc//ClientApi.md#showorders) | **GET** /client/orders | Show orders
-*ClientApi* | [**showProfile**](doc//ClientApi.md#showprofile) | **GET** /client/profile/show | show profile
-*ClientApi* | [**showWishlistItemsWithSearchByName**](doc//ClientApi.md#showwishlistitemswithsearchbyname) | **GET** /client/wishlist/show | Show wishlist items (with search by name)
-*ClientApi* | [**toggleProductServiceInWishlist**](doc//ClientApi.md#toggleproductserviceinwishlist) | **POST** /client/wishlist/toggle | Toggle product/service in wishlist
-*ClientApi* | [**updateCartItemQuantity**](doc//ClientApi.md#updatecartitemquantity) | **POST** /client/cart/update | Update cart item quantity
-*ClientApi* | [**updateFcmTokenAndDeviceType2**](doc//ClientApi.md#updatefcmtokenanddevicetype2) | **POST** /client/update/device-data | update fcm_token and device_type
-*ClientApi* | [**updateProfile**](doc//ClientApi.md#updateprofile) | **POST** /client/profile/update | update profile
-*NotificationsApi* | [**assignChatNotificationToAClient**](doc//NotificationsApi.md#assignchatnotificationtoaclient) | **POST** /provider/chat/notification/assign | Assign chat notification to a client
-*NotificationsApi* | [**assignChatNotificationToAProvider**](doc//NotificationsApi.md#assignchatnotificationtoaprovider) | **POST** /client/chat/notification/assign | Assign chat notification to a provider
-*Notifications1Api* | [**readANotification1**](doc//Notifications1Api.md#readanotification1) | **POST** /provider/notification/read | read a notification
-*Notifications1Api* | [**showNotifications1**](doc//Notifications1Api.md#shownotifications1) | **GET** /provider/notifications | show notifications
-*Notifications1Api* | [**updateFcmTokenAndDeviceType1**](doc//Notifications1Api.md#updatefcmtokenanddevicetype1) | **POST** /provider/update/device-data | update fcm_token and device_type
-*Notifications1Api* | [**updateFcmTokenAndDeviceType2**](doc//Notifications1Api.md#updatefcmtokenanddevicetype2) | **POST** /client/update/device-data | update fcm_token and device_type
-*Notifications122Api* | [**readANotification122**](doc//Notifications122Api.md#readanotification122) | **POST** /client/notification/read | read a notification
-*Notifications2Api* | [**showNotifications2**](doc//Notifications2Api.md#shownotifications2) | **GET** /client/notifications | show notifications
-*OrdersApi* | [**createOrder**](doc//OrdersApi.md#createorder) | **POST** /client/order/create | Create order
-*OrdersApi* | [**manageOrder**](doc//OrdersApi.md#manageorder) | **POST** /client/order/manage | Manage order
-*OrdersApi* | [**rateOrder**](doc//OrdersApi.md#rateorder) | **POST** /client/order/rating | Rate order
-*OrdersApi* | [**showOrderDetails**](doc//OrdersApi.md#showorderdetails) | **GET** /client/order/show | Show order details
-*OrdersApi* | [**showOrders**](doc//OrdersApi.md#showorders) | **GET** /client/orders | Show orders
-*Orders12Api* | [**manageOrders1**](doc//Orders12Api.md#manageorders1) | **POST** /provider/order/manage | manage orders
-*Orders12Api* | [**showAllProviderSOrders**](doc//Orders12Api.md#showallprovidersorders) | **GET** /provider/orders | show all provider's orders
-*Orders12Api* | [**showOrderDetails2**](doc//Orders12Api.md#showorderdetails2) | **GET** /provider/order/show | show order details
-*ProviderApi* | [**assignChatNotificationToAClient**](doc//ProviderApi.md#assignchatnotificationtoaclient) | **POST** /provider/chat/notification/assign | Assign chat notification to a client
-*ProviderApi* | [**manageOrders1**](doc//ProviderApi.md#manageorders1) | **POST** /provider/order/manage | manage orders
-*ProviderApi* | [**providerAccountDeleteGet**](doc//ProviderApi.md#provideraccountdeleteget) | **GET** /provider/account-delete | provider\\'s account deleted successfully
-*ProviderApi* | [**providerLogoutGet**](doc//ProviderApi.md#providerlogoutget) | **GET** /provider/logout | provider logout
-*ProviderApi* | [**providerProfileShowGet**](doc//ProviderApi.md#providerprofileshowget) | **GET** /provider/profile/show | show profile
-*ProviderApi* | [**providerProfileUpdatePost**](doc//ProviderApi.md#providerprofileupdatepost) | **POST** /provider/profile/update | update profile main data
-*ProviderApi* | [**providerchangePassword**](doc//ProviderApi.md#providerchangepassword) | **POST** /provider/change-password | Change Password
-*ProviderApi* | [**readANotification1**](doc//ProviderApi.md#readanotification1) | **POST** /provider/notification/read | read a notification
-*ProviderApi* | [**showAllProviderSOrders**](doc//ProviderApi.md#showallprovidersorders) | **GET** /provider/orders | show all provider's orders
-*ProviderApi* | [**showNotifications1**](doc//ProviderApi.md#shownotifications1) | **GET** /provider/notifications | show notifications
-*ProviderApi* | [**showOrderDetails2**](doc//ProviderApi.md#showorderdetails2) | **GET** /provider/order/show | show order details
-*ProviderApi* | [**updateFcmTokenAndDeviceType1**](doc//ProviderApi.md#updatefcmtokenanddevicetype1) | **POST** /provider/update/device-data | update fcm_token and device_type
-*PublicApi* | [**citiesGet**](doc//PublicApi.md#citiesget) | **GET** /cities | show all cities
-*PublicApi* | [**clientLogin**](doc//PublicApi.md#clientlogin) | **POST** /client/login | client login
-*PublicApi* | [**clientSignup**](doc//PublicApi.md#clientsignup) | **POST** /client/register | client signup
-*PublicApi* | [**filterTopProductsServices**](doc//PublicApi.md#filtertopproductsservices) | **POST** /top-products-services/filter | Filter top products & services
-*PublicApi* | [**filterTopSellers**](doc//PublicApi.md#filtertopsellers) | **POST** /top-sellers/filter | Filter top sellers
-*PublicApi* | [**showAllBanners**](doc//PublicApi.md#showallbanners) | **GET** /banners | show all banners
-*PublicApi* | [**showAllCategories**](doc//PublicApi.md#showallcategories) | **GET** /categories | show all categories
-*PublicApi* | [**showAllColors**](doc//PublicApi.md#showallcolors) | **GET** /colors | show all colors
-*PublicApi* | [**showAllGiftBoxes**](doc//PublicApi.md#showallgiftboxes) | **GET** /gift-boxes | Show all gift boxes
-*PublicApi* | [**showAllGiftCards**](doc//PublicApi.md#showallgiftcards) | **GET** /gift-cards | Show all gift cards
-*PublicApi* | [**showAllOccasions**](doc//PublicApi.md#showalloccasions) | **GET** /occasions | show all occasions
-*PublicApi* | [**showAllProducts**](doc//PublicApi.md#showallproducts) | **GET** /products/filter | show all products
-*PublicApi* | [**showAllServicesWithFilter**](doc//PublicApi.md#showallserviceswithfilter) | **GET** /services/filter | show all services (with filter)
-*PublicApi* | [**showAllSizes**](doc//PublicApi.md#showallsizes) | **GET** /sizes | show all sizes
-*PublicApi* | [**showHome**](doc//PublicApi.md#showhome) | **GET** /home | Show home
-*PublicApi* | [**showProductDetails**](doc//PublicApi.md#showproductdetails) | **GET** /product/show | show product details
-*PublicApi* | [**showPromocodeDetails**](doc//PublicApi.md#showpromocodedetails) | **GET** /promocode/show | show promocode details
-*PublicApi* | [**showServiceDetails**](doc//PublicApi.md#showservicedetails) | **GET** /service/show | show service details
-*PublicApi* | [**tagsGet**](doc//PublicApi.md#tagsget) | **GET** /tags | show all tags
-*PublicApi* | [**uploadFilesPost**](doc//PublicApi.md#uploadfilespost) | **POST** /upload/files | upload file(s)
-*PublicAuthApi* | [**codeConfirmPost**](doc//PublicAuthApi.md#codeconfirmpost) | **POST** /code/confirm | confirm code
-*PublicAuthApi* | [**codeSendPost**](doc//PublicAuthApi.md#codesendpost) | **POST** /code/send | send code
-*PublicAuthApi* | [**providerLoginPost**](doc//PublicAuthApi.md#providerloginpost) | **POST** /provider/login | provider login
-*PublicAuthApi* | [**providerRegisterPost**](doc//PublicAuthApi.md#providerregisterpost) | **POST** /provider/register | provider signup
-*PublicAuthApi* | [**resetCodeConfirmPost**](doc//PublicAuthApi.md#resetcodeconfirmpost) | **POST** /reset-code/confirm | confirm reset code
-*PublicAuthApi* | [**resetCodeSendPost**](doc//PublicAuthApi.md#resetcodesendpost) | **POST** /reset-code/send | send reset code
-*PublicAuthApi* | [**resetPasswordPost**](doc//PublicAuthApi.md#resetpasswordpost) | **POST** /reset-password | reset password
-*WishlistApi* | [**showWishlistItemsWithSearchByName**](doc//WishlistApi.md#showwishlistitemswithsearchbyname) | **GET** /client/wishlist/show | Show wishlist items (with search by name)
-*WishlistApi* | [**toggleProductServiceInWishlist**](doc//WishlistApi.md#toggleproductserviceinwishlist) | **POST** /client/wishlist/toggle | Toggle product/service in wishlist
+*AuthApi* | [**clientLogin**](doc\/AuthApi.md#clientlogin) | **POST** /client/login | client login
+*AuthApi* | [**clientSignup**](doc\/AuthApi.md#clientsignup) | **POST** /client/register | client signup
+*CartApi* | [**addProductServiceToCartCartItem**](doc\/CartApi.md#addproductservicetocartcartitem) | **POST** /client/cart/create | Add product/service to cart (cart-item)
+*CartApi* | [**deleteCartItem**](doc\/CartApi.md#deletecartitem) | **POST** /client/cart-item/delete | Delete cart item
+*CartApi* | [**resetCartForClient**](doc\/CartApi.md#resetcartforclient) | **GET** /client/cart/delete | Reset cart for client
+*CartApi* | [**showCartDetails**](doc\/CartApi.md#showcartdetails) | **GET** /client/cart/show | show cart details
+*CartApi* | [**updateCartItemQuantity**](doc\/CartApi.md#updatecartitemquantity) | **POST** /client/cart/update | Update cart item quantity
+*ClientApi* | [**addProductServiceToCartCartItem**](doc\/ClientApi.md#addproductservicetocartcartitem) | **POST** /client/cart/create | Add product/service to cart (cart-item)
+*ClientApi* | [**assignChatNotificationToAProvider**](doc\/ClientApi.md#assignchatnotificationtoaprovider) | **POST** /client/chat/notification/assign | Assign chat notification to a provider
+*ClientApi* | [**clientAccountDeleteGet**](doc\/ClientApi.md#clientaccountdeleteget) | **GET** /client/account-delete | client\\'s account deleted successfully
+*ClientApi* | [**clientLogoutGet**](doc\/ClientApi.md#clientlogoutget) | **GET** /client/logout | client logout
+*ClientApi* | [**createOrder**](doc\/ClientApi.md#createorder) | **POST** /client/order/create | Create order
+*ClientApi* | [**deleteCartItem**](doc\/ClientApi.md#deletecartitem) | **POST** /client/cart-item/delete | Delete cart item
+*ClientApi* | [**manageOrder**](doc\/ClientApi.md#manageorder) | **POST** /client/order/manage | Manage order
+*ClientApi* | [**rateOrder**](doc\/ClientApi.md#rateorder) | **POST** /client/order/rating | Rate order
+*ClientApi* | [**readANotification122**](doc\/ClientApi.md#readanotification122) | **POST** /client/notification/read | read a notification
+*ClientApi* | [**resetCartForClient**](doc\/ClientApi.md#resetcartforclient) | **GET** /client/cart/delete | Reset cart for client
+*ClientApi* | [**showNotifications2**](doc\/ClientApi.md#shownotifications2) | **GET** /client/notifications | show notifications
+*ClientApi* | [**showOrderDetails**](doc\/ClientApi.md#showorderdetails) | **GET** /client/order/show | Show order details
+*ClientApi* | [**showOrders**](doc\/ClientApi.md#showorders) | **GET** /client/orders | Show orders
+*ClientApi* | [**showProfile**](doc\/ClientApi.md#showprofile) | **GET** /client/profile/show | show profile
+*ClientApi* | [**showWishlistItemsWithSearchByName**](doc\/ClientApi.md#showwishlistitemswithsearchbyname) | **GET** /client/wishlist/show | Show wishlist items (with search by name)
+*ClientApi* | [**toggleProductServiceInWishlist**](doc\/ClientApi.md#toggleproductserviceinwishlist) | **POST** /client/wishlist/toggle | Toggle product/service in wishlist
+*ClientApi* | [**updateCartItemQuantity**](doc\/ClientApi.md#updatecartitemquantity) | **POST** /client/cart/update | Update cart item quantity
+*ClientApi* | [**updateFcmTokenAndDeviceType2**](doc\/ClientApi.md#updatefcmtokenanddevicetype2) | **POST** /client/update/device-data | update fcm_token and device_type
+*ClientApi* | [**updateProfile**](doc\/ClientApi.md#updateprofile) | **POST** /client/profile/update | update profile
+*NotificationsApi* | [**assignChatNotificationToAClient**](doc\/NotificationsApi.md#assignchatnotificationtoaclient) | **POST** /provider/chat/notification/assign | Assign chat notification to a client
+*NotificationsApi* | [**assignChatNotificationToAProvider**](doc\/NotificationsApi.md#assignchatnotificationtoaprovider) | **POST** /client/chat/notification/assign | Assign chat notification to a provider
+*Notifications1Api* | [**readANotification1**](doc\/Notifications1Api.md#readanotification1) | **POST** /provider/notification/read | read a notification
+*Notifications1Api* | [**showNotifications1**](doc\/Notifications1Api.md#shownotifications1) | **GET** /provider/notifications | show notifications
+*Notifications1Api* | [**updateFcmTokenAndDeviceType1**](doc\/Notifications1Api.md#updatefcmtokenanddevicetype1) | **POST** /provider/update/device-data | update fcm_token and device_type
+*Notifications1Api* | [**updateFcmTokenAndDeviceType2**](doc\/Notifications1Api.md#updatefcmtokenanddevicetype2) | **POST** /client/update/device-data | update fcm_token and device_type
+*Notifications122Api* | [**readANotification122**](doc\/Notifications122Api.md#readanotification122) | **POST** /client/notification/read | read a notification
+*Notifications2Api* | [**showNotifications2**](doc\/Notifications2Api.md#shownotifications2) | **GET** /client/notifications | show notifications
+*OrdersApi* | [**createOrder**](doc\/OrdersApi.md#createorder) | **POST** /client/order/create | Create order
+*OrdersApi* | [**manageOrder**](doc\/OrdersApi.md#manageorder) | **POST** /client/order/manage | Manage order
+*OrdersApi* | [**rateOrder**](doc\/OrdersApi.md#rateorder) | **POST** /client/order/rating | Rate order
+*OrdersApi* | [**showOrderDetails**](doc\/OrdersApi.md#showorderdetails) | **GET** /client/order/show | Show order details
+*OrdersApi* | [**showOrders**](doc\/OrdersApi.md#showorders) | **GET** /client/orders | Show orders
+*Orders12Api* | [**manageOrders1**](doc\/Orders12Api.md#manageorders1) | **POST** /provider/order/manage | manage orders
+*Orders12Api* | [**showAllProviderSOrders**](doc\/Orders12Api.md#showallprovidersorders) | **GET** /provider/orders | show all provider's orders
+*Orders12Api* | [**showOrderDetails2**](doc\/Orders12Api.md#showorderdetails2) | **GET** /provider/order/show | show order details
+*ProviderApi* | [**assignChatNotificationToAClient**](doc\/ProviderApi.md#assignchatnotificationtoaclient) | **POST** /provider/chat/notification/assign | Assign chat notification to a client
+*ProviderApi* | [**manageOrders1**](doc\/ProviderApi.md#manageorders1) | **POST** /provider/order/manage | manage orders
+*ProviderApi* | [**providerAccountDeleteGet**](doc\/ProviderApi.md#provideraccountdeleteget) | **GET** /provider/account-delete | provider\\'s account deleted successfully
+*ProviderApi* | [**providerLogoutGet**](doc\/ProviderApi.md#providerlogoutget) | **GET** /provider/logout | provider logout
+*ProviderApi* | [**providerProfileShowGet**](doc\/ProviderApi.md#providerprofileshowget) | **GET** /provider/profile/show | show profile
+*ProviderApi* | [**providerProfileUpdatePost**](doc\/ProviderApi.md#providerprofileupdatepost) | **POST** /provider/profile/update | update profile main data
+*ProviderApi* | [**providerchangePassword**](doc\/ProviderApi.md#providerchangepassword) | **POST** /provider/change-password | Change Password
+*ProviderApi* | [**readANotification1**](doc\/ProviderApi.md#readanotification1) | **POST** /provider/notification/read | read a notification
+*ProviderApi* | [**showAllProviderSOrders**](doc\/ProviderApi.md#showallprovidersorders) | **GET** /provider/orders | show all provider's orders
+*ProviderApi* | [**showNotifications1**](doc\/ProviderApi.md#shownotifications1) | **GET** /provider/notifications | show notifications
+*ProviderApi* | [**showOrderDetails2**](doc\/ProviderApi.md#showorderdetails2) | **GET** /provider/order/show | show order details
+*ProviderApi* | [**updateFcmTokenAndDeviceType1**](doc\/ProviderApi.md#updatefcmtokenanddevicetype1) | **POST** /provider/update/device-data | update fcm_token and device_type
+*PublicApi* | [**citiesGet**](doc\/PublicApi.md#citiesget) | **GET** /cities | show all cities
+*PublicApi* | [**clientLogin**](doc\/PublicApi.md#clientlogin) | **POST** /client/login | client login
+*PublicApi* | [**clientSignup**](doc\/PublicApi.md#clientsignup) | **POST** /client/register | client signup
+*PublicApi* | [**filterTopProductsServices**](doc\/PublicApi.md#filtertopproductsservices) | **POST** /top-products-services/filter | Filter top products & services
+*PublicApi* | [**filterTopSellers**](doc\/PublicApi.md#filtertopsellers) | **POST** /top-sellers/filter | Filter top sellers
+*PublicApi* | [**showAllBanners**](doc\/PublicApi.md#showallbanners) | **GET** /banners | show all banners
+*PublicApi* | [**showAllCategories**](doc\/PublicApi.md#showallcategories) | **GET** /categories | show all categories
+*PublicApi* | [**showAllColors**](doc\/PublicApi.md#showallcolors) | **GET** /colors | show all colors
+*PublicApi* | [**showAllGiftBoxes**](doc\/PublicApi.md#showallgiftboxes) | **GET** /gift-boxes | Show all gift boxes
+*PublicApi* | [**showAllGiftCards**](doc\/PublicApi.md#showallgiftcards) | **GET** /gift-cards | Show all gift cards
+*PublicApi* | [**showAllOccasions**](doc\/PublicApi.md#showalloccasions) | **GET** /occasions | show all occasions
+*PublicApi* | [**showAllProducts**](doc\/PublicApi.md#showallproducts) | **GET** /products/filter | show all products
+*PublicApi* | [**showAllServicesWithFilter**](doc\/PublicApi.md#showallserviceswithfilter) | **GET** /services/filter | show all services (with filter)
+*PublicApi* | [**showAllSizes**](doc\/PublicApi.md#showallsizes) | **GET** /sizes | show all sizes
+*PublicApi* | [**showHome**](doc\/PublicApi.md#showhome) | **GET** /home | Show home
+*PublicApi* | [**showProductDetails**](doc\/PublicApi.md#showproductdetails) | **GET** /product/show | show product details
+*PublicApi* | [**showPromocodeDetails**](doc\/PublicApi.md#showpromocodedetails) | **GET** /promocode/show | show promocode details
+*PublicApi* | [**showServiceDetails**](doc\/PublicApi.md#showservicedetails) | **GET** /service/show | show service details
+*PublicApi* | [**tagsGet**](doc\/PublicApi.md#tagsget) | **GET** /tags | show all tags
+*PublicApi* | [**uploadFilesPost**](doc\/PublicApi.md#uploadfilespost) | **POST** /upload/files | upload file(s)
+*PublicAuthApi* | [**codeConfirmPost**](doc\/PublicAuthApi.md#codeconfirmpost) | **POST** /code/confirm | confirm code
+*PublicAuthApi* | [**codeSendPost**](doc\/PublicAuthApi.md#codesendpost) | **POST** /code/send | send code
+*PublicAuthApi* | [**providerLoginPost**](doc\/PublicAuthApi.md#providerloginpost) | **POST** /provider/login | provider login
+*PublicAuthApi* | [**providerRegisterPost**](doc\/PublicAuthApi.md#providerregisterpost) | **POST** /provider/register | provider signup
+*PublicAuthApi* | [**resetCodeConfirmPost**](doc\/PublicAuthApi.md#resetcodeconfirmpost) | **POST** /reset-code/confirm | confirm reset code
+*PublicAuthApi* | [**resetCodeSendPost**](doc\/PublicAuthApi.md#resetcodesendpost) | **POST** /reset-code/send | send reset code
+*PublicAuthApi* | [**resetPasswordPost**](doc\/PublicAuthApi.md#resetpasswordpost) | **POST** /reset-password | reset password
+*WishlistApi* | [**showWishlistItemsWithSearchByName**](doc\/WishlistApi.md#showwishlistitemswithsearchbyname) | **GET** /client/wishlist/show | Show wishlist items (with search by name)
+*WishlistApi* | [**toggleProductServiceInWishlist**](doc\/WishlistApi.md#toggleproductserviceinwishlist) | **POST** /client/wishlist/toggle | Toggle product/service in wishlist
 
 
 ## Documentation For Models
 
- - [Banner](doc//Banner.md)
- - [BannersResponse](doc//BannersResponse.md)
- - [CategoriesResponse](doc//CategoriesResponse.md)
- - [Category](doc//Category.md)
- - [CategoryMenu](doc//CategoryMenu.md)
- - [CitiesResponse](doc//CitiesResponse.md)
- - [City](doc//City.md)
- - [ClientLogin200Response](doc//ClientLogin200Response.md)
- - [ClientLogin200ResponseData](doc//ClientLogin200ResponseData.md)
- - [ClientSignup200Response](doc//ClientSignup200Response.md)
- - [ClientSignup200ResponseData](doc//ClientSignup200ResponseData.md)
- - [ClientSignup200ResponseDataUser](doc//ClientSignup200ResponseDataUser.md)
- - [ClientSignup200ResponseDataUserCity](doc//ClientSignup200ResponseDataUserCity.md)
- - [CodeConfirmRequest](doc//CodeConfirmRequest.md)
- - [CodeConfirmResponse](doc//CodeConfirmResponse.md)
- - [CodeSendRequest](doc//CodeSendRequest.md)
- - [CodeSendResponse](doc//CodeSendResponse.md)
- - [Color](doc//Color.md)
- - [ColorsResponse](doc//ColorsResponse.md)
- - [GiftBox](doc//GiftBox.md)
- - [GiftCard](doc//GiftCard.md)
- - [ImageItem](doc//ImageItem.md)
- - [ManageOrders1200Response](doc//ManageOrders1200Response.md)
- - [ManageOrders1200ResponseData](doc//ManageOrders1200ResponseData.md)
- - [ManageOrders1200ResponseDataOrderItemsInner](doc//ManageOrders1200ResponseDataOrderItemsInner.md)
- - [ManageOrders1200ResponseDataOrderItemsInnerProduct](doc//ManageOrders1200ResponseDataOrderItemsInnerProduct.md)
- - [ManageOrders1200ResponseDataOrderItemsInnerProductListsInner](doc//ManageOrders1200ResponseDataOrderItemsInnerProductListsInner.md)
- - [ManageOrders1200ResponseDataOrderItemsInnerProductListsInnerItemsInner](doc//ManageOrders1200ResponseDataOrderItemsInnerProductListsInnerItemsInner.md)
- - [Occasion](doc//Occasion.md)
- - [OccasionsResponse](doc//OccasionsResponse.md)
- - [ProductDetails](doc//ProductDetails.md)
- - [ProductDetailsResponse](doc//ProductDetailsResponse.md)
- - [ProductListItem](doc//ProductListItem.md)
- - [ProductListItemDetail](doc//ProductListItemDetail.md)
- - [ProductsListResponse](doc//ProductsListResponse.md)
- - [ProductsListResponseData](doc//ProductsListResponseData.md)
- - [PromocodeDetails](doc//PromocodeDetails.md)
- - [ProviderCategoryMenuResponse](doc//ProviderCategoryMenuResponse.md)
- - [ProviderData](doc//ProviderData.md)
- - [ProviderDataCity](doc//ProviderDataCity.md)
- - [ProviderDataLocationsInner](doc//ProviderDataLocationsInner.md)
- - [ProviderDataTagsInner](doc//ProviderDataTagsInner.md)
- - [ProviderLocation](doc//ProviderLocation.md)
- - [ProviderLoginResponse](doc//ProviderLoginResponse.md)
- - [ProviderLoginResponseData](doc//ProviderLoginResponseData.md)
- - [ProviderProduct](doc//ProviderProduct.md)
- - [ProviderProfileShowResponse](doc//ProviderProfileShowResponse.md)
- - [ProviderProfileUpdateRequest](doc//ProviderProfileUpdateRequest.md)
- - [ProviderProfileUpdateResponse](doc//ProviderProfileUpdateResponse.md)
- - [ProviderProfileUpdateResponseData](doc//ProviderProfileUpdateResponseData.md)
- - [ProviderRegisterRequest](doc//ProviderRegisterRequest.md)
- - [ProviderRegisterResponse](doc//ProviderRegisterResponse.md)
- - [ProviderRegisterResponseData](doc//ProviderRegisterResponseData.md)
- - [ProviderchangePasswordRequest](doc//ProviderchangePasswordRequest.md)
- - [ReadANotification1200Response](doc//ReadANotification1200Response.md)
- - [ReadANotification1200ResponseData](doc//ReadANotification1200ResponseData.md)
- - [ResetCodeConfirmRequest](doc//ResetCodeConfirmRequest.md)
- - [ResetCodeConfirmResponse](doc//ResetCodeConfirmResponse.md)
- - [ResetCodeSendRequest](doc//ResetCodeSendRequest.md)
- - [ResetCodeSendResponse](doc//ResetCodeSendResponse.md)
- - [ResetPasswordRequest](doc//ResetPasswordRequest.md)
- - [ResetPasswordResponse](doc//ResetPasswordResponse.md)
- - [ServiceList](doc//ServiceList.md)
- - [ServiceListItem](doc//ServiceListItem.md)
- - [ServiceShowData](doc//ServiceShowData.md)
- - [ServiceShowResponse](doc//ServiceShowResponse.md)
- - [ShowAllGiftBoxes200Response](doc//ShowAllGiftBoxes200Response.md)
- - [ShowAllGiftCards200Response](doc//ShowAllGiftCards200Response.md)
- - [ShowAllProviderSOrders200Response](doc//ShowAllProviderSOrders200Response.md)
- - [ShowAllProviderSOrders200ResponseData](doc//ShowAllProviderSOrders200ResponseData.md)
- - [ShowAllProviderSOrders200ResponseDataDataInner](doc//ShowAllProviderSOrders200ResponseDataDataInner.md)
- - [ShowAllProviderSOrders200ResponseDataDataInnerOrderItemsInner](doc//ShowAllProviderSOrders200ResponseDataDataInnerOrderItemsInner.md)
- - [ShowAllProviderSOrders200ResponseDataDataInnerOrderItemsInnerService](doc//ShowAllProviderSOrders200ResponseDataDataInnerOrderItemsInnerService.md)
- - [ShowAllProviderSOrders200ResponseDataDataInnerOrderItemsInnerServiceListsInner](doc//ShowAllProviderSOrders200ResponseDataDataInnerOrderItemsInnerServiceListsInner.md)
- - [ShowAllProviderSOrders200ResponseDataDataInnerOrderItemsInnerServiceListsInnerItemsInner](doc//ShowAllProviderSOrders200ResponseDataDataInnerOrderItemsInnerServiceListsInnerItemsInner.md)
- - [ShowAllProviderSOrders200ResponseDataDataInnerPromocode](doc//ShowAllProviderSOrders200ResponseDataDataInnerPromocode.md)
- - [ShowAllProviderSOrders200ResponseDataDataInnerUser](doc//ShowAllProviderSOrders200ResponseDataDataInnerUser.md)
- - [ShowAllServicesWithFilter200Response](doc//ShowAllServicesWithFilter200Response.md)
- - [ShowAllServicesWithFilter200ResponseData](doc//ShowAllServicesWithFilter200ResponseData.md)
- - [ShowAllServicesWithFilter200ResponseDataDataInner](doc//ShowAllServicesWithFilter200ResponseDataDataInner.md)
- - [ShowAllServicesWithFilter200ResponseDataLinksInner](doc//ShowAllServicesWithFilter200ResponseDataLinksInner.md)
- - [ShowCartDetails200Response](doc//ShowCartDetails200Response.md)
- - [ShowCartDetails200ResponseData](doc//ShowCartDetails200ResponseData.md)
- - [ShowCartDetails200ResponseDataCartItemsInner](doc//ShowCartDetails200ResponseDataCartItemsInner.md)
- - [ShowCartDetails200ResponseDataCartItemsInnerProduct](doc//ShowCartDetails200ResponseDataCartItemsInnerProduct.md)
- - [ShowCartDetails200ResponseDataCartItemsInnerService](doc//ShowCartDetails200ResponseDataCartItemsInnerService.md)
- - [ShowHome200Response](doc//ShowHome200Response.md)
- - [ShowHome200ResponseData](doc//ShowHome200ResponseData.md)
- - [ShowHome200ResponseDataCategoriesInner](doc//ShowHome200ResponseDataCategoriesInner.md)
- - [ShowHome200ResponseDataOccasionsInner](doc//ShowHome200ResponseDataOccasionsInner.md)
- - [ShowHome200ResponseDataTopRatedProductsInner](doc//ShowHome200ResponseDataTopRatedProductsInner.md)
- - [ShowHome200ResponseDataTopRatedProvidersInner](doc//ShowHome200ResponseDataTopRatedProvidersInner.md)
- - [ShowHome200ResponseDataTopRatedServicesInner](doc//ShowHome200ResponseDataTopRatedServicesInner.md)
- - [ShowNotifications1200Response](doc//ShowNotifications1200Response.md)
- - [ShowNotifications1200ResponseDataInner](doc//ShowNotifications1200ResponseDataInner.md)
- - [ShowNotifications1200ResponseDataInnerProvider](doc//ShowNotifications1200ResponseDataInnerProvider.md)
- - [ShowNotifications1200ResponseDataInnerUser](doc//ShowNotifications1200ResponseDataInnerUser.md)
- - [ShowOrderDetails2200Response](doc//ShowOrderDetails2200Response.md)
- - [ShowOrderDetails2200ResponseData](doc//ShowOrderDetails2200ResponseData.md)
- - [ShowOrderDetails2200ResponseDataOrderItemsInner](doc//ShowOrderDetails2200ResponseDataOrderItemsInner.md)
- - [ShowOrderDetails2200ResponseDataOrderItemsInnerProduct](doc//ShowOrderDetails2200ResponseDataOrderItemsInnerProduct.md)
- - [ShowOrderDetails2200ResponseDataOrderItemsInnerProductListsInner](doc//ShowOrderDetails2200ResponseDataOrderItemsInnerProductListsInner.md)
- - [ShowOrderDetails2200ResponseDataOrderItemsInnerProductListsInnerItemsInner](doc//ShowOrderDetails2200ResponseDataOrderItemsInnerProductListsInnerItemsInner.md)
- - [ShowProfile200Response](doc//ShowProfile200Response.md)
- - [ShowPromocodeDetails200Response](doc//ShowPromocodeDetails200Response.md)
- - [ShowPromocodeDetails200ResponseData](doc//ShowPromocodeDetails200ResponseData.md)
- - [ShowWishlistItemsWithSearchByName200Response](doc//ShowWishlistItemsWithSearchByName200Response.md)
- - [ShowWishlistItemsWithSearchByName200ResponseDataInner](doc//ShowWishlistItemsWithSearchByName200ResponseDataInner.md)
- - [ShowWishlistItemsWithSearchByName200ResponseDataInnerItemsInner](doc//ShowWishlistItemsWithSearchByName200ResponseDataInnerItemsInner.md)
- - [Size](doc//Size.md)
- - [SizesResponse](doc//SizesResponse.md)
- - [Tag](doc//Tag.md)
- - [TagsResponse](doc//TagsResponse.md)
- - [UpdateProfile200Response](doc//UpdateProfile200Response.md)
- - [UpdateProfile200ResponseData](doc//UpdateProfile200ResponseData.md)
- - [UpdateProfile200ResponseDataCity](doc//UpdateProfile200ResponseDataCity.md)
- - [UploadFiles](doc//UploadFiles.md)
- - [UploadFilesResponse](doc//UploadFilesResponse.md)
+ - [Banner](doc\/Banner.md)
+ - [BannersResponse](doc\/BannersResponse.md)
+ - [CategoriesResponse](doc\/CategoriesResponse.md)
+ - [Category](doc\/Category.md)
+ - [CategoryMenu](doc\/CategoryMenu.md)
+ - [CitiesResponse](doc\/CitiesResponse.md)
+ - [City](doc\/City.md)
+ - [ClientAuthResponse](doc\/ClientAuthResponse.md)
+ - [ClientAuthResponseData](doc\/ClientAuthResponseData.md)
+ - [CodeConfirmRequest](doc\/CodeConfirmRequest.md)
+ - [CodeConfirmResponse](doc\/CodeConfirmResponse.md)
+ - [CodeSendRequest](doc\/CodeSendRequest.md)
+ - [CodeSendResponse](doc\/CodeSendResponse.md)
+ - [Color](doc\/Color.md)
+ - [ColorsResponse](doc\/ColorsResponse.md)
+ - [GiftBox](doc\/GiftBox.md)
+ - [GiftCard](doc\/GiftCard.md)
+ - [ImageItem](doc\/ImageItem.md)
+ - [ManageOrders1200Response](doc\/ManageOrders1200Response.md)
+ - [ManageOrders1200ResponseData](doc\/ManageOrders1200ResponseData.md)
+ - [ManageOrders1200ResponseDataOrderItemsInner](doc\/ManageOrders1200ResponseDataOrderItemsInner.md)
+ - [ManageOrders1200ResponseDataOrderItemsInnerProduct](doc\/ManageOrders1200ResponseDataOrderItemsInnerProduct.md)
+ - [ManageOrders1200ResponseDataOrderItemsInnerProductListsInner](doc\/ManageOrders1200ResponseDataOrderItemsInnerProductListsInner.md)
+ - [ManageOrders1200ResponseDataOrderItemsInnerProductListsInnerItemsInner](doc\/ManageOrders1200ResponseDataOrderItemsInnerProductListsInnerItemsInner.md)
+ - [Occasion](doc\/Occasion.md)
+ - [OccasionsResponse](doc\/OccasionsResponse.md)
+ - [ProductDetails](doc\/ProductDetails.md)
+ - [ProductDetailsResponse](doc\/ProductDetailsResponse.md)
+ - [ProductListItem](doc\/ProductListItem.md)
+ - [ProductListItemDetail](doc\/ProductListItemDetail.md)
+ - [ProductsListResponse](doc\/ProductsListResponse.md)
+ - [ProductsListResponseData](doc\/ProductsListResponseData.md)
+ - [PromocodeDetails](doc\/PromocodeDetails.md)
+ - [ProviderCategoryMenuResponse](doc\/ProviderCategoryMenuResponse.md)
+ - [ProviderData](doc\/ProviderData.md)
+ - [ProviderDataCity](doc\/ProviderDataCity.md)
+ - [ProviderDataLocationsInner](doc\/ProviderDataLocationsInner.md)
+ - [ProviderDataTagsInner](doc\/ProviderDataTagsInner.md)
+ - [ProviderLocation](doc\/ProviderLocation.md)
+ - [ProviderLoginResponse](doc\/ProviderLoginResponse.md)
+ - [ProviderLoginResponseData](doc\/ProviderLoginResponseData.md)
+ - [ProviderProduct](doc\/ProviderProduct.md)
+ - [ProviderProfileShowResponse](doc\/ProviderProfileShowResponse.md)
+ - [ProviderProfileUpdateRequest](doc\/ProviderProfileUpdateRequest.md)
+ - [ProviderProfileUpdateResponse](doc\/ProviderProfileUpdateResponse.md)
+ - [ProviderProfileUpdateResponseData](doc\/ProviderProfileUpdateResponseData.md)
+ - [ProviderRegisterRequest](doc\/ProviderRegisterRequest.md)
+ - [ProviderRegisterResponse](doc\/ProviderRegisterResponse.md)
+ - [ProviderRegisterResponseData](doc\/ProviderRegisterResponseData.md)
+ - [ProviderchangePasswordRequest](doc\/ProviderchangePasswordRequest.md)
+ - [ReadANotification1200Response](doc\/ReadANotification1200Response.md)
+ - [ReadANotification1200ResponseData](doc\/ReadANotification1200ResponseData.md)
+ - [ResetCodeConfirmRequest](doc\/ResetCodeConfirmRequest.md)
+ - [ResetCodeConfirmResponse](doc\/ResetCodeConfirmResponse.md)
+ - [ResetCodeSendRequest](doc\/ResetCodeSendRequest.md)
+ - [ResetCodeSendResponse](doc\/ResetCodeSendResponse.md)
+ - [ResetPasswordRequest](doc\/ResetPasswordRequest.md)
+ - [ResetPasswordResponse](doc\/ResetPasswordResponse.md)
+ - [ServiceList](doc\/ServiceList.md)
+ - [ServiceListItem](doc\/ServiceListItem.md)
+ - [ServiceShowData](doc\/ServiceShowData.md)
+ - [ServiceShowResponse](doc\/ServiceShowResponse.md)
+ - [ShowAllGiftBoxes200Response](doc\/ShowAllGiftBoxes200Response.md)
+ - [ShowAllGiftCards200Response](doc\/ShowAllGiftCards200Response.md)
+ - [ShowAllProviderSOrders200Response](doc\/ShowAllProviderSOrders200Response.md)
+ - [ShowAllProviderSOrders200ResponseData](doc\/ShowAllProviderSOrders200ResponseData.md)
+ - [ShowAllProviderSOrders200ResponseDataDataInner](doc\/ShowAllProviderSOrders200ResponseDataDataInner.md)
+ - [ShowAllProviderSOrders200ResponseDataDataInnerOrderItemsInner](doc\/ShowAllProviderSOrders200ResponseDataDataInnerOrderItemsInner.md)
+ - [ShowAllProviderSOrders200ResponseDataDataInnerOrderItemsInnerService](doc\/ShowAllProviderSOrders200ResponseDataDataInnerOrderItemsInnerService.md)
+ - [ShowAllProviderSOrders200ResponseDataDataInnerOrderItemsInnerServiceListsInner](doc\/ShowAllProviderSOrders200ResponseDataDataInnerOrderItemsInnerServiceListsInner.md)
+ - [ShowAllProviderSOrders200ResponseDataDataInnerOrderItemsInnerServiceListsInnerItemsInner](doc\/ShowAllProviderSOrders200ResponseDataDataInnerOrderItemsInnerServiceListsInnerItemsInner.md)
+ - [ShowAllProviderSOrders200ResponseDataDataInnerPromocode](doc\/ShowAllProviderSOrders200ResponseDataDataInnerPromocode.md)
+ - [ShowAllProviderSOrders200ResponseDataDataInnerUser](doc\/ShowAllProviderSOrders200ResponseDataDataInnerUser.md)
+ - [ShowAllServicesWithFilter200Response](doc\/ShowAllServicesWithFilter200Response.md)
+ - [ShowAllServicesWithFilter200ResponseData](doc\/ShowAllServicesWithFilter200ResponseData.md)
+ - [ShowAllServicesWithFilter200ResponseDataDataInner](doc\/ShowAllServicesWithFilter200ResponseDataDataInner.md)
+ - [ShowAllServicesWithFilter200ResponseDataLinksInner](doc\/ShowAllServicesWithFilter200ResponseDataLinksInner.md)
+ - [ShowCartDetails200Response](doc\/ShowCartDetails200Response.md)
+ - [ShowCartDetails200ResponseData](doc\/ShowCartDetails200ResponseData.md)
+ - [ShowCartDetails200ResponseDataCartItemsInner](doc\/ShowCartDetails200ResponseDataCartItemsInner.md)
+ - [ShowCartDetails200ResponseDataCartItemsInnerProduct](doc\/ShowCartDetails200ResponseDataCartItemsInnerProduct.md)
+ - [ShowCartDetails200ResponseDataCartItemsInnerService](doc\/ShowCartDetails200ResponseDataCartItemsInnerService.md)
+ - [ShowHome200Response](doc\/ShowHome200Response.md)
+ - [ShowHome200ResponseData](doc\/ShowHome200ResponseData.md)
+ - [ShowHome200ResponseDataCategoriesInner](doc\/ShowHome200ResponseDataCategoriesInner.md)
+ - [ShowHome200ResponseDataOccasionsInner](doc\/ShowHome200ResponseDataOccasionsInner.md)
+ - [ShowHome200ResponseDataTopRatedProductsInner](doc\/ShowHome200ResponseDataTopRatedProductsInner.md)
+ - [ShowHome200ResponseDataTopRatedProvidersInner](doc\/ShowHome200ResponseDataTopRatedProvidersInner.md)
+ - [ShowHome200ResponseDataTopRatedServicesInner](doc\/ShowHome200ResponseDataTopRatedServicesInner.md)
+ - [ShowNotifications1200Response](doc\/ShowNotifications1200Response.md)
+ - [ShowNotifications1200ResponseDataInner](doc\/ShowNotifications1200ResponseDataInner.md)
+ - [ShowNotifications1200ResponseDataInnerProvider](doc\/ShowNotifications1200ResponseDataInnerProvider.md)
+ - [ShowNotifications1200ResponseDataInnerUser](doc\/ShowNotifications1200ResponseDataInnerUser.md)
+ - [ShowOrderDetails2200Response](doc\/ShowOrderDetails2200Response.md)
+ - [ShowOrderDetails2200ResponseData](doc\/ShowOrderDetails2200ResponseData.md)
+ - [ShowOrderDetails2200ResponseDataOrderItemsInner](doc\/ShowOrderDetails2200ResponseDataOrderItemsInner.md)
+ - [ShowOrderDetails2200ResponseDataOrderItemsInnerProduct](doc\/ShowOrderDetails2200ResponseDataOrderItemsInnerProduct.md)
+ - [ShowOrderDetails2200ResponseDataOrderItemsInnerProductListsInner](doc\/ShowOrderDetails2200ResponseDataOrderItemsInnerProductListsInner.md)
+ - [ShowOrderDetails2200ResponseDataOrderItemsInnerProductListsInnerItemsInner](doc\/ShowOrderDetails2200ResponseDataOrderItemsInnerProductListsInnerItemsInner.md)
+ - [ShowProfile200Response](doc\/ShowProfile200Response.md)
+ - [ShowProfile200ResponseData](doc\/ShowProfile200ResponseData.md)
+ - [ShowProfile200ResponseDataCity](doc\/ShowProfile200ResponseDataCity.md)
+ - [ShowPromocodeDetails200Response](doc\/ShowPromocodeDetails200Response.md)
+ - [ShowPromocodeDetails200ResponseData](doc\/ShowPromocodeDetails200ResponseData.md)
+ - [ShowWishlistItemsWithSearchByName200Response](doc\/ShowWishlistItemsWithSearchByName200Response.md)
+ - [ShowWishlistItemsWithSearchByName200ResponseDataInner](doc\/ShowWishlistItemsWithSearchByName200ResponseDataInner.md)
+ - [ShowWishlistItemsWithSearchByName200ResponseDataInnerItemsInner](doc\/ShowWishlistItemsWithSearchByName200ResponseDataInnerItemsInner.md)
+ - [Size](doc\/Size.md)
+ - [SizesResponse](doc\/SizesResponse.md)
+ - [Tag](doc\/Tag.md)
+ - [TagsResponse](doc\/TagsResponse.md)
+ - [UpdateProfile200Response](doc\/UpdateProfile200Response.md)
+ - [UpdateProfile200ResponseData](doc\/UpdateProfile200ResponseData.md)
+ - [UpdateProfile200ResponseDataCity](doc\/UpdateProfile200ResponseDataCity.md)
+ - [UploadFiles](doc\/UploadFiles.md)
+ - [UploadFilesResponse](doc\/UploadFilesResponse.md)
 
 
 ## Documentation For Authorization

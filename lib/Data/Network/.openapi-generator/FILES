@@ -12,12 +12,8 @@ doc/CategoryMenu.md
 doc/CitiesResponse.md
 doc/City.md
 doc/ClientApi.md
-doc/ClientLogin200Response.md
-doc/ClientLogin200ResponseData.md
-doc/ClientSignup200Response.md
-doc/ClientSignup200ResponseData.md
-doc/ClientSignup200ResponseDataUser.md
-doc/ClientSignup200ResponseDataUserCity.md
+doc/ClientAuthResponse.md
+doc/ClientAuthResponseData.md
 doc/CodeConfirmRequest.md
 doc/CodeConfirmResponse.md
 doc/CodeSendRequest.md
@@ -118,6 +114,8 @@ doc/ShowOrderDetails2200ResponseDataOrderItemsInnerProduct.md
 doc/ShowOrderDetails2200ResponseDataOrderItemsInnerProductListsInner.md
 doc/ShowOrderDetails2200ResponseDataOrderItemsInnerProductListsInnerItemsInner.md
 doc/ShowProfile200Response.md
+doc/ShowProfile200ResponseData.md
+doc/ShowProfile200ResponseDataCity.md
 doc/ShowPromocodeDetails200Response.md
 doc/ShowPromocodeDetails200ResponseData.md
 doc/ShowWishlistItemsWithSearchByName200Response.md
@@ -163,12 +161,8 @@ lib/model/category.dart
 lib/model/category_menu.dart
 lib/model/cities_response.dart
 lib/model/city.dart
-lib/model/client_login200_response.dart
-lib/model/client_login200_response_data.dart
-lib/model/client_signup200_response.dart
-lib/model/client_signup200_response_data.dart
-lib/model/client_signup200_response_data_user.dart
-lib/model/client_signup200_response_data_user_city.dart
+lib/model/client_auth_response.dart
+lib/model/client_auth_response_data.dart
 lib/model/code_confirm_request.dart
 lib/model/code_confirm_response.dart
 lib/model/code_send_request.dart
@@ -260,6 +254,8 @@ lib/model/show_order_details2200_response_data_order_items_inner_product.dart
 lib/model/show_order_details2200_response_data_order_items_inner_product_lists_inner.dart
 lib/model/show_order_details2200_response_data_order_items_inner_product_lists_inner_items_inner.dart
 lib/model/show_profile200_response.dart
+lib/model/show_profile200_response_data.dart
+lib/model/show_profile200_response_data_city.dart
 lib/model/show_promocode_details200_response.dart
 lib/model/show_promocode_details200_response_data.dart
 lib/model/show_wishlist_items_with_search_by_name200_response.dart
@@ -275,4 +271,7 @@ lib/model/update_profile200_response_data_city.dart
 lib/model/upload_files.dart
 lib/model/upload_files_response.dart
 pubspec.yaml
-test/upload_files_response_test.dart
+test/client_auth_response_data_test.dart
+test/client_auth_response_test.dart
+test/show_profile200_response_data_city_test.dart
+test/show_profile200_response_data_test.dart

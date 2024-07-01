@@ -13,7 +13,9 @@ part of openapi.api;
 class UploadFiles {
   /// Returns a new [UploadFiles] instance.
   UploadFiles({
-    this.filesLeftSquareBracket0RightSquareBracket,
+    this.status,
+    this.message,
+    this.data = const [],
   });
 
   ///
@@ -22,27 +24,47 @@ class UploadFiles {
   /// source code must fall back to having a nullable type.
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
-  MultipartFile? filesLeftSquareBracket0RightSquareBracket;
+  bool? status;
+
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  String? message;
+
+  List<String> data;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is UploadFiles &&
-     other.filesLeftSquareBracket0RightSquareBracket == filesLeftSquareBracket0RightSquareBracket;
+     other.status == status &&
+     other.message == message &&
+     other.data == data;
 
   @override
   int get hashCode =>
     // ignore: unnecessary_parenthesis
-    (filesLeftSquareBracket0RightSquareBracket == null ? 0 : filesLeftSquareBracket0RightSquareBracket!.hashCode);
+    (status == null ? 0 : status!.hashCode) +
+    (message == null ? 0 : message!.hashCode) +
+    (data.hashCode);
 
   @override
-  String toString() => 'UploadFiles[filesLeftSquareBracket0RightSquareBracket=$filesLeftSquareBracket0RightSquareBracket]';
+  String toString() => 'UploadFiles[status=$status, message=$message, data=$data]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-    if (this.filesLeftSquareBracket0RightSquareBracket != null) {
-      json[r'files[0]'] = this.filesLeftSquareBracket0RightSquareBracket;
+    if (this.status != null) {
+      json[r'status'] = this.status;
     } else {
-      json[r'files[0]'] = null;
+      json[r'status'] = null;
     }
+    if (this.message != null) {
+      json[r'message'] = this.message;
+    } else {
+      json[r'message'] = null;
+    }
+      json[r'data'] = this.data;
     return json;
   }
 
@@ -65,7 +87,11 @@ class UploadFiles {
       }());
 
       return UploadFiles(
-        filesLeftSquareBracket0RightSquareBracket: null, // No support for decoding binary content from JSON
+        status: mapValueOfType<bool>(json, r'status'),
+        message: mapValueOfType<String>(json, r'message'),
+        data: json[r'data'] is List
+            ? (json[r'data'] as List).cast<String>()
+            : const [],
       );
     }
     return null;

@@ -58,6 +58,20 @@ class SVGIcons {
       height: 24, fit: BoxFit.scaleDown
     );
   }
+  static Widget closeSquareSvgIcon(){
+    return SvgPicture.asset(
+      closeSquareSvg,
+      width: 24,
+      height: 24, fit: BoxFit.scaleDown
+    );
+  }
+  static Widget searchSvgIcon(){
+    return SvgPicture.asset(
+      searchSvg,
+      width: 24,
+      height: 24, fit: BoxFit.scaleDown
+    );
+  }
   static Widget onBoardingOneIcon(){
     return SvgPicture.asset(
       onBoardingOneIconSvg

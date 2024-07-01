@@ -5,7 +5,7 @@
 import 'package:lazo/api.dart';
 ```
 
-All URIs are relative to *http://}*
+All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -73,7 +73,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **clientLogin**
-> ClientLogin200Response clientLogin(phone)
+> ClientAuthResponse clientLogin(phone)
 
 client login
 
@@ -102,7 +102,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**ClientLogin200Response**](ClientLogin200Response.md)
+[**ClientAuthResponse**](ClientAuthResponse.md)
 
 ### Authorization
 
@@ -116,7 +116,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **clientSignup**
-> ClientSignup200Response clientSignup(cityId, email, image, name, phone)
+> ClientAuthResponse clientSignup(cityId, email, image, name, phone)
 
 client signup
 
@@ -153,7 +153,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**ClientSignup200Response**](ClientSignup200Response.md)
+[**ClientAuthResponse**](ClientAuthResponse.md)
 
 ### Authorization
 
@@ -843,7 +843,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **uploadFilesPost**
-> UploadFilesResponse uploadFilesPost(filesLeftSquareBracket0RightSquareBracket)
+> UploadFilesResponse uploadFilesPost(files)
 
 upload file(s)
 
@@ -852,10 +852,10 @@ upload file(s)
 import 'package:lazo/api.dart';
 
 final api_instance = PublicApi();
-final filesLeftSquareBracket0RightSquareBracket = BINARY_DATA_HERE; // MultipartFile | 
+final files = [/path/to/file.txt]; // List<MultipartFile> | 
 
 try {
-    final result = api_instance.uploadFilesPost(filesLeftSquareBracket0RightSquareBracket);
+    final result = api_instance.uploadFilesPost(files);
     print(result);
 } catch (e) {
     print('Exception when calling PublicApi->uploadFilesPost: $e\n');
@@ -866,7 +866,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **filesLeftSquareBracket0RightSquareBracket** | **MultipartFile**|  | [optional] 
+ **files** | [**List<MultipartFile>**](MultipartFile.md)|  | [optional] 
 
 ### Return type
 

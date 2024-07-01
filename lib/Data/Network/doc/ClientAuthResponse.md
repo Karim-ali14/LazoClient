@@ -1,4 +1,4 @@
-# lazo.model.ShowProfile200Response
+# lazo.model.ClientAuthResponse
 
 ## Load the model package
 ```dart
@@ -8,7 +8,9 @@ import 'package:lazo/api.dart';
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**data** | [**ShowProfile200ResponseData**](ShowProfile200ResponseData.md) |  | [optional] 
+**data** | [**ClientAuthResponseData**](ClientAuthResponseData.md) |  | [optional] 
+**isExist** | **bool** |  | [optional] 
+**isVerified** | **bool** |  | [optional] 
 **message** | **String** |  | [optional] 
 **status** | **bool** |  | [optional] 
 

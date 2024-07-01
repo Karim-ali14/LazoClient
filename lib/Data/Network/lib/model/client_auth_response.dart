@@ -10,10 +10,12 @@
 
 part of openapi.api;
 
-class ShowProfile200Response {
-  /// Returns a new [ShowProfile200Response] instance.
-  ShowProfile200Response({
+class ClientAuthResponse {
+  /// Returns a new [ClientAuthResponse] instance.
+  ClientAuthResponse({
     this.data,
+    this.isExist,
+    this.isVerified,
     this.message,
     this.status,
   });
@@ -24,7 +26,23 @@ class ShowProfile200Response {
   /// source code must fall back to having a nullable type.
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
-  ShowProfile200ResponseData? data;
+  ClientAuthResponseData? data;
+
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  bool? isExist;
+
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  bool? isVerified;
 
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
@@ -43,8 +61,10 @@ class ShowProfile200Response {
   bool? status;
 
   @override
-  bool operator ==(Object other) => identical(this, other) || other is ShowProfile200Response &&
+  bool operator ==(Object other) => identical(this, other) || other is ClientAuthResponse &&
      other.data == data &&
+     other.isExist == isExist &&
+     other.isVerified == isVerified &&
      other.message == message &&
      other.status == status;
 
@@ -52,11 +72,13 @@ class ShowProfile200Response {
   int get hashCode =>
     // ignore: unnecessary_parenthesis
     (data == null ? 0 : data!.hashCode) +
+    (isExist == null ? 0 : isExist!.hashCode) +
+    (isVerified == null ? 0 : isVerified!.hashCode) +
     (message == null ? 0 : message!.hashCode) +
     (status == null ? 0 : status!.hashCode);
 
   @override
-  String toString() => 'ShowProfile200Response[data=$data, message=$message, status=$status]';
+  String toString() => 'ClientAuthResponse[data=$data, isExist=$isExist, isVerified=$isVerified, message=$message, status=$status]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -64,6 +86,16 @@ class ShowProfile200Response {
       json[r'data'] = this.data;
     } else {
       json[r'data'] = null;
+    }
+    if (this.isExist != null) {
+      json[r'is_exist'] = this.isExist;
+    } else {
+      json[r'is_exist'] = null;
+    }
+    if (this.isVerified != null) {
+      json[r'is_verified'] = this.isVerified;
+    } else {
+      json[r'is_verified'] = null;
     }
     if (this.message != null) {
       json[r'message'] = this.message;
@@ -78,10 +110,10 @@ class ShowProfile200Response {
     return json;
   }
 
-  /// Returns a new [ShowProfile200Response] instance and imports its values from
+  /// Returns a new [ClientAuthResponse] instance and imports its values from
   /// [value] if it's a [Map], null otherwise.
   // ignore: prefer_constructors_over_static_methods
-  static ShowProfile200Response? fromJson(dynamic value) {
+  static ClientAuthResponse? fromJson(dynamic value) {
     if (value is Map) {
       final json = value.cast<String, dynamic>();
 
@@ -90,14 +122,16 @@ class ShowProfile200Response {
       // Note 2: this code is stripped in release mode!
       assert(() {
         requiredKeys.forEach((key) {
-          assert(json.containsKey(key), 'Required key "ShowProfile200Response[$key]" is missing from JSON.');
-          assert(json[key] != null, 'Required key "ShowProfile200Response[$key]" has a null value in JSON.');
+          assert(json.containsKey(key), 'Required key "ClientAuthResponse[$key]" is missing from JSON.');
+          assert(json[key] != null, 'Required key "ClientAuthResponse[$key]" has a null value in JSON.');
         });
         return true;
       }());
 
-      return ShowProfile200Response(
-        data: ShowProfile200ResponseData.fromJson(json[r'data']),
+      return ClientAuthResponse(
+        data: ClientAuthResponseData.fromJson(json[r'data']),
+        isExist: mapValueOfType<bool>(json, r'is_exist'),
+        isVerified: mapValueOfType<bool>(json, r'is_verified'),
         message: mapValueOfType<String>(json, r'message'),
         status: mapValueOfType<bool>(json, r'status'),
       );
@@ -105,11 +139,11 @@ class ShowProfile200Response {
     return null;
   }
 
-  static List<ShowProfile200Response> listFromJson(dynamic json, {bool growable = false,}) {
-    final result = <ShowProfile200Response>[];
+  static List<ClientAuthResponse> listFromJson(dynamic json, {bool growable = false,}) {
+    final result = <ClientAuthResponse>[];
     if (json is List && json.isNotEmpty) {
       for (final row in json) {
-        final value = ShowProfile200Response.fromJson(row);
+        final value = ClientAuthResponse.fromJson(row);
         if (value != null) {
           result.add(value);
         }
@@ -118,12 +152,12 @@ class ShowProfile200Response {
     return result.toList(growable: growable);
   }
 
-  static Map<String, ShowProfile200Response> mapFromJson(dynamic json) {
-    final map = <String, ShowProfile200Response>{};
+  static Map<String, ClientAuthResponse> mapFromJson(dynamic json) {
+    final map = <String, ClientAuthResponse>{};
     if (json is Map && json.isNotEmpty) {
       json = json.cast<String, dynamic>(); // ignore: parameter_assignments
       for (final entry in json.entries) {
-        final value = ShowProfile200Response.fromJson(entry.value);
+        final value = ClientAuthResponse.fromJson(entry.value);
         if (value != null) {
           map[entry.key] = value;
         }
@@ -132,14 +166,14 @@ class ShowProfile200Response {
     return map;
   }
 
-  // maps a json object with a list of ShowProfile200Response-objects as value to a dart map
-  static Map<String, List<ShowProfile200Response>> mapListFromJson(dynamic json, {bool growable = false,}) {
-    final map = <String, List<ShowProfile200Response>>{};
+  // maps a json object with a list of ClientAuthResponse-objects as value to a dart map
+  static Map<String, List<ClientAuthResponse>> mapListFromJson(dynamic json, {bool growable = false,}) {
+    final map = <String, List<ClientAuthResponse>>{};
     if (json is Map && json.isNotEmpty) {
       // ignore: parameter_assignments
       json = json.cast<String, dynamic>();
       for (final entry in json.entries) {
-        map[entry.key] = ShowProfile200Response.listFromJson(entry.value, growable: growable,);
+        map[entry.key] = ClientAuthResponse.listFromJson(entry.value, growable: growable,);
       }
     }
     return map;
