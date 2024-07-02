@@ -31,7 +31,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   @override
   Widget build(BuildContext context) {
 
-    handleState(sendOtpStateProvider,showLoading: true, onSuccess: (res) {
+    handleState(sendOtpForLoginStateProvider,showLoading: true, onSuccess: (res) {
+      print("formLogin $res");
       if(res.data?.isExist == true){
         AppSnackBar.showSnackBar(context, isSuccess: true, message: res.data?.message ?? "Success !");
 
@@ -148,7 +149,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
   void sendOtp() async {
     if (formKey.currentState?.validate() == true) {
-      ref.read(sendOtpStateProvider.notifier).sendOtp(phoneController.text.toString());
+      ref.read(sendOtpForLoginStateProvider.notifier).sendOtp(phoneController.text.toString());
     }
   }
 

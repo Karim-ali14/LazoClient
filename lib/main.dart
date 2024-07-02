@@ -152,15 +152,13 @@ class MyApp extends ConsumerWidget {
       GoRoute(
           path: R_LoginScreen,
           builder: (BuildContext context, GoRouterState state) => const LoginScreen(),
-          routes: [
-            GoRoute(
-                path: R_OTP,
-                builder: (BuildContext context, GoRouterState state) {
-                  var extra = state.extra as Map;
-                  return OTPScreen(phone:extra["phone"], otpType: extra["type"],);
-                }
-            )
-          ]
+      ),
+      GoRoute(
+          path: R_OTP,
+          builder: (BuildContext context, GoRouterState state) {
+            var extra = state.extra as Map;
+            return OTPScreen(phone:extra["phone"],image:extra["image"],name: extra["name"],email: extra["email"],cityId: extra["cityId"], otpType: extra["type"],);
+          }
       ),
       GoRoute(
           path: R_SignUp,

@@ -14,9 +14,11 @@ import 'package:lazo_client/Presentation/Widgets/SvgIcons.dart';
 import 'package:lazo_client/Utils/Extintions.dart';
 
 import '../../../Constants.dart';
+import '../../../Constants/Eunms.dart';
 import '../../../Data/Models/ItemSelector.dart';
 import '../../../Data/Network/lib/api.dart';
 import '../../../Localization/Keys.dart';
+import '../../../Utils/Snaks.dart';
 import '../../StateNotifiersViewModel/UserAuthStateNotifiers.dart';
 import '../../Theme/AppTheme.dart';
 import '../../Widgets/AppButton.dart';
@@ -39,6 +41,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
   final formKey = GlobalKey<FormState>();
   File? imageFile = null;
   List<City> cities = [];
+  List<String> images = [];
   int? cityItemSelected;
   @override
   void initState() {
@@ -54,23 +57,35 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
       cities = res.data?.data ?? [];
     });
 
-    handleState(uploadFilesStateNotifiers, onSuccess: (res) {
-      signUp(res.data?.data ?? []);
-    }, onLoading: (res) {
-      context.showLoadingDialog();
+    handleState(sendOtpForSignUpStateProvider,showLoading: true, onSuccess: (res) {
+      print("formSignUp $res");
+      if(res.data?.isExist == false){
+        AppSnackBar.showSnackBar(context, isSuccess: true, message: res.data?.message ?? "Success !");
+        signUp();
+      }else{
+        AppSnackBar.showSnackBar(context, isSuccess: false, message: context.tr(thisPhoneIsExitsKey));
+      }
+    },onFail: (res){
+      AppSnackBar.showSnackBar(context, isSuccess: false, message: res.message ?? "");
     });
 
-    handleState(signUpStateNotifierProvider, onSuccess: (res) {
-      print(res);
-      if (context.isThereCurrentDialogShowing()) {
-        try {
-          context.pop();
-        } catch (e) {
-          print("NAV cannont pop");
-        }
-      }
-      context.go(R_HomeScreen);
-    });
+
+    handleState(uploadFilesStateNotifiers, onSuccess: (res) {
+      images = res.data?.data ?? [];
+      sendCode();
+    },showLoading: true);
+
+    // handleState(signUpStateNotifierProvider, onSuccess: (res) {
+    //   print(res);
+    //   if (context.isThereCurrentDialogShowing()) {
+    //     try {
+    //       context.pop();
+    //     } catch (e) {
+    //       print("NAV cannont pop");
+    //     }
+    //   }
+    //   context.go(R_HomeScreen);
+    // });
 
     return Scaffold(
       appBar: CustomAppBar(
@@ -202,14 +217,17 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
     );
   }
 
-  void signUp(List<String> list) {
-    ref.read(signUpStateNotifierProvider.notifier).signUp(
-      image: list.first,
-      name: fullNameController.text,
-      phone: phoneController.text,
-      email: emailController.text.isNotEmpty ? emailController.text : null,
-      cityId: "$cityItemSelected"
-    );
+  void signUp() {
+    context.push(R_OTP,extra: {
+      "phone" :phoneController.text ,
+      "name" :fullNameController.text,
+      "email" : emailController.text.isNotEmpty ? emailController.text : null,
+      "image": images.first,
+      "cityId" : "$cityItemSelected","type" : OTPType.SignUp});
+  }
+
+  void sendCode(){
+    ref.read(sendOtpForSignUpStateProvider.notifier).sendOtp(phoneController.text.toString());
   }
 
   void uploadFiles() {
