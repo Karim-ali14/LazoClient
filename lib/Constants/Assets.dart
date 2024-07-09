@@ -41,4 +41,6 @@ const onBoardingTwoIconSvg = "assets/images/on_boarding_two.svg";
 const onBoardingThreeIconSvg = "assets/images/on_boarding_three.svg";
 const placeHolderForPickImagesSvg = "assets/images/placeHolderForPickImages.svg";
 const bottomRedArrowSvg = "assets/images/bottomRedArrow.svg";
+const searchIconSvg = "assets/images/searchIcon.svg";
+const filterIconSvg = "assets/images/filterIcon.svg";
 

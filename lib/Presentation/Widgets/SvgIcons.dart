@@ -5,7 +5,7 @@ import '../../Constants.dart';
 import '../../Constants/Assets.dart';
 
 class SVGIcons {
-  static Widget shareIcon(){
+  static Widget shareIcon() {
     return SvgPicture.asset(
       shareIconSvg,
       color: Colors.white,
@@ -13,7 +13,8 @@ class SVGIcons {
       height: 40,
     );
   }
-  static Widget itemsIcon(){
+
+  static Widget itemsIcon() {
     return SvgPicture.asset(
       itemsIconSvg,
       color: Colors.white,
@@ -22,7 +23,7 @@ class SVGIcons {
     );
   }
 
-  Widget networkSVG(link){
+  Widget networkSVG(link) {
     return SvgPicture.network(
       link,
       color: Colors.white,
@@ -31,7 +32,8 @@ class SVGIcons {
     );
   }
 
-  static Widget appLogoIcon({double width = 40, double height = 40,Color color = Colors.white}){
+  static Widget appLogoIcon(
+      {double width = 40, double height = 40, Color color = Colors.white}) {
     return SvgPicture.asset(
       whiteSplashAppLogo,
       color: color,
@@ -39,41 +41,43 @@ class SVGIcons {
       height: height,
     );
   }
-  static Widget editIcon({double? width , double? height }){
+
+  static Widget editIcon({double? width, double? height}) {
     return SvgPicture.asset(
       editIc,
       width: width,
       height: height,
     );
   }
-  static Widget placeHolderForPickImagesSvgIcon(){
-    return SvgPicture.asset(
-        placeHolderForPickImagesSvg
-    );
-  }
-  static Widget bottomRedArrowIcon(){
-    return SvgPicture.asset(
-      bottomRedArrowSvg,
-      width: 24,
-      height: 24, fit: BoxFit.scaleDown
-    );
-  }
-  static Widget onBoardingOneIcon(){
-    return SvgPicture.asset(
-      onBoardingOneIconSvg
-    );
+
+  static Widget placeHolderForPickImagesSvgIcon() {
+    return SvgPicture.asset(placeHolderForPickImagesSvg);
   }
 
-  static Widget onBoardingTwoIcon(){
-    return SvgPicture.asset(
-        onBoardingTwoIconSvg
-    );
+  static Widget bottomRedArrowIcon() {
+    return SvgPicture.asset(bottomRedArrowSvg,
+        width: 24, height: 24, fit: BoxFit.scaleDown);
   }
 
-  static Widget onBoardingThreeIcon(){
-    return SvgPicture.asset(
-        onBoardingThreeIconSvg
-    );
+  static Widget searchIcon() {
+    return SvgPicture.asset(searchIconSvg,
+        width: 24, height: 24, fit: BoxFit.scaleDown);
   }
 
+  static Widget filterIcon() {
+    return SvgPicture.asset(filterIconSvg,
+        width: 24, height: 24, fit: BoxFit.scaleDown);
+  }
+
+  static Widget onBoardingOneIcon() {
+    return SvgPicture.asset(onBoardingOneIconSvg);
+  }
+
+  static Widget onBoardingTwoIcon() {
+    return SvgPicture.asset(onBoardingTwoIconSvg);
+  }
+
+  static Widget onBoardingThreeIcon() {
+    return SvgPicture.asset(onBoardingThreeIconSvg);
+  }
 }

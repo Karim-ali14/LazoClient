@@ -13,7 +13,7 @@ import '../../../../../Presentation/Screens/SplashScreen.dart';
 
 import 'Presentation//Theme/AppTheme.dart';
 import 'Presentation/Screens/Auth/Otp/OTPScreen.dart';
-import 'Presentation/Screens/HomeScreen.dart';
+import 'Presentation/Screens/home/HomeScreen.dart';
 import 'Presentation/Screens/onbaording/OnBordingScreen.dart';
 
 late SharedPreferences prefs;

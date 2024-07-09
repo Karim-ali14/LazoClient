@@ -34,15 +34,16 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
           statusBarColor: AppTheme.mainAppColor);
 
       final client = ref.read(clientStateProvider.notifier).checkIfUserExist();
-      if(client != null){
-        context.go(R_HomeScreen);
-      }else {
-        if(prefs.getBool(doneLandingKey) == true){
-          context.go(R_LoginScreen);
-        }else {
-          context.push(R_OnBoardingScreen);
-        }
-      }
+      context.go(R_HomeScreen);
+      // if(client != null){
+      //   context.go(R_HomeScreen);
+      // }else {
+      //   if(prefs.getBool(doneLandingKey) == true){
+      //     context.go(R_LoginScreen);
+      //   }else {
+      //     context.push(R_OnBoardingScreen);
+      //   }
+      // }
     });
     super.initState();
   }

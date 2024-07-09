@@ -64,7 +64,7 @@ class _AppTextFieldState extends State<AppTextField> {
       child: Container(
         width: widget.width,
         child:TextFormField(
-          readOnly: widget.readOnly ?? false,
+            readOnly: widget.readOnly ?? false,
             autovalidateMode: widget.mode,
             inputFormatters: widget.mask != null ? [widget.mask!] : null,
             onTapOutside: (val){
