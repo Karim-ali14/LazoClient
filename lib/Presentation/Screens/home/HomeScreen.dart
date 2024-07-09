@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lazo_client/Presentation/Widgets/BannerCardItems.dart';
+import 'package:lazo_client/Presentation/Widgets/CategoryItemCart.dart';
 import 'package:lazo_client/Presentation/Widgets/SearchWithFilter.dart';
+import 'package:lazo_client/Presentation/Widgets/SellerItemCard.dart';
 import 'package:lazo_client/Presentation/Widgets/TitleWithSeeAll.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -35,7 +37,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 title: "Categories",
                 onClickOnSeeAll: () {},
               ),
-              
+              SellerItemCard(
+
+              )
+
             ],
           ),
         ),
