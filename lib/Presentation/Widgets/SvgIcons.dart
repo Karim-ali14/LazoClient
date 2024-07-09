@@ -74,6 +74,11 @@ class SVGIcons {
         width: 24, height: 24, fit: BoxFit.scaleDown);
   }
 
+  static Widget unFavoriteIcon() {
+    return SvgPicture.asset(unFavoriteIconSvg,
+        width: 24, height: 24, fit: BoxFit.scaleDown);
+  }
+
   static Widget onBoardingOneIcon() {
     return SvgPicture.asset(onBoardingOneIconSvg);
   }

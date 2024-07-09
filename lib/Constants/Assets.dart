@@ -44,4 +44,5 @@ const bottomRedArrowSvg = "assets/images/bottomRedArrow.svg";
 const searchIconSvg = "assets/images/searchIcon.svg";
 const filterIconSvg = "assets/images/filterIcon.svg";
 const smallStarIconSvg = "assets/images/smallStar.svg";
+const unFavoriteIconSvg = "assets/images/unFavoriteIcon.svg";
 
