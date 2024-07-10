@@ -5,7 +5,7 @@
 import 'package:lazo/api.dart';
 ```
 
-All URIs are relative to *http://localhost*
+All URIs are relative to *http://}*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -17,7 +17,7 @@ Method | HTTP request | Description
 
 
 # **createOrder**
-> createOrder(deliveryDate, deliveryTime, giftBoxId, giftCardId, isIdentitySecret, orderType, paymentMethod, promocode, receiverAddress, receiverAddressDetails, receiverPhone)
+> ClientOrderDetails createOrder(deliveryDate, deliveryTime, giftBoxId, giftCardId, isIdentitySecret, orderType, paymentMethod, promocode, receiverAddress, receiverAddressDetails, receiverPhone)
 
 Create order
 
@@ -47,7 +47,8 @@ final receiverAddressDetails = receiverAddressDetails_example; // String |
 final receiverPhone = receiverPhone_example; // String | 
 
 try {
-    api_instance.createOrder(deliveryDate, deliveryTime, giftBoxId, giftCardId, isIdentitySecret, orderType, paymentMethod, promocode, receiverAddress, receiverAddressDetails, receiverPhone);
+    final result = api_instance.createOrder(deliveryDate, deliveryTime, giftBoxId, giftCardId, isIdentitySecret, orderType, paymentMethod, promocode, receiverAddress, receiverAddressDetails, receiverPhone);
+    print(result);
 } catch (e) {
     print('Exception when calling OrdersApi->createOrder: $e\n');
 }
@@ -71,7 +72,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-void (empty response body)
+[**ClientOrderDetails**](ClientOrderDetails.md)
 
 ### Authorization
 
@@ -80,12 +81,12 @@ void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: multipart/form-data
- - **Accept**: Not defined
+ - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **manageOrder**
-> manageOrder(orderId, statusId)
+> ClientOrderDetailsResponse manageOrder(orderId, statusId)
 
 Manage order
 
@@ -106,7 +107,8 @@ final orderId = orderId_example; // String |
 final statusId = statusId_example; // String | 12-client_cancel_order, 13-client_continue_order_without_an_item_after_provider_rejects
 
 try {
-    api_instance.manageOrder(orderId, statusId);
+    final result = api_instance.manageOrder(orderId, statusId);
+    print(result);
 } catch (e) {
     print('Exception when calling OrdersApi->manageOrder: $e\n');
 }
@@ -121,7 +123,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-void (empty response body)
+[**ClientOrderDetailsResponse**](ClientOrderDetailsResponse.md)
 
 ### Authorization
 
@@ -130,12 +132,12 @@ void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: multipart/form-data
- - **Accept**: Not defined
+ - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **rateOrder**
-> rateOrder(comment, orderId, rating)
+> ClientOrderDetails rateOrder(comment, orderId, rating)
 
 Rate order
 
@@ -157,7 +159,8 @@ final orderId = orderId_example; // String |
 final rating = rating_example; // String | From 1 to 5
 
 try {
-    api_instance.rateOrder(comment, orderId, rating);
+    final result = api_instance.rateOrder(comment, orderId, rating);
+    print(result);
 } catch (e) {
     print('Exception when calling OrdersApi->rateOrder: $e\n');
 }
@@ -173,7 +176,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-void (empty response body)
+[**ClientOrderDetails**](ClientOrderDetails.md)
 
 ### Authorization
 
@@ -182,12 +185,12 @@ void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: multipart/form-data
- - **Accept**: Not defined
+ - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **showOrderDetails**
-> showOrderDetails(orderId)
+> ClientOrderDetailsResponse showOrderDetails(orderId)
 
 Show order details
 
@@ -207,7 +210,8 @@ final api_instance = OrdersApi();
 final orderId = 5; // String | 
 
 try {
-    api_instance.showOrderDetails(orderId);
+    final result = api_instance.showOrderDetails(orderId);
+    print(result);
 } catch (e) {
     print('Exception when calling OrdersApi->showOrderDetails: $e\n');
 }
@@ -221,7 +225,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-void (empty response body)
+[**ClientOrderDetailsResponse**](ClientOrderDetailsResponse.md)
 
 ### Authorization
 
@@ -230,12 +234,12 @@ void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **showOrders**
-> showOrders()
+> ShowOrders200Response showOrders()
 
 Show orders
 
@@ -254,7 +258,8 @@ import 'package:lazo/api.dart';
 final api_instance = OrdersApi();
 
 try {
-    api_instance.showOrders();
+    final result = api_instance.showOrders();
+    print(result);
 } catch (e) {
     print('Exception when calling OrdersApi->showOrders: $e\n');
 }
@@ -265,7 +270,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-void (empty response body)
+[**ShowOrders200Response**](ShowOrders200Response.md)
 
 ### Authorization
 
@@ -274,7 +279,7 @@ void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

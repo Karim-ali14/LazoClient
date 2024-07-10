@@ -119,6 +119,7 @@ class UserProvider extends StateNotifier<ClientAuthResponseData?> {
   void setUser(ClientAuthResponseData? user){
     state = user;
     prefs.setString(userKey, json.encode(user?.toJson()));
+    print("clint model saved $user");
     ref.read(apiClient).defaultHeaderMap.update(
         "Authorization", (value) => "Bearer ${user?.accessToken}",
         ifAbsent: () => "Bearer ${user?.accessToken}");

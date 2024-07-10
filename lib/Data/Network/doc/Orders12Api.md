@@ -5,7 +5,7 @@
 import 'package:lazo/api.dart';
 ```
 
-All URIs are relative to *http://localhost*
+All URIs are relative to *http://}*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -15,7 +15,7 @@ Method | HTTP request | Description
 
 
 # **manageOrders1**
-> ManageOrders1200Response manageOrders1(cancellationReason, orderId, statusId)
+> ProviderOrderDetailsResponse manageOrders1(cancellationReason, orderId, statusId)
 
 manage orders
 
@@ -54,7 +54,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**ManageOrders1200Response**](ManageOrders1200Response.md)
+[**ProviderOrderDetailsResponse**](ProviderOrderDetailsResponse.md)
 
 ### Authorization
 
@@ -119,7 +119,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **showOrderDetails2**
-> ShowOrderDetails2200Response showOrderDetails2(orderId)
+> ProviderOrderDetailsResponse showOrderDetails2(orderId)
 
 show order details
 
@@ -154,7 +154,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**ShowOrderDetails2200Response**](ShowOrderDetails2200Response.md)
+[**ProviderOrderDetailsResponse**](ProviderOrderDetailsResponse.md)
 
 ### Authorization
 

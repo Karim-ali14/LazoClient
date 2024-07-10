@@ -24,11 +24,11 @@ class ShowHome200ResponseData {
 
   List<ShowHome200ResponseDataOccasionsInner> occasions;
 
-  List<ShowHome200ResponseDataTopRatedProductsInner> topRatedProducts;
+  List<ProviderProduct> topRatedProducts;
 
-  List<ShowHome200ResponseDataTopRatedProvidersInner> topRatedProviders;
+  List<ProviderData> topRatedProviders;
 
-  List<ShowHome200ResponseDataTopRatedServicesInner> topRatedServices;
+  List<ServiceShowData> topRatedServices;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is ShowHome200ResponseData &&
@@ -81,9 +81,9 @@ class ShowHome200ResponseData {
       return ShowHome200ResponseData(
         categories: ShowHome200ResponseDataCategoriesInner.listFromJson(json[r'categories']),
         occasions: ShowHome200ResponseDataOccasionsInner.listFromJson(json[r'occasions']),
-        topRatedProducts: ShowHome200ResponseDataTopRatedProductsInner.listFromJson(json[r'top_rated_products']),
-        topRatedProviders: ShowHome200ResponseDataTopRatedProvidersInner.listFromJson(json[r'top_rated_providers']),
-        topRatedServices: ShowHome200ResponseDataTopRatedServicesInner.listFromJson(json[r'top_rated_services']),
+        topRatedProducts: ProviderProduct.listFromJson(json[r'top_rated_products']),
+        topRatedProviders: ProviderData.listFromJson(json[r'top_rated_providers']),
+        topRatedServices: ServiceShowData.listFromJson(json[r'top_rated_services']),
       );
     }
     return null;

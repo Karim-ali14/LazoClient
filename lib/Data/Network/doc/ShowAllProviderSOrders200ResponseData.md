@@ -9,7 +9,7 @@ import 'package:lazo/api.dart';
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **currentPage** | **num** |  | [optional] 
-**data** | [**List<ShowAllProviderSOrders200ResponseDataDataInner>**](ShowAllProviderSOrders200ResponseDataDataInner.md) |  | [optional] [default to const []]
+**data** | [**List<ProviderOrderDetails>**](ProviderOrderDetails.md) |  | [optional] [default to const []]
 **firstPageUrl** | **String** |  | [optional] 
 **from** | **num** |  | [optional] 
 **lastPage** | **num** |  | [optional] 

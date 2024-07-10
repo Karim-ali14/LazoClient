@@ -36,7 +36,7 @@ class ShowAllProviderSOrders200ResponseData {
   ///
   num? currentPage;
 
-  List<ShowAllProviderSOrders200ResponseDataDataInner> data;
+  List<ProviderOrderDetails> data;
 
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
@@ -228,7 +228,7 @@ class ShowAllProviderSOrders200ResponseData {
         currentPage: json[r'current_page'] == null
             ? null
             : num.parse(json[r'current_page'].toString()),
-        data: ShowAllProviderSOrders200ResponseDataDataInner.listFromJson(json[r'data']),
+        data: ProviderOrderDetails.listFromJson(json[r'data']),
         firstPageUrl: mapValueOfType<String>(json, r'first_page_url'),
         from: json[r'from'] == null
             ? null

@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: lazo
-  version: 1.0.0
+  version: 1.0.1
 servers:
   - url: http://{{url}}
 components:
@@ -328,7 +328,7 @@ components:
               example: true
 
     ClientAuthResponse:
-       properties:
+      properties:
         data:
           type: object
           properties:
@@ -952,7 +952,7 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ImageItem'
-        Productlists:
+        lists:
           type: array
           items:
             $ref: '#/components/schemas/ProductListItem'
@@ -1378,33 +1378,35 @@ components:
           example: '2024-04-23T10:42:32.000000Z'
 
     Category:
-        type: object
-        properties:
-          id:
-            type: number
-            example: 1
-          name_en:
-            type: string
-            example: food
-          name_ar:
-            type: string
-            example: المأكولات
-          image:
-            type: string
-            example: uploads/files/04-2024/1713354063L6Sxt2kHExLiW2p.png
-          services_count:
-            type: number
-          products_count:
-            type: number
-          imagePath:
-            type: string
-            example: http://localhost:8000/uploads/files/04-2024/1713354063L6Sxt2kHExLiW2p.png
-          created_at:
-            type: string
-            example: '2024-04-22T16:47:42.000000Z'
-          updated_at:
-            type: string
-            example: '2024-04-22T16:47:42.000000Z'
+      type: object
+      properties:
+        id:
+          type: number
+          example: 1
+        name_en:
+          type: string
+          example: food
+        name_ar:
+          type: string
+          example: المأكولات
+        name:
+          type: string
+        image:
+          type: string
+          example: uploads/files/04-2024/1713354063L6Sxt2kHExLiW2p.png
+        services_count:
+          type: number
+        products_count:
+          type: number
+        imagePath:
+          type: string
+          example: http://localhost:8000/uploads/files/04-2024/1713354063L6Sxt2kHExLiW2p.png
+        created_at:
+          type: string
+          example: '2024-04-22T16:47:42.000000Z'
+        updated_at:
+          type: string
+          example: '2024-04-22T16:47:42.000000Z'
 
     CategoryMenu:
       type: object
@@ -1412,6 +1414,8 @@ components:
         id:
           type: number
           example: 1
+        name:
+          type: string
         name_en:
           type: string
           example: category menu b
@@ -1422,7 +1426,7 @@ components:
           type: number
           example: 1
         services_count:
-            type: number
+          type: number
         products_count:
           type: number
         created_at:
@@ -1438,6 +1442,8 @@ components:
         id:
           type: number
           example: 34
+        name:
+          type: string
         name_en:
           type: string
           example: lily flower
@@ -1477,6 +1483,1370 @@ components:
         updated_at:
           type: string
           example: '2024-04-25T22:11:39.000000Z'
+
+    ProviderOrderDetails:
+      type: object
+      properties:
+        cancellation_reason:
+          nullable: true
+          example: null
+        created_at:
+          type: string
+          example: '2024-05-18T17:07:12.000000Z'
+        delivery_date:
+          type: string
+          nullable: true
+          example: null
+        delivery_time:
+          type: string
+          nullable: true
+          example: null
+        finished_at:
+          type: string
+          nullable: true
+          example: null
+        cancelled_at:
+          type: string
+          nullable: true
+          example: null
+        id:
+          type: number
+          example: 10
+        order_family:
+          type: string
+          example: collective
+        order_items:
+          type: array
+          items:
+            type: object
+            properties:
+              card_price:
+                type: number
+                example: 5.44
+              created_at:
+                type: string
+                example: '2024-05-18T14:07:12.000000Z'
+              id:
+                type: number
+                example: 20
+              lists_total_price:
+                type: number
+                example: 64.21
+              order_id:
+                type: number
+                example: 10
+              price:
+                type: number
+                example: 10.21
+              product:
+                type: object
+                nullable: true
+                properties:
+                  has_stock:
+                    type: number
+                  amount:
+                    type: number
+                  expected_processing_time:
+                    type: string
+                  colors:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Color'
+                  sizes:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Size'
+                  coverImagePath:
+                    type: string
+                    example: http://localhost:8000/uploads/files/04-2024/1713354063L6Sxt2kHExLxaqzp.png
+                  cover_image:
+                    type: string
+                    example: uploads/files/04-2024/1713354063L6Sxt2kHExLxaqzp.png
+                  created_at:
+                    type: string
+                    example: '2024-05-14T20:58:19.000000Z'
+                  description:
+                    type: string
+                  description_ar:
+                    type: string
+                  description_en:
+                    type: string
+                  id:
+                    type: number
+                    example: 12
+                  is_visible:
+                    type: number
+                    example: 1
+                  lists:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        created_at:
+                          type: string
+                          example: '2024-05-14T20:58:19.000000Z'
+                        id:
+                          type: number
+                          example: 30
+                        is_multi_selectable:
+                          type: number
+                          example: 0
+                        items:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              created_at:
+                                type: string
+                                example: '2024-05-14T20:58:19.000000Z'
+                              id:
+                                type: number
+                                example: 43
+                              name:
+                                type: string
+                                example: الاولي
+                              name_ar:
+                                type: string
+                                example: الاولي
+                              name_en:
+                                type: string
+                                example: item 1
+                              price:
+                                type: number
+                                example: 43.95
+                              product_list_id:
+                                type: number
+                                example: 30
+                              updated_at:
+                                type: string
+                                example: '2024-05-14T20:58:19.000000Z'
+                        max_selectable_items_number:
+                          type: number
+                          example: 1
+                        name:
+                          type: string
+                          example: لست 1
+                        name_ar:
+                          type: string
+                          example: لست 1
+                        name_en:
+                          type: string
+                          example: list 1
+                        product_id:
+                          type: number
+                          example: 12
+                        total_price:
+                          type: number
+                          example: 43.95
+                        updated_at:
+                          type: string
+                          example: '2024-05-14T20:58:19.000000Z'
+                  name:
+                    type: string
+                  name_ar:
+                    type: string
+                  name_en:
+                    type: string
+                  price:
+                    type: number
+                  price_after_discount:
+                    type: number
+                  provider_id:
+                    type: number
+                  updated_at:
+                    type: string
+              product_selected_list_ids:
+                type: string
+              product_selected_list_items_ids:
+                type: string
+              service_selected_list_ids:
+                type: string
+              service_selected_list_items_ids:
+                type: string
+              selected_products_list_items_names:
+                type: array
+                items:
+                  type: string
+              selected_services_list_items_names:
+                type: array
+                items:
+                  type: string
+
+
+              product_id:
+                type: number
+                nullable: true
+                example: null
+              provider_id:
+                type: number
+                example: 9
+              quantity:
+                type: number
+                example: 2
+              service:
+                type: object
+                properties:
+                  card_expiration:
+                    type: string
+                    example: '12'
+                  card_price:
+                    type: number
+                    example: 5.44
+                  card_type:
+                    type: string
+                    example: hard_card
+                  coverImagePath:
+                    type: string
+                    example: http://localhost:8000/uploads/files/04-2024/1713354063L6Sxt2kHExLxaqzp.png
+                  cover_image:
+                    type: string
+                    example: uploads/files/04-2024/1713354063L6Sxt2kHExLxaqzp.png
+                  created_at:
+                    type: string
+                    example: '2024-05-14T20:58:19.000000Z'
+                  description:
+                    type: string
+                    example: وصف خدمه 1
+                  description_ar:
+                    type: string
+                    example: وصف خدمه 1
+                  description_en:
+                    type: string
+                    example: description for service A
+                  duration:
+                    type: string
+                    example: 3 hours
+                  id:
+                    type: number
+                    example: 12
+                  is_service_deliverable_outside_store:
+                    type: number
+                    example: 1
+                  is_visible:
+                    type: number
+                    example: 1
+                  lists:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        created_at:
+                          type: string
+                          example: '2024-05-14T20:58:19.000000Z'
+                        id:
+                          type: number
+                          example: 30
+                        is_multi_selectable:
+                          type: number
+                          example: 0
+                        items:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              created_at:
+                                type: string
+                                example: '2024-05-14T20:58:19.000000Z'
+                              id:
+                                type: number
+                                example: 43
+                              name:
+                                type: string
+                                example: الاولي
+                              name_ar:
+                                type: string
+                                example: الاولي
+                              name_en:
+                                type: string
+                                example: item 1
+                              price:
+                                type: number
+                                example: 43.95
+                              service_list_id:
+                                type: number
+                                example: 30
+                              updated_at:
+                                type: string
+                                example: '2024-05-14T20:58:19.000000Z'
+                          example:
+                            - created_at: '2024-05-14T20:58:19.000000Z'
+                              id: 43
+                              name: الاولي
+                              name_ar: الاولي
+                              name_en: item 1
+                              price: 43.95
+                              service_list_id: 30
+                              updated_at: '2024-05-14T20:58:19.000000Z'
+                        max_selectable_items_number:
+                          type: number
+                          example: 1
+                        name:
+                          type: string
+                          example: لست 1
+                        name_ar:
+                          type: string
+                          example: لست 1
+                        name_en:
+                          type: string
+                          example: list 1
+                        service_id:
+                          type: number
+                          example: 12
+                        total_price:
+                          type: number
+                          example: 43.95
+                        updated_at:
+                          type: string
+                          example: '2024-05-14T20:58:19.000000Z'
+                    example:
+                      - created_at: '2024-05-14T20:58:19.000000Z'
+                        id: 30
+                        is_multi_selectable: 0
+                        items:
+                          - created_at: '2024-05-14T20:58:19.000000Z'
+                            id: 43
+                            name: الاولي
+                            name_ar: الاولي
+                            name_en: item 1
+                            price: 43.95
+                            service_list_id: 30
+                            updated_at: '2024-05-14T20:58:19.000000Z'
+                        max_selectable_items_number: 1
+                        name: لست 1
+                        name_ar: لست 1
+                        name_en: list 1
+                        service_id: 12
+                        total_price: 43.95
+                        updated_at: '2024-05-14T20:58:19.000000Z'
+                      - created_at: '2024-05-14T20:58:19.000000Z'
+                        id: 31
+                        is_multi_selectable: 1
+                        items:
+                          - created_at: '2024-05-14T20:58:19.000000Z'
+                            id: 44
+                            name: الاولي
+                            name_ar: الاولي
+                            name_en: item 1
+                            price: 0
+                            service_list_id: 31
+                            updated_at: '2024-05-14T20:58:19.000000Z'
+                          - created_at: '2024-05-14T20:58:20.000000Z'
+                            id: 45
+                            name: التانيه
+                            name_ar: التانيه
+                            name_en: item 2
+                            price: 20.26
+                            service_list_id: 31
+                            updated_at: '2024-05-14T20:58:20.000000Z'
+                        max_selectable_items_number: 2
+                        name: لست 2
+                        name_ar: لست 2
+                        name_en: list 2
+                        service_id: 12
+                        total_price: 20.26
+                        updated_at: '2024-05-14T20:58:19.000000Z'
+                  name:
+                    type: string
+                    example: الخدمة 1
+                  name_ar:
+                    type: string
+                    example: الخدمة 1
+                  name_en:
+                    type: string
+                    example: service A
+                  price:
+                    type: number
+                    example: 20.32
+                  price_after_discount:
+                    type: number
+                    example: 10.21
+                  provider_id:
+                    type: number
+                    example: 9
+                  updated_at:
+                    type: string
+                    example: '2024-05-14T20:58:19.000000Z'
+              service_id:
+                type: number
+                example: 12
+              updated_at:
+                type: string
+                example: '2024-05-18T14:07:12.000000Z'
+          example:
+            - card_price: 5.44
+              created_at: '2024-05-18T14:07:12.000000Z'
+              id: 20
+              lists_total_price: 64.21
+              order_id: 10
+              price: 10.21
+              product: null
+              product_id: null
+              provider_id: 9
+              quantity: 2
+              service:
+                card_expiration: '12'
+                card_price: 5.44
+                card_type: hard_card
+                coverImagePath: http://localhost:8000/uploads/files/04-2024/1713354063L6Sxt2kHExLxaqzp.png
+                cover_image: uploads/files/04-2024/1713354063L6Sxt2kHExLxaqzp.png
+                created_at: '2024-05-14T20:58:19.000000Z'
+                description: وصف خدمه 1
+                description_ar: وصف خدمه 1
+                description_en: description for service A
+                duration: 3 hours
+                id: 12
+                is_service_deliverable_outside_store: 1
+                is_visible: 1
+                lists:
+                  - created_at: '2024-05-14T20:58:19.000000Z'
+                    id: 30
+                    is_multi_selectable: 0
+                    items:
+                      - created_at: '2024-05-14T20:58:19.000000Z'
+                        id: 43
+                        name: الاولي
+                        name_ar: الاولي
+                        name_en: item 1
+                        price: 43.95
+                        service_list_id: 30
+                        updated_at: '2024-05-14T20:58:19.000000Z'
+                    max_selectable_items_number: 1
+                    name: لست 1
+                    name_ar: لست 1
+                    name_en: list 1
+                    service_id: 12
+                    total_price: 43.95
+                    updated_at: '2024-05-14T20:58:19.000000Z'
+                  - created_at: '2024-05-14T20:58:19.000000Z'
+                    id: 31
+                    is_multi_selectable: 1
+                    items:
+                      - created_at: '2024-05-14T20:58:19.000000Z'
+                        id: 44
+                        name: الاولي
+                        name_ar: الاولي
+                        name_en: item 1
+                        price: 0
+                        service_list_id: 31
+                        updated_at: '2024-05-14T20:58:19.000000Z'
+                      - created_at: '2024-05-14T20:58:20.000000Z'
+                        id: 45
+                        name: التانيه
+                        name_ar: التانيه
+                        name_en: item 2
+                        price: 20.26
+                        service_list_id: 31
+                        updated_at: '2024-05-14T20:58:20.000000Z'
+                    max_selectable_items_number: 2
+                    name: لست 2
+                    name_ar: لست 2
+                    name_en: list 2
+                    service_id: 12
+                    total_price: 20.26
+                    updated_at: '2024-05-14T20:58:19.000000Z'
+                name: الخدمة 1
+                name_ar: الخدمة 1
+                name_en: service A
+                price: 20.32
+                price_after_discount: 10.21
+                provider_id: 9
+                updated_at: '2024-05-14T20:58:19.000000Z'
+              service_id: 12
+              updated_at: '2024-05-18T14:07:12.000000Z'
+        packaging_provider_id:
+          type: number
+          nullable: true
+          example: null
+        payment_method:
+          type: string
+          example: visa
+        promocode:
+          type: object
+          properties:
+            allowed_usage_number:
+              type: string
+              example: '5'
+            code:
+              type: string
+              example: XGFSF34
+            created_at:
+              type: string
+              example: '2024-05-17T11:38:30.000000Z'
+            expiration_date:
+              type: string
+              example: '2024-05-23'
+            id:
+              type: number
+              example: 1
+            type:
+              type: string
+              example: percent
+            updated_at:
+              type: string
+              example: '2024-05-17T11:38:30.000000Z'
+            value:
+              type: number
+              example: 58
+        promocode_discount_type:
+          type: string
+          example: percent
+        promocode_discount_value:
+          type: number
+          example: 58
+        promocode_id:
+          type: number
+          example: 1
+        rating:
+          type: number
+          example: 3.5
+        rating_comment:
+          type: string
+          example: this is a good order
+        receiver_address:
+          type: string
+          example: 5th fahd street, Jeddah
+        receiver_phone_number:
+          type: string
+          example: '509295069'
+        reference_number:
+          type: string
+          example: ID3Z8R
+        shipping_fee:
+          type: number
+          example: 10
+        status_id:
+          type: number
+          example: 8
+        total:
+          type: number
+          example: 319.44
+        total_with_shipping_fee:
+          type: number
+          example: 329.44
+        type:
+          type: string
+          example: self_order
+        updated_at:
+          type: string
+          example: '2024-05-18T14:27:13.000000Z'
+        user:
+          type: object
+          properties:
+            balance:
+              type: string
+              example: '0'
+            city_id:
+              type: number
+              example: 1
+            created_at:
+              type: string
+              example: '2024-05-14T19:05:13.000000Z'
+            device_type:
+              nullable: true
+              example: null
+            email:
+              type: string
+              example: first_client@gmail.com
+            fcm_token:
+              nullable: true
+              example: null
+            id:
+              type: number
+              example: 1
+            image:
+              type: string
+              example: uploads/files/04-2024/1713354063L6Sxt2kHExLiW2p.png
+            imagePath:
+              type: string
+              example: http://localhost:8000/uploads/files/04-2024/1713354063L6Sxt2kHExLiW2p.png
+            lang:
+              type: string
+              example: ar
+            name:
+              type: string
+              example: first client
+            phone:
+              type: string
+              example: '536053560'
+            status:
+              type: string
+              example: active
+            updated_at:
+              type: string
+              example: '2024-05-14T19:05:13.000000Z'
+        user_id:
+          type: number
+          example: 1
+        gift_box:
+          type: object
+          properties:
+            id:
+              type: string
+            name:
+              type: string
+            price:
+              type: number
+            image:
+              type: string
+            created_at:
+              type: string
+            updated_at:
+              type: string
+            imagePath:
+              type: string
+          nullable: true
+        gift_card:
+          type: object
+          properties:
+            id:
+              type: string
+            name:
+              type: string
+            price:
+              type: number
+            image:
+              type: string
+            created_at:
+              type: string
+            updated_at:
+              type: string
+            imagePath:
+              type: string
+          nullable: true
+
+    ProviderOrderDetailsResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/ProviderOrderDetails'
+        status:
+          type: boolean
+          example: true
+        message:
+          type: string
+          example: data successfully
+
+    ClientOrderDetails:
+      type: object
+      properties:
+        cancellation_reason:
+          nullable: true
+          example: null
+        created_at:
+          type: string
+          example: '2024-05-18T17:07:12.000000Z'
+        delivery_date:
+          type: string
+          nullable: true
+          example: null
+        delivery_time:
+          type: string
+          nullable: true
+          example: null
+        finished_at:
+          type: string
+          nullable: true
+          example: null
+        cancelled_at:
+          type: string
+          nullable: true
+          example: null
+        id:
+          type: number
+          example: 10
+        order_family:
+          type: string
+          example: collective
+        order_items:
+          type: array
+          items:
+            type: object
+            properties:
+              card_price:
+                type: number
+                example: 5.44
+              created_at:
+                type: string
+                example: '2024-05-18T14:07:12.000000Z'
+              id:
+                type: number
+                example: 20
+              lists_total_price:
+                type: number
+                example: 64.21
+              order_id:
+                type: number
+                example: 10
+              price:
+                type: number
+                example: 10.21
+              product:
+                type: object
+                nullable: true
+                properties:
+                  has_stock:
+                    type: number
+                  amount:
+                    type: number
+                  expected_processing_time:
+                    type: string
+                  colors:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Color'
+                  sizes:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Size'
+                  coverImagePath:
+                    type: string
+                    example: http://localhost:8000/uploads/files/04-2024/1713354063L6Sxt2kHExLxaqzp.png
+                  cover_image:
+                    type: string
+                    example: uploads/files/04-2024/1713354063L6Sxt2kHExLxaqzp.png
+                  created_at:
+                    type: string
+                    example: '2024-05-14T20:58:19.000000Z'
+                  description:
+                    type: string
+                  description_ar:
+                    type: string
+                  description_en:
+                    type: string
+                  id:
+                    type: number
+                    example: 12
+                  is_visible:
+                    type: number
+                    example: 1
+                  lists:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        created_at:
+                          type: string
+                          example: '2024-05-14T20:58:19.000000Z'
+                        id:
+                          type: number
+                          example: 30
+                        is_multi_selectable:
+                          type: number
+                          example: 0
+                        items:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              created_at:
+                                type: string
+                                example: '2024-05-14T20:58:19.000000Z'
+                              id:
+                                type: number
+                                example: 43
+                              name:
+                                type: string
+                                example: الاولي
+                              name_ar:
+                                type: string
+                                example: الاولي
+                              name_en:
+                                type: string
+                                example: item 1
+                              price:
+                                type: number
+                                example: 43.95
+                              product_list_id:
+                                type: number
+                                example: 30
+                              updated_at:
+                                type: string
+                                example: '2024-05-14T20:58:19.000000Z'
+                        max_selectable_items_number:
+                          type: number
+                          example: 1
+                        name:
+                          type: string
+                          example: لست 1
+                        name_ar:
+                          type: string
+                          example: لست 1
+                        name_en:
+                          type: string
+                          example: list 1
+                        product_id:
+                          type: number
+                          example: 12
+                        total_price:
+                          type: number
+                          example: 43.95
+                        updated_at:
+                          type: string
+                          example: '2024-05-14T20:58:19.000000Z'
+                  name:
+                    type: string
+                  name_ar:
+                    type: string
+                  name_en:
+                    type: string
+                  price:
+                    type: number
+                  price_after_discount:
+                    type: number
+                  provider_id:
+                    type: number
+                  updated_at:
+                    type: string
+
+              product_id:
+                type: number
+                nullable: true
+                example: null
+              provider_id:
+                type: number
+                example: 9
+              provider:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 4
+                  name_en:
+                    type: string
+                    example: hyper market
+                  name_ar:
+                    type: string
+                    example: متاجر هايبر
+                  owner_name:
+                    type: string
+                    example: Ali Ahmed
+                  email:
+                    type: string
+                    example: hyper22@gmail.com
+                  phone:
+                    type: string
+                    example: '534059560'
+                  image:
+                    type: string
+                    example: uploads/files/04-2024/1713354063L6Sxt2kHExLiW2p.png
+                  city_id:
+                    type: integer
+                    example: 1
+                  account_type:
+                    type: string
+                    example: service_provider
+                  device_type:
+                    type: string
+                  fcm_token:
+                    type: string
+                  lang:
+                    type: string
+                    example: ar
+                  status:
+                    type: string
+                    example: pending
+                  instagram_link:
+                    type: string
+                    example: https://instagram.com/test
+                  snapchat_link:
+                    type: string
+                    example: https://snapchat.com/test
+                  tiktok_link:
+                    type: string
+                    example: https://tiktok.com/test
+                  x_link:
+                    type: string
+                    example: https://x.com/test
+                  has_offline_stores:
+                    type: integer
+                    example: 1
+                  offline_stores_number:
+                    type: integer
+                    example: 3
+                  provide_delivery:
+                    type: string
+                  overall_rating:
+                    type: number
+                    example: 3.7
+                  ratings_count:
+                    type: integer
+                    example: 7
+                  is_email_verified:
+                    type: boolean
+                    example: true
+                  is_phone_verified:
+                    type: boolean
+                    example: false
+                  business_type:
+                    type: string
+                    example: individual
+                  commercial_register_image:
+                    type: string
+                  self_employment_document:
+                    type: string
+                    example: uploads/files/04-2024/1713354063L6Sxt2kHExLiW2p.png
+                  start_time:
+                    type: string
+                    example: 02:15 PM
+                  end_time:
+                    type: string
+                    example: 04:12 PM
+                  working_days_indices:
+                    type: string
+                    example: 0,3,5
+                  bank_name:
+                    type: string
+                    example: alrajhi
+                  beneficiary_name:
+                    type: string
+                    example: Ali
+                  bank_account_number:
+                    type: string
+                    example: '43646364353'
+                  iban:
+                    type: string
+                    example: '00078687464'
+                  iban_image:
+                    type: string
+                    example: uploads/files/04-2024/1713354063L6Sxt2kHExLiW2p.png
+                  created_at:
+                    type: string
+                    example: '2024-04-20T16:31:09.000000Z'
+                  updated_at:
+                    type: string
+                    example: '2024-04-20T16:31:09.000000Z'
+                  name:
+                    type: string
+                    example: متاجر هايبر
+                  imagePath:
+                    type: string
+                    example: http://localhost:8000/uploads/files/04-2024/1713354063L6Sxt2kHExLiW2p.png
+                  working_days_indices_list:
+                    type: array
+                    items:
+                      type: string
+                    example: ['0', '3', '5']
+                  self_employment_document_path:
+                    type: string
+                    example: http://localhost:8000/uploads/files/04-2024/1713354063L6Sxt2kHExLiW2p.png
+                  commercial_register_image_path:
+                    type: string
+              quantity:
+                type: number
+                example: 2
+              service:
+                type: object
+                properties:
+                  card_expiration:
+                    type: string
+                    example: '12'
+                  card_price:
+                    type: number
+                    example: 5.44
+                  card_type:
+                    type: string
+                    example: hard_card
+                  coverImagePath:
+                    type: string
+                    example: http://localhost:8000/uploads/files/04-2024/1713354063L6Sxt2kHExLxaqzp.png
+                  cover_image:
+                    type: string
+                    example: uploads/files/04-2024/1713354063L6Sxt2kHExLxaqzp.png
+                  created_at:
+                    type: string
+                    example: '2024-05-14T20:58:19.000000Z'
+                  description:
+                    type: string
+                    example: وصف خدمه 1
+                  description_ar:
+                    type: string
+                    example: وصف خدمه 1
+                  description_en:
+                    type: string
+                    example: description for service A
+                  duration:
+                    type: string
+                    example: 3 hours
+                  id:
+                    type: number
+                    example: 12
+                  is_service_deliverable_outside_store:
+                    type: number
+                    example: 1
+                  is_visible:
+                    type: number
+                    example: 1
+                  lists:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        created_at:
+                          type: string
+                          example: '2024-05-14T20:58:19.000000Z'
+                        id:
+                          type: number
+                          example: 30
+                        is_multi_selectable:
+                          type: number
+                          example: 0
+                        items:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              created_at:
+                                type: string
+                                example: '2024-05-14T20:58:19.000000Z'
+                              id:
+                                type: number
+                                example: 43
+                              name:
+                                type: string
+                                example: الاولي
+                              name_ar:
+                                type: string
+                                example: الاولي
+                              name_en:
+                                type: string
+                                example: item 1
+                              price:
+                                type: number
+                                example: 43.95
+                              service_list_id:
+                                type: number
+                                example: 30
+                              updated_at:
+                                type: string
+                                example: '2024-05-14T20:58:19.000000Z'
+                          example:
+                            - created_at: '2024-05-14T20:58:19.000000Z'
+                              id: 43
+                              name: الاولي
+                              name_ar: الاولي
+                              name_en: item 1
+                              price: 43.95
+                              service_list_id: 30
+                              updated_at: '2024-05-14T20:58:19.000000Z'
+                        max_selectable_items_number:
+                          type: number
+                          example: 1
+                        name:
+                          type: string
+                          example: لست 1
+                        name_ar:
+                          type: string
+                          example: لست 1
+                        name_en:
+                          type: string
+                          example: list 1
+                        service_id:
+                          type: number
+                          example: 12
+                        total_price:
+                          type: number
+                          example: 43.95
+                        updated_at:
+                          type: string
+                          example: '2024-05-14T20:58:19.000000Z'
+                    example:
+                      - created_at: '2024-05-14T20:58:19.000000Z'
+                        id: 30
+                        is_multi_selectable: 0
+                        items:
+                          - created_at: '2024-05-14T20:58:19.000000Z'
+                            id: 43
+                            name: الاولي
+                            name_ar: الاولي
+                            name_en: item 1
+                            price: 43.95
+                            service_list_id: 30
+                            updated_at: '2024-05-14T20:58:19.000000Z'
+                        max_selectable_items_number: 1
+                        name: لست 1
+                        name_ar: لست 1
+                        name_en: list 1
+                        service_id: 12
+                        total_price: 43.95
+                        updated_at: '2024-05-14T20:58:19.000000Z'
+                      - created_at: '2024-05-14T20:58:19.000000Z'
+                        id: 31
+                        is_multi_selectable: 1
+                        items:
+                          - created_at: '2024-05-14T20:58:19.000000Z'
+                            id: 44
+                            name: الاولي
+                            name_ar: الاولي
+                            name_en: item 1
+                            price: 0
+                            service_list_id: 31
+                            updated_at: '2024-05-14T20:58:19.000000Z'
+                          - created_at: '2024-05-14T20:58:20.000000Z'
+                            id: 45
+                            name: التانيه
+                            name_ar: التانيه
+                            name_en: item 2
+                            price: 20.26
+                            service_list_id: 31
+                            updated_at: '2024-05-14T20:58:20.000000Z'
+                        max_selectable_items_number: 2
+                        name: لست 2
+                        name_ar: لست 2
+                        name_en: list 2
+                        service_id: 12
+                        total_price: 20.26
+                        updated_at: '2024-05-14T20:58:19.000000Z'
+                  name:
+                    type: string
+                    example: الخدمة 1
+                  name_ar:
+                    type: string
+                    example: الخدمة 1
+                  name_en:
+                    type: string
+                    example: service A
+                  price:
+                    type: number
+                    example: 20.32
+                  price_after_discount:
+                    type: number
+                    example: 10.21
+                  provider_id:
+                    type: number
+                    example: 9
+                  updated_at:
+                    type: string
+                    example: '2024-05-14T20:58:19.000000Z'
+              service_id:
+                type: number
+                example: 12
+              updated_at:
+                type: string
+                example: '2024-05-18T14:07:12.000000Z'
+              product_selected_list_ids:
+                type: string
+              product_selected_list_items_ids:
+                type: string
+              service_selected_list_ids:
+                type: string
+              service_selected_list_items_ids:
+                type: string
+              selected_products_list_items_names:
+                type: array
+                items:
+                  type: string
+              selected_services_list_items_names:
+                type: array
+                items:
+                  type: string
+          example:
+            - card_price: 5.44
+              created_at: '2024-05-18T14:07:12.000000Z'
+              id: 20
+              lists_total_price: 64.21
+              order_id: 10
+              price: 10.21
+              product: null
+              product_id: null
+              provider_id: 9
+              quantity: 2
+              service:
+                card_expiration: '12'
+                card_price: 5.44
+                card_type: hard_card
+                coverImagePath: http://localhost:8000/uploads/files/04-2024/1713354063L6Sxt2kHExLxaqzp.png
+                cover_image: uploads/files/04-2024/1713354063L6Sxt2kHExLxaqzp.png
+                created_at: '2024-05-14T20:58:19.000000Z'
+                description: وصف خدمه 1
+                description_ar: وصف خدمه 1
+                description_en: description for service A
+                duration: 3 hours
+                id: 12
+                is_service_deliverable_outside_store: 1
+                is_visible: 1
+                lists:
+                  - created_at: '2024-05-14T20:58:19.000000Z'
+                    id: 30
+                    is_multi_selectable: 0
+                    items:
+                      - created_at: '2024-05-14T20:58:19.000000Z'
+                        id: 43
+                        name: الاولي
+                        name_ar: الاولي
+                        name_en: item 1
+                        price: 43.95
+                        service_list_id: 30
+                        updated_at: '2024-05-14T20:58:19.000000Z'
+                    max_selectable_items_number: 1
+                    name: لست 1
+                    name_ar: لست 1
+                    name_en: list 1
+                    service_id: 12
+                    total_price: 43.95
+                    updated_at: '2024-05-14T20:58:19.000000Z'
+                  - created_at: '2024-05-14T20:58:19.000000Z'
+                    id: 31
+                    is_multi_selectable: 1
+                    items:
+                      - created_at: '2024-05-14T20:58:19.000000Z'
+                        id: 44
+                        name: الاولي
+                        name_ar: الاولي
+                        name_en: item 1
+                        price: 0
+                        service_list_id: 31
+                        updated_at: '2024-05-14T20:58:19.000000Z'
+                      - created_at: '2024-05-14T20:58:20.000000Z'
+                        id: 45
+                        name: التانيه
+                        name_ar: التانيه
+                        name_en: item 2
+                        price: 20.26
+                        service_list_id: 31
+                        updated_at: '2024-05-14T20:58:20.000000Z'
+                    max_selectable_items_number: 2
+                    name: لست 2
+                    name_ar: لست 2
+                    name_en: list 2
+                    service_id: 12
+                    total_price: 20.26
+                    updated_at: '2024-05-14T20:58:19.000000Z'
+                name: الخدمة 1
+                name_ar: الخدمة 1
+                name_en: service A
+                price: 20.32
+                price_after_discount: 10.21
+                provider_id: 9
+                updated_at: '2024-05-14T20:58:19.000000Z'
+              service_id: 12
+              updated_at: '2024-05-18T14:07:12.000000Z'
+        packaging_provider_id:
+          type: number
+          nullable: true
+          example: null
+        payment_method:
+          type: string
+          example: visa
+        promocode:
+          type: object
+          properties:
+            allowed_usage_number:
+              type: string
+              example: '5'
+            code:
+              type: string
+              example: XGFSF34
+            created_at:
+              type: string
+              example: '2024-05-17T11:38:30.000000Z'
+            expiration_date:
+              type: string
+              example: '2024-05-23'
+            id:
+              type: number
+              example: 1
+            type:
+              type: string
+              example: percent
+            updated_at:
+              type: string
+              example: '2024-05-17T11:38:30.000000Z'
+            value:
+              type: number
+              example: 58
+        promocode_discount_type:
+          type: string
+          example: percent
+        promocode_discount_value:
+          type: number
+          example: 58
+        promocode_id:
+          type: number
+          example: 1
+        rating:
+          type: number
+          example: 3.5
+        rating_comment:
+          type: string
+          example: this is a good order
+        receiver_address:
+          type: string
+          example: 5th fahd street, Jeddah
+        receiver_phone_number:
+          type: string
+          example: '509295069'
+        reference_number:
+          type: string
+          example: ID3Z8R
+        shipping_fee:
+          type: number
+          example: 10
+        status_id:
+          type: number
+          example: 8
+        total:
+          type: number
+          example: 319.44
+        total_with_shipping_fee:
+          type: number
+          example: 329.44
+        type:
+          type: string
+          example: self_order
+        updated_at:
+          type: string
+          example: '2024-05-18T14:27:13.000000Z'
+        user_id:
+          type: number
+          example: 1
+        gift_box:
+          type: object
+          properties:
+            id:
+              type: string
+            name:
+              type: string
+            price:
+              type: number
+            image:
+              type: string
+            created_at:
+              type: string
+            updated_at:
+              type: string
+            imagePath:
+              type: string
+          nullable: true
+        gift_card:
+          type: object
+          properties:
+            id:
+              type: string
+            name:
+              type: string
+            price:
+              type: number
+            image:
+              type: string
+            created_at:
+              type: string
+            updated_at:
+              type: string
+            imagePath:
+              type: string
+          nullable: true
+
+    ClientOrderDetailsResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/ClientOrderDetails'
+        status:
+          type: boolean
+          example: true
+        message:
+          type: string
+          example: data successfully
 
     PromocodeDetails:
       type: object
@@ -2575,105 +3945,105 @@ paths:
               schema:
                 $ref: '#/components/schemas/CategoriesResponse'
   /banners:
-      get:
-        tags:
-          - public
-        summary: show all banners
-        description: show all banners
-        operationId: showAllBanners
-        responses:
-          '200':
-            description: New Request
-            headers:
-              Access-Control-Allow-Origin:
-                schema:
-                  type: string
-                  example: '*'
-              Cache-Control:
-                schema:
-                  type: string
-                  example: no-cache, private
-              Connection:
-                schema:
-                  type: string
-                  example: close
-              Date:
-                schema:
-                  type: string
-                  example: Tue, 23 Apr 2024 10:50:23 GMT
-              Host:
-                schema:
-                  type: string
-                  example: localhost:8000
-              X-Powered-By:
-                schema:
-                  type: string
-                  example: PHP/8.2.3
-              X-RateLimit-Limit:
-                schema:
-                  type: string
-                  example: '60'
-              X-RateLimit-Remaining:
-                schema:
-                  type: string
-                  example: '59'
-            content:
-              application/json:
-                schema:
-                  $ref: '#/components/schemas/BannersResponse'
+    get:
+      tags:
+        - public
+      summary: show all banners
+      description: show all banners
+      operationId: showAllBanners
+      responses:
+        '200':
+          description: New Request
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+            Cache-Control:
+              schema:
+                type: string
+                example: no-cache, private
+            Connection:
+              schema:
+                type: string
+                example: close
+            Date:
+              schema:
+                type: string
+                example: Tue, 23 Apr 2024 10:50:23 GMT
+            Host:
+              schema:
+                type: string
+                example: localhost:8000
+            X-Powered-By:
+              schema:
+                type: string
+                example: PHP/8.2.3
+            X-RateLimit-Limit:
+              schema:
+                type: string
+                example: '60'
+            X-RateLimit-Remaining:
+              schema:
+                type: string
+                example: '59'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BannersResponse'
 
   /gift-boxes:
-      get:
-        tags:
-          - public
-        summary: Show all gift boxes
-        description: Retrieve a list of all available gift boxes
-        operationId: showAllGiftBoxes
-        responses:
-          '200':
-            description: A list of all gift boxes
-            headers:
-              Access-Control-Allow-Origin:
-                schema:
-                  type: string
-                  example: '*'
-              Cache-Control:
-                schema:
-                  type: string
-                  example: no-cache, private
-              Connection:
-                schema:
-                  type: string
-                  example: close
-              Date:
-                schema:
-                  type: string
-                  example: Mon, 20 May 2024 23:17:45 GMT
-              Host:
-                schema:
-                  type: string
-                  example: localhost:8000
-              X-Powered-By:
-                schema:
-                  type: string
-                  example: PHP/8.1.2-1ubuntu2.14
-              X-RateLimit-Limit:
-                schema:
-                  type: string
-                  example: '60'
-              X-RateLimit-Remaining:
-                schema:
-                  type: string
-                  example: '59'
-            content:
-              application/json:
-                schema:
-                  type: object
-                  properties:
-                    data:
-                      type: array
-                      items:
-                        $ref: '#/components/schemas/GiftBox'
+    get:
+      tags:
+        - public
+      summary: Show all gift boxes
+      description: Retrieve a list of all available gift boxes
+      operationId: showAllGiftBoxes
+      responses:
+        '200':
+          description: A list of all gift boxes
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+            Cache-Control:
+              schema:
+                type: string
+                example: no-cache, private
+            Connection:
+              schema:
+                type: string
+                example: close
+            Date:
+              schema:
+                type: string
+                example: Mon, 20 May 2024 23:17:45 GMT
+            Host:
+              schema:
+                type: string
+                example: localhost:8000
+            X-Powered-By:
+              schema:
+                type: string
+                example: PHP/8.1.2-1ubuntu2.14
+            X-RateLimit-Limit:
+              schema:
+                type: string
+                example: '60'
+            X-RateLimit-Remaining:
+              schema:
+                type: string
+                example: '59'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/GiftBox'
   /gift-cards:
     get:
       tags:
@@ -3514,293 +4884,15 @@ paths:
                       top_rated_products:
                         type: array
                         items:
-                          type: object
-                          properties:
-                            amount:
-                              type: number
-                              example: 5
-                            created_at:
-                              type: string
-                              example: '2024-05-04T11:33:20.000000Z'
-                            description:
-                              type: string
-                              example: زهره جميله
-                            description_ar:
-                              type: string
-                              example: زهره جميله
-                            description_en:
-                              type: string
-                              example: beautiful flower
-                            expected_processing_time:
-                              type: string
-                              example: 3 days 4 hours 50 minutes
-                            has_stock:
-                              type: number
-                              example: 1
-                            id:
-                              type: number
-                              example: 1
-                            in_cart:
-                              type: boolean
-                              example: false
-                            in_wishlist:
-                              type: boolean
-                              example: false
-                            is_visible:
-                              type: number
-                              example: 1
-                            name:
-                              type: string
-                              example: زهرة الليلي
-                            name_ar:
-                              type: string
-                              example: زهرة الليلي
-                            name_en:
-                              type: string
-                              example: lily flower
-                            overall_rating:
-                              type: number
-                              example: 3.5
-                            price:
-                              type: number
-                              example: 120.32
-                            price_after_discount:
-                              type: number
-                              example: 40.21
-                            provider_id:
-                              type: number
-                              example: 2
-                            ratings_count:
-                              type: number
-                              example: 1
-                            type:
-                              type: string
-                              example: ready_made_gifts
-                            updated_at:
-                              type: string
-                              example: '2024-05-04T11:42:07.000000Z'
+                          $ref: '#/components/schemas/ProviderProduct'
                       top_rated_providers:
                         type: array
                         items:
-                          type: object
-                          properties:
-                            account_type:
-                              type: string
-                              example: service_provider
-                            bank_account_number:
-                              type: string
-                              example: '43646364353'
-                            bank_name:
-                              type: string
-                              example: alrajhi
-                            beneficiary_name:
-                              type: string
-                              example: Ali
-                            business_type:
-                              type: string
-                              example: individual
-                            city_id:
-                              type: number
-                              example: 1
-                            commercial_register_image:
-                              type: string
-                              nullable: true
-                              example: null
-                            commercial_register_image_path:
-                              type: string
-                              nullable: true
-                              example: null
-                            created_at:
-                              type: string
-                              example: '2024-04-30T22:18:35.000000Z'
-                            device_type:
-                              nullable: true
-                              example: null
-                            email:
-                              type: string
-                              example: hyper00@gmail.com
-                            end_time:
-                              type: string
-                              example: 04:12 PM
-                            fcm_token:
-                              nullable: true
-                              example: null
-                            has_offline_stores:
-                              type: number
-                              example: 1
-                            iban:
-                              type: string
-                              example: '00078687464'
-                            iban_image:
-                              type: string
-                              example: uploads/files/04-2024/1713354063L6Sxt2kHExLiW2p.png
-                            iban_image_path:
-                              type: string
-                              example: http://localhost:8000/uploads/files/04-2024/1713354063L6Sxt2kHExLiW2p.png
-                            id:
-                              type: number
-                              example: 2
-                            image:
-                              type: string
-                              example: uploads/files/04-2024/1713354063L6Sxt2kHExLiW2p.png
-                            imagePath:
-                              type: string
-                              example: http://localhost:8000/uploads/files/04-2024/1713354063L6Sxt2kHExLiW2p.png
-                            instagram_link:
-                              type: string
-                              example: https://instagram.com/test
-                            is_email_verified:
-                              type: boolean
-                              example: false
-                            is_phone_verified:
-                              type: boolean
-                              example: true
-                            lang:
-                              type: string
-                              example: ar
-                            name:
-                              type: string
-                              example: متاجر هايبر
-                            name_ar:
-                              type: string
-                              example: متاجر هايبر
-                            name_en:
-                              type: string
-                              example: hyper market
-                            offline_stores_number:
-                              type: number
-                              example: 3
-                            overall_rating:
-                              type: number
-                              example: 3.5
-                            owner_name:
-                              type: string
-                              example: Ali Ahmed
-                            phone:
-                              type: string
-                              example: '534053560'
-                            provide_delivery:
-                              type: number
-                              nullable: true
-                              example: null
-                            ratings_count:
-                              type: number
-                              example: 1
-                            self_employment_document:
-                              type: string
-                              nullable: true
-                              example: uploads/files/04-2024/1713354063L6Sxt2kHExLiW2p.png
-                            self_employment_document_path:
-                              type: string
-                              nullable: true
-                              example: http://localhost:8000/uploads/files/04-2024/1713354063L6Sxt2kHExLiW2p.png
-                            snapchat_link:
-                              type: string
-                              example: https://snapchat.com/test
-                            start_time:
-                              type: string
-                              example: 02:15 PM
-                            status:
-                              type: string
-                              example: pending
-                            tiktok_link:
-                              type: string
-                              example: https://tiktok.com/test
-                            updated_at:
-                              type: string
-                              example: '2024-04-30T22:18:35.000000Z'
-                            working_days_indices:
-                              type: string
-                              example: 0,3,5
-                            working_days_indices_list:
-                              type: array
-                              items:
-                                type: string
-                                example: '0'
-                              example:
-                                - '0'
-                                - '3'
-                                - '5'
-                            x_link:
-                              type: string
-                              example: https://x.com/test
+                          $ref: '#/components/schemas/ProviderData'
                       top_rated_services:
                         type: array
                         items:
-                          type: object
-                          properties:
-                            card_expiration:
-                              type: string
-                              example: 01 Jan, 1970
-                            card_price:
-                              type: number
-                              example: 5.44
-                            card_type:
-                              type: string
-                              example: hard_card
-                            coverImagePath:
-                              type: string
-                              example: http://localhost:8000/uploads/files/04-2024/1713354063L6Sxt2kHExLxaqzp.png
-                            cover_image:
-                              type: string
-                              example: uploads/files/04-2024/1713354063L6Sxt2kHExLxaqzp.png
-                            created_at:
-                              type: string
-                              example: '2024-05-14T20:58:19.000000Z'
-                            description:
-                              type: string
-                              example: وصف خدمه 1
-                            description_ar:
-                              type: string
-                              example: وصف خدمه 1
-                            description_en:
-                              type: string
-                              example: description for service A
-                            duration:
-                              type: string
-                              example: 3 hours
-                            id:
-                              type: number
-                              example: 12
-                            in_cart:
-                              type: boolean
-                              example: false
-                            in_wishlist:
-                              type: boolean
-                              example: false
-                            is_service_deliverable_outside_store:
-                              type: number
-                              example: 1
-                            is_visible:
-                              type: number
-                              example: 1
-                            name:
-                              type: string
-                              example: الخدمة 1
-                            name_ar:
-                              type: string
-                              example: الخدمة 1
-                            name_en:
-                              type: string
-                              example: service A
-                            overall_rating:
-                              type: number
-                              example: 3.5
-                            price:
-                              type: number
-                              example: 20.32
-                            price_after_discount:
-                              type: number
-                              example: 10.21
-                            provider_id:
-                              type: number
-                              example: 9
-                            ratings_count:
-                              type: number
-                              example: 1
-                            updated_at:
-                              type: string
-                              example: '2024-05-14T20:58:19.000000Z'
+                          $ref: '#/components/schemas/ServiceShowData'
                   message:
                     type: string
                     example: home data
@@ -3846,6 +4938,51 @@ paths:
       responses:
         '200':
           description: Success response
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+            Cache-Control:
+              schema:
+                type: string
+                example: no-cache, private
+            Connection:
+              schema:
+                type: string
+                example: close
+            Date:
+              schema:
+                type: string
+                example: Sat, 18 May 2024 14:56:10 GMT
+            Host:
+              schema:
+                type: string
+                example: localhost:8000
+            X-Powered-By:
+              schema:
+                type: string
+                example: PHP/8.1.2-1ubuntu2.14
+            X-RateLimit-Limit:
+              schema:
+                type: string
+                example: '60'
+            X-RateLimit-Remaining:
+              schema:
+                type: string
+                example: '59'
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ProviderData'
+                  message:
+                    type: string
+                  status:
+                    type: boolean
 
   /top-products-services/filter:
     post:
@@ -3889,6 +5026,61 @@ paths:
       responses:
         '200':
           description: Success response
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+            Cache-Control:
+              schema:
+                type: string
+                example: no-cache, private
+            Connection:
+              schema:
+                type: string
+                example: close
+            Date:
+              schema:
+                type: string
+                example: Sat, 18 May 2024 14:56:10 GMT
+            Host:
+              schema:
+                type: string
+                example: localhost:8000
+            X-Powered-By:
+              schema:
+                type: string
+                example: PHP/8.1.2-1ubuntu2.14
+            X-RateLimit-Limit:
+              schema:
+                type: string
+                example: '60'
+            X-RateLimit-Remaining:
+              schema:
+                type: string
+                example: '59'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      products:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/ProviderProduct'
+                        nullable: true
+                      services:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/ServiceShowData'
+                        nullable: true
+                  message:
+                    type: string
+                  status:
+                    type: boolean
 
   /provider/profile/show:
     get:
@@ -4184,465 +5376,7 @@ paths:
                       data:
                         type: array
                         items:
-                          type: object
-                          properties:
-                            cancellation_reason:
-                              nullable: true
-                              example: null
-                            created_at:
-                              type: string
-                              example: '2024-05-18T17:10:17.000000Z'
-                            delivery_date:
-                              type: string
-                              nullable: true
-                              example: null
-                            delivery_time:
-                              type: string
-                              nullable: true
-                              example: null
-                            cancelled_at:
-                              type: string
-                              nullable: true
-                              example: null
-                            finished_at:
-                              type: string
-                              nullable: true
-                              example: null
-                            id:
-                              type: number
-                              example: 11
-                            order_family:
-                              type: string
-                              example: collective
-                            order_items:
-                              type: array
-                              items:
-                                type: object
-                                properties:
-                                  card_price:
-                                    type: number
-                                    example: 5.44
-                                  created_at:
-                                    type: string
-                                    example: '2024-05-18T14:10:17.000000Z'
-                                  id:
-                                    type: number
-                                    example: 22
-                                  lists_total_price:
-                                    type: number
-                                    example: 64.21
-                                  order_id:
-                                    type: number
-                                    example: 11
-                                  price:
-                                    type: number
-                                    example: 10.21
-                                  product:
-                                    nullable: true
-                                    example: null
-                                  product_id:
-                                    type: number
-                                    nullable: true
-                                    example: null
-                                  provider_id:
-                                    type: number
-                                    example: 9
-                                  quantity:
-                                    type: number
-                                    example: 2
-                                  service:
-                                    type: object
-                                    properties:
-                                      card_expiration:
-                                        type: string
-                                        example: '12'
-                                      card_price:
-                                        type: number
-                                        example: 5.44
-                                      card_type:
-                                        type: string
-                                        example: hard_card
-                                      coverImagePath:
-                                        type: string
-                                        example: http://localhost:8000/uploads/files/04-2024/1713354063L6Sxt2kHExLxaqzp.png
-                                      cover_image:
-                                        type: string
-                                        example: uploads/files/04-2024/1713354063L6Sxt2kHExLxaqzp.png
-                                      created_at:
-                                        type: string
-                                        example: '2024-05-14T20:58:19.000000Z'
-                                      description:
-                                        type: string
-                                        example: وصف خدمه 1
-                                      description_ar:
-                                        type: string
-                                        example: وصف خدمه 1
-                                      description_en:
-                                        type: string
-                                        example: description for service A
-                                      duration:
-                                        type: string
-                                        example: 3 hours
-                                      id:
-                                        type: number
-                                        example: 12
-                                      is_service_deliverable_outside_store:
-                                        type: number
-                                        example: 1
-                                      is_visible:
-                                        type: number
-                                        example: 1
-                                      lists:
-                                        type: array
-                                        items:
-                                          type: object
-                                          properties:
-                                            created_at:
-                                              type: string
-                                              example: '2024-05-14T20:58:19.000000Z'
-                                            id:
-                                              type: number
-                                              example: 30
-                                            is_multi_selectable:
-                                              type: number
-                                              example: 0
-                                            items:
-                                              type: array
-                                              items:
-                                                type: object
-                                                properties:
-                                                  created_at:
-                                                    type: string
-                                                    example: '2024-05-14T20:58:19.000000Z'
-                                                  id:
-                                                    type: number
-                                                    example: 43
-                                                  name:
-                                                    type: string
-                                                    example: الاولي
-                                                  name_ar:
-                                                    type: string
-                                                    example: الاولي
-                                                  name_en:
-                                                    type: string
-                                                    example: item 1
-                                                  price:
-                                                    type: number
-                                                    example: 43.95
-                                                  service_list_id:
-                                                    type: number
-                                                    example: 30
-                                                  updated_at:
-                                                    type: string
-                                                    example: '2024-05-14T20:58:19.000000Z'
-                                              example:
-                                                - created_at: '2024-05-14T20:58:19.000000Z'
-                                                  id: 43
-                                                  name: الاولي
-                                                  name_ar: الاولي
-                                                  name_en: item 1
-                                                  price: 43.95
-                                                  service_list_id: 30
-                                                  updated_at: '2024-05-14T20:58:19.000000Z'
-                                            max_selectable_items_number:
-                                              type: number
-                                              example: 1
-                                            name:
-                                              type: string
-                                              example: لست 1
-                                            name_ar:
-                                              type: string
-                                              example: لست 1
-                                            name_en:
-                                              type: string
-                                              example: list 1
-                                            service_id:
-                                              type: number
-                                              example: 12
-                                            total_price:
-                                              type: number
-                                              example: 43.95
-                                            updated_at:
-                                              type: string
-                                              example: '2024-05-14T20:58:19.000000Z'
-                                        example:
-                                          - created_at: '2024-05-14T20:58:19.000000Z'
-                                            id: 30
-                                            is_multi_selectable: 0
-                                            items:
-                                              - created_at: '2024-05-14T20:58:19.000000Z'
-                                                id: 43
-                                                name: الاولي
-                                                name_ar: الاولي
-                                                name_en: item 1
-                                                price: 43.95
-                                                service_list_id: 30
-                                                updated_at: '2024-05-14T20:58:19.000000Z'
-                                            max_selectable_items_number: 1
-                                            name: لست 1
-                                            name_ar: لست 1
-                                            name_en: list 1
-                                            service_id: 12
-                                            total_price: 43.95
-                                            updated_at: '2024-05-14T20:58:19.000000Z'
-                                          - created_at: '2024-05-14T20:58:19.000000Z'
-                                            id: 31
-                                            is_multi_selectable: 1
-                                            items:
-                                              - created_at: '2024-05-14T20:58:19.000000Z'
-                                                id: 44
-                                                name: الاولي
-                                                name_ar: الاولي
-                                                name_en: item 1
-                                                price: 0
-                                                service_list_id: 31
-                                                updated_at: '2024-05-14T20:58:19.000000Z'
-                                              - created_at: '2024-05-14T20:58:20.000000Z'
-                                                id: 45
-                                                name: التانيه
-                                                name_ar: التانيه
-                                                name_en: item 2
-                                                price: 20.26
-                                                service_list_id: 31
-                                                updated_at: '2024-05-14T20:58:20.000000Z'
-                                            max_selectable_items_number: 2
-                                            name: لست 2
-                                            name_ar: لست 2
-                                            name_en: list 2
-                                            service_id: 12
-                                            total_price: 20.26
-                                            updated_at: '2024-05-14T20:58:19.000000Z'
-                                      name:
-                                        type: string
-                                        example: الخدمة 1
-                                      name_ar:
-                                        type: string
-                                        example: الخدمة 1
-                                      name_en:
-                                        type: string
-                                        example: service A
-                                      price:
-                                        type: number
-                                        example: 20.32
-                                      price_after_discount:
-                                        type: number
-                                        example: 10.21
-                                      provider_id:
-                                        type: number
-                                        example: 9
-                                      updated_at:
-                                        type: string
-                                        example: '2024-05-14T20:58:19.000000Z'
-                                  service_id:
-                                    type: number
-                                    example: 12
-                                  updated_at:
-                                    type: string
-                                    example: '2024-05-18T14:10:17.000000Z'
-                              example:
-                                - card_price: 5.44
-                                  created_at: '2024-05-18T14:10:17.000000Z'
-                                  id: 22
-                                  lists_total_price: 64.21
-                                  order_id: 11
-                                  price: 10.21
-                                  product: null
-                                  product_id: null
-                                  provider_id: 9
-                                  quantity: 2
-                                  service:
-                                    card_expiration: '12'
-                                    card_price: 5.44
-                                    card_type: hard_card
-                                    coverImagePath: http://localhost:8000/uploads/files/04-2024/1713354063L6Sxt2kHExLxaqzp.png
-                                    cover_image: uploads/files/04-2024/1713354063L6Sxt2kHExLxaqzp.png
-                                    created_at: '2024-05-14T20:58:19.000000Z'
-                                    description: وصف خدمه 1
-                                    description_ar: وصف خدمه 1
-                                    description_en: description for service A
-                                    duration: 3 hours
-                                    id: 12
-                                    is_service_deliverable_outside_store: 1
-                                    is_visible: 1
-                                    lists:
-                                      - created_at: '2024-05-14T20:58:19.000000Z'
-                                        id: 30
-                                        is_multi_selectable: 0
-                                        items:
-                                          - created_at: '2024-05-14T20:58:19.000000Z'
-                                            id: 43
-                                            name: الاولي
-                                            name_ar: الاولي
-                                            name_en: item 1
-                                            price: 43.95
-                                            service_list_id: 30
-                                            updated_at: '2024-05-14T20:58:19.000000Z'
-                                        max_selectable_items_number: 1
-                                        name: لست 1
-                                        name_ar: لست 1
-                                        name_en: list 1
-                                        service_id: 12
-                                        total_price: 43.95
-                                        updated_at: '2024-05-14T20:58:19.000000Z'
-                                      - created_at: '2024-05-14T20:58:19.000000Z'
-                                        id: 31
-                                        is_multi_selectable: 1
-                                        items:
-                                          - created_at: '2024-05-14T20:58:19.000000Z'
-                                            id: 44
-                                            name: الاولي
-                                            name_ar: الاولي
-                                            name_en: item 1
-                                            price: 0
-                                            service_list_id: 31
-                                            updated_at: '2024-05-14T20:58:19.000000Z'
-                                          - created_at: '2024-05-14T20:58:20.000000Z'
-                                            id: 45
-                                            name: التانيه
-                                            name_ar: التانيه
-                                            name_en: item 2
-                                            price: 20.26
-                                            service_list_id: 31
-                                            updated_at: '2024-05-14T20:58:20.000000Z'
-                                        max_selectable_items_number: 2
-                                        name: لست 2
-                                        name_ar: لست 2
-                                        name_en: list 2
-                                        service_id: 12
-                                        total_price: 20.26
-                                        updated_at: '2024-05-14T20:58:19.000000Z'
-                                    name: الخدمة 1
-                                    name_ar: الخدمة 1
-                                    name_en: service A
-                                    price: 20.32
-                                    price_after_discount: 10.21
-                                    provider_id: 9
-                                    updated_at: '2024-05-14T20:58:19.000000Z'
-                                  service_id: 12
-                                  updated_at: '2024-05-18T14:10:17.000000Z'
-                            packaging_provider_id:
-                              nullable: true
-                              example: null
-                            payment_method:
-                              type: string
-                              example: visa
-                            promocode:
-                              type: object
-                              properties:
-                                allowed_usage_number:
-                                  type: string
-                                  example: '5'
-                                code:
-                                  type: string
-                                  example: XGFSF34
-                                created_at:
-                                  type: string
-                                  example: '2024-05-17T11:38:30.000000Z'
-                                expiration_date:
-                                  type: string
-                                  example: '2024-05-23'
-                                id:
-                                  type: number
-                                  example: 1
-                                type:
-                                  type: string
-                                  example: percent
-                                updated_at:
-                                  type: string
-                                  example: '2024-05-17T11:38:30.000000Z'
-                                value:
-                                  type: number
-                                  example: 58
-                            promocode_discount_type:
-                              type: string
-                              example: percent
-                            promocode_discount_value:
-                              type: number
-                              example: 58
-                            promocode_id:
-                              type: number
-                              example: 1
-                            rating:
-                              nullable: true
-                              example: null
-                            rating_comment:
-                              nullable: true
-                              example: null
-                            receiver_address:
-                              type: string
-                              example: 5th fahd street, Jeddah
-                            receiver_phone_number:
-                              type: string
-                              example: '509295069'
-                            reference_number:
-                              type: string
-                              example: YC8APX
-                            shipping_fee:
-                              type: number
-                              example: 10
-                            status_id:
-                              type: number
-                              example: 1
-                            total:
-                              type: number
-                              example: 319.44
-                            total_with_shipping_fee:
-                              type: number
-                              example: 329.44
-                            type:
-                              type: string
-                              example: self_order
-                            updated_at:
-                              type: string
-                              example: '2024-05-18T17:10:17.000000Z'
-                            user:
-                              type: object
-                              properties:
-                                balance:
-                                  type: string
-                                  example: '0'
-                                city_id:
-                                  type: number
-                                  example: 1
-                                created_at:
-                                  type: string
-                                  example: '2024-05-14T19:05:13.000000Z'
-                                device_type:
-                                  nullable: true
-                                  example: null
-                                email:
-                                  type: string
-                                  example: first_client@gmail.com
-                                fcm_token:
-                                  nullable: true
-                                  example: null
-                                id:
-                                  type: number
-                                  example: 1
-                                image:
-                                  type: string
-                                  example: uploads/files/04-2024/1713354063L6Sxt2kHExLiW2p.png
-                                imagePath:
-                                  type: string
-                                  example: http://localhost:8000/uploads/files/04-2024/1713354063L6Sxt2kHExLiW2p.png
-                                lang:
-                                  type: string
-                                  example: ar
-                                name:
-                                  type: string
-                                  example: first client
-                                phone:
-                                  type: string
-                                  example: '536053560'
-                                status:
-                                  type: string
-                                  example: active
-                                updated_at:
-                                  type: string
-                                  example: '2024-05-14T19:05:13.000000Z'
-                            user_id:
-                              type: number
-                              example: 1
+                          $ref: '#/components/schemas/ProviderOrderDetails'
                         example:
                           - cancellation_reason: null
                             created_at: '2024-05-18T17:10:17.000000Z'
@@ -5046,590 +5780,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  data:
-                    type: object
-                    properties:
-                      cancellation_reason:
-                        nullable: true
-                        example: null
-                      created_at:
-                        type: string
-                        example: '2024-05-18T17:07:12.000000Z'
-                      delivery_date:
-                        type: string
-                        nullable: true
-                        example: null
-                      delivery_time:
-                        type: string
-                        nullable: true
-                        example: null
-                      finished_at:
-                        type: string
-                        nullable: true
-                        example: null
-                      cancelled_at:
-                        type: string
-                        nullable: true
-                        example: null
-                      id:
-                        type: number
-                        example: 10
-                      order_family:
-                        type: string
-                        example: collective
-                      order_items:
-                        type: array
-                        items:
-                          type: object
-                          properties:
-                            card_price:
-                              type: number
-                              example: 5.44
-                            created_at:
-                              type: string
-                              example: '2024-05-18T14:07:12.000000Z'
-                            id:
-                              type: number
-                              example: 20
-                            lists_total_price:
-                              type: number
-                              example: 64.21
-                            order_id:
-                              type: number
-                              example: 10
-                            price:
-                              type: number
-                              example: 10.21
-                            product:
-                              type: object
-                              nullable: true
-                              properties:
-                                has_stock:
-                                  type: number
-                                amount:
-                                  type: number
-                                expected_processing_time:
-                                  type: string
-                                colors:
-                                  type: array
-                                  items:
-                                    $ref: '#/components/schemas/Color'
-                                sizes:
-                                  type: array
-                                  items:
-                                    $ref: '#/components/schemas/Size'
-                                coverImagePath:
-                                  type: string
-                                  example: http://localhost:8000/uploads/files/04-2024/1713354063L6Sxt2kHExLxaqzp.png
-                                cover_image:
-                                  type: string
-                                  example: uploads/files/04-2024/1713354063L6Sxt2kHExLxaqzp.png
-                                created_at:
-                                  type: string
-                                  example: '2024-05-14T20:58:19.000000Z'
-                                description:
-                                  type: string
-                                description_ar:
-                                  type: string
-                                description_en:
-                                  type: string
-                                id:
-                                  type: number
-                                  example: 12
-                                is_visible:
-                                  type: number
-                                  example: 1
-                                lists:
-                                  type: array
-                                  items:
-                                    type: object
-                                    properties:
-                                      created_at:
-                                        type: string
-                                        example: '2024-05-14T20:58:19.000000Z'
-                                      id:
-                                        type: number
-                                        example: 30
-                                      is_multi_selectable:
-                                        type: number
-                                        example: 0
-                                      items:
-                                        type: array
-                                        items:
-                                          type: object
-                                          properties:
-                                            created_at:
-                                              type: string
-                                              example: '2024-05-14T20:58:19.000000Z'
-                                            id:
-                                              type: number
-                                              example: 43
-                                            name:
-                                              type: string
-                                              example: الاولي
-                                            name_ar:
-                                              type: string
-                                              example: الاولي
-                                            name_en:
-                                              type: string
-                                              example: item 1
-                                            price:
-                                              type: number
-                                              example: 43.95
-                                            product_list_id:
-                                              type: number
-                                              example: 30
-                                            updated_at:
-                                              type: string
-                                              example: '2024-05-14T20:58:19.000000Z'
-                                      max_selectable_items_number:
-                                        type: number
-                                        example: 1
-                                      name:
-                                        type: string
-                                        example: لست 1
-                                      name_ar:
-                                        type: string
-                                        example: لست 1
-                                      name_en:
-                                        type: string
-                                        example: list 1
-                                      product_id:
-                                        type: number
-                                        example: 12
-                                      total_price:
-                                        type: number
-                                        example: 43.95
-                                      updated_at:
-                                        type: string
-                                        example: '2024-05-14T20:58:19.000000Z'
-                                name:
-                                  type: string
-                                name_ar:
-                                  type: string
-                                name_en:
-                                  type: string
-                                price:
-                                  type: number
-                                price_after_discount:
-                                  type: number
-                                provider_id:
-                                  type: number
-                                updated_at:
-                                  type: string
-
-                            product_id:
-                              type: number
-                              nullable: true
-                              example: null
-                            provider_id:
-                              type: number
-                              example: 9
-                            quantity:
-                              type: number
-                              example: 2
-                            service:
-                              type: object
-                              properties:
-                                card_expiration:
-                                  type: string
-                                  example: '12'
-                                card_price:
-                                  type: number
-                                  example: 5.44
-                                card_type:
-                                  type: string
-                                  example: hard_card
-                                coverImagePath:
-                                  type: string
-                                  example: http://localhost:8000/uploads/files/04-2024/1713354063L6Sxt2kHExLxaqzp.png
-                                cover_image:
-                                  type: string
-                                  example: uploads/files/04-2024/1713354063L6Sxt2kHExLxaqzp.png
-                                created_at:
-                                  type: string
-                                  example: '2024-05-14T20:58:19.000000Z'
-                                description:
-                                  type: string
-                                  example: وصف خدمه 1
-                                description_ar:
-                                  type: string
-                                  example: وصف خدمه 1
-                                description_en:
-                                  type: string
-                                  example: description for service A
-                                duration:
-                                  type: string
-                                  example: 3 hours
-                                id:
-                                  type: number
-                                  example: 12
-                                is_service_deliverable_outside_store:
-                                  type: number
-                                  example: 1
-                                is_visible:
-                                  type: number
-                                  example: 1
-                                lists:
-                                  type: array
-                                  items:
-                                    type: object
-                                    properties:
-                                      created_at:
-                                        type: string
-                                        example: '2024-05-14T20:58:19.000000Z'
-                                      id:
-                                        type: number
-                                        example: 30
-                                      is_multi_selectable:
-                                        type: number
-                                        example: 0
-                                      items:
-                                        type: array
-                                        items:
-                                          type: object
-                                          properties:
-                                            created_at:
-                                              type: string
-                                              example: '2024-05-14T20:58:19.000000Z'
-                                            id:
-                                              type: number
-                                              example: 43
-                                            name:
-                                              type: string
-                                              example: الاولي
-                                            name_ar:
-                                              type: string
-                                              example: الاولي
-                                            name_en:
-                                              type: string
-                                              example: item 1
-                                            price:
-                                              type: number
-                                              example: 43.95
-                                            service_list_id:
-                                              type: number
-                                              example: 30
-                                            updated_at:
-                                              type: string
-                                              example: '2024-05-14T20:58:19.000000Z'
-                                        example:
-                                          - created_at: '2024-05-14T20:58:19.000000Z'
-                                            id: 43
-                                            name: الاولي
-                                            name_ar: الاولي
-                                            name_en: item 1
-                                            price: 43.95
-                                            service_list_id: 30
-                                            updated_at: '2024-05-14T20:58:19.000000Z'
-                                      max_selectable_items_number:
-                                        type: number
-                                        example: 1
-                                      name:
-                                        type: string
-                                        example: لست 1
-                                      name_ar:
-                                        type: string
-                                        example: لست 1
-                                      name_en:
-                                        type: string
-                                        example: list 1
-                                      service_id:
-                                        type: number
-                                        example: 12
-                                      total_price:
-                                        type: number
-                                        example: 43.95
-                                      updated_at:
-                                        type: string
-                                        example: '2024-05-14T20:58:19.000000Z'
-                                  example:
-                                    - created_at: '2024-05-14T20:58:19.000000Z'
-                                      id: 30
-                                      is_multi_selectable: 0
-                                      items:
-                                        - created_at: '2024-05-14T20:58:19.000000Z'
-                                          id: 43
-                                          name: الاولي
-                                          name_ar: الاولي
-                                          name_en: item 1
-                                          price: 43.95
-                                          service_list_id: 30
-                                          updated_at: '2024-05-14T20:58:19.000000Z'
-                                      max_selectable_items_number: 1
-                                      name: لست 1
-                                      name_ar: لست 1
-                                      name_en: list 1
-                                      service_id: 12
-                                      total_price: 43.95
-                                      updated_at: '2024-05-14T20:58:19.000000Z'
-                                    - created_at: '2024-05-14T20:58:19.000000Z'
-                                      id: 31
-                                      is_multi_selectable: 1
-                                      items:
-                                        - created_at: '2024-05-14T20:58:19.000000Z'
-                                          id: 44
-                                          name: الاولي
-                                          name_ar: الاولي
-                                          name_en: item 1
-                                          price: 0
-                                          service_list_id: 31
-                                          updated_at: '2024-05-14T20:58:19.000000Z'
-                                        - created_at: '2024-05-14T20:58:20.000000Z'
-                                          id: 45
-                                          name: التانيه
-                                          name_ar: التانيه
-                                          name_en: item 2
-                                          price: 20.26
-                                          service_list_id: 31
-                                          updated_at: '2024-05-14T20:58:20.000000Z'
-                                      max_selectable_items_number: 2
-                                      name: لست 2
-                                      name_ar: لست 2
-                                      name_en: list 2
-                                      service_id: 12
-                                      total_price: 20.26
-                                      updated_at: '2024-05-14T20:58:19.000000Z'
-                                name:
-                                  type: string
-                                  example: الخدمة 1
-                                name_ar:
-                                  type: string
-                                  example: الخدمة 1
-                                name_en:
-                                  type: string
-                                  example: service A
-                                price:
-                                  type: number
-                                  example: 20.32
-                                price_after_discount:
-                                  type: number
-                                  example: 10.21
-                                provider_id:
-                                  type: number
-                                  example: 9
-                                updated_at:
-                                  type: string
-                                  example: '2024-05-14T20:58:19.000000Z'
-                            service_id:
-                              type: number
-                              example: 12
-                            updated_at:
-                              type: string
-                              example: '2024-05-18T14:07:12.000000Z'
-                        example:
-                          - card_price: 5.44
-                            created_at: '2024-05-18T14:07:12.000000Z'
-                            id: 20
-                            lists_total_price: 64.21
-                            order_id: 10
-                            price: 10.21
-                            product: null
-                            product_id: null
-                            provider_id: 9
-                            quantity: 2
-                            service:
-                              card_expiration: '12'
-                              card_price: 5.44
-                              card_type: hard_card
-                              coverImagePath: http://localhost:8000/uploads/files/04-2024/1713354063L6Sxt2kHExLxaqzp.png
-                              cover_image: uploads/files/04-2024/1713354063L6Sxt2kHExLxaqzp.png
-                              created_at: '2024-05-14T20:58:19.000000Z'
-                              description: وصف خدمه 1
-                              description_ar: وصف خدمه 1
-                              description_en: description for service A
-                              duration: 3 hours
-                              id: 12
-                              is_service_deliverable_outside_store: 1
-                              is_visible: 1
-                              lists:
-                                - created_at: '2024-05-14T20:58:19.000000Z'
-                                  id: 30
-                                  is_multi_selectable: 0
-                                  items:
-                                    - created_at: '2024-05-14T20:58:19.000000Z'
-                                      id: 43
-                                      name: الاولي
-                                      name_ar: الاولي
-                                      name_en: item 1
-                                      price: 43.95
-                                      service_list_id: 30
-                                      updated_at: '2024-05-14T20:58:19.000000Z'
-                                  max_selectable_items_number: 1
-                                  name: لست 1
-                                  name_ar: لست 1
-                                  name_en: list 1
-                                  service_id: 12
-                                  total_price: 43.95
-                                  updated_at: '2024-05-14T20:58:19.000000Z'
-                                - created_at: '2024-05-14T20:58:19.000000Z'
-                                  id: 31
-                                  is_multi_selectable: 1
-                                  items:
-                                    - created_at: '2024-05-14T20:58:19.000000Z'
-                                      id: 44
-                                      name: الاولي
-                                      name_ar: الاولي
-                                      name_en: item 1
-                                      price: 0
-                                      service_list_id: 31
-                                      updated_at: '2024-05-14T20:58:19.000000Z'
-                                    - created_at: '2024-05-14T20:58:20.000000Z'
-                                      id: 45
-                                      name: التانيه
-                                      name_ar: التانيه
-                                      name_en: item 2
-                                      price: 20.26
-                                      service_list_id: 31
-                                      updated_at: '2024-05-14T20:58:20.000000Z'
-                                  max_selectable_items_number: 2
-                                  name: لست 2
-                                  name_ar: لست 2
-                                  name_en: list 2
-                                  service_id: 12
-                                  total_price: 20.26
-                                  updated_at: '2024-05-14T20:58:19.000000Z'
-                              name: الخدمة 1
-                              name_ar: الخدمة 1
-                              name_en: service A
-                              price: 20.32
-                              price_after_discount: 10.21
-                              provider_id: 9
-                              updated_at: '2024-05-14T20:58:19.000000Z'
-                            service_id: 12
-                            updated_at: '2024-05-18T14:07:12.000000Z'
-                      packaging_provider_id:
-                        type: number
-                        nullable: true
-                        example: null
-                      payment_method:
-                        type: string
-                        example: visa
-                      promocode:
-                        type: object
-                        properties:
-                          allowed_usage_number:
-                            type: string
-                            example: '5'
-                          code:
-                            type: string
-                            example: XGFSF34
-                          created_at:
-                            type: string
-                            example: '2024-05-17T11:38:30.000000Z'
-                          expiration_date:
-                            type: string
-                            example: '2024-05-23'
-                          id:
-                            type: number
-                            example: 1
-                          type:
-                            type: string
-                            example: percent
-                          updated_at:
-                            type: string
-                            example: '2024-05-17T11:38:30.000000Z'
-                          value:
-                            type: number
-                            example: 58
-                      promocode_discount_type:
-                        type: string
-                        example: percent
-                      promocode_discount_value:
-                        type: number
-                        example: 58
-                      promocode_id:
-                        type: number
-                        example: 1
-                      rating:
-                        type: number
-                        example: 3.5
-                      rating_comment:
-                        type: string
-                        example: this is a good order
-                      receiver_address:
-                        type: string
-                        example: 5th fahd street, Jeddah
-                      receiver_phone_number:
-                        type: string
-                        example: '509295069'
-                      reference_number:
-                        type: string
-                        example: ID3Z8R
-                      shipping_fee:
-                        type: number
-                        example: 10
-                      status_id:
-                        type: number
-                        example: 8
-                      total:
-                        type: number
-                        example: 319.44
-                      total_with_shipping_fee:
-                        type: number
-                        example: 329.44
-                      type:
-                        type: string
-                        example: self_order
-                      updated_at:
-                        type: string
-                        example: '2024-05-18T14:27:13.000000Z'
-                      user:
-                        type: object
-                        properties:
-                          balance:
-                            type: string
-                            example: '0'
-                          city_id:
-                            type: number
-                            example: 1
-                          created_at:
-                            type: string
-                            example: '2024-05-14T19:05:13.000000Z'
-                          device_type:
-                            nullable: true
-                            example: null
-                          email:
-                            type: string
-                            example: first_client@gmail.com
-                          fcm_token:
-                            nullable: true
-                            example: null
-                          id:
-                            type: number
-                            example: 1
-                          image:
-                            type: string
-                            example: uploads/files/04-2024/1713354063L6Sxt2kHExLiW2p.png
-                          imagePath:
-                            type: string
-                            example: http://localhost:8000/uploads/files/04-2024/1713354063L6Sxt2kHExLiW2p.png
-                          lang:
-                            type: string
-                            example: ar
-                          name:
-                            type: string
-                            example: first client
-                          phone:
-                            type: string
-                            example: '536053560'
-                          status:
-                            type: string
-                            example: active
-                          updated_at:
-                            type: string
-                            example: '2024-05-14T19:05:13.000000Z'
-                      user_id:
-                        type: number
-                        example: 1
-                  message:
-                    type: string
-                    example: order details
-                  status:
-                    type: boolean
-                    example: true
+                $ref: '#/components/schemas/ProviderOrderDetailsResponse'
               examples:
                 show order details:
                   value:
@@ -5832,418 +5983,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  data:
-                    type: object
-                    properties:
-                      cancellation_reason:
-                        type: string
-                        example: our shop is busy at the moment, cant take the order
-                      created_at:
-                        type: string
-                        example: '2024-05-18T17:10:17.000000Z'
-                      delivery_date:
-                        nullable: true
-                        example: null
-                      delivery_time:
-                        nullable: true
-                        example: null
-                      cancelled_at:
-                        type: string
-                        nullable: true
-                        example: '2024-05-20T17:10:17.000000Z'
-                      finished_at:
-                        type: string
-                        nullable: true
-                        example: null
-                      id:
-                        type: number
-                        example: 11
-                      order_family:
-                        type: string
-                        example: collective
-                      order_items:
-                        type: array
-                        items:
-                          type: object
-                          properties:
-                            card_price:
-                              type: number
-                              nullable: true
-                              example: null
-                            created_at:
-                              type: string
-                              example: '2024-05-18T14:10:17.000000Z'
-                            id:
-                              type: number
-                              example: 21
-                            lists_total_price:
-                              type: number
-                              example: 20.26
-                            order_id:
-                              type: number
-                              example: 11
-                            price:
-                              type: number
-                              example: 40.21
-                            product:
-                              type: object
-                              properties:
-                                amount:
-                                  type: number
-                                  example: 5
-                                created_at:
-                                  type: string
-                                  example: '2024-05-04T11:33:20.000000Z'
-                                description:
-                                  type: string
-                                  example: زهره جميله
-                                description_ar:
-                                  type: string
-                                  example: زهره جميله
-                                description_en:
-                                  type: string
-                                  example: beautiful flower
-                                expected_processing_time:
-                                  type: string
-                                  example: 3 days 4 hours 50 minutes
-                                has_stock:
-                                  type: number
-                                  example: 1
-                                id:
-                                  type: number
-                                  example: 1
-                                is_visible:
-                                  type: number
-                                  example: 0
-                                lists:
-                                  type: array
-                                  items:
-                                    type: object
-                                    properties:
-                                      created_at:
-                                        type: string
-                                        example: '2024-05-04T11:42:07.000000Z'
-                                      id:
-                                        type: number
-                                        example: 4
-                                      is_multi_selectable:
-                                        type: number
-                                        example: 0
-                                      items:
-                                        type: array
-                                        items:
-                                          type: object
-                                          properties:
-                                            created_at:
-                                              type: string
-                                              example: '2024-05-04T11:42:07.000000Z'
-                                            id:
-                                              type: number
-                                              example: 5
-                                            name:
-                                              type: string
-                                              example: التانيه
-                                            name_ar:
-                                              type: string
-                                              example: التانيه
-                                            name_en:
-                                              type: string
-                                              example: item 2
-                                            price:
-                                              type: number
-                                              example: 20.26
-                                            product_list_id:
-                                              type: number
-                                              example: 4
-                                            updated_at:
-                                              type: string
-                                              example: '2024-05-04T11:42:07.000000Z'
-                                        example:
-                                          - created_at: '2024-05-04T11:42:07.000000Z'
-                                            id: 5
-                                            name: التانيه
-                                            name_ar: التانيه
-                                            name_en: item 2
-                                            price: 20.26
-                                            product_list_id: 4
-                                            updated_at: '2024-05-04T11:42:07.000000Z'
-                                      max_selectable_items_number:
-                                        type: number
-                                        example: 1
-                                      name:
-                                        type: string
-                                        example: لست 2
-                                      name_ar:
-                                        type: string
-                                        example: لست 2
-                                      name_en:
-                                        type: string
-                                        example: list 2
-                                      product_id:
-                                        type: number
-                                        example: 1
-                                      total_price:
-                                        type: number
-                                        example: 20.26
-                                      updated_at:
-                                        type: string
-                                        example: '2024-05-04T11:42:07.000000Z'
-                                  example:
-                                    - created_at: '2024-05-04T11:42:07.000000Z'
-                                      id: 4
-                                      is_multi_selectable: 0
-                                      items:
-                                        - created_at: '2024-05-04T11:42:07.000000Z'
-                                          id: 5
-                                          name: التانيه
-                                          name_ar: التانيه
-                                          name_en: item 2
-                                          price: 20.26
-                                          product_list_id: 4
-                                          updated_at: '2024-05-04T11:42:07.000000Z'
-                                      max_selectable_items_number: 1
-                                      name: لست 2
-                                      name_ar: لست 2
-                                      name_en: list 2
-                                      product_id: 1
-                                      total_price: 20.26
-                                      updated_at: '2024-05-04T11:42:07.000000Z'
-                                name:
-                                  type: string
-                                  example: زهرة الليلي
-                                name_ar:
-                                  type: string
-                                  example: زهرة الليلي
-                                name_en:
-                                  type: string
-                                  example: lily flower
-                                price:
-                                  type: number
-                                  example: 120.32
-                                price_after_discount:
-                                  type: number
-                                  example: 40.21
-                                provider_id:
-                                  type: number
-                                  example: 2
-                                type:
-                                  type: string
-                                  example: ready_made_gifts
-                                updated_at:
-                                  type: string
-                                  example: '2024-05-04T11:42:07.000000Z'
-                              nullable: true
-                            product_id:
-                              type: number
-                              nullable: true
-                              example: 1
-                            provider_id:
-                              type: number
-                              example: 2
-                            quantity:
-                              type: number
-                              example: 2
-                            service:
-                              type: object
-                              nullable: true
-                              example: null
-                            service_id:
-                              type: number
-                              nullable: true
-                              example: null
-                            updated_at:
-                              type: string
-                              example: '2024-05-18T14:10:17.000000Z'
-                        example:
-                          - card_price: null
-                            created_at: '2024-05-18T14:10:17.000000Z'
-                            id: 21
-                            lists_total_price: 20.26
-                            order_id: 11
-                            price: 40.21
-                            product:
-                              amount: 5
-                              created_at: '2024-05-04T11:33:20.000000Z'
-                              description: زهره جميله
-                              description_ar: زهره جميله
-                              description_en: beautiful flower
-                              expected_processing_time: 3 days 4 hours 50 minutes
-                              has_stock: 1
-                              id: 1
-                              is_visible: 0
-                              lists:
-                                - created_at: '2024-05-04T11:42:07.000000Z'
-                                  id: 4
-                                  is_multi_selectable: 0
-                                  items:
-                                    - created_at: '2024-05-04T11:42:07.000000Z'
-                                      id: 5
-                                      name: التانيه
-                                      name_ar: التانيه
-                                      name_en: item 2
-                                      price: 20.26
-                                      product_list_id: 4
-                                      updated_at: '2024-05-04T11:42:07.000000Z'
-                                  max_selectable_items_number: 1
-                                  name: لست 2
-                                  name_ar: لست 2
-                                  name_en: list 2
-                                  product_id: 1
-                                  total_price: 20.26
-                                  updated_at: '2024-05-04T11:42:07.000000Z'
-                              name: زهرة الليلي
-                              name_ar: زهرة الليلي
-                              name_en: lily flower
-                              price: 120.32
-                              price_after_discount: 40.21
-                              provider_id: 2
-                              type: ready_made_gifts
-                              updated_at: '2024-05-04T11:42:07.000000Z'
-                            product_id: 1
-                            provider_id: 2
-                            quantity: 2
-                            service: null
-                            service_id: null
-                            updated_at: '2024-05-18T14:10:17.000000Z'
-                          - card_price: 5.44
-                            created_at: '2024-05-18T14:10:17.000000Z'
-                            id: 22
-                            lists_total_price: 64.21
-                            order_id: 11
-                            price: 10.21
-                            product: null
-                            product_id: null
-                            provider_id: 9
-                            quantity: 2
-                            service:
-                              card_expiration: '12'
-                              card_price: 5.44
-                              card_type: hard_card
-                              coverImagePath: http://localhost:8000/uploads/files/04-2024/1713354063L6Sxt2kHExLxaqzp.png
-                              cover_image: uploads/files/04-2024/1713354063L6Sxt2kHExLxaqzp.png
-                              created_at: '2024-05-14T20:58:19.000000Z'
-                              description: وصف خدمه 1
-                              description_ar: وصف خدمه 1
-                              description_en: description for service A
-                              duration: 3 hours
-                              id: 12
-                              is_service_deliverable_outside_store: 1
-                              is_visible: 1
-                              lists:
-                                - created_at: '2024-05-14T20:58:19.000000Z'
-                                  id: 30
-                                  is_multi_selectable: 0
-                                  items:
-                                    - created_at: '2024-05-14T20:58:19.000000Z'
-                                      id: 43
-                                      name: الاولي
-                                      name_ar: الاولي
-                                      name_en: item 1
-                                      price: 43.95
-                                      service_list_id: 30
-                                      updated_at: '2024-05-14T20:58:19.000000Z'
-                                  max_selectable_items_number: 1
-                                  name: لست 1
-                                  name_ar: لست 1
-                                  name_en: list 1
-                                  service_id: 12
-                                  total_price: 43.95
-                                  updated_at: '2024-05-14T20:58:19.000000Z'
-                                - created_at: '2024-05-14T20:58:19.000000Z'
-                                  id: 31
-                                  is_multi_selectable: 1
-                                  items:
-                                    - created_at: '2024-05-14T20:58:19.000000Z'
-                                      id: 44
-                                      name: الاولي
-                                      name_ar: الاولي
-                                      name_en: item 1
-                                      price: 0
-                                      service_list_id: 31
-                                      updated_at: '2024-05-14T20:58:19.000000Z'
-                                    - created_at: '2024-05-14T20:58:20.000000Z'
-                                      id: 45
-                                      name: التانيه
-                                      name_ar: التانيه
-                                      name_en: item 2
-                                      price: 20.26
-                                      service_list_id: 31
-                                      updated_at: '2024-05-14T20:58:20.000000Z'
-                                  max_selectable_items_number: 2
-                                  name: لست 2
-                                  name_ar: لست 2
-                                  name_en: list 2
-                                  service_id: 12
-                                  total_price: 20.26
-                                  updated_at: '2024-05-14T20:58:19.000000Z'
-                              name: الخدمة 1
-                              name_ar: الخدمة 1
-                              name_en: service A
-                              price: 20.32
-                              price_after_discount: 10.21
-                              provider_id: 9
-                              updated_at: '2024-05-14T20:58:19.000000Z'
-                            service_id: 12
-                            updated_at: '2024-05-18T14:10:17.000000Z'
-                      packaging_provider_id:
-                        nullable: true
-                        example: null
-                      payment_method:
-                        type: string
-                        example: visa
-                      promocode_discount_type:
-                        type: string
-                        example: percent
-                      promocode_discount_value:
-                        type: number
-                        example: 58
-                      promocode_id:
-                        type: number
-                        example: 1
-                      rating:
-                        nullable: true
-                        example: null
-                      rating_comment:
-                        nullable: true
-                        example: null
-                      receiver_address:
-                        type: string
-                        example: 5th fahd street, Jeddah
-                      receiver_phone_number:
-                        type: string
-                        example: '509295069'
-                      reference_number:
-                        type: string
-                        example: YC8APX
-                      shipping_fee:
-                        type: number
-                        example: 10
-                      status_id:
-                        type: number
-                        example: 11
-                      total:
-                        type: number
-                        example: 159.98
-                      total_with_shipping_fee:
-                        type: number
-                        example: 169.98
-                      type:
-                        type: string
-                        example: self_order
-                      updated_at:
-                        type: string
-                        example: '2024-05-18T20:57:15.000000Z'
-                      user_id:
-                        type: number
-                        example: 1
-                  message:
-                    type: string
-                    example: order status updated successfully
-                  status:
-                    type: boolean
-                    example: true
+                $ref: '#/components/schemas/ProviderOrderDetailsResponse'
               examples:
                 manage orders:
                   value:
@@ -7313,7 +7053,7 @@ paths:
           content:
             application/json:
               schema:
-                  $ref: '#/components/schemas/ClientAuthResponse'
+                $ref: '#/components/schemas/ClientAuthResponse'
               examples:
                 client signup:
                   value:
@@ -7400,7 +7140,7 @@ paths:
           content:
             application/json:
               schema:
-                  $ref: '#/components/schemas/ClientAuthResponse'
+                $ref: '#/components/schemas/ClientAuthResponse'
               examples:
                 client login:
                   value:
@@ -8014,6 +7754,116 @@ paths:
       responses:
         '200':
           description: Successfully retrieved orders
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+            Cache-Control:
+              schema:
+                type: string
+                example: no-cache, private
+            Connection:
+              schema:
+                type: string
+                example: close
+            Date:
+              schema:
+                type: string
+                example: Sat, 18 May 2024 14:56:10 GMT
+            Host:
+              schema:
+                type: string
+                example: localhost:8000
+            X-Powered-By:
+              schema:
+                type: string
+                example: PHP/8.1.2-1ubuntu2.14
+            X-RateLimit-Limit:
+              schema:
+                type: string
+                example: '60'
+            X-RateLimit-Remaining:
+              schema:
+                type: string
+                example: '59'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      current_page:
+                        type: number
+                        example: 1
+                      data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/ClientOrderDetails'
+                      first_page_url:
+                        type: string
+                        example: http://localhost:8000/api/client/orders?page=1
+                      from:
+                        type: number
+                        example: 1
+                      last_page:
+                        type: number
+                        example: 1
+                      last_page_url:
+                        type: string
+                        example: http://localhost:8000/api/client/orders?page=1
+                      links:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            active:
+                              type: boolean
+                              example: false
+                            label:
+                              type: string
+                              example: '&laquo; Previous'
+                            url:
+                              type: string
+                              nullable: true
+                              example: null
+                        example:
+                          - active: false
+                            label: '&laquo; Previous'
+                            url: null
+                          - active: true
+                            label: '1'
+                            url: http://localhost:8000/api/client/orders?page=1
+                          - active: false
+                            label: Next &raquo;
+                            url: null
+                      next_page_url:
+                        nullable: true
+                        example: null
+                      path:
+                        type: string
+                        example: http://localhost:8000/api/client/orders
+                      per_page:
+                        type: number
+                        example: 5
+                      prev_page_url:
+                        nullable: true
+                        example: null
+                      to:
+                        type: number
+                        example: 1
+                      total:
+                        type: number
+                        example: 1
+                  message:
+                    type: string
+                    example: list of client's orders
+                  status:
+                    type: boolean
+                    example: true
+
       security:
         - bearerAuth: []
   /client/order/show:
@@ -8033,6 +7883,180 @@ paths:
       responses:
         '200':
           description: Successfully retrieved order details
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+            Cache-Control:
+              schema:
+                type: string
+                example: no-cache, private
+            Connection:
+              schema:
+                type: string
+                example: close
+            Date:
+              schema:
+                type: string
+                example: Sat, 18 May 2024 14:56:10 GMT
+            Host:
+              schema:
+                type: string
+                example: localhost:8000
+            X-Powered-By:
+              schema:
+                type: string
+                example: PHP/8.1.2-1ubuntu2.14
+            X-RateLimit-Limit:
+              schema:
+                type: string
+                example: '60'
+            X-RateLimit-Remaining:
+              schema:
+                type: string
+                example: '59'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClientOrderDetailsResponse'
+              examples:
+                show order details:
+                  value:
+                    data:
+                      cancellation_reason: null
+                      created_at: '2024-05-18T17:07:12.000000Z'
+                      delivery_date: null
+                      delivery_time: null
+                      finished_at: null
+                      cancelled_at: null
+                      id: 10
+                      order_family: collective
+                      order_items:
+                        - card_price: 5.44
+                          created_at: '2024-05-18T14:07:12.000000Z'
+                          id: 20
+                          lists_total_price: 64.21
+                          order_id: 10
+                          price: 10.21
+                          product: null
+                          product_id: null
+                          provider_id: 9
+                          quantity: 2
+                          service:
+                            card_expiration: '12'
+                            card_price: 5.44
+                            card_type: hard_card
+                            coverImagePath: http://localhost:8000/uploads/files/04-2024/1713354063L6Sxt2kHExLxaqzp.png
+                            cover_image: uploads/files/04-2024/1713354063L6Sxt2kHExLxaqzp.png
+                            created_at: '2024-05-14T20:58:19.000000Z'
+                            description: وصف خدمه 1
+                            description_ar: وصف خدمه 1
+                            description_en: description for service A
+                            duration: 3 hours
+                            id: 12
+                            is_service_deliverable_outside_store: 1
+                            is_visible: 1
+                            lists:
+                              - created_at: '2024-05-14T20:58:19.000000Z'
+                                id: 30
+                                is_multi_selectable: 0
+                                items:
+                                  - created_at: '2024-05-14T20:58:19.000000Z'
+                                    id: 43
+                                    name: الاولي
+                                    name_ar: الاولي
+                                    name_en: item 1
+                                    price: 43.95
+                                    service_list_id: 30
+                                    updated_at: '2024-05-14T20:58:19.000000Z'
+                                max_selectable_items_number: 1
+                                name: لست 1
+                                name_ar: لست 1
+                                name_en: list 1
+                                service_id: 12
+                                total_price: 43.95
+                                updated_at: '2024-05-14T20:58:19.000000Z'
+                              - created_at: '2024-05-14T20:58:19.000000Z'
+                                id: 31
+                                is_multi_selectable: 1
+                                items:
+                                  - created_at: '2024-05-14T20:58:19.000000Z'
+                                    id: 44
+                                    name: الاولي
+                                    name_ar: الاولي
+                                    name_en: item 1
+                                    price: 0
+                                    service_list_id: 31
+                                    updated_at: '2024-05-14T20:58:19.000000Z'
+                                  - created_at: '2024-05-14T20:58:20.000000Z'
+                                    id: 45
+                                    name: التانيه
+                                    name_ar: التانيه
+                                    name_en: item 2
+                                    price: 20.26
+                                    service_list_id: 31
+                                    updated_at: '2024-05-14T20:58:20.000000Z'
+                                max_selectable_items_number: 2
+                                name: لست 2
+                                name_ar: لست 2
+                                name_en: list 2
+                                service_id: 12
+                                total_price: 20.26
+                                updated_at: '2024-05-14T20:58:19.000000Z'
+                            name: الخدمة 1
+                            name_ar: الخدمة 1
+                            name_en: service A
+                            price: 20.32
+                            price_after_discount: 10.21
+                            provider_id: 9
+                            updated_at: '2024-05-14T20:58:19.000000Z'
+                          service_id: 12
+                          updated_at: '2024-05-18T14:07:12.000000Z'
+                      packaging_provider_id: null
+                      payment_method: visa
+                      promocode:
+                        allowed_usage_number: '5'
+                        code: XGFSF34
+                        created_at: '2024-05-17T11:38:30.000000Z'
+                        expiration_date: '2024-05-23'
+                        id: 1
+                        type: percent
+                        updated_at: '2024-05-17T11:38:30.000000Z'
+                        value: 58
+                      promocode_discount_type: percent
+                      promocode_discount_value: 58
+                      promocode_id: 1
+                      rating: 3.5
+                      rating_comment: this is a good order
+                      receiver_address: 5th fahd street, Jeddah
+                      receiver_phone_number: '509295069'
+                      reference_number: ID3Z8R
+                      shipping_fee: 10
+                      status_id: 8
+                      total: 319.44
+                      total_with_shipping_fee: 329.44
+                      type: self_order
+                      updated_at: '2024-05-18T14:27:13.000000Z'
+                      user:
+                        balance: '0'
+                        city_id: 1
+                        created_at: '2024-05-14T19:05:13.000000Z'
+                        device_type: null
+                        email: first_client@gmail.com
+                        fcm_token: null
+                        id: 1
+                        image: uploads/files/04-2024/1713354063L6Sxt2kHExLiW2p.png
+                        imagePath: http://localhost:8000/uploads/files/04-2024/1713354063L6Sxt2kHExLiW2p.png
+                        lang: ar
+                        name: first client
+                        phone: '536053560'
+                        status: active
+                        updated_at: '2024-05-14T19:05:13.000000Z'
+                      user_id: 1
+                    message: order details
+                    status: true
+
       security:
         - bearerAuth: []
   /client/order/create:
@@ -8094,6 +8118,184 @@ paths:
       responses:
         '200':
           description: Successfully created order
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+            Cache-Control:
+              schema:
+                type: string
+                example: no-cache, private
+            Connection:
+              schema:
+                type: string
+                example: close
+            Date:
+              schema:
+                type: string
+                example: Sat, 18 May 2024 14:56:10 GMT
+            Host:
+              schema:
+                type: string
+                example: localhost:8000
+            X-Powered-By:
+              schema:
+                type: string
+                example: PHP/8.1.2-1ubuntu2.14
+            X-RateLimit-Limit:
+              schema:
+                type: string
+                example: '60'
+            X-RateLimit-Remaining:
+              schema:
+                type: string
+                example: '59'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClientOrderDetails'
+                message:
+                  type: string
+                status:
+                  type: boolean
+              examples:
+                show order details:
+                  value:
+                    data:
+                      cancellation_reason: null
+                      created_at: '2024-05-18T17:07:12.000000Z'
+                      delivery_date: null
+                      delivery_time: null
+                      finished_at: null
+                      cancelled_at: null
+                      id: 10
+                      order_family: collective
+                      order_items:
+                        - card_price: 5.44
+                          created_at: '2024-05-18T14:07:12.000000Z'
+                          id: 20
+                          lists_total_price: 64.21
+                          order_id: 10
+                          price: 10.21
+                          product: null
+                          product_id: null
+                          provider_id: 9
+                          quantity: 2
+                          service:
+                            card_expiration: '12'
+                            card_price: 5.44
+                            card_type: hard_card
+                            coverImagePath: http://localhost:8000/uploads/files/04-2024/1713354063L6Sxt2kHExLxaqzp.png
+                            cover_image: uploads/files/04-2024/1713354063L6Sxt2kHExLxaqzp.png
+                            created_at: '2024-05-14T20:58:19.000000Z'
+                            description: وصف خدمه 1
+                            description_ar: وصف خدمه 1
+                            description_en: description for service A
+                            duration: 3 hours
+                            id: 12
+                            is_service_deliverable_outside_store: 1
+                            is_visible: 1
+                            lists:
+                              - created_at: '2024-05-14T20:58:19.000000Z'
+                                id: 30
+                                is_multi_selectable: 0
+                                items:
+                                  - created_at: '2024-05-14T20:58:19.000000Z'
+                                    id: 43
+                                    name: الاولي
+                                    name_ar: الاولي
+                                    name_en: item 1
+                                    price: 43.95
+                                    service_list_id: 30
+                                    updated_at: '2024-05-14T20:58:19.000000Z'
+                                max_selectable_items_number: 1
+                                name: لست 1
+                                name_ar: لست 1
+                                name_en: list 1
+                                service_id: 12
+                                total_price: 43.95
+                                updated_at: '2024-05-14T20:58:19.000000Z'
+                              - created_at: '2024-05-14T20:58:19.000000Z'
+                                id: 31
+                                is_multi_selectable: 1
+                                items:
+                                  - created_at: '2024-05-14T20:58:19.000000Z'
+                                    id: 44
+                                    name: الاولي
+                                    name_ar: الاولي
+                                    name_en: item 1
+                                    price: 0
+                                    service_list_id: 31
+                                    updated_at: '2024-05-14T20:58:19.000000Z'
+                                  - created_at: '2024-05-14T20:58:20.000000Z'
+                                    id: 45
+                                    name: التانيه
+                                    name_ar: التانيه
+                                    name_en: item 2
+                                    price: 20.26
+                                    service_list_id: 31
+                                    updated_at: '2024-05-14T20:58:20.000000Z'
+                                max_selectable_items_number: 2
+                                name: لست 2
+                                name_ar: لست 2
+                                name_en: list 2
+                                service_id: 12
+                                total_price: 20.26
+                                updated_at: '2024-05-14T20:58:19.000000Z'
+                            name: الخدمة 1
+                            name_ar: الخدمة 1
+                            name_en: service A
+                            price: 20.32
+                            price_after_discount: 10.21
+                            provider_id: 9
+                            updated_at: '2024-05-14T20:58:19.000000Z'
+                          service_id: 12
+                          updated_at: '2024-05-18T14:07:12.000000Z'
+                      packaging_provider_id: null
+                      payment_method: visa
+                      promocode:
+                        allowed_usage_number: '5'
+                        code: XGFSF34
+                        created_at: '2024-05-17T11:38:30.000000Z'
+                        expiration_date: '2024-05-23'
+                        id: 1
+                        type: percent
+                        updated_at: '2024-05-17T11:38:30.000000Z'
+                        value: 58
+                      promocode_discount_type: percent
+                      promocode_discount_value: 58
+                      promocode_id: 1
+                      rating: 3.5
+                      rating_comment: this is a good order
+                      receiver_address: 5th fahd street, Jeddah
+                      receiver_phone_number: '509295069'
+                      reference_number: ID3Z8R
+                      shipping_fee: 10
+                      status_id: 8
+                      total: 319.44
+                      total_with_shipping_fee: 329.44
+                      type: self_order
+                      updated_at: '2024-05-18T14:27:13.000000Z'
+                      user:
+                        balance: '0'
+                        city_id: 1
+                        created_at: '2024-05-14T19:05:13.000000Z'
+                        device_type: null
+                        email: first_client@gmail.com
+                        fcm_token: null
+                        id: 1
+                        image: uploads/files/04-2024/1713354063L6Sxt2kHExLiW2p.png
+                        imagePath: http://localhost:8000/uploads/files/04-2024/1713354063L6Sxt2kHExLiW2p.png
+                        lang: ar
+                        name: first client
+                        phone: '536053560'
+                        status: active
+                        updated_at: '2024-05-14T19:05:13.000000Z'
+                      user_id: 1
+                    message: order details
+                    status: true
+
       security:
         - bearerAuth: []
   /client/order/manage:
@@ -8119,7 +8321,181 @@ paths:
                   example: '13'
       responses:
         '200':
-          description: Successfully managed order
+          description: show orders
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+            Cache-Control:
+              schema:
+                type: string
+                example: no-cache, private
+            Connection:
+              schema:
+                type: string
+                example: close
+            Date:
+              schema:
+                type: string
+                example: Sat, 18 May 2024 14:56:10 GMT
+            Host:
+              schema:
+                type: string
+                example: localhost:8000
+            X-Powered-By:
+              schema:
+                type: string
+                example: PHP/8.1.2-1ubuntu2.14
+            X-RateLimit-Limit:
+              schema:
+                type: string
+                example: '60'
+            X-RateLimit-Remaining:
+              schema:
+                type: string
+                example: '59'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClientOrderDetailsResponse'
+              examples:
+                show order details:
+                  value:
+                    data:
+                      cancellation_reason: null
+                      created_at: '2024-05-18T17:07:12.000000Z'
+                      delivery_date: null
+                      delivery_time: null
+                      finished_at: null
+                      cancelled_at: null
+                      id: 10
+                      order_family: collective
+                      order_items:
+                        - card_price: 5.44
+                          created_at: '2024-05-18T14:07:12.000000Z'
+                          id: 20
+                          lists_total_price: 64.21
+                          order_id: 10
+                          price: 10.21
+                          product: null
+                          product_id: null
+                          provider_id: 9
+                          quantity: 2
+                          service:
+                            card_expiration: '12'
+                            card_price: 5.44
+                            card_type: hard_card
+                            coverImagePath: http://localhost:8000/uploads/files/04-2024/1713354063L6Sxt2kHExLxaqzp.png
+                            cover_image: uploads/files/04-2024/1713354063L6Sxt2kHExLxaqzp.png
+                            created_at: '2024-05-14T20:58:19.000000Z'
+                            description: وصف خدمه 1
+                            description_ar: وصف خدمه 1
+                            description_en: description for service A
+                            duration: 3 hours
+                            id: 12
+                            is_service_deliverable_outside_store: 1
+                            is_visible: 1
+                            lists:
+                              - created_at: '2024-05-14T20:58:19.000000Z'
+                                id: 30
+                                is_multi_selectable: 0
+                                items:
+                                  - created_at: '2024-05-14T20:58:19.000000Z'
+                                    id: 43
+                                    name: الاولي
+                                    name_ar: الاولي
+                                    name_en: item 1
+                                    price: 43.95
+                                    service_list_id: 30
+                                    updated_at: '2024-05-14T20:58:19.000000Z'
+                                max_selectable_items_number: 1
+                                name: لست 1
+                                name_ar: لست 1
+                                name_en: list 1
+                                service_id: 12
+                                total_price: 43.95
+                                updated_at: '2024-05-14T20:58:19.000000Z'
+                              - created_at: '2024-05-14T20:58:19.000000Z'
+                                id: 31
+                                is_multi_selectable: 1
+                                items:
+                                  - created_at: '2024-05-14T20:58:19.000000Z'
+                                    id: 44
+                                    name: الاولي
+                                    name_ar: الاولي
+                                    name_en: item 1
+                                    price: 0
+                                    service_list_id: 31
+                                    updated_at: '2024-05-14T20:58:19.000000Z'
+                                  - created_at: '2024-05-14T20:58:20.000000Z'
+                                    id: 45
+                                    name: التانيه
+                                    name_ar: التانيه
+                                    name_en: item 2
+                                    price: 20.26
+                                    service_list_id: 31
+                                    updated_at: '2024-05-14T20:58:20.000000Z'
+                                max_selectable_items_number: 2
+                                name: لست 2
+                                name_ar: لست 2
+                                name_en: list 2
+                                service_id: 12
+                                total_price: 20.26
+                                updated_at: '2024-05-14T20:58:19.000000Z'
+                            name: الخدمة 1
+                            name_ar: الخدمة 1
+                            name_en: service A
+                            price: 20.32
+                            price_after_discount: 10.21
+                            provider_id: 9
+                            updated_at: '2024-05-14T20:58:19.000000Z'
+                          service_id: 12
+                          updated_at: '2024-05-18T14:07:12.000000Z'
+                      packaging_provider_id: null
+                      payment_method: visa
+                      promocode:
+                        allowed_usage_number: '5'
+                        code: XGFSF34
+                        created_at: '2024-05-17T11:38:30.000000Z'
+                        expiration_date: '2024-05-23'
+                        id: 1
+                        type: percent
+                        updated_at: '2024-05-17T11:38:30.000000Z'
+                        value: 58
+                      promocode_discount_type: percent
+                      promocode_discount_value: 58
+                      promocode_id: 1
+                      rating: 3.5
+                      rating_comment: this is a good order
+                      receiver_address: 5th fahd street, Jeddah
+                      receiver_phone_number: '509295069'
+                      reference_number: ID3Z8R
+                      shipping_fee: 10
+                      status_id: 8
+                      total: 319.44
+                      total_with_shipping_fee: 329.44
+                      type: self_order
+                      updated_at: '2024-05-18T14:27:13.000000Z'
+                      user:
+                        balance: '0'
+                        city_id: 1
+                        created_at: '2024-05-14T19:05:13.000000Z'
+                        device_type: null
+                        email: first_client@gmail.com
+                        fcm_token: null
+                        id: 1
+                        image: uploads/files/04-2024/1713354063L6Sxt2kHExLiW2p.png
+                        imagePath: http://localhost:8000/uploads/files/04-2024/1713354063L6Sxt2kHExLiW2p.png
+                        lang: ar
+                        name: first client
+                        phone: '536053560'
+                        status: active
+                        updated_at: '2024-05-14T19:05:13.000000Z'
+                      user_id: 1
+                    message: order details
+                    status: true
+
       security:
         - bearerAuth: []
   /client/order/rating:
@@ -8149,6 +8525,184 @@ paths:
       responses:
         '200':
           description: Successfully rated order
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+            Cache-Control:
+              schema:
+                type: string
+                example: no-cache, private
+            Connection:
+              schema:
+                type: string
+                example: close
+            Date:
+              schema:
+                type: string
+                example: Sat, 18 May 2024 14:56:10 GMT
+            Host:
+              schema:
+                type: string
+                example: localhost:8000
+            X-Powered-By:
+              schema:
+                type: string
+                example: PHP/8.1.2-1ubuntu2.14
+            X-RateLimit-Limit:
+              schema:
+                type: string
+                example: '60'
+            X-RateLimit-Remaining:
+              schema:
+                type: string
+                example: '59'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClientOrderDetails'
+                message:
+                  type: string
+                status:
+                  type: boolean
+              examples:
+                show order details:
+                  value:
+                    data:
+                      cancellation_reason: null
+                      created_at: '2024-05-18T17:07:12.000000Z'
+                      delivery_date: null
+                      delivery_time: null
+                      finished_at: null
+                      cancelled_at: null
+                      id: 10
+                      order_family: collective
+                      order_items:
+                        - card_price: 5.44
+                          created_at: '2024-05-18T14:07:12.000000Z'
+                          id: 20
+                          lists_total_price: 64.21
+                          order_id: 10
+                          price: 10.21
+                          product: null
+                          product_id: null
+                          provider_id: 9
+                          quantity: 2
+                          service:
+                            card_expiration: '12'
+                            card_price: 5.44
+                            card_type: hard_card
+                            coverImagePath: http://localhost:8000/uploads/files/04-2024/1713354063L6Sxt2kHExLxaqzp.png
+                            cover_image: uploads/files/04-2024/1713354063L6Sxt2kHExLxaqzp.png
+                            created_at: '2024-05-14T20:58:19.000000Z'
+                            description: وصف خدمه 1
+                            description_ar: وصف خدمه 1
+                            description_en: description for service A
+                            duration: 3 hours
+                            id: 12
+                            is_service_deliverable_outside_store: 1
+                            is_visible: 1
+                            lists:
+                              - created_at: '2024-05-14T20:58:19.000000Z'
+                                id: 30
+                                is_multi_selectable: 0
+                                items:
+                                  - created_at: '2024-05-14T20:58:19.000000Z'
+                                    id: 43
+                                    name: الاولي
+                                    name_ar: الاولي
+                                    name_en: item 1
+                                    price: 43.95
+                                    service_list_id: 30
+                                    updated_at: '2024-05-14T20:58:19.000000Z'
+                                max_selectable_items_number: 1
+                                name: لست 1
+                                name_ar: لست 1
+                                name_en: list 1
+                                service_id: 12
+                                total_price: 43.95
+                                updated_at: '2024-05-14T20:58:19.000000Z'
+                              - created_at: '2024-05-14T20:58:19.000000Z'
+                                id: 31
+                                is_multi_selectable: 1
+                                items:
+                                  - created_at: '2024-05-14T20:58:19.000000Z'
+                                    id: 44
+                                    name: الاولي
+                                    name_ar: الاولي
+                                    name_en: item 1
+                                    price: 0
+                                    service_list_id: 31
+                                    updated_at: '2024-05-14T20:58:19.000000Z'
+                                  - created_at: '2024-05-14T20:58:20.000000Z'
+                                    id: 45
+                                    name: التانيه
+                                    name_ar: التانيه
+                                    name_en: item 2
+                                    price: 20.26
+                                    service_list_id: 31
+                                    updated_at: '2024-05-14T20:58:20.000000Z'
+                                max_selectable_items_number: 2
+                                name: لست 2
+                                name_ar: لست 2
+                                name_en: list 2
+                                service_id: 12
+                                total_price: 20.26
+                                updated_at: '2024-05-14T20:58:19.000000Z'
+                            name: الخدمة 1
+                            name_ar: الخدمة 1
+                            name_en: service A
+                            price: 20.32
+                            price_after_discount: 10.21
+                            provider_id: 9
+                            updated_at: '2024-05-14T20:58:19.000000Z'
+                          service_id: 12
+                          updated_at: '2024-05-18T14:07:12.000000Z'
+                      packaging_provider_id: null
+                      payment_method: visa
+                      promocode:
+                        allowed_usage_number: '5'
+                        code: XGFSF34
+                        created_at: '2024-05-17T11:38:30.000000Z'
+                        expiration_date: '2024-05-23'
+                        id: 1
+                        type: percent
+                        updated_at: '2024-05-17T11:38:30.000000Z'
+                        value: 58
+                      promocode_discount_type: percent
+                      promocode_discount_value: 58
+                      promocode_id: 1
+                      rating: 3.5
+                      rating_comment: this is a good order
+                      receiver_address: 5th fahd street, Jeddah
+                      receiver_phone_number: '509295069'
+                      reference_number: ID3Z8R
+                      shipping_fee: 10
+                      status_id: 8
+                      total: 319.44
+                      total_with_shipping_fee: 329.44
+                      type: self_order
+                      updated_at: '2024-05-18T14:27:13.000000Z'
+                      user:
+                        balance: '0'
+                        city_id: 1
+                        created_at: '2024-05-14T19:05:13.000000Z'
+                        device_type: null
+                        email: first_client@gmail.com
+                        fcm_token: null
+                        id: 1
+                        image: uploads/files/04-2024/1713354063L6Sxt2kHExLiW2p.png
+                        imagePath: http://localhost:8000/uploads/files/04-2024/1713354063L6Sxt2kHExLiW2p.png
+                        lang: ar
+                        name: first client
+                        phone: '536053560'
+                        status: active
+                        updated_at: '2024-05-14T19:05:13.000000Z'
+                      user_id: 1
+                    message: order details
+                    status: true
+
       security:
         - bearerAuth: []
 

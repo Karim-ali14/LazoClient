@@ -86,7 +86,7 @@ class Orders12Api {
   ///
   /// * [String] statusId:
   ///   2-accept, 4-preparing, 5-read_to_shipping, 10-cancel_ready_made_order, 11-cancel_collective_order
-  Future<ManageOrders1200Response?> manageOrders1({ String? cancellationReason, String? orderId, String? statusId, }) async {
+  Future<ProviderOrderDetailsResponse?> manageOrders1({ String? cancellationReason, String? orderId, String? statusId, }) async {
     final response = await manageOrders1WithHttpInfo( cancellationReason: cancellationReason, orderId: orderId, statusId: statusId, );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
@@ -95,7 +95,7 @@ class Orders12Api {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
-      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'ManageOrders1200Response',) as ManageOrders1200Response;
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'ProviderOrderDetailsResponse',) as ProviderOrderDetailsResponse;
     
     }
     return null;
@@ -213,7 +213,7 @@ class Orders12Api {
   /// Parameters:
   ///
   /// * [String] orderId:
-  Future<ShowOrderDetails2200Response?> showOrderDetails2({ String? orderId, }) async {
+  Future<ProviderOrderDetailsResponse?> showOrderDetails2({ String? orderId, }) async {
     final response = await showOrderDetails2WithHttpInfo( orderId: orderId, );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
@@ -222,7 +222,7 @@ class Orders12Api {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
-      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'ShowOrderDetails2200Response',) as ShowOrderDetails2200Response;
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'ProviderOrderDetailsResponse',) as ProviderOrderDetailsResponse;
     
     }
     return null;

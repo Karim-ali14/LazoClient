@@ -36,7 +36,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       if(res.data?.isExist == true){
         AppSnackBar.showSnackBar(context, isSuccess: true, message: res.data?.message ?? "Success !");
 
-        context.push("$R_LoginScreen/$R_OTP", extra: {
+        context.push(R_OTP, extra: {
           "phone": phoneController.text.toString(),
           "type": OTPType.Login
         });

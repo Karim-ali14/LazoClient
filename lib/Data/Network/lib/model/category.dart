@@ -16,6 +16,7 @@ class Category {
     this.id,
     this.nameEn,
     this.nameAr,
+    this.name,
     this.image,
     this.servicesCount,
     this.productsCount,
@@ -47,6 +48,14 @@ class Category {
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
   String? nameAr;
+
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  String? name;
 
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
@@ -101,6 +110,7 @@ class Category {
      other.id == id &&
      other.nameEn == nameEn &&
      other.nameAr == nameAr &&
+     other.name == name &&
      other.image == image &&
      other.servicesCount == servicesCount &&
      other.productsCount == productsCount &&
@@ -114,6 +124,7 @@ class Category {
     (id == null ? 0 : id!.hashCode) +
     (nameEn == null ? 0 : nameEn!.hashCode) +
     (nameAr == null ? 0 : nameAr!.hashCode) +
+    (name == null ? 0 : name!.hashCode) +
     (image == null ? 0 : image!.hashCode) +
     (servicesCount == null ? 0 : servicesCount!.hashCode) +
     (productsCount == null ? 0 : productsCount!.hashCode) +
@@ -122,7 +133,7 @@ class Category {
     (updatedAt == null ? 0 : updatedAt!.hashCode);
 
   @override
-  String toString() => 'Category[id=$id, nameEn=$nameEn, nameAr=$nameAr, image=$image, servicesCount=$servicesCount, productsCount=$productsCount, imagePath=$imagePath, createdAt=$createdAt, updatedAt=$updatedAt]';
+  String toString() => 'Category[id=$id, nameEn=$nameEn, nameAr=$nameAr, name=$name, image=$image, servicesCount=$servicesCount, productsCount=$productsCount, imagePath=$imagePath, createdAt=$createdAt, updatedAt=$updatedAt]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -140,6 +151,11 @@ class Category {
       json[r'name_ar'] = this.nameAr;
     } else {
       json[r'name_ar'] = null;
+    }
+    if (this.name != null) {
+      json[r'name'] = this.name;
+    } else {
+      json[r'name'] = null;
     }
     if (this.image != null) {
       json[r'image'] = this.image;
@@ -198,6 +214,7 @@ class Category {
             : num.parse(json[r'id'].toString()),
         nameEn: mapValueOfType<String>(json, r'name_en'),
         nameAr: mapValueOfType<String>(json, r'name_ar'),
+        name: mapValueOfType<String>(json, r'name'),
         image: mapValueOfType<String>(json, r'image'),
         servicesCount: json[r'services_count'] == null
             ? null

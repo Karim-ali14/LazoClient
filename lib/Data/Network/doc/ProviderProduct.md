@@ -9,6 +9,7 @@ import 'package:lazo/api.dart';
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **id** | **num** |  | [optional] 
+**name** | **String** |  | [optional] 
 **nameEn** | **String** |  | [optional] 
 **nameAr** | **String** |  | [optional] 
 **descriptionEn** | **String** |  | [optional] 

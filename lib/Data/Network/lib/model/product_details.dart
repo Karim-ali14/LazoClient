@@ -25,7 +25,7 @@ class ProductDetails {
     this.isVisible,
     this.id,
     this.images = const [],
-    this.productlists = const [],
+    this.lists = const [],
     this.name,
     this.nameAr,
     this.nameEn,
@@ -110,7 +110,7 @@ class ProductDetails {
 
   List<ImageItem> images;
 
-  List<ProductListItem> productlists;
+  List<ProductListItem> lists;
 
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
@@ -194,7 +194,7 @@ class ProductDetails {
      other.isVisible == isVisible &&
      other.id == id &&
      other.images == images &&
-     other.productlists == productlists &&
+     other.lists == lists &&
      other.name == name &&
      other.nameAr == nameAr &&
      other.nameEn == nameEn &&
@@ -221,7 +221,7 @@ class ProductDetails {
     (isVisible == null ? 0 : isVisible!.hashCode) +
     (id == null ? 0 : id!.hashCode) +
     (images.hashCode) +
-    (productlists.hashCode) +
+    (lists.hashCode) +
     (name == null ? 0 : name!.hashCode) +
     (nameAr == null ? 0 : nameAr!.hashCode) +
     (nameEn == null ? 0 : nameEn!.hashCode) +
@@ -234,7 +234,7 @@ class ProductDetails {
     (updatedAt == null ? 0 : updatedAt!.hashCode);
 
   @override
-  String toString() => 'ProductDetails[amount=$amount, categories=$categories, categoryMenu=$categoryMenu, colors=$colors, createdAt=$createdAt, description=$description, descriptionAr=$descriptionAr, descriptionEn=$descriptionEn, expectedProcessingTime=$expectedProcessingTime, isVisible=$isVisible, id=$id, images=$images, productlists=$productlists, name=$name, nameAr=$nameAr, nameEn=$nameEn, occasions=$occasions, price=$price, priceAfterDiscount=$priceAfterDiscount, providerId=$providerId, sizes=$sizes, type=$type, updatedAt=$updatedAt]';
+  String toString() => 'ProductDetails[amount=$amount, categories=$categories, categoryMenu=$categoryMenu, colors=$colors, createdAt=$createdAt, description=$description, descriptionAr=$descriptionAr, descriptionEn=$descriptionEn, expectedProcessingTime=$expectedProcessingTime, isVisible=$isVisible, id=$id, images=$images, lists=$lists, name=$name, nameAr=$nameAr, nameEn=$nameEn, occasions=$occasions, price=$price, priceAfterDiscount=$priceAfterDiscount, providerId=$providerId, sizes=$sizes, type=$type, updatedAt=$updatedAt]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -282,7 +282,7 @@ class ProductDetails {
       json[r'id'] = null;
     }
       json[r'images'] = this.images;
-      json[r'Productlists'] = this.productlists;
+      json[r'lists'] = this.lists;
     if (this.name != null) {
       json[r'name'] = this.name;
     } else {
@@ -363,7 +363,7 @@ class ProductDetails {
             ? null
             : num.parse(json[r'id'].toString()),
         images: ImageItem.listFromJson(json[r'images']),
-        productlists: ProductListItem.listFromJson(json[r'Productlists']),
+        lists: ProductListItem.listFromJson(json[r'lists']),
         name: mapValueOfType<String>(json, r'name'),
         nameAr: mapValueOfType<String>(json, r'name_ar'),
         nameEn: mapValueOfType<String>(json, r'name_en'),

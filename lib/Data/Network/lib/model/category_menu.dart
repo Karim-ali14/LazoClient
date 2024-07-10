@@ -14,6 +14,7 @@ class CategoryMenu {
   /// Returns a new [CategoryMenu] instance.
   CategoryMenu({
     this.id,
+    this.name,
     this.nameEn,
     this.nameAr,
     this.providerId,
@@ -30,6 +31,14 @@ class CategoryMenu {
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
   num? id;
+
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  String? name;
 
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
@@ -90,6 +99,7 @@ class CategoryMenu {
   @override
   bool operator ==(Object other) => identical(this, other) || other is CategoryMenu &&
      other.id == id &&
+     other.name == name &&
      other.nameEn == nameEn &&
      other.nameAr == nameAr &&
      other.providerId == providerId &&
@@ -102,6 +112,7 @@ class CategoryMenu {
   int get hashCode =>
     // ignore: unnecessary_parenthesis
     (id == null ? 0 : id!.hashCode) +
+    (name == null ? 0 : name!.hashCode) +
     (nameEn == null ? 0 : nameEn!.hashCode) +
     (nameAr == null ? 0 : nameAr!.hashCode) +
     (providerId == null ? 0 : providerId!.hashCode) +
@@ -111,7 +122,7 @@ class CategoryMenu {
     (updatedAt == null ? 0 : updatedAt!.hashCode);
 
   @override
-  String toString() => 'CategoryMenu[id=$id, nameEn=$nameEn, nameAr=$nameAr, providerId=$providerId, servicesCount=$servicesCount, productsCount=$productsCount, createdAt=$createdAt, updatedAt=$updatedAt]';
+  String toString() => 'CategoryMenu[id=$id, name=$name, nameEn=$nameEn, nameAr=$nameAr, providerId=$providerId, servicesCount=$servicesCount, productsCount=$productsCount, createdAt=$createdAt, updatedAt=$updatedAt]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -119,6 +130,11 @@ class CategoryMenu {
       json[r'id'] = this.id;
     } else {
       json[r'id'] = null;
+    }
+    if (this.name != null) {
+      json[r'name'] = this.name;
+    } else {
+      json[r'name'] = null;
     }
     if (this.nameEn != null) {
       json[r'name_en'] = this.nameEn;
@@ -180,6 +196,7 @@ class CategoryMenu {
         id: json[r'id'] == null
             ? null
             : num.parse(json[r'id'].toString()),
+        name: mapValueOfType<String>(json, r'name'),
         nameEn: mapValueOfType<String>(json, r'name_en'),
         nameAr: mapValueOfType<String>(json, r'name_ar'),
         providerId: json[r'provider_id'] == null

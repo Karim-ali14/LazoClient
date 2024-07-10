@@ -438,11 +438,19 @@ class ClientApi {
   /// * [String] receiverAddressDetails:
   ///
   /// * [String] receiverPhone:
-  Future<void> createOrder({ String? deliveryDate, String? deliveryTime, String? giftBoxId, String? giftCardId, String? isIdentitySecret, String? orderType, String? paymentMethod, String? promocode, String? receiverAddress, String? receiverAddressDetails, String? receiverPhone, }) async {
+  Future<ClientOrderDetails?> createOrder({ String? deliveryDate, String? deliveryTime, String? giftBoxId, String? giftCardId, String? isIdentitySecret, String? orderType, String? paymentMethod, String? promocode, String? receiverAddress, String? receiverAddressDetails, String? receiverPhone, }) async {
     final response = await createOrderWithHttpInfo( deliveryDate: deliveryDate, deliveryTime: deliveryTime, giftBoxId: giftBoxId, giftCardId: giftCardId, isIdentitySecret: isIdentitySecret, orderType: orderType, paymentMethod: paymentMethod, promocode: promocode, receiverAddress: receiverAddress, receiverAddressDetails: receiverAddressDetails, receiverPhone: receiverPhone, );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
+    // When a remote server returns no body with a status of 204, we shall not decode it.
+    // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
+    // FormatException when trying to decode an empty string.
+    if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'ClientOrderDetails',) as ClientOrderDetails;
+    
+    }
+    return null;
   }
 
   /// Delete cart item
@@ -562,11 +570,19 @@ class ClientApi {
   ///
   /// * [String] statusId:
   ///   12-client_cancel_order, 13-client_continue_order_without_an_item_after_provider_rejects
-  Future<void> manageOrder({ String? orderId, String? statusId, }) async {
+  Future<ClientOrderDetailsResponse?> manageOrder({ String? orderId, String? statusId, }) async {
     final response = await manageOrderWithHttpInfo( orderId: orderId, statusId: statusId, );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
+    // When a remote server returns no body with a status of 204, we shall not decode it.
+    // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
+    // FormatException when trying to decode an empty string.
+    if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'ClientOrderDetailsResponse',) as ClientOrderDetailsResponse;
+    
+    }
+    return null;
   }
 
   /// Rate order
@@ -637,11 +653,19 @@ class ClientApi {
   ///
   /// * [String] rating:
   ///   From 1 to 5
-  Future<void> rateOrder({ String? comment, String? orderId, String? rating, }) async {
+  Future<ClientOrderDetails?> rateOrder({ String? comment, String? orderId, String? rating, }) async {
     final response = await rateOrderWithHttpInfo( comment: comment, orderId: orderId, rating: rating, );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
+    // When a remote server returns no body with a status of 204, we shall not decode it.
+    // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
+    // FormatException when trying to decode an empty string.
+    if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'ClientOrderDetails',) as ClientOrderDetails;
+    
+    }
+    return null;
   }
 
   /// read a notification
@@ -856,11 +880,19 @@ class ClientApi {
   /// Parameters:
   ///
   /// * [String] orderId:
-  Future<void> showOrderDetails({ String? orderId, }) async {
+  Future<ClientOrderDetailsResponse?> showOrderDetails({ String? orderId, }) async {
     final response = await showOrderDetailsWithHttpInfo( orderId: orderId, );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
+    // When a remote server returns no body with a status of 204, we shall not decode it.
+    // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
+    // FormatException when trying to decode an empty string.
+    if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'ClientOrderDetailsResponse',) as ClientOrderDetailsResponse;
+    
+    }
+    return null;
   }
 
   /// Show orders
@@ -896,11 +928,19 @@ class ClientApi {
   /// Show orders
   ///
   /// Show orders
-  Future<void> showOrders() async {
+  Future<ShowOrders200Response?> showOrders() async {
     final response = await showOrdersWithHttpInfo();
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
+    // When a remote server returns no body with a status of 204, we shall not decode it.
+    // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
+    // FormatException when trying to decode an empty string.
+    if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'ShowOrders200Response',) as ShowOrders200Response;
+    
+    }
+    return null;
   }
 
   /// show profile

@@ -5,7 +5,7 @@
 import 'package:lazo/api.dart';
 ```
 
-All URIs are relative to *http://localhost*
+All URIs are relative to *http://}*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -167,7 +167,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **filterTopProductsServices**
-> filterTopProductsServices(categoriesIds, occasionsIds, priceFrom, priceTo, ratings, type)
+> FilterTopProductsServices200Response filterTopProductsServices(categoriesIds, occasionsIds, priceFrom, priceTo, ratings, type)
 
 Filter top products & services
 
@@ -186,7 +186,8 @@ final ratings = []; // List<String> |
 final type = type_example; // String | products or services
 
 try {
-    api_instance.filterTopProductsServices(categoriesIds, occasionsIds, priceFrom, priceTo, ratings, type);
+    final result = api_instance.filterTopProductsServices(categoriesIds, occasionsIds, priceFrom, priceTo, ratings, type);
+    print(result);
 } catch (e) {
     print('Exception when calling PublicApi->filterTopProductsServices: $e\n');
 }
@@ -205,7 +206,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-void (empty response body)
+[**FilterTopProductsServices200Response**](FilterTopProductsServices200Response.md)
 
 ### Authorization
 
@@ -214,12 +215,12 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: multipart/form-data
- - **Accept**: Not defined
+ - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **filterTopSellers**
-> filterTopSellers(categoriesIds, isPromoted, occasionsIds, ratings)
+> FilterTopSellers200Response filterTopSellers(categoriesIds, isPromoted, occasionsIds, ratings)
 
 Filter top sellers
 
@@ -236,7 +237,8 @@ final occasionsIds = []; // List<String> |
 final ratings = []; // List<String> | 
 
 try {
-    api_instance.filterTopSellers(categoriesIds, isPromoted, occasionsIds, ratings);
+    final result = api_instance.filterTopSellers(categoriesIds, isPromoted, occasionsIds, ratings);
+    print(result);
 } catch (e) {
     print('Exception when calling PublicApi->filterTopSellers: $e\n');
 }
@@ -253,7 +255,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-void (empty response body)
+[**FilterTopSellers200Response**](FilterTopSellers200Response.md)
 
 ### Authorization
 
@@ -262,7 +264,7 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: multipart/form-data
- - **Accept**: Not defined
+ - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

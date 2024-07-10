@@ -14,6 +14,7 @@ class ProviderProduct {
   /// Returns a new [ProviderProduct] instance.
   ProviderProduct({
     this.id,
+    this.name,
     this.nameEn,
     this.nameAr,
     this.descriptionEn,
@@ -36,6 +37,14 @@ class ProviderProduct {
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
   num? id;
+
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  String? name;
 
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
@@ -144,6 +153,7 @@ class ProviderProduct {
   @override
   bool operator ==(Object other) => identical(this, other) || other is ProviderProduct &&
      other.id == id &&
+     other.name == name &&
      other.nameEn == nameEn &&
      other.nameAr == nameAr &&
      other.descriptionEn == descriptionEn &&
@@ -162,6 +172,7 @@ class ProviderProduct {
   int get hashCode =>
     // ignore: unnecessary_parenthesis
     (id == null ? 0 : id!.hashCode) +
+    (name == null ? 0 : name!.hashCode) +
     (nameEn == null ? 0 : nameEn!.hashCode) +
     (nameAr == null ? 0 : nameAr!.hashCode) +
     (descriptionEn == null ? 0 : descriptionEn!.hashCode) +
@@ -177,7 +188,7 @@ class ProviderProduct {
     (updatedAt == null ? 0 : updatedAt!.hashCode);
 
   @override
-  String toString() => 'ProviderProduct[id=$id, nameEn=$nameEn, nameAr=$nameAr, descriptionEn=$descriptionEn, descriptionAr=$descriptionAr, price=$price, priceAfterDiscount=$priceAfterDiscount, amount=$amount, isVisible=$isVisible, expectedProcessingTime=$expectedProcessingTime, providerId=$providerId, type=$type, createdAt=$createdAt, updatedAt=$updatedAt]';
+  String toString() => 'ProviderProduct[id=$id, name=$name, nameEn=$nameEn, nameAr=$nameAr, descriptionEn=$descriptionEn, descriptionAr=$descriptionAr, price=$price, priceAfterDiscount=$priceAfterDiscount, amount=$amount, isVisible=$isVisible, expectedProcessingTime=$expectedProcessingTime, providerId=$providerId, type=$type, createdAt=$createdAt, updatedAt=$updatedAt]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -185,6 +196,11 @@ class ProviderProduct {
       json[r'id'] = this.id;
     } else {
       json[r'id'] = null;
+    }
+    if (this.name != null) {
+      json[r'name'] = this.name;
+    } else {
+      json[r'name'] = null;
     }
     if (this.nameEn != null) {
       json[r'name_en'] = this.nameEn;
@@ -276,6 +292,7 @@ class ProviderProduct {
         id: json[r'id'] == null
             ? null
             : num.parse(json[r'id'].toString()),
+        name: mapValueOfType<String>(json, r'name'),
         nameEn: mapValueOfType<String>(json, r'name_en'),
         nameAr: mapValueOfType<String>(json, r'name_ar'),
         descriptionEn: mapValueOfType<String>(json, r'description_en'),

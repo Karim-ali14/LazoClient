@@ -330,11 +330,19 @@ class PublicApi {
   ///
   /// * [String] type:
   ///   products or services
-  Future<void> filterTopProductsServices({ List<String>? categoriesIds, List<String>? occasionsIds, String? priceFrom, String? priceTo, List<String>? ratings, String? type, }) async {
+  Future<FilterTopProductsServices200Response?> filterTopProductsServices({ List<String>? categoriesIds, List<String>? occasionsIds, String? priceFrom, String? priceTo, List<String>? ratings, String? type, }) async {
     final response = await filterTopProductsServicesWithHttpInfo( categoriesIds: categoriesIds, occasionsIds: occasionsIds, priceFrom: priceFrom, priceTo: priceTo, ratings: ratings, type: type, );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
+    // When a remote server returns no body with a status of 204, we shall not decode it.
+    // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
+    // FormatException when trying to decode an empty string.
+    if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'FilterTopProductsServices200Response',) as FilterTopProductsServices200Response;
+    
+    }
+    return null;
   }
 
   /// Filter top sellers
@@ -413,11 +421,19 @@ class PublicApi {
   /// * [List<String>] occasionsIds:
   ///
   /// * [List<String>] ratings:
-  Future<void> filterTopSellers({ List<String>? categoriesIds, String? isPromoted, List<String>? occasionsIds, List<String>? ratings, }) async {
+  Future<FilterTopSellers200Response?> filterTopSellers({ List<String>? categoriesIds, String? isPromoted, List<String>? occasionsIds, List<String>? ratings, }) async {
     final response = await filterTopSellersWithHttpInfo( categoriesIds: categoriesIds, isPromoted: isPromoted, occasionsIds: occasionsIds, ratings: ratings, );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
+    // When a remote server returns no body with a status of 204, we shall not decode it.
+    // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
+    // FormatException when trying to decode an empty string.
+    if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'FilterTopSellers200Response',) as FilterTopSellers200Response;
+    
+    }
+    return null;
   }
 
   /// show all banners
@@ -1197,7 +1213,6 @@ class PublicApi {
     final mp = MultipartRequest('POST', Uri.parse(path));
     if (files != null) {
       hasFields = true;
-      // mp.fields[r'files'] = files.field;
       mp.files.addAll(files);
     }
     if (hasFields) {

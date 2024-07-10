@@ -20,7 +20,7 @@ Name | Type | Description | Notes
 **isVisible** | **int** |  | [optional] 
 **id** | **num** |  | [optional] 
 **images** | [**List<ImageItem>**](ImageItem.md) |  | [optional] [default to const []]
-**productlists** | [**List<ProductListItem>**](ProductListItem.md) |  | [optional] [default to const []]
+**lists** | [**List<ProductListItem>**](ProductListItem.md) |  | [optional] [default to const []]
 **name** | **String** |  | [optional] 
 **nameAr** | **String** |  | [optional] 
 **nameEn** | **String** |  | [optional] 

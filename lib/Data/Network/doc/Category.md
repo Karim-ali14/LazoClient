@@ -11,6 +11,7 @@ Name | Type | Description | Notes
 **id** | **num** |  | [optional] 
 **nameEn** | **String** |  | [optional] 
 **nameAr** | **String** |  | [optional] 
+**name** | **String** |  | [optional] 
 **image** | **String** |  | [optional] 
 **servicesCount** | **num** |  | [optional] 
 **productsCount** | **num** |  | [optional] 
