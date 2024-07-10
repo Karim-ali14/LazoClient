@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lazo_client/Presentation/Widgets/SvgIcons.dart';
 import 'package:lazo_client/Utils/Extintions.dart';
-
 import '../Theme/AppTheme.dart';
 import 'AppButton.dart';
 import 'CircleImage.dart';
