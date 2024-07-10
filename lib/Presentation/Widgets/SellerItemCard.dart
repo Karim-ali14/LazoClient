@@ -4,11 +4,14 @@ import 'package:lazo_client/Presentation/Theme/AppTheme.dart';
 import 'package:lazo_client/Presentation/Widgets/CircleImage.dart';
 import 'package:lazo_client/Presentation/Widgets/SvgIcons.dart';
 import 'package:lazo_client/Utils/Extintions.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
+import '../../Data/Network/lib/api.dart';
 import 'AppButton.dart';
 
 class SellerItemCard extends StatefulWidget {
-  const SellerItemCard({super.key});
+  final ProviderData? providerData;
+  const SellerItemCard({super.key, required this.providerData});
 
   @override
   State<SellerItemCard> createState() => _SellerItemCardState();
@@ -19,6 +22,7 @@ class _SellerItemCardState extends State<SellerItemCard> {
   Widget build(BuildContext context) {
     return Stack(children: [
       Container(
+        width: 307,
         clipBehavior: Clip.antiAlias,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(6),
@@ -27,11 +31,18 @@ class _SellerItemCardState extends State<SellerItemCard> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            ImageView(
-              width: MediaQuery.of(context).size.width,
-              height: 121,
-              initialImg:
-                  "https://t4.ftcdn.net/jpg/04/54/47/13/360_F_454471303_WKG9h3VY9UxazqrtbJ2wYsqUGWSfo9CK.jpg",
+            Skeleton.replace(
+              replacement: Container(
+                width: MediaQuery.of(context).size.width,
+                height: 121,
+                color: Colors.white,
+              ),
+              child: ImageView(
+                width: MediaQuery.of(context).size.width,
+                height: 121,
+                initialImg:
+                    widget.providerData?.imagePath,
+              ),
             ),
             Padding(
               padding: EdgeInsets.all(16),
@@ -41,35 +52,56 @@ class _SellerItemCardState extends State<SellerItemCard> {
                   SizedBox(
                     height: 7,
                   ),
-                  Text(
-                    "Flowers Costa Cabral",
-                    style: AppTheme
-                        .styleWithTextBlackAdelleSansExtendedFonts16w700,
+                  Skeleton.replace(
+                    replacement: Container(
+                      width: 80,
+                      height: 15,
+                      color: Colors.white,
+                    ),
+                    child: Text(
+                      widget.providerData?.name ?? "",
+                      style: AppTheme
+                          .styleWithTextBlackAdelleSansExtendedFonts16w700,
+                    ),
                   ),
                   SizedBox(
                     height: 5,
                   ),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      SVGIcons.smallStarIcon(),
-                      Text("4.5",style: AppTheme.styleWithTextGray7AdelleSansExtendedFonts12w400,),
-                    ],
+                  Skeleton.replace(
+                    replacement: Container(
+                      width: 60,
+                      height: 15,
+                      color: Colors.white,
+                    ),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        SVGIcons.smallStarIcon(),
+                        Text(widget.providerData?.ratingsCount?.toString() ?? "",style: AppTheme.styleWithTextGray7AdelleSansExtendedFonts12w400,),
+                      ],
+                    ),
                   ),
                   SizedBox(
                     height: 26,
                   ),
-                  AppButton(
-                    width: context.getScreenSize.width,
-                    height: 36,
-                    onPress: (){
+                  Skeleton.replace(
+                    replacement: Container(
+                      width: context.getScreenSize.width,
+                      height: 36,
+                      color: Colors.white,
+                    ),
+                    child: AppButton(
+                      width: context.getScreenSize.width,
+                      height: 36,
+                      onPress: (){
 
-                    },
-                    child: Text(
-                      "View Store",
-                      style: AppTheme
-                          .styleWithTextGray7AdelleSansExtendedFonts12w400
-                          .copyWith(color: Colors.white),
+                      },
+                      child: Text(
+                        "View Store",
+                        style: AppTheme
+                            .styleWithTextGray7AdelleSansExtendedFonts12w400
+                            .copyWith(color: Colors.white),
+                      ),
                     ),
                   ),
                 ],
@@ -80,11 +112,14 @@ class _SellerItemCardState extends State<SellerItemCard> {
       ),
       Positioned(
         top: 95,
-        left: 280,
-        child: ImageView(
-          isCircle: true,
-          initialImg:
-              "https://user-images.githubusercontent.com/909587/41255217-16003a28-6dc6-11e8-87ee-d25b37c7e440.png",
+        left: 240,
+        child: Skeleton.replace(
+        replacement: Icon(Icons.verified_user,size: 60,),
+          child: ImageView(
+            isCircle: true,
+            initialImg:
+            widget.providerData?.imagePath,
+          ),
         ),
       )
     ]);

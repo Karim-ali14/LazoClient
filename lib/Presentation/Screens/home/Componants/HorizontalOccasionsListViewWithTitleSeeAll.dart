@@ -8,21 +8,21 @@ import '../../../Widgets/TitleWithSeeAll.dart';
 
 typedef OnItemClickListener = Function(int);
 
-class CategoriesListView extends StatefulWidget {
-  final List<Category> list;
+class HorizontalOccasionsListViewWithTitleSeeAll extends StatefulWidget {
+  final List<Occasion> list;
   final bool showLoading;
   final OnItemClickListener itemClick;
-  const CategoriesListView(
+  const HorizontalOccasionsListViewWithTitleSeeAll(
       {super.key,
       required this.list,
       required this.showLoading,
       required this.itemClick});
 
   @override
-  State<CategoriesListView> createState() => _CategoriesListViewState();
+  State<HorizontalOccasionsListViewWithTitleSeeAll> createState() => _HorizontalOccasionsListViewWithTitleSeeAllState();
 }
 
-class _CategoriesListViewState extends State<CategoriesListView> {
+class _HorizontalOccasionsListViewWithTitleSeeAllState extends State<HorizontalOccasionsListViewWithTitleSeeAll> {
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -30,7 +30,7 @@ class _CategoriesListViewState extends State<CategoriesListView> {
         Skeletonizer(
           enabled: widget.showLoading,
           child: TitleWithSeeAll(
-            title: "Categories",
+            title: "Occasions",
             onClickOnSeeAll: () {},
           ),
         ),
@@ -44,10 +44,10 @@ class _CategoriesListViewState extends State<CategoriesListView> {
               itemBuilder: (context, index) {
                 return Skeletonizer(
                   enabled: widget.showLoading ,
-                  child: HorizontalCategoryItemCartWithTitleSeeAll(
+                  child: CategoryItemCart(
                     image: widget.showLoading ? "" : widget.list[index].imagePath ?? "",
                     title: widget.showLoading ? "" :  widget.list[index].name ?? "",
-                    width: 131,
+                    width: 133,
                     height: 95,
                   ),
                 );

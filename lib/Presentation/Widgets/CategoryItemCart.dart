@@ -5,12 +5,12 @@ import 'package:lazo_client/Presentation/Theme/AppTheme.dart';
 import 'package:lazo_client/Presentation/Widgets/CircleImage.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
-class HorizontalCategoryItemCartWithTitleSeeAll extends StatelessWidget {
+class CategoryItemCart extends StatelessWidget {
   final String image;
   final String title;
   final double width;
   final double height;
-  const HorizontalCategoryItemCartWithTitleSeeAll(
+  const CategoryItemCart(
       {super.key,
       required this.image,
       required this.title,
