@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lazo_client/Constants/Assets.dart';
 import 'package:lazo_client/Data/Models/StateModel.dart';
 import 'package:lazo_client/Doman/CommenProviders/ApiProvider.dart';
+import 'package:lazo_client/Presentation/Screens/home/Componants/CategoryListView.dart';
 import 'package:lazo_client/Presentation/StateNotifiersViewModel/PublicStateNotifiers.dart';
 import 'package:lazo_client/Presentation/Widgets/BannerCardItems.dart';
 import 'package:lazo_client/Presentation/Widgets/CategoryItemCart.dart';
@@ -59,14 +61,18 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       showLoading: homeDataState.state == DataState.LOADING,
                       showIndicator: homeDataState.state != DataState.LOADING,
                     ),
+
               SizedBox(
                 height: 32,
               ),
-              TitleWithSeeAll(
-                title: "Categories",
-                onClickOnSeeAll: () {},
-              ),
-              ServiceAndProductItemCardHorizontal()
+              (homeDataState.state == DataState.SUCCESS &&
+                      homeDataState.data?.data?.categories.isEmpty == true)
+                  ? SizedBox()
+                  : CategoriesListView(
+                      list: homeDataState.data?.data?.categories.toList() ?? [],
+                      showLoading: homeDataState.state == DataState.LOADING,
+                      itemClick: (itemId) {},
+                    ),
             ],
           ),
         ),

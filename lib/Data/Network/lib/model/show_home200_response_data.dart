@@ -23,9 +23,9 @@ class ShowHome200ResponseData {
 
   List<Banner> banners;
 
-  List<ShowHome200ResponseDataCategoriesInner> categories;
+  List<Category> categories;
 
-  List<ShowHome200ResponseDataOccasionsInner> occasions;
+  List<Occasion> occasions;
 
   List<ProviderProduct> topRatedProducts;
 
@@ -86,8 +86,8 @@ class ShowHome200ResponseData {
 
       return ShowHome200ResponseData(
         banners: Banner.listFromJson(json[r'banners']),
-        categories: ShowHome200ResponseDataCategoriesInner.listFromJson(json[r'categories']),
-        occasions: ShowHome200ResponseDataOccasionsInner.listFromJson(json[r'occasions']),
+        categories: Category.listFromJson(json[r'categories']),
+        occasions: Occasion.listFromJson(json[r'occasions']),
         topRatedProducts: ProviderProduct.listFromJson(json[r'top_rated_products']),
         topRatedProviders: ProviderData.listFromJson(json[r'top_rated_providers']),
         topRatedServices: ServiceShowData.listFromJson(json[r'top_rated_services']),

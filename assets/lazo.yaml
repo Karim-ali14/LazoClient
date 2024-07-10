@@ -3085,6 +3085,71 @@ components:
           type: string
           example: '2024-05-04T14:51:44.000000Z'
 
+    ServicesListResponse:
+      type: object
+      properties:
+        status:
+          type: boolean
+          example: true
+        message:
+          type: string
+          example: list of products
+        data:
+          type: object
+          properties:
+            current_page:
+              type: number
+              example: 1
+            data:
+              type: array
+              items:
+                $ref: '#/components/schemas/ServiceShowData'
+            first_page_url:
+              type: string
+              example: http://localhost:8000/api/provider/product/all?page=1
+            from:
+              type: number
+              example: 1
+            last_page:
+              type: number
+              example: 1
+            last_page_url:
+              type: string
+              example: http://localhost:8000/api/provider/product/all?page=1
+            links:
+              type: array
+              items:
+                type: object
+                properties:
+                  active:
+                    type: boolean
+                    example: false
+                  label:
+                    type: string
+                    example: '&laquo; Previous'
+                  url:
+                    type: string
+                    nullable: true
+                    example: null
+            next_page_url:
+              nullable: true
+              example: null
+            path:
+              type: string
+              example: http://localhost:8000/api/provider/product/all
+            per_page:
+              type: number
+              example: 15
+            prev_page_url:
+              nullable: true
+              example: null
+            to:
+              type: number
+              example: 3
+            total:
+              type: number
+              example: 3
+
     GiftBox:
       type: object
       properties:
@@ -4508,161 +4573,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  data:
-                    type: object
-                    properties:
-                      current_page:
-                        type: number
-                        example: 1
-                      data:
-                        type: array
-                        items:
-                          type: object
-                          properties:
-                            card_expiration:
-                              type: string
-                              example: '12'
-                            card_price:
-                              type: number
-                              example: 5.44
-                            card_type:
-                              type: string
-                              example: hard_card
-                            coverImagePath:
-                              type: string
-                              example: http://localhost:8000/uploads/files/04-2024/1713354063L6Sxt2kHExLxaqzp.png
-                            cover_image:
-                              type: string
-                              example: uploads/files/04-2024/1713354063L6Sxt2kHExLxaqzp.png
-                            created_at:
-                              type: string
-                              example: '2024-05-04T14:51:44.000000Z'
-                            description:
-                              type: string
-                              example: وصف خدمه 1
-                            description_ar:
-                              type: string
-                              example: وصف خدمه 1
-                            description_en:
-                              type: string
-                              example: description for service A
-                            duration:
-                              type: string
-                              example: 3 hours
-                            id:
-                              type: number
-                              example: 9
-                            is_service_deliverable_outside_store:
-                              type: number
-                              example: 1
-                            is_visible:
-                              type: number
-                              example: 1
-                            name:
-                              type: string
-                              example: الخدمة 1
-                            name_ar:
-                              type: string
-                              example: الخدمة 1
-                            name_en:
-                              type: string
-                              example: service A
-                            price:
-                              type: number
-                              example: 20.32
-                            price_after_discount:
-                              type: number
-                              example: 10.21
-                            provider_id:
-                              type: number
-                              example: 2
-                            updated_at:
-                              type: string
-                              example: '2024-05-04T14:51:44.000000Z'
-                        example:
-                          - card_expiration: '12'
-                            card_price: 5.44
-                            card_type: hard_card
-                            coverImagePath: http://localhost:8000/uploads/files/04-2024/1713354063L6Sxt2kHExLxaqzp.png
-                            cover_image: uploads/files/04-2024/1713354063L6Sxt2kHExLxaqzp.png
-                            created_at: '2024-05-04T14:51:44.000000Z'
-                            description: وصف خدمه 1
-                            description_ar: وصف خدمه 1
-                            description_en: description for service A
-                            duration: 3 hours
-                            id: 9
-                            is_service_deliverable_outside_store: 1
-                            is_visible: 1
-                            name: الخدمة 1
-                            name_ar: الخدمة 1
-                            name_en: service A
-                            price: 20.32
-                            price_after_discount: 10.21
-                            provider_id: 2
-                            updated_at: '2024-05-04T14:51:44.000000Z'
-                      first_page_url:
-                        type: string
-                        example: http://localhost:8000/api/services/filter?page=1
-                      from:
-                        type: number
-                        example: 1
-                      last_page:
-                        type: number
-                        example: 1
-                      last_page_url:
-                        type: string
-                        example: http://localhost:8000/api/services/filter?page=1
-                      links:
-                        type: array
-                        items:
-                          type: object
-                          properties:
-                            active:
-                              type: boolean
-                              example: false
-                            label:
-                              type: string
-                              example: '&laquo; Previous'
-                            url:
-                              type: string
-                              nullable: true
-                              example: null
-                        example:
-                          - active: false
-                            label: '&laquo; Previous'
-                            url: null
-                          - active: true
-                            label: '1'
-                            url: http://localhost:8000/api/services/filter?page=1
-                          - active: false
-                            label: Next &raquo;
-                            url: null
-                      next_page_url:
-                        nullable: true
-                        example: null
-                      path:
-                        type: string
-                        example: http://localhost:8000/api/services/filter
-                      per_page:
-                        type: number
-                        example: 15
-                      prev_page_url:
-                        nullable: true
-                        example: null
-                      to:
-                        type: number
-                        example: 1
-                      total:
-                        type: number
-                        example: 1
-                  message:
-                    type: string
-                    example: list of services
-                  status:
-                    type: boolean
-                    example: true
+                $ref: '#/components/schemas/ServicesListResponse'
               examples:
                 show all services (with filter):
                   value:
@@ -4824,67 +4735,11 @@ paths:
                       categories:
                         type: array
                         items:
-                          type: object
-                          properties:
-                            created_at:
-                              type: string
-                              example: '2024-04-25T19:05:18.000000Z'
-                            id:
-                              type: number
-                              example: 1
-                            image:
-                              type: string
-                              example: uploads/files/04-2024/1713354063L6Sxt2kHExLiW2p.png
-                            imagePath:
-                              type: string
-                              example: http://localhost:8000/uploads/files/04-2024/1713354063L6Sxt2kHExLiW2p.png
-                            name:
-                              type: string
-                              example: المأكولات
-                            name_ar:
-                              type: string
-                              example: المأكولات
-                            name_en:
-                              type: string
-                              example: food
-                            products_count:
-                              type: number
-                              example: 5
-                            services_count:
-                              type: number
-                              example: 3
-                            updated_at:
-                              type: string
-                              example: '2024-04-25T19:05:18.000000Z'
+                          $ref: '#/components/schemas/Category'
                       occasions:
                         type: array
                         items:
-                          type: object
-                          properties:
-                            created_at:
-                              type: string
-                              example: '2024-04-24T23:16:44.000000Z'
-                            id:
-                              type: number
-                              example: 1
-                            image:
-                              type: string
-                              example: uploads/files/04-2024/1713354063L6Sxt2kHExLiW2p.png
-                            imagePath:
-                              type: string
-                              example: http://localhost:8000/uploads/files/04-2024/1713354063L6Sxt2kHExLiW2p.png
-                            name:
-                              type: string
-                              example: عيد ميلاد
-                            name_ar:
-                              type: string
-                              example: عيد ميلاد
-                            name_en:
-                              type: string
-                              example: birthday
-                            updated_at:
-                              type: string
-                              example: '2024-04-24T23:16:57.000000Z'
+                          $ref: '#/components/schemas/Occasion'
                       top_rated_products:
                         type: array
                         items:
@@ -4919,21 +4774,28 @@ paths:
             schema:
               type: object
               properties:
+                search_by_name:
+                  type: string
+                  nullable: true
                 categories_ids:
                   type: array
+                  nullable: true
                   items:
                     type: string
                     example: '1'
                 is_promoted:
+                  nullable: true
                   description: 0-not_promoted, 1-promoted
                   type: string
                   example: '1'
                 occasions_ids:
+                  nullable: true
                   type: array
                   items:
                     type: string
                     example: '2'
                 ratings:
+                  nullable: true
                   type: array
                   items:
                     type: string
@@ -5001,23 +4863,31 @@ paths:
             schema:
               type: object
               properties:
+                search_by_name:
+                  type: string
+                  nullable: true
                 categories_ids:
                   type: array
+                  nullable: true
                   items:
                     type: string
                     example: '1'
                 occasions_ids:
                   type: array
+                  nullable: true
                   items:
                     type: string
                     example: '2'
                 price_from:
+                  nullable: true
                   type: string
                   example: '3.68'
                 price_to:
+                  nullable: true
                   type: string
                   example: '32.43'
                 ratings:
+                  nullable: true
                   type: array
                   items:
                     type: string

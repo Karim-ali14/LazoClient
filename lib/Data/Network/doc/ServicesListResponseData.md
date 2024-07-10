@@ -1,4 +1,4 @@
-# lazo.model.ShowOrders200ResponseData
+# lazo.model.ServicesListResponseData
 
 ## Load the model package
 ```dart
@@ -9,7 +9,7 @@ import 'package:lazo/api.dart';
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **currentPage** | **num** |  | [optional] 
-**data** | [**List<ClientOrderDetails>**](ClientOrderDetails.md) |  | [optional] [default to const []]
+**data** | [**List<ServiceShowData>**](ServiceShowData.md) |  | [optional] [default to const []]
 **firstPageUrl** | **String** |  | [optional] 
 **from** | **num** |  | [optional] 
 **lastPage** | **num** |  | [optional] 

@@ -331,6 +331,10 @@ class ApiClient {
           return ServiceShowData.fromJson(value);
         case 'ServiceShowResponse':
           return ServiceShowResponse.fromJson(value);
+        case 'ServicesListResponse':
+          return ServicesListResponse.fromJson(value);
+        case 'ServicesListResponseData':
+          return ServicesListResponseData.fromJson(value);
         case 'ShowAllGiftBoxes200Response':
           return ShowAllGiftBoxes200Response.fromJson(value);
         case 'ShowAllGiftCards200Response':
@@ -339,14 +343,8 @@ class ApiClient {
           return ShowAllProviderSOrders200Response.fromJson(value);
         case 'ShowAllProviderSOrders200ResponseData':
           return ShowAllProviderSOrders200ResponseData.fromJson(value);
-        case 'ShowAllServicesWithFilter200Response':
-          return ShowAllServicesWithFilter200Response.fromJson(value);
-        case 'ShowAllServicesWithFilter200ResponseData':
-          return ShowAllServicesWithFilter200ResponseData.fromJson(value);
-        case 'ShowAllServicesWithFilter200ResponseDataDataInner':
-          return ShowAllServicesWithFilter200ResponseDataDataInner.fromJson(value);
-        case 'ShowAllServicesWithFilter200ResponseDataLinksInner':
-          return ShowAllServicesWithFilter200ResponseDataLinksInner.fromJson(value);
+        case 'ShowAllProviderSOrders200ResponseDataLinksInner':
+          return ShowAllProviderSOrders200ResponseDataLinksInner.fromJson(value);
         case 'ShowCartDetails200Response':
           return ShowCartDetails200Response.fromJson(value);
         case 'ShowCartDetails200ResponseData':
@@ -361,10 +359,6 @@ class ApiClient {
           return ShowHome200Response.fromJson(value);
         case 'ShowHome200ResponseData':
           return ShowHome200ResponseData.fromJson(value);
-        case 'ShowHome200ResponseDataCategoriesInner':
-          return ShowHome200ResponseDataCategoriesInner.fromJson(value);
-        case 'ShowHome200ResponseDataOccasionsInner':
-          return ShowHome200ResponseDataOccasionsInner.fromJson(value);
         case 'ShowNotifications1200Response':
           return ShowNotifications1200Response.fromJson(value);
         case 'ShowNotifications1200ResponseDataInner':

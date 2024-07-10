@@ -9,8 +9,8 @@ import 'package:lazo/api.dart';
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **banners** | [**List<Banner>**](Banner.md) |  | [optional] [default to const []]
-**categories** | [**List<ShowHome200ResponseDataCategoriesInner>**](ShowHome200ResponseDataCategoriesInner.md) |  | [optional] [default to const []]
-**occasions** | [**List<ShowHome200ResponseDataOccasionsInner>**](ShowHome200ResponseDataOccasionsInner.md) |  | [optional] [default to const []]
+**categories** | [**List<Category>**](Category.md) |  | [optional] [default to const []]
+**occasions** | [**List<Occasion>**](Occasion.md) |  | [optional] [default to const []]
 **topRatedProducts** | [**List<ProviderProduct>**](ProviderProduct.md) |  | [optional] [default to const []]
 **topRatedProviders** | [**List<ProviderData>**](ProviderData.md) |  | [optional] [default to const []]
 **topRatedServices** | [**List<ServiceShowData>**](ServiceShowData.md) |  | [optional] [default to const []]

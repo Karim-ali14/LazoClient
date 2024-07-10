@@ -246,6 +246,8 @@ class PublicApi {
   ///
   /// Parameters:
   ///
+  /// * [String] searchByName:
+  ///
   /// * [List<String>] categoriesIds:
   ///
   /// * [List<String>] occasionsIds:
@@ -258,7 +260,7 @@ class PublicApi {
   ///
   /// * [String] type:
   ///   products or services
-  Future<Response> filterTopProductsServicesWithHttpInfo({ List<String>? categoriesIds, List<String>? occasionsIds, String? priceFrom, String? priceTo, List<String>? ratings, String? type, }) async {
+  Future<Response> filterTopProductsServicesWithHttpInfo({ String? searchByName, List<String>? categoriesIds, List<String>? occasionsIds, String? priceFrom, String? priceTo, List<String>? ratings, String? type, }) async {
     // ignore: prefer_const_declarations
     final path = r'/top-products-services/filter';
 
@@ -273,6 +275,10 @@ class PublicApi {
 
     bool hasFields = false;
     final mp = MultipartRequest('POST', Uri.parse(path));
+    if (searchByName != null) {
+      hasFields = true;
+      mp.fields[r'search_by_name'] = parameterToString(searchByName);
+    }
     if (categoriesIds != null) {
       hasFields = true;
       mp.fields[r'categories_ids'] = parameterToString(categoriesIds);
@@ -318,6 +324,8 @@ class PublicApi {
   ///
   /// Parameters:
   ///
+  /// * [String] searchByName:
+  ///
   /// * [List<String>] categoriesIds:
   ///
   /// * [List<String>] occasionsIds:
@@ -330,8 +338,8 @@ class PublicApi {
   ///
   /// * [String] type:
   ///   products or services
-  Future<FilterTopProductsServices200Response?> filterTopProductsServices({ List<String>? categoriesIds, List<String>? occasionsIds, String? priceFrom, String? priceTo, List<String>? ratings, String? type, }) async {
-    final response = await filterTopProductsServicesWithHttpInfo( categoriesIds: categoriesIds, occasionsIds: occasionsIds, priceFrom: priceFrom, priceTo: priceTo, ratings: ratings, type: type, );
+  Future<FilterTopProductsServices200Response?> filterTopProductsServices({ String? searchByName, List<String>? categoriesIds, List<String>? occasionsIds, String? priceFrom, String? priceTo, List<String>? ratings, String? type, }) async {
+    final response = await filterTopProductsServicesWithHttpInfo( searchByName: searchByName, categoriesIds: categoriesIds, occasionsIds: occasionsIds, priceFrom: priceFrom, priceTo: priceTo, ratings: ratings, type: type, );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -353,6 +361,8 @@ class PublicApi {
   ///
   /// Parameters:
   ///
+  /// * [String] searchByName:
+  ///
   /// * [List<String>] categoriesIds:
   ///
   /// * [String] isPromoted:
@@ -361,7 +371,7 @@ class PublicApi {
   /// * [List<String>] occasionsIds:
   ///
   /// * [List<String>] ratings:
-  Future<Response> filterTopSellersWithHttpInfo({ List<String>? categoriesIds, String? isPromoted, List<String>? occasionsIds, List<String>? ratings, }) async {
+  Future<Response> filterTopSellersWithHttpInfo({ String? searchByName, List<String>? categoriesIds, String? isPromoted, List<String>? occasionsIds, List<String>? ratings, }) async {
     // ignore: prefer_const_declarations
     final path = r'/top-sellers/filter';
 
@@ -376,6 +386,10 @@ class PublicApi {
 
     bool hasFields = false;
     final mp = MultipartRequest('POST', Uri.parse(path));
+    if (searchByName != null) {
+      hasFields = true;
+      mp.fields[r'search_by_name'] = parameterToString(searchByName);
+    }
     if (categoriesIds != null) {
       hasFields = true;
       mp.fields[r'categories_ids'] = parameterToString(categoriesIds);
@@ -413,6 +427,8 @@ class PublicApi {
   ///
   /// Parameters:
   ///
+  /// * [String] searchByName:
+  ///
   /// * [List<String>] categoriesIds:
   ///
   /// * [String] isPromoted:
@@ -421,8 +437,8 @@ class PublicApi {
   /// * [List<String>] occasionsIds:
   ///
   /// * [List<String>] ratings:
-  Future<FilterTopSellers200Response?> filterTopSellers({ List<String>? categoriesIds, String? isPromoted, List<String>? occasionsIds, List<String>? ratings, }) async {
-    final response = await filterTopSellersWithHttpInfo( categoriesIds: categoriesIds, isPromoted: isPromoted, occasionsIds: occasionsIds, ratings: ratings, );
+  Future<FilterTopSellers200Response?> filterTopSellers({ String? searchByName, List<String>? categoriesIds, String? isPromoted, List<String>? occasionsIds, List<String>? ratings, }) async {
+    final response = await filterTopSellersWithHttpInfo( searchByName: searchByName, categoriesIds: categoriesIds, isPromoted: isPromoted, occasionsIds: occasionsIds, ratings: ratings, );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -831,7 +847,7 @@ class PublicApi {
   ///
   /// * [String] providerId:
   ///   optional
-  Future<ShowAllServicesWithFilter200Response?> showAllServicesWithFilter({ String? providerId, }) async {
+  Future<ServicesListResponse?> showAllServicesWithFilter({ String? providerId, }) async {
     final response = await showAllServicesWithFilterWithHttpInfo( providerId: providerId, );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
@@ -840,7 +856,7 @@ class PublicApi {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
-      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'ShowAllServicesWithFilter200Response',) as ShowAllServicesWithFilter200Response;
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'ServicesListResponse',) as ServicesListResponse;
     
     }
     return null;
