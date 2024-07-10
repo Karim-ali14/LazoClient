@@ -8,6 +8,7 @@ import 'package:lazo/api.dart';
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**banners** | [**List<Banner>**](Banner.md) |  | [optional] [default to const []]
 **categories** | [**List<ShowHome200ResponseDataCategoriesInner>**](ShowHome200ResponseDataCategoriesInner.md) |  | [optional] [default to const []]
 **occasions** | [**List<ShowHome200ResponseDataOccasionsInner>**](ShowHome200ResponseDataOccasionsInner.md) |  | [optional] [default to const []]
 **topRatedProducts** | [**List<ProviderProduct>**](ProviderProduct.md) |  | [optional] [default to const []]

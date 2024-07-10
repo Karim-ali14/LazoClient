@@ -4817,6 +4817,10 @@ paths:
                   data:
                     type: object
                     properties:
+                      banners:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Banner'
                       categories:
                         type: array
                         items:

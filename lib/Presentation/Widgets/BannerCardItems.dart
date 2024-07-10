@@ -2,6 +2,7 @@ import 'dart:ffi';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../../Constants/Assets.dart';
@@ -13,12 +14,13 @@ class BannerCardItems extends StatefulWidget {
   final bool showIndicator;
   final double height;
   final double width;
+  final bool showLoading;
   const BannerCardItems(
       {super.key,
       required this.list,
       this.showIndicator = true,
       required this.height,
-      required this.width});
+      required this.width, required this.showLoading});
 
   @override
   State<BannerCardItems> createState() => _BannerCardItemsState();
@@ -35,16 +37,26 @@ class _BannerCardItemsState extends State<BannerCardItems> {
           PageView(
             controller: pageController,
             children: widget.list.map((imagePath) {
-              return Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(4.0),
-                ),
-                height: widget.height,
-                width: widget.width,
-                clipBehavior: Clip.antiAlias,
-                child: ImageView(
-                  initialImg: imagePath,
-                  placeHolder: placeholder,
+              return Skeletonizer(
+                enabled: widget.showLoading,
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(4.0),
+                  ),
+                  height: widget.height,
+                  width: widget.width,
+                  clipBehavior: Clip.antiAlias,
+                  child: Skeleton.replace(
+                    replacement: Container(
+                      width: widget.width, // Adjust dimensions as needed
+                      height: widget.height,
+                      color: Colors.white,
+                    ),
+                    child: ImageView(
+                      initialImg: imagePath,
+                      placeHolder: placeholder,
+                    ),
+                  ),
                 ),
               );
             }).toList(),

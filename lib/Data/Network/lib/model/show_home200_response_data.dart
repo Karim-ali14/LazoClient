@@ -13,12 +13,15 @@ part of openapi.api;
 class ShowHome200ResponseData {
   /// Returns a new [ShowHome200ResponseData] instance.
   ShowHome200ResponseData({
+    this.banners = const [],
     this.categories = const [],
     this.occasions = const [],
     this.topRatedProducts = const [],
     this.topRatedProviders = const [],
     this.topRatedServices = const [],
   });
+
+  List<Banner> banners;
 
   List<ShowHome200ResponseDataCategoriesInner> categories;
 
@@ -32,6 +35,7 @@ class ShowHome200ResponseData {
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is ShowHome200ResponseData &&
+     other.banners == banners &&
      other.categories == categories &&
      other.occasions == occasions &&
      other.topRatedProducts == topRatedProducts &&
@@ -41,6 +45,7 @@ class ShowHome200ResponseData {
   @override
   int get hashCode =>
     // ignore: unnecessary_parenthesis
+    (banners.hashCode) +
     (categories.hashCode) +
     (occasions.hashCode) +
     (topRatedProducts.hashCode) +
@@ -48,10 +53,11 @@ class ShowHome200ResponseData {
     (topRatedServices.hashCode);
 
   @override
-  String toString() => 'ShowHome200ResponseData[categories=$categories, occasions=$occasions, topRatedProducts=$topRatedProducts, topRatedProviders=$topRatedProviders, topRatedServices=$topRatedServices]';
+  String toString() => 'ShowHome200ResponseData[banners=$banners, categories=$categories, occasions=$occasions, topRatedProducts=$topRatedProducts, topRatedProviders=$topRatedProviders, topRatedServices=$topRatedServices]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
+      json[r'banners'] = this.banners;
       json[r'categories'] = this.categories;
       json[r'occasions'] = this.occasions;
       json[r'top_rated_products'] = this.topRatedProducts;
@@ -79,6 +85,7 @@ class ShowHome200ResponseData {
       }());
 
       return ShowHome200ResponseData(
+        banners: Banner.listFromJson(json[r'banners']),
         categories: ShowHome200ResponseDataCategoriesInner.listFromJson(json[r'categories']),
         occasions: ShowHome200ResponseDataOccasionsInner.listFromJson(json[r'occasions']),
         topRatedProducts: ProviderProduct.listFromJson(json[r'top_rated_products']),

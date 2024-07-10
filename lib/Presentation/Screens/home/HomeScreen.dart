@@ -1,5 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lazo_client/Data/Models/StateModel.dart';
+import 'package:lazo_client/Doman/CommenProviders/ApiProvider.dart';
+import 'package:lazo_client/Presentation/StateNotifiersViewModel/PublicStateNotifiers.dart';
 import 'package:lazo_client/Presentation/Widgets/BannerCardItems.dart';
 import 'package:lazo_client/Presentation/Widgets/CategoryItemCart.dart';
 import 'package:lazo_client/Presentation/Widgets/SearchWithFilter.dart';
@@ -7,16 +13,26 @@ import 'package:lazo_client/Presentation/Widgets/SellerItemCard.dart';
 import 'package:lazo_client/Presentation/Widgets/ServiceAndProductItemCard.dart';
 import 'package:lazo_client/Presentation/Widgets/TitleWithSeeAll.dart';
 
-class HomeScreen extends StatefulWidget {
+class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  ConsumerState<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends ConsumerState<HomeScreen> {
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      ref.read(homeDataStateNotifiers.notifier).getHomeData();
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
+    final homeDataState = ref.watch(homeDataStateNotifiers);
+
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -28,9 +44,21 @@ class _HomeScreenState extends State<HomeScreen> {
               SizedBox(
                 height: 24,
               ),
-              BannerCardItems(list: [
-                "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTbWx68YZmV1xcoRW1iu-FOLm1GS_d3UbkwCw&usqp=CAU"
-              ], height: 149, width: MediaQuery.of(context).size.width),
+              (homeDataState.state == DataState.SUCCESS &&
+                      homeDataState.data?.data?.banners.isEmpty == true)
+                  ? SizedBox()
+                  : BannerCardItems(
+                      list: homeDataState.state != DataState.LOADING
+                          ? homeDataState.data?.data?.banners
+                                  .map((item) => item.imagePath ?? "")
+                                  .toList() ??
+                              []
+                          : [""],
+                      height: 149,
+                      width: MediaQuery.of(context).size.width,
+                      showLoading: homeDataState.state == DataState.LOADING,
+                      showIndicator: homeDataState.state != DataState.LOADING,
+                    ),
               SizedBox(
                 height: 32,
               ),
@@ -39,7 +67,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 onClickOnSeeAll: () {},
               ),
               ServiceAndProductItemCardHorizontal()
-
             ],
           ),
         ),

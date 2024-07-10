@@ -14,3 +14,15 @@ class CitiesUseCases extends StateNotifier<StateModel<CitiesResponse?>>{
   }
 
 }
+
+class HomeDataUseCase extends StateNotifier<StateModel<ShowHome200Response>>{
+
+  final Ref ref;
+  final PublicApi publicApi;
+  HomeDataUseCase(this.ref, this.publicApi):super(StateModel());
+
+  void getHomeData() async {
+    state = StateModel.loading();
+    request(() => publicApi.showHome());
+  }
+}
