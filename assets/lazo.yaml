@@ -327,12 +327,106 @@ components:
               type: boolean
               example: true
 
+    ClientAuthResponse:
+       properties:
+        data:
+          type: object
+          properties:
+            access_token:
+              type: string
+              example: 29|3S0JFYe4pRiL0whC6DOo8IemR41SPot3P2WVpBTf
+            client:
+              type: object
+              properties:
+                balance:
+                  type: string
+                  example: '0'
+                city:
+                  type: object
+                  properties:
+                    created_at:
+                      type: string
+                      example: '2024-04-22T15:09:47.000000Z'
+                    id:
+                      type: number
+                      example: 1
+                    name:
+                      type: string
+                      example: الرياض
+                    name_ar:
+                      type: string
+                      example: الرياض
+                    name_en:
+                      type: string
+                      example: Alriyadh
+                    updated_at:
+                      type: string
+                      example: '2024-04-22T15:09:47.000000Z'
+                city_id:
+                  type: number
+                  example: 1
+                created_at:
+                  type: string
+                  example: '2024-05-13T11:59:17.000000Z'
+                device_type:
+                  nullable: true
+                  example: null
+                email:
+                  type: string
+                  example: first_client@gmail.com
+                fcm_token:
+                  nullable: true
+                  example: null
+                id:
+                  type: number
+                  example: 2
+                image:
+                  type: string
+                  example: uploads/files/04-2024/1713354063L6Sxt2kHExLiW2p.png
+                imagePath:
+                  type: string
+                  example: http://localhost:8000/uploads/files/04-2024/1713354063L6Sxt2kHExLiW2p.png
+                lang:
+                  type: string
+                  example: ar
+                name:
+                  type: string
+                  example: first client
+                phone:
+                  type: string
+                  example: '534053560'
+                status:
+                  type: string
+                  example: active
+                updated_at:
+                  type: string
+                  example: '2024-05-13T11:59:17.000000Z'
+            token_type:
+              type: string
+              example: Bearer
+        is_exist:
+          type: boolean
+          example: true
+        is_verified:
+          type: boolean
+          example: true
+        message:
+          type: string
+        status:
+          type: boolean
+          example: true
+
     UploadFiles:
       type: object
       properties:
-        files[0]:
+        status:
+          type: boolean
+        message:
           type: string
-          format: binary
+        data:
+          type: array
+          items:
+            type: string
 
     UploadFilesResponse:
       type: object
@@ -1284,33 +1378,33 @@ components:
           example: '2024-04-23T10:42:32.000000Z'
 
     Category:
-      type: object
-      properties:
-        id:
-          type: number
-          example: 1
-        name_en:
-          type: string
-          example: food
-        name_ar:
-          type: string
-          example: المأكولات
-        image:
-          type: string
-          example: uploads/files/04-2024/1713354063L6Sxt2kHExLiW2p.png
-        services_count:
-          type: number
-        products_count:
-          type: number
-        imagePath:
-          type: string
-          example: http://localhost:8000/uploads/files/04-2024/1713354063L6Sxt2kHExLiW2p.png
-        created_at:
-          type: string
-          example: '2024-04-22T16:47:42.000000Z'
-        updated_at:
-          type: string
-          example: '2024-04-22T16:47:42.000000Z'
+        type: object
+        properties:
+          id:
+            type: number
+            example: 1
+          name_en:
+            type: string
+            example: food
+          name_ar:
+            type: string
+            example: المأكولات
+          image:
+            type: string
+            example: uploads/files/04-2024/1713354063L6Sxt2kHExLiW2p.png
+          services_count:
+            type: number
+          products_count:
+            type: number
+          imagePath:
+            type: string
+            example: http://localhost:8000/uploads/files/04-2024/1713354063L6Sxt2kHExLiW2p.png
+          created_at:
+            type: string
+            example: '2024-04-22T16:47:42.000000Z'
+          updated_at:
+            type: string
+            example: '2024-04-22T16:47:42.000000Z'
 
     CategoryMenu:
       type: object
@@ -1328,7 +1422,7 @@ components:
           type: number
           example: 1
         services_count:
-          type: number
+            type: number
         products_count:
           type: number
         created_at:
@@ -2272,9 +2366,12 @@ paths:
             schema:
               type: object
               properties:
-                files[0]:
-                  type: string
-                  format: binary
+                files:
+                  type: array
+                  items:
+                    type: string
+                    format: binary
+
       responses:
         '200':
           description: OK
@@ -2478,105 +2575,105 @@ paths:
               schema:
                 $ref: '#/components/schemas/CategoriesResponse'
   /banners:
-    get:
-      tags:
-        - public
-      summary: show all banners
-      description: show all banners
-      operationId: showAllBanners
-      responses:
-        '200':
-          description: New Request
-          headers:
-            Access-Control-Allow-Origin:
-              schema:
-                type: string
-                example: '*'
-            Cache-Control:
-              schema:
-                type: string
-                example: no-cache, private
-            Connection:
-              schema:
-                type: string
-                example: close
-            Date:
-              schema:
-                type: string
-                example: Tue, 23 Apr 2024 10:50:23 GMT
-            Host:
-              schema:
-                type: string
-                example: localhost:8000
-            X-Powered-By:
-              schema:
-                type: string
-                example: PHP/8.2.3
-            X-RateLimit-Limit:
-              schema:
-                type: string
-                example: '60'
-            X-RateLimit-Remaining:
-              schema:
-                type: string
-                example: '59'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/BannersResponse'
+      get:
+        tags:
+          - public
+        summary: show all banners
+        description: show all banners
+        operationId: showAllBanners
+        responses:
+          '200':
+            description: New Request
+            headers:
+              Access-Control-Allow-Origin:
+                schema:
+                  type: string
+                  example: '*'
+              Cache-Control:
+                schema:
+                  type: string
+                  example: no-cache, private
+              Connection:
+                schema:
+                  type: string
+                  example: close
+              Date:
+                schema:
+                  type: string
+                  example: Tue, 23 Apr 2024 10:50:23 GMT
+              Host:
+                schema:
+                  type: string
+                  example: localhost:8000
+              X-Powered-By:
+                schema:
+                  type: string
+                  example: PHP/8.2.3
+              X-RateLimit-Limit:
+                schema:
+                  type: string
+                  example: '60'
+              X-RateLimit-Remaining:
+                schema:
+                  type: string
+                  example: '59'
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/BannersResponse'
 
   /gift-boxes:
-    get:
-      tags:
-        - public
-      summary: Show all gift boxes
-      description: Retrieve a list of all available gift boxes
-      operationId: showAllGiftBoxes
-      responses:
-        '200':
-          description: A list of all gift boxes
-          headers:
-            Access-Control-Allow-Origin:
-              schema:
-                type: string
-                example: '*'
-            Cache-Control:
-              schema:
-                type: string
-                example: no-cache, private
-            Connection:
-              schema:
-                type: string
-                example: close
-            Date:
-              schema:
-                type: string
-                example: Mon, 20 May 2024 23:17:45 GMT
-            Host:
-              schema:
-                type: string
-                example: localhost:8000
-            X-Powered-By:
-              schema:
-                type: string
-                example: PHP/8.1.2-1ubuntu2.14
-            X-RateLimit-Limit:
-              schema:
-                type: string
-                example: '60'
-            X-RateLimit-Remaining:
-              schema:
-                type: string
-                example: '59'
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  data:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/GiftBox'
+      get:
+        tags:
+          - public
+        summary: Show all gift boxes
+        description: Retrieve a list of all available gift boxes
+        operationId: showAllGiftBoxes
+        responses:
+          '200':
+            description: A list of all gift boxes
+            headers:
+              Access-Control-Allow-Origin:
+                schema:
+                  type: string
+                  example: '*'
+              Cache-Control:
+                schema:
+                  type: string
+                  example: no-cache, private
+              Connection:
+                schema:
+                  type: string
+                  example: close
+              Date:
+                schema:
+                  type: string
+                  example: Mon, 20 May 2024 23:17:45 GMT
+              Host:
+                schema:
+                  type: string
+                  example: localhost:8000
+              X-Powered-By:
+                schema:
+                  type: string
+                  example: PHP/8.1.2-1ubuntu2.14
+              X-RateLimit-Limit:
+                schema:
+                  type: string
+                  example: '60'
+              X-RateLimit-Remaining:
+                schema:
+                  type: string
+                  example: '59'
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    data:
+                      type: array
+                      items:
+                        $ref: '#/components/schemas/GiftBox'
   /gift-cards:
     get:
       tags:
@@ -7216,89 +7313,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  data:
-                    type: object
-                    properties:
-                      access_token:
-                        type: string
-                        example: 28|CIX6HwomHusqMKKc0qGliOg3YPWj1j6roaYNZ4Vb
-                      token_type:
-                        type: string
-                        example: Bearer
-                      user:
-                        type: object
-                        properties:
-                          balance:
-                            type: string
-                            example: '0'
-                          city:
-                            type: object
-                            properties:
-                              created_at:
-                                type: string
-                                example: '2024-04-22T15:09:47.000000Z'
-                              id:
-                                type: number
-                                example: 1
-                              name:
-                                type: string
-                                example: الرياض
-                              name_ar:
-                                type: string
-                                example: الرياض
-                              name_en:
-                                type: string
-                                example: Alriyadh
-                              updated_at:
-                                type: string
-                                example: '2024-04-22T15:09:47.000000Z'
-                          city_id:
-                            type: number
-                            example: 1
-                          created_at:
-                            type: string
-                            example: '2024-05-13T11:59:17.000000Z'
-                          device_type:
-                            nullable: true
-                            example: null
-                          email:
-                            type: string
-                            example: first_client@gmail.com
-                          fcm_token:
-                            nullable: true
-                            example: null
-                          id:
-                            type: number
-                            example: 2
-                          image:
-                            type: string
-                            example: uploads/files/04-2024/1713354063L6Sxt2kHExLiW2p.png
-                          imagePath:
-                            type: string
-                            example: http://localhost:8000/uploads/files/04-2024/1713354063L6Sxt2kHExLiW2p.png
-                          lang:
-                            type: string
-                            example: ar
-                          name:
-                            type: string
-                            example: first client
-                          phone:
-                            type: string
-                            example: '534053560'
-                          status:
-                            type: string
-                            example: active
-                          updated_at:
-                            type: string
-                            example: '2024-05-13T11:59:17.000000Z'
-                  message:
-                    type: string
-                    example: user is registered successfully
-                  status:
-                    type: boolean
-                    example: true
+                  $ref: '#/components/schemas/ClientAuthResponse'
               examples:
                 client signup:
                   value:
@@ -7385,95 +7400,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  data:
-                    type: object
-                    properties:
-                      access_token:
-                        type: string
-                        example: 29|3S0JFYe4pRiL0whC6DOo8IemR41SPot3P2WVpBTf
-                      client:
-                        type: object
-                        properties:
-                          balance:
-                            type: string
-                            example: '0'
-                          city:
-                            type: object
-                            properties:
-                              created_at:
-                                type: string
-                                example: '2024-04-22T15:09:47.000000Z'
-                              id:
-                                type: number
-                                example: 1
-                              name:
-                                type: string
-                                example: الرياض
-                              name_ar:
-                                type: string
-                                example: الرياض
-                              name_en:
-                                type: string
-                                example: Alriyadh
-                              updated_at:
-                                type: string
-                                example: '2024-04-22T15:09:47.000000Z'
-                          city_id:
-                            type: number
-                            example: 1
-                          created_at:
-                            type: string
-                            example: '2024-05-13T11:59:17.000000Z'
-                          device_type:
-                            nullable: true
-                            example: null
-                          email:
-                            type: string
-                            example: first_client@gmail.com
-                          fcm_token:
-                            nullable: true
-                            example: null
-                          id:
-                            type: number
-                            example: 2
-                          image:
-                            type: string
-                            example: uploads/files/04-2024/1713354063L6Sxt2kHExLiW2p.png
-                          imagePath:
-                            type: string
-                            example: http://localhost:8000/uploads/files/04-2024/1713354063L6Sxt2kHExLiW2p.png
-                          lang:
-                            type: string
-                            example: ar
-                          name:
-                            type: string
-                            example: first client
-                          phone:
-                            type: string
-                            example: '534053560'
-                          status:
-                            type: string
-                            example: active
-                          updated_at:
-                            type: string
-                            example: '2024-05-13T11:59:17.000000Z'
-                      token_type:
-                        type: string
-                        example: Bearer
-                  is_exist:
-                    type: boolean
-                    example: true
-                  is_verified:
-                    type: boolean
-                    example: true
-                  message:
-                    type: string
-                    example: client logged in successfully
-                  status:
-                    type: boolean
-                    example: true
+                  $ref: '#/components/schemas/ClientAuthResponse'
               examples:
                 client login:
                   value:

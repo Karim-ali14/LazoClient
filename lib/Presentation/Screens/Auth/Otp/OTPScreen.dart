@@ -22,8 +22,12 @@ import 'Componants/TimerCounter.dart';
 
 class OTPScreen extends ConsumerStatefulWidget {
   final String phone;
+  final String? cityId;
+  final String? email;
+  final String? image;
+  final String? name;
   final OTPType otpType;
-  const OTPScreen({super.key,required this.phone,required this.otpType});
+  const OTPScreen({super.key,required this.phone,required this.otpType,this.cityId, this.email, this.image, this.name});
 
   @override
   ConsumerState<OTPScreen> createState() => _OtpScreenState();
@@ -36,17 +40,32 @@ class _OtpScreenState extends ConsumerState<OTPScreen> {
   @override
   Widget build(BuildContext context) {
 
-    handleState(sendOtpStateProvider,showLoading: true,showToast: true,onSuccess: (state){
+    handleState(sendOtpForLoginStateProvider,showLoading: true,showToast: true,onSuccess: (state){
       timerKey.currentState?.restart();
     });
 
-    handleState(confirmResetCodeStateProvider,onSuccess: (state){
-      login();
+    handleState(confirmResetCodeStateProvider,showToast: true,onSuccess: (state){
+      if(widget.otpType == OTPType.Login) {
+        login();
+      }else if(widget.otpType == OTPType.SignUp){
+        signUp();
+      }
     },onLoading: (res){
       context.showLoadingDialog();
     });
 
-    handleState(loginStateNotifierProvider,showLoading: true, onSuccess: (res) {
+    handleState(loginStateNotifierProvider, onSuccess: (res) {
+      if(context.isThereCurrentDialogShowing()){
+        try{
+          context.pop();
+        }catch(e){
+          print("NAV cannont pop");
+        }
+      }
+      context.go(R_HomeScreen);
+    });
+
+    handleState(signUpStateNotifierProvider, onSuccess: (res) {
       if(context.isThereCurrentDialogShowing()){
         try{
           context.pop();
@@ -72,96 +91,109 @@ class _OtpScreenState extends ConsumerState<OTPScreen> {
             ),
           )),
       body: SafeArea(
-        child: Column(
-          children: [
-            const SizedBox(
-              height: 40,
-            ),
-            SVGIcons.appLogoIcon(width: 113, height: 95, color: Colors.black),
-            const SizedBox(
-              height: 25,
-            ),
-            Text(
-              "Please enter the verification code you",
-              style: AppTheme.styleWithTextGray7AdelleSansExtendedFonts16w400,
-            ),
-            const SizedBox(
-              height: 5,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                RichText(
-                    text: TextSpan(
-                        text: "received from ",
-                        style: AppTheme
-                            .styleWithTextGray7AdelleSansExtendedFonts16w400,
-                        children: <TextSpan>[
-                          TextSpan(
-                              text: widget.phone,
-                              style: AppTheme
-                                  .styleWithTextBlackAdelleSansExtendedFonts16w700)
-                        ])),
-                const SizedBox(
-                  width: 8,
-                ),
-                InkWell(child: SVGIcons.editIcon(),onTap: (){
-                  context.pop();
-                }),
-              ],
-            ),
-            const SizedBox(height: 40,),
-            OTPFields(key: otpFieldsKeys,),
-            const SizedBox(height: 24,),
-            Padding(padding : const EdgeInsets.symmetric(horizontal: defaultPaddingHorizontal), child: AppButton(onPress: () {
-              if(otpFieldsKeys.currentState?.formKey.currentState?.validate() == true){
-                verifyPhone(widget.phone,otpFieldsKeys.currentState?.getCode);
-              }
-            } ,text: "Continue",height: 48,width: context.getScreenSize.width,)),
-            Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: TimerText(key: timerKey,onTimerFinish: (){
-                  setState(() {
-                    readyToResendOtp = true;
-                  });
-                },)
-            ),
-
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: RichText(
-                text: TextSpan(
-                  text: "Resend verification code",
-                  style: TextStyle(
-                    color: readyToResendOtp ? AppTheme.mainAppColor : AppTheme.appGrey3, // Set the color to green
-                    fontSize: 16.0,
-                    decoration: TextDecoration.underline, // Underline the text
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              const SizedBox(
+                height: 40,
+              ),
+              SVGIcons.appLogoIcon(width: 113, height: 95, color: Colors.black),
+              const SizedBox(
+                height: 25,
+              ),
+              Text(
+                "Please enter the verification code you",
+                style: AppTheme.styleWithTextGray7AdelleSansExtendedFonts16w400,
+              ),
+              const SizedBox(
+                height: 5,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  RichText(
+                      text: TextSpan(
+                          text: "received from ",
+                          style: AppTheme
+                              .styleWithTextGray7AdelleSansExtendedFonts16w400,
+                          children: <TextSpan>[
+                            TextSpan(
+                                text: widget.phone,
+                                style: AppTheme
+                                    .styleWithTextBlackAdelleSansExtendedFonts16w700)
+                          ])),
+                  const SizedBox(
+                    width: 8,
                   ),
-                  recognizer: TapGestureRecognizer()..onTap = !readyToResendOtp ? null : (){
-                    sendOtp();
+                  InkWell(child: SVGIcons.editIcon(),onTap: (){
+                    context.pop();
+                  }),
+                ],
+              ),
+              const SizedBox(height: 40,),
+              OTPFields(key: otpFieldsKeys,),
+              const SizedBox(height: 24,),
+              Padding(padding : const EdgeInsets.symmetric(horizontal: defaultPaddingHorizontal), child: AppButton(onPress: () {
+                if(otpFieldsKeys.currentState?.formKey.currentState?.validate() == true){
+                  verifyPhone(widget.phone,otpFieldsKeys.currentState?.getCode);
+                }
+              } ,text: "Continue",height: 48,width: context.getScreenSize.width,)),
+              Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: TimerText(key: timerKey,onTimerFinish: (){
                     setState(() {
-                      readyToResendOtp = false;
+                      readyToResendOtp = true;
                     });
-                  },
+                  },)
+              ),
+
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: RichText(
+                  text: TextSpan(
+                    text: "Resend verification code",
+                    style: TextStyle(
+                      color: readyToResendOtp ? AppTheme.mainAppColor : AppTheme.appGrey3, // Set the color to green
+                      fontSize: 16.0,
+                      decoration: TextDecoration.underline, // Underline the text
+                    ),
+                    recognizer: TapGestureRecognizer()..onTap = !readyToResendOtp ? null : (){
+                      sendOtp();
+                      setState(() {
+                        readyToResendOtp = false;
+                      });
+                    },
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
   }
 
   void sendOtp() async {
-    ref.read(sendOtpStateProvider.notifier).sendOtp(widget.phone);
+    ref.read(sendOtpForLoginStateProvider.notifier).sendOtp(widget.phone);
   }
 
   void verifyPhone(String phone,String? code) async {
+    print("verifyPhone $phone , $code");
     ref.read(confirmResetCodeStateProvider.notifier).confirmReset(phone, code);
   }
 
   void login() async {
     ref.read(loginStateNotifierProvider.notifier)
         .login(widget.phone);
+  }
+
+  void signUp() {
+    ref.read(signUpStateNotifierProvider.notifier).signUp(
+        image: widget.image,
+        name: widget.name,
+        phone: widget.phone,
+        email: widget.email?.isNotEmpty == true ? widget.email : null,
+        cityId: "${widget.cityId}"
+    );
   }
 }

@@ -30,39 +30,43 @@ class _CircleImgPickerState extends State<CircleImgPicker> {
   String? imgPath;
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: (widget.size ?? 50) + 10,
-      height: (widget.size ?? 50) + 10,
-      child: Stack(
-        alignment: Alignment.bottomCenter,
-        children: [
-          Container(
-            clipBehavior: Clip.antiAlias,
-            width: widget.size ?? 50,
-            height: widget.size ?? 50,
-            decoration: const BoxDecoration(
-                color: Colors.white, shape: BoxShape.circle),
-            child: imgPath != null
-                ? Image.file(
-                    File(imgPath ?? ""),
-                    fit: BoxFit.cover,
-                  )
-                : (widget.initialImg != null
-                    ? ImageView(
-                        initialImg: widget.initialImg)
-                    : widget.placeHolder),
-          ),
-          Positioned(
-              right: -2,
-              bottom: -2,
-              child: IconButton(
-                onPressed: () async {
-                  context.showSelectionActionSheet(imagePickOptions, onSelect,
-                      header: "Add Image");
-                },
-                icon: SVGIcons.itemsIcon(),
-              ))
-        ],
+    return InkWell(
+      onTap: () async {
+        context.showSelectionActionSheet(imagePickOptions, onSelect,
+            header: "Add Image");
+      },
+      child: SizedBox(
+        width: widget.size ?? 50,
+        height: widget.size ?? 50,
+        child: Stack(
+          alignment: Alignment.bottomCenter,
+          children: [
+            Container(
+              clipBehavior: Clip.antiAlias,
+              width: widget.size ?? 88,
+              height: widget.size ?? 88,
+              decoration: const BoxDecoration(
+                  color: Colors.white, shape: BoxShape.circle),
+              child: imgPath != null
+                  ? Image.file(
+                      File(imgPath ?? ""),
+                      fit: BoxFit.cover,
+                    )
+                  : (widget.initialImg != null
+                      ? ImageView(
+                          initialImg: widget.initialImg)
+                      : widget.placeHolder),
+            ),
+            Positioned(
+                child: IconButton(
+                  onPressed: () async {
+                    context.showSelectionActionSheet(imagePickOptions, onSelect,
+                        header: "Add Image");
+                  },
+                  icon: SVGIcons.itemsIcon(),
+                ))
+          ],
+        ),
       ),
     );
   }

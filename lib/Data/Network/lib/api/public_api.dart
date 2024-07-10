@@ -122,7 +122,7 @@ class PublicApi {
   /// Parameters:
   ///
   /// * [String] phone:
-  Future<ClientLogin200Response?> clientLogin({ String? phone, }) async {
+  Future<ClientAuthResponse?> clientLogin({ String? phone, }) async {
     final response = await clientLoginWithHttpInfo( phone: phone, );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
@@ -131,7 +131,7 @@ class PublicApi {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
-      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'ClientLogin200Response',) as ClientLogin200Response;
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'ClientAuthResponse',) as ClientAuthResponse;
     
     }
     return null;
@@ -223,7 +223,7 @@ class PublicApi {
   /// * [String] name:
   ///
   /// * [String] phone:
-  Future<ClientSignup200Response?> clientSignup({ String? cityId, String? email, String? image, String? name, String? phone, }) async {
+  Future<ClientAuthResponse?> clientSignup({ String? cityId, String? email, String? image, String? name, String? phone, }) async {
     final response = await clientSignupWithHttpInfo( cityId: cityId, email: email, image: image, name: name, phone: phone, );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
@@ -232,7 +232,7 @@ class PublicApi {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
-      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'ClientSignup200Response',) as ClientSignup200Response;
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'ClientAuthResponse',) as ClientAuthResponse;
     
     }
     return null;
@@ -1179,8 +1179,8 @@ class PublicApi {
   ///
   /// Parameters:
   ///
-  /// * [MultipartFile] filesLeftSquareBracket0RightSquareBracket:
-  Future<Response> uploadFilesPostWithHttpInfo({ MultipartFile? filesLeftSquareBracket0RightSquareBracket, }) async {
+  /// * [List<MultipartFile>] files:
+  Future<Response> uploadFilesPostWithHttpInfo({ List<MultipartFile>? files, }) async {
     // ignore: prefer_const_declarations
     final path = r'/upload/files';
 
@@ -1195,10 +1195,10 @@ class PublicApi {
 
     bool hasFields = false;
     final mp = MultipartRequest('POST', Uri.parse(path));
-    if (filesLeftSquareBracket0RightSquareBracket != null) {
+    if (files != null) {
       hasFields = true;
-      mp.fields[r'files[0]'] = filesLeftSquareBracket0RightSquareBracket.field;
-      mp.files.add(filesLeftSquareBracket0RightSquareBracket);
+      // mp.fields[r'files'] = files.field;
+      mp.files.addAll(files);
     }
     if (hasFields) {
       postBody = mp;
@@ -1219,9 +1219,9 @@ class PublicApi {
   ///
   /// Parameters:
   ///
-  /// * [MultipartFile] filesLeftSquareBracket0RightSquareBracket:
-  Future<UploadFilesResponse?> uploadFilesPost({ MultipartFile? filesLeftSquareBracket0RightSquareBracket, }) async {
-    final response = await uploadFilesPostWithHttpInfo( filesLeftSquareBracket0RightSquareBracket: filesLeftSquareBracket0RightSquareBracket, );
+  /// * [List<MultipartFile>] files:
+  Future<UploadFilesResponse?> uploadFilesPost({ List<MultipartFile>? files, }) async {
+    final response = await uploadFilesPostWithHttpInfo( files: files, );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }

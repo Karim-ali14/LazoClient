@@ -6,9 +6,9 @@ import '../../Data/Network/lib/api.dart';
 import '../../Doman/useCases/AuthUaseCases.dart';
 
 final getCities =
-    StateNotifierProvider<CitiesUseCases, StateModel<CitiesResponse?>>(
+    StateNotifierProvider.autoDispose<CitiesUseCases, StateModel<CitiesResponse?>>(
         (ref) => CitiesUseCases(ref, ref.read(publicApi)));
 
 final uploadFilesStateNotifiers =
-    StateNotifierProvider<UploadFilesUseCase, StateModel<Object>>(
+    StateNotifierProvider.autoDispose<UploadFilesUseCase, StateModel<UploadFilesResponse>>(
         (ref) => UploadFilesUseCase(ref, ref.read(publicApi)));

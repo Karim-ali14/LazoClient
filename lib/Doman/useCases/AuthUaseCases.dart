@@ -13,7 +13,7 @@ import '../../Constants.dart';
 import '../../Localization/Keys.dart';
 import 'package:mime/mime.dart';
 
-class LoginUseCase extends StateNotifier<StateModel<ClientLogin200Response>> {
+class LoginUseCase extends StateNotifier<StateModel<ClientAuthResponse>> {
   final Ref ref;
   final AuthApi authApi;
   LoginUseCase(this.ref, this.authApi) : super(StateModel());
@@ -21,6 +21,19 @@ class LoginUseCase extends StateNotifier<StateModel<ClientLogin200Response>> {
   void login(String phone) async {
     state = StateModel.loading();
     request(() => authApi.clientLogin(phone: phone), onComplete:(res) {
+      ref.read(clientStateProvider.notifier).setUser(res.data);
+    });
+  }
+}
+
+class SignUpUseCase extends StateNotifier<StateModel<ClientAuthResponse>> {
+  final Ref ref;
+  final AuthApi authApi;
+  SignUpUseCase(this.ref, this.authApi) : super(StateModel());
+
+  void signUp({ String? cityId, String? email, String? image, String? name, String? phone, }) async {
+    state = StateModel.loading();
+    request(() => authApi.clientSignup(cityId: cityId,email: email,image: image,name: name,phone: phone), onComplete:(res) {
       ref.read(clientStateProvider.notifier).setUser(res.data);
     });
   }
@@ -45,7 +58,7 @@ class ConfirmResetCodeUseCase extends StateNotifier<StateModel<Object>>{
 
   void confirmReset(String? emailOrPhone,String? code) async {
     state = StateModel.loading();
-    request(() => authApi.resetCodeConfirmPost(emailOrPhone: emailOrPhone,confirmCode: code ,accountType : accountType));
+    request(() => authApi.codeConfirmPost(emailOrPhone: emailOrPhone,confirmCode: code ,accountType : accountType));
   }
 }
 
@@ -57,8 +70,9 @@ class UploadFilesUseCase extends StateNotifier<StateModel<UploadFilesResponse>>{
   void uploadFilesPost(List<File> files) async {
     state = StateModel.loading();
     var list = await filesToMultipart(files);
-    request(() => publicApi.uploadFilesPost(filesLeftSquareBracket0RightSquareBracket: list.first),onComplete: (resp){
-      print("File Response ${resp.data}");
+    request(() => publicApi.uploadFilesPost(files: list),onComplete: (resp){
+      // print("File Response ${resp.data}");
+      // ref.
     });
   }
 }
@@ -85,13 +99,13 @@ Future<List<http.MultipartFile>> filesToMultipart(List<File> files) async {
 }
 
 
-class UserProvider extends StateNotifier<ClientLogin200ResponseData?> {
+class UserProvider extends StateNotifier<ClientAuthResponseData?> {
   final Ref ref;
   UserProvider(this.ref) : super(null);
 
-  ClientLogin200ResponseData? checkIfUserExist() {
-    ClientLogin200ResponseData? user = prefs.getString(userKey) != null
-        ? ClientLogin200ResponseData.fromJson(
+  ClientAuthResponseData? checkIfUserExist() {
+    ClientAuthResponseData? user = prefs.getString(userKey) != null
+        ? ClientAuthResponseData.fromJson(
             json.encode(prefs.getString(userKey) ?? ""))
         : null;
     if (user != null) {
@@ -102,7 +116,7 @@ class UserProvider extends StateNotifier<ClientLogin200ResponseData?> {
     return user;
   }
 
-  void setUser(ClientLogin200ResponseData? user){
+  void setUser(ClientAuthResponseData? user){
     state = user;
     prefs.setString(userKey, json.encode(user?.toJson()));
     ref.read(apiClient).defaultHeaderMap.update(

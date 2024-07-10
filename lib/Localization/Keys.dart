@@ -23,6 +23,7 @@ const pleaseContactUsToLearnMoreKey = "pleaseContactUsToLearnMore";
 const contactUsKey = "contactUs";
 const enterYourPhoneKey = "enterYourPhone";
 const thisPhoneIsNotExitsKey = "thisPhoneIsNotExits";
+const thisPhoneIsExitsKey = "thisPhoneIsExits";
 const enterYourFullNameKey = "enterYourFullName";
 
 // Params Keys

@@ -73,21 +73,43 @@ class SVGIcons {
     return SvgPicture.asset(smallStarIconSvg,
         width: 24, height: 24, fit: BoxFit.scaleDown);
   }
+  static Widget onBoardingOneIcon(){
+    return SvgPicture.asset(
+      onBoardingOneIconSvg
+    );
+  }
+
+  static Widget closeSquareSvgIcon(){
+    return SvgPicture.asset(
+        closeSquareSvg,
+        width: 24,
+        height: 24, fit: BoxFit.scaleDown
+    );
+  }
+  static Widget searchSvgIcon(){
+    return SvgPicture.asset(
+        searchSvg,
+        width: 24,
+        height: 24, fit: BoxFit.scaleDown
+    );
+  }
 
   static Widget unFavoriteIcon() {
     return SvgPicture.asset(unFavoriteIconSvg,
         width: 24, height: 24, fit: BoxFit.scaleDown);
   }
 
-  static Widget onBoardingOneIcon() {
-    return SvgPicture.asset(onBoardingOneIconSvg);
+
+  static Widget onBoardingTwoIcon(){
+    return SvgPicture.asset(
+        onBoardingTwoIconSvg
+    );
   }
 
-  static Widget onBoardingTwoIcon() {
-    return SvgPicture.asset(onBoardingTwoIconSvg);
+  static Widget onBoardingThreeIcon(){
+    return SvgPicture.asset(
+        onBoardingThreeIconSvg
+    );
   }
 
-  static Widget onBoardingThreeIcon() {
-    return SvgPicture.asset(onBoardingThreeIconSvg);
-  }
 }

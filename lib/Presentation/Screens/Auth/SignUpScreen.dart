@@ -4,18 +4,27 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:lazo_client/Constants/Constants.dart';
+import 'package:lazo_client/Doman/CommenProviders/ApiProvider.dart';
 import 'package:lazo_client/Presentation/Dialogs/LoadingDialog.dart';
 import 'package:lazo_client/Presentation/StateNotifiersViewModel/PublicStateNotifiers.dart';
 import 'package:lazo_client/Presentation/Widgets/CircleImagePicker.dart';
 import 'package:lazo_client/Presentation/Widgets/SvgIcons.dart';
 import 'package:lazo_client/Utils/Extintions.dart';
 
+import '../../../Constants.dart';
+import '../../../Constants/Eunms.dart';
+import '../../../Data/Models/ItemSelector.dart';
+import '../../../Data/Network/lib/api.dart';
 import '../../../Localization/Keys.dart';
+import '../../../Utils/Snaks.dart';
+import '../../StateNotifiersViewModel/UserAuthStateNotifiers.dart';
 import '../../Theme/AppTheme.dart';
 import '../../Widgets/AppButton.dart';
 import '../../Widgets/AppTextField.dart';
 import '../../Widgets/CustomAppBar.dart';
+import 'Componants/CustomSelectorBottomSheet.dart';
 
 class SignUpScreen extends ConsumerStatefulWidget {
   const SignUpScreen({super.key});
@@ -31,8 +40,53 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
   final cityController = TextEditingController();
   final formKey = GlobalKey<FormState>();
   File? imageFile = null;
+  List<City> cities = [];
+  List<String> images = [];
+  int? cityItemSelected;
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((call){
+      ref.read(getCities.notifier).getCities();
+    });
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
+
+    handleState(getCities,onSuccess: (res) {
+      cities = res.data?.data ?? [];
+    });
+
+    handleState(sendOtpForSignUpStateProvider,showLoading: true, onSuccess: (res) {
+      print("formSignUp $res");
+      if(res.data?.isExist == false){
+        AppSnackBar.showSnackBar(context, isSuccess: true, message: res.data?.message ?? "Success !");
+        signUp();
+      }else{
+        AppSnackBar.showSnackBar(context, isSuccess: false, message: context.tr(thisPhoneIsExitsKey));
+      }
+    },onFail: (res){
+      AppSnackBar.showSnackBar(context, isSuccess: false, message: res.message ?? "");
+    });
+
+
+    handleState(uploadFilesStateNotifiers, onSuccess: (res) {
+      images = res.data?.data ?? [];
+      sendCode();
+    },showLoading: true);
+
+    // handleState(signUpStateNotifierProvider, onSuccess: (res) {
+    //   print(res);
+    //   if (context.isThereCurrentDialogShowing()) {
+    //     try {
+    //       context.pop();
+    //     } catch (e) {
+    //       print("NAV cannont pop");
+    //     }
+    //   }
+    //   context.go(R_HomeScreen);
+    // });
+
     return Scaffold(
       appBar: CustomAppBar(
           appContext: context,
@@ -63,7 +117,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                       placeHolder: SVGIcons.placeHolderForPickImagesSvgIcon(),
                       onResult: (path, value46) {
                         imageFile = File(path);
-                  }),
+                      }),
                   const SizedBox(
                     height: 32,
                   ),
@@ -116,7 +170,9 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                   ),
                   AppTextField(
                     endWidget: InkWell(
-                        onTap: () {}, child: SVGIcons.bottomRedArrowIcon()),
+                        onTap: () {
+                          showCitesBottomSheet();
+                        }, child: SVGIcons.bottomRedArrowIcon()),
                     readOnly: true,
                     textInputType: TextInputType.text,
                     textFieldBorderColor: AppTheme.appGrey3,
@@ -137,13 +193,13 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                   ),
                   AppButton(
                     width: context.getScreenSize.width,
-                    height: 46,
+                    height: 48,
                     onPress: () {
                       // cityController.text = "sdafsd";
                       // if (formKey.currentState?.validate() == true) {
                       //   context.showSuccessDialog(description: "description");
                       // }
-                      signUp();
+                      uploadFiles();
                     },
                     child: Text(
                       signUpKey,
@@ -161,12 +217,48 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
     );
   }
 
-  void signUp(){
+  void signUp() {
+    context.push(R_OTP,extra: {
+      "phone" :phoneController.text ,
+      "name" :fullNameController.text,
+      "email" : emailController.text.isNotEmpty ? emailController.text : null,
+      "image": images.first,
+      "cityId" : "$cityItemSelected","type" : OTPType.SignUp});
+  }
+
+  void sendCode(){
+    ref.read(sendOtpForSignUpStateProvider.notifier).sendOtp(phoneController.text.toString());
+  }
+
+  void uploadFiles() {
     ref.read(uploadFilesStateNotifiers.notifier).uploadFilesPost([imageFile!]);
   }
 
-  void uploadFiles(){
+  void showCitesBottomSheet(){
+    showModalBottomSheet(
+        context: context,
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(10), topRight: Radius.circular(10))),
+        builder: (BuildContext context) {
+      return CustomSelectorBottomSheet(
+        context,
+        true,
+        context.tr("chooseManufacturingYearsKey"),
+        cities.map((e) => ItemSelector(
+            e.id ?? 0, e.name ?? "", null))
+            .toList(),
+        "Search by",
+        cityItemSelected,
+        onSelectItemCallback: (itemid ) {
+          cityItemSelected = itemid;
 
+          if(cityItemSelected != null) {
+            cityController.text = cities.firstWhere((item) => item.id == itemid).name ?? "";
+          }
+
+          Navigator.pop(context);
+      });
+    });
   }
-
 }

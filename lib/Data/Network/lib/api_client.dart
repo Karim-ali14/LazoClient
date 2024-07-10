@@ -11,7 +11,7 @@
 part of openapi.api;
 
 class ApiClient {
-  ApiClient({this.basePath = 'http://}', this.authentication,});
+  ApiClient({this.basePath = 'http://localhost', this.authentication,});
 
   final String basePath;
   final Authentication? authentication;
@@ -195,18 +195,10 @@ class ApiClient {
           return CitiesResponse.fromJson(value);
         case 'City':
           return City.fromJson(value);
-        case 'ClientLogin200Response':
-          return ClientLogin200Response.fromJson(value);
-        case 'ClientLogin200ResponseData':
-          return ClientLogin200ResponseData.fromJson(value);
-        case 'ClientSignup200Response':
-          return ClientSignup200Response.fromJson(value);
-        case 'ClientSignup200ResponseData':
-          return ClientSignup200ResponseData.fromJson(value);
-        case 'ClientSignup200ResponseDataUser':
-          return ClientSignup200ResponseDataUser.fromJson(value);
-        case 'ClientSignup200ResponseDataUserCity':
-          return ClientSignup200ResponseDataUserCity.fromJson(value);
+        case 'ClientAuthResponse':
+          return ClientAuthResponse.fromJson(value);
+        case 'ClientAuthResponseData':
+          return ClientAuthResponseData.fromJson(value);
         case 'CodeConfirmRequest':
           return CodeConfirmRequest.fromJson(value);
         case 'CodeConfirmResponse':
@@ -389,6 +381,10 @@ class ApiClient {
           return ShowOrderDetails2200ResponseDataOrderItemsInnerProductListsInnerItemsInner.fromJson(value);
         case 'ShowProfile200Response':
           return ShowProfile200Response.fromJson(value);
+        case 'ShowProfile200ResponseData':
+          return ShowProfile200ResponseData.fromJson(value);
+        case 'ShowProfile200ResponseDataCity':
+          return ShowProfile200ResponseDataCity.fromJson(value);
         case 'ShowPromocodeDetails200Response':
           return ShowPromocodeDetails200Response.fromJson(value);
         case 'ShowPromocodeDetails200ResponseData':

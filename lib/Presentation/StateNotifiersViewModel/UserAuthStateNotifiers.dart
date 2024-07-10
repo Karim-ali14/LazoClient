@@ -6,10 +6,18 @@ import '../../Data/Network/lib/api.dart';
 import '../../Doman/useCases/AuthUaseCases.dart';
 
 final loginStateNotifierProvider = StateNotifierProvider.autoDispose<
-        LoginUseCase, StateModel<ClientLogin200Response>>(
+        LoginUseCase, StateModel<ClientAuthResponse>>(
     (ref) => LoginUseCase(ref, ref.read(clientAuthApi)));
 
-final sendOtpStateProvider = StateNotifierProvider.autoDispose<SendOtpUseCase,
+final signUpStateNotifierProvider = StateNotifierProvider.autoDispose<
+        SignUpUseCase, StateModel<ClientAuthResponse>>(
+    (ref) => SignUpUseCase(ref, ref.read(clientAuthApi)));
+
+final sendOtpForLoginStateProvider = StateNotifierProvider.autoDispose<SendOtpUseCase,
+        StateModel<CodeSendResponse>>(
+    (ref) => SendOtpUseCase(ref, ref.read(publicAuthApi)));
+
+final sendOtpForSignUpStateProvider = StateNotifierProvider.autoDispose<SendOtpUseCase,
         StateModel<CodeSendResponse>>(
     (ref) => SendOtpUseCase(ref, ref.read(publicAuthApi)));
 
@@ -18,7 +26,7 @@ final confirmResetCodeStateProvider = StateNotifierProvider.autoDispose<
     (ref) => ConfirmResetCodeUseCase(ref, ref.read(publicAuthApi)));
 
 final clientStateProvider =
-    StateNotifierProvider<UserProvider, ClientLogin200ResponseData?>(
+    StateNotifierProvider<UserProvider, ClientAuthResponseData?>(
         (ref) => UserProvider(ref));
 
 

@@ -8,7 +8,7 @@ import 'package:lazo/api.dart';
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**data** | [**ClientSignup200ResponseDataUser**](ClientSignup200ResponseDataUser.md) |  | [optional] 
+**data** | [**ShowProfile200ResponseData**](ShowProfile200ResponseData.md) |  | [optional] 
 **message** | **String** |  | [optional] 
 **status** | **bool** |  | [optional] 
 

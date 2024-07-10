@@ -5,7 +5,7 @@
 import 'package:lazo/api.dart';
 ```
 
-All URIs are relative to *http://}*
+All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -14,7 +14,7 @@ Method | HTTP request | Description
 
 
 # **clientLogin**
-> ClientLogin200Response clientLogin(phone)
+> ClientAuthResponse clientLogin(phone)
 
 client login
 
@@ -43,7 +43,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**ClientLogin200Response**](ClientLogin200Response.md)
+[**ClientAuthResponse**](ClientAuthResponse.md)
 
 ### Authorization
 
@@ -57,7 +57,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **clientSignup**
-> ClientSignup200Response clientSignup(cityId, email, image, name, phone)
+> ClientAuthResponse clientSignup(cityId, email, image, name, phone)
 
 client signup
 
@@ -94,7 +94,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**ClientSignup200Response**](ClientSignup200Response.md)
+[**ClientAuthResponse**](ClientAuthResponse.md)
 
 ### Authorization
 

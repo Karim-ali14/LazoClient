@@ -24,7 +24,7 @@ class ShowProfile200Response {
   /// source code must fall back to having a nullable type.
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
-  ClientSignup200ResponseDataUser? data;
+  ShowProfile200ResponseData? data;
 
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
@@ -97,7 +97,7 @@ class ShowProfile200Response {
       }());
 
       return ShowProfile200Response(
-        data: ClientSignup200ResponseDataUser.fromJson(json[r'data']),
+        data: ShowProfile200ResponseData.fromJson(json[r'data']),
         message: mapValueOfType<String>(json, r'message'),
         status: mapValueOfType<bool>(json, r'status'),
       );
