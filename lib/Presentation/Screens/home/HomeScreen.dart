@@ -7,6 +7,7 @@ import 'package:lazo_client/Constants/Assets.dart';
 import 'package:lazo_client/Data/Models/StateModel.dart';
 import 'package:lazo_client/Doman/CommenProviders/ApiProvider.dart';
 import 'package:lazo_client/Presentation/Screens/home/Componants/HorizontalCategoryListViewWithTitleSeeAll.dart';
+import 'package:lazo_client/Presentation/Screens/home/Componants/HorizontalTopServiceListViewWithTitleSeeAll.dart';
 import 'package:lazo_client/Presentation/StateNotifiersViewModel/PublicStateNotifiers.dart';
 import 'package:lazo_client/Presentation/Widgets/BannerCardItems.dart';
 import 'package:lazo_client/Presentation/Widgets/CategoryItemCart.dart';
@@ -16,6 +17,7 @@ import 'package:lazo_client/Presentation/Widgets/ServiceAndProductItemCard.dart'
 import 'package:lazo_client/Presentation/Widgets/TitleWithSeeAll.dart';
 
 import 'Componants/HorizontalOccasionsListViewWithTitleSeeAll.dart';
+import 'Componants/HorizontalTopProductListViewWithTitleSeeAll.dart';
 import 'Componants/HorizontalTopSellersListViewWithTitleSeeAll.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
@@ -99,6 +101,30 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   list: homeDataState.data?.data?.occasions.toList() ?? [],
                   showLoading: homeDataState.state == DataState.LOADING,
                   itemClick: (itemId) {},
+                ),
+
+                SizedBox(
+                  height: 32,
+                ),
+                (homeDataState.state == DataState.SUCCESS &&
+                    homeDataState.data?.data?.categories.isEmpty == true)
+                    ? SizedBox()
+                    : HorizontalTopProductListViewWithTitleSeeAll(
+                  list: homeDataState.data?.data?.topRatedProducts.toList() ?? [],
+                  showLoading: homeDataState.state == DataState.LOADING,
+                  itemClick: (itemId) {}, onAddItemToCart: (int ) {  }, onAddItemToWishList: (int ) {  },
+                ),
+
+                SizedBox(
+                  height: 32,
+                ),
+                (homeDataState.state == DataState.SUCCESS &&
+                    homeDataState.data?.data?.categories.isEmpty == true)
+                    ? SizedBox()
+                    : HorizontalTopServiceListViewWithTitleSeeAll(
+                  list: homeDataState.data?.data?.topRatedServices.toList() ?? [],
+                  showLoading: homeDataState.state == DataState.LOADING,
+                  itemClick: (itemId) {}, onAddItemToCart: (int ) {  }, onAddItemToWishList: (int ) {  },
                 ),
               ],
             ),

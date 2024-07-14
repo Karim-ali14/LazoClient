@@ -13,7 +13,7 @@ Method | HTTP request | Description
 
 
 # **readANotification122**
-> ReadANotification1200Response readANotification122(notificationId)
+> ReadANotification122200Response readANotification122(notificationId)
 
 read a notification
 
@@ -48,7 +48,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**ReadANotification1200Response**](ReadANotification1200Response.md)
+[**ReadANotification122200Response**](ReadANotification122200Response.md)
 
 ### Authorization
 

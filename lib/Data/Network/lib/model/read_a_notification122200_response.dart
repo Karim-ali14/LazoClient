@@ -10,9 +10,9 @@
 
 part of openapi.api;
 
-class ShowWishlistItemsWithSearchByName200Response {
-  /// Returns a new [ShowWishlistItemsWithSearchByName200Response] instance.
-  ShowWishlistItemsWithSearchByName200Response({
+class ReadANotification122200Response {
+  /// Returns a new [ReadANotification122200Response] instance.
+  ReadANotification122200Response({
     this.data,
     this.message,
     this.status,
@@ -24,7 +24,7 @@ class ShowWishlistItemsWithSearchByName200Response {
   /// source code must fall back to having a nullable type.
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
-  ShowWishlistItemsWithSearchByName200ResponseData? data;
+  ClientNotification? data;
 
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
@@ -43,7 +43,7 @@ class ShowWishlistItemsWithSearchByName200Response {
   bool? status;
 
   @override
-  bool operator ==(Object other) => identical(this, other) || other is ShowWishlistItemsWithSearchByName200Response &&
+  bool operator ==(Object other) => identical(this, other) || other is ReadANotification122200Response &&
      other.data == data &&
      other.message == message &&
      other.status == status;
@@ -56,7 +56,7 @@ class ShowWishlistItemsWithSearchByName200Response {
     (status == null ? 0 : status!.hashCode);
 
   @override
-  String toString() => 'ShowWishlistItemsWithSearchByName200Response[data=$data, message=$message, status=$status]';
+  String toString() => 'ReadANotification122200Response[data=$data, message=$message, status=$status]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -78,10 +78,10 @@ class ShowWishlistItemsWithSearchByName200Response {
     return json;
   }
 
-  /// Returns a new [ShowWishlistItemsWithSearchByName200Response] instance and imports its values from
+  /// Returns a new [ReadANotification122200Response] instance and imports its values from
   /// [value] if it's a [Map], null otherwise.
   // ignore: prefer_constructors_over_static_methods
-  static ShowWishlistItemsWithSearchByName200Response? fromJson(dynamic value) {
+  static ReadANotification122200Response? fromJson(dynamic value) {
     if (value is Map) {
       final json = value.cast<String, dynamic>();
 
@@ -90,14 +90,14 @@ class ShowWishlistItemsWithSearchByName200Response {
       // Note 2: this code is stripped in release mode!
       assert(() {
         requiredKeys.forEach((key) {
-          assert(json.containsKey(key), 'Required key "ShowWishlistItemsWithSearchByName200Response[$key]" is missing from JSON.');
-          assert(json[key] != null, 'Required key "ShowWishlistItemsWithSearchByName200Response[$key]" has a null value in JSON.');
+          assert(json.containsKey(key), 'Required key "ReadANotification122200Response[$key]" is missing from JSON.');
+          assert(json[key] != null, 'Required key "ReadANotification122200Response[$key]" has a null value in JSON.');
         });
         return true;
       }());
 
-      return ShowWishlistItemsWithSearchByName200Response(
-        data: ShowWishlistItemsWithSearchByName200ResponseData.fromJson(json[r'data']),
+      return ReadANotification122200Response(
+        data: ClientNotification.fromJson(json[r'data']),
         message: mapValueOfType<String>(json, r'message'),
         status: mapValueOfType<bool>(json, r'status'),
       );
@@ -105,11 +105,11 @@ class ShowWishlistItemsWithSearchByName200Response {
     return null;
   }
 
-  static List<ShowWishlistItemsWithSearchByName200Response> listFromJson(dynamic json, {bool growable = false,}) {
-    final result = <ShowWishlistItemsWithSearchByName200Response>[];
+  static List<ReadANotification122200Response> listFromJson(dynamic json, {bool growable = false,}) {
+    final result = <ReadANotification122200Response>[];
     if (json is List && json.isNotEmpty) {
       for (final row in json) {
-        final value = ShowWishlistItemsWithSearchByName200Response.fromJson(row);
+        final value = ReadANotification122200Response.fromJson(row);
         if (value != null) {
           result.add(value);
         }
@@ -118,12 +118,12 @@ class ShowWishlistItemsWithSearchByName200Response {
     return result.toList(growable: growable);
   }
 
-  static Map<String, ShowWishlistItemsWithSearchByName200Response> mapFromJson(dynamic json) {
-    final map = <String, ShowWishlistItemsWithSearchByName200Response>{};
+  static Map<String, ReadANotification122200Response> mapFromJson(dynamic json) {
+    final map = <String, ReadANotification122200Response>{};
     if (json is Map && json.isNotEmpty) {
       json = json.cast<String, dynamic>(); // ignore: parameter_assignments
       for (final entry in json.entries) {
-        final value = ShowWishlistItemsWithSearchByName200Response.fromJson(entry.value);
+        final value = ReadANotification122200Response.fromJson(entry.value);
         if (value != null) {
           map[entry.key] = value;
         }
@@ -132,14 +132,14 @@ class ShowWishlistItemsWithSearchByName200Response {
     return map;
   }
 
-  // maps a json object with a list of ShowWishlistItemsWithSearchByName200Response-objects as value to a dart map
-  static Map<String, List<ShowWishlistItemsWithSearchByName200Response>> mapListFromJson(dynamic json, {bool growable = false,}) {
-    final map = <String, List<ShowWishlistItemsWithSearchByName200Response>>{};
+  // maps a json object with a list of ReadANotification122200Response-objects as value to a dart map
+  static Map<String, List<ReadANotification122200Response>> mapListFromJson(dynamic json, {bool growable = false,}) {
+    final map = <String, List<ReadANotification122200Response>>{};
     if (json is Map && json.isNotEmpty) {
       // ignore: parameter_assignments
       json = json.cast<String, dynamic>();
       for (final entry in json.entries) {
-        map[entry.key] = ShowWishlistItemsWithSearchByName200Response.listFromJson(entry.value, growable: growable,);
+        map[entry.key] = ReadANotification122200Response.listFromJson(entry.value, growable: growable,);
       }
     }
     return map;

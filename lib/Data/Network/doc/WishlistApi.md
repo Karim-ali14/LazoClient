@@ -65,7 +65,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **toggleProductServiceInWishlist**
-> toggleProductServiceInWishlist(productId, serviceId)
+> ToggleProductServiceInWishlist200Response toggleProductServiceInWishlist(productId, serviceId)
 
 Toggle product/service in wishlist
 
@@ -86,7 +86,8 @@ final productId = productId_example; // String | Select product or service
 final serviceId = serviceId_example; // String | Select product or service
 
 try {
-    api_instance.toggleProductServiceInWishlist(productId, serviceId);
+    final result = api_instance.toggleProductServiceInWishlist(productId, serviceId);
+    print(result);
 } catch (e) {
     print('Exception when calling WishlistApi->toggleProductServiceInWishlist: $e\n');
 }
@@ -101,7 +102,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-void (empty response body)
+[**ToggleProductServiceInWishlist200Response**](ToggleProductServiceInWishlist200Response.md)
 
 ### Authorization
 
@@ -110,7 +111,7 @@ void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: multipart/form-data
- - **Accept**: Not defined
+ - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

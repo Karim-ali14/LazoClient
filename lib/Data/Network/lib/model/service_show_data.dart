@@ -37,6 +37,10 @@ class ServiceShowData {
     this.priceAfterDiscount,
     this.providerId,
     this.updatedAt,
+    this.inCart,
+    this.inWishlist,
+    this.overallRating,
+    this.ratingsCount,
   });
 
   ///
@@ -207,6 +211,38 @@ class ServiceShowData {
   ///
   String? updatedAt;
 
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  bool? inCart;
+
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  bool? inWishlist;
+
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  num? overallRating;
+
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  num? ratingsCount;
+
   @override
   bool operator ==(Object other) => identical(this, other) || other is ServiceShowData &&
      other.cardExpiration == cardExpiration &&
@@ -232,7 +268,11 @@ class ServiceShowData {
      other.price == price &&
      other.priceAfterDiscount == priceAfterDiscount &&
      other.providerId == providerId &&
-     other.updatedAt == updatedAt;
+     other.updatedAt == updatedAt &&
+     other.inCart == inCart &&
+     other.inWishlist == inWishlist &&
+     other.overallRating == overallRating &&
+     other.ratingsCount == ratingsCount;
 
   @override
   int get hashCode =>
@@ -260,10 +300,14 @@ class ServiceShowData {
     (price == null ? 0 : price!.hashCode) +
     (priceAfterDiscount == null ? 0 : priceAfterDiscount!.hashCode) +
     (providerId == null ? 0 : providerId!.hashCode) +
-    (updatedAt == null ? 0 : updatedAt!.hashCode);
+    (updatedAt == null ? 0 : updatedAt!.hashCode) +
+    (inCart == null ? 0 : inCart!.hashCode) +
+    (inWishlist == null ? 0 : inWishlist!.hashCode) +
+    (overallRating == null ? 0 : overallRating!.hashCode) +
+    (ratingsCount == null ? 0 : ratingsCount!.hashCode);
 
   @override
-  String toString() => 'ServiceShowData[cardExpiration=$cardExpiration, cardPrice=$cardPrice, cardType=$cardType, categories=$categories, categoryMenu=$categoryMenu, coverImagePath=$coverImagePath, coverImage=$coverImage, createdAt=$createdAt, description=$description, descriptionAr=$descriptionAr, descriptionEn=$descriptionEn, duration=$duration, id=$id, images=$images, isServiceDeliverableOutsideStore=$isServiceDeliverableOutsideStore, isVisible=$isVisible, lists=$lists, name=$name, nameAr=$nameAr, nameEn=$nameEn, price=$price, priceAfterDiscount=$priceAfterDiscount, providerId=$providerId, updatedAt=$updatedAt]';
+  String toString() => 'ServiceShowData[cardExpiration=$cardExpiration, cardPrice=$cardPrice, cardType=$cardType, categories=$categories, categoryMenu=$categoryMenu, coverImagePath=$coverImagePath, coverImage=$coverImage, createdAt=$createdAt, description=$description, descriptionAr=$descriptionAr, descriptionEn=$descriptionEn, duration=$duration, id=$id, images=$images, isServiceDeliverableOutsideStore=$isServiceDeliverableOutsideStore, isVisible=$isVisible, lists=$lists, name=$name, nameAr=$nameAr, nameEn=$nameEn, price=$price, priceAfterDiscount=$priceAfterDiscount, providerId=$providerId, updatedAt=$updatedAt, inCart=$inCart, inWishlist=$inWishlist, overallRating=$overallRating, ratingsCount=$ratingsCount]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -371,6 +415,26 @@ class ServiceShowData {
     } else {
       json[r'updated_at'] = null;
     }
+    if (this.inCart != null) {
+      json[r'in_cart'] = this.inCart;
+    } else {
+      json[r'in_cart'] = null;
+    }
+    if (this.inWishlist != null) {
+      json[r'in_wishlist'] = this.inWishlist;
+    } else {
+      json[r'in_wishlist'] = null;
+    }
+    if (this.overallRating != null) {
+      json[r'overall_rating'] = this.overallRating;
+    } else {
+      json[r'overall_rating'] = null;
+    }
+    if (this.ratingsCount != null) {
+      json[r'ratings_count'] = this.ratingsCount;
+    } else {
+      json[r'ratings_count'] = null;
+    }
     return json;
   }
 
@@ -431,6 +495,14 @@ class ServiceShowData {
             ? null
             : num.parse(json[r'provider_id'].toString()),
         updatedAt: mapValueOfType<String>(json, r'updated_at'),
+        inCart: mapValueOfType<bool>(json, r'in_cart'),
+        inWishlist: mapValueOfType<bool>(json, r'in_wishlist'),
+        overallRating: json[r'overall_rating'] == null
+            ? null
+            : num.parse(json[r'overall_rating'].toString()),
+        ratingsCount: json[r'ratings_count'] == null
+            ? null
+            : num.parse(json[r'ratings_count'].toString()),
       );
     }
     return null;

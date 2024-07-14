@@ -40,8 +40,7 @@ class _SellerItemCardState extends State<SellerItemCard> {
               child: ImageView(
                 width: MediaQuery.of(context).size.width,
                 height: 121,
-                initialImg:
-                    widget.providerData?.imagePath,
+                initialImg: widget.providerData?.imagePath,
               ),
             ),
             Padding(
@@ -77,7 +76,11 @@ class _SellerItemCardState extends State<SellerItemCard> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         SVGIcons.smallStarIcon(),
-                        Text(widget.providerData?.ratingsCount?.toString() ?? "",style: AppTheme.styleWithTextGray7AdelleSansExtendedFonts12w400,),
+                        Text(
+                          widget.providerData?.ratingsCount?.toString() ?? "",
+                          style: AppTheme
+                              .styleWithTextGray7AdelleSansExtendedFonts12w400,
+                        ),
                       ],
                     ),
                   ),
@@ -93,9 +96,7 @@ class _SellerItemCardState extends State<SellerItemCard> {
                     child: AppButton(
                       width: context.getScreenSize.width,
                       height: 36,
-                      onPress: (){
-
-                      },
+                      onPress: () {},
                       child: Text(
                         "View Store",
                         style: AppTheme
@@ -110,15 +111,38 @@ class _SellerItemCardState extends State<SellerItemCard> {
           ],
         ),
       ),
+      widget.providerData?.isPromoted == 1 ?
+      Positioned(
+          top: 20,
+          left: 214,
+          child: Container(
+            padding: EdgeInsetsDirectional.only(
+              end: 8,top: 1,bottom: 1
+            ),
+            decoration: BoxDecoration(
+              color: AppTheme.mainAppColorLight2,
+              borderRadius: BorderRadius.circular(2)
+            ),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SVGIcons.promotedIcon(),
+            Text("promoted",style: AppTheme.styleWithTextMainAppColorAdelleSansExtendedFonts10w400,),
+          ],
+        ),
+      )) : SizedBox(),
       Positioned(
         top: 95,
         left: 240,
-        child: Skeleton.replace(
-        replacement: Icon(Icons.verified_user,size: 60,),
+        child: Skeleton.ignore(
+          // replacement: Icon(
+          //   Icons.verified_user,
+          //   size: 60,
+          // ),
           child: ImageView(
             isCircle: true,
-            initialImg:
-            widget.providerData?.imagePath,
+            initialImg: widget.providerData?.imagePath,
           ),
         ),
       )

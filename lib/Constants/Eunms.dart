@@ -24,3 +24,7 @@ enum ButtonsClickType {
   Finish,
   ReadyToShipping
 }
+
+enum ItemType {
+  Service,Product
+}

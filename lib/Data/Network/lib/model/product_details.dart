@@ -36,6 +36,10 @@ class ProductDetails {
     this.sizes = const [],
     this.type,
     this.updatedAt,
+    this.inCart,
+    this.inWishlist,
+    this.overallRating,
+    this.ratingsCount,
   });
 
   ///
@@ -180,6 +184,38 @@ class ProductDetails {
   ///
   String? updatedAt;
 
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  bool? inCart;
+
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  bool? inWishlist;
+
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  num? overallRating;
+
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  num? ratingsCount;
+
   @override
   bool operator ==(Object other) => identical(this, other) || other is ProductDetails &&
      other.amount == amount &&
@@ -204,7 +240,11 @@ class ProductDetails {
      other.providerId == providerId &&
      other.sizes == sizes &&
      other.type == type &&
-     other.updatedAt == updatedAt;
+     other.updatedAt == updatedAt &&
+     other.inCart == inCart &&
+     other.inWishlist == inWishlist &&
+     other.overallRating == overallRating &&
+     other.ratingsCount == ratingsCount;
 
   @override
   int get hashCode =>
@@ -231,10 +271,14 @@ class ProductDetails {
     (providerId == null ? 0 : providerId!.hashCode) +
     (sizes.hashCode) +
     (type == null ? 0 : type!.hashCode) +
-    (updatedAt == null ? 0 : updatedAt!.hashCode);
+    (updatedAt == null ? 0 : updatedAt!.hashCode) +
+    (inCart == null ? 0 : inCart!.hashCode) +
+    (inWishlist == null ? 0 : inWishlist!.hashCode) +
+    (overallRating == null ? 0 : overallRating!.hashCode) +
+    (ratingsCount == null ? 0 : ratingsCount!.hashCode);
 
   @override
-  String toString() => 'ProductDetails[amount=$amount, categories=$categories, categoryMenu=$categoryMenu, colors=$colors, createdAt=$createdAt, description=$description, descriptionAr=$descriptionAr, descriptionEn=$descriptionEn, expectedProcessingTime=$expectedProcessingTime, isVisible=$isVisible, id=$id, images=$images, lists=$lists, name=$name, nameAr=$nameAr, nameEn=$nameEn, occasions=$occasions, price=$price, priceAfterDiscount=$priceAfterDiscount, providerId=$providerId, sizes=$sizes, type=$type, updatedAt=$updatedAt]';
+  String toString() => 'ProductDetails[amount=$amount, categories=$categories, categoryMenu=$categoryMenu, colors=$colors, createdAt=$createdAt, description=$description, descriptionAr=$descriptionAr, descriptionEn=$descriptionEn, expectedProcessingTime=$expectedProcessingTime, isVisible=$isVisible, id=$id, images=$images, lists=$lists, name=$name, nameAr=$nameAr, nameEn=$nameEn, occasions=$occasions, price=$price, priceAfterDiscount=$priceAfterDiscount, providerId=$providerId, sizes=$sizes, type=$type, updatedAt=$updatedAt, inCart=$inCart, inWishlist=$inWishlist, overallRating=$overallRating, ratingsCount=$ratingsCount]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -325,6 +369,26 @@ class ProductDetails {
     } else {
       json[r'updated_at'] = null;
     }
+    if (this.inCart != null) {
+      json[r'in_cart'] = this.inCart;
+    } else {
+      json[r'in_cart'] = null;
+    }
+    if (this.inWishlist != null) {
+      json[r'in_wishlist'] = this.inWishlist;
+    } else {
+      json[r'in_wishlist'] = null;
+    }
+    if (this.overallRating != null) {
+      json[r'overall_rating'] = this.overallRating;
+    } else {
+      json[r'overall_rating'] = null;
+    }
+    if (this.ratingsCount != null) {
+      json[r'ratings_count'] = this.ratingsCount;
+    } else {
+      json[r'ratings_count'] = null;
+    }
     return json;
   }
 
@@ -380,6 +444,14 @@ class ProductDetails {
         sizes: Size.listFromJson(json[r'sizes']),
         type: mapValueOfType<String>(json, r'type'),
         updatedAt: mapValueOfType<String>(json, r'updated_at'),
+        inCart: mapValueOfType<bool>(json, r'in_cart'),
+        inWishlist: mapValueOfType<bool>(json, r'in_wishlist'),
+        overallRating: json[r'overall_rating'] == null
+            ? null
+            : num.parse(json[r'overall_rating'].toString()),
+        ratingsCount: json[r'ratings_count'] == null
+            ? null
+            : num.parse(json[r'ratings_count'].toString()),
       );
     }
     return null;

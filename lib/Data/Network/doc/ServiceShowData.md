@@ -32,6 +32,10 @@ Name | Type | Description | Notes
 **priceAfterDiscount** | **num** |  | [optional] 
 **providerId** | **num** |  | [optional] 
 **updatedAt** | **String** |  | [optional] 
+**inCart** | **bool** |  | [optional] 
+**inWishlist** | **bool** |  | [optional] 
+**overallRating** | **num** |  | [optional] 
+**ratingsCount** | **num** |  | [optional] 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

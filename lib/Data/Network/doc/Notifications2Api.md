@@ -13,7 +13,7 @@ Method | HTTP request | Description
 
 
 # **showNotifications2**
-> ShowNotifications1200Response showNotifications2(unreadOnly)
+> ShowNotifications2200Response showNotifications2(unreadOnly)
 
 show notifications
 
@@ -48,7 +48,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**ShowNotifications1200Response**](ShowNotifications1200Response.md)
+[**ShowNotifications2200Response**](ShowNotifications2200Response.md)
 
 ### Authorization
 

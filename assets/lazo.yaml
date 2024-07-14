@@ -988,6 +988,14 @@ components:
         updated_at:
           type: string
           example: '2024-05-02T11:47:34.000000Z'
+        in_cart:
+          type: boolean
+        in_wishlist:
+          type: boolean
+        overall_rating:
+          type: number
+        ratings_count:
+          type: number
 
     ImageItem:
       type: object
@@ -1190,6 +1198,14 @@ components:
         name:
           type: string
           example: متاجر هايبر
+        is_promoted:
+          type: number
+        cover_image:
+          type: string
+          nullable: true
+        coverImagePath:
+          type: string
+          nullable: true
         imagePath:
           type: string
           example: http://localhost:8000/uploads/files/04-2024/1713354063L6Sxt2kHExLiW2p.png
@@ -1439,50 +1455,97 @@ components:
     ProviderProduct:
       type: object
       properties:
-        id:
+        amount:
           type: number
-          example: 34
-        name:
+          example: 5
+        categories:
+          nullable: true
+          type: array
+          items:
+            $ref: '#/components/schemas/Category'
+        category_menu:
+          nullable: true
+          type: array
+          items:
+            $ref: '#/components/schemas/CategoryMenu'
+        colors:
+          nullable: true
+          type: array
+          items:
+            $ref: '#/components/schemas/Color'
+        created_at:
           type: string
-        name_en:
+          example: '2024-05-02T11:47:34.000000Z'
+        description:
           type: string
-          example: lily flower
-        name_ar:
-          type: string
-          example: زهرة الليلي
-        description_en:
-          type: string
-          example: a beautiful flower
+          example: زهره جميله
         description_ar:
           type: string
           example: زهره جميله
+        description_en:
+          type: string
+          example: beautiful flower
+        expected_processing_time:
+          type: string
+          example: 3 days 4 hours 50 minutes
+        is_visible:
+          type: integer
+          example: 1
+        id:
+          type: number
+          example: 4
+        images:
+          nullable: true
+          type: array
+          items:
+            $ref: '#/components/schemas/ImageItem'
+        lists:
+          nullable: true
+          type: array
+          items:
+            $ref: '#/components/schemas/ProductListItem'
+        name:
+          type: string
+          example: زهرة الليلي
+        name_ar:
+          type: string
+          example: زهرة الليلي
+        name_en:
+          type: string
+          example: lily flower
+        occasions:
+          nullable: true
+          type: array
+          items:
+            $ref: '#/components/schemas/Occasion'
         price:
           type: number
           example: 120.32
         price_after_discount:
           type: number
-          example: 90.43
-        amount:
-          type: number
-          example: 5
-        is_visible:
-          type: integer
-          example: 1
-        expected_processing_time:
-          type: string
-          example: 3 days 4 hours 50 minutes
+          example: 40.21
         provider_id:
           type: number
           example: 1
+        sizes:
+          nullable: true
+          type: array
+          items:
+            $ref: '#/components/schemas/Size'
         type:
           type: string
           example: ready_made_gifts
-        created_at:
-          type: string
-          example: '2024-04-25T22:11:39.000000Z'
         updated_at:
           type: string
-          example: '2024-04-25T22:11:39.000000Z'
+          example: '2024-05-02T11:47:34.000000Z'
+        in_cart:
+          type: boolean
+        in_wishlist:
+          type: boolean
+        overall_rating:
+          type: number
+        ratings_count:
+          type: number
 
     ProviderOrderDetails:
       type: object
@@ -2848,6 +2911,61 @@ components:
           type: string
           example: data successfully
 
+    ClientNotification:
+      type: object
+      properties:
+        created_at:
+          type: string
+          example: '2024-05-19T20:45:32.000000Z'
+        id:
+          type: number
+          example: 1
+        image:
+          type: string
+          example: uploads/files/04-2024/1713354063L6Sxt2kHExLiW2p.png
+        imagePath:
+          type: string
+          example: http://localhost:8000/uploads/files/04-2024/1713354063L6Sxt2kHExLiW2p.png
+        is_read:
+          type: number
+          example: 1
+        order_id:
+          type: number
+        type:
+          type: string
+        notification:
+          type: string
+          example: طلب جديد برقم 80SDJ4تم تنفيذه بنجاح من خلال العميل first client
+        notification_ar:
+          type: string
+          example: طلب جديد برقم 80SDJ4تم تنفيذه بنجاح من خلال العميل first client
+        notification_en:
+          type: string
+          example: new order with number 80SDJ4 successfully made by first client
+        provider:
+          $ref: '#/components/schemas/ProviderData'
+        provider_id:
+          type: number
+          example: 1
+        title:
+          type: string
+          example: طلب جديد
+        title_ar:
+          type: string
+          example: طلب جديد
+        title_en:
+          type: string
+          example: new order
+        updated_at:
+          type: string
+          example: '2024-05-19T15:18:23.000000Z'
+        user:
+          nullable: true
+          example: null
+        user_id:
+          nullable: true
+          example: null
+
     PromocodeDetails:
       type: object
       properties:
@@ -3018,6 +3136,14 @@ components:
         updated_at:
           type: string
           example: '2024-05-04T14:51:44.000000Z'
+        in_cart:
+          type: boolean
+        in_wishlist:
+          type: boolean
+        overall_rating:
+          type: number
+        ratings_count:
+          type: number
 
     ServiceList:
       type: object
@@ -8641,141 +8767,18 @@ paths:
                 type: object
                 properties:
                   data:
-                    type: array
-                    items:
-                      type: object
-                      properties:
+                    type: object
+                    properties:
+                      products:
+                        type: array
                         items:
-                          type: array
-                          items:
-                            type: object
-                            properties:
-                              amount:
-                                type: number
-                                example: 5
-                              created_at:
-                                type: string
-                                example: '2024-05-21T10:06:06.000000Z'
-                              description:
-                                type: string
-                                example: زهره جميله
-                              description_ar:
-                                type: string
-                                example: زهره جميله
-                              description_en:
-                                type: string
-                                example: beautiful flower
-                              expected_processing_time:
-                                type: string
-                                example: 3 days 4 hours 50 minutes
-                              has_stock:
-                                type: number
-                                example: 1
-                              id:
-                                type: number
-                                example: 7
-                              in_cart:
-                                type: boolean
-                                example: false
-                              in_wishlist:
-                                type: boolean
-                                example: true
-                              is_visible:
-                                type: number
-                                example: 1
-                              name:
-                                type: string
-                                example: زهرة الليلي
-                              name_ar:
-                                type: string
-                                example: زهرة الليلي
-                              name_en:
-                                type: string
-                                example: lily flower
-                              price:
-                                type: number
-                                example: 120.32
-                              price_after_discount:
-                                type: number
-                                example: 40.21
-                              provider_id:
-                                type: number
-                                example: 1
-                              type:
-                                type: string
-                                example: ready_made_gifts
-                              updated_at:
-                                type: string
-                                example: '2024-05-21T10:06:06.000000Z'
-                          example:
-                            - amount: 5
-                              created_at: '2024-05-21T10:06:06.000000Z'
-                              description: زهره جميله
-                              description_ar: زهره جميله
-                              description_en: beautiful flower
-                              expected_processing_time: 3 days 4 hours 50 minutes
-                              has_stock: 1
-                              id: 7
-                              in_cart: false
-                              in_wishlist: true
-                              is_visible: 1
-                              name: زهرة الليلي
-                              name_ar: زهرة الليلي
-                              name_en: lily flower
-                              price: 120.32
-                              price_after_discount: 40.21
-                              provider_id: 1
-                              type: ready_made_gifts
-                              updated_at: '2024-05-21T10:06:06.000000Z'
-                        type:
-                          type: string
-                          example: products
-                    example:
-                      - items:
-                          - amount: 5
-                            created_at: '2024-05-21T10:06:06.000000Z'
-                            description: زهره جميله
-                            description_ar: زهره جميله
-                            description_en: beautiful flower
-                            expected_processing_time: 3 days 4 hours 50 minutes
-                            has_stock: 1
-                            id: 7
-                            in_cart: false
-                            in_wishlist: true
-                            is_visible: 1
-                            name: زهرة الليلي
-                            name_ar: زهرة الليلي
-                            name_en: lily flower
-                            price: 120.32
-                            price_after_discount: 40.21
-                            provider_id: 1
-                            type: ready_made_gifts
-                            updated_at: '2024-05-21T10:06:06.000000Z'
-                        type: products
-                      - items:
-                          - card_expiration: 01 Jan, 1970
-                            card_price: 5.44
-                            card_type: hard_card
-                            coverImagePath: http://localhost:8000/uploads/files/04-2024/1713354063L6Sxt2kHExLxaqzp.png
-                            cover_image: uploads/files/04-2024/1713354063L6Sxt2kHExLxaqzp.png
-                            created_at: '2024-05-19T11:55:28.000000Z'
-                            description: وصف خدمه 1
-                            description_ar: وصف خدمه 1
-                            description_en: description for service A
-                            duration: 3 hours
-                            id: 2
-                            in_cart: true
-                            in_wishlist: true
-                            is_service_deliverable_outside_store: 1
-                            is_visible: 1
-                            name: الخدمة 1
-                            name_ar: الخدمة 1
-                            name_en: service A
-                            price: 20.32
-                            price_after_discount: 10.21
-                            provider_id: 1
-                            updated_at: '2024-05-19T11:55:28.000000Z'
-                        type: services
+                          $ref: '#/components/schemas/ProductDetails'
+
+                      services:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/ServiceShowData'
+
                   message:
                     type: string
                     example: user's wishlists
@@ -8809,6 +8812,28 @@ paths:
       responses:
         '200':
           description: Successfully toggled product/service in wishlist
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: number
+                      user_id:
+                        type: number
+                      service_id:
+                        type: number
+                      created_at:
+                        type: string
+                      updated_at:
+                        type: string
+                  message:
+                    type: string
+                  status:
+                    type: boolean
       security:
         - bearerAuth: []
 
@@ -8874,222 +8899,7 @@ paths:
                   data:
                     type: array
                     items:
-                      type: object
-                      properties:
-                        created_at:
-                          type: string
-                          example: '2024-05-19T20:45:32.000000Z'
-                        id:
-                          type: number
-                          example: 1
-                        image:
-                          type: string
-                          example: uploads/files/04-2024/1713354063L6Sxt2kHExLiW2p.png
-                        imagePath:
-                          type: string
-                          example: http://localhost:8000/uploads/files/04-2024/1713354063L6Sxt2kHExLiW2p.png
-                        is_read:
-                          type: number
-                          example: 0
-                        type:
-                          type: string
-                        order_id:
-                          type: number
-                        notification:
-                          type: string
-                          example: طلب جديد برقم 80SDJ4تم تنفيذه بنجاح من خلال العميل first client
-                        notification_ar:
-                          type: string
-                          example: طلب جديد برقم 80SDJ4تم تنفيذه بنجاح من خلال العميل first client
-                        notification_en:
-                          type: string
-                          example: new order with number 80SDJ4 successfully made by first client
-                        provider:
-                          type: object
-                          properties:
-                            account_type:
-                              type: string
-                              example: service_provider
-                            bank_account_number:
-                              type: string
-                              example: '43646364353'
-                            bank_name:
-                              type: string
-                              example: alrajhi
-                            beneficiary_name:
-                              type: string
-                              example: Ali
-                            business_type:
-                              type: string
-                              example: individual
-                            city_id:
-                              type: number
-                              example: 1
-                            commercial_register_image:
-                              nullable: true
-                              example: null
-                            commercial_register_image_path:
-                              nullable: true
-                              example: null
-                            created_at:
-                              type: string
-                              example: '2024-04-23T12:11:22.000000Z'
-                            device_type:
-                              nullable: true
-                              example: null
-                            email:
-                              type: string
-                              example: hyper242@gmail.com
-                            end_time:
-                              type: string
-                              example: 04:10 PM
-                            fcm_token:
-                              nullable: true
-                              example: null
-                            has_offline_stores:
-                              type: number
-                              example: 1
-                            iban:
-                              type: string
-                              example: '00078687464'
-                            iban_image:
-                              type: string
-                              example: uploads/files/04-2024/1713354063L6Sxt2kHExLiW2p.png
-                            iban_image_path:
-                              type: string
-                              example: http://localhost:8000/uploads/files/04-2024/1713354063L6Sxt2kHExLiW2p.png
-                            id:
-                              type: number
-                              example: 1
-                            image:
-                              type: string
-                              example: uploads/files/04-2024/1713354063L6Sxt2kHExLiW2p.png
-                            imagePath:
-                              type: string
-                              example: http://localhost:8000/uploads/files/04-2024/1713354063L6Sxt2kHExLiW2p.png
-                            instagram_link:
-                              type: string
-                              example: https://instagram.com/test
-                            is_email_verified:
-                              type: boolean
-                              example: false
-                            is_phone_verified:
-                              type: boolean
-                              example: true
-                            lang:
-                              type: string
-                              example: ar
-                            name:
-                              type: string
-                              example: متاجر هايبررر
-                            name_ar:
-                              type: string
-                              example: متاجر هايبررر
-                            name_en:
-                              type: string
-                              example: hyper marketttrr
-                            offline_stores_number:
-                              type: number
-                              example: 3
-                            overall_rating:
-                              nullable: true
-                              example: null
-                            owner_name:
-                              type: string
-                              example: Ali Ahmeddd
-                            phone:
-                              type: string
-                              example: '534059563'
-                            provide_delivery:
-                              nullable: true
-                              example: null
-                            ratings_count:
-                              type: number
-                              example: 0
-                            self_employment_document:
-                              type: string
-                              example: uploads/files/04-2024/1713354063L6Sxt2kHExLiW2p.png
-                            self_employment_document_path:
-                              type: string
-                              example: http://localhost:8000/uploads/files/04-2024/1713354063L6Sxt2kHExLiW2p.png
-                            snapchat_link:
-                              type: string
-                              example: https://snapchat.com/test
-                            start_time:
-                              type: string
-                              example: 02:12 PM
-                            status:
-                              type: string
-                              example: active
-                            tiktok_link:
-                              type: string
-                              example: https://tiktok.com/test
-                            updated_at:
-                              type: string
-                              example: '2024-04-23T16:20:14.000000Z'
-                            working_days_indices:
-                              type: string
-                              example: '0'
-                            working_days_indices_list:
-                              type: array
-                              items:
-                                type: string
-                                example: '0'
-                              example:
-                                - '0'
-                            x_link:
-                              type: string
-                              example: https://x.com/test
-                        provider_id:
-                          type: number
-                          example: 1
-                        title:
-                          type: string
-                          example: طلب جديد
-                        title_ar:
-                          type: string
-                          example: طلب جديد
-                        title_en:
-                          type: string
-                          example: new order
-                        updated_at:
-                          type: string
-                          example: '2024-05-19T14:45:32.000000Z'
-                        user:
-                          nullable: true
-                          type: object
-                          properties:
-                            id:
-                              type: number
-                            name:
-                              type: string
-                            email:
-                              type: string
-                            phone:
-                              type: string
-                            image:
-                              type: string
-                            imagePath:
-                              type: string
-                            balance:
-                              type: number
-                            device_type:
-                              type: string
-                            lang:
-                              type: string
-                            status:
-                              type: string
-                            created_at:
-                              type: string
-                            updated_at:
-                              type: string
-                            city_id:
-                              type: number
-                            fcm_token:
-                              type: string
-                        user_id:
-                          nullable: true
-                          example: null
+                      $ref: '#/components/schemas/ClientNotification'
                     example:
                       - created_at: '2024-05-19T20:45:32.000000Z'
                         id: 1
@@ -9286,270 +9096,14 @@ paths:
               schema:
                 type: object
                 properties:
-                  code:
-                    type: number
-                    example: 200
                   data:
-                    type: object
-                    properties:
-                      created_at:
-                        type: string
-                        example: '2024-05-19T20:45:32.000000Z'
-                      id:
-                        type: number
-                        example: 1
-                      image:
-                        type: string
-                        example: uploads/files/04-2024/1713354063L6Sxt2kHExLiW2p.png
-                      imagePath:
-                        type: string
-                        example: http://localhost:8000/uploads/files/04-2024/1713354063L6Sxt2kHExLiW2p.png
-                      is_read:
-                        type: number
-                        example: 1
-                      order_id:
-                        type: number
-                      type:
-                        type: string
-                      notification:
-                        type: string
-                        example: طلب جديد برقم 80SDJ4تم تنفيذه بنجاح من خلال العميل first client
-                      notification_ar:
-                        type: string
-                        example: طلب جديد برقم 80SDJ4تم تنفيذه بنجاح من خلال العميل first client
-                      notification_en:
-                        type: string
-                        example: new order with number 80SDJ4 successfully made by first client
-                      provider:
-                        type: object
-                        properties:
-                          account_type:
-                            type: string
-                            example: service_provider
-                          bank_account_number:
-                            type: string
-                            example: '43646364353'
-                          bank_name:
-                            type: string
-                            example: alrajhi
-                          beneficiary_name:
-                            type: string
-                            example: Ali
-                          business_type:
-                            type: string
-                            example: individual
-                          city_id:
-                            type: number
-                            example: 1
-                          commercial_register_image:
-                            nullable: true
-                            example: null
-                          commercial_register_image_path:
-                            nullable: true
-                            example: null
-                          created_at:
-                            type: string
-                            example: '2024-04-23T12:11:22.000000Z'
-                          device_type:
-                            nullable: true
-                            example: null
-                          email:
-                            type: string
-                            example: hyper242@gmail.com
-                          end_time:
-                            type: string
-                            example: 04:10 PM
-                          fcm_token:
-                            nullable: true
-                            example: null
-                          has_offline_stores:
-                            type: number
-                            example: 1
-                          iban:
-                            type: string
-                            example: '00078687464'
-                          iban_image:
-                            type: string
-                            example: uploads/files/04-2024/1713354063L6Sxt2kHExLiW2p.png
-                          iban_image_path:
-                            type: string
-                            example: http://localhost:8000/uploads/files/04-2024/1713354063L6Sxt2kHExLiW2p.png
-                          id:
-                            type: number
-                            example: 1
-                          image:
-                            type: string
-                            example: uploads/files/04-2024/1713354063L6Sxt2kHExLiW2p.png
-                          imagePath:
-                            type: string
-                            example: http://localhost:8000/uploads/files/04-2024/1713354063L6Sxt2kHExLiW2p.png
-                          instagram_link:
-                            type: string
-                            example: https://instagram.com/test
-                          is_email_verified:
-                            type: boolean
-                            example: false
-                          is_phone_verified:
-                            type: boolean
-                            example: true
-                          lang:
-                            type: string
-                            example: ar
-                          name:
-                            type: string
-                            example: متاجر هايبررر
-                          name_ar:
-                            type: string
-                            example: متاجر هايبررر
-                          name_en:
-                            type: string
-                            example: hyper marketttrr
-                          offline_stores_number:
-                            type: number
-                            example: 3
-                          overall_rating:
-                            nullable: true
-                            example: null
-                          owner_name:
-                            type: string
-                            example: Ali Ahmeddd
-                          phone:
-                            type: string
-                            example: '534059563'
-                          provide_delivery:
-                            nullable: true
-                            example: null
-                          ratings_count:
-                            type: number
-                            example: 0
-                          self_employment_document:
-                            type: string
-                            example: uploads/files/04-2024/1713354063L6Sxt2kHExLiW2p.png
-                          self_employment_document_path:
-                            type: string
-                            example: http://localhost:8000/uploads/files/04-2024/1713354063L6Sxt2kHExLiW2p.png
-                          snapchat_link:
-                            type: string
-                            example: https://snapchat.com/test
-                          start_time:
-                            type: string
-                            example: 02:12 PM
-                          status:
-                            type: string
-                            example: active
-                          tiktok_link:
-                            type: string
-                            example: https://tiktok.com/test
-                          updated_at:
-                            type: string
-                            example: '2024-04-23T16:20:14.000000Z'
-                          working_days_indices:
-                            type: string
-                            example: '0'
-                          working_days_indices_list:
-                            type: array
-                            items:
-                              type: string
-                              example: '0'
-                            example:
-                              - '0'
-                          x_link:
-                            type: string
-                            example: https://x.com/test
-                      provider_id:
-                        type: number
-                        example: 1
-                      title:
-                        type: string
-                        example: طلب جديد
-                      title_ar:
-                        type: string
-                        example: طلب جديد
-                      title_en:
-                        type: string
-                        example: new order
-                      updated_at:
-                        type: string
-                        example: '2024-05-19T15:18:23.000000Z'
-                      user:
-                        nullable: true
-                        example: null
-                      user_id:
-                        nullable: true
-                        example: null
+                    $ref: '#/components/schemas/ClientNotification'
                   message:
                     type: string
-                    example: notification is read successfully
                   status:
                     type: boolean
                     example: true
-              examples:
-                read a notification:
-                  value:
-                    code: 200
-                    data:
-                      created_at: '2024-05-19T20:45:32.000000Z'
-                      id: 1
-                      image: uploads/files/04-2024/1713354063L6Sxt2kHExLiW2p.png
-                      imagePath: http://localhost:8000/uploads/files/04-2024/1713354063L6Sxt2kHExLiW2p.png
-                      is_read: 1
-                      notification: طلب جديد برقم 80SDJ4تم تنفيذه بنجاح من خلال العميل first client
-                      notification_ar: طلب جديد برقم 80SDJ4تم تنفيذه بنجاح من خلال العميل first client
-                      notification_en: new order with number 80SDJ4 successfully made by first client
-                      provider:
-                        account_type: service_provider
-                        bank_account_number: '43646364353'
-                        bank_name: alrajhi
-                        beneficiary_name: Ali
-                        business_type: individual
-                        city_id: 1
-                        commercial_register_image: null
-                        commercial_register_image_path: null
-                        created_at: '2024-04-23T12:11:22.000000Z'
-                        device_type: null
-                        email: hyper242@gmail.com
-                        end_time: 04:10 PM
-                        fcm_token: null
-                        has_offline_stores: 1
-                        iban: '00078687464'
-                        iban_image: uploads/files/04-2024/1713354063L6Sxt2kHExLiW2p.png
-                        iban_image_path: http://localhost:8000/uploads/files/04-2024/1713354063L6Sxt2kHExLiW2p.png
-                        id: 1
-                        image: uploads/files/04-2024/1713354063L6Sxt2kHExLiW2p.png
-                        imagePath: http://localhost:8000/uploads/files/04-2024/1713354063L6Sxt2kHExLiW2p.png
-                        instagram_link: https://instagram.com/test
-                        is_email_verified: false
-                        is_phone_verified: true
-                        lang: ar
-                        name: متاجر هايبررر
-                        name_ar: متاجر هايبررر
-                        name_en: hyper marketttrr
-                        offline_stores_number: 3
-                        overall_rating: null
-                        owner_name: Ali Ahmeddd
-                        phone: '534059563'
-                        provide_delivery: null
-                        ratings_count: 0
-                        self_employment_document: uploads/files/04-2024/1713354063L6Sxt2kHExLiW2p.png
-                        self_employment_document_path: http://localhost:8000/uploads/files/04-2024/1713354063L6Sxt2kHExLiW2p.png
-                        snapchat_link: https://snapchat.com/test
-                        start_time: 02:12 PM
-                        status: active
-                        tiktok_link: https://tiktok.com/test
-                        updated_at: '2024-04-23T16:20:14.000000Z'
-                        working_days_indices: '0'
-                        working_days_indices_list:
-                          - '0'
-                        x_link: https://x.com/test
-                      provider_id: 1
-                      title: طلب جديد
-                      title_ar: طلب جديد
-                      title_en: new order
-                      updated_at: '2024-05-19T15:18:23.000000Z'
-                      user: null
-                      user_id: null
-                    message: notification is read successfully
-                    status: true
+
       security:
         - bearerAuth: []
   /client/update/device-data:

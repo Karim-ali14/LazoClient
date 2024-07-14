@@ -63,7 +63,7 @@ class Notifications2Api {
   ///
   /// * [String] unreadOnly:
   ///   optional | used when show only unread, otherwise show all takes 0 or 1
-  Future<ShowNotifications1200Response?> showNotifications2({ String? unreadOnly, }) async {
+  Future<ShowNotifications2200Response?> showNotifications2({ String? unreadOnly, }) async {
     final response = await showNotifications2WithHttpInfo( unreadOnly: unreadOnly, );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
@@ -72,7 +72,7 @@ class Notifications2Api {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
-      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'ShowNotifications1200Response',) as ShowNotifications1200Response;
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'ShowNotifications2200Response',) as ShowNotifications2200Response;
     
     }
     return null;

@@ -13,21 +13,33 @@ part of openapi.api;
 class ProviderProduct {
   /// Returns a new [ProviderProduct] instance.
   ProviderProduct({
-    this.id,
-    this.name,
-    this.nameEn,
-    this.nameAr,
-    this.descriptionEn,
+    this.amount,
+    this.categories = const [],
+    this.categoryMenu = const [],
+    this.colors = const [],
+    this.createdAt,
+    this.description,
     this.descriptionAr,
+    this.descriptionEn,
+    this.expectedProcessingTime,
+    this.isVisible,
+    this.id,
+    this.images = const [],
+    this.lists = const [],
+    this.name,
+    this.nameAr,
+    this.nameEn,
+    this.occasions = const [],
     this.price,
     this.priceAfterDiscount,
-    this.amount,
-    this.isVisible,
-    this.expectedProcessingTime,
     this.providerId,
+    this.sizes = const [],
     this.type,
-    this.createdAt,
     this.updatedAt,
+    this.inCart,
+    this.inWishlist,
+    this.overallRating,
+    this.ratingsCount,
   });
 
   ///
@@ -36,7 +48,13 @@ class ProviderProduct {
   /// source code must fall back to having a nullable type.
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
-  num? id;
+  num? amount;
+
+  List<Category>? categories;
+
+  List<CategoryMenu>? categoryMenu;
+
+  List<Color>? colors;
 
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
@@ -44,7 +62,7 @@ class ProviderProduct {
   /// source code must fall back to having a nullable type.
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
-  String? name;
+  String? createdAt;
 
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
@@ -52,7 +70,7 @@ class ProviderProduct {
   /// source code must fall back to having a nullable type.
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
-  String? nameEn;
+  String? description;
 
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
@@ -60,7 +78,7 @@ class ProviderProduct {
   /// source code must fall back to having a nullable type.
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
-  String? nameAr;
+  String? descriptionAr;
 
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
@@ -76,7 +94,53 @@ class ProviderProduct {
   /// source code must fall back to having a nullable type.
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
-  String? descriptionAr;
+  String? expectedProcessingTime;
+
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  int? isVisible;
+
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  num? id;
+
+  List<ImageItem>? images;
+
+  List<ProductListItem>? lists;
+
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  String? name;
+
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  String? nameAr;
+
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  String? nameEn;
+
+  List<Occasion>? occasions;
 
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
@@ -100,31 +164,9 @@ class ProviderProduct {
   /// source code must fall back to having a nullable type.
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
-  num? amount;
-
-  ///
-  /// Please note: This property should have been non-nullable! Since the specification file
-  /// does not include a default value (using the "default:" property), however, the generated
-  /// source code must fall back to having a nullable type.
-  /// Consider adding a "default:" property in the specification file to hide this note.
-  ///
-  int? isVisible;
-
-  ///
-  /// Please note: This property should have been non-nullable! Since the specification file
-  /// does not include a default value (using the "default:" property), however, the generated
-  /// source code must fall back to having a nullable type.
-  /// Consider adding a "default:" property in the specification file to hide this note.
-  ///
-  String? expectedProcessingTime;
-
-  ///
-  /// Please note: This property should have been non-nullable! Since the specification file
-  /// does not include a default value (using the "default:" property), however, the generated
-  /// source code must fall back to having a nullable type.
-  /// Consider adding a "default:" property in the specification file to hide this note.
-  ///
   num? providerId;
+
+  List<Size>? sizes;
 
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
@@ -140,7 +182,7 @@ class ProviderProduct {
   /// source code must fall back to having a nullable type.
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
-  String? createdAt;
+  String? updatedAt;
 
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
@@ -148,79 +190,182 @@ class ProviderProduct {
   /// source code must fall back to having a nullable type.
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
-  String? updatedAt;
+  bool? inCart;
+
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  bool? inWishlist;
+
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  num? overallRating;
+
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  num? ratingsCount;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is ProviderProduct &&
-     other.id == id &&
-     other.name == name &&
-     other.nameEn == nameEn &&
-     other.nameAr == nameAr &&
-     other.descriptionEn == descriptionEn &&
+     other.amount == amount &&
+     other.categories == categories &&
+     other.categoryMenu == categoryMenu &&
+     other.colors == colors &&
+     other.createdAt == createdAt &&
+     other.description == description &&
      other.descriptionAr == descriptionAr &&
+     other.descriptionEn == descriptionEn &&
+     other.expectedProcessingTime == expectedProcessingTime &&
+     other.isVisible == isVisible &&
+     other.id == id &&
+     other.images == images &&
+     other.lists == lists &&
+     other.name == name &&
+     other.nameAr == nameAr &&
+     other.nameEn == nameEn &&
+     other.occasions == occasions &&
      other.price == price &&
      other.priceAfterDiscount == priceAfterDiscount &&
-     other.amount == amount &&
-     other.isVisible == isVisible &&
-     other.expectedProcessingTime == expectedProcessingTime &&
      other.providerId == providerId &&
+     other.sizes == sizes &&
      other.type == type &&
-     other.createdAt == createdAt &&
-     other.updatedAt == updatedAt;
+     other.updatedAt == updatedAt &&
+     other.inCart == inCart &&
+     other.inWishlist == inWishlist &&
+     other.overallRating == overallRating &&
+     other.ratingsCount == ratingsCount;
 
   @override
   int get hashCode =>
     // ignore: unnecessary_parenthesis
-    (id == null ? 0 : id!.hashCode) +
-    (name == null ? 0 : name!.hashCode) +
-    (nameEn == null ? 0 : nameEn!.hashCode) +
-    (nameAr == null ? 0 : nameAr!.hashCode) +
-    (descriptionEn == null ? 0 : descriptionEn!.hashCode) +
+    (amount == null ? 0 : amount!.hashCode) +
+    (categories == null ? 0 : categories!.hashCode) +
+    (categoryMenu == null ? 0 : categoryMenu!.hashCode) +
+    (colors == null ? 0 : colors!.hashCode) +
+    (createdAt == null ? 0 : createdAt!.hashCode) +
+    (description == null ? 0 : description!.hashCode) +
     (descriptionAr == null ? 0 : descriptionAr!.hashCode) +
+    (descriptionEn == null ? 0 : descriptionEn!.hashCode) +
+    (expectedProcessingTime == null ? 0 : expectedProcessingTime!.hashCode) +
+    (isVisible == null ? 0 : isVisible!.hashCode) +
+    (id == null ? 0 : id!.hashCode) +
+    (images == null ? 0 : images!.hashCode) +
+    (lists == null ? 0 : lists!.hashCode) +
+    (name == null ? 0 : name!.hashCode) +
+    (nameAr == null ? 0 : nameAr!.hashCode) +
+    (nameEn == null ? 0 : nameEn!.hashCode) +
+    (occasions == null ? 0 : occasions!.hashCode) +
     (price == null ? 0 : price!.hashCode) +
     (priceAfterDiscount == null ? 0 : priceAfterDiscount!.hashCode) +
-    (amount == null ? 0 : amount!.hashCode) +
-    (isVisible == null ? 0 : isVisible!.hashCode) +
-    (expectedProcessingTime == null ? 0 : expectedProcessingTime!.hashCode) +
     (providerId == null ? 0 : providerId!.hashCode) +
+    (sizes == null ? 0 : sizes!.hashCode) +
     (type == null ? 0 : type!.hashCode) +
-    (createdAt == null ? 0 : createdAt!.hashCode) +
-    (updatedAt == null ? 0 : updatedAt!.hashCode);
+    (updatedAt == null ? 0 : updatedAt!.hashCode) +
+    (inCart == null ? 0 : inCart!.hashCode) +
+    (inWishlist == null ? 0 : inWishlist!.hashCode) +
+    (overallRating == null ? 0 : overallRating!.hashCode) +
+    (ratingsCount == null ? 0 : ratingsCount!.hashCode);
 
   @override
-  String toString() => 'ProviderProduct[id=$id, name=$name, nameEn=$nameEn, nameAr=$nameAr, descriptionEn=$descriptionEn, descriptionAr=$descriptionAr, price=$price, priceAfterDiscount=$priceAfterDiscount, amount=$amount, isVisible=$isVisible, expectedProcessingTime=$expectedProcessingTime, providerId=$providerId, type=$type, createdAt=$createdAt, updatedAt=$updatedAt]';
+  String toString() => 'ProviderProduct[amount=$amount, categories=$categories, categoryMenu=$categoryMenu, colors=$colors, createdAt=$createdAt, description=$description, descriptionAr=$descriptionAr, descriptionEn=$descriptionEn, expectedProcessingTime=$expectedProcessingTime, isVisible=$isVisible, id=$id, images=$images, lists=$lists, name=$name, nameAr=$nameAr, nameEn=$nameEn, occasions=$occasions, price=$price, priceAfterDiscount=$priceAfterDiscount, providerId=$providerId, sizes=$sizes, type=$type, updatedAt=$updatedAt, inCart=$inCart, inWishlist=$inWishlist, overallRating=$overallRating, ratingsCount=$ratingsCount]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-    if (this.id != null) {
-      json[r'id'] = this.id;
+    if (this.amount != null) {
+      json[r'amount'] = this.amount;
     } else {
-      json[r'id'] = null;
+      json[r'amount'] = null;
     }
-    if (this.name != null) {
-      json[r'name'] = this.name;
+    if (this.categories != null) {
+      json[r'categories'] = this.categories;
     } else {
-      json[r'name'] = null;
+      json[r'categories'] = null;
     }
-    if (this.nameEn != null) {
-      json[r'name_en'] = this.nameEn;
+    if (this.categoryMenu != null) {
+      json[r'category_menu'] = this.categoryMenu;
     } else {
-      json[r'name_en'] = null;
+      json[r'category_menu'] = null;
     }
-    if (this.nameAr != null) {
-      json[r'name_ar'] = this.nameAr;
+    if (this.colors != null) {
+      json[r'colors'] = this.colors;
     } else {
-      json[r'name_ar'] = null;
+      json[r'colors'] = null;
+    }
+    if (this.createdAt != null) {
+      json[r'created_at'] = this.createdAt;
+    } else {
+      json[r'created_at'] = null;
+    }
+    if (this.description != null) {
+      json[r'description'] = this.description;
+    } else {
+      json[r'description'] = null;
+    }
+    if (this.descriptionAr != null) {
+      json[r'description_ar'] = this.descriptionAr;
+    } else {
+      json[r'description_ar'] = null;
     }
     if (this.descriptionEn != null) {
       json[r'description_en'] = this.descriptionEn;
     } else {
       json[r'description_en'] = null;
     }
-    if (this.descriptionAr != null) {
-      json[r'description_ar'] = this.descriptionAr;
+    if (this.expectedProcessingTime != null) {
+      json[r'expected_processing_time'] = this.expectedProcessingTime;
     } else {
-      json[r'description_ar'] = null;
+      json[r'expected_processing_time'] = null;
+    }
+    if (this.isVisible != null) {
+      json[r'is_visible'] = this.isVisible;
+    } else {
+      json[r'is_visible'] = null;
+    }
+    if (this.id != null) {
+      json[r'id'] = this.id;
+    } else {
+      json[r'id'] = null;
+    }
+    if (this.images != null) {
+      json[r'images'] = this.images;
+    } else {
+      json[r'images'] = null;
+    }
+    if (this.lists != null) {
+      json[r'lists'] = this.lists;
+    } else {
+      json[r'lists'] = null;
+    }
+    if (this.name != null) {
+      json[r'name'] = this.name;
+    } else {
+      json[r'name'] = null;
+    }
+    if (this.nameAr != null) {
+      json[r'name_ar'] = this.nameAr;
+    } else {
+      json[r'name_ar'] = null;
+    }
+    if (this.nameEn != null) {
+      json[r'name_en'] = this.nameEn;
+    } else {
+      json[r'name_en'] = null;
+    }
+    if (this.occasions != null) {
+      json[r'occasions'] = this.occasions;
+    } else {
+      json[r'occasions'] = null;
     }
     if (this.price != null) {
       json[r'price'] = this.price;
@@ -232,40 +377,45 @@ class ProviderProduct {
     } else {
       json[r'price_after_discount'] = null;
     }
-    if (this.amount != null) {
-      json[r'amount'] = this.amount;
-    } else {
-      json[r'amount'] = null;
-    }
-    if (this.isVisible != null) {
-      json[r'is_visible'] = this.isVisible;
-    } else {
-      json[r'is_visible'] = null;
-    }
-    if (this.expectedProcessingTime != null) {
-      json[r'expected_processing_time'] = this.expectedProcessingTime;
-    } else {
-      json[r'expected_processing_time'] = null;
-    }
     if (this.providerId != null) {
       json[r'provider_id'] = this.providerId;
     } else {
       json[r'provider_id'] = null;
+    }
+    if (this.sizes != null) {
+      json[r'sizes'] = this.sizes;
+    } else {
+      json[r'sizes'] = null;
     }
     if (this.type != null) {
       json[r'type'] = this.type;
     } else {
       json[r'type'] = null;
     }
-    if (this.createdAt != null) {
-      json[r'created_at'] = this.createdAt;
-    } else {
-      json[r'created_at'] = null;
-    }
     if (this.updatedAt != null) {
       json[r'updated_at'] = this.updatedAt;
     } else {
       json[r'updated_at'] = null;
+    }
+    if (this.inCart != null) {
+      json[r'in_cart'] = this.inCart;
+    } else {
+      json[r'in_cart'] = null;
+    }
+    if (this.inWishlist != null) {
+      json[r'in_wishlist'] = this.inWishlist;
+    } else {
+      json[r'in_wishlist'] = null;
+    }
+    if (this.overallRating != null) {
+      json[r'overall_rating'] = this.overallRating;
+    } else {
+      json[r'overall_rating'] = null;
+    }
+    if (this.ratingsCount != null) {
+      json[r'ratings_count'] = this.ratingsCount;
+    } else {
+      json[r'ratings_count'] = null;
     }
     return json;
   }
@@ -289,31 +439,47 @@ class ProviderProduct {
       }());
 
       return ProviderProduct(
+        amount: json[r'amount'] == null
+            ? null
+            : num.parse(json[r'amount'].toString()),
+        categories: Category.listFromJson(json[r'categories']),
+        categoryMenu: CategoryMenu.listFromJson(json[r'category_menu']),
+        colors: Color.listFromJson(json[r'colors']),
+        createdAt: mapValueOfType<String>(json, r'created_at'),
+        description: mapValueOfType<String>(json, r'description'),
+        descriptionAr: mapValueOfType<String>(json, r'description_ar'),
+        descriptionEn: mapValueOfType<String>(json, r'description_en'),
+        expectedProcessingTime: mapValueOfType<String>(json, r'expected_processing_time'),
+        isVisible: mapValueOfType<int>(json, r'is_visible'),
         id: json[r'id'] == null
             ? null
             : num.parse(json[r'id'].toString()),
+        images: ImageItem.listFromJson(json[r'images']),
+        lists: ProductListItem.listFromJson(json[r'lists']),
         name: mapValueOfType<String>(json, r'name'),
-        nameEn: mapValueOfType<String>(json, r'name_en'),
         nameAr: mapValueOfType<String>(json, r'name_ar'),
-        descriptionEn: mapValueOfType<String>(json, r'description_en'),
-        descriptionAr: mapValueOfType<String>(json, r'description_ar'),
+        nameEn: mapValueOfType<String>(json, r'name_en'),
+        occasions: Occasion.listFromJson(json[r'occasions']),
         price: json[r'price'] == null
             ? null
             : num.parse(json[r'price'].toString()),
         priceAfterDiscount: json[r'price_after_discount'] == null
             ? null
             : num.parse(json[r'price_after_discount'].toString()),
-        amount: json[r'amount'] == null
-            ? null
-            : num.parse(json[r'amount'].toString()),
-        isVisible: mapValueOfType<int>(json, r'is_visible'),
-        expectedProcessingTime: mapValueOfType<String>(json, r'expected_processing_time'),
         providerId: json[r'provider_id'] == null
             ? null
             : num.parse(json[r'provider_id'].toString()),
+        sizes: Size.listFromJson(json[r'sizes']),
         type: mapValueOfType<String>(json, r'type'),
-        createdAt: mapValueOfType<String>(json, r'created_at'),
         updatedAt: mapValueOfType<String>(json, r'updated_at'),
+        inCart: mapValueOfType<bool>(json, r'in_cart'),
+        inWishlist: mapValueOfType<bool>(json, r'in_wishlist'),
+        overallRating: json[r'overall_rating'] == null
+            ? null
+            : num.parse(json[r'overall_rating'].toString()),
+        ratingsCount: json[r'ratings_count'] == null
+            ? null
+            : num.parse(json[r'ratings_count'].toString()),
       );
     }
     return null;

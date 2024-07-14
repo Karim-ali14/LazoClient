@@ -1,4 +1,4 @@
-# lazo.model.ShowWishlistItemsWithSearchByName200Response
+# lazo.model.ShowNotifications2200Response
 
 ## Load the model package
 ```dart
@@ -8,7 +8,8 @@ import 'package:lazo/api.dart';
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**data** | [**ShowWishlistItemsWithSearchByName200ResponseData**](ShowWishlistItemsWithSearchByName200ResponseData.md) |  | [optional] 
+**code** | **num** |  | [optional] 
+**data** | [**List<ClientNotification>**](ClientNotification.md) |  | [optional] [default to const []]
 **message** | **String** |  | [optional] 
 **status** | **bool** |  | [optional] 
 

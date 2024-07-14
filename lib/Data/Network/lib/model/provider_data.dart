@@ -51,6 +51,9 @@ class ProviderData {
     this.createdAt,
     this.updatedAt,
     this.name,
+    this.isPromoted,
+    this.coverImage,
+    this.coverImagePath,
     this.imagePath,
     this.workingDaysIndicesList = const [],
     this.selfEmploymentDocumentPath,
@@ -370,6 +373,18 @@ class ProviderData {
   /// source code must fall back to having a nullable type.
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
+  num? isPromoted;
+
+  String? coverImage;
+
+  String? coverImagePath;
+
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
   String? imagePath;
 
   List<String> workingDaysIndicesList;
@@ -442,6 +457,9 @@ class ProviderData {
      other.createdAt == createdAt &&
      other.updatedAt == updatedAt &&
      other.name == name &&
+     other.isPromoted == isPromoted &&
+     other.coverImage == coverImage &&
+     other.coverImagePath == coverImagePath &&
      other.imagePath == imagePath &&
      other.workingDaysIndicesList == workingDaysIndicesList &&
      other.selfEmploymentDocumentPath == selfEmploymentDocumentPath &&
@@ -491,6 +509,9 @@ class ProviderData {
     (createdAt == null ? 0 : createdAt!.hashCode) +
     (updatedAt == null ? 0 : updatedAt!.hashCode) +
     (name == null ? 0 : name!.hashCode) +
+    (isPromoted == null ? 0 : isPromoted!.hashCode) +
+    (coverImage == null ? 0 : coverImage!.hashCode) +
+    (coverImagePath == null ? 0 : coverImagePath!.hashCode) +
     (imagePath == null ? 0 : imagePath!.hashCode) +
     (workingDaysIndicesList.hashCode) +
     (selfEmploymentDocumentPath == null ? 0 : selfEmploymentDocumentPath!.hashCode) +
@@ -500,7 +521,7 @@ class ProviderData {
     (tags.hashCode);
 
   @override
-  String toString() => 'ProviderData[id=$id, nameEn=$nameEn, nameAr=$nameAr, ownerName=$ownerName, email=$email, phone=$phone, image=$image, cityId=$cityId, accountType=$accountType, deviceType=$deviceType, fcmToken=$fcmToken, lang=$lang, status=$status, instagramLink=$instagramLink, snapchatLink=$snapchatLink, tiktokLink=$tiktokLink, xLink=$xLink, hasOfflineStores=$hasOfflineStores, offlineStoresNumber=$offlineStoresNumber, provideDelivery=$provideDelivery, overallRating=$overallRating, ratingsCount=$ratingsCount, isEmailVerified=$isEmailVerified, isPhoneVerified=$isPhoneVerified, businessType=$businessType, commercialRegisterImage=$commercialRegisterImage, selfEmploymentDocument=$selfEmploymentDocument, startTime=$startTime, endTime=$endTime, workingDaysIndices=$workingDaysIndices, bankName=$bankName, beneficiaryName=$beneficiaryName, bankAccountNumber=$bankAccountNumber, iban=$iban, ibanImage=$ibanImage, createdAt=$createdAt, updatedAt=$updatedAt, name=$name, imagePath=$imagePath, workingDaysIndicesList=$workingDaysIndicesList, selfEmploymentDocumentPath=$selfEmploymentDocumentPath, commercialRegisterImagePath=$commercialRegisterImagePath, city=$city, locations=$locations, tags=$tags]';
+  String toString() => 'ProviderData[id=$id, nameEn=$nameEn, nameAr=$nameAr, ownerName=$ownerName, email=$email, phone=$phone, image=$image, cityId=$cityId, accountType=$accountType, deviceType=$deviceType, fcmToken=$fcmToken, lang=$lang, status=$status, instagramLink=$instagramLink, snapchatLink=$snapchatLink, tiktokLink=$tiktokLink, xLink=$xLink, hasOfflineStores=$hasOfflineStores, offlineStoresNumber=$offlineStoresNumber, provideDelivery=$provideDelivery, overallRating=$overallRating, ratingsCount=$ratingsCount, isEmailVerified=$isEmailVerified, isPhoneVerified=$isPhoneVerified, businessType=$businessType, commercialRegisterImage=$commercialRegisterImage, selfEmploymentDocument=$selfEmploymentDocument, startTime=$startTime, endTime=$endTime, workingDaysIndices=$workingDaysIndices, bankName=$bankName, beneficiaryName=$beneficiaryName, bankAccountNumber=$bankAccountNumber, iban=$iban, ibanImage=$ibanImage, createdAt=$createdAt, updatedAt=$updatedAt, name=$name, isPromoted=$isPromoted, coverImage=$coverImage, coverImagePath=$coverImagePath, imagePath=$imagePath, workingDaysIndicesList=$workingDaysIndicesList, selfEmploymentDocumentPath=$selfEmploymentDocumentPath, commercialRegisterImagePath=$commercialRegisterImagePath, city=$city, locations=$locations, tags=$tags]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -694,6 +715,21 @@ class ProviderData {
     } else {
       json[r'name'] = null;
     }
+    if (this.isPromoted != null) {
+      json[r'is_promoted'] = this.isPromoted;
+    } else {
+      json[r'is_promoted'] = null;
+    }
+    if (this.coverImage != null) {
+      json[r'cover_image'] = this.coverImage;
+    } else {
+      json[r'cover_image'] = null;
+    }
+    if (this.coverImagePath != null) {
+      json[r'coverImagePath'] = this.coverImagePath;
+    } else {
+      json[r'coverImagePath'] = null;
+    }
     if (this.imagePath != null) {
       json[r'imagePath'] = this.imagePath;
     } else {
@@ -779,6 +815,11 @@ class ProviderData {
         createdAt: mapValueOfType<String>(json, r'created_at'),
         updatedAt: mapValueOfType<String>(json, r'updated_at'),
         name: mapValueOfType<String>(json, r'name'),
+        isPromoted: json[r'is_promoted'] == null
+            ? null
+            : num.parse(json[r'is_promoted'].toString()),
+        coverImage: mapValueOfType<String>(json, r'cover_image'),
+        coverImagePath: mapValueOfType<String>(json, r'coverImagePath'),
         imagePath: mapValueOfType<String>(json, r'imagePath'),
         workingDaysIndicesList: json[r'working_days_indices_list'] is List
             ? (json[r'working_days_indices_list'] as List).cast<String>()

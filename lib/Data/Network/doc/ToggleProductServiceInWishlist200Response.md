@@ -1,4 +1,4 @@
-# lazo.model.ShowWishlistItemsWithSearchByName200Response
+# lazo.model.ToggleProductServiceInWishlist200Response
 
 ## Load the model package
 ```dart
@@ -8,7 +8,7 @@ import 'package:lazo/api.dart';
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**data** | [**ShowWishlistItemsWithSearchByName200ResponseData**](ShowWishlistItemsWithSearchByName200ResponseData.md) |  | [optional] 
+**data** | [**ToggleProductServiceInWishlist200ResponseData**](ToggleProductServiceInWishlist200ResponseData.md) |  | [optional] 
 **message** | **String** |  | [optional] 
 **status** | **bool** |  | [optional] 
 

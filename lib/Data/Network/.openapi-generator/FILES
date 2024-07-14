@@ -14,6 +14,7 @@ doc/City.md
 doc/ClientApi.md
 doc/ClientAuthResponse.md
 doc/ClientAuthResponseData.md
+doc/ClientNotification.md
 doc/ClientOrderDetails.md
 doc/ClientOrderDetailsOrderItemsInner.md
 doc/ClientOrderDetailsOrderItemsInnerProvider.md
@@ -79,6 +80,7 @@ doc/PublicApi.md
 doc/PublicAuthApi.md
 doc/ReadANotification1200Response.md
 doc/ReadANotification1200ResponseData.md
+doc/ReadANotification122200Response.md
 doc/ResetCodeConfirmRequest.md
 doc/ResetCodeConfirmResponse.md
 doc/ResetCodeSendRequest.md
@@ -107,6 +109,7 @@ doc/ShowNotifications1200Response.md
 doc/ShowNotifications1200ResponseDataInner.md
 doc/ShowNotifications1200ResponseDataInnerProvider.md
 doc/ShowNotifications1200ResponseDataInnerUser.md
+doc/ShowNotifications2200Response.md
 doc/ShowOrders200Response.md
 doc/ShowOrders200ResponseData.md
 doc/ShowProfile200Response.md
@@ -115,12 +118,13 @@ doc/ShowProfile200ResponseDataCity.md
 doc/ShowPromocodeDetails200Response.md
 doc/ShowPromocodeDetails200ResponseData.md
 doc/ShowWishlistItemsWithSearchByName200Response.md
-doc/ShowWishlistItemsWithSearchByName200ResponseDataInner.md
-doc/ShowWishlistItemsWithSearchByName200ResponseDataInnerItemsInner.md
+doc/ShowWishlistItemsWithSearchByName200ResponseData.md
 doc/Size.md
 doc/SizesResponse.md
 doc/Tag.md
 doc/TagsResponse.md
+doc/ToggleProductServiceInWishlist200Response.md
+doc/ToggleProductServiceInWishlist200ResponseData.md
 doc/UpdateProfile200Response.md
 doc/UpdateProfile200ResponseData.md
 doc/UpdateProfile200ResponseDataCity.md
@@ -159,6 +163,7 @@ lib/model/cities_response.dart
 lib/model/city.dart
 lib/model/client_auth_response.dart
 lib/model/client_auth_response_data.dart
+lib/model/client_notification.dart
 lib/model/client_order_details.dart
 lib/model/client_order_details_order_items_inner.dart
 lib/model/client_order_details_order_items_inner_provider.dart
@@ -215,6 +220,7 @@ lib/model/provider_register_response_data.dart
 lib/model/providerchange_password_request.dart
 lib/model/read_a_notification1200_response.dart
 lib/model/read_a_notification1200_response_data.dart
+lib/model/read_a_notification122200_response.dart
 lib/model/reset_code_confirm_request.dart
 lib/model/reset_code_confirm_response.dart
 lib/model/reset_code_send_request.dart
@@ -243,6 +249,7 @@ lib/model/show_notifications1200_response.dart
 lib/model/show_notifications1200_response_data_inner.dart
 lib/model/show_notifications1200_response_data_inner_provider.dart
 lib/model/show_notifications1200_response_data_inner_user.dart
+lib/model/show_notifications2200_response.dart
 lib/model/show_orders200_response.dart
 lib/model/show_orders200_response_data.dart
 lib/model/show_profile200_response.dart
@@ -251,18 +258,16 @@ lib/model/show_profile200_response_data_city.dart
 lib/model/show_promocode_details200_response.dart
 lib/model/show_promocode_details200_response_data.dart
 lib/model/show_wishlist_items_with_search_by_name200_response.dart
-lib/model/show_wishlist_items_with_search_by_name200_response_data_inner.dart
-lib/model/show_wishlist_items_with_search_by_name200_response_data_inner_items_inner.dart
+lib/model/show_wishlist_items_with_search_by_name200_response_data.dart
 lib/model/size.dart
 lib/model/sizes_response.dart
 lib/model/tag.dart
 lib/model/tags_response.dart
+lib/model/toggle_product_service_in_wishlist200_response.dart
+lib/model/toggle_product_service_in_wishlist200_response_data.dart
 lib/model/update_profile200_response.dart
 lib/model/update_profile200_response_data.dart
 lib/model/update_profile200_response_data_city.dart
 lib/model/upload_files.dart
 lib/model/upload_files_response.dart
 pubspec.yaml
-test/services_list_response_data_test.dart
-test/services_list_response_test.dart
-test/show_all_provider_s_orders200_response_data_links_inner_test.dart

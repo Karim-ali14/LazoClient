@@ -199,6 +199,8 @@ class ApiClient {
           return ClientAuthResponse.fromJson(value);
         case 'ClientAuthResponseData':
           return ClientAuthResponseData.fromJson(value);
+        case 'ClientNotification':
+          return ClientNotification.fromJson(value);
         case 'ClientOrderDetails':
           return ClientOrderDetails.fromJson(value);
         case 'ClientOrderDetailsOrderItemsInner':
@@ -311,6 +313,8 @@ class ApiClient {
           return ReadANotification1200Response.fromJson(value);
         case 'ReadANotification1200ResponseData':
           return ReadANotification1200ResponseData.fromJson(value);
+        case 'ReadANotification122200Response':
+          return ReadANotification122200Response.fromJson(value);
         case 'ResetCodeConfirmRequest':
           return ResetCodeConfirmRequest.fromJson(value);
         case 'ResetCodeConfirmResponse':
@@ -367,6 +371,8 @@ class ApiClient {
           return ShowNotifications1200ResponseDataInnerProvider.fromJson(value);
         case 'ShowNotifications1200ResponseDataInnerUser':
           return ShowNotifications1200ResponseDataInnerUser.fromJson(value);
+        case 'ShowNotifications2200Response':
+          return ShowNotifications2200Response.fromJson(value);
         case 'ShowOrders200Response':
           return ShowOrders200Response.fromJson(value);
         case 'ShowOrders200ResponseData':
@@ -383,10 +389,8 @@ class ApiClient {
           return ShowPromocodeDetails200ResponseData.fromJson(value);
         case 'ShowWishlistItemsWithSearchByName200Response':
           return ShowWishlistItemsWithSearchByName200Response.fromJson(value);
-        case 'ShowWishlistItemsWithSearchByName200ResponseDataInner':
-          return ShowWishlistItemsWithSearchByName200ResponseDataInner.fromJson(value);
-        case 'ShowWishlistItemsWithSearchByName200ResponseDataInnerItemsInner':
-          return ShowWishlistItemsWithSearchByName200ResponseDataInnerItemsInner.fromJson(value);
+        case 'ShowWishlistItemsWithSearchByName200ResponseData':
+          return ShowWishlistItemsWithSearchByName200ResponseData.fromJson(value);
         case 'Size':
           return Size.fromJson(value);
         case 'SizesResponse':
@@ -395,6 +399,10 @@ class ApiClient {
           return Tag.fromJson(value);
         case 'TagsResponse':
           return TagsResponse.fromJson(value);
+        case 'ToggleProductServiceInWishlist200Response':
+          return ToggleProductServiceInWishlist200Response.fromJson(value);
+        case 'ToggleProductServiceInWishlist200ResponseData':
+          return ToggleProductServiceInWishlist200ResponseData.fromJson(value);
         case 'UpdateProfile200Response':
           return UpdateProfile200Response.fromJson(value);
         case 'UpdateProfile200ResponseData':

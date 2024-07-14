@@ -10,10 +10,11 @@
 
 part of openapi.api;
 
-class ShowWishlistItemsWithSearchByName200Response {
-  /// Returns a new [ShowWishlistItemsWithSearchByName200Response] instance.
-  ShowWishlistItemsWithSearchByName200Response({
-    this.data,
+class ShowNotifications2200Response {
+  /// Returns a new [ShowNotifications2200Response] instance.
+  ShowNotifications2200Response({
+    this.code,
+    this.data = const [],
     this.message,
     this.status,
   });
@@ -24,7 +25,9 @@ class ShowWishlistItemsWithSearchByName200Response {
   /// source code must fall back to having a nullable type.
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
-  ShowWishlistItemsWithSearchByName200ResponseData? data;
+  num? code;
+
+  List<ClientNotification> data;
 
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
@@ -43,7 +46,8 @@ class ShowWishlistItemsWithSearchByName200Response {
   bool? status;
 
   @override
-  bool operator ==(Object other) => identical(this, other) || other is ShowWishlistItemsWithSearchByName200Response &&
+  bool operator ==(Object other) => identical(this, other) || other is ShowNotifications2200Response &&
+     other.code == code &&
      other.data == data &&
      other.message == message &&
      other.status == status;
@@ -51,20 +55,22 @@ class ShowWishlistItemsWithSearchByName200Response {
   @override
   int get hashCode =>
     // ignore: unnecessary_parenthesis
-    (data == null ? 0 : data!.hashCode) +
+    (code == null ? 0 : code!.hashCode) +
+    (data.hashCode) +
     (message == null ? 0 : message!.hashCode) +
     (status == null ? 0 : status!.hashCode);
 
   @override
-  String toString() => 'ShowWishlistItemsWithSearchByName200Response[data=$data, message=$message, status=$status]';
+  String toString() => 'ShowNotifications2200Response[code=$code, data=$data, message=$message, status=$status]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-    if (this.data != null) {
-      json[r'data'] = this.data;
+    if (this.code != null) {
+      json[r'code'] = this.code;
     } else {
-      json[r'data'] = null;
+      json[r'code'] = null;
     }
+      json[r'data'] = this.data;
     if (this.message != null) {
       json[r'message'] = this.message;
     } else {
@@ -78,10 +84,10 @@ class ShowWishlistItemsWithSearchByName200Response {
     return json;
   }
 
-  /// Returns a new [ShowWishlistItemsWithSearchByName200Response] instance and imports its values from
+  /// Returns a new [ShowNotifications2200Response] instance and imports its values from
   /// [value] if it's a [Map], null otherwise.
   // ignore: prefer_constructors_over_static_methods
-  static ShowWishlistItemsWithSearchByName200Response? fromJson(dynamic value) {
+  static ShowNotifications2200Response? fromJson(dynamic value) {
     if (value is Map) {
       final json = value.cast<String, dynamic>();
 
@@ -90,14 +96,17 @@ class ShowWishlistItemsWithSearchByName200Response {
       // Note 2: this code is stripped in release mode!
       assert(() {
         requiredKeys.forEach((key) {
-          assert(json.containsKey(key), 'Required key "ShowWishlistItemsWithSearchByName200Response[$key]" is missing from JSON.');
-          assert(json[key] != null, 'Required key "ShowWishlistItemsWithSearchByName200Response[$key]" has a null value in JSON.');
+          assert(json.containsKey(key), 'Required key "ShowNotifications2200Response[$key]" is missing from JSON.');
+          assert(json[key] != null, 'Required key "ShowNotifications2200Response[$key]" has a null value in JSON.');
         });
         return true;
       }());
 
-      return ShowWishlistItemsWithSearchByName200Response(
-        data: ShowWishlistItemsWithSearchByName200ResponseData.fromJson(json[r'data']),
+      return ShowNotifications2200Response(
+        code: json[r'code'] == null
+            ? null
+            : num.parse(json[r'code'].toString()),
+        data: ClientNotification.listFromJson(json[r'data']),
         message: mapValueOfType<String>(json, r'message'),
         status: mapValueOfType<bool>(json, r'status'),
       );
@@ -105,11 +114,11 @@ class ShowWishlistItemsWithSearchByName200Response {
     return null;
   }
 
-  static List<ShowWishlistItemsWithSearchByName200Response> listFromJson(dynamic json, {bool growable = false,}) {
-    final result = <ShowWishlistItemsWithSearchByName200Response>[];
+  static List<ShowNotifications2200Response> listFromJson(dynamic json, {bool growable = false,}) {
+    final result = <ShowNotifications2200Response>[];
     if (json is List && json.isNotEmpty) {
       for (final row in json) {
-        final value = ShowWishlistItemsWithSearchByName200Response.fromJson(row);
+        final value = ShowNotifications2200Response.fromJson(row);
         if (value != null) {
           result.add(value);
         }
@@ -118,12 +127,12 @@ class ShowWishlistItemsWithSearchByName200Response {
     return result.toList(growable: growable);
   }
 
-  static Map<String, ShowWishlistItemsWithSearchByName200Response> mapFromJson(dynamic json) {
-    final map = <String, ShowWishlistItemsWithSearchByName200Response>{};
+  static Map<String, ShowNotifications2200Response> mapFromJson(dynamic json) {
+    final map = <String, ShowNotifications2200Response>{};
     if (json is Map && json.isNotEmpty) {
       json = json.cast<String, dynamic>(); // ignore: parameter_assignments
       for (final entry in json.entries) {
-        final value = ShowWishlistItemsWithSearchByName200Response.fromJson(entry.value);
+        final value = ShowNotifications2200Response.fromJson(entry.value);
         if (value != null) {
           map[entry.key] = value;
         }
@@ -132,14 +141,14 @@ class ShowWishlistItemsWithSearchByName200Response {
     return map;
   }
 
-  // maps a json object with a list of ShowWishlistItemsWithSearchByName200Response-objects as value to a dart map
-  static Map<String, List<ShowWishlistItemsWithSearchByName200Response>> mapListFromJson(dynamic json, {bool growable = false,}) {
-    final map = <String, List<ShowWishlistItemsWithSearchByName200Response>>{};
+  // maps a json object with a list of ShowNotifications2200Response-objects as value to a dart map
+  static Map<String, List<ShowNotifications2200Response>> mapListFromJson(dynamic json, {bool growable = false,}) {
+    final map = <String, List<ShowNotifications2200Response>>{};
     if (json is Map && json.isNotEmpty) {
       // ignore: parameter_assignments
       json = json.cast<String, dynamic>();
       for (final entry in json.entries) {
-        map[entry.key] = ShowWishlistItemsWithSearchByName200Response.listFromJson(entry.value, growable: growable,);
+        map[entry.key] = ShowNotifications2200Response.listFromJson(entry.value, growable: growable,);
       }
     }
     return map;

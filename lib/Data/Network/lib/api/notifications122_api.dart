@@ -66,7 +66,7 @@ class Notifications122Api {
   /// Parameters:
   ///
   /// * [String] notificationId:
-  Future<ReadANotification1200Response?> readANotification122({ String? notificationId, }) async {
+  Future<ReadANotification122200Response?> readANotification122({ String? notificationId, }) async {
     final response = await readANotification122WithHttpInfo( notificationId: notificationId, );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
@@ -75,7 +75,7 @@ class Notifications122Api {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
-      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'ReadANotification1200Response',) as ReadANotification1200Response;
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'ReadANotification122200Response',) as ReadANotification122200Response;
     
     }
     return null;
