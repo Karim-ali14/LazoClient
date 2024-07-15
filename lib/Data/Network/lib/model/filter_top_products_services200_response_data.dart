@@ -13,13 +13,19 @@ part of openapi.api;
 class FilterTopProductsServices200ResponseData {
   /// Returns a new [FilterTopProductsServices200ResponseData] instance.
   FilterTopProductsServices200ResponseData({
-    this.products = const [],
-    this.services = const [],
+    this.products,
+    this.services,
   });
 
-  List<ProviderProduct>? products;
+  FilterTopProductsServices200ResponseDataProducts? products;
 
-  List<ServiceShowData>? services;
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  FilterTopProductsServices200ResponseDataServices? services;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is FilterTopProductsServices200ResponseData &&
@@ -69,8 +75,8 @@ class FilterTopProductsServices200ResponseData {
       }());
 
       return FilterTopProductsServices200ResponseData(
-        products: ProviderProduct.listFromJson(json[r'products']),
-        services: ServiceShowData.listFromJson(json[r'services']),
+        products: FilterTopProductsServices200ResponseDataProducts.fromJson(json[r'products']),
+        services: FilterTopProductsServices200ResponseDataServices.fromJson(json[r'services']),
       );
     }
     return null;

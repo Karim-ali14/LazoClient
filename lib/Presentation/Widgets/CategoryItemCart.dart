@@ -8,13 +8,12 @@ import 'package:skeletonizer/skeletonizer.dart';
 class CategoryItemCart extends StatelessWidget {
   final String image;
   final String title;
-  final double width;
+  final double? width;
   final double height;
   const CategoryItemCart(
       {super.key,
       required this.image,
-      required this.title,
-      required this.width,
+      required this.title, this.width,
       required this.height});
 
   @override
@@ -26,7 +25,7 @@ class CategoryItemCart extends StatelessWidget {
         color: Colors.white,
       ),
       child: Container(
-        width: width,
+        width: width ?? MediaQuery.of(context).size.width,
         height: height,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(4),
@@ -36,12 +35,15 @@ class CategoryItemCart extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            ImageView(
-              width: 32,
-              height: 32,
-              initialImg: image,
-              placeHolder: placeholder,
-            ),
+            // SizedBox(
+            //   width: 32,
+            //   height: 32,
+            //   child: ImageView(
+            //     width: 32,
+            //     height: 32,
+            //     initialImg: image,
+            //   ),
+            // ),
             const SizedBox(
               height: 8,
             ),

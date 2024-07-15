@@ -16,3 +16,13 @@ final uploadFilesStateNotifiers = StateNotifierProvider.autoDispose<
 final homeDataStateNotifiers =
     StateNotifierProvider<HomeDataUseCase, StateModel<ShowHome200Response>>(
         (ref) => HomeDataUseCase(ref, ref.read(publicApi)));
+
+final getCategoriesDataStateNotifiers =
+    StateNotifierProvider<GetCategoriesUseCase, StateModel<CategoriesResponse>>(
+        (ref) => GetCategoriesUseCase(ref, ref.read(publicApi)));
+
+final getOccasionsDataStateNotifiers =
+    StateNotifierProvider<GetOccasionsUseCase, StateModel<OccasionsResponse>>(
+        (ref) => GetOccasionsUseCase(ref, ref.read(publicApi)));
+
+

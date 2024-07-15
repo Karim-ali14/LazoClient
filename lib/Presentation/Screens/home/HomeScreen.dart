@@ -77,7 +77,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     : HorizontalCategoryListViewWithTitleSeeAll(
                         list: homeDataState.data?.data?.categories.toList() ?? [],
                         showLoading: homeDataState.state == DataState.LOADING,
-                        itemClick: (itemId) {},
+                        itemClick: (itemId) {}, onSeeAllClickListener: () {  },
                       ),
                 SizedBox(
                   height: 32,

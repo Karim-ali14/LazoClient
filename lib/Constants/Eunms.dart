@@ -28,3 +28,7 @@ enum ButtonsClickType {
 enum ItemType {
   Service,Product
 }
+
+enum CategoryType {
+  Categories,Occasions
+}

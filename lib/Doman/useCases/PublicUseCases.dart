@@ -26,3 +26,48 @@ class HomeDataUseCase extends StateNotifier<StateModel<ShowHome200Response>>{
     request(() => publicApi.showHome());
   }
 }
+
+class GetCategoriesUseCase extends StateNotifier<StateModel<CategoriesResponse>>{
+
+  final Ref ref;
+  final PublicApi publicApi;
+  final List<Category> list = [];
+  GetCategoriesUseCase(this.ref, this.publicApi) :super(StateModel());
+
+  void getCategoriesData() async {
+    state = StateModel.loading();
+    request(() => publicApi.showAllCategories(),onComplete: (res){
+      list.addAll(res.data);
+    });
+  }
+
+  void searchInMainList(String value){
+    final filterList = list.where((item) => item.name?.contains(value) ?? false);
+    state.data?.data = [...filterList];
+    print(state.data?.data.toString());
+    state = StateModel.success(state.data);
+  }
+}
+
+class GetOccasionsUseCase extends StateNotifier<StateModel<OccasionsResponse>>{
+
+  final Ref ref;
+  final PublicApi publicApi;
+  final List<Occasion> list = [];
+  GetOccasionsUseCase(this.ref, this.publicApi) :super(StateModel());
+
+  void getOccasionsData() async {
+    state = StateModel.loading();
+    request(() => publicApi.showAllOccasions(),onComplete: (res){
+      list.addAll(res.data);
+    });
+  }
+
+  void searchInMainList(String value){
+    final filterList = list.where((item) => item.name?.contains(value) ?? false);
+    state.data?.data = [...filterList];
+    state = StateModel.success(state.data);
+  }
+
+}
+

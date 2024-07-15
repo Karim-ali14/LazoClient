@@ -225,6 +225,12 @@ class ApiClient {
           return FilterTopProductsServices200Response.fromJson(value);
         case 'FilterTopProductsServices200ResponseData':
           return FilterTopProductsServices200ResponseData.fromJson(value);
+        case 'FilterTopProductsServices200ResponseDataProducts':
+          return FilterTopProductsServices200ResponseDataProducts.fromJson(value);
+        case 'FilterTopProductsServices200ResponseDataProductsLinksInner':
+          return FilterTopProductsServices200ResponseDataProductsLinksInner.fromJson(value);
+        case 'FilterTopProductsServices200ResponseDataServices':
+          return FilterTopProductsServices200ResponseDataServices.fromJson(value);
         case 'FilterTopSellers200Response':
           return FilterTopSellers200Response.fromJson(value);
         case 'GiftBox':

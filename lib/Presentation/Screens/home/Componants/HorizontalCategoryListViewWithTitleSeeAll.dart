@@ -7,16 +7,18 @@ import '../../../../Data/Network/lib/api.dart';
 import '../../../Widgets/TitleWithSeeAll.dart';
 
 typedef OnItemClickListener = Function(int);
+typedef OnSeeAllClickListener = Function();
 
 class HorizontalCategoryListViewWithTitleSeeAll extends StatefulWidget {
   final List<Category> list;
   final bool showLoading;
   final OnItemClickListener itemClick;
+  final OnSeeAllClickListener onSeeAllClickListener;
   const HorizontalCategoryListViewWithTitleSeeAll(
       {super.key,
       required this.list,
       required this.showLoading,
-      required this.itemClick});
+      required this.itemClick, required this.onSeeAllClickListener});
 
   @override
   State<HorizontalCategoryListViewWithTitleSeeAll> createState() => _HorizontalCategoryListViewWithTitleSeeAllState();

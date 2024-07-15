@@ -11,9 +11,11 @@ import 'package:timeago/timeago.dart' as ago;
 import '../../../../../Constants.dart';
 import '../../../../../Presentation/Screens/SplashScreen.dart';
 
+import 'Constants/Eunms.dart';
 import 'Presentation//Theme/AppTheme.dart';
 import 'Presentation/Screens/Auth/Otp/OTPScreen.dart';
 import 'Presentation/Screens/home/HomeScreen.dart';
+import 'Presentation/Screens/home/ShowAllCategoryAndOccasionsData.dart';
 import 'Presentation/Screens/onbaording/OnBordingScreen.dart';
 
 late SharedPreferences prefs;
@@ -147,7 +149,7 @@ class MyApp extends ConsumerWidget {
       GoRoute(
         path: R_HomeScreen,
         builder: (BuildContext context, GoRouterState state) =>
-            const HomeScreen(),
+            const ShowAllCategoryAndOccasionsData(CategoryType.Categories),
       ),
       GoRoute(
           path: R_LoginScreen,
