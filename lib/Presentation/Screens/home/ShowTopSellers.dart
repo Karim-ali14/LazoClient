@@ -43,50 +43,61 @@ class _ShowTopSellersState extends ConsumerState<ShowTopSellers> {
               child: AppSearchBarWithFilter(
                 hasFilter: true,
                 onFilterClick: () {},
-                onTextChangeListener: (value) {},
+                delay: 1,
+                onTextChangeListener: (value) {
+                  currentPage = 1;
+                  ref.read(getTopSellersDataStateNotifiers.notifier).getTopSellersData(
+                    page: currentPage , searchByName: value.isEmpty ? null : value
+                  );
+
+                },
               ),
             ),
-            Expanded(
-              child: DataListView<ProviderData>(
-                  dataList: topSellerState.data?.data?.data ??
-                      (topSellerState.state == DataState.LOADING
-                          ? [...List.generate(5, (index) => ProviderData())]
-                          : []),
-                  paginated: true,
-                  pageLoading:currentPage < (topSellerState.data?.data?.lastPage ?? 0),
-                  onBottomReached:  () {
-                    if (currentPage <
-                        (topSellerState.data?.data?.lastPage ?? 0)) {
-                      ref
-                          .read(getTopSellersDataStateNotifiers.notifier)
-                          .getTopSellersData(page : ++currentPage);
-                    }
-                  },
-                  builder: (item) => Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 16, vertical: 8),
-                        child: Skeletonizer(
-                            enabled: topSellerState.state == DataState.LOADING,
-                            child: SellerItemCard(providerData: item)),
-                      )),
-            ),
-            // Expanded(
-            //   child: ListView.builder(
-            //       itemCount: topSellerState.state == DataState.SUCCESS
-            //           ? topSellerState.data?.data?.data.length
-            //           : 8,
-            //       itemBuilder: (context, index) {
-            //         return Padding(
-            //           padding: const EdgeInsets.symmetric(
-            //               horizontal: 16, vertical: 8),
-            //           child: Skeletonizer(
-            //               enabled: topSellerState.state == DataState.LOADING,
-            //               child: SellerItemCard(
-            //                   providerData:
-            //                       topSellerState.data?.data?.data[index])),
-            //         );
-            //       }),
-            // )
+            topSellerState.state == DataState.LOADING ||
+                    topSellerState.state == DataState.MORE_LOADING ||
+                    topSellerState.state == DataState.SUCCESS
+                ? Expanded(
+                    child: DataListView<ProviderData>(
+                        dataList: topSellerState.data?.data?.data ??
+                            (topSellerState.state == DataState.LOADING
+                                ? [
+                                    ...List.generate(
+                                        5, (index) => ProviderData())
+                                  ]
+                                : []),
+                        paginated: true,
+                        pageLoading: currentPage <
+                            (topSellerState.data?.data?.lastPage ?? 0),
+                        onBottomReached: () {
+                          if (currentPage <
+                              (topSellerState.data?.data?.lastPage ?? 0)) {
+                            ref
+                                .read(getTopSellersDataStateNotifiers.notifier)
+                                .getTopSellersData(page: ++currentPage);
+                          }
+                        },
+                        builder: (item) => Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 16, vertical: 8),
+                              child: Skeletonizer(
+                                  enabled:
+                                      topSellerState.state == DataState.LOADING,
+                                  child: SellerItemCard(providerData: item)),
+                            )),
+                  )
+                : Expanded(
+                    child: Column(
+                    children: [
+                      SizedBox(
+                        height: 53,
+                      ),
+                      SVGIcons.noTopSellerDataIcon(),
+                      SizedBox(
+                        height: 16,
+                      ),
+                      Text("No seller found")
+                    ],
+                  ))
           ],
         ),
       ),
