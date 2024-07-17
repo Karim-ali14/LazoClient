@@ -46,6 +46,7 @@ class _HorizontalTopSellersListViewWithTitleSeeAllState extends State<Horizontal
                 return Skeletonizer(
                   enabled: widget.showLoading ,
                   child: SellerItemCard(
+                    width: 307,
                     providerData: widget.showLoading ? null : widget.list[index],
                   ),
                 );

@@ -11,7 +11,8 @@ import 'AppButton.dart';
 
 class SellerItemCard extends StatefulWidget {
   final ProviderData? providerData;
-  const SellerItemCard({super.key, required this.providerData});
+  final int? width;
+  const SellerItemCard({super.key, required this.providerData, this.width});
 
   @override
   State<SellerItemCard> createState() => _SellerItemCardState();
@@ -22,7 +23,7 @@ class _SellerItemCardState extends State<SellerItemCard> {
   Widget build(BuildContext context) {
     return Stack(children: [
       Container(
-        width: 307,
+        width: widget.width?.toDouble() ?? double.infinity,
         clipBehavior: Clip.antiAlias,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(6),
@@ -134,7 +135,7 @@ class _SellerItemCardState extends State<SellerItemCard> {
       )) : SizedBox(),
       Positioned(
         top: 95,
-        left: 240,
+        left: (widget.width ?? MediaQuery.of(context).size.width) * 0.70,
         child: Skeleton.ignore(
           // replacement: Icon(
           //   Icons.verified_user,

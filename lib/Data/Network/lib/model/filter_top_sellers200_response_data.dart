@@ -10,15 +10,15 @@
 
 part of openapi.api;
 
-class FilterTopProductsServices200ResponseDataProducts {
-  /// Returns a new [FilterTopProductsServices200ResponseDataProducts] instance.
-  FilterTopProductsServices200ResponseDataProducts({
+class FilterTopSellers200ResponseData {
+  /// Returns a new [FilterTopSellers200ResponseData] instance.
+  FilterTopSellers200ResponseData({
     this.currentPage,
     this.firstPageUrl,
     this.nextPageUrl,
     this.prevPageUrl,
-    this.lastPage,
     this.lastPageUrl,
+    this.lastPage,
     this.from,
     this.to,
     this.path,
@@ -65,7 +65,7 @@ class FilterTopProductsServices200ResponseDataProducts {
   /// source code must fall back to having a nullable type.
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
-  num? lastPage;
+  String? lastPageUrl;
 
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
@@ -73,7 +73,7 @@ class FilterTopProductsServices200ResponseDataProducts {
   /// source code must fall back to having a nullable type.
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
-  String? lastPageUrl;
+  num? lastPage;
 
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
@@ -109,16 +109,16 @@ class FilterTopProductsServices200ResponseDataProducts {
 
   List<FilterTopSellers200ResponseDataLinksInner> links;
 
-  List<ProviderProduct> data;
+  List<ProviderData> data;
 
   @override
-  bool operator ==(Object other) => identical(this, other) || other is FilterTopProductsServices200ResponseDataProducts &&
+  bool operator ==(Object other) => identical(this, other) || other is FilterTopSellers200ResponseData &&
      other.currentPage == currentPage &&
      other.firstPageUrl == firstPageUrl &&
      other.nextPageUrl == nextPageUrl &&
      other.prevPageUrl == prevPageUrl &&
-     other.lastPage == lastPage &&
      other.lastPageUrl == lastPageUrl &&
+     other.lastPage == lastPage &&
      other.from == from &&
      other.to == to &&
      other.path == path &&
@@ -133,8 +133,8 @@ class FilterTopProductsServices200ResponseDataProducts {
     (firstPageUrl == null ? 0 : firstPageUrl!.hashCode) +
     (nextPageUrl == null ? 0 : nextPageUrl!.hashCode) +
     (prevPageUrl == null ? 0 : prevPageUrl!.hashCode) +
-    (lastPage == null ? 0 : lastPage!.hashCode) +
     (lastPageUrl == null ? 0 : lastPageUrl!.hashCode) +
+    (lastPage == null ? 0 : lastPage!.hashCode) +
     (from == null ? 0 : from!.hashCode) +
     (to == null ? 0 : to!.hashCode) +
     (path == null ? 0 : path!.hashCode) +
@@ -143,7 +143,7 @@ class FilterTopProductsServices200ResponseDataProducts {
     (data.hashCode);
 
   @override
-  String toString() => 'FilterTopProductsServices200ResponseDataProducts[currentPage=$currentPage, firstPageUrl=$firstPageUrl, nextPageUrl=$nextPageUrl, prevPageUrl=$prevPageUrl, lastPage=$lastPage, lastPageUrl=$lastPageUrl, from=$from, to=$to, path=$path, total=$total, links=$links, data=$data]';
+  String toString() => 'FilterTopSellers200ResponseData[currentPage=$currentPage, firstPageUrl=$firstPageUrl, nextPageUrl=$nextPageUrl, prevPageUrl=$prevPageUrl, lastPageUrl=$lastPageUrl, lastPage=$lastPage, from=$from, to=$to, path=$path, total=$total, links=$links, data=$data]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -167,15 +167,15 @@ class FilterTopProductsServices200ResponseDataProducts {
     } else {
       json[r'prev_page_url'] = null;
     }
-    if (this.lastPage != null) {
-      json[r'last_page'] = this.lastPage;
-    } else {
-      json[r'last_page'] = null;
-    }
     if (this.lastPageUrl != null) {
       json[r'last_page_url'] = this.lastPageUrl;
     } else {
       json[r'last_page_url'] = null;
+    }
+    if (this.lastPage != null) {
+      json[r'last_page'] = this.lastPage;
+    } else {
+      json[r'last_page'] = null;
     }
     if (this.from != null) {
       json[r'from'] = this.from;
@@ -202,10 +202,10 @@ class FilterTopProductsServices200ResponseDataProducts {
     return json;
   }
 
-  /// Returns a new [FilterTopProductsServices200ResponseDataProducts] instance and imports its values from
+  /// Returns a new [FilterTopSellers200ResponseData] instance and imports its values from
   /// [value] if it's a [Map], null otherwise.
   // ignore: prefer_constructors_over_static_methods
-  static FilterTopProductsServices200ResponseDataProducts? fromJson(dynamic value) {
+  static FilterTopSellers200ResponseData? fromJson(dynamic value) {
     if (value is Map) {
       final json = value.cast<String, dynamic>();
 
@@ -214,23 +214,23 @@ class FilterTopProductsServices200ResponseDataProducts {
       // Note 2: this code is stripped in release mode!
       assert(() {
         requiredKeys.forEach((key) {
-          assert(json.containsKey(key), 'Required key "FilterTopProductsServices200ResponseDataProducts[$key]" is missing from JSON.');
-          assert(json[key] != null, 'Required key "FilterTopProductsServices200ResponseDataProducts[$key]" has a null value in JSON.');
+          assert(json.containsKey(key), 'Required key "FilterTopSellers200ResponseData[$key]" is missing from JSON.');
+          assert(json[key] != null, 'Required key "FilterTopSellers200ResponseData[$key]" has a null value in JSON.');
         });
         return true;
       }());
 
-      return FilterTopProductsServices200ResponseDataProducts(
+      return FilterTopSellers200ResponseData(
         currentPage: json[r'current_page'] == null
             ? null
             : num.parse(json[r'current_page'].toString()),
         firstPageUrl: mapValueOfType<String>(json, r'first_page_url'),
         nextPageUrl: mapValueOfType<String>(json, r'next_page_url'),
         prevPageUrl: mapValueOfType<String>(json, r'prev_page_url'),
+        lastPageUrl: mapValueOfType<String>(json, r'last_page_url'),
         lastPage: json[r'last_page'] == null
             ? null
             : num.parse(json[r'last_page'].toString()),
-        lastPageUrl: mapValueOfType<String>(json, r'last_page_url'),
         from: json[r'from'] == null
             ? null
             : num.parse(json[r'from'].toString()),
@@ -240,17 +240,17 @@ class FilterTopProductsServices200ResponseDataProducts {
         path: mapValueOfType<String>(json, r'path'),
         total: mapValueOfType<String>(json, r'total'),
         links: FilterTopSellers200ResponseDataLinksInner.listFromJson(json[r'links']),
-        data: ProviderProduct.listFromJson(json[r'data']),
+        data: ProviderData.listFromJson(json[r'data']),
       );
     }
     return null;
   }
 
-  static List<FilterTopProductsServices200ResponseDataProducts> listFromJson(dynamic json, {bool growable = false,}) {
-    final result = <FilterTopProductsServices200ResponseDataProducts>[];
+  static List<FilterTopSellers200ResponseData> listFromJson(dynamic json, {bool growable = false,}) {
+    final result = <FilterTopSellers200ResponseData>[];
     if (json is List && json.isNotEmpty) {
       for (final row in json) {
-        final value = FilterTopProductsServices200ResponseDataProducts.fromJson(row);
+        final value = FilterTopSellers200ResponseData.fromJson(row);
         if (value != null) {
           result.add(value);
         }
@@ -259,12 +259,12 @@ class FilterTopProductsServices200ResponseDataProducts {
     return result.toList(growable: growable);
   }
 
-  static Map<String, FilterTopProductsServices200ResponseDataProducts> mapFromJson(dynamic json) {
-    final map = <String, FilterTopProductsServices200ResponseDataProducts>{};
+  static Map<String, FilterTopSellers200ResponseData> mapFromJson(dynamic json) {
+    final map = <String, FilterTopSellers200ResponseData>{};
     if (json is Map && json.isNotEmpty) {
       json = json.cast<String, dynamic>(); // ignore: parameter_assignments
       for (final entry in json.entries) {
-        final value = FilterTopProductsServices200ResponseDataProducts.fromJson(entry.value);
+        final value = FilterTopSellers200ResponseData.fromJson(entry.value);
         if (value != null) {
           map[entry.key] = value;
         }
@@ -273,14 +273,14 @@ class FilterTopProductsServices200ResponseDataProducts {
     return map;
   }
 
-  // maps a json object with a list of FilterTopProductsServices200ResponseDataProducts-objects as value to a dart map
-  static Map<String, List<FilterTopProductsServices200ResponseDataProducts>> mapListFromJson(dynamic json, {bool growable = false,}) {
-    final map = <String, List<FilterTopProductsServices200ResponseDataProducts>>{};
+  // maps a json object with a list of FilterTopSellers200ResponseData-objects as value to a dart map
+  static Map<String, List<FilterTopSellers200ResponseData>> mapListFromJson(dynamic json, {bool growable = false,}) {
+    final map = <String, List<FilterTopSellers200ResponseData>>{};
     if (json is Map && json.isNotEmpty) {
       // ignore: parameter_assignments
       json = json.cast<String, dynamic>();
       for (final entry in json.entries) {
-        map[entry.key] = FilterTopProductsServices200ResponseDataProducts.listFromJson(entry.value, growable: growable,);
+        map[entry.key] = FilterTopSellers200ResponseData.listFromJson(entry.value, growable: growable,);
       }
     }
     return map;

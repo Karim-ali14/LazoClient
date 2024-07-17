@@ -15,6 +15,7 @@ import 'AppButton.dart';
 typedef OnTextChangeListener = Function(String);
 
 class AppSearchBarWithFilter extends StatefulWidget {
+  final int? delay;
   final bool hasFilter;
   final VoidCallback onFilterClick;
   final OnTextChangeListener? onTextChangeListener;
@@ -22,7 +23,7 @@ class AppSearchBarWithFilter extends StatefulWidget {
       {super.key,
       required this.hasFilter,
       required this.onFilterClick,
-      this.onTextChangeListener});
+      this.onTextChangeListener, this.delay});
 
   @override
   State<AppSearchBarWithFilter> createState() => _AppSearchBarWithFilterState();
@@ -41,7 +42,7 @@ class _AppSearchBarWithFilterState extends State<AppSearchBarWithFilter> {
   void executeAfterDelay(value) {
     _timer?.cancel(); // Cancel previous timer if it exists
 
-    _timer = Timer(Duration(seconds: 2), () {
+    _timer = Timer(Duration(seconds: widget.delay??0), () {
       widget.onTextChangeListener?.call(value);
     });
   }

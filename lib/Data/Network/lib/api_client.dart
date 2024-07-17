@@ -11,7 +11,7 @@
 part of openapi.api;
 
 class ApiClient {
-  ApiClient({this.basePath = 'http://}', this.authentication,});
+  ApiClient({this.basePath = 'http://localhost', this.authentication,});
 
   final String basePath;
   final Authentication? authentication;
@@ -227,12 +227,14 @@ class ApiClient {
           return FilterTopProductsServices200ResponseData.fromJson(value);
         case 'FilterTopProductsServices200ResponseDataProducts':
           return FilterTopProductsServices200ResponseDataProducts.fromJson(value);
-        case 'FilterTopProductsServices200ResponseDataProductsLinksInner':
-          return FilterTopProductsServices200ResponseDataProductsLinksInner.fromJson(value);
         case 'FilterTopProductsServices200ResponseDataServices':
           return FilterTopProductsServices200ResponseDataServices.fromJson(value);
         case 'FilterTopSellers200Response':
           return FilterTopSellers200Response.fromJson(value);
+        case 'FilterTopSellers200ResponseData':
+          return FilterTopSellers200ResponseData.fromJson(value);
+        case 'FilterTopSellers200ResponseDataLinksInner':
+          return FilterTopSellers200ResponseDataLinksInner.fromJson(value);
         case 'GiftBox':
           return GiftBox.fromJson(value);
         case 'GiftCard':

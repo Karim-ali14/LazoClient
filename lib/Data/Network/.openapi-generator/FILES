@@ -28,9 +28,10 @@ doc/ColorsResponse.md
 doc/FilterTopProductsServices200Response.md
 doc/FilterTopProductsServices200ResponseData.md
 doc/FilterTopProductsServices200ResponseDataProducts.md
-doc/FilterTopProductsServices200ResponseDataProductsLinksInner.md
 doc/FilterTopProductsServices200ResponseDataServices.md
 doc/FilterTopSellers200Response.md
+doc/FilterTopSellers200ResponseData.md
+doc/FilterTopSellers200ResponseDataLinksInner.md
 doc/GiftBox.md
 doc/GiftCard.md
 doc/ImageItem.md
@@ -180,9 +181,10 @@ lib/model/colors_response.dart
 lib/model/filter_top_products_services200_response.dart
 lib/model/filter_top_products_services200_response_data.dart
 lib/model/filter_top_products_services200_response_data_products.dart
-lib/model/filter_top_products_services200_response_data_products_links_inner.dart
 lib/model/filter_top_products_services200_response_data_services.dart
 lib/model/filter_top_sellers200_response.dart
+lib/model/filter_top_sellers200_response_data.dart
+lib/model/filter_top_sellers200_response_data_links_inner.dart
 lib/model/gift_box.dart
 lib/model/gift_card.dart
 lib/model/image_item.dart
@@ -277,6 +279,3 @@ lib/model/update_profile200_response_data_city.dart
 lib/model/upload_files.dart
 lib/model/upload_files_response.dart
 pubspec.yaml
-test/filter_top_products_services200_response_data_products_links_inner_test.dart
-test/filter_top_products_services200_response_data_products_test.dart
-test/filter_top_products_services200_response_data_services_test.dart

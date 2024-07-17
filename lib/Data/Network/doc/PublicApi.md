@@ -5,7 +5,7 @@
 import 'package:lazo/api.dart';
 ```
 
-All URIs are relative to *http://}*
+All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -167,7 +167,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **filterTopProductsServices**
-> FilterTopProductsServices200Response filterTopProductsServices(searchByName, categoriesIds, occasionsIds, priceFrom, priceTo, ratings, type)
+> FilterTopProductsServices200Response filterTopProductsServices(page, searchByName, categoriesIds, occasionsIds, priceFrom, priceTo, ratings, type)
 
 Filter top products & services
 
@@ -178,6 +178,7 @@ Filter top products & services
 import 'package:lazo/api.dart';
 
 final api_instance = PublicApi();
+final page = 8.14; // num | 
 final searchByName = searchByName_example; // String | 
 final categoriesIds = []; // List<String> | 
 final occasionsIds = []; // List<String> | 
@@ -187,7 +188,7 @@ final ratings = []; // List<String> |
 final type = type_example; // String | products or services
 
 try {
-    final result = api_instance.filterTopProductsServices(searchByName, categoriesIds, occasionsIds, priceFrom, priceTo, ratings, type);
+    final result = api_instance.filterTopProductsServices(page, searchByName, categoriesIds, occasionsIds, priceFrom, priceTo, ratings, type);
     print(result);
 } catch (e) {
     print('Exception when calling PublicApi->filterTopProductsServices: $e\n');
@@ -198,6 +199,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
+ **page** | **num**|  | [optional] 
  **searchByName** | **String**|  | [optional] 
  **categoriesIds** | [**List<String>**](String.md)|  | [optional] 
  **occasionsIds** | [**List<String>**](String.md)|  | [optional] 
@@ -222,7 +224,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **filterTopSellers**
-> FilterTopSellers200Response filterTopSellers(searchByName, categoriesIds, isPromoted, occasionsIds, ratings)
+> FilterTopSellers200Response filterTopSellers(page, searchByName, categoriesIds, isPromoted, occasionsIds, ratings)
 
 Filter top sellers
 
@@ -233,6 +235,7 @@ Filter top sellers
 import 'package:lazo/api.dart';
 
 final api_instance = PublicApi();
+final page = 8.14; // num | 
 final searchByName = searchByName_example; // String | 
 final categoriesIds = []; // List<String> | 
 final isPromoted = isPromoted_example; // String | 0-not_promoted, 1-promoted
@@ -240,7 +243,7 @@ final occasionsIds = []; // List<String> |
 final ratings = []; // List<String> | 
 
 try {
-    final result = api_instance.filterTopSellers(searchByName, categoriesIds, isPromoted, occasionsIds, ratings);
+    final result = api_instance.filterTopSellers(page, searchByName, categoriesIds, isPromoted, occasionsIds, ratings);
     print(result);
 } catch (e) {
     print('Exception when calling PublicApi->filterTopSellers: $e\n');
@@ -251,6 +254,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
+ **page** | **num**|  | [optional] 
  **searchByName** | **String**|  | [optional] 
  **categoriesIds** | [**List<String>**](String.md)|  | [optional] 
  **isPromoted** | **String**| 0-not_promoted, 1-promoted | [optional] 

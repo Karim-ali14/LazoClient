@@ -98,7 +98,7 @@ class FilterTopProductsServices200ResponseDataServices {
   ///
   String? total;
 
-  List<FilterTopProductsServices200ResponseDataProductsLinksInner> links;
+  List<FilterTopSellers200ResponseDataLinksInner> links;
 
   List<ServiceShowData> data;
 
@@ -220,7 +220,7 @@ class FilterTopProductsServices200ResponseDataServices {
             : num.parse(json[r'to'].toString()),
         path: mapValueOfType<String>(json, r'path'),
         total: mapValueOfType<String>(json, r'total'),
-        links: FilterTopProductsServices200ResponseDataProductsLinksInner.listFromJson(json[r'links']),
+        links: FilterTopSellers200ResponseDataLinksInner.listFromJson(json[r'links']),
         data: ServiceShowData.listFromJson(json[r'data']),
       );
     }

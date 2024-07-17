@@ -25,4 +25,9 @@ final getOccasionsDataStateNotifiers =
     StateNotifierProvider<GetOccasionsUseCase, StateModel<OccasionsResponse>>(
         (ref) => GetOccasionsUseCase(ref, ref.read(publicApi)));
 
+final getTopSellersDataStateNotifiers =
+    StateNotifierProvider<GetTopSellersUseCase, StateModel<FilterTopSellers200Response>>(
+        (ref) => GetTopSellersUseCase(ref, ref.read(publicApi)));
+
+
 

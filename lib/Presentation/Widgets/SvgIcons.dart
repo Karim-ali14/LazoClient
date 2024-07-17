@@ -98,8 +98,14 @@ class SVGIcons {
     return SvgPicture.asset(unFavoriteIconSvg,
         width: 24, height: 24, fit: BoxFit.scaleDown);
   }
+
   static Widget promotedIcon() {
     return SvgPicture.asset(promotedIconSvg,
+        width: 24, height: 24, fit: BoxFit.scaleDown);
+  }
+
+  static Widget noTopSellerDataIcon() {
+    return SvgPicture.asset(noTopSellerDataIconSvg,
         width: 24, height: 24, fit: BoxFit.scaleDown);
   }
 
