@@ -105,8 +105,7 @@ class SVGIcons {
   }
 
   static Widget noTopSellerDataIcon() {
-    return SvgPicture.asset(noTopSellerDataIconSvg,
-        width: 24, height: 24, fit: BoxFit.scaleDown);
+    return SvgPicture.asset(noTopSellerDataIconSvg);
   }
 
   static Widget onBoardingTwoIcon(){

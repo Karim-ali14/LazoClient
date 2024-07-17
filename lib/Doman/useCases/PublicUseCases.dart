@@ -85,17 +85,20 @@ class GetTopSellersUseCase
   // final List<ProviderData> list = [];
   GetTopSellersUseCase(this.ref, this.publicApi) : super(StateModel());
 
-  void getTopSellersData({int page = 1}) async {
+  void getTopSellersData({int page = 1,String? searchByName}) async {
     state = page != 1
         ? StateModel(data: state.data, state: DataState.MORE_LOADING)
         : StateModel.loading();
-    requestForPagination(() => publicApi.filterTopSellers(page: page), onComplete: (res) {
+    requestForPagination(() => publicApi.filterTopSellers(page: page,searchByName: searchByName), onComplete: (res) {
       if(page != 1){
         List<ProviderData> list = state.data?.data?.data ?? [];
         state.data?.data?.data = [...list , ...(res.data?.data??[])];
         state = StateModel.success(state.data);
       }else{
         state = StateModel.success(res);
+      }
+      if (state.data?.data?.data.isEmpty == true) {
+        state = StateModel.empty();
       }
     });
   }
