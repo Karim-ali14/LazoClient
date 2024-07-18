@@ -49,9 +49,21 @@ class _ShowProductAndServiceScreenState
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       ref.read(getProductsStateNotifiers.notifier).getProductsData(
           page: currentPageForProducts,
+          categoriesIds: widget.type == CategoryType.Categories
+              ? [widget.id.toString()]
+              : null,
+          occasionsIds: widget.type == CategoryType.Occasions
+              ? [widget.id.toString()]
+              : null,
           type: ItemType.Products.name.toLowerCase());
       ref.read(getServicesStateNotifiers.notifier).getServicesData(
           page: currentPageForServices,
+          categoriesIds: widget.type == CategoryType.Categories
+              ? [widget.id.toString()]
+              : null,
+          occasionsIds: widget.type == CategoryType.Occasions
+              ? [widget.id.toString()]
+              : null,
           type: ItemType.Services.name.toLowerCase());
     });
     super.initState();
@@ -79,19 +91,36 @@ class _ShowProductAndServiceScreenState
                 onFilterClick: () {},
                 delay: 1,
                 onTextChangeListener: (value) {
-                  if(activeTabIndex == 0){
+                  if (activeTabIndex == 0) {
                     currentPageForProducts = 1;
-                    ref.read(getProductsStateNotifiers.notifier).getProductsData(
-                        page: currentPageForProducts,
-                        type: ItemType.Products.name.toLowerCase(),
-                        searchByName: value.isNotEmpty ? value : null);
-                  }else {
+                    ref
+                        .read(getProductsStateNotifiers.notifier)
+                        .getProductsData(
+                            page: currentPageForProducts,
+                            categoriesIds:
+                                widget.type == CategoryType.Categories
+                                    ? [widget.id.toString()]
+                                    : null,
+                            occasionsIds: widget.type == CategoryType.Occasions
+                                ? [widget.id.toString()]
+                                : null,
+                            type: ItemType.Products.name.toLowerCase(),
+                            searchByName: value.isNotEmpty ? value : null);
+                  } else {
                     currentPageForServices = 1;
-                    ref.read(getServicesStateNotifiers.notifier)
+                    ref
+                        .read(getServicesStateNotifiers.notifier)
                         .getServicesData(
-                        page: currentPageForServices,
-                        type: ItemType.Services.name.toLowerCase(),
-                        searchByName: value.isNotEmpty ? value : null);
+                            page: currentPageForServices,
+                            categoriesIds:
+                                widget.type == CategoryType.Categories
+                                    ? [widget.id.toString()]
+                                    : null,
+                            occasionsIds: widget.type == CategoryType.Occasions
+                                ? [widget.id.toString()]
+                                : null,
+                            type: ItemType.Services.name.toLowerCase(),
+                            searchByName: value.isNotEmpty ? value : null);
                   }
                 },
               ),
@@ -202,6 +231,14 @@ class _ShowProductAndServiceScreenState
                                 .read(getProductsStateNotifiers.notifier)
                                 .getProductsData(
                                     page: ++currentPageForProducts,
+                                    categoriesIds:
+                                        widget.type == CategoryType.Categories
+                                            ? [widget.id.toString()]
+                                            : null,
+                                    occasionsIds:
+                                        widget.type == CategoryType.Occasions
+                                            ? [widget.id.toString()]
+                                            : null,
                                     type: ItemType.Products.name.toLowerCase());
                           }
                         },
@@ -246,6 +283,14 @@ class _ShowProductAndServiceScreenState
                                 .read(getServicesStateNotifiers.notifier)
                                 .getServicesData(
                                     page: ++currentPageForServices,
+                                    categoriesIds:
+                                        widget.type == CategoryType.Categories
+                                            ? [widget.id.toString()]
+                                            : null,
+                                    occasionsIds:
+                                        widget.type == CategoryType.Occasions
+                                            ? [widget.id.toString()]
+                                            : null,
                                     type: ItemType.Services.name.toLowerCase());
                           }
                         },
