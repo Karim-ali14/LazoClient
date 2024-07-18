@@ -19,6 +19,9 @@ class ProviderOrderDetailsOrderItemsInner {
     this.listsTotalPrice,
     this.orderId,
     this.price,
+    this.rating,
+    this.ratingComment,
+    this.ratingDate,
     this.product,
     this.productSelectedListIds,
     this.productSelectedListItemsIds,
@@ -81,6 +84,30 @@ class ProviderOrderDetailsOrderItemsInner {
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
   num? price;
+
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  num? rating;
+
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  String? ratingComment;
+
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  String? ratingDate;
 
   ProviderOrderDetailsOrderItemsInnerProduct? product;
 
@@ -170,6 +197,9 @@ class ProviderOrderDetailsOrderItemsInner {
      other.listsTotalPrice == listsTotalPrice &&
      other.orderId == orderId &&
      other.price == price &&
+     other.rating == rating &&
+     other.ratingComment == ratingComment &&
+     other.ratingDate == ratingDate &&
      other.product == product &&
      other.productSelectedListIds == productSelectedListIds &&
      other.productSelectedListItemsIds == productSelectedListItemsIds &&
@@ -193,6 +223,9 @@ class ProviderOrderDetailsOrderItemsInner {
     (listsTotalPrice == null ? 0 : listsTotalPrice!.hashCode) +
     (orderId == null ? 0 : orderId!.hashCode) +
     (price == null ? 0 : price!.hashCode) +
+    (rating == null ? 0 : rating!.hashCode) +
+    (ratingComment == null ? 0 : ratingComment!.hashCode) +
+    (ratingDate == null ? 0 : ratingDate!.hashCode) +
     (product == null ? 0 : product!.hashCode) +
     (productSelectedListIds == null ? 0 : productSelectedListIds!.hashCode) +
     (productSelectedListItemsIds == null ? 0 : productSelectedListItemsIds!.hashCode) +
@@ -208,7 +241,7 @@ class ProviderOrderDetailsOrderItemsInner {
     (updatedAt == null ? 0 : updatedAt!.hashCode);
 
   @override
-  String toString() => 'ProviderOrderDetailsOrderItemsInner[cardPrice=$cardPrice, createdAt=$createdAt, id=$id, listsTotalPrice=$listsTotalPrice, orderId=$orderId, price=$price, product=$product, productSelectedListIds=$productSelectedListIds, productSelectedListItemsIds=$productSelectedListItemsIds, serviceSelectedListIds=$serviceSelectedListIds, serviceSelectedListItemsIds=$serviceSelectedListItemsIds, selectedProductsListItemsNames=$selectedProductsListItemsNames, selectedServicesListItemsNames=$selectedServicesListItemsNames, productId=$productId, providerId=$providerId, quantity=$quantity, service=$service, serviceId=$serviceId, updatedAt=$updatedAt]';
+  String toString() => 'ProviderOrderDetailsOrderItemsInner[cardPrice=$cardPrice, createdAt=$createdAt, id=$id, listsTotalPrice=$listsTotalPrice, orderId=$orderId, price=$price, rating=$rating, ratingComment=$ratingComment, ratingDate=$ratingDate, product=$product, productSelectedListIds=$productSelectedListIds, productSelectedListItemsIds=$productSelectedListItemsIds, serviceSelectedListIds=$serviceSelectedListIds, serviceSelectedListItemsIds=$serviceSelectedListItemsIds, selectedProductsListItemsNames=$selectedProductsListItemsNames, selectedServicesListItemsNames=$selectedServicesListItemsNames, productId=$productId, providerId=$providerId, quantity=$quantity, service=$service, serviceId=$serviceId, updatedAt=$updatedAt]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -241,6 +274,21 @@ class ProviderOrderDetailsOrderItemsInner {
       json[r'price'] = this.price;
     } else {
       json[r'price'] = null;
+    }
+    if (this.rating != null) {
+      json[r'rating'] = this.rating;
+    } else {
+      json[r'rating'] = null;
+    }
+    if (this.ratingComment != null) {
+      json[r'rating_comment'] = this.ratingComment;
+    } else {
+      json[r'rating_comment'] = null;
+    }
+    if (this.ratingDate != null) {
+      json[r'rating_date'] = this.ratingDate;
+    } else {
+      json[r'rating_date'] = null;
     }
     if (this.product != null) {
       json[r'product'] = this.product;
@@ -337,6 +385,11 @@ class ProviderOrderDetailsOrderItemsInner {
         price: json[r'price'] == null
             ? null
             : num.parse(json[r'price'].toString()),
+        rating: json[r'rating'] == null
+            ? null
+            : num.parse(json[r'rating'].toString()),
+        ratingComment: mapValueOfType<String>(json, r'rating_comment'),
+        ratingDate: mapValueOfType<String>(json, r'rating_date'),
         product: ProviderOrderDetailsOrderItemsInnerProduct.fromJson(json[r'product']),
         productSelectedListIds: mapValueOfType<String>(json, r'product_selected_list_ids'),
         productSelectedListItemsIds: mapValueOfType<String>(json, r'product_selected_list_items_ids'),

@@ -41,6 +41,7 @@ class ServiceShowData {
     this.inWishlist,
     this.overallRating,
     this.ratingsCount,
+    this.ratings = const [],
   });
 
   ///
@@ -243,6 +244,8 @@ class ServiceShowData {
   ///
   num? ratingsCount;
 
+  List<ProductDetailsRatingsInner>? ratings;
+
   @override
   bool operator ==(Object other) => identical(this, other) || other is ServiceShowData &&
      other.cardExpiration == cardExpiration &&
@@ -272,7 +275,8 @@ class ServiceShowData {
      other.inCart == inCart &&
      other.inWishlist == inWishlist &&
      other.overallRating == overallRating &&
-     other.ratingsCount == ratingsCount;
+     other.ratingsCount == ratingsCount &&
+     other.ratings == ratings;
 
   @override
   int get hashCode =>
@@ -304,10 +308,11 @@ class ServiceShowData {
     (inCart == null ? 0 : inCart!.hashCode) +
     (inWishlist == null ? 0 : inWishlist!.hashCode) +
     (overallRating == null ? 0 : overallRating!.hashCode) +
-    (ratingsCount == null ? 0 : ratingsCount!.hashCode);
+    (ratingsCount == null ? 0 : ratingsCount!.hashCode) +
+    (ratings == null ? 0 : ratings!.hashCode);
 
   @override
-  String toString() => 'ServiceShowData[cardExpiration=$cardExpiration, cardPrice=$cardPrice, cardType=$cardType, categories=$categories, categoryMenu=$categoryMenu, coverImagePath=$coverImagePath, coverImage=$coverImage, createdAt=$createdAt, description=$description, descriptionAr=$descriptionAr, descriptionEn=$descriptionEn, duration=$duration, id=$id, images=$images, isServiceDeliverableOutsideStore=$isServiceDeliverableOutsideStore, isVisible=$isVisible, lists=$lists, name=$name, nameAr=$nameAr, nameEn=$nameEn, price=$price, priceAfterDiscount=$priceAfterDiscount, providerId=$providerId, updatedAt=$updatedAt, inCart=$inCart, inWishlist=$inWishlist, overallRating=$overallRating, ratingsCount=$ratingsCount]';
+  String toString() => 'ServiceShowData[cardExpiration=$cardExpiration, cardPrice=$cardPrice, cardType=$cardType, categories=$categories, categoryMenu=$categoryMenu, coverImagePath=$coverImagePath, coverImage=$coverImage, createdAt=$createdAt, description=$description, descriptionAr=$descriptionAr, descriptionEn=$descriptionEn, duration=$duration, id=$id, images=$images, isServiceDeliverableOutsideStore=$isServiceDeliverableOutsideStore, isVisible=$isVisible, lists=$lists, name=$name, nameAr=$nameAr, nameEn=$nameEn, price=$price, priceAfterDiscount=$priceAfterDiscount, providerId=$providerId, updatedAt=$updatedAt, inCart=$inCart, inWishlist=$inWishlist, overallRating=$overallRating, ratingsCount=$ratingsCount, ratings=$ratings]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -435,6 +440,11 @@ class ServiceShowData {
     } else {
       json[r'ratings_count'] = null;
     }
+    if (this.ratings != null) {
+      json[r'ratings'] = this.ratings;
+    } else {
+      json[r'ratings'] = null;
+    }
     return json;
   }
 
@@ -503,6 +513,7 @@ class ServiceShowData {
         ratingsCount: json[r'ratings_count'] == null
             ? null
             : num.parse(json[r'ratings_count'].toString()),
+        ratings: ProductDetailsRatingsInner.listFromJson(json[r'ratings']),
       );
     }
     return null;

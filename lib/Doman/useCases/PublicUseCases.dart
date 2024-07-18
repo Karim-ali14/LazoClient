@@ -1,9 +1,9 @@
-import 'dart:js_interop';
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lazo_client/Data/Models/StateModel.dart';
 import 'package:lazo_client/Data/Network/lib/api.dart';
 import 'package:lazo_client/Doman/CommenProviders/ApiProvider.dart';
+
+import '../../Constants/Eunms.dart';
 
 class CitiesUseCases extends StateNotifier<StateModel<CitiesResponse?>> {
   final Ref ref;
@@ -109,13 +109,13 @@ class GetTopSellersUseCase
   }
 }
 
-class GetProductAndServiceUseCase
-    extends StateNotifier<StateModel<FilterTopSellers200Response>> {
+class GetProductsUseCase
+    extends StateNotifier<StateModel<FilterTopProductsServices200Response>> {
   final Ref ref;
   final PublicApi publicApi;
-  GetProductAndServiceUseCase(this.ref, this.publicApi) : super(StateModel());
+  GetProductsUseCase(this.ref, this.publicApi) : super(StateModel());
 
-  void getProductAndServiceData({
+  void getProductsData({
     int page = 1,
     String? searchByName,
     List<String>? categoriesIds,
@@ -137,15 +137,58 @@ class GetProductAndServiceUseCase
             priceFrom: priceFrom,
             priceTo: priceTo,
             ratings: ratings,
-            type: type), onComplete: (res) {
+            type: type ?? ItemType.Products.name.toLowerCase()), onComplete: (res) {
       if (page != 1) {
-        List<ProviderData> list = state.data?.data?.data ?? [];
-        state.data?.data?.data = [...list, ...(res.data?.data ?? [])];
+        List<ProviderProduct> list = state.data?.data?.products?.data ?? [];
+        state.data?.data?.products?.data = [...list, ...(res.data?.products?.data ?? [])];
         state = StateModel.success(state.data);
       } else {
         state = StateModel.success(res);
       }
-      if (state.data?.data?.data.isEmpty == true) {
+      if (state.data?.data?.products?.data.isEmpty == true) {
+        state = StateModel.empty();
+      }
+    });
+  }
+}
+
+class GetServicesUseCase
+    extends StateNotifier<StateModel<FilterTopProductsServices200Response>> {
+  final Ref ref;
+  final PublicApi publicApi;
+  GetServicesUseCase(this.ref, this.publicApi) : super(StateModel());
+
+  void getServicesData({
+    int page = 1,
+    String? searchByName,
+    List<String>? categoriesIds,
+    List<String>? occasionsIds,
+    String? priceFrom,
+    String? priceTo,
+    List<String>? ratings,
+    String? type,
+  }) async {
+    state = page != 1
+        ? StateModel(data: state.data, state: DataState.MORE_LOADING)
+        : StateModel.loading();
+    requestForPagination(
+        () => publicApi.filterTopProductsServices(
+            page: page,
+            searchByName: searchByName,
+            categoriesIds: categoriesIds,
+            occasionsIds: occasionsIds,
+            priceFrom: priceFrom,
+            priceTo: priceTo,
+            ratings: ratings,
+            type: type ?? ItemType.Services.name.toLowerCase()), onComplete: (res) {
+      if (page != 1) {
+        List<ServiceShowData> list = state.data?.data?.services?.data ?? [];
+        state.data?.data?.services?.data = [...list, ...(res.data?.services?.data ?? [])];
+        state = StateModel.success(state.data);
+      } else {
+        state = StateModel.success(res);
+      }
+      if (state.data?.data?.products?.data.isEmpty == true) {
         state = StateModel.empty();
       }
     });

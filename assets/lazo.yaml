@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: lazo
-  version: 1.0.3
+  version: 1.0.4
 servers:
   - url: http://{{url}}
 components:
@@ -996,6 +996,23 @@ components:
           type: number
         ratings_count:
           type: number
+        ratings:
+          nullable: true
+          type: array
+          items:
+            type: object
+            properties:
+              order_item_id:
+                type: string
+              rating:
+                type: number
+              rating_comment:
+                type: string
+              date:
+                type: string
+              user_name:
+                type: string
+
 
     ImageItem:
       type: object
@@ -1601,6 +1618,12 @@ components:
               price:
                 type: number
                 example: 10.21
+              rating:
+                type: number
+              rating_comment:
+                type: string
+              rating_date:
+                type: string
               product:
                 type: object
                 nullable: true
@@ -2243,6 +2266,12 @@ components:
                   price:
                     type: number
                     example: 10.21
+                  rating:
+                    type: number
+                  rating_comment:
+                    type: string
+                  rating_date:
+                    type: string
                   product:
                     type: object
                     nullable: true
@@ -3144,6 +3173,22 @@ components:
           type: number
         ratings_count:
           type: number
+        ratings:
+          nullable: true
+          type: array
+          items:
+            type: object
+            properties:
+              order_item_id:
+                type: string
+              rating:
+                type: number
+              rating_comment:
+                type: string
+              date:
+                type: string
+              user_name:
+                type: string
 
     ServiceList:
       type: object
@@ -4646,6 +4691,60 @@ paths:
               schema:
                 $ref: '#/components/schemas/ProductDetailsResponse'
 
+  /product/reviews:
+    get:
+      tags:
+        - public
+      summary: product with its list of ratings
+      description: product with its list of ratings
+      operationId: showProductReviews
+      parameters:
+        - name: product_id
+          in: query
+          schema:
+            type: string
+            example: '4'
+      responses:
+        '200':
+          description: product with its list of ratings
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+            Cache-Control:
+              schema:
+                type: string
+                example: no-cache, private
+            Connection:
+              schema:
+                type: string
+                example: close
+            Date:
+              schema:
+                type: string
+                example: Thu, 02 May 2024 12:23:57 GMT
+            Host:
+              schema:
+                type: string
+                example: localhost:8000
+            X-Powered-By:
+              schema:
+                type: string
+                example: PHP/8.2.3
+            X-RateLimit-Limit:
+              schema:
+                type: string
+                example: '60'
+            X-RateLimit-Remaining:
+              schema:
+                type: string
+                example: '56'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductDetailsResponse'
+
   /services/filter:
     get:
       tags:
@@ -4802,6 +4901,61 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceShowResponse'
+
+  /service/reviews:
+    get:
+      tags:
+        - public
+      summary: service with its list of ratings
+      description: service with its list of ratings
+      operationId: showServiceReviews
+      parameters:
+        - name: service_id
+          in: query
+          schema:
+            type: string
+            example: '9'
+      responses:
+        '200':
+          description: show service details
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+            Cache-Control:
+              schema:
+                type: string
+                example: no-cache, private
+            Connection:
+              schema:
+                type: string
+                example: close
+            Date:
+              schema:
+                type: string
+                example: Sat, 04 May 2024 15:16:50 GMT
+            Host:
+              schema:
+                type: string
+                example: localhost:8000
+            X-Powered-By:
+              schema:
+                type: string
+                example: PHP/8.1.2-1ubuntu2.14
+            X-RateLimit-Limit:
+              schema:
+                type: string
+                example: '60'
+            X-RateLimit-Remaining:
+              schema:
+                type: string
+                example: '59'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceShowResponse'
+
 
   /home:
     get:
@@ -5030,6 +5184,9 @@ paths:
                 page:
                   type: number
                   nullable: true
+                limit:
+                  type: number
+                  nullable: true
                 search_by_name:
                   type: string
                   nullable: true
@@ -5160,6 +5317,8 @@ paths:
                             type: string
                           last_page_url:
                             type: string
+                          last_page:
+                            type: number
                           from:
                             type: number
                           to:
@@ -8618,16 +8777,21 @@ paths:
             schema:
               type: object
               properties:
-                comment:
-                  type: string
-                  example: This is a good order
-                order_id:
-                  type: string
-                  example: '10'
-                rating:
-                  description: From 1 to 5
-                  type: string
-                  example: '3.5'
+                comments:
+                  type: array
+                  items:
+                    type: string
+                    example: This is a good order
+                order_items_ids:
+                  type: array
+                  items:
+                    type: string
+                ratings:
+                  type: array
+                  items:
+                    description: From 1 to 5
+                    type: string
+                    example: '3.5'
       responses:
         '200':
           description: Successfully rated order

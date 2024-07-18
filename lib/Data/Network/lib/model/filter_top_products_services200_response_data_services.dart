@@ -18,6 +18,7 @@ class FilterTopProductsServices200ResponseDataServices {
     this.nextPageUrl,
     this.prevPageUrl,
     this.lastPageUrl,
+    this.lastPage,
     this.from,
     this.to,
     this.path,
@@ -72,6 +73,14 @@ class FilterTopProductsServices200ResponseDataServices {
   /// source code must fall back to having a nullable type.
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
+  num? lastPage;
+
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
   num? from;
 
   ///
@@ -109,6 +118,7 @@ class FilterTopProductsServices200ResponseDataServices {
      other.nextPageUrl == nextPageUrl &&
      other.prevPageUrl == prevPageUrl &&
      other.lastPageUrl == lastPageUrl &&
+     other.lastPage == lastPage &&
      other.from == from &&
      other.to == to &&
      other.path == path &&
@@ -124,6 +134,7 @@ class FilterTopProductsServices200ResponseDataServices {
     (nextPageUrl == null ? 0 : nextPageUrl!.hashCode) +
     (prevPageUrl == null ? 0 : prevPageUrl!.hashCode) +
     (lastPageUrl == null ? 0 : lastPageUrl!.hashCode) +
+    (lastPage == null ? 0 : lastPage!.hashCode) +
     (from == null ? 0 : from!.hashCode) +
     (to == null ? 0 : to!.hashCode) +
     (path == null ? 0 : path!.hashCode) +
@@ -132,7 +143,7 @@ class FilterTopProductsServices200ResponseDataServices {
     (data.hashCode);
 
   @override
-  String toString() => 'FilterTopProductsServices200ResponseDataServices[currentPage=$currentPage, firstPageUrl=$firstPageUrl, nextPageUrl=$nextPageUrl, prevPageUrl=$prevPageUrl, lastPageUrl=$lastPageUrl, from=$from, to=$to, path=$path, total=$total, links=$links, data=$data]';
+  String toString() => 'FilterTopProductsServices200ResponseDataServices[currentPage=$currentPage, firstPageUrl=$firstPageUrl, nextPageUrl=$nextPageUrl, prevPageUrl=$prevPageUrl, lastPageUrl=$lastPageUrl, lastPage=$lastPage, from=$from, to=$to, path=$path, total=$total, links=$links, data=$data]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -160,6 +171,11 @@ class FilterTopProductsServices200ResponseDataServices {
       json[r'last_page_url'] = this.lastPageUrl;
     } else {
       json[r'last_page_url'] = null;
+    }
+    if (this.lastPage != null) {
+      json[r'last_page'] = this.lastPage;
+    } else {
+      json[r'last_page'] = null;
     }
     if (this.from != null) {
       json[r'from'] = this.from;
@@ -212,6 +228,9 @@ class FilterTopProductsServices200ResponseDataServices {
         nextPageUrl: mapValueOfType<String>(json, r'next_page_url'),
         prevPageUrl: mapValueOfType<String>(json, r'prev_page_url'),
         lastPageUrl: mapValueOfType<String>(json, r'last_page_url'),
+        lastPage: json[r'last_page'] == null
+            ? null
+            : num.parse(json[r'last_page'].toString()),
         from: json[r'from'] == null
             ? null
             : num.parse(json[r'from'].toString()),

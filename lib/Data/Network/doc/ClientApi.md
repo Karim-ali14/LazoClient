@@ -397,7 +397,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **rateOrder**
-> ClientOrderDetails rateOrder(comment, orderId, rating)
+> ClientOrderDetails rateOrder(comments, orderItemsIds, ratings)
 
 Rate order
 
@@ -414,12 +414,12 @@ import 'package:lazo/api.dart';
 //defaultApiClient.getAuthentication<HttpBearerAuth>('bearerAuth').setAccessToken(yourTokenGeneratorFunction);
 
 final api_instance = ClientApi();
-final comment = comment_example; // String | 
-final orderId = orderId_example; // String | 
-final rating = rating_example; // String | From 1 to 5
+final comments = []; // List<String> | 
+final orderItemsIds = []; // List<String> | 
+final ratings = []; // List<String> | 
 
 try {
-    final result = api_instance.rateOrder(comment, orderId, rating);
+    final result = api_instance.rateOrder(comments, orderItemsIds, ratings);
     print(result);
 } catch (e) {
     print('Exception when calling ClientApi->rateOrder: $e\n');
@@ -430,9 +430,9 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **comment** | **String**|  | [optional] 
- **orderId** | **String**|  | [optional] 
- **rating** | **String**| From 1 to 5 | [optional] 
+ **comments** | [**List<String>**](String.md)|  | [optional] 
+ **orderItemsIds** | [**List<String>**](String.md)|  | [optional] 
+ **ratings** | [**List<String>**](String.md)|  | [optional] 
 
 ### Return type
 

@@ -49,7 +49,8 @@ class _HorizontalTopServiceListViewWithTitleSeeAll extends State<HorizontalTopSe
                 return Skeletonizer(
                   enabled: widget.showLoading ,
                   child: ServiceAndProductItemCardHorizontal(
-                    type: ItemType.Service, onAddItemToCart: (id ) {
+                    width: 163,
+                    type: ItemType.Services, onAddItemToCart: (id ) {
                       widget.onAddItemToCart.call(id);
                   }, onAddItemToWishList: (id ) {
                     widget.onAddItemToWishList.call(id);

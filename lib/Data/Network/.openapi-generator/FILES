@@ -44,6 +44,7 @@ doc/OccasionsResponse.md
 doc/Orders12Api.md
 doc/OrdersApi.md
 doc/ProductDetails.md
+doc/ProductDetailsRatingsInner.md
 doc/ProductDetailsResponse.md
 doc/ProductListItem.md
 doc/ProductListItemDetail.md
@@ -191,6 +192,7 @@ lib/model/image_item.dart
 lib/model/occasion.dart
 lib/model/occasions_response.dart
 lib/model/product_details.dart
+lib/model/product_details_ratings_inner.dart
 lib/model/product_details_response.dart
 lib/model/product_list_item.dart
 lib/model/product_list_item_detail.dart
@@ -279,3 +281,4 @@ lib/model/update_profile200_response_data_city.dart
 lib/model/upload_files.dart
 lib/model/upload_files_response.dart
 pubspec.yaml
+test/product_details_ratings_inner_test.dart

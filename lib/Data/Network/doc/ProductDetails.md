@@ -35,6 +35,7 @@ Name | Type | Description | Notes
 **inWishlist** | **bool** |  | [optional] 
 **overallRating** | **num** |  | [optional] 
 **ratingsCount** | **num** |  | [optional] 
+**ratings** | [**List<ProductDetailsRatingsInner>**](ProductDetailsRatingsInner.md) |  | [optional] [default to const []]
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

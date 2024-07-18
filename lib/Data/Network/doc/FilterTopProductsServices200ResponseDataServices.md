@@ -13,6 +13,7 @@ Name | Type | Description | Notes
 **nextPageUrl** | **String** |  | [optional] 
 **prevPageUrl** | **String** |  | [optional] 
 **lastPageUrl** | **String** |  | [optional] 
+**lastPage** | **num** |  | [optional] 
 **from** | **num** |  | [optional] 
 **to** | **num** |  | [optional] 
 **path** | **String** |  | [optional] 

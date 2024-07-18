@@ -40,6 +40,7 @@ class ProductDetails {
     this.inWishlist,
     this.overallRating,
     this.ratingsCount,
+    this.ratings = const [],
   });
 
   ///
@@ -216,6 +217,8 @@ class ProductDetails {
   ///
   num? ratingsCount;
 
+  List<ProductDetailsRatingsInner>? ratings;
+
   @override
   bool operator ==(Object other) => identical(this, other) || other is ProductDetails &&
      other.amount == amount &&
@@ -244,7 +247,8 @@ class ProductDetails {
      other.inCart == inCart &&
      other.inWishlist == inWishlist &&
      other.overallRating == overallRating &&
-     other.ratingsCount == ratingsCount;
+     other.ratingsCount == ratingsCount &&
+     other.ratings == ratings;
 
   @override
   int get hashCode =>
@@ -275,10 +279,11 @@ class ProductDetails {
     (inCart == null ? 0 : inCart!.hashCode) +
     (inWishlist == null ? 0 : inWishlist!.hashCode) +
     (overallRating == null ? 0 : overallRating!.hashCode) +
-    (ratingsCount == null ? 0 : ratingsCount!.hashCode);
+    (ratingsCount == null ? 0 : ratingsCount!.hashCode) +
+    (ratings == null ? 0 : ratings!.hashCode);
 
   @override
-  String toString() => 'ProductDetails[amount=$amount, categories=$categories, categoryMenu=$categoryMenu, colors=$colors, createdAt=$createdAt, description=$description, descriptionAr=$descriptionAr, descriptionEn=$descriptionEn, expectedProcessingTime=$expectedProcessingTime, isVisible=$isVisible, id=$id, images=$images, lists=$lists, name=$name, nameAr=$nameAr, nameEn=$nameEn, occasions=$occasions, price=$price, priceAfterDiscount=$priceAfterDiscount, providerId=$providerId, sizes=$sizes, type=$type, updatedAt=$updatedAt, inCart=$inCart, inWishlist=$inWishlist, overallRating=$overallRating, ratingsCount=$ratingsCount]';
+  String toString() => 'ProductDetails[amount=$amount, categories=$categories, categoryMenu=$categoryMenu, colors=$colors, createdAt=$createdAt, description=$description, descriptionAr=$descriptionAr, descriptionEn=$descriptionEn, expectedProcessingTime=$expectedProcessingTime, isVisible=$isVisible, id=$id, images=$images, lists=$lists, name=$name, nameAr=$nameAr, nameEn=$nameEn, occasions=$occasions, price=$price, priceAfterDiscount=$priceAfterDiscount, providerId=$providerId, sizes=$sizes, type=$type, updatedAt=$updatedAt, inCart=$inCart, inWishlist=$inWishlist, overallRating=$overallRating, ratingsCount=$ratingsCount, ratings=$ratings]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -389,6 +394,11 @@ class ProductDetails {
     } else {
       json[r'ratings_count'] = null;
     }
+    if (this.ratings != null) {
+      json[r'ratings'] = this.ratings;
+    } else {
+      json[r'ratings'] = null;
+    }
     return json;
   }
 
@@ -452,6 +462,7 @@ class ProductDetails {
         ratingsCount: json[r'ratings_count'] == null
             ? null
             : num.parse(json[r'ratings_count'].toString()),
+        ratings: ProductDetailsRatingsInner.listFromJson(json[r'ratings']),
       );
     }
     return null;

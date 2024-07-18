@@ -247,6 +247,8 @@ class ApiClient {
           return OccasionsResponse.fromJson(value);
         case 'ProductDetails':
           return ProductDetails.fromJson(value);
+        case 'ProductDetailsRatingsInner':
+          return ProductDetailsRatingsInner.fromJson(value);
         case 'ProductDetailsResponse':
           return ProductDetailsResponse.fromJson(value);
         case 'ProductListItem':

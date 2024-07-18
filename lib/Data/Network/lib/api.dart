@@ -74,6 +74,7 @@ part 'model/image_item.dart';
 part 'model/occasion.dart';
 part 'model/occasions_response.dart';
 part 'model/product_details.dart';
+part 'model/product_details_ratings_inner.dart';
 part 'model/product_details_response.dart';
 part 'model/product_list_item.dart';
 part 'model/product_list_item_detail.dart';
