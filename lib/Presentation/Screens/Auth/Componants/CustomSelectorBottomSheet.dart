@@ -2,7 +2,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import '../../../../Constants/Constants.dart';
 import '../../../../Data/Models/ItemSelector.dart';
 import '../../../StateNotifiersViewModel/SearchBottomSheetStateNotifier.dart';
@@ -12,9 +11,11 @@ import '../../../Widgets/AppTextField.dart';
 import '../../../Widgets/SvgIcons.dart';
 
 typedef OnSelectItemCallback = void Function(int);
+typedef OnSelectMultiItemsCallback = void Function(List<int>);
 
 class CustomSelectorBottomSheet extends ConsumerStatefulWidget {
   final BuildContext context;
+  final String btuName;
   final bool? enableSearch;
   final String? title;
   final String? searchHint;
@@ -22,11 +23,21 @@ class CustomSelectorBottomSheet extends ConsumerStatefulWidget {
   List<ItemSelector> filterWidgetList = [];
   String searchValue = "";
   int? itemSelectedId;
+  final bool isSingleSelect;
   final OnSelectItemCallback onSelectItemCallback;
+  final OnSelectMultiItemsCallback onSelectMultiItemsCallback;
 
-  CustomSelectorBottomSheet(this.context,this.enableSearch, this.title, this.widgetList,
-      this.searchHint, this.itemSelectedId,
-      {super.key, required this.onSelectItemCallback});
+  CustomSelectorBottomSheet(
+      {super.key,
+      required this.context,
+      this.enableSearch,
+      this.title,required this.btuName,
+      required this.widgetList,
+      this.searchHint,
+      this.itemSelectedId,
+      required this.isSingleSelect,
+      required this.onSelectMultiItemsCallback,
+      required this.onSelectItemCallback});
 
   @override
   ConsumerState createState() => _CustomSelectorBottomSheetState();
@@ -59,12 +70,16 @@ class _CustomSelectorBottomSheetState
           children: [
             const SizedBox(height: 32),
             Stack(children: [
-              Align(alignment : AlignmentDirectional.center ,child: Text(widget.title ?? "")),
+              Align(
+                  alignment: AlignmentDirectional.center,
+                  child: Text(widget.title ?? "")),
               InkWell(
-                  onTap: (){
+                  onTap: () {
                     Navigator.pop(widget.context);
                   },
-                  child: Align(alignment : AlignmentDirectional.centerEnd ,child: SVGIcons.closeSquareSvgIcon()))
+                  child: Align(
+                      alignment: AlignmentDirectional.centerEnd,
+                      child: SVGIcons.closeSquareSvgIcon()))
             ]),
             const SizedBox(height: 32),
             widget.enableSearch == true
@@ -84,59 +99,120 @@ class _CustomSelectorBottomSheetState
                     },
                   )
                 : const SizedBox(),
-            Expanded(
-                child: ListView.separated(
-                    itemBuilder: (context, index) => GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              widget.itemSelectedId = list[index].id;
-                            });
-                          },
-                          child: Row(
-                            children: [
-                              Transform.scale(
-                                scale: 1.2,
-                                child: Radio(
-                                    value: list.isNotEmpty ? list[index].id : 0,
-                                    groupValue: widget.itemSelectedId,
-                                    activeColor: AppTheme.mainAppColor,
-                                    fillColor:   MaterialStateProperty.resolveWith((states) {
-                                      // active
-                                      if (states.contains(MaterialState.selected)) {
-                                        return AppTheme.mainAppColor;
-                                      }
-                                      // inactive
-                                      return AppTheme.appGrey10;
-                                    }),
-                                    onChanged: (value) {
-                                      setState(() {
-                                        widget.itemSelectedId = value;
-                                      });
-                                    }),
+            widget.isSingleSelect == true
+                ? Expanded(
+                    child: ListView.separated(
+                        itemBuilder: (context, index) => GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  widget.itemSelectedId = list[index].id;
+                                });
+                              },
+                              child: Row(
+                                children: [
+                                  Transform.scale(
+                                    scale: 1.2,
+                                    child: Radio(
+                                        value: list.isNotEmpty
+                                            ? list[index].id
+                                            : 0,
+                                        groupValue: widget.itemSelectedId,
+                                        activeColor: AppTheme.mainAppColor,
+                                        fillColor:
+                                            MaterialStateProperty.resolveWith(
+                                                (states) {
+                                          // active
+                                          if (states.contains(
+                                              MaterialState.selected)) {
+                                            return AppTheme.mainAppColor;
+                                          }
+                                          // inactive
+                                          return AppTheme.appGrey10;
+                                        }),
+                                        onChanged: (value) {
+                                          setState(() {
+                                            widget.itemSelectedId = value;
+                                          });
+                                        }),
+                                  ),
+                                  const SizedBox(
+                                    width: 8,
+                                  ),
+                                  list[index].widget ?? const SizedBox(),
+                                  const SizedBox(
+                                    width: 8,
+                                  ),
+                                  Expanded(
+                                      child: Text(
+                                    list[index].text,
+                                    style: widget.itemSelectedId ==
+                                            list[index].id
+                                        ? AppTheme
+                                            .styleWithTextBlackAdelleSansExtendedFonts16w500
+                                        : AppTheme
+                                            .styleWithTextGray7AdelleSansExtendedFonts16w400,
+                                  ))
+                                  // Checkbox(value: Radio(value: value, groupValue: groupValue, onChanged: onChanged), onChanged: onChanged)
+                                ],
                               ),
-                              const SizedBox(
-                                width: 8,
+                            ),
+                        separatorBuilder: (context, index) =>
+                            const Divider(color: AppTheme.appGrey3),
+                        itemCount: list.length))
+                : Expanded(
+                    child: ListView.separated(
+                        shrinkWrap: true,
+                        itemBuilder: (context, index) => GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  list[index].isChecked =
+                                      !(list[index].isChecked ?? false);
+                                });
+                              },
+                              child: Row(
+                                children: [
+                                  Transform.scale(
+                                    scale: 1,
+                                    child: Checkbox(
+                                        activeColor: AppTheme.mainAppColor,
+                                        fillColor:
+                                            MaterialStateProperty.resolveWith(
+                                                (states) {
+                                          // active
+                                          if (states.contains(
+                                              MaterialState.selected)) {
+                                            return AppTheme.mainAppColor;
+                                          }
+                                          // inactive
+                                          return Colors.white;
+                                        }),
+                                        onChanged: (value) {
+                                          setState(() {
+                                            list[index].isChecked = value;
+                                          });
+                                        },
+                                        value: list.isNotEmpty
+                                            ? list[index].isChecked
+                                            : false),
+                                  ),
+                                  const SizedBox(
+                                    width: 8,
+                                  ),
+                                  list[index].widget ?? const SizedBox(),
+                                  const SizedBox(
+                                    width: 8,
+                                  ),
+                                  Expanded(
+                                      child: Text(list[index].text,
+                                          style: AppTheme
+                                              .styleWithTextBlackAdelleSansExtendedFonts16w500))
+                                  // Checkbox(value: Radio(value: value, groupValue: groupValue, onChanged: onChanged), onChanged: onChanged)
+                                ],
                               ),
-                              list[index].widget ?? const SizedBox(),
-                              const SizedBox(
-                                width: 8,
-                              ),
-                              Expanded(
-                                  child: Text(
-                                list[index].text,
-                                style: widget.itemSelectedId == list[index].id
-                                    ? AppTheme
-                                        .styleWithTextBlackAdelleSansExtendedFonts16w500
-                                    : AppTheme
-                                        .styleWithTextGray7AdelleSansExtendedFonts16w400,
-                              ))
-                              // Checkbox(value: Radio(value: value, groupValue: groupValue, onChanged: onChanged), onChanged: onChanged)
-                            ],
-                          ),
-                        ),
-                    separatorBuilder: (context, index) =>
-                        const Divider(color: AppTheme.appGrey3),
-                    itemCount: list.length)),
+                            ),
+                        separatorBuilder: (context, index) =>
+                            const Divider(color: AppTheme.appGrey3),
+                        itemCount: list.length)),
             const SizedBox(
               height: 32,
             ),
@@ -144,13 +220,21 @@ class _CustomSelectorBottomSheetState
               height: 46,
               width: double.maxFinite,
               onPress: () {
-                if (widget.itemSelectedId != null) {
-                  widget.onSelectItemCallback.call(widget.itemSelectedId ?? 0);
+                if (widget.isSingleSelect) {
+                  if (widget.itemSelectedId != null) {
+                    widget.onSelectItemCallback
+                        .call(widget.itemSelectedId ?? 0);
+                  }
+                } else if (!widget.isSingleSelect) {
+                  widget.onSelectMultiItemsCallback.call(widget.widgetList
+                      .where((item) => item.isChecked == true)
+                      .map<int>((item) => item.id)
+                      .toList());
                 }
               },
               child: Text(
-                context.tr("Ok"),
-                style: AppTheme.styleWithTextBlackAdelleSansExtendedFonts16w400,
+                widget.btuName,
+                style: AppTheme.styleWithTextWhiteAdelleSansExtendedFonts14w400,
               ),
             ),
             const SizedBox(

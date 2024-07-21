@@ -5,7 +5,9 @@ import 'package:lazo_client/Presentation/Widgets/AppTextField.dart';
 import 'package:lazo_client/Presentation/Widgets/CustomAppBar.dart';
 import 'package:lazo_client/Presentation/Widgets/SvgIcons.dart';
 
+import '../../Data/Models/ItemSelector.dart';
 import '../Theme/AppTheme.dart';
+import 'Auth/Componants/CustomSelectorBottomSheet.dart';
 
 class FilterScreen extends StatefulWidget {
   const FilterScreen({super.key});
@@ -30,8 +32,8 @@ class _FilterScreenState extends State<FilterScreen> {
         child: Column(
           children: [
             InkWell(
-              onTap: (){
-
+              onTap: () {
+                showCitesBottomSheet(context);
               },
               child: AppTextField(
                 readOnly: true,
@@ -101,5 +103,29 @@ class _FilterScreenState extends State<FilterScreen> {
         ),
       )),
     );
+  }
+
+  void showCitesBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+        context: context,
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(10), topRight: Radius.circular(10))),
+        builder: (BuildContext context) {
+          return CustomSelectorBottomSheet(
+              context: context,
+              btuName: "Choose",
+              enableSearch: false,
+              title: "Choose Promotion",
+              widgetList: [
+                ItemSelector(0, "Promoted", null),
+                ItemSelector(1, "Not Promoted", null)
+              ].toList(),
+              searchHint: "Search by",
+              itemSelectedId: 0,
+              isSingleSelect: false,
+              onSelectMultiItemsCallback: (items) {},
+              onSelectItemCallback: (itemid) {});
+        });
   }
 }

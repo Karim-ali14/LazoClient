@@ -45,35 +45,38 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
   int? cityItemSelected;
   @override
   void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((call){
+    WidgetsBinding.instance.addPostFrameCallback((call) {
       ref.read(getCities.notifier).getCities();
     });
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
-
-    handleState(getCities,onSuccess: (res) {
+    handleState(getCities, onSuccess: (res) {
       cities = res.data?.data ?? [];
     });
 
-    handleState(sendOtpForSignUpStateProvider,showLoading: true, onSuccess: (res) {
+    handleState(sendOtpForSignUpStateProvider, showLoading: true,
+        onSuccess: (res) {
       print("formSignUp $res");
-      if(res.data?.isExist == false){
-        AppSnackBar.showSnackBar(context, isSuccess: true, message: res.data?.message ?? "Success !");
+      if (res.data?.isExist == false) {
+        AppSnackBar.showSnackBar(context,
+            isSuccess: true, message: res.data?.message ?? "Success !");
         signUp();
-      }else{
-        AppSnackBar.showSnackBar(context, isSuccess: false, message: context.tr(thisPhoneIsExitsKey));
+      } else {
+        AppSnackBar.showSnackBar(context,
+            isSuccess: false, message: context.tr(thisPhoneIsExitsKey));
       }
-    },onFail: (res){
-      AppSnackBar.showSnackBar(context, isSuccess: false, message: res.message ?? "");
+    }, onFail: (res) {
+      AppSnackBar.showSnackBar(context,
+          isSuccess: false, message: res.message ?? "");
     });
-
 
     handleState(uploadFilesStateNotifiers, onSuccess: (res) {
       images = res.data?.data ?? [];
       sendCode();
-    },showLoading: true);
+    }, showLoading: true);
 
     // handleState(signUpStateNotifierProvider, onSuccess: (res) {
     //   print(res);
@@ -172,7 +175,8 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                     endWidget: InkWell(
                         onTap: () {
                           showCitesBottomSheet();
-                        }, child: SVGIcons.bottomRedArrowIcon()),
+                        },
+                        child: SVGIcons.bottomRedArrowIcon()),
                     readOnly: true,
                     textInputType: TextInputType.text,
                     textFieldBorderColor: AppTheme.appGrey3,
@@ -218,47 +222,55 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
   }
 
   void signUp() {
-    context.push(R_OTP,extra: {
-      "phone" :phoneController.text ,
-      "name" :fullNameController.text,
-      "email" : emailController.text.isNotEmpty ? emailController.text : null,
+    context.push(R_OTP, extra: {
+      "phone": phoneController.text,
+      "name": fullNameController.text,
+      "email": emailController.text.isNotEmpty ? emailController.text : null,
       "image": images.first,
-      "cityId" : "$cityItemSelected","type" : OTPType.SignUp});
+      "cityId": "$cityItemSelected",
+      "type": OTPType.SignUp
+    });
   }
 
-  void sendCode(){
-    ref.read(sendOtpForSignUpStateProvider.notifier).sendOtp(phoneController.text.toString());
+  void sendCode() {
+    ref
+        .read(sendOtpForSignUpStateProvider.notifier)
+        .sendOtp(phoneController.text.toString());
   }
 
   void uploadFiles() {
     ref.read(uploadFilesStateNotifiers.notifier).uploadFilesPost([imageFile!]);
   }
 
-  void showCitesBottomSheet(){
+  void showCitesBottomSheet() {
     showModalBottomSheet(
         context: context,
         shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(10), topRight: Radius.circular(10))),
         builder: (BuildContext context) {
-      return CustomSelectorBottomSheet(
-        context,
-        true,
-        context.tr("chooseManufacturingYearsKey"),
-        cities.map((e) => ItemSelector(
-            e.id ?? 0, e.name ?? "", null))
-            .toList(),
-        "Search by",
-        cityItemSelected,
-        onSelectItemCallback: (itemid ) {
-          cityItemSelected = itemid;
+          return CustomSelectorBottomSheet(
+              context: context,
+              btuName: context.tr("Ok"),
+              enableSearch: true,
+              title: context.tr("chooseManufacturingYearsKey"),
+              widgetList: cities
+                  .map((e) => ItemSelector(e.id ?? 0, e.name ?? "", null))
+                  .toList(),
+              searchHint: "Search by",
+              itemSelectedId: cityItemSelected,
+              isSingleSelect: true,
+              onSelectMultiItemsCallback: (items) {},
+              onSelectItemCallback: (itemid) {
+                cityItemSelected = itemid;
 
-          if(cityItemSelected != null) {
-            cityController.text = cities.firstWhere((item) => item.id == itemid).name ?? "";
-          }
+                if (cityItemSelected != null) {
+                  cityController.text =
+                      cities.firstWhere((item) => item.id == itemid).name ?? "";
+                }
 
-          Navigator.pop(context);
-      });
-    });
+                Navigator.pop(context);
+              });
+        });
   }
 }
