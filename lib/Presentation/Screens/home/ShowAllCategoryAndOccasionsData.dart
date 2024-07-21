@@ -80,120 +80,114 @@ class _ShowAllCategoryAndOccasionsDataState
             ),
             Container(
               padding: EdgeInsetsDirectional.symmetric(horizontal: 8),
-              child: GridView.count(
-                crossAxisCount: 2,
-                childAspectRatio: (itemWidth / itemHeight),
-                controller: ScrollController(keepScrollOffset: false),
-                shrinkWrap: true,
-                scrollDirection: Axis.vertical,
-                children: widget.type == CategoryType.Categories
-                    ? categoryState.state == DataState.SUCCESS
-                        ? categoryState.data?.data.map((Category value) {
-                              return Padding(
-                                padding: const EdgeInsetsDirectional.symmetric(
-                                    horizontal: 6, vertical: 6),
-                                child: CategoryItemCart(
-                                  image: value.imagePath ?? "",
-                                  title: value.name ?? "",
-                                  height: 156,
-                                ),
-                              );
-                            }).toList() ??
-                            [
-                              EmptyDataView(
-                                title: "No Data Found",
-                                description:
-                                    "Please refine your search using common words to get accurate results",
-                              )
-                            ]
-                        : [
-                            "",
-                            "",
-                            "",
-                            "",
-                            "",
-                            "",
-                            "",
-                            "",
-                            "",
-                            "",
-                            "",
-                            "",
-                            "",
-                            "",
-                            "",
-                            "",
-                          ].map((String value) {
-                            return Padding(
-                              padding: const EdgeInsetsDirectional.symmetric(
-                                  horizontal: 6, vertical: 6),
-                              child: SizedBox(
-                                height: 10,
-                                width: 50,
-                                child: Skeletonizer(
-                                  enabled: true,
-                                  child: CategoryItemCart(
-                                    image: "",
-                                    title: "",
-                                    height: 156,
-                                    width: itemWidth,
-                                  ),
-                                ),
-                              ),
-                            );
-                          }).toList()
-                    : occasionsState.state == DataState.SUCCESS
-                        ? occasionsState.data?.data.map((Occasion value) {
-                              return Padding(
-                                padding: const EdgeInsetsDirectional.symmetric(
-                                    horizontal: 6, vertical: 6),
-                                child: CategoryItemCart(
-                                  image: value.imagePath ?? "",
-                                  title: value.name ?? "",
-                                  height: 156,
-                                ),
-                              );
-                            }).toList() ??
-                            [
-                              EmptyDataView(
-                                title: "No Data Found",
-                                description:
-                                    "Please refine your search using common words to get accurate results",
-                              )
-                            ]
-                        : [
-                            "",
-                            "",
-                            "",
-                            "",
-                            "",
-                            "",
-                            "",
-                            "",
-                            "",
-                            "",
-                            "",
-                            "",
-                            "",
-                            "",
-                            "",
-                            "",
-                          ].map((String value) {
-                            return Padding(
-                              padding: const EdgeInsetsDirectional.symmetric(
-                                  horizontal: 6, vertical: 6),
-                              child: Skeletonizer(
-                                enabled: true,
-                                child: CategoryItemCart(
-                                  image: "",
-                                  title: "",
-                                  height: 156,
-                                  width: itemWidth,
-                                ),
-                              ),
-                            );
-                          }).toList(),
-              ),
+              child: categoryState.state == DataState.EMPTY
+                  ? SizedBox()
+                  : GridView.count(
+                      crossAxisCount: 2,
+                      childAspectRatio: (itemWidth / itemHeight),
+                      controller: ScrollController(keepScrollOffset: false),
+                      shrinkWrap: true,
+                      scrollDirection: Axis.vertical,
+                      children: widget.type == CategoryType.Categories
+                          ? categoryState.state == DataState.SUCCESS
+                              ? categoryState.data?.data.map((Category value) {
+                                    return Padding(
+                                      padding:
+                                          const EdgeInsetsDirectional.symmetric(
+                                              horizontal: 6, vertical: 6),
+                                      child: CategoryItemCart(
+                                        image: value.imagePath ?? "",
+                                        title: value.name ?? "",
+                                        height: 156,
+                                      ),
+                                    );
+                                  }).toList() ??
+                                  []
+                              : [
+                                  "",
+                                  "",
+                                  "",
+                                  "",
+                                  "",
+                                  "",
+                                  "",
+                                  "",
+                                  "",
+                                  "",
+                                  "",
+                                  "",
+                                  "",
+                                  "",
+                                  "",
+                                  "",
+                                ].map((String value) {
+                                  return Padding(
+                                    padding:
+                                        const EdgeInsetsDirectional.symmetric(
+                                            horizontal: 6, vertical: 6),
+                                    child: SizedBox(
+                                      height: 10,
+                                      width: 50,
+                                      child: Skeletonizer(
+                                        enabled: true,
+                                        child: CategoryItemCart(
+                                          image: "",
+                                          title: "",
+                                          height: 156,
+                                          width: itemWidth,
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                }).toList()
+                          : occasionsState.state == DataState.SUCCESS
+                              ? occasionsState.data?.data.map((Occasion value) {
+                                    return Padding(
+                                      padding:
+                                          const EdgeInsetsDirectional.symmetric(
+                                              horizontal: 6, vertical: 6),
+                                      child: CategoryItemCart(
+                                        image: value.imagePath ?? "",
+                                        title: value.name ?? "",
+                                        height: 156,
+                                      ),
+                                    );
+                                  }).toList() ??
+                                  []
+                              : [
+                                  "",
+                                  "",
+                                  "",
+                                  "",
+                                  "",
+                                  "",
+                                  "",
+                                  "",
+                                  "",
+                                  "",
+                                  "",
+                                  "",
+                                  "",
+                                  "",
+                                  "",
+                                  "",
+                                ].map((String value) {
+                                  return Padding(
+                                    padding:
+                                        const EdgeInsetsDirectional.symmetric(
+                                            horizontal: 6, vertical: 6),
+                                    child: Skeletonizer(
+                                      enabled: true,
+                                      child: CategoryItemCart(
+                                        image: "",
+                                        title: "",
+                                        height: 156,
+                                        width: itemWidth,
+                                      ),
+                                    ),
+                                  );
+                                }).toList(),
+                    ),
             ),
           ],
         ),

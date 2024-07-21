@@ -16,6 +16,8 @@ import 'Presentation//Theme/AppTheme.dart';
 import 'Presentation/Screens/Auth/Otp/OTPScreen.dart';
 import 'Presentation/Screens/home/HomeScreen.dart';
 import 'Presentation/Screens/home/ShowAllCategoryAndOccasionsData.dart';
+import 'Presentation/Screens/home/ShowProductAndServiceScreen.dart';
+import 'Presentation/Screens/home/ShowTopSellers.dart';
 import 'Presentation/Screens/onbaording/OnBordingScreen.dart';
 
 late SharedPreferences prefs;
@@ -149,7 +151,7 @@ class MyApp extends ConsumerWidget {
       GoRoute(
         path: R_HomeScreen,
         builder: (BuildContext context, GoRouterState state) =>
-            const ShowAllCategoryAndOccasionsData(CategoryType.Categories),
+            const ShowProductAndServiceScreen("fsd;fa;", CategoryType.Categories, 32),
       ),
       GoRoute(
           path: R_LoginScreen,

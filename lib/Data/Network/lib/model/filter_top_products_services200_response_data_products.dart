@@ -17,6 +17,7 @@ class FilterTopProductsServices200ResponseDataProducts {
     this.firstPageUrl,
     this.nextPageUrl,
     this.prevPageUrl,
+    this.lastPage,
     this.lastPageUrl,
     this.from,
     this.to,
@@ -64,6 +65,14 @@ class FilterTopProductsServices200ResponseDataProducts {
   /// source code must fall back to having a nullable type.
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
+  num? lastPage;
+
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
   String? lastPageUrl;
 
   ///
@@ -98,7 +107,7 @@ class FilterTopProductsServices200ResponseDataProducts {
   ///
   String? total;
 
-  List<FilterTopProductsServices200ResponseDataProductsLinksInner> links;
+  List<FilterTopSellers200ResponseDataLinksInner> links;
 
   List<ProviderProduct> data;
 
@@ -108,6 +117,7 @@ class FilterTopProductsServices200ResponseDataProducts {
      other.firstPageUrl == firstPageUrl &&
      other.nextPageUrl == nextPageUrl &&
      other.prevPageUrl == prevPageUrl &&
+     other.lastPage == lastPage &&
      other.lastPageUrl == lastPageUrl &&
      other.from == from &&
      other.to == to &&
@@ -123,6 +133,7 @@ class FilterTopProductsServices200ResponseDataProducts {
     (firstPageUrl == null ? 0 : firstPageUrl!.hashCode) +
     (nextPageUrl == null ? 0 : nextPageUrl!.hashCode) +
     (prevPageUrl == null ? 0 : prevPageUrl!.hashCode) +
+    (lastPage == null ? 0 : lastPage!.hashCode) +
     (lastPageUrl == null ? 0 : lastPageUrl!.hashCode) +
     (from == null ? 0 : from!.hashCode) +
     (to == null ? 0 : to!.hashCode) +
@@ -132,7 +143,7 @@ class FilterTopProductsServices200ResponseDataProducts {
     (data.hashCode);
 
   @override
-  String toString() => 'FilterTopProductsServices200ResponseDataProducts[currentPage=$currentPage, firstPageUrl=$firstPageUrl, nextPageUrl=$nextPageUrl, prevPageUrl=$prevPageUrl, lastPageUrl=$lastPageUrl, from=$from, to=$to, path=$path, total=$total, links=$links, data=$data]';
+  String toString() => 'FilterTopProductsServices200ResponseDataProducts[currentPage=$currentPage, firstPageUrl=$firstPageUrl, nextPageUrl=$nextPageUrl, prevPageUrl=$prevPageUrl, lastPage=$lastPage, lastPageUrl=$lastPageUrl, from=$from, to=$to, path=$path, total=$total, links=$links, data=$data]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -155,6 +166,11 @@ class FilterTopProductsServices200ResponseDataProducts {
       json[r'prev_page_url'] = this.prevPageUrl;
     } else {
       json[r'prev_page_url'] = null;
+    }
+    if (this.lastPage != null) {
+      json[r'last_page'] = this.lastPage;
+    } else {
+      json[r'last_page'] = null;
     }
     if (this.lastPageUrl != null) {
       json[r'last_page_url'] = this.lastPageUrl;
@@ -211,6 +227,9 @@ class FilterTopProductsServices200ResponseDataProducts {
         firstPageUrl: mapValueOfType<String>(json, r'first_page_url'),
         nextPageUrl: mapValueOfType<String>(json, r'next_page_url'),
         prevPageUrl: mapValueOfType<String>(json, r'prev_page_url'),
+        lastPage: json[r'last_page'] == null
+            ? null
+            : num.parse(json[r'last_page'].toString()),
         lastPageUrl: mapValueOfType<String>(json, r'last_page_url'),
         from: json[r'from'] == null
             ? null
@@ -220,7 +239,7 @@ class FilterTopProductsServices200ResponseDataProducts {
             : num.parse(json[r'to'].toString()),
         path: mapValueOfType<String>(json, r'path'),
         total: mapValueOfType<String>(json, r'total'),
-        links: FilterTopProductsServices200ResponseDataProductsLinksInner.listFromJson(json[r'links']),
+        links: FilterTopSellers200ResponseDataLinksInner.listFromJson(json[r'links']),
         data: ProviderProduct.listFromJson(json[r'data']),
       );
     }

@@ -1,4 +1,4 @@
-# lazo.model.FilterTopSellers200Response
+# lazo.model.FilterTopSellers200ResponseLinksInner
 
 ## Load the model package
 ```dart
@@ -8,9 +8,9 @@ import 'package:lazo/api.dart';
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**message** | **String** |  | [optional] 
-**status** | **bool** |  | [optional] 
-**data** | [**FilterTopSellers200ResponseData**](FilterTopSellers200ResponseData.md) |  | [optional] 
+**url** | **String** |  | [optional] 
+**label** | **String** |  | [optional] 
+**active** | **bool** |  | [optional] 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

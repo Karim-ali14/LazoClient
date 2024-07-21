@@ -246,6 +246,10 @@ class PublicApi {
   ///
   /// Parameters:
   ///
+  /// * [num] page:
+  ///
+  /// * [num] limit:
+  ///
   /// * [String] searchByName:
   ///
   /// * [List<String>] categoriesIds:
@@ -260,7 +264,7 @@ class PublicApi {
   ///
   /// * [String] type:
   ///   products or services
-  Future<Response> filterTopProductsServicesWithHttpInfo({ String? searchByName, List<String>? categoriesIds, List<String>? occasionsIds, String? priceFrom, String? priceTo, List<String>? ratings, String? type, }) async {
+  Future<Response> filterTopProductsServicesWithHttpInfo({ num? page, num? limit, String? searchByName, List<String>? categoriesIds, List<String>? occasionsIds, String? priceFrom, String? priceTo, List<String>? ratings, String? type, }) async {
     // ignore: prefer_const_declarations
     final path = r'/top-products-services/filter';
 
@@ -275,6 +279,14 @@ class PublicApi {
 
     bool hasFields = false;
     final mp = MultipartRequest('POST', Uri.parse(path));
+    if (page != null) {
+      hasFields = true;
+      mp.fields[r'page'] = parameterToString(page);
+    }
+    if (limit != null) {
+      hasFields = true;
+      mp.fields[r'limit'] = parameterToString(limit);
+    }
     if (searchByName != null) {
       hasFields = true;
       mp.fields[r'search_by_name'] = parameterToString(searchByName);
@@ -324,6 +336,10 @@ class PublicApi {
   ///
   /// Parameters:
   ///
+  /// * [num] page:
+  ///
+  /// * [num] limit:
+  ///
   /// * [String] searchByName:
   ///
   /// * [List<String>] categoriesIds:
@@ -338,8 +354,8 @@ class PublicApi {
   ///
   /// * [String] type:
   ///   products or services
-  Future<FilterTopProductsServices200Response?> filterTopProductsServices({ String? searchByName, List<String>? categoriesIds, List<String>? occasionsIds, String? priceFrom, String? priceTo, List<String>? ratings, String? type, }) async {
-    final response = await filterTopProductsServicesWithHttpInfo( searchByName: searchByName, categoriesIds: categoriesIds, occasionsIds: occasionsIds, priceFrom: priceFrom, priceTo: priceTo, ratings: ratings, type: type, );
+  Future<FilterTopProductsServices200Response?> filterTopProductsServices({ num? page, num? limit, String? searchByName, List<String>? categoriesIds, List<String>? occasionsIds, String? priceFrom, String? priceTo, List<String>? ratings, String? type, }) async {
+    final response = await filterTopProductsServicesWithHttpInfo( page: page, limit: limit, searchByName: searchByName, categoriesIds: categoriesIds, occasionsIds: occasionsIds, priceFrom: priceFrom, priceTo: priceTo, ratings: ratings, type: type, );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -361,6 +377,8 @@ class PublicApi {
   ///
   /// Parameters:
   ///
+  /// * [num] page:
+  ///
   /// * [String] searchByName:
   ///
   /// * [List<String>] categoriesIds:
@@ -371,7 +389,7 @@ class PublicApi {
   /// * [List<String>] occasionsIds:
   ///
   /// * [List<String>] ratings:
-  Future<Response> filterTopSellersWithHttpInfo({ String? searchByName, List<String>? categoriesIds, String? isPromoted, List<String>? occasionsIds, List<String>? ratings, }) async {
+  Future<Response> filterTopSellersWithHttpInfo({ num? page, String? searchByName, List<String>? categoriesIds, String? isPromoted, List<String>? occasionsIds, List<String>? ratings, }) async {
     // ignore: prefer_const_declarations
     final path = r'/top-sellers/filter';
 
@@ -386,6 +404,10 @@ class PublicApi {
 
     bool hasFields = false;
     final mp = MultipartRequest('POST', Uri.parse(path));
+    if (page != null) {
+      hasFields = true;
+      mp.fields[r'page'] = parameterToString(page);
+    }
     if (searchByName != null) {
       hasFields = true;
       mp.fields[r'search_by_name'] = parameterToString(searchByName);
@@ -427,6 +449,8 @@ class PublicApi {
   ///
   /// Parameters:
   ///
+  /// * [num] page:
+  ///
   /// * [String] searchByName:
   ///
   /// * [List<String>] categoriesIds:
@@ -437,8 +461,8 @@ class PublicApi {
   /// * [List<String>] occasionsIds:
   ///
   /// * [List<String>] ratings:
-  Future<FilterTopSellers200Response?> filterTopSellers({ String? searchByName, List<String>? categoriesIds, String? isPromoted, List<String>? occasionsIds, List<String>? ratings, }) async {
-    final response = await filterTopSellersWithHttpInfo( searchByName: searchByName, categoriesIds: categoriesIds, isPromoted: isPromoted, occasionsIds: occasionsIds, ratings: ratings, );
+  Future<FilterTopSellers200Response?> filterTopSellers({ num? page, String? searchByName, List<String>? categoriesIds, String? isPromoted, List<String>? occasionsIds, List<String>? ratings, }) async {
+    final response = await filterTopSellersWithHttpInfo( page: page, searchByName: searchByName, categoriesIds: categoriesIds, isPromoted: isPromoted, occasionsIds: occasionsIds, ratings: ratings, );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -1018,6 +1042,66 @@ class PublicApi {
     return null;
   }
 
+  /// product with its list of ratings
+  ///
+  /// product with its list of ratings
+  ///
+  /// Note: This method returns the HTTP [Response].
+  ///
+  /// Parameters:
+  ///
+  /// * [String] productId:
+  Future<Response> showProductReviewsWithHttpInfo({ String? productId, }) async {
+    // ignore: prefer_const_declarations
+    final path = r'/product/reviews';
+
+    // ignore: prefer_final_locals
+    Object? postBody;
+
+    final queryParams = <QueryParam>[];
+    final headerParams = <String, String>{};
+    final formParams = <String, String>{};
+
+    if (productId != null) {
+      queryParams.addAll(_queryParams('', 'product_id', productId));
+    }
+
+    const contentTypes = <String>[];
+
+
+    return apiClient.invokeAPI(
+      path,
+      'GET',
+      queryParams,
+      postBody,
+      headerParams,
+      formParams,
+      contentTypes.isEmpty ? null : contentTypes.first,
+    );
+  }
+
+  /// product with its list of ratings
+  ///
+  /// product with its list of ratings
+  ///
+  /// Parameters:
+  ///
+  /// * [String] productId:
+  Future<ProductDetailsResponse?> showProductReviews({ String? productId, }) async {
+    final response = await showProductReviewsWithHttpInfo( productId: productId, );
+    if (response.statusCode >= HttpStatus.badRequest) {
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
+    }
+    // When a remote server returns no body with a status of 204, we shall not decode it.
+    // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
+    // FormatException when trying to decode an empty string.
+    if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'ProductDetailsResponse',) as ProductDetailsResponse;
+    
+    }
+    return null;
+  }
+
   /// show promocode details
   ///
   /// show promocode details
@@ -1136,6 +1220,66 @@ class PublicApi {
   /// * [String] serviceId:
   Future<ServiceShowResponse?> showServiceDetails({ String? serviceId, }) async {
     final response = await showServiceDetailsWithHttpInfo( serviceId: serviceId, );
+    if (response.statusCode >= HttpStatus.badRequest) {
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
+    }
+    // When a remote server returns no body with a status of 204, we shall not decode it.
+    // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
+    // FormatException when trying to decode an empty string.
+    if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'ServiceShowResponse',) as ServiceShowResponse;
+    
+    }
+    return null;
+  }
+
+  /// service with its list of ratings
+  ///
+  /// service with its list of ratings
+  ///
+  /// Note: This method returns the HTTP [Response].
+  ///
+  /// Parameters:
+  ///
+  /// * [String] serviceId:
+  Future<Response> showServiceReviewsWithHttpInfo({ String? serviceId, }) async {
+    // ignore: prefer_const_declarations
+    final path = r'/service/reviews';
+
+    // ignore: prefer_final_locals
+    Object? postBody;
+
+    final queryParams = <QueryParam>[];
+    final headerParams = <String, String>{};
+    final formParams = <String, String>{};
+
+    if (serviceId != null) {
+      queryParams.addAll(_queryParams('', 'service_id', serviceId));
+    }
+
+    const contentTypes = <String>[];
+
+
+    return apiClient.invokeAPI(
+      path,
+      'GET',
+      queryParams,
+      postBody,
+      headerParams,
+      formParams,
+      contentTypes.isEmpty ? null : contentTypes.first,
+    );
+  }
+
+  /// service with its list of ratings
+  ///
+  /// service with its list of ratings
+  ///
+  /// Parameters:
+  ///
+  /// * [String] serviceId:
+  Future<ServiceShowResponse?> showServiceReviews({ String? serviceId, }) async {
+    final response = await showServiceReviewsWithHttpInfo( serviceId: serviceId, );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }

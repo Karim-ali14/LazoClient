@@ -3,23 +3,23 @@ import 'package:lazo_client/Data/Models/StateModel.dart';
 import 'package:lazo_client/Data/Network/lib/api.dart';
 import 'package:lazo_client/Doman/CommenProviders/ApiProvider.dart';
 
-class CitiesUseCases extends StateNotifier<StateModel<CitiesResponse?>>{
+import '../../Constants/Eunms.dart';
+
+class CitiesUseCases extends StateNotifier<StateModel<CitiesResponse?>> {
   final Ref ref;
   final PublicApi publicApi;
-  CitiesUseCases(this.ref, this.publicApi):super(StateModel());
+  CitiesUseCases(this.ref, this.publicApi) : super(StateModel());
 
   void getCities() async {
     state = StateModel.loading();
-    request(()=> publicApi.citiesGet(lang: "ar"));
+    request(() => publicApi.citiesGet(lang: "ar"));
   }
-
 }
 
-class HomeDataUseCase extends StateNotifier<StateModel<ShowHome200Response>>{
-
+class HomeDataUseCase extends StateNotifier<StateModel<ShowHome200Response>> {
   final Ref ref;
   final PublicApi publicApi;
-  HomeDataUseCase(this.ref, this.publicApi):super(StateModel());
+  HomeDataUseCase(this.ref, this.publicApi) : super(StateModel());
 
   void getHomeData() async {
     state = StateModel.loading();
@@ -27,47 +27,170 @@ class HomeDataUseCase extends StateNotifier<StateModel<ShowHome200Response>>{
   }
 }
 
-class GetCategoriesUseCase extends StateNotifier<StateModel<CategoriesResponse>>{
-
+class GetCategoriesUseCase
+    extends StateNotifier<StateModel<CategoriesResponse>> {
   final Ref ref;
   final PublicApi publicApi;
   final List<Category> list = [];
-  GetCategoriesUseCase(this.ref, this.publicApi) :super(StateModel());
+  GetCategoriesUseCase(this.ref, this.publicApi) : super(StateModel());
 
   void getCategoriesData() async {
     state = StateModel.loading();
-    request(() => publicApi.showAllCategories(),onComplete: (res){
+    request(() => publicApi.showAllCategories(), onComplete: (res) {
       list.addAll(res.data);
     });
   }
 
-  void searchInMainList(String value){
-    final filterList = list.where((item) => item.name?.contains(value) ?? false);
+  void searchInMainList(String value) {
+    final filterList =
+        list.where((item) => item.name?.contains(value) ?? false);
     state.data?.data = [...filterList];
-    print(state.data?.data.toString());
-    state = StateModel.success(state.data);
+    print(state.data?.data.isNotEmpty);
+    if (state.data?.data.isNotEmpty == true) {
+      state = StateModel.success(state.data);
+    } else {
+      state = StateModel.empty(data: state.data);
+    }
   }
 }
 
-class GetOccasionsUseCase extends StateNotifier<StateModel<OccasionsResponse>>{
-
+class GetOccasionsUseCase extends StateNotifier<StateModel<OccasionsResponse>> {
   final Ref ref;
   final PublicApi publicApi;
   final List<Occasion> list = [];
-  GetOccasionsUseCase(this.ref, this.publicApi) :super(StateModel());
+  GetOccasionsUseCase(this.ref, this.publicApi) : super(StateModel());
 
   void getOccasionsData() async {
     state = StateModel.loading();
-    request(() => publicApi.showAllOccasions(),onComplete: (res){
+    request(() => publicApi.showAllOccasions(), onComplete: (res) {
       list.addAll(res.data);
     });
   }
 
-  void searchInMainList(String value){
-    final filterList = list.where((item) => item.name?.contains(value) ?? false);
+  void searchInMainList(String value) {
+    final filterList =
+        list.where((item) => item.name?.contains(value) ?? false);
     state.data?.data = [...filterList];
-    state = StateModel.success(state.data);
+    print(state.data?.data.isNotEmpty);
+    if (state.data?.data.isNotEmpty == true) {
+      state = StateModel.success(state.data);
+    } else {
+      state = StateModel.empty(data: state.data);
+    }
   }
-
 }
 
+class GetTopSellersUseCase
+    extends StateNotifier<StateModel<FilterTopSellers200Response>> {
+  final Ref ref;
+  final PublicApi publicApi;
+  // final List<ProviderData> list = [];
+  GetTopSellersUseCase(this.ref, this.publicApi) : super(StateModel());
+
+  void getTopSellersData({int page = 1, String? searchByName}) async {
+    state = page != 1
+        ? StateModel(data: state.data, state: DataState.MORE_LOADING)
+        : StateModel.loading();
+    requestForPagination(
+        () =>
+            publicApi.filterTopSellers(page: page, searchByName: searchByName),
+        onComplete: (res) {
+      if (page != 1) {
+        List<ProviderData> list = state.data?.data?.data ?? [];
+        state.data?.data?.data = [...list, ...(res.data?.data ?? [])];
+        state = StateModel.success(state.data);
+      } else {
+        state = StateModel.success(res);
+      }
+      if (state.data?.data?.data.isEmpty == true) {
+        state = StateModel.empty();
+      }
+    });
+  }
+}
+
+class GetProductsUseCase
+    extends StateNotifier<StateModel<FilterTopProductsServices200Response>> {
+  final Ref ref;
+  final PublicApi publicApi;
+  GetProductsUseCase(this.ref, this.publicApi) : super(StateModel());
+
+  void getProductsData({
+    int page = 1,
+    String? searchByName,
+    List<String>? categoriesIds,
+    List<String>? occasionsIds,
+    String? priceFrom,
+    String? priceTo,
+    List<String>? ratings,
+    String? type,
+  }) async {
+    state = page != 1
+        ? StateModel(data: state.data, state: DataState.MORE_LOADING)
+        : StateModel.loading();
+    requestForPagination(
+        () => publicApi.filterTopProductsServices(
+            page: page,
+            searchByName: searchByName,
+            categoriesIds: categoriesIds,
+            occasionsIds: occasionsIds,
+            priceFrom: priceFrom,
+            priceTo: priceTo,
+            ratings: ratings,
+            type: type ?? ItemType.Products.name.toLowerCase()), onComplete: (res) {
+      if (page != 1) {
+        List<ProviderProduct> list = state.data?.data?.products?.data ?? [];
+        state.data?.data?.products?.data = [...list, ...(res.data?.products?.data ?? [])];
+        state = StateModel.success(state.data);
+      } else {
+        state = StateModel.success(res);
+      }
+      if (state.data?.data?.products?.data.isEmpty == true) {
+        state = StateModel.empty();
+      }
+    });
+  }
+}
+
+class GetServicesUseCase
+    extends StateNotifier<StateModel<FilterTopProductsServices200Response>> {
+  final Ref ref;
+  final PublicApi publicApi;
+  GetServicesUseCase(this.ref, this.publicApi) : super(StateModel());
+
+  void getServicesData({
+    int page = 1,
+    String? searchByName,
+    List<String>? categoriesIds,
+    List<String>? occasionsIds,
+    String? priceFrom,
+    String? priceTo,
+    List<String>? ratings,
+    String? type,
+  }) async {
+    state = page != 1
+        ? StateModel(data: state.data, state: DataState.MORE_LOADING)
+        : StateModel.loading();
+    requestForPagination(
+        () => publicApi.filterTopProductsServices(
+            page: page,
+            searchByName: searchByName,
+            categoriesIds: categoriesIds,
+            occasionsIds: occasionsIds,
+            priceFrom: priceFrom,
+            priceTo: priceTo,
+            ratings: ratings,
+            type: type ?? ItemType.Services.name.toLowerCase()), onComplete: (res) {
+      if (page != 1) {
+        List<ServiceShowData> list = state.data?.data?.services?.data ?? [];
+        state.data?.data?.services?.data = [...list, ...(res.data?.services?.data ?? [])];
+        state = StateModel.success(state.data);
+      } else {
+        state = StateModel.success(res);
+      }
+      if (state.data?.data?.products?.data.isEmpty == true) {
+        state = StateModel.empty();
+      }
+    });
+  }
+}

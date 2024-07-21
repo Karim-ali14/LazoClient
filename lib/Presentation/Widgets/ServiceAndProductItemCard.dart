@@ -18,6 +18,7 @@ class ServiceAndProductItemCardHorizontal extends StatefulWidget {
   final OnItemClick onAddItemToCart;
   final OnItemClick onAddItemToWishList;
   final OnItemClick onItemClick;
+  final double? width;
   const ServiceAndProductItemCardHorizontal(
       {required this.type,
       super.key,
@@ -25,7 +26,7 @@ class ServiceAndProductItemCardHorizontal extends StatefulWidget {
       this.service,
       required this.onAddItemToCart,
       required this.onAddItemToWishList,
-      required this.onItemClick});
+      required this.onItemClick, this.width});
 
   @override
   State<ServiceAndProductItemCardHorizontal> createState() =>
@@ -37,7 +38,7 @@ class _ServiceAndProductItemCardHorizontalState
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 163,
+      width: widget.width ?? double.infinity,
       child: Stack(children: [
         Container(
           clipBehavior: Clip.antiAlias,
@@ -49,15 +50,15 @@ class _ServiceAndProductItemCardHorizontalState
             children: [
               Skeleton.replace(
                 replacement: Container(
-                  width: MediaQuery.of(context).size.width,
+                  width: double.infinity,
                   height: 121,
                   color: Colors.white,
                 ),
                 child: ImageView(
-                  width: MediaQuery.of(context).size.width,
+                  width: double.infinity,
                   height: 121,
-                  initialImg: widget.type == ItemType.Product
-                      ? widget.product?.images?.first.imagePath
+                  initialImg: widget.type == ItemType.Products
+                      ? widget.product?.images?.isNotEmpty == true ? widget.product?.images?.first.imagePath :""
                       : widget.service?.coverImagePath,
                 ),
               ),
@@ -73,7 +74,7 @@ class _ServiceAndProductItemCardHorizontalState
                         color: Colors.white,
                       ),
                       child: Text(
-                        widget.type == ItemType.Product
+                        widget.type == ItemType.Products
                             ? widget.product?.name ?? ""
                             : widget.service?.name ?? "",
                         style: AppTheme
@@ -93,7 +94,7 @@ class _ServiceAndProductItemCardHorizontalState
                             color: Colors.white,
                           ),
                           child: Text(
-                            "SAR ${widget.type == ItemType.Product ? widget.product?.priceAfterDiscount : widget.service?.priceAfterDiscount}",
+                            "SAR ${widget.type == ItemType.Products ? widget.product?.priceAfterDiscount??"" : widget.service?.priceAfterDiscount??""}",
                             style: AppTheme
                                 .styleWithTextRedAdelleSansExtendedFonts16w500,
                           ),
@@ -101,7 +102,7 @@ class _ServiceAndProductItemCardHorizontalState
                         SizedBox(
                           width: 5,
                         ),
-                        widget.type == ItemType.Product
+                        widget.type == ItemType.Products
                             ? widget.product?.priceAfterDiscount ==
                                     widget.product?.price
                                 ? Skeleton.ignore(
@@ -146,7 +147,7 @@ class _ServiceAndProductItemCardHorizontalState
                                 color: Colors.white,
                               ),
                               child: Text(
-                                widget.type == ItemType.Product
+                                widget.type == ItemType.Products
                                     ? "${widget.product?.overallRating}"
                                     : "${widget.service?.overallRating}",
                                 style: AppTheme
@@ -163,7 +164,7 @@ class _ServiceAndProductItemCardHorizontalState
                             color: Colors.white,
                           ),
                           child: Text(
-                            "(${"${widget.type == ItemType.Product ? "${widget.product?.ratingsCount}" : "${widget.service?.ratingsCount}"}"})",
+                            "(${"${widget.type == ItemType.Products ? "${widget.product?.ratingsCount}" : "${widget.service?.ratingsCount}"}"})",
                             style: AppTheme
                                 .styleWithTextGray7AdelleSansExtendedFonts12w400,
                           ),
@@ -176,20 +177,20 @@ class _ServiceAndProductItemCardHorizontalState
                     Skeleton.leaf(
                       child: AppButton(
                         width: context.getScreenSize.width,
-                        height: 32,
+                        height: 36,
                         onPress: () {
-                          if(widget.type == ItemType.Product
+                          if(widget.type == ItemType.Products
                               && widget.product?.inCart == false ){
                             widget.onAddItemToCart.call(widget.product?.id?.toInt() ?? 0);
                           }
-                          else if(widget.type == ItemType.Service
+                          else if(widget.type == ItemType.Services
                               && widget.service?.inCart == false ){
                             widget.onAddItemToCart.call(widget.product?.id?.toInt() ?? 0);
                           }
                         },
                         child: Skeleton.ignore(
                           child: Text(
-                            widget.type == ItemType.Product
+                            widget.type == ItemType.Products
                                 ? widget.product?.inCart == true
                                     ? "Added"
                                     : "Add to cart"

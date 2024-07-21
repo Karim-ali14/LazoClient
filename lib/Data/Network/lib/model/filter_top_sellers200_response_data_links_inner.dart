@@ -10,12 +10,12 @@
 
 part of openapi.api;
 
-class FilterTopSellers200Response {
-  /// Returns a new [FilterTopSellers200Response] instance.
-  FilterTopSellers200Response({
-    this.message,
-    this.status,
-    this.data,
+class FilterTopSellers200ResponseDataLinksInner {
+  /// Returns a new [FilterTopSellers200ResponseDataLinksInner] instance.
+  FilterTopSellers200ResponseDataLinksInner({
+    this.url,
+    this.label,
+    this.active,
   });
 
   ///
@@ -24,7 +24,7 @@ class FilterTopSellers200Response {
   /// source code must fall back to having a nullable type.
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
-  String? message;
+  String? url;
 
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
@@ -32,7 +32,7 @@ class FilterTopSellers200Response {
   /// source code must fall back to having a nullable type.
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
-  bool? status;
+  String? label;
 
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
@@ -40,48 +40,48 @@ class FilterTopSellers200Response {
   /// source code must fall back to having a nullable type.
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
-  FilterTopSellers200ResponseData? data;
+  bool? active;
 
   @override
-  bool operator ==(Object other) => identical(this, other) || other is FilterTopSellers200Response &&
-     other.message == message &&
-     other.status == status &&
-     other.data == data;
+  bool operator ==(Object other) => identical(this, other) || other is FilterTopSellers200ResponseDataLinksInner &&
+     other.url == url &&
+     other.label == label &&
+     other.active == active;
 
   @override
   int get hashCode =>
     // ignore: unnecessary_parenthesis
-    (message == null ? 0 : message!.hashCode) +
-    (status == null ? 0 : status!.hashCode) +
-    (data == null ? 0 : data!.hashCode);
+    (url == null ? 0 : url!.hashCode) +
+    (label == null ? 0 : label!.hashCode) +
+    (active == null ? 0 : active!.hashCode);
 
   @override
-  String toString() => 'FilterTopSellers200Response[message=$message, status=$status, data=$data]';
+  String toString() => 'FilterTopSellers200ResponseDataLinksInner[url=$url, label=$label, active=$active]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-    if (this.message != null) {
-      json[r'message'] = this.message;
+    if (this.url != null) {
+      json[r'url'] = this.url;
     } else {
-      json[r'message'] = null;
+      json[r'url'] = null;
     }
-    if (this.status != null) {
-      json[r'status'] = this.status;
+    if (this.label != null) {
+      json[r'label'] = this.label;
     } else {
-      json[r'status'] = null;
+      json[r'label'] = null;
     }
-    if (this.data != null) {
-      json[r'data'] = this.data;
+    if (this.active != null) {
+      json[r'active'] = this.active;
     } else {
-      json[r'data'] = null;
+      json[r'active'] = null;
     }
     return json;
   }
 
-  /// Returns a new [FilterTopSellers200Response] instance and imports its values from
+  /// Returns a new [FilterTopSellers200ResponseDataLinksInner] instance and imports its values from
   /// [value] if it's a [Map], null otherwise.
   // ignore: prefer_constructors_over_static_methods
-  static FilterTopSellers200Response? fromJson(dynamic value) {
+  static FilterTopSellers200ResponseDataLinksInner? fromJson(dynamic value) {
     if (value is Map) {
       final json = value.cast<String, dynamic>();
 
@@ -90,26 +90,26 @@ class FilterTopSellers200Response {
       // Note 2: this code is stripped in release mode!
       assert(() {
         requiredKeys.forEach((key) {
-          assert(json.containsKey(key), 'Required key "FilterTopSellers200Response[$key]" is missing from JSON.');
-          assert(json[key] != null, 'Required key "FilterTopSellers200Response[$key]" has a null value in JSON.');
+          assert(json.containsKey(key), 'Required key "FilterTopSellers200ResponseDataLinksInner[$key]" is missing from JSON.');
+          assert(json[key] != null, 'Required key "FilterTopSellers200ResponseDataLinksInner[$key]" has a null value in JSON.');
         });
         return true;
       }());
 
-      return FilterTopSellers200Response(
-        message: mapValueOfType<String>(json, r'message'),
-        status: mapValueOfType<bool>(json, r'status'),
-        data: FilterTopSellers200ResponseData.fromJson(json[r'data']),
+      return FilterTopSellers200ResponseDataLinksInner(
+        url: mapValueOfType<String>(json, r'url'),
+        label: mapValueOfType<String>(json, r'label'),
+        active: mapValueOfType<bool>(json, r'active'),
       );
     }
     return null;
   }
 
-  static List<FilterTopSellers200Response> listFromJson(dynamic json, {bool growable = false,}) {
-    final result = <FilterTopSellers200Response>[];
+  static List<FilterTopSellers200ResponseDataLinksInner> listFromJson(dynamic json, {bool growable = false,}) {
+    final result = <FilterTopSellers200ResponseDataLinksInner>[];
     if (json is List && json.isNotEmpty) {
       for (final row in json) {
-        final value = FilterTopSellers200Response.fromJson(row);
+        final value = FilterTopSellers200ResponseDataLinksInner.fromJson(row);
         if (value != null) {
           result.add(value);
         }
@@ -118,12 +118,12 @@ class FilterTopSellers200Response {
     return result.toList(growable: growable);
   }
 
-  static Map<String, FilterTopSellers200Response> mapFromJson(dynamic json) {
-    final map = <String, FilterTopSellers200Response>{};
+  static Map<String, FilterTopSellers200ResponseDataLinksInner> mapFromJson(dynamic json) {
+    final map = <String, FilterTopSellers200ResponseDataLinksInner>{};
     if (json is Map && json.isNotEmpty) {
       json = json.cast<String, dynamic>(); // ignore: parameter_assignments
       for (final entry in json.entries) {
-        final value = FilterTopSellers200Response.fromJson(entry.value);
+        final value = FilterTopSellers200ResponseDataLinksInner.fromJson(entry.value);
         if (value != null) {
           map[entry.key] = value;
         }
@@ -132,14 +132,14 @@ class FilterTopSellers200Response {
     return map;
   }
 
-  // maps a json object with a list of FilterTopSellers200Response-objects as value to a dart map
-  static Map<String, List<FilterTopSellers200Response>> mapListFromJson(dynamic json, {bool growable = false,}) {
-    final map = <String, List<FilterTopSellers200Response>>{};
+  // maps a json object with a list of FilterTopSellers200ResponseDataLinksInner-objects as value to a dart map
+  static Map<String, List<FilterTopSellers200ResponseDataLinksInner>> mapListFromJson(dynamic json, {bool growable = false,}) {
+    final map = <String, List<FilterTopSellers200ResponseDataLinksInner>>{};
     if (json is Map && json.isNotEmpty) {
       // ignore: parameter_assignments
       json = json.cast<String, dynamic>();
       for (final entry in json.entries) {
-        map[entry.key] = FilterTopSellers200Response.listFromJson(entry.value, growable: growable,);
+        map[entry.key] = FilterTopSellers200ResponseDataLinksInner.listFromJson(entry.value, growable: growable,);
       }
     }
     return map;

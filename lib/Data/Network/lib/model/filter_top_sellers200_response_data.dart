@@ -10,9 +10,9 @@
 
 part of openapi.api;
 
-class FilterTopProductsServices200ResponseDataServices {
-  /// Returns a new [FilterTopProductsServices200ResponseDataServices] instance.
-  FilterTopProductsServices200ResponseDataServices({
+class FilterTopSellers200ResponseData {
+  /// Returns a new [FilterTopSellers200ResponseData] instance.
+  FilterTopSellers200ResponseData({
     this.currentPage,
     this.firstPageUrl,
     this.nextPageUrl,
@@ -109,10 +109,10 @@ class FilterTopProductsServices200ResponseDataServices {
 
   List<FilterTopSellers200ResponseDataLinksInner> links;
 
-  List<ServiceShowData> data;
+  List<ProviderData> data;
 
   @override
-  bool operator ==(Object other) => identical(this, other) || other is FilterTopProductsServices200ResponseDataServices &&
+  bool operator ==(Object other) => identical(this, other) || other is FilterTopSellers200ResponseData &&
      other.currentPage == currentPage &&
      other.firstPageUrl == firstPageUrl &&
      other.nextPageUrl == nextPageUrl &&
@@ -143,7 +143,7 @@ class FilterTopProductsServices200ResponseDataServices {
     (data.hashCode);
 
   @override
-  String toString() => 'FilterTopProductsServices200ResponseDataServices[currentPage=$currentPage, firstPageUrl=$firstPageUrl, nextPageUrl=$nextPageUrl, prevPageUrl=$prevPageUrl, lastPageUrl=$lastPageUrl, lastPage=$lastPage, from=$from, to=$to, path=$path, total=$total, links=$links, data=$data]';
+  String toString() => 'FilterTopSellers200ResponseData[currentPage=$currentPage, firstPageUrl=$firstPageUrl, nextPageUrl=$nextPageUrl, prevPageUrl=$prevPageUrl, lastPageUrl=$lastPageUrl, lastPage=$lastPage, from=$from, to=$to, path=$path, total=$total, links=$links, data=$data]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -202,10 +202,10 @@ class FilterTopProductsServices200ResponseDataServices {
     return json;
   }
 
-  /// Returns a new [FilterTopProductsServices200ResponseDataServices] instance and imports its values from
+  /// Returns a new [FilterTopSellers200ResponseData] instance and imports its values from
   /// [value] if it's a [Map], null otherwise.
   // ignore: prefer_constructors_over_static_methods
-  static FilterTopProductsServices200ResponseDataServices? fromJson(dynamic value) {
+  static FilterTopSellers200ResponseData? fromJson(dynamic value) {
     if (value is Map) {
       final json = value.cast<String, dynamic>();
 
@@ -214,13 +214,13 @@ class FilterTopProductsServices200ResponseDataServices {
       // Note 2: this code is stripped in release mode!
       assert(() {
         requiredKeys.forEach((key) {
-          assert(json.containsKey(key), 'Required key "FilterTopProductsServices200ResponseDataServices[$key]" is missing from JSON.');
-          assert(json[key] != null, 'Required key "FilterTopProductsServices200ResponseDataServices[$key]" has a null value in JSON.');
+          assert(json.containsKey(key), 'Required key "FilterTopSellers200ResponseData[$key]" is missing from JSON.');
+          assert(json[key] != null, 'Required key "FilterTopSellers200ResponseData[$key]" has a null value in JSON.');
         });
         return true;
       }());
 
-      return FilterTopProductsServices200ResponseDataServices(
+      return FilterTopSellers200ResponseData(
         currentPage: json[r'current_page'] == null
             ? null
             : num.parse(json[r'current_page'].toString()),
@@ -240,17 +240,17 @@ class FilterTopProductsServices200ResponseDataServices {
         path: mapValueOfType<String>(json, r'path'),
         total: mapValueOfType<String>(json, r'total'),
         links: FilterTopSellers200ResponseDataLinksInner.listFromJson(json[r'links']),
-        data: ServiceShowData.listFromJson(json[r'data']),
+        data: ProviderData.listFromJson(json[r'data']),
       );
     }
     return null;
   }
 
-  static List<FilterTopProductsServices200ResponseDataServices> listFromJson(dynamic json, {bool growable = false,}) {
-    final result = <FilterTopProductsServices200ResponseDataServices>[];
+  static List<FilterTopSellers200ResponseData> listFromJson(dynamic json, {bool growable = false,}) {
+    final result = <FilterTopSellers200ResponseData>[];
     if (json is List && json.isNotEmpty) {
       for (final row in json) {
-        final value = FilterTopProductsServices200ResponseDataServices.fromJson(row);
+        final value = FilterTopSellers200ResponseData.fromJson(row);
         if (value != null) {
           result.add(value);
         }
@@ -259,12 +259,12 @@ class FilterTopProductsServices200ResponseDataServices {
     return result.toList(growable: growable);
   }
 
-  static Map<String, FilterTopProductsServices200ResponseDataServices> mapFromJson(dynamic json) {
-    final map = <String, FilterTopProductsServices200ResponseDataServices>{};
+  static Map<String, FilterTopSellers200ResponseData> mapFromJson(dynamic json) {
+    final map = <String, FilterTopSellers200ResponseData>{};
     if (json is Map && json.isNotEmpty) {
       json = json.cast<String, dynamic>(); // ignore: parameter_assignments
       for (final entry in json.entries) {
-        final value = FilterTopProductsServices200ResponseDataServices.fromJson(entry.value);
+        final value = FilterTopSellers200ResponseData.fromJson(entry.value);
         if (value != null) {
           map[entry.key] = value;
         }
@@ -273,14 +273,14 @@ class FilterTopProductsServices200ResponseDataServices {
     return map;
   }
 
-  // maps a json object with a list of FilterTopProductsServices200ResponseDataServices-objects as value to a dart map
-  static Map<String, List<FilterTopProductsServices200ResponseDataServices>> mapListFromJson(dynamic json, {bool growable = false,}) {
-    final map = <String, List<FilterTopProductsServices200ResponseDataServices>>{};
+  // maps a json object with a list of FilterTopSellers200ResponseData-objects as value to a dart map
+  static Map<String, List<FilterTopSellers200ResponseData>> mapListFromJson(dynamic json, {bool growable = false,}) {
+    final map = <String, List<FilterTopSellers200ResponseData>>{};
     if (json is Map && json.isNotEmpty) {
       // ignore: parameter_assignments
       json = json.cast<String, dynamic>();
       for (final entry in json.entries) {
-        map[entry.key] = FilterTopProductsServices200ResponseDataServices.listFromJson(entry.value, growable: growable,);
+        map[entry.key] = FilterTopSellers200ResponseData.listFromJson(entry.value, growable: growable,);
       }
     }
     return map;

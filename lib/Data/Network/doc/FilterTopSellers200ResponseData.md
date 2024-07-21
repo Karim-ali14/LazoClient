@@ -1,4 +1,4 @@
-# lazo.model.FilterTopProductsServices200ResponseDataProducts
+# lazo.model.FilterTopSellers200ResponseData
 
 ## Load the model package
 ```dart
@@ -12,14 +12,14 @@ Name | Type | Description | Notes
 **firstPageUrl** | **String** |  | [optional] 
 **nextPageUrl** | **String** |  | [optional] 
 **prevPageUrl** | **String** |  | [optional] 
-**lastPage** | **num** |  | [optional] 
 **lastPageUrl** | **String** |  | [optional] 
+**lastPage** | **num** |  | [optional] 
 **from** | **num** |  | [optional] 
 **to** | **num** |  | [optional] 
 **path** | **String** |  | [optional] 
 **total** | **String** |  | [optional] 
 **links** | [**List<FilterTopSellers200ResponseDataLinksInner>**](FilterTopSellers200ResponseDataLinksInner.md) |  | [optional] [default to const []]
-**data** | [**List<ProviderProduct>**](ProviderProduct.md) |  | [optional] [default to const []]
+**data** | [**List<ProviderData>**](ProviderData.md) |  | [optional] [default to const []]
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

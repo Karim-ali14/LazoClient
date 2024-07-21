@@ -48,4 +48,5 @@ const filterIconSvg = "assets/images/filterIcon.svg";
 const smallStarIconSvg = "assets/images/smallStar.svg";
 const unFavoriteIconSvg = "assets/images/unFavoriteIcon.svg";
 const promotedIconSvg = "assets/images/promotedIcon.svg";
+const noTopSellerDataIconSvg = "assets/images/noTopSellerData.svg";
 

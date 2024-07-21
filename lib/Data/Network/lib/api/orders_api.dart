@@ -262,13 +262,12 @@ class OrdersApi {
   ///
   /// Parameters:
   ///
-  /// * [String] comment:
+  /// * [List<String>] comments:
   ///
-  /// * [String] orderId:
+  /// * [List<String>] orderItemsIds:
   ///
-  /// * [String] rating:
-  ///   From 1 to 5
-  Future<Response> rateOrderWithHttpInfo({ String? comment, String? orderId, String? rating, }) async {
+  /// * [List<String>] ratings:
+  Future<Response> rateOrderWithHttpInfo({ List<String>? comments, List<String>? orderItemsIds, List<String>? ratings, }) async {
     // ignore: prefer_const_declarations
     final path = r'/client/order/rating';
 
@@ -283,17 +282,17 @@ class OrdersApi {
 
     bool hasFields = false;
     final mp = MultipartRequest('POST', Uri.parse(path));
-    if (comment != null) {
+    if (comments != null) {
       hasFields = true;
-      mp.fields[r'comment'] = parameterToString(comment);
+      mp.fields[r'comments'] = parameterToString(comments);
     }
-    if (orderId != null) {
+    if (orderItemsIds != null) {
       hasFields = true;
-      mp.fields[r'order_id'] = parameterToString(orderId);
+      mp.fields[r'order_items_ids'] = parameterToString(orderItemsIds);
     }
-    if (rating != null) {
+    if (ratings != null) {
       hasFields = true;
-      mp.fields[r'rating'] = parameterToString(rating);
+      mp.fields[r'ratings'] = parameterToString(ratings);
     }
     if (hasFields) {
       postBody = mp;
@@ -316,14 +315,13 @@ class OrdersApi {
   ///
   /// Parameters:
   ///
-  /// * [String] comment:
+  /// * [List<String>] comments:
   ///
-  /// * [String] orderId:
+  /// * [List<String>] orderItemsIds:
   ///
-  /// * [String] rating:
-  ///   From 1 to 5
-  Future<ClientOrderDetails?> rateOrder({ String? comment, String? orderId, String? rating, }) async {
-    final response = await rateOrderWithHttpInfo( comment: comment, orderId: orderId, rating: rating, );
+  /// * [List<String>] ratings:
+  Future<ClientOrderDetails?> rateOrder({ List<String>? comments, List<String>? orderItemsIds, List<String>? ratings, }) async {
+    final response = await rateOrderWithHttpInfo( comments: comments, orderItemsIds: orderItemsIds, ratings: ratings, );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
