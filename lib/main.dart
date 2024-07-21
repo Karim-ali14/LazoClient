@@ -3,6 +3,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:lazo_client/Presentation/Screens/FilterScreen.dart';
 import 'package:lazo_client/Presentation/Screens/Auth/LoginSreen.dart';
 import 'package:lazo_client/Presentation/Screens/Auth/SignUpScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -151,7 +152,7 @@ class MyApp extends ConsumerWidget {
       GoRoute(
         path: R_HomeScreen,
         builder: (BuildContext context, GoRouterState state) =>
-            const ShowProductAndServiceScreen("fsd;fa;", CategoryType.Categories, 32),
+            const FilterScreen(),
       ),
       GoRoute(
           path: R_LoginScreen,

@@ -23,6 +23,8 @@ class AppTextField extends StatefulWidget {
   final VoidCallback? onClick;
   final TextInputAction? textInputAction;
   final TextStyle? style;
+  final TextStyle? hintStyle;
+  final TextStyle? labelStyle;
   final String? endText;
   final String? Function(String?)? validate;
   final TextInputFormatter? mask;
@@ -45,7 +47,7 @@ class AppTextField extends StatefulWidget {
       this.changeValueCallback,
       this.mask,
       required this.textEditingController,
-      this.textFieldColor, this.textInputAction, this.textFieldBorderColor, this.disabled, this.onClick, this.endText, this.validate, this.mode, this.readOnly = false, this.endWidget, this.startWidget})
+      this.textFieldColor, this.textInputAction, this.textFieldBorderColor, this.disabled, this.onClick, this.endText, this.validate, this.mode, this.readOnly = false, this.endWidget, this.startWidget, this.hintStyle, this.labelStyle})
       : super(key: key);
 
   @override
@@ -90,13 +92,14 @@ class _AppTextFieldState extends State<AppTextField> {
                 suffixText: widget.endText,
                 labelText: widget.label,
                 hintText: widget.hint,
+                hintStyle: widget.hintStyle,
                 prefixIcon: widget.startWidget,
                 suffixIcon:  widget.secured!
                     ? IconButton(
                   onPressed: () => setState(() => _visiblePassword = !_visiblePassword),
                   icon: Icon(_visiblePassword ? Icons.visibility_off : Icons.visibility),color: Colors.grey,)
                     : widget.endWidget,
-                labelStyle: TextStyle(
+                labelStyle: widget.labelStyle ?? TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.w100,
                     color: Theme.of(context).textTheme.bodyMedium!.color),

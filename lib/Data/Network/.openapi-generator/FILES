@@ -281,4 +281,3 @@ lib/model/update_profile200_response_data_city.dart
 lib/model/upload_files.dart
 lib/model/upload_files_response.dart
 pubspec.yaml
-test/product_details_ratings_inner_test.dart
