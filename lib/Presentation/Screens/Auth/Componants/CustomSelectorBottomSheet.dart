@@ -179,6 +179,7 @@ class _CustomSelectorBottomSheetState
                                   Transform.scale(
                                     scale: 1,
                                     child: Checkbox(
+                                        visualDensity: VisualDensity(horizontal: -4,),
                                         activeColor: AppTheme.mainAppColor,
                                         fillColor:
                                             MaterialStateProperty.resolveWith(
@@ -199,9 +200,6 @@ class _CustomSelectorBottomSheetState
                                         value: list.isNotEmpty
                                             ? list[index].isChecked
                                             : false),
-                                  ),
-                                  const SizedBox(
-                                    width: 2,
                                   ),
                                   list[index].widget ?? const SizedBox(),
                                   const SizedBox(

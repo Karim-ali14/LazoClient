@@ -1,7 +1,6 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lazo_client/Constants/Eunms.dart';
 import 'package:lazo_client/Data/Models/FilterData.dart';
@@ -28,9 +27,15 @@ class FilterScreen extends ConsumerStatefulWidget {
 class _FilterScreenState extends ConsumerState<FilterScreen> {
   List<ItemSelector> categoriesList = [];
   List<ItemSelector> occasionsList = [];
+  List<int> mainRatingList = [1, 2, 3, 4, 5];
+  List<ItemSelector> ratingsList = [1, 2, 3, 4, 5]
+      .map((item) => ItemSelector(item, "$item/5", SVGIcons.smallStarIcon(),
+          isChecked: false))
+      .toList();
   final TextEditingController promotionTextController = TextEditingController();
   final TextEditingController categoryTextController = TextEditingController();
   final TextEditingController occasionTextController = TextEditingController();
+  final TextEditingController ratingsTextController = TextEditingController();
   int? promotionSelected = null;
   List<int>? categoriesSelected = null;
   List<int>? occasionsSelected = null;
@@ -150,10 +155,10 @@ class _FilterScreenState extends ConsumerState<FilterScreen> {
               onTap: () {
                 showOccasionsBottomSheet(context, occasionsList,
                     afterSuccessSelectMultiItems: (items) {
-                      occasionsSelected = items;
-                      setDefaultOccasionsText(
-                          occasionsState.data?.data ?? [], items);
-                    });
+                  occasionsSelected = items;
+                  setDefaultOccasionsText(
+                      occasionsState.data?.data ?? [], items);
+                });
               },
               child: AppTextField(
                 readOnly: true,
@@ -171,17 +176,28 @@ class _FilterScreenState extends ConsumerState<FilterScreen> {
             SizedBox(
               height: 16,
             ),
-            AppTextField(
-              readOnly: true,
-              disabled: true,
-              hint: "Rating",
-              style: AppTheme.styleWithTextBlackAdelleSansExtendedFonts16w500,
-              textFieldBorderColor: AppTheme.appGrey8,
-              label: "Rating",
-              labelStyle:
-                  AppTheme.styleWithTextBlackAdelleSansExtendedFonts16w500,
-              textEditingController: promotionTextController,
-              endWidget: SVGIcons.rightIcon(),
+            InkWell(
+              onTap: () {
+                showRatingsBottomSheet(context, ratingsList,
+                    afterSuccessSelectMultiItems: (items) {
+                  ratingSelected = items;
+                  setDefaultRatingsText(mainRatingList, items);
+                  // setDefaultOccasionsText(
+                  //     occasionsState.data?.data ?? [], items);
+                });
+              },
+              child: AppTextField(
+                readOnly: true,
+                disabled: true,
+                hint: "Rating",
+                style: AppTheme.styleWithTextBlackAdelleSansExtendedFonts16w500,
+                textFieldBorderColor: AppTheme.appGrey8,
+                label: "Rating",
+                labelStyle:
+                    AppTheme.styleWithTextBlackAdelleSansExtendedFonts16w500,
+                textEditingController: ratingsTextController,
+                endWidget: SVGIcons.rightIcon(),
+              ),
             ),
             SizedBox(height: 24),
             AppButton(
@@ -192,7 +208,9 @@ class _FilterScreenState extends ConsumerState<FilterScreen> {
                       .read(filterForSellerStateNotifiers.notifier)
                       .applyDataFilter(
                           promotionSelected: promotionSelected,
-                          categoriesIdsSelected: categoriesSelected);
+                          categoriesIdsSelected: categoriesSelected,
+                          occasionsIdsSelected: occasionsSelected,
+                          ratingValueSelected: ratingSelected);
                 },
                 text: "Apply")
           ],
@@ -287,6 +305,33 @@ class _FilterScreenState extends ConsumerState<FilterScreen> {
         });
   }
 
+  void showRatingsBottomSheet(BuildContext context, List<ItemSelector> list,
+      {Function(List<int>)? afterSuccessSelectMultiItems}) {
+    showModalBottomSheet(
+        context: context,
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(10), topRight: Radius.circular(10))),
+        builder: (BuildContext context) {
+          return CustomSelectorBottomSheet(
+              context: context,
+              btuName: "Choose",
+              enableSearch: false,
+              title: "Choose Ratings",
+              widgetList: list,
+              searchHint: "Search by",
+              itemSelectedIds: ratingSelected,
+              isSingleSelect: false,
+              onSelectMultiItemsCallback: (items) {
+                afterSuccessSelectMultiItems?.call(items);
+                Navigator.pop(context);
+              },
+              onSelectItemCallback: (itemid) {
+                Navigator.pop(context);
+              });
+        });
+  }
+
   void setDefaultCategoriesText(
       List<Category> mainCategoriesList, List<int> items) {
     var text = mainCategoriesList
@@ -300,8 +345,8 @@ class _FilterScreenState extends ConsumerState<FilterScreen> {
             .join(", ") ??
         "";
     print(text);
-    if (text.length >= 47) {
-      text = "${text.substring(0, 46)}...";
+    if (text.length >= 45) {
+      text = "${text.substring(0, 44)}...";
     }
     categoryTextController.text = text;
   }
@@ -319,10 +364,32 @@ class _FilterScreenState extends ConsumerState<FilterScreen> {
             .join(", ") ??
         "";
     print(text);
-    if (text.length >= 47) {
-      text = "${text.substring(0, 46)}...";
+    if (text.length >= 45) {
+      text = "${text.substring(0, 44)}...";
     }
     occasionTextController.text = text;
+  }
+
+  void setDefaultRatingsText(List<int> mainCategoriesList, List<int> items) {
+    try {
+      var text = mainCategoriesList
+          .where((item) =>
+      items.any((id) {
+        print("$id == $item : ${id == item}");
+        return id == item;
+      }) ??
+          false)
+          .map((item) => "${item}/5")
+          .join(", ") ??
+          "";
+      print(text);
+      if (text.length >= 45) {
+        text = "${text.substring(0, 44)}...";
+      }
+      ratingsTextController.text = text;
+    }catch(e){
+      print(" dsfafasdfa $e");
+    }
   }
 
   void setDefaultData() {
@@ -336,6 +403,8 @@ class _FilterScreenState extends ConsumerState<FilterScreen> {
         categoriesSelected ?? []);
     setDefaultOccasionsText(
         ref.watch(getOccasionsDataStateNotifiers).data?.data ?? [],
-        categoriesSelected ?? []);
+        occasionsSelected ?? []);
+
+    setDefaultRatingsText(mainRatingList, ratingSelected ?? []);
   }
 }
