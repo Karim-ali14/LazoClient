@@ -152,7 +152,7 @@ class MyApp extends ConsumerWidget {
       GoRoute(
         path: R_HomeScreen,
         builder: (BuildContext context, GoRouterState state) =>
-            const FilterScreen(),
+            const ShowTopSellers(),
       ),
       GoRoute(
           path: R_LoginScreen,
@@ -169,6 +169,13 @@ class MyApp extends ConsumerWidget {
           path: R_SignUp,
           builder: (BuildContext context, GoRouterState state) {
             return const SignUpScreen();
+          }
+      ),
+      GoRoute(
+          path: R_FilterScreen,
+          builder: (BuildContext context, GoRouterState state) {
+            var extra = state.extra as Map;
+            return FilterScreen(type: extra["type"] as FilterScreenTypes);
           }
       ),
     ],

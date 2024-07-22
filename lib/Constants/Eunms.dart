@@ -32,3 +32,7 @@ enum ItemType {
 enum CategoryType {
   Categories,Occasions
 }
+
+enum FilterScreenTypes {
+  Services,Products,Sellers
+}

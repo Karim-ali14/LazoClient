@@ -13,6 +13,7 @@ const R_OnBoardingScreen = '/onBoardingScreen';
 const R_LoginScreen = '/LoginScreen';
 const R_SignUp = '/SignUp';
 const R_HomeScreen = '/HomeScreen';
+const R_FilterScreen = '/FilterScreen';
 //EXTRAS
 const userKey = "LazoClientKey";
 

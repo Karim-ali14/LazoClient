@@ -10,6 +10,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **createdAt** | **String** |  | [optional] 
 **id** | **num** |  | [optional] 
+**isChecked** | **bool** |  | [optional] 
 **image** | **String** |  | [optional] 
 **imagePath** | **String** |  | [optional] 
 **name** | **String** |  | [optional] 

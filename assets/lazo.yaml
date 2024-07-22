@@ -1391,6 +1391,8 @@ components:
         id:
           type: number
           example: 1
+        isChecked:
+          type: boolean
         image:
           type: string
           example: uploads/files/04-2024/1713354063L6Sxt2kHExLiW2p.png
@@ -1416,6 +1418,8 @@ components:
           id:
             type: number
             example: 1
+          isChecked:
+            type: boolean
           name_en:
             type: string
             example: food

@@ -23,6 +23,7 @@ class CustomSelectorBottomSheet extends ConsumerStatefulWidget {
   List<ItemSelector> filterWidgetList = [];
   String searchValue = "";
   int? itemSelectedId;
+  List<int>? itemSelectedIds;
   final bool isSingleSelect;
   final OnSelectItemCallback onSelectItemCallback;
   final OnSelectMultiItemsCallback onSelectMultiItemsCallback;
@@ -35,6 +36,7 @@ class CustomSelectorBottomSheet extends ConsumerStatefulWidget {
       required this.widgetList,
       this.searchHint,
       this.itemSelectedId,
+      this.itemSelectedIds,
       required this.isSingleSelect,
       required this.onSelectMultiItemsCallback,
       required this.onSelectItemCallback});
@@ -50,6 +52,9 @@ class _CustomSelectorBottomSheetState
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      if(widget.itemSelectedIds?.isNotEmpty == true){
+        widget.widgetList.forEach((item) => item.isChecked = widget.itemSelectedIds?.any((id) => id == item.id));
+      }
       ref
           .read(searchFilterStateNotifier.notifier)
           .updateList(widget.widgetList);
@@ -136,11 +141,11 @@ class _CustomSelectorBottomSheetState
                                         }),
                                   ),
                                   const SizedBox(
-                                    width: 8,
+                                    width: 2,
                                   ),
                                   list[index].widget ?? const SizedBox(),
                                   const SizedBox(
-                                    width: 8,
+                                    width: 2,
                                   ),
                                   Expanded(
                                       child: Text(
@@ -196,11 +201,11 @@ class _CustomSelectorBottomSheetState
                                             : false),
                                   ),
                                   const SizedBox(
-                                    width: 8,
+                                    width: 2,
                                   ),
                                   list[index].widget ?? const SizedBox(),
                                   const SizedBox(
-                                    width: 8,
+                                    width: 2,
                                   ),
                                   Expanded(
                                       child: Text(list[index].text,

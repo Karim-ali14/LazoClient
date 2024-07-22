@@ -23,7 +23,8 @@ class AppSearchBarWithFilter extends StatefulWidget {
       {super.key,
       required this.hasFilter,
       required this.onFilterClick,
-      this.onTextChangeListener, this.delay});
+      this.onTextChangeListener,
+      this.delay});
 
   @override
   State<AppSearchBarWithFilter> createState() => _AppSearchBarWithFilterState();
@@ -42,7 +43,7 @@ class _AppSearchBarWithFilterState extends State<AppSearchBarWithFilter> {
   void executeAfterDelay(value) {
     _timer?.cancel(); // Cancel previous timer if it exists
 
-    _timer = Timer(Duration(seconds: widget.delay??0), () {
+    _timer = Timer(Duration(seconds: widget.delay ?? 0), () {
       widget.onTextChangeListener?.call(value);
     });
   }
@@ -80,15 +81,20 @@ class _AppSearchBarWithFilterState extends State<AppSearchBarWithFilter> {
               )
             : SizedBox(),
         widget.hasFilter
-            ? Container(
-                height: 50,
-                width: 50,
-                decoration: BoxDecoration(
-                  color: AppTheme.mainAppColorLight2,
-                  borderRadius: BorderRadius.circular(4),
-                ),
-                child: Center(
-                  child: SVGIcons.filterIcon(),
+            ? InkWell(
+                onTap: () {
+                  widget.onFilterClick.call();
+                },
+                child: Container(
+                  height: 50,
+                  width: 50,
+                  decoration: BoxDecoration(
+                    color: AppTheme.mainAppColorLight2,
+                    borderRadius: BorderRadius.circular(4),
+                  ),
+                  child: Center(
+                    child: SVGIcons.filterIcon(),
+                  ),
                 ),
               )
             : SizedBox()

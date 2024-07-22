@@ -14,6 +14,7 @@ class Category {
   /// Returns a new [Category] instance.
   Category({
     this.id,
+    this.isChecked,
     this.nameEn,
     this.nameAr,
     this.name,
@@ -32,6 +33,14 @@ class Category {
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
   num? id;
+
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  bool? isChecked;
 
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
@@ -108,6 +117,7 @@ class Category {
   @override
   bool operator ==(Object other) => identical(this, other) || other is Category &&
      other.id == id &&
+     other.isChecked == isChecked &&
      other.nameEn == nameEn &&
      other.nameAr == nameAr &&
      other.name == name &&
@@ -122,6 +132,7 @@ class Category {
   int get hashCode =>
     // ignore: unnecessary_parenthesis
     (id == null ? 0 : id!.hashCode) +
+    (isChecked == null ? 0 : isChecked!.hashCode) +
     (nameEn == null ? 0 : nameEn!.hashCode) +
     (nameAr == null ? 0 : nameAr!.hashCode) +
     (name == null ? 0 : name!.hashCode) +
@@ -133,7 +144,7 @@ class Category {
     (updatedAt == null ? 0 : updatedAt!.hashCode);
 
   @override
-  String toString() => 'Category[id=$id, nameEn=$nameEn, nameAr=$nameAr, name=$name, image=$image, servicesCount=$servicesCount, productsCount=$productsCount, imagePath=$imagePath, createdAt=$createdAt, updatedAt=$updatedAt]';
+  String toString() => 'Category[id=$id, isChecked=$isChecked, nameEn=$nameEn, nameAr=$nameAr, name=$name, image=$image, servicesCount=$servicesCount, productsCount=$productsCount, imagePath=$imagePath, createdAt=$createdAt, updatedAt=$updatedAt]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -141,6 +152,11 @@ class Category {
       json[r'id'] = this.id;
     } else {
       json[r'id'] = null;
+    }
+    if (this.isChecked != null) {
+      json[r'isChecked'] = this.isChecked;
+    } else {
+      json[r'isChecked'] = null;
     }
     if (this.nameEn != null) {
       json[r'name_en'] = this.nameEn;
@@ -212,6 +228,7 @@ class Category {
         id: json[r'id'] == null
             ? null
             : num.parse(json[r'id'].toString()),
+        isChecked: mapValueOfType<bool>(json, r'isChecked'),
         nameEn: mapValueOfType<String>(json, r'name_en'),
         nameAr: mapValueOfType<String>(json, r'name_ar'),
         name: mapValueOfType<String>(json, r'name'),

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:lazo_client/Constants.dart';
 import 'package:lazo_client/Data/Models/StateModel.dart';
 import 'package:lazo_client/Data/Network/lib/api.dart';
 import 'package:lazo_client/Presentation/Theme/AppTheme.dart';
@@ -10,6 +12,7 @@ import 'package:lazo_client/Presentation/Widgets/SellerItemCard.dart';
 import 'package:lazo_client/Presentation/Widgets/SvgIcons.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
+import '../../../Constants/Eunms.dart';
 import '../../StateNotifiersViewModel/PublicStateNotifiers.dart';
 import '../../Widgets/SearchWithFilter.dart';
 
@@ -42,7 +45,11 @@ class _ShowTopSellersState extends ConsumerState<ShowTopSellers> {
               padding: const EdgeInsets.all(16.0),
               child: AppSearchBarWithFilter(
                 hasFilter: true,
-                onFilterClick: () {},
+                onFilterClick: () {
+                  context.push(
+                    R_FilterScreen,extra: {"type":FilterScreenTypes.Sellers}
+                  );
+                },
                 delay: 1,
                 onTextChangeListener: (value) {
                   currentPage = 1;

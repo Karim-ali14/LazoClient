@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lazo_client/Data/Models/FilterData.dart';
 import 'package:lazo_client/Data/Models/StateModel.dart';
 import 'package:lazo_client/Doman/CommenProviders/ApiProvider.dart';
 import 'package:lazo_client/Doman/useCases/PublicUseCases.dart';
@@ -25,17 +26,26 @@ final getOccasionsDataStateNotifiers =
     StateNotifierProvider<GetOccasionsUseCase, StateModel<OccasionsResponse>>(
         (ref) => GetOccasionsUseCase(ref, ref.read(publicApi)));
 
-final getTopSellersDataStateNotifiers =
-    StateNotifierProvider<GetTopSellersUseCase, StateModel<FilterTopSellers200Response>>(
-        (ref) => GetTopSellersUseCase(ref, ref.read(publicApi)));
+final getTopSellersDataStateNotifiers = StateNotifierProvider<
+        GetTopSellersUseCase, StateModel<FilterTopSellers200Response>>(
+    (ref) => GetTopSellersUseCase(ref, ref.read(publicApi)));
 
-final getProductsStateNotifiers =
-    StateNotifierProvider<GetProductsUseCase, StateModel<FilterTopProductsServices200Response>>(
-        (ref) => GetProductsUseCase(ref, ref.read(publicApi)));
+final getProductsStateNotifiers = StateNotifierProvider<GetProductsUseCase,
+        StateModel<FilterTopProductsServices200Response>>(
+    (ref) => GetProductsUseCase(ref, ref.read(publicApi)));
 
-final getServicesStateNotifiers =
-    StateNotifierProvider<GetServicesUseCase, StateModel<FilterTopProductsServices200Response>>(
-        (ref) => GetServicesUseCase(ref, ref.read(publicApi)));
+final getServicesStateNotifiers = StateNotifierProvider<GetServicesUseCase,
+        StateModel<FilterTopProductsServices200Response>>(
+    (ref) => GetServicesUseCase(ref, ref.read(publicApi)));
 
+final filterForProductStateNotifiers =
+    StateNotifierProvider<FilterDataUseCase, FilterData>(
+        (ref) => FilterDataUseCase(ref));
 
+final filterForServiceStateNotifiers =
+    StateNotifierProvider<FilterDataUseCase, FilterData>(
+        (ref) => FilterDataUseCase(ref));
 
+final filterForSellerStateNotifiers =
+    StateNotifierProvider<FilterDataUseCase, FilterData>(
+        (ref) => FilterDataUseCase(ref));

@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lazo_client/Data/Models/FilterData.dart';
 import 'package:lazo_client/Data/Models/StateModel.dart';
 import 'package:lazo_client/Data/Network/lib/api.dart';
 import 'package:lazo_client/Doman/CommenProviders/ApiProvider.dart';
@@ -45,6 +46,32 @@ class GetCategoriesUseCase
     final filterList =
         list.where((item) => item.name?.contains(value) ?? false);
     state.data?.data = [...filterList];
+    print(state.data?.data.isNotEmpty);
+    if (state.data?.data.isNotEmpty == true) {
+      state = StateModel.success(state.data);
+    } else {
+      state = StateModel.empty(data: state.data);
+    }
+  }
+
+  void selectCategoriesInMainList(List<int> idsList) {
+    list.forEach((item) {
+      item.isChecked = idsList.any((id) => id == item.id);
+    });
+    state.data?.data = [...list];
+    print(state.data?.data.isNotEmpty);
+    if (state.data?.data.isNotEmpty == true) {
+      state = StateModel.success(state.data);
+    } else {
+      state = StateModel.empty(data: state.data);
+    }
+  }
+
+  void resetMainList(List<int> idsList) {
+    list.forEach((item) {
+      item.isChecked = false;
+    });
+    state.data?.data = [...list];
     print(state.data?.data.isNotEmpty);
     if (state.data?.data.isNotEmpty == true) {
       state = StateModel.success(state.data);
@@ -137,10 +164,14 @@ class GetProductsUseCase
             priceFrom: priceFrom,
             priceTo: priceTo,
             ratings: ratings,
-            type: type ?? ItemType.Products.name.toLowerCase()), onComplete: (res) {
+            type: type ?? ItemType.Products.name.toLowerCase()),
+        onComplete: (res) {
       if (page != 1) {
         List<ProviderProduct> list = state.data?.data?.products?.data ?? [];
-        state.data?.data?.products?.data = [...list, ...(res.data?.products?.data ?? [])];
+        state.data?.data?.products?.data = [
+          ...list,
+          ...(res.data?.products?.data ?? [])
+        ];
         state = StateModel.success(state.data);
       } else {
         state = StateModel.success(res);
@@ -180,10 +211,14 @@ class GetServicesUseCase
             priceFrom: priceFrom,
             priceTo: priceTo,
             ratings: ratings,
-            type: type ?? ItemType.Services.name.toLowerCase()), onComplete: (res) {
+            type: type ?? ItemType.Services.name.toLowerCase()),
+        onComplete: (res) {
       if (page != 1) {
         List<ServiceShowData> list = state.data?.data?.services?.data ?? [];
-        state.data?.data?.services?.data = [...list, ...(res.data?.services?.data ?? [])];
+        state.data?.data?.services?.data = [
+          ...list,
+          ...(res.data?.services?.data ?? [])
+        ];
         state = StateModel.success(state.data);
       } else {
         state = StateModel.success(res);
@@ -193,4 +228,23 @@ class GetServicesUseCase
       }
     });
   }
+}
+
+class FilterDataUseCase extends StateNotifier<FilterData> {
+  final Ref ref;
+  FilterDataUseCase(this.ref) : super(FilterData());
+
+  void applyDataFilter(
+      {int? promotionSelected,
+      List<int>? categoriesIdsSelected,
+      List<int>? occasionsIdsSelected,
+      List<int>? ratingValueSelected}) {
+    state = FilterData(
+      promotionSelected: promotionSelected,
+      categoriesIdsSelected: categoriesIdsSelected,
+      occasionsIdsSelected: occasionsIdsSelected,
+      ratingValueSelected: ratingValueSelected
+    );
+  }
+
 }
