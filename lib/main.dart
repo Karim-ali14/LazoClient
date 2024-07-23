@@ -19,6 +19,7 @@ import 'Presentation/Screens/home/HomeScreen.dart';
 import 'Presentation/Screens/home/ShowAllCategoryAndOccasionsData.dart';
 import 'Presentation/Screens/home/ShowProductAndServiceScreen.dart';
 import 'Presentation/Screens/home/ShowTopSellers.dart';
+import 'Presentation/Screens/mainScreen/MainScreen.dart';
 import 'Presentation/Screens/onbaording/OnBordingScreen.dart';
 
 late SharedPreferences prefs;
@@ -152,7 +153,12 @@ class MyApp extends ConsumerWidget {
       GoRoute(
         path: R_HomeScreen,
         builder: (BuildContext context, GoRouterState state) =>
-            const ShowTopSellers(),
+            const HomeScreen(),
+      ),
+      GoRoute(
+        path: R_MainScreen,
+        builder: (BuildContext context, GoRouterState state) =>
+            const MainScreen(),
       ),
       GoRoute(
           path: R_LoginScreen,

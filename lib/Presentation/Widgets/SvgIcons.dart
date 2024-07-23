@@ -118,10 +118,59 @@ class SVGIcons {
     );
   }
 
+  static Widget notificationSvgIcon(){
+    return SvgPicture.asset(
+        notificationIconSvg
+    );
+  }
+
+  static Widget smallLocationIcon(){
+    return SvgPicture.asset(
+        smallLocationIconSvg
+    );
+  }
+
   static Widget onBoardingThreeIcon(){
     return SvgPicture.asset(
         onBoardingThreeIconSvg
     );
   }
+
+  static Widget homeActiveIcon(){
+    return SvgPicture.asset(
+      homeActiveImg,
+    );
+  }
+
+  static Widget homeUnActiveIcon(){
+    return SvgPicture.asset(
+        homeUnActiveImg
+    );
+  }
+
+  static Widget notificationActiveIcon(){
+    return SvgPicture.asset(
+        notificationActiveImg
+    );
+  }
+
+  static Widget notificationUnActiveIcon(){
+    return SvgPicture.asset(
+        notificationUnActiveImg
+    );
+  }
+
+  static Widget moreActiveIcon(){
+    return SvgPicture.asset(
+        moreActiveImg
+    );
+  }
+
+  static Widget moreUnActiveIcon(){
+    return SvgPicture.asset(
+        moreUnActiveImg
+    );
+  }
+
 
 }
