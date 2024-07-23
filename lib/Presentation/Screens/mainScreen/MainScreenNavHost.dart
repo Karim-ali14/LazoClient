@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lazo_client/Presentation/Screens/home/HomeScreen.dart';
 import 'package:lazo_client/Presentation/StateNotifiersViewModel/UserAuthStateNotifiers.dart';
@@ -18,8 +19,8 @@ class MainScreenNavHost extends ConsumerStatefulWidget {
 }
 
 class _MainScreenNavHostState extends ConsumerState<MainScreenNavHost> {
-  Widget homeScreen = const HomeScreen();
-  int currentScreen = 0;
+  int currentTab = 0;
+  Widget currentScreen = HomeScreen();
   final listTabsName = ["Home", "orders", "more"];
 
   @override
@@ -30,15 +31,64 @@ class _MainScreenNavHostState extends ConsumerState<MainScreenNavHost> {
           preferredSize: const Size.fromHeight(60),
           child: CustomAppBar(
             appContext: context,
-            title: currentScreen == 0
+            title: currentTab == 0
                 ? client == null
                     ? "Hi There"
                     : "Hi ${client.client?.name}"
-                : listTabsName[currentScreen],
+                : listTabsName[currentTab],
             isCenter: false,
             navigated: false,
-            trailingWidget: AppBarTrailing(currentTab: currentScreen),
+            trailingWidget: AppBarTrailing(currentTab: currentTab),
           )),
+      body: currentScreen,
+      bottomNavigationBar: Container(
+        decoration: BoxDecoration(boxShadow: [
+          BoxShadow(
+              color: Colors.grey[100]!,
+              blurRadius: 20,
+              spreadRadius: 2,
+              offset: Offset(0, -1))
+        ]),
+        child: BottomAppBar(
+          elevation: 20,
+          child: SizedBox(
+            height: 60,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                MaterialButton(
+                  minWidth: 40,
+                  onPressed: () {
+                    setState(() {
+                      currentTab = 0;
+                      currentScreen = HomeScreen();
+                    });
+                  },
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      currentTab == 0
+                          ? SVGIcons.homeActiveIcon()
+                          : SVGIcons.homeUnActiveIcon(),
+                      SizedBox(
+                        height: 3,
+                      ),
+                      Text(
+                        listTabsName[currentTab],
+                        style: currentTab == 0
+                            ? AppTheme
+                                .styleWithTextRedAdelleSansExtendedFonts11w500
+                            : AppTheme
+                                .styleWithTextGray7AdelleSansExtendedFonts11w500,
+                      )
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
     );
   }
 }
@@ -86,9 +136,7 @@ class AppBarTrailing extends StatelessWidget {
                       height: 6,
                       width: 6,
                       decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: AppTheme.mainAppColor
-                      ),
+                          shape: BoxShape.circle, color: AppTheme.mainAppColor),
                     ),
                   )
                 ]),
