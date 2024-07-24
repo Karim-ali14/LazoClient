@@ -117,9 +117,9 @@ class GetTopSellersUseCase
   void getTopSellersData(
       {num? page,
       String? searchByName,
-      List<String>? categoriesIds,
+      List<int>? categoriesIds,
       String? isPromoted,
-      List<String>? occasionsIds,
+      List<int>? occasionsIds,
       List<String>? ratings}) async {
     state = page != 1
         ? StateModel(data: state.data, state: DataState.MORE_LOADING)
@@ -128,8 +128,8 @@ class GetTopSellersUseCase
         () => publicApi.filterTopSellers(
             page: page,
             searchByName: searchByName,
-            categoriesIds: categoriesIds,
-            occasionsIds: occasionsIds,
+            categoriesIds: categoriesIds?.map((item) => item.toString()).toList(),
+            occasionsIds: occasionsIds?.map((item) => item.toString()).toList(),
             ratings: ratings,
             isPromoted: isPromoted), onComplete: (res) {
       if (page != 1) {

@@ -5,11 +5,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:lazo_client/Presentation/Widgets/CustomAppBar.dart';
 import 'package:lazo_client/Presentation/Widgets/SellerItemCard.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
+import '../../../Constants.dart';
 import '../../../Constants/Eunms.dart';
+import '../../../Data/Models/FilterData.dart';
 import '../../../Data/Models/StateModel.dart';
 import '../../../Data/Network/lib/api.dart';
 import '../../StateNotifiersViewModel/PublicStateNotifiers.dart';
@@ -26,12 +29,10 @@ class SearchScreen extends ConsumerStatefulWidget {
       {required this.title, required this.type, required this.id, super.key});
 
   @override
-  ConsumerState<SearchScreen> createState() =>
-      _SearchScreenState();
+  ConsumerState<SearchScreen> createState() => _SearchScreenState();
 }
 
-class _SearchScreenState
-    extends ConsumerState<SearchScreen>
+class _SearchScreenState extends ConsumerState<SearchScreen>
     with SingleTickerProviderStateMixin {
   late TabController tabController;
   int activeTabIndex = 0;
@@ -40,9 +41,12 @@ class _SearchScreenState
   var currentPageForServices = 1;
   var currentPageForSellers = 1;
 
+  FilterData? filterForProductData = null;
+  FilterData? filterForServicesData = null;
+  FilterData? filterForSellersData = null;
+
   @override
   void initState() {
-    print("occasionId : ${widget.id}");
     tabController = TabController(
         length: widget.type == CategoryType.Search ? 3 : 2, vsync: this);
     tabController.addListener(() {
@@ -51,42 +55,15 @@ class _SearchScreenState
       });
     });
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      ref.read(getProductsStateNotifiers.notifier).getProductsData(
-          page: currentPageForProducts,
-          categoriesIds: widget.type == CategoryType.Categories ||
-                  widget.type == CategoryType.Search
-              ? widget.type == CategoryType.Categories
-                  ? [widget.id]
-                  : []
-              : null,
-          occasionsIds: widget.type == CategoryType.Occasions ||
-                  widget.type == CategoryType.Search
-              ? widget.type == CategoryType.Occasions
-                  ? [widget.id]
-                  : []
-              : null,
-          type: ItemType.Products.name.toLowerCase());
-      ref.read(getServicesStateNotifiers.notifier).getServicesData(
-          page: currentPageForServices,
-          categoriesIds: widget.type == CategoryType.Categories ||
-                  widget.type == CategoryType.Search
-              ? widget.type == CategoryType.Categories
-                  ? [widget.id]
-                  : []
-              : null,
-          occasionsIds: widget.type == CategoryType.Occasions ||
-                  widget.type == CategoryType.Search
-              ? widget.type == CategoryType.Occasions
-                  ? [widget.id]
-                  : []
-              : null,
-          type: ItemType.Services.name.toLowerCase());
+      filterForProductData = ref.watch(filterForProductStateNotifiers);
+
+      filterForServicesData = ref.watch(filterForServiceStateNotifiers);
+
+      filterForSellersData = ref.watch(filterForSellerStateNotifiers);
+      fetchProducts(currentPageForProducts);
+      fetchServices(currentPageForServices);
       if (widget.type == CategoryType.Search) {
-        ref.read(getTopSellersDataStateNotifiers.notifier).getTopSellersData(
-              page: currentPageForSellers,
-              categoriesIds: widget.type == CategoryType.Categories ? [] : null,
-              occasionsIds: widget.type == CategoryType.Occasions ? [] : null,
-            );
+        fetchSellers(currentPageForSellers);
       }
     });
     super.initState();
@@ -112,7 +89,9 @@ class _SearchScreenState
               padding: const EdgeInsets.all(16.0),
               child: AppSearchBarWithFilter(
                 hasFilter: true,
-                onFilterClick: () {},
+                onFilterClick: () {
+                  openFilterScreen(activeTabIndex);
+                },
                 delay: 1,
                 onTextChangeListener: (value) {
                   if (activeTabIndex == 0) {
@@ -284,19 +263,7 @@ class _SearchScreenState
                           if (currentPageForProducts <
                               (productsState.data?.data?.products?.lastPage ??
                                   0)) {
-                            ref
-                                .read(getProductsStateNotifiers.notifier)
-                                .getProductsData(
-                                    page: ++currentPageForProducts,
-                                    categoriesIds:
-                                        widget.type == CategoryType.Categories
-                                            ? [widget.id]
-                                            : null,
-                                    occasionsIds:
-                                        widget.type == CategoryType.Occasions
-                                            ? [widget.id]
-                                            : null,
-                                    type: ItemType.Products.name.toLowerCase());
+                            fetchProducts(++currentPageForProducts);
                           }
                         },
                         builder: (item) => Skeletonizer(
@@ -336,19 +303,7 @@ class _SearchScreenState
                           if (currentPageForServices <
                               (servicesState.data?.data?.services?.lastPage ??
                                   0)) {
-                            ref
-                                .read(getServicesStateNotifiers.notifier)
-                                .getServicesData(
-                                    page: ++currentPageForServices,
-                                    categoriesIds:
-                                        widget.type == CategoryType.Categories
-                                            ? [widget.id]
-                                            : null,
-                                    occasionsIds:
-                                        widget.type == CategoryType.Occasions
-                                            ? [widget.id]
-                                            : null,
-                                    type: ItemType.Services.name.toLowerCase());
+                            fetchServices(++currentPageForServices);
                           }
                         },
                         builder: (item) => Skeletonizer(
@@ -388,19 +343,7 @@ class _SearchScreenState
                           onBottomReached: () {
                             if (currentPageForSellers <
                                 (sellersState.data?.data?.lastPage ?? 0)) {
-                              ref
-                                  .read(
-                                      getTopSellersDataStateNotifiers.notifier)
-                                  .getTopSellersData(
-                                      page: ++currentPageForSellers,
-                                      categoriesIds:
-                                          widget.type == CategoryType.Categories
-                                              ? []
-                                              : null,
-                                      occasionsIds:
-                                          widget.type == CategoryType.Occasions
-                                              ? []
-                                              : null);
+                              fetchSellers(++currentPageForSellers);
                             }
                           },
                           builder: (item) => Skeletonizer(
@@ -418,5 +361,85 @@ class _SearchScreenState
         ),
       ),
     );
+  }
+
+  void fetchProducts(int page) {
+    ref.read(getProductsStateNotifiers.notifier).getProductsData(
+        page: page,
+        categoriesIds: widget.type == CategoryType.Categories ||
+                widget.type == CategoryType.Search
+            ? widget.type == CategoryType.Categories
+                ? [widget.id]
+                : filterForProductData?.categoriesIdsSelected
+            : null,
+        occasionsIds: widget.type == CategoryType.Occasions ||
+                widget.type == CategoryType.Search
+            ? widget.type == CategoryType.Occasions
+                ? [widget.id]
+                : filterForProductData?.occasionsIdsSelected
+            : null,
+        ratings: filterForProductData?.ratingValueSelected
+            ?.map((item) => item.toString())
+            .toList(),
+        type: ItemType.Products.name.toLowerCase());
+  }
+
+  void fetchServices(int page) {
+    ref.read(getServicesStateNotifiers.notifier).getServicesData(
+        page: page,
+        categoriesIds: widget.type == CategoryType.Categories ||
+                widget.type == CategoryType.Search
+            ? widget.type == CategoryType.Categories
+                ? [widget.id]
+                : filterForServicesData?.categoriesIdsSelected
+            : null,
+        occasionsIds: widget.type == CategoryType.Occasions ||
+                widget.type == CategoryType.Search
+            ? widget.type == CategoryType.Occasions
+                ? [widget.id]
+                : filterForServicesData?.occasionsIdsSelected
+            : null,
+        ratings: filterForServicesData?.ratingValueSelected
+            ?.map((item) => item.toString())
+            .toList(),
+        type: ItemType.Services.name.toLowerCase());
+  }
+
+  void fetchSellers(int page) {
+    ref.read(getTopSellersDataStateNotifiers.notifier).getTopSellersData(
+          page: page,
+          categoriesIds: widget.type == CategoryType.Categories
+              ? filterForSellersData?.categoriesIdsSelected
+              : null,
+          occasionsIds: widget.type == CategoryType.Occasions
+              ? filterForSellersData?.occasionsIdsSelected
+              : null,
+          ratings: filterForSellersData?.ratingValueSelected
+              ?.map((item) => item.toString())
+              .toList(),
+        );
+  }
+
+  void openFilterScreen(int activeTabIndex) {
+    switch(activeTabIndex){
+      case 0 : {
+        context.push(
+            R_FilterScreen,extra: {"type":FilterScreenTypes.Products}
+        );
+      }
+      break;
+      case 1 : {
+        context.push(
+            R_FilterScreen,extra: {"type":FilterScreenTypes.Services}
+        );
+      }
+      break;
+      case 2 : {
+        context.push(
+            R_FilterScreen,extra: {"type":FilterScreenTypes.Sellers}
+        );
+      }
+      break;
+    }
   }
 }

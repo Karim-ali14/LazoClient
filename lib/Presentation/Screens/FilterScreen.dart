@@ -18,7 +18,8 @@ import 'Auth/Componants/CustomSelectorBottomSheet.dart';
 
 class FilterScreen extends ConsumerStatefulWidget {
   final FilterScreenTypes type;
-  const FilterScreen({required this.type, super.key});
+  final String? searchValue;
+  const FilterScreen({required this.type,this.searchValue, super.key});
 
   @override
   ConsumerState<FilterScreen> createState() => _FilterScreenState();
@@ -204,13 +205,41 @@ class _FilterScreenState extends ConsumerState<FilterScreen> {
                 height: 48,
                 width: double.infinity,
                 onPress: () {
-                  ref
-                      .read(filterForSellerStateNotifiers.notifier)
-                      .applyDataFilter(
+                  switch(widget.type){
+                    case FilterScreenTypes.Products : {
+                      ref
+                          .read(filterForProductStateNotifiers.notifier)
+                          .applyDataFilter(
                           promotionSelected: promotionSelected,
                           categoriesIdsSelected: categoriesSelected,
                           occasionsIdsSelected: occasionsSelected,
                           ratingValueSelected: ratingSelected);
+                    }
+                    break;
+                    case FilterScreenTypes.Services:
+                      {
+                        ref
+                            .read(filterForServiceStateNotifiers.notifier)
+                            .applyDataFilter(
+                            promotionSelected: promotionSelected,
+                            categoriesIdsSelected: categoriesSelected,
+                            occasionsIdsSelected: occasionsSelected,
+                            ratingValueSelected: ratingSelected);
+                      }
+                      break;
+                    case FilterScreenTypes.Sellers:
+                      {
+                        ref
+                            .read(filterForSellerStateNotifiers.notifier)
+                            .applyDataFilter(
+                            promotionSelected: promotionSelected,
+                            categoriesIdsSelected: categoriesSelected,
+                            occasionsIdsSelected: occasionsSelected,
+                            ratingValueSelected: ratingSelected);
+                      }
+                      break;
+                  }
+                  Navigator.pop(context);
                 },
                 text: "Apply")
           ],
