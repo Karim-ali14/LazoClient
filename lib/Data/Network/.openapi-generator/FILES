@@ -29,6 +29,7 @@ doc/FilterTopProductsServices200Response.md
 doc/FilterTopProductsServices200ResponseData.md
 doc/FilterTopProductsServices200ResponseDataProducts.md
 doc/FilterTopProductsServices200ResponseDataServices.md
+doc/FilterTopProductsServicesRequest.md
 doc/FilterTopSellers200Response.md
 doc/FilterTopSellers200ResponseData.md
 doc/FilterTopSellers200ResponseDataLinksInner.md
@@ -183,6 +184,7 @@ lib/model/filter_top_products_services200_response.dart
 lib/model/filter_top_products_services200_response_data.dart
 lib/model/filter_top_products_services200_response_data_products.dart
 lib/model/filter_top_products_services200_response_data_services.dart
+lib/model/filter_top_products_services_request.dart
 lib/model/filter_top_sellers200_response.dart
 lib/model/filter_top_sellers200_response_data.dart
 lib/model/filter_top_sellers200_response_data_links_inner.dart

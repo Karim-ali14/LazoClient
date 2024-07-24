@@ -145,8 +145,8 @@ class GetProductsUseCase
   void getProductsData({
     int page = 1,
     String? searchByName,
-    List<String>? categoriesIds,
-    List<String>? occasionsIds,
+    List<num>? categoriesIds,
+    List<num>? occasionsIds,
     String? priceFrom,
     String? priceTo,
     List<String>? ratings,
@@ -157,14 +157,18 @@ class GetProductsUseCase
         : StateModel.loading();
     requestForPagination(
         () => publicApi.filterTopProductsServices(
-            page: page,
-            searchByName: searchByName,
-            categoriesIds: categoriesIds,
-            occasionsIds: occasionsIds,
-            priceFrom: priceFrom,
-            priceTo: priceTo,
-            ratings: ratings,
-            type: type ?? ItemType.Products.name.toLowerCase()),
+          filterTopProductsServicesRequest:
+            FilterTopProductsServicesRequest(
+                page: page,
+                searchByName: searchByName,
+                categoriesIds: categoriesIds?.map((item) => item.toInt()).toList(),
+                occasionsIds: occasionsIds,
+                priceFrom: priceFrom,
+                priceTo: priceTo,
+                // ratings: ratings,
+                type: type ?? ItemType.Products.name.toLowerCase()
+            )
+        ),
         onComplete: (res) {
       if (page != 1) {
         List<ProviderProduct> list = state.data?.data?.products?.data ?? [];
@@ -192,8 +196,8 @@ class GetServicesUseCase
   void getServicesData({
     int page = 1,
     String? searchByName,
-    List<String>? categoriesIds,
-    List<String>? occasionsIds,
+    List<num>? categoriesIds,
+    List<num>? occasionsIds,
     String? priceFrom,
     String? priceTo,
     List<String>? ratings,
@@ -204,14 +208,15 @@ class GetServicesUseCase
         : StateModel.loading();
     requestForPagination(
         () => publicApi.filterTopProductsServices(
-            page: page,
-            searchByName: searchByName,
-            categoriesIds: categoriesIds,
-            occasionsIds: occasionsIds,
-            priceFrom: priceFrom,
-            priceTo: priceTo,
-            ratings: ratings,
-            type: type ?? ItemType.Services.name.toLowerCase()),
+            // page: page,
+            // searchByName: searchByName,
+            // categoriesIds: categoriesIds,
+            // occasionsIds: occasionsIds,
+            // priceFrom: priceFrom,
+            // priceTo: priceTo,
+            // ratings: ratings,
+            // type: type ?? ItemType.Services.name.toLowerCase()
+        ),
         onComplete: (res) {
       if (page != 1) {
         List<ServiceShowData> list = state.data?.data?.services?.data ?? [];

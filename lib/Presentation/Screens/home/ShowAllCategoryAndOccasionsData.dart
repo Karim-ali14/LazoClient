@@ -13,7 +13,7 @@ import '../../Widgets/SearchWithFilter.dart';
 
 class ShowAllCategoryAndOccasionsData extends ConsumerStatefulWidget {
   final CategoryType type;
-  const ShowAllCategoryAndOccasionsData(this.type, {super.key});
+  const ShowAllCategoryAndOccasionsData( {required this.type,super.key});
 
   @override
   ConsumerState<ShowAllCategoryAndOccasionsData> createState() =>

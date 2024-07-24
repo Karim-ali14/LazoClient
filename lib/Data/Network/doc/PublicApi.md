@@ -169,7 +169,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **filterTopProductsServices**
-> FilterTopProductsServices200Response filterTopProductsServices(page, limit, searchByName, categoriesIds, occasionsIds, priceFrom, priceTo, ratings, type)
+> FilterTopProductsServices200Response filterTopProductsServices(filterTopProductsServicesRequest)
 
 Filter top products & services
 
@@ -180,18 +180,10 @@ Filter top products & services
 import 'package:lazo/api.dart';
 
 final api_instance = PublicApi();
-final page = 8.14; // num | 
-final limit = 8.14; // num | 
-final searchByName = searchByName_example; // String | 
-final categoriesIds = []; // List<String> | 
-final occasionsIds = []; // List<String> | 
-final priceFrom = priceFrom_example; // String | 
-final priceTo = priceTo_example; // String | 
-final ratings = []; // List<String> | 
-final type = type_example; // String | products or services
+final filterTopProductsServicesRequest = FilterTopProductsServicesRequest(); // FilterTopProductsServicesRequest | 
 
 try {
-    final result = api_instance.filterTopProductsServices(page, limit, searchByName, categoriesIds, occasionsIds, priceFrom, priceTo, ratings, type);
+    final result = api_instance.filterTopProductsServices(filterTopProductsServicesRequest);
     print(result);
 } catch (e) {
     print('Exception when calling PublicApi->filterTopProductsServices: $e\n');
@@ -202,15 +194,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **page** | **num**|  | [optional] 
- **limit** | **num**|  | [optional] 
- **searchByName** | **String**|  | [optional] 
- **categoriesIds** | [**List<String>**](String.md)|  | [optional] 
- **occasionsIds** | [**List<String>**](String.md)|  | [optional] 
- **priceFrom** | **String**|  | [optional] 
- **priceTo** | **String**|  | [optional] 
- **ratings** | [**List<String>**](String.md)|  | [optional] 
- **type** | **String**| products or services | [optional] 
+ **filterTopProductsServicesRequest** | [**FilterTopProductsServicesRequest**](FilterTopProductsServicesRequest.md)|  | [optional] 
 
 ### Return type
 
@@ -222,7 +206,7 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: multipart/form-data
+ - **Content-Type**: application/json
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

@@ -14,6 +14,9 @@ const R_LoginScreen = '/LoginScreen';
 const R_SignUp = '/SignUp';
 const R_HomeScreen = '/HomeScreen';
 const R_FilterScreen = '/FilterScreen';
+const R_SeeAllCategoryOrOccasion = '/SeeAllCategoryOrOccasion';
+const R_SeeAllProductOrService = '/SeeAllProductOrService';
+const R_SeeAllSeller = '/SeeAllSeller';
 //EXTRAS
 const userKey = "LazoClientKey";
 

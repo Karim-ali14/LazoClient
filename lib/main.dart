@@ -178,6 +178,26 @@ class MyApp extends ConsumerWidget {
           }
       ),
       GoRoute(
+          path: R_SeeAllCategoryOrOccasion,
+          builder: (BuildContext context, GoRouterState state) {
+            var extra = state.extra as Map;
+            return ShowAllCategoryAndOccasionsData(type: extra["type"] as CategoryType);
+          }
+      ),
+      GoRoute(
+          path: R_SeeAllProductOrService,
+          builder: (BuildContext context, GoRouterState state) {
+            var extra = state.extra as Map;
+            return ShowProductAndServiceScreen(title: extra["title"],id: extra["id"], type: extra["type"] as CategoryType);
+          }
+      ),
+      GoRoute(
+          path: R_SeeAllSeller,
+          builder: (BuildContext context, GoRouterState state) {
+            return const ShowTopSellers();
+          }
+      ),
+      GoRoute(
           path: R_FilterScreen,
           builder: (BuildContext context, GoRouterState state) {
             var extra = state.extra as Map;

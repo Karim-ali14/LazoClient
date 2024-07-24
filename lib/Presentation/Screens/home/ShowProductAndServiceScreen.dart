@@ -21,8 +21,8 @@ class ShowProductAndServiceScreen extends ConsumerStatefulWidget {
   final String title;
   final CategoryType type;
   final int id;
-  const ShowProductAndServiceScreen(this.title, this.type, this.id,
-      {super.key});
+  const ShowProductAndServiceScreen(
+      {required this.title, required this.type,required this.id,super.key});
 
   @override
   ConsumerState<ShowProductAndServiceScreen> createState() =>
@@ -40,6 +40,7 @@ class _ShowProductAndServiceScreenState
 
   @override
   void initState() {
+    print("occasionId : ${widget.id}");
     tabController = TabController(length: 2, vsync: this);
     tabController.addListener(() {
       setState(() {
@@ -50,19 +51,19 @@ class _ShowProductAndServiceScreenState
       ref.read(getProductsStateNotifiers.notifier).getProductsData(
           page: currentPageForProducts,
           categoriesIds: widget.type == CategoryType.Categories
-              ? [widget.id.toString()]
+              ? [widget.id]
               : null,
           occasionsIds: widget.type == CategoryType.Occasions
-              ? [widget.id.toString()]
+              ? [widget.id]
               : null,
           type: ItemType.Products.name.toLowerCase());
       ref.read(getServicesStateNotifiers.notifier).getServicesData(
           page: currentPageForServices,
           categoriesIds: widget.type == CategoryType.Categories
-              ? [widget.id.toString()]
+              ? [widget.id]
               : null,
           occasionsIds: widget.type == CategoryType.Occasions
-              ? [widget.id.toString()]
+              ? [widget.id]
               : null,
           type: ItemType.Services.name.toLowerCase());
     });
@@ -99,10 +100,10 @@ class _ShowProductAndServiceScreenState
                             page: currentPageForProducts,
                             categoriesIds:
                                 widget.type == CategoryType.Categories
-                                    ? [widget.id.toString()]
+                                    ? [widget.id]
                                     : null,
                             occasionsIds: widget.type == CategoryType.Occasions
-                                ? [widget.id.toString()]
+                                ? [widget.id]
                                 : null,
                             type: ItemType.Products.name.toLowerCase(),
                             searchByName: value.isNotEmpty ? value : null);
@@ -114,10 +115,10 @@ class _ShowProductAndServiceScreenState
                             page: currentPageForServices,
                             categoriesIds:
                                 widget.type == CategoryType.Categories
-                                    ? [widget.id.toString()]
+                                    ? [widget.id]
                                     : null,
                             occasionsIds: widget.type == CategoryType.Occasions
-                                ? [widget.id.toString()]
+                                ? [widget.id]
                                 : null,
                             type: ItemType.Services.name.toLowerCase(),
                             searchByName: value.isNotEmpty ? value : null);
@@ -233,11 +234,11 @@ class _ShowProductAndServiceScreenState
                                     page: ++currentPageForProducts,
                                     categoriesIds:
                                         widget.type == CategoryType.Categories
-                                            ? [widget.id.toString()]
+                                            ? [widget.id]
                                             : null,
                                     occasionsIds:
                                         widget.type == CategoryType.Occasions
-                                            ? [widget.id.toString()]
+                                            ? [widget.id]
                                             : null,
                                     type: ItemType.Products.name.toLowerCase());
                           }
@@ -285,11 +286,11 @@ class _ShowProductAndServiceScreenState
                                     page: ++currentPageForServices,
                                     categoriesIds:
                                         widget.type == CategoryType.Categories
-                                            ? [widget.id.toString()]
+                                            ? [widget.id]
                                             : null,
                                     occasionsIds:
                                         widget.type == CategoryType.Occasions
-                                            ? [widget.id.toString()]
+                                            ? [widget.id]
                                             : null,
                                     type: ItemType.Services.name.toLowerCase());
                           }

@@ -74,10 +74,11 @@ extension GenericRequest<T> on StateNotifier<StateModel<T>> {
     var response;
     try{
       response = await asyncFunc();
-      // state = StateModel(state: DataState.SUCCESS, data: response is T ? response : null ,message: response?.message );
+      print(" Response $response");
+      state = StateModel(state: DataState.SUCCESS, data: response is T ? response : null ,message: response?.message );
       onComplete?.call(response);
     }on ApiException catch (e) {
-      print("Error Response $e");
+      print("Error Response $response $e");
       onFailure?.call(e);
       Map? error = json.tryDecode(e.message??"");
       var message = error?.containsKey("errors") == true ? (error!["errors"] as List).first : "Something wrong happen please try again later";

@@ -5,18 +5,20 @@ import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../../../Data/Network/lib/api.dart';
 import '../../../Widgets/TitleWithSeeAll.dart';
+import 'HorizontalCategoryListViewWithTitleSeeAll.dart';
 
-typedef OnItemClickListener = Function(int);
+typedef OnOccasionItemClickListener = Function(Occasion);
 
 class HorizontalOccasionsListViewWithTitleSeeAll extends StatefulWidget {
   final List<Occasion> list;
   final bool showLoading;
-  final OnItemClickListener itemClick;
+  final OnOccasionItemClickListener itemClick;
+  final OnSeeAllClickListener onSeeAllClickListener;
   const HorizontalOccasionsListViewWithTitleSeeAll(
       {super.key,
       required this.list,
       required this.showLoading,
-      required this.itemClick});
+      required this.itemClick, required this.onSeeAllClickListener});
 
   @override
   State<HorizontalOccasionsListViewWithTitleSeeAll> createState() => _HorizontalOccasionsListViewWithTitleSeeAllState();
@@ -31,7 +33,9 @@ class _HorizontalOccasionsListViewWithTitleSeeAllState extends State<HorizontalO
           enabled: widget.showLoading,
           child: TitleWithSeeAll(
             title: "Occasions",
-            onClickOnSeeAll: () {},
+            onClickOnSeeAll: () {
+              widget.onSeeAllClickListener.call();
+            },
           ),
         ),
         SizedBox(
@@ -44,11 +48,16 @@ class _HorizontalOccasionsListViewWithTitleSeeAllState extends State<HorizontalO
               itemBuilder: (context, index) {
                 return Skeletonizer(
                   enabled: widget.showLoading ,
-                  child: CategoryItemCart(
-                    image: widget.showLoading ? "" : widget.list[index].imagePath ?? "",
-                    title: widget.showLoading ? "" :  widget.list[index].name ?? "",
-                    width: 133,
-                    height: 95,
+                  child: InkWell(
+                    onTap: (){
+                      widget.itemClick.call(widget.list[index]);
+                    },
+                    child: CategoryItemCart(
+                      image: widget.showLoading ? "" : widget.list[index].imagePath ?? "",
+                      title: widget.showLoading ? "" :  widget.list[index].name ?? "",
+                      width: 133,
+                      height: 95,
+                    ),
                   ),
                 );
               },

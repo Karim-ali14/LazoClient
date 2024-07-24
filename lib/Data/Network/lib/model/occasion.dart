@@ -15,13 +15,13 @@ class Occasion {
   Occasion({
     this.createdAt,
     this.id,
-    this.isChecked,
     this.image,
     this.imagePath,
     this.name,
     this.nameAr,
     this.nameEn,
     this.updatedAt,
+    this.isChecked,
   });
 
   ///
@@ -39,14 +39,6 @@ class Occasion {
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
   num? id;
-
-  ///
-  /// Please note: This property should have been non-nullable! Since the specification file
-  /// does not include a default value (using the "default:" property), however, the generated
-  /// source code must fall back to having a nullable type.
-  /// Consider adding a "default:" property in the specification file to hide this note.
-  ///
-  bool? isChecked;
 
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
@@ -96,33 +88,41 @@ class Occasion {
   ///
   String? updatedAt;
 
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  bool? isChecked;
+
   @override
   bool operator ==(Object other) => identical(this, other) || other is Occasion &&
      other.createdAt == createdAt &&
      other.id == id &&
-     other.isChecked == isChecked &&
      other.image == image &&
      other.imagePath == imagePath &&
      other.name == name &&
      other.nameAr == nameAr &&
      other.nameEn == nameEn &&
-     other.updatedAt == updatedAt;
+     other.updatedAt == updatedAt &&
+     other.isChecked == isChecked;
 
   @override
   int get hashCode =>
     // ignore: unnecessary_parenthesis
     (createdAt == null ? 0 : createdAt!.hashCode) +
     (id == null ? 0 : id!.hashCode) +
-    (isChecked == null ? 0 : isChecked!.hashCode) +
     (image == null ? 0 : image!.hashCode) +
     (imagePath == null ? 0 : imagePath!.hashCode) +
     (name == null ? 0 : name!.hashCode) +
     (nameAr == null ? 0 : nameAr!.hashCode) +
     (nameEn == null ? 0 : nameEn!.hashCode) +
-    (updatedAt == null ? 0 : updatedAt!.hashCode);
+    (updatedAt == null ? 0 : updatedAt!.hashCode) +
+    (isChecked == null ? 0 : isChecked!.hashCode);
 
   @override
-  String toString() => 'Occasion[createdAt=$createdAt, id=$id, isChecked=$isChecked, image=$image, imagePath=$imagePath, name=$name, nameAr=$nameAr, nameEn=$nameEn, updatedAt=$updatedAt]';
+  String toString() => 'Occasion[createdAt=$createdAt, id=$id, image=$image, imagePath=$imagePath, name=$name, nameAr=$nameAr, nameEn=$nameEn, updatedAt=$updatedAt, isChecked=$isChecked]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -135,11 +135,6 @@ class Occasion {
       json[r'id'] = this.id;
     } else {
       json[r'id'] = null;
-    }
-    if (this.isChecked != null) {
-      json[r'isChecked'] = this.isChecked;
-    } else {
-      json[r'isChecked'] = null;
     }
     if (this.image != null) {
       json[r'image'] = this.image;
@@ -171,6 +166,11 @@ class Occasion {
     } else {
       json[r'updated_at'] = null;
     }
+    if (this.isChecked != null) {
+      json[r'is_checked'] = this.isChecked;
+    } else {
+      json[r'is_checked'] = null;
+    }
     return json;
   }
 
@@ -197,13 +197,13 @@ class Occasion {
         id: json[r'id'] == null
             ? null
             : num.parse(json[r'id'].toString()),
-        isChecked: mapValueOfType<bool>(json, r'isChecked'),
         image: mapValueOfType<String>(json, r'image'),
         imagePath: mapValueOfType<String>(json, r'imagePath'),
         name: mapValueOfType<String>(json, r'name'),
         nameAr: mapValueOfType<String>(json, r'name_ar'),
         nameEn: mapValueOfType<String>(json, r'name_en'),
         updatedAt: mapValueOfType<String>(json, r'updated_at'),
+        isChecked: mapValueOfType<bool>(json, r'is_checked'),
       );
     }
     return null;

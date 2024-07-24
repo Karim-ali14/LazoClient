@@ -65,6 +65,7 @@ part 'model/filter_top_products_services200_response.dart';
 part 'model/filter_top_products_services200_response_data.dart';
 part 'model/filter_top_products_services200_response_data_products.dart';
 part 'model/filter_top_products_services200_response_data_services.dart';
+part 'model/filter_top_products_services_request.dart';
 part 'model/filter_top_sellers200_response.dart';
 part 'model/filter_top_sellers200_response_data.dart';
 part 'model/filter_top_sellers200_response_data_links_inner.dart';

@@ -9,7 +9,6 @@ import 'package:lazo/api.dart';
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **id** | **num** |  | [optional] 
-**isChecked** | **bool** |  | [optional] 
 **nameEn** | **String** |  | [optional] 
 **nameAr** | **String** |  | [optional] 
 **name** | **String** |  | [optional] 
@@ -19,6 +18,7 @@ Name | Type | Description | Notes
 **imagePath** | **String** |  | [optional] 
 **createdAt** | **String** |  | [optional] 
 **updatedAt** | **String** |  | [optional] 
+**isChecked** | **bool** |  | [optional] 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

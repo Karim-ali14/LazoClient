@@ -33,7 +33,9 @@ class _HorizontalCategoryListViewWithTitleSeeAllState extends State<HorizontalCa
           enabled: widget.showLoading,
           child: TitleWithSeeAll(
             title: "Categories",
-            onClickOnSeeAll: () {},
+            onClickOnSeeAll: () {
+              widget.onSeeAllClickListener.call();
+            },
           ),
         ),
         SizedBox(
