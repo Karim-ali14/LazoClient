@@ -18,13 +18,15 @@ class AppSearchBarWithFilter extends StatefulWidget {
   final int? delay;
   final bool hasFilter;
   final VoidCallback onFilterClick;
+  final VoidCallback? onSearchClick;
   final OnTextChangeListener? onTextChangeListener;
+  final bool? enableSearch;
   const AppSearchBarWithFilter(
       {super.key,
       required this.hasFilter,
       required this.onFilterClick,
       this.onTextChangeListener,
-      this.delay});
+      this.delay, this.enableSearch = true, this.onSearchClick });
 
   @override
   State<AppSearchBarWithFilter> createState() => _AppSearchBarWithFilterState();
@@ -53,26 +55,35 @@ class _AppSearchBarWithFilterState extends State<AppSearchBarWithFilter> {
     return Row(
       children: [
         Expanded(
-          child: TextField(
-            style: AppTheme.styleWithTextBlackAdelleSansExtendedFonts14w400,
-            decoration: InputDecoration(
-                contentPadding: EdgeInsets.symmetric(horizontal: 12),
-                labelText: "Search",
-                labelStyle: AppTheme
-                    .styleWithTextAppGrey15AdelleSansExtendedFonts14w400,
-                border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(4),
-                    borderSide: BorderSide(color: AppTheme.appGrey6)),
-                enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(4),
-                    borderSide: BorderSide(color: AppTheme.appGrey6)),
-                focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(4),
-                    borderSide: BorderSide(color: AppTheme.appGrey6)),
-                prefixIcon: SVGIcons.searchIcon()),
-            onChanged: (value) {
-              executeAfterDelay(value);
+          child: InkWell(
+            onTap: (){
+              if(widget.enableSearch == false){
+                widget.onSearchClick?.call();
+              }
             },
+            child: TextField(
+              readOnly: widget.enableSearch == false,
+              enabled: widget.enableSearch,
+              style: AppTheme.styleWithTextBlackAdelleSansExtendedFonts14w400,
+              decoration: InputDecoration(
+                  contentPadding: EdgeInsets.symmetric(horizontal: 12),
+                  labelText: "Search",
+                  labelStyle: AppTheme
+                      .styleWithTextAppGrey15AdelleSansExtendedFonts14w400,
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(4),
+                      borderSide: BorderSide(color: AppTheme.appGrey6)),
+                  enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(4),
+                      borderSide: BorderSide(color: AppTheme.appGrey6)),
+                  focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(4),
+                      borderSide: BorderSide(color: AppTheme.appGrey6)),
+                  prefixIcon: SVGIcons.searchIcon()),
+              onChanged: (value) {
+                executeAfterDelay(value);
+              },
+            ),
           ),
         ),
         widget.hasFilter

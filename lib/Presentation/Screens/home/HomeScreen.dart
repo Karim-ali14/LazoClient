@@ -50,7 +50,13 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: AppSearchBarWithFilter(
-                  hasFilter: false, onFilterClick: () {}),
+                enableSearch: false,
+                  hasFilter: false, onFilterClick: () {},onSearchClick: (){
+                navigateToProductsAndServices(
+                    CategoryType.Search,
+                    "Search",
+                0);
+              }),
             ),
             const SizedBox(
               height: 24,

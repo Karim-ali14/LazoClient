@@ -30,7 +30,7 @@ enum ItemType {
 }
 
 enum CategoryType {
-  Categories,Occasions
+  Categories,Occasions,Search
 }
 
 enum FilterScreenTypes {

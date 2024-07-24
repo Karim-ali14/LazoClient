@@ -114,14 +114,24 @@ class GetTopSellersUseCase
   // final List<ProviderData> list = [];
   GetTopSellersUseCase(this.ref, this.publicApi) : super(StateModel());
 
-  void getTopSellersData({int page = 1, String? searchByName}) async {
+  void getTopSellersData(
+      {num? page,
+      String? searchByName,
+      List<String>? categoriesIds,
+      String? isPromoted,
+      List<String>? occasionsIds,
+      List<String>? ratings}) async {
     state = page != 1
         ? StateModel(data: state.data, state: DataState.MORE_LOADING)
         : StateModel.loading();
     requestForPagination(
-        () =>
-            publicApi.filterTopSellers(page: page, searchByName: searchByName),
-        onComplete: (res) {
+        () => publicApi.filterTopSellers(
+            page: page,
+            searchByName: searchByName,
+            categoriesIds: categoriesIds,
+            occasionsIds: occasionsIds,
+            ratings: ratings,
+            isPromoted: isPromoted), onComplete: (res) {
       if (page != 1) {
         List<ProviderData> list = state.data?.data?.data ?? [];
         state.data?.data?.data = [...list, ...(res.data?.data ?? [])];
@@ -165,8 +175,7 @@ class GetProductsUseCase
             priceTo: priceTo,
             ratings: ratings,
             fromMobile: 1,
-            type: type ?? ItemType.Products.name.toLowerCase()
-        ),
+            type: type ?? ItemType.Products.name.toLowerCase()),
         onComplete: (res) {
       if (page != 1) {
         List<ProviderProduct> list = state.data?.data?.products?.data ?? [];
@@ -242,11 +251,9 @@ class FilterDataUseCase extends StateNotifier<FilterData> {
       List<int>? occasionsIdsSelected,
       List<int>? ratingValueSelected}) {
     state = FilterData(
-      promotionSelected: promotionSelected,
-      categoriesIdsSelected: categoriesIdsSelected,
-      occasionsIdsSelected: occasionsIdsSelected,
-      ratingValueSelected: ratingValueSelected
-    );
+        promotionSelected: promotionSelected,
+        categoriesIdsSelected: categoriesIdsSelected,
+        occasionsIdsSelected: occasionsIdsSelected,
+        ratingValueSelected: ratingValueSelected);
   }
-
 }

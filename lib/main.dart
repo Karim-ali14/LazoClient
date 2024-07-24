@@ -195,7 +195,7 @@ class MyApp extends ConsumerWidget {
           path: R_SeeAllProductOrService,
           builder: (BuildContext context, GoRouterState state) {
             var extra = state.extra as Map;
-            return ShowProductAndServiceScreen(
+            return SearchScreen(
                 title: extra["title"],
                 id: extra["id"],
                 type: extra["type"] as CategoryType);
