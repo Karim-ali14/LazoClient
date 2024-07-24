@@ -30,7 +30,7 @@ class FilterTopProductsServicesRequest {
 
   String? searchByName;
 
-  List<int>? categoriesIds;
+  List<num>? categoriesIds;
 
   List<num>? occasionsIds;
 
@@ -38,7 +38,7 @@ class FilterTopProductsServicesRequest {
 
   String? priceTo;
 
-  List<FilterTopProductsServicesRequestRatingsEnum>? ratings;
+  List<String>? ratings;
 
   /// products or services
   ///
@@ -154,14 +154,16 @@ class FilterTopProductsServicesRequest {
             : num.parse(json[r'limit'].toString()),
         searchByName: mapValueOfType<String>(json, r'search_by_name'),
         categoriesIds: json[r'categories_ids'] is List
-            ? (json[r'categories_ids'] as List).cast<int>()
+            ? (json[r'categories_ids'] as List).cast<num>()
             : const [],
         occasionsIds: json[r'occasions_ids'] is List
             ? (json[r'occasions_ids'] as List).cast<num>()
             : const [],
         priceFrom: mapValueOfType<String>(json, r'price_from'),
         priceTo: mapValueOfType<String>(json, r'price_to'),
-        ratings: FilterTopProductsServicesRequestRatingsEnum.listFromJson(json[r'ratings']),
+        ratings: json[r'ratings'] is List
+            ? (json[r'ratings'] as List).cast<String>()
+            : const [],
         type: mapValueOfType<String>(json, r'type'),
       );
     }
@@ -212,99 +214,4 @@ class FilterTopProductsServicesRequest {
   static const requiredKeys = <String>{
   };
 }
-
-
-class FilterTopProductsServicesRequestRatingsEnum {
-  /// Instantiate a new enum with the provided [value].
-  const FilterTopProductsServicesRequestRatingsEnum._(this.value);
-
-  /// The underlying value of this enum member.
-  final String value;
-
-  @override
-  String toString() => value;
-
-  String toJson() => value;
-
-  static const n1 = FilterTopProductsServicesRequestRatingsEnum._(r'1');
-  static const n1period5 = FilterTopProductsServicesRequestRatingsEnum._(r'1.5');
-  static const n2 = FilterTopProductsServicesRequestRatingsEnum._(r'2');
-  static const n2period5 = FilterTopProductsServicesRequestRatingsEnum._(r'2.5');
-  static const n3 = FilterTopProductsServicesRequestRatingsEnum._(r'3');
-  static const n3period5 = FilterTopProductsServicesRequestRatingsEnum._(r'3.5');
-  static const n4 = FilterTopProductsServicesRequestRatingsEnum._(r'4');
-  static const n4period5 = FilterTopProductsServicesRequestRatingsEnum._(r'4.5');
-  static const n5 = FilterTopProductsServicesRequestRatingsEnum._(r'5');
-
-  /// List of all possible values in this [enum][FilterTopProductsServicesRequestRatingsEnum].
-  static const values = <FilterTopProductsServicesRequestRatingsEnum>[
-    n1,
-    n1period5,
-    n2,
-    n2period5,
-    n3,
-    n3period5,
-    n4,
-    n4period5,
-    n5,
-  ];
-
-  static FilterTopProductsServicesRequestRatingsEnum? fromJson(dynamic value) => FilterTopProductsServicesRequestRatingsEnumTypeTransformer().decode(value);
-
-  static List<FilterTopProductsServicesRequestRatingsEnum> listFromJson(dynamic json, {bool growable = false,}) {
-    final result = <FilterTopProductsServicesRequestRatingsEnum>[];
-    if (json is List && json.isNotEmpty) {
-      for (final row in json) {
-        final value = FilterTopProductsServicesRequestRatingsEnum.fromJson(row);
-        if (value != null) {
-          result.add(value);
-        }
-      }
-    }
-    return result.toList(growable: growable);
-  }
-}
-
-/// Transformation class that can [encode] an instance of [FilterTopProductsServicesRequestRatingsEnum] to String,
-/// and [decode] dynamic data back to [FilterTopProductsServicesRequestRatingsEnum].
-class FilterTopProductsServicesRequestRatingsEnumTypeTransformer {
-  factory FilterTopProductsServicesRequestRatingsEnumTypeTransformer() => _instance ??= const FilterTopProductsServicesRequestRatingsEnumTypeTransformer._();
-
-  const FilterTopProductsServicesRequestRatingsEnumTypeTransformer._();
-
-  String encode(FilterTopProductsServicesRequestRatingsEnum data) => data.value;
-
-  /// Decodes a [dynamic value][data] to a FilterTopProductsServicesRequestRatingsEnum.
-  ///
-  /// If [allowNull] is true and the [dynamic value][data] cannot be decoded successfully,
-  /// then null is returned. However, if [allowNull] is false and the [dynamic value][data]
-  /// cannot be decoded successfully, then an [UnimplementedError] is thrown.
-  ///
-  /// The [allowNull] is very handy when an API changes and a new enum value is added or removed,
-  /// and users are still using an old app with the old code.
-  FilterTopProductsServicesRequestRatingsEnum? decode(dynamic data, {bool allowNull = true}) {
-    if (data != null) {
-      switch (data) {
-        case r'1': return FilterTopProductsServicesRequestRatingsEnum.n1;
-        case r'1.5': return FilterTopProductsServicesRequestRatingsEnum.n1period5;
-        case r'2': return FilterTopProductsServicesRequestRatingsEnum.n2;
-        case r'2.5': return FilterTopProductsServicesRequestRatingsEnum.n2period5;
-        case r'3': return FilterTopProductsServicesRequestRatingsEnum.n3;
-        case r'3.5': return FilterTopProductsServicesRequestRatingsEnum.n3period5;
-        case r'4': return FilterTopProductsServicesRequestRatingsEnum.n4;
-        case r'4.5': return FilterTopProductsServicesRequestRatingsEnum.n4period5;
-        case r'5': return FilterTopProductsServicesRequestRatingsEnum.n5;
-        default:
-          if (!allowNull) {
-            throw ArgumentError('Unknown enum value to decode: $data');
-          }
-      }
-    }
-    return null;
-  }
-
-  /// Singleton [FilterTopProductsServicesRequestRatingsEnumTypeTransformer] instance.
-  static FilterTopProductsServicesRequestRatingsEnumTypeTransformer? _instance;
-}
-
 

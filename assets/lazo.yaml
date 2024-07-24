@@ -5054,7 +5054,7 @@ paths:
       operationId: filterTopSellers
       requestBody:
         content:
-          multipart/form-data:
+          application/json:
             schema:
               type: object
               properties:
@@ -5087,7 +5087,6 @@ paths:
                   items:
                     type: string
                     example: '2'
-                    enum: [1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5]
       responses:
         '200':
           description: Success response
@@ -5181,7 +5180,7 @@ paths:
       operationId: filterTopProductsServices
       requestBody:
         content:
-          multipart/form-data:
+          application/json:
             schema:
               type: object
               properties:
@@ -5218,13 +5217,10 @@ paths:
                   items:
                     type: string
                     example: '2'
-                    enum: [1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5]
                 type:
                   description: products or services
                   type: string
                   example: services
-                from_mobile:
-                  type: number
       responses:
         '200':
           description: Success response

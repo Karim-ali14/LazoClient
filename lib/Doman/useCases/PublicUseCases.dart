@@ -126,12 +126,16 @@ class GetTopSellersUseCase
         : StateModel.loading();
     requestForPagination(
         () => publicApi.filterTopSellers(
+        filterTopSellersRequest: FilterTopSellersRequest(
             page: page,
             searchByName: searchByName,
-            categoriesIds: categoriesIds?.map((item) => item.toString()).toList(),
+            categoriesIds:
+            categoriesIds?.map((item) => item.toString()).toList(),
             occasionsIds: occasionsIds?.map((item) => item.toString()).toList(),
             ratings: ratings,
-            isPromoted: isPromoted), onComplete: (res) {
+            isPromoted: isPromoted
+        )
+        ), onComplete: (res) {
       if (page != 1) {
         List<ProviderData> list = state.data?.data?.data ?? [];
         state.data?.data?.data = [...list, ...(res.data?.data ?? [])];
@@ -167,16 +171,17 @@ class GetProductsUseCase
         : StateModel.loading();
     requestForPagination(
         () => publicApi.filterTopProductsServices(
-            page: page,
-            searchByName: searchByName,
-            categoriesIds: categoriesIds,
-            occasionsIds: occasionsIds,
-            priceFrom: priceFrom,
-            priceTo: priceTo,
-            ratings: ratings,
-            fromMobile: 1,
-            type: type ?? ItemType.Products.name.toLowerCase()),
-        onComplete: (res) {
+              filterTopProductsServicesRequest:
+                  FilterTopProductsServicesRequest(
+                      page: page,
+                      searchByName: searchByName,
+                      categoriesIds: categoriesIds,
+                      occasionsIds: occasionsIds,
+                      priceFrom: priceFrom,
+                      priceTo: priceTo,
+                      ratings: ratings,
+                      type: type ?? ItemType.Products.name.toLowerCase()),
+            ), onComplete: (res) {
       if (page != 1) {
         List<ProviderProduct> list = state.data?.data?.products?.data ?? [];
         state.data?.data?.products?.data = [
@@ -215,14 +220,15 @@ class GetServicesUseCase
         : StateModel.loading();
     requestForPagination(
         () => publicApi.filterTopProductsServices(
-            page: page,
-            searchByName: searchByName,
-            categoriesIds: categoriesIds,
-            occasionsIds: occasionsIds,
-            priceFrom: priceFrom,
-            priceTo: priceTo,
-            ratings: ratings,
-            type: type ?? ItemType.Services.name.toLowerCase()),
+            filterTopProductsServicesRequest: FilterTopProductsServicesRequest(
+                page: page,
+                searchByName: searchByName,
+                categoriesIds: categoriesIds,
+                occasionsIds: occasionsIds,
+                priceFrom: priceFrom,
+                priceTo: priceTo,
+                ratings: ratings,
+                type: type ?? ItemType.Services.name.toLowerCase())),
         onComplete: (res) {
       if (page != 1) {
         List<ServiceShowData> list = state.data?.data?.services?.data ?? [];
@@ -247,6 +253,8 @@ class FilterDataUseCase extends StateNotifier<FilterData> {
 
   void applyDataFilter(
       {int? promotionSelected,
+      int? priceFromSelected,
+      int? priceToSelected,
       List<int>? categoriesIdsSelected,
       List<int>? occasionsIdsSelected,
       List<int>? ratingValueSelected}) {
@@ -254,6 +262,8 @@ class FilterDataUseCase extends StateNotifier<FilterData> {
         promotionSelected: promotionSelected,
         categoriesIdsSelected: categoriesIdsSelected,
         occasionsIdsSelected: occasionsIdsSelected,
-        ratingValueSelected: ratingValueSelected);
+        ratingValueSelected: ratingValueSelected,
+        priceFromSelected: priceFromSelected,
+        priceToSelected: priceToSelected);
   }
 }

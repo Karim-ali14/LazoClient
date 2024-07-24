@@ -6,6 +6,7 @@ import 'package:lazo_client/Constants/Eunms.dart';
 import 'package:lazo_client/Data/Models/FilterData.dart';
 import 'package:lazo_client/Data/Models/StateModel.dart';
 import 'package:lazo_client/Data/Network/lib/api.dart';
+import 'package:lazo_client/Presentation/BottomSheets/SelectPriceBottomSheet.dart';
 import 'package:lazo_client/Presentation/Widgets/AppButton.dart';
 import 'package:lazo_client/Presentation/Widgets/AppTextField.dart';
 import 'package:lazo_client/Presentation/Widgets/CustomAppBar.dart';
@@ -19,7 +20,7 @@ import 'Auth/Componants/CustomSelectorBottomSheet.dart';
 class FilterScreen extends ConsumerStatefulWidget {
   final FilterScreenTypes type;
   final String? searchValue;
-  const FilterScreen({required this.type,this.searchValue, super.key});
+  const FilterScreen({required this.type, this.searchValue, super.key});
 
   @override
   ConsumerState<FilterScreen> createState() => _FilterScreenState();
@@ -33,6 +34,7 @@ class _FilterScreenState extends ConsumerState<FilterScreen> {
       .map((item) => ItemSelector(item, "$item/5", SVGIcons.smallStarIcon(),
           isChecked: false))
       .toList();
+  final TextEditingController priceTextController = TextEditingController();
   final TextEditingController promotionTextController = TextEditingController();
   final TextEditingController categoryTextController = TextEditingController();
   final TextEditingController occasionTextController = TextEditingController();
@@ -41,6 +43,8 @@ class _FilterScreenState extends ConsumerState<FilterScreen> {
   List<int>? categoriesSelected = null;
   List<int>? occasionsSelected = null;
   List<int>? ratingSelected = null;
+  int? priceFrom = null;
+  int? priceTo = null;
   FilterData? filterData = null;
   @override
   void initState() {
@@ -59,6 +63,10 @@ class _FilterScreenState extends ConsumerState<FilterScreen> {
       occasionsSelected = filterData?.occasionsIdsSelected;
 
       ratingSelected = filterData?.ratingValueSelected;
+
+      priceFrom = filterData?.priceFromSelected;
+
+      priceTo = filterData?.priceToSelected;
 
       setDefaultData();
     });
@@ -103,23 +111,47 @@ class _FilterScreenState extends ConsumerState<FilterScreen> {
         padding: const EdgeInsets.all(16),
         child: Column(
           children: [
-            InkWell(
-              onTap: () {
-                showPromotionBottomSheet(context);
-              },
-              child: AppTextField(
-                readOnly: true,
-                disabled: true,
-                hint: "Promotion",
-                style: AppTheme.styleWithTextBlackAdelleSansExtendedFonts16w500,
-                textFieldBorderColor: AppTheme.appGrey8,
-                label: "Promoted",
-                labelStyle:
-                    AppTheme.styleWithTextBlackAdelleSansExtendedFonts16w500,
-                textEditingController: promotionTextController,
-                endWidget: SVGIcons.rightIcon(),
-              ),
-            ),
+            widget.type != FilterScreenTypes.Sellers
+                ? InkWell(
+                    onTap: () {
+                      showPriceBottomSheet(context,afterSuccessSelectMultiItems:(from,to){
+                        priceFrom = from;
+                        priceTo = to;
+                        setDefaultPrice(priceFrom, priceTo);
+                      });
+                    },
+                    child: AppTextField(
+                      readOnly: true,
+                      disabled: true,
+                      hint: "Price",
+                      style: AppTheme
+                          .styleWithTextBlackAdelleSansExtendedFonts16w500,
+                      textFieldBorderColor: AppTheme.appGrey8,
+                      label: "Price",
+                      labelStyle: AppTheme
+                          .styleWithTextBlackAdelleSansExtendedFonts16w500,
+                      textEditingController: priceTextController,
+                      endWidget: SVGIcons.rightIcon(),
+                    ),
+                  )
+                : InkWell(
+                    onTap: () {
+                      showPromotionBottomSheet(context);
+                    },
+                    child: AppTextField(
+                      readOnly: true,
+                      disabled: true,
+                      hint: "Promotion",
+                      style: AppTheme
+                          .styleWithTextBlackAdelleSansExtendedFonts16w500,
+                      textFieldBorderColor: AppTheme.appGrey8,
+                      label: "Promoted",
+                      labelStyle: AppTheme
+                          .styleWithTextBlackAdelleSansExtendedFonts16w500,
+                      textEditingController: promotionTextController,
+                      endWidget: SVGIcons.rightIcon(),
+                    ),
+                  ),
             SizedBox(
               height: 16,
             ),
@@ -205,26 +237,31 @@ class _FilterScreenState extends ConsumerState<FilterScreen> {
                 height: 48,
                 width: double.infinity,
                 onPress: () {
-                  switch(widget.type){
-                    case FilterScreenTypes.Products : {
-                      ref
-                          .read(filterForProductStateNotifiers.notifier)
-                          .applyDataFilter(
-                          promotionSelected: promotionSelected,
-                          categoriesIdsSelected: categoriesSelected,
-                          occasionsIdsSelected: occasionsSelected,
-                          ratingValueSelected: ratingSelected);
-                    }
-                    break;
+                  switch (widget.type) {
+                    case FilterScreenTypes.Products:
+                      {
+                        ref
+                            .read(filterForProductStateNotifiers.notifier)
+                            .applyDataFilter(
+                                priceFromSelected: priceFrom,
+                                priceToSelected: priceTo,
+                                categoriesIdsSelected: categoriesSelected,
+                                occasionsIdsSelected: occasionsSelected,
+                                ratingValueSelected: ratingSelected);
+                        fetchProducts(1);
+                      }
+                      break;
                     case FilterScreenTypes.Services:
                       {
                         ref
                             .read(filterForServiceStateNotifiers.notifier)
                             .applyDataFilter(
-                            promotionSelected: promotionSelected,
-                            categoriesIdsSelected: categoriesSelected,
-                            occasionsIdsSelected: occasionsSelected,
-                            ratingValueSelected: ratingSelected);
+                                priceFromSelected: priceFrom,
+                                priceToSelected: priceTo,
+                                categoriesIdsSelected: categoriesSelected,
+                                occasionsIdsSelected: occasionsSelected,
+                                ratingValueSelected: ratingSelected);
+                        fetchServices(1);
                       }
                       break;
                     case FilterScreenTypes.Sellers:
@@ -232,10 +269,11 @@ class _FilterScreenState extends ConsumerState<FilterScreen> {
                         ref
                             .read(filterForSellerStateNotifiers.notifier)
                             .applyDataFilter(
-                            promotionSelected: promotionSelected,
-                            categoriesIdsSelected: categoriesSelected,
-                            occasionsIdsSelected: occasionsSelected,
-                            ratingValueSelected: ratingSelected);
+                                promotionSelected: promotionSelected,
+                                categoriesIdsSelected: categoriesSelected,
+                                occasionsIdsSelected: occasionsSelected,
+                                ratingValueSelected: ratingSelected);
+                        fetchSellers(1);
                       }
                       break;
                   }
@@ -277,6 +315,27 @@ class _FilterScreenState extends ConsumerState<FilterScreen> {
 
                 Navigator.pop(context);
               });
+        });
+  }
+
+  void showPriceBottomSheet(BuildContext context,{Function(int?,int?)? afterSuccessSelectMultiItems}) {
+    print("filterForSellerStateNotifiers : ${promotionSelected}");
+
+    showModalBottomSheet(
+        context: context,
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(10), topRight: Radius.circular(10))),
+        builder: (BuildContext context) {
+          return SelectPriceBottomSheet(
+            context: context,
+            title: "Choose Price",
+            priceFrom: "5",
+            priceTo: "30",
+            applyBtu: (from,to){
+              afterSuccessSelectMultiItems?.call(from,to);
+            }
+          );
         });
   }
 
@@ -402,21 +461,21 @@ class _FilterScreenState extends ConsumerState<FilterScreen> {
   void setDefaultRatingsText(List<int> mainCategoriesList, List<int> items) {
     try {
       var text = mainCategoriesList
-          .where((item) =>
-      items.any((id) {
-        print("$id == $item : ${id == item}");
-        return id == item;
-      }) ??
-          false)
-          .map((item) => "${item}/5")
-          .join(", ") ??
+              .where((item) =>
+                  items.any((id) {
+                    print("$id == $item : ${id == item}");
+                    return id == item;
+                  }) ??
+                  false)
+              .map((item) => "${item}/5")
+              .join(", ") ??
           "";
       print(text);
       if (text.length >= 45) {
         text = "${text.substring(0, 44)}...";
       }
       ratingsTextController.text = text;
-    }catch(e){
+    } catch (e) {
       print(" dsfafasdfa $e");
     }
   }
@@ -435,5 +494,62 @@ class _FilterScreenState extends ConsumerState<FilterScreen> {
         occasionsSelected ?? []);
 
     setDefaultRatingsText(mainRatingList, ratingSelected ?? []);
+
+    setDefaultPrice(priceFrom,priceTo);
+  }
+
+  void setDefaultPrice(int? priceFrom, int? priceTo) {
+    priceTextController.text = "$priceFrom - $priceTo";
+  }
+
+
+  void fetchProducts(int page) {
+    ref.read(getProductsStateNotifiers.notifier).getProductsData(
+        page: page,
+        categoriesIds:
+            widget.type == CategoryType.Search
+                ? filterData?.categoriesIdsSelected
+            : null,
+        occasionsIds:
+            widget.type == CategoryType.Search
+            ? filterData?.occasionsIdsSelected
+            : null,
+        ratings: filterData?.ratingValueSelected
+            ?.map((item) => item.toString())
+            .toList(),
+        type: ItemType.Products.name.toLowerCase(),
+        // searchByName: searchForProductData == null || searchForProductData?.isEmpty == true ? null : searchForProductData
+    );
+  }
+
+  void fetchServices(int page) {
+    ref.read(getServicesStateNotifiers.notifier).getServicesData(
+        page: page,
+        categoriesIds:
+            widget.type == CategoryType.Search
+            ? filterData?.categoriesIdsSelected
+            : null,
+        occasionsIds:
+            widget.type == CategoryType.Search
+            ? filterData?.occasionsIdsSelected
+            : null,
+        ratings: filterData?.ratingValueSelected
+            ?.map((item) => item.toString())
+            .toList(),
+        type: ItemType.Services.name.toLowerCase(),
+        // searchByName: searchForServiceData == null || searchForServiceData?.isEmpty == true ? null : searchForServiceData
+    );
+  }
+
+  void fetchSellers(int page) {
+    ref.read(getTopSellersDataStateNotifiers.notifier).getTopSellersData(
+        page: page,
+        categoriesIds: filterData?.categoriesIdsSelected,
+        occasionsIds: filterData?.occasionsIdsSelected,
+        ratings: filterData?.ratingValueSelected
+            ?.map((item) => item.toString())
+            .toList(),
+        // searchByName: searchForSellersData == null || searchForSellersData?.isEmpty == true ? null : searchForSellersData
+    );
   }
 }
