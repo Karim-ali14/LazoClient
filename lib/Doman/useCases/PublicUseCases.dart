@@ -157,17 +157,15 @@ class GetProductsUseCase
         : StateModel.loading();
     requestForPagination(
         () => publicApi.filterTopProductsServices(
-          filterTopProductsServicesRequest:
-            FilterTopProductsServicesRequest(
-                page: page,
-                searchByName: searchByName,
-                categoriesIds: categoriesIds?.map((item) => item.toInt()).toList(),
-                occasionsIds: occasionsIds,
-                priceFrom: priceFrom,
-                priceTo: priceTo,
-                // ratings: ratings,
-                type: type ?? ItemType.Products.name.toLowerCase()
-            )
+            page: page,
+            searchByName: searchByName,
+            categoriesIds: categoriesIds,
+            occasionsIds: occasionsIds,
+            priceFrom: priceFrom,
+            priceTo: priceTo,
+            ratings: ratings,
+            fromMobile: 1,
+            type: type ?? ItemType.Products.name.toLowerCase()
         ),
         onComplete: (res) {
       if (page != 1) {
@@ -208,15 +206,14 @@ class GetServicesUseCase
         : StateModel.loading();
     requestForPagination(
         () => publicApi.filterTopProductsServices(
-            // page: page,
-            // searchByName: searchByName,
-            // categoriesIds: categoriesIds,
-            // occasionsIds: occasionsIds,
-            // priceFrom: priceFrom,
-            // priceTo: priceTo,
-            // ratings: ratings,
-            // type: type ?? ItemType.Services.name.toLowerCase()
-        ),
+            page: page,
+            searchByName: searchByName,
+            categoriesIds: categoriesIds,
+            occasionsIds: occasionsIds,
+            priceFrom: priceFrom,
+            priceTo: priceTo,
+            ratings: ratings,
+            type: type ?? ItemType.Services.name.toLowerCase()),
         onComplete: (res) {
       if (page != 1) {
         List<ServiceShowData> list = state.data?.data?.services?.data ?? [];

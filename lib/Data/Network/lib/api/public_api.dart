@@ -246,20 +246,84 @@ class PublicApi {
   ///
   /// Parameters:
   ///
-  /// * [FilterTopProductsServicesRequest] filterTopProductsServicesRequest:
-  Future<Response> filterTopProductsServicesWithHttpInfo({ FilterTopProductsServicesRequest? filterTopProductsServicesRequest, }) async {
+  /// * [num] page:
+  ///
+  /// * [num] limit:
+  ///
+  /// * [String] searchByName:
+  ///
+  /// * [List<num>] categoriesIds:
+  ///
+  /// * [List<num>] occasionsIds:
+  ///
+  /// * [String] priceFrom:
+  ///
+  /// * [String] priceTo:
+  ///
+  /// * [List<String>] ratings:
+  ///
+  /// * [String] type:
+  ///   products or services
+  ///
+  /// * [num] fromMobile:
+  Future<Response> filterTopProductsServicesWithHttpInfo({ num? page, num? limit, String? searchByName, List<num>? categoriesIds, List<num>? occasionsIds, String? priceFrom, String? priceTo, List<String>? ratings, String? type, num? fromMobile, }) async {
     // ignore: prefer_const_declarations
     final path = r'/top-products-services/filter';
 
     // ignore: prefer_final_locals
-    Object? postBody = filterTopProductsServicesRequest;
+    Object? postBody;
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
-    const contentTypes = <String>['application/json'];
+    const contentTypes = <String>['multipart/form-data'];
 
+    bool hasFields = false;
+    final mp = MultipartRequest('POST', Uri.parse(path));
+    if (page != null) {
+      hasFields = true;
+      mp.fields[r'page'] = parameterToString(page);
+    }
+    if (limit != null) {
+      hasFields = true;
+      mp.fields[r'limit'] = parameterToString(limit);
+    }
+    if (searchByName != null) {
+      hasFields = true;
+      mp.fields[r'search_by_name'] = parameterToString(searchByName);
+    }
+    if (categoriesIds != null) {
+      hasFields = true;
+      mp.fields[r'categories_ids'] = parameterToString(categoriesIds);
+    }
+    if (occasionsIds != null) {
+      hasFields = true;
+      mp.fields[r'occasions_ids'] = parameterToString(occasionsIds);
+    }
+    if (priceFrom != null) {
+      hasFields = true;
+      mp.fields[r'price_from'] = parameterToString(priceFrom);
+    }
+    if (priceTo != null) {
+      hasFields = true;
+      mp.fields[r'price_to'] = parameterToString(priceTo);
+    }
+    if (ratings != null) {
+      hasFields = true;
+      mp.fields[r'ratings'] = parameterToString(ratings);
+    }
+    if (type != null) {
+      hasFields = true;
+      mp.fields[r'type'] = parameterToString(type);
+    }
+    if (fromMobile != null) {
+      hasFields = true;
+      mp.fields[r'from_mobile'] = parameterToString(fromMobile);
+    }
+    if (hasFields) {
+      postBody = mp;
+    }
 
     return apiClient.invokeAPI(
       path,
@@ -278,9 +342,28 @@ class PublicApi {
   ///
   /// Parameters:
   ///
-  /// * [FilterTopProductsServicesRequest] filterTopProductsServicesRequest:
-  Future<FilterTopProductsServices200Response?> filterTopProductsServices({ FilterTopProductsServicesRequest? filterTopProductsServicesRequest, }) async {
-    final response = await filterTopProductsServicesWithHttpInfo( filterTopProductsServicesRequest: filterTopProductsServicesRequest, );
+  /// * [num] page:
+  ///
+  /// * [num] limit:
+  ///
+  /// * [String] searchByName:
+  ///
+  /// * [List<num>] categoriesIds:
+  ///
+  /// * [List<num>] occasionsIds:
+  ///
+  /// * [String] priceFrom:
+  ///
+  /// * [String] priceTo:
+  ///
+  /// * [List<String>] ratings:
+  ///
+  /// * [String] type:
+  ///   products or services
+  ///
+  /// * [num] fromMobile:
+  Future<FilterTopProductsServices200Response?> filterTopProductsServices({ num? page, num? limit, String? searchByName, List<num>? categoriesIds, List<num>? occasionsIds, String? priceFrom, String? priceTo, List<String>? ratings, String? type, num? fromMobile, }) async {
+    final response = await filterTopProductsServicesWithHttpInfo( page: page, limit: limit, searchByName: searchByName, categoriesIds: categoriesIds, occasionsIds: occasionsIds, priceFrom: priceFrom, priceTo: priceTo, ratings: ratings, type: type, fromMobile: fromMobile, );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }

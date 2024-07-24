@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:lazo_client/Presentation/Screens/FilterScreen.dart';
 import 'package:lazo_client/Presentation/Screens/Auth/LoginSreen.dart';
 import 'package:lazo_client/Presentation/Screens/Auth/SignUpScreen.dart';
+import 'package:lazo_client/Presentation/Screens/home/ShowBestProductAndServiceScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:timeago/timeago.dart' as ago;
 
@@ -161,49 +162,62 @@ class MyApp extends ConsumerWidget {
             const MainScreen(),
       ),
       GoRoute(
-          path: R_LoginScreen,
-          builder: (BuildContext context, GoRouterState state) => const LoginScreen(),
+        path: R_LoginScreen,
+        builder: (BuildContext context, GoRouterState state) =>
+            const LoginScreen(),
       ),
       GoRoute(
           path: R_OTP,
           builder: (BuildContext context, GoRouterState state) {
             var extra = state.extra as Map;
-            return OTPScreen(phone:extra["phone"],image:extra["image"],name: extra["name"],email: extra["email"],cityId: extra["cityId"], otpType: extra["type"],);
-          }
-      ),
+            return OTPScreen(
+              phone: extra["phone"],
+              image: extra["image"],
+              name: extra["name"],
+              email: extra["email"],
+              cityId: extra["cityId"],
+              otpType: extra["type"],
+            );
+          }),
       GoRoute(
           path: R_SignUp,
           builder: (BuildContext context, GoRouterState state) {
             return const SignUpScreen();
-          }
-      ),
+          }),
       GoRoute(
           path: R_SeeAllCategoryOrOccasion,
           builder: (BuildContext context, GoRouterState state) {
             var extra = state.extra as Map;
-            return ShowAllCategoryAndOccasionsData(type: extra["type"] as CategoryType);
-          }
-      ),
+            return ShowAllCategoryAndOccasionsData(
+                type: extra["type"] as CategoryType);
+          }),
       GoRoute(
           path: R_SeeAllProductOrService,
           builder: (BuildContext context, GoRouterState state) {
             var extra = state.extra as Map;
-            return ShowProductAndServiceScreen(title: extra["title"],id: extra["id"], type: extra["type"] as CategoryType);
-          }
-      ),
+            return ShowProductAndServiceScreen(
+                title: extra["title"],
+                id: extra["id"],
+                type: extra["type"] as CategoryType);
+          }),
       GoRoute(
           path: R_SeeAllSeller,
           builder: (BuildContext context, GoRouterState state) {
             return const ShowTopSellers();
-          }
-      ),
+          }),
+      GoRoute(
+          path: R_ShowBestProductOrService,
+          builder: (BuildContext context, GoRouterState state) {
+            var extra = state.extra as Map;
+            return ShowBestProductAndServiceScreen(
+                extra["title"], extra["type"] as ItemType);
+          }),
       GoRoute(
           path: R_FilterScreen,
           builder: (BuildContext context, GoRouterState state) {
             var extra = state.extra as Map;
             return FilterScreen(type: extra["type"] as FilterScreenTypes);
-          }
-      ),
+          }),
     ],
   );
 }

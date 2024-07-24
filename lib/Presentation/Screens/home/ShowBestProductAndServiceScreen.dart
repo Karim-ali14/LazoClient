@@ -17,18 +17,18 @@ import '../../Widgets/DataListView.dart';
 import '../../Widgets/SearchWithFilter.dart';
 import '../../Widgets/ServiceAndProductItemCard.dart';
 
-class ShowProductAndServiceScreen extends ConsumerStatefulWidget {
+class ShowBestProductAndServiceScreen extends ConsumerStatefulWidget {
   final String title;
   final ItemType type;
-  const ShowProductAndServiceScreen(this.title, this.type, {super.key});
+  const ShowBestProductAndServiceScreen(this.title, this.type, {super.key});
 
   @override
-  ConsumerState<ShowProductAndServiceScreen> createState() =>
+  ConsumerState<ShowBestProductAndServiceScreen> createState() =>
       _ShowProductAndServiceScreenState();
 }
 
 class _ShowProductAndServiceScreenState
-    extends ConsumerState<ShowProductAndServiceScreen>
+    extends ConsumerState<ShowBestProductAndServiceScreen>
     with SingleTickerProviderStateMixin {
   late TabController tabController;
   int activeTabIndex = 0;

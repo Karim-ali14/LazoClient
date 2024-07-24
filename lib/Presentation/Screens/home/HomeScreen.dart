@@ -153,7 +153,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                   homeDataState.state == DataState.LOADING,
                               itemClick: (itemId) {},
                               onAddItemToCart: (int) {},
-                              onAddItemToWishList: (int) {},
+                              onAddItemToWishList: (int) {}, onSeeAllClickListener: () {
+                                navigateToSeeAllBestProductAndService("Best Products",ItemType.Products);
+                                },
                             ),
                       SizedBox(
                         height: 32,
@@ -170,7 +172,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                   homeDataState.state == DataState.LOADING,
                               itemClick: (itemId) {},
                               onAddItemToCart: (int) {},
-                              onAddItemToWishList: (int) {},
+                              onAddItemToWishList: (int) {}, onSeeAllClickListener: () {
+                                navigateToSeeAllBestProductAndService("Best Services", ItemType.Services);
+                      },
                             ),
                     ],
                   ),
@@ -202,5 +206,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   void navigateToSeeAllTopSeller() {
     context.push(R_SeeAllSeller);
+  }
+
+  void navigateToSeeAllBestProductAndService(String title, ItemType type) {
+    context.push(R_ShowBestProductOrService,
+        extra: {"type": type, "title": title});
   }
 }

@@ -7,6 +7,7 @@ import 'package:skeletonizer/skeletonizer.dart';
 import '../../../../Constants/Eunms.dart';
 import '../../../../Data/Network/lib/api.dart';
 import '../../../Widgets/TitleWithSeeAll.dart';
+import 'HorizontalCategoryListViewWithTitleSeeAll.dart';
 
 typedef OnItemClickListener = Function(int);
 
@@ -16,11 +17,12 @@ class HorizontalTopServiceListViewWithTitleSeeAll extends StatefulWidget {
   final OnItemClickListener itemClick;
   final OnItemClick onAddItemToCart;
   final OnItemClick onAddItemToWishList;
+  final OnSeeAllClickListener onSeeAllClickListener;
   const HorizontalTopServiceListViewWithTitleSeeAll(
       {super.key,
       required this.list,
       required this.showLoading,
-      required this.itemClick, required this.onAddItemToCart, required this.onAddItemToWishList});
+      required this.itemClick, required this.onAddItemToCart, required this.onAddItemToWishList, required this.onSeeAllClickListener});
 
   @override
   State<HorizontalTopServiceListViewWithTitleSeeAll> createState() => _HorizontalTopServiceListViewWithTitleSeeAll();
@@ -35,7 +37,9 @@ class _HorizontalTopServiceListViewWithTitleSeeAll extends State<HorizontalTopSe
           enabled: widget.showLoading,
           child: TitleWithSeeAll(
             title: "Best Service",
-            onClickOnSeeAll: () {},
+            onClickOnSeeAll: () {
+              widget.onSeeAllClickListener.call();
+            },
           ),
         ),
         SizedBox(

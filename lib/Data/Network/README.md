@@ -171,7 +171,6 @@ Class | Method | HTTP request | Description
  - [FilterTopProductsServices200ResponseData](doc//FilterTopProductsServices200ResponseData.md)
  - [FilterTopProductsServices200ResponseDataProducts](doc//FilterTopProductsServices200ResponseDataProducts.md)
  - [FilterTopProductsServices200ResponseDataServices](doc//FilterTopProductsServices200ResponseDataServices.md)
- - [FilterTopProductsServicesRequest](doc//FilterTopProductsServicesRequest.md)
  - [FilterTopSellers200Response](doc//FilterTopSellers200Response.md)
  - [FilterTopSellers200ResponseData](doc//FilterTopSellers200ResponseData.md)
  - [FilterTopSellers200ResponseDataLinksInner](doc//FilterTopSellers200ResponseDataLinksInner.md)

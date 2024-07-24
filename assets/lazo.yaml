@@ -5181,7 +5181,7 @@ paths:
       operationId: filterTopProductsServices
       requestBody:
         content:
-          application/json:
+          multipart/form-data:
             schema:
               type: object
               properties:
@@ -5198,7 +5198,7 @@ paths:
                   nullable: true
                   type: array
                   items:
-                    type: integer
+                    type: number
                 occasions_ids:
                   nullable: true
                   type: array
@@ -5223,6 +5223,8 @@ paths:
                   description: products or services
                   type: string
                   example: services
+                from_mobile:
+                  type: number
       responses:
         '200':
           description: Success response
