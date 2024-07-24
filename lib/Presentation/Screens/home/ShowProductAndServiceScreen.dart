@@ -45,6 +45,11 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
   FilterData? filterForServicesData = null;
   FilterData? filterForSellersData = null;
 
+  String? searchForProductData = null;
+  String? searchForServiceData = null;
+  String? searchForSellersData = null;
+
+  final TextEditingController controller = TextEditingController();
   @override
   void initState() {
     tabController = TabController(
@@ -52,6 +57,13 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
     tabController.addListener(() {
       setState(() {
         activeTabIndex = tabController.index;
+        if(activeTabIndex == 0){
+          controller.text = searchForProductData ?? "";
+        }else if(activeTabIndex == 1){
+          controller.text = searchForServiceData ?? "";
+        } else if(activeTabIndex == 2){
+          controller.text = searchForSellersData ?? "";
+        }
       });
     });
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
@@ -88,6 +100,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: AppSearchBarWithFilter(
+                controller: controller,
                 hasFilter: true,
                 onFilterClick: () {
                   openFilterScreen(activeTabIndex);
@@ -96,34 +109,19 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
                 onTextChangeListener: (value) {
                   if (activeTabIndex == 0) {
                     currentPageForProducts = 1;
-                    ref
-                        .read(getProductsStateNotifiers.notifier)
-                        .getProductsData(
-                            page: currentPageForProducts,
-                            categoriesIds:
-                                widget.type == CategoryType.Categories
-                                    ? [widget.id]
-                                    : null,
-                            occasionsIds: widget.type == CategoryType.Occasions
-                                ? [widget.id]
-                                : null,
-                            type: ItemType.Products.name.toLowerCase(),
-                            searchByName: value.isNotEmpty ? value : null);
-                  } else {
+                    searchForProductData = value;
+                    fetchProducts(currentPageForProducts);
+                  }
+                  else if(activeTabIndex == 1) {
                     currentPageForServices = 1;
-                    ref
-                        .read(getServicesStateNotifiers.notifier)
-                        .getServicesData(
-                            page: currentPageForServices,
-                            categoriesIds:
-                                widget.type == CategoryType.Categories
-                                    ? [widget.id]
-                                    : null,
-                            occasionsIds: widget.type == CategoryType.Occasions
-                                ? [widget.id]
-                                : null,
-                            type: ItemType.Services.name.toLowerCase(),
-                            searchByName: value.isNotEmpty ? value : null);
+                    searchForServiceData = value;
+                    fetchServices(currentPageForServices);
+                  }
+
+                  else if(activeTabIndex == 2) {
+                    currentPageForSellers = 1;
+                    searchForSellersData = value;
+                    fetchSellers(currentPageForSellers);
                   }
                 },
               ),
@@ -381,7 +379,8 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
         ratings: filterForProductData?.ratingValueSelected
             ?.map((item) => item.toString())
             .toList(),
-        type: ItemType.Products.name.toLowerCase());
+        type: ItemType.Products.name.toLowerCase(),
+        searchByName: searchForProductData == null || searchForProductData?.isEmpty == true ? null : searchForProductData);
   }
 
   void fetchServices(int page) {
@@ -402,7 +401,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
         ratings: filterForServicesData?.ratingValueSelected
             ?.map((item) => item.toString())
             .toList(),
-        type: ItemType.Services.name.toLowerCase());
+        type: ItemType.Services.name.toLowerCase(),searchByName: searchForServiceData == null || searchForServiceData?.isEmpty == true ? null : searchForServiceData);
   }
 
   void fetchSellers(int page) {
@@ -417,6 +416,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
           ratings: filterForSellersData?.ratingValueSelected
               ?.map((item) => item.toString())
               .toList(),
+        searchByName: searchForSellersData == null || searchForSellersData?.isEmpty == true ? null : searchForSellersData
         );
   }
 
