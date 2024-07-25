@@ -57,21 +57,16 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
     tabController.addListener(() {
       setState(() {
         activeTabIndex = tabController.index;
-        if(activeTabIndex == 0){
+        if (activeTabIndex == 0) {
           controller.text = searchForProductData ?? "";
-        }else if(activeTabIndex == 1){
+        } else if (activeTabIndex == 1) {
           controller.text = searchForServiceData ?? "";
-        } else if(activeTabIndex == 2){
+        } else if (activeTabIndex == 2) {
           controller.text = searchForSellersData ?? "";
         }
       });
     });
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      filterForProductData = ref.watch(filterForProductStateNotifiers);
-
-      filterForServicesData = ref.watch(filterForServiceStateNotifiers);
-
-      filterForSellersData = ref.watch(filterForSellerStateNotifiers);
       fetchProducts(currentPageForProducts);
       fetchServices(currentPageForServices);
       if (widget.type == CategoryType.Search) {
@@ -83,6 +78,14 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
 
   @override
   Widget build(BuildContext context) {
+
+    filterForProductData = ref.watch(filterForProductStateNotifiers);
+
+    filterForServicesData = ref.watch(filterForServiceStateNotifiers);
+
+    filterForSellersData = ref.watch(filterForSellerStateNotifiers);
+    print("filter data ->${filterForProductData?.categoriesIdsSelected} ${filterForProductData?.occasionsIdsSelected} , ${filterForProductData?.ratingValueSelected} ${filterForProductData?.priceToSelected}");
+
     final productsState = ref.watch(getProductsStateNotifiers);
     final servicesState = ref.watch(getServicesStateNotifiers);
     final sellersState = ref.watch(getTopSellersDataStateNotifiers);
@@ -93,6 +96,9 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
         title: widget.title,
         navigated: true,
         isCenter: false,
+        customCallBack: (){
+          context.pop("Data");
+        },
       ),
       body: SafeArea(
         child: Column(
@@ -111,14 +117,11 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
                     currentPageForProducts = 1;
                     searchForProductData = value;
                     fetchProducts(currentPageForProducts);
-                  }
-                  else if(activeTabIndex == 1) {
+                  } else if (activeTabIndex == 1) {
                     currentPageForServices = 1;
                     searchForServiceData = value;
                     fetchServices(currentPageForServices);
-                  }
-
-                  else if(activeTabIndex == 2) {
+                  } else if (activeTabIndex == 2) {
                     currentPageForSellers = 1;
                     searchForSellersData = value;
                     fetchSellers(currentPageForSellers);
@@ -380,7 +383,12 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
             ?.map((item) => item.toString())
             .toList(),
         type: ItemType.Products.name.toLowerCase(),
-        searchByName: searchForProductData == null || searchForProductData?.isEmpty == true ? null : searchForProductData);
+        priceTo: filterForProductData?.priceToSelected.toString(),
+        priceFrom: filterForProductData?.priceFromSelected.toString(),
+        searchByName: searchForProductData == null ||
+                searchForProductData?.isEmpty == true
+            ? null
+            : searchForProductData);
   }
 
   void fetchServices(int page) {
@@ -401,45 +409,55 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
         ratings: filterForServicesData?.ratingValueSelected
             ?.map((item) => item.toString())
             .toList(),
-        type: ItemType.Services.name.toLowerCase(),searchByName: searchForServiceData == null || searchForServiceData?.isEmpty == true ? null : searchForServiceData);
+        priceTo: filterForServicesData?.priceToSelected.toString(),
+        priceFrom: filterForServicesData?.priceFromSelected.toString(),
+        type: ItemType.Services.name.toLowerCase(),
+        searchByName: searchForServiceData == null ||
+                searchForServiceData?.isEmpty == true
+            ? null
+            : searchForServiceData);
   }
 
   void fetchSellers(int page) {
     ref.read(getTopSellersDataStateNotifiers.notifier).getTopSellersData(
-          page: page,
-          categoriesIds: widget.type == CategoryType.Categories
-              ? filterForSellersData?.categoriesIdsSelected
-              : null,
-          occasionsIds: widget.type == CategoryType.Occasions
-              ? filterForSellersData?.occasionsIdsSelected
-              : null,
-          ratings: filterForSellersData?.ratingValueSelected
-              ?.map((item) => item.toString())
-              .toList(),
-        searchByName: searchForSellersData == null || searchForSellersData?.isEmpty == true ? null : searchForSellersData
-        );
+        page: page,
+        isPromoted: filterForSellersData?.promotionSelected?.toString(),
+        categoriesIds: widget.type == CategoryType.Categories
+            ? filterForSellersData?.categoriesIdsSelected
+            : null,
+        occasionsIds: widget.type == CategoryType.Occasions
+            ? filterForSellersData?.occasionsIdsSelected
+            : null,
+        ratings: filterForSellersData?.ratingValueSelected
+            ?.map((item) => item.toString())
+            .toList(),
+        searchByName: searchForSellersData == null ||
+                searchForSellersData?.isEmpty == true
+            ? null
+            : searchForSellersData);
   }
 
   void openFilterScreen(int activeTabIndex) {
-    switch(activeTabIndex){
-      case 0 : {
-        context.push(
-            R_FilterScreen,extra: {"type":FilterScreenTypes.Products}
-        );
-      }
-      break;
-      case 1 : {
-        context.push(
-            R_FilterScreen,extra: {"type":FilterScreenTypes.Services}
-        );
-      }
-      break;
-      case 2 : {
-        context.push(
-            R_FilterScreen,extra: {"type":FilterScreenTypes.Sellers}
-        );
-      }
-      break;
+    switch (activeTabIndex) {
+      case 0:
+        {
+          context.push(R_FilterScreen,
+              extra: {"type": FilterScreenTypes.Products,"searchValue" : controller.text});
+        }
+        break;
+      case 1:
+        {
+          context.push(R_FilterScreen,
+              extra: {"type": FilterScreenTypes.Services});
+        }
+        break;
+      case 2:
+        {
+          context
+              .push(R_FilterScreen, extra: {"type": FilterScreenTypes.Sellers});
+        }
+        break;
     }
   }
+
 }

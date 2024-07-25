@@ -30,6 +30,12 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget  {
         actions: trailingWidget != null ? [trailingWidget!] : [],
         leadingWidth: leadingWithCount(),
         leading: leadingWidget ?? (navigated ? IconButton(onPressed: (){
+
+          if(customCallBack != null) {
+            customCallBack?.call();
+            return;
+          }
+
           try{
             GoRouter.of(appContext).pop(appContext);
           }catch(e){

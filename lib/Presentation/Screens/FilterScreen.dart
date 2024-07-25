@@ -115,6 +115,7 @@ class _FilterScreenState extends ConsumerState<FilterScreen> {
                 ? InkWell(
                     onTap: () {
                       showPriceBottomSheet(context,afterSuccessSelectMultiItems:(from,to){
+                        print("$from $to");
                         priceFrom = from;
                         priceTo = to;
                         setDefaultPrice(priceFrom, priceTo);
@@ -330,8 +331,8 @@ class _FilterScreenState extends ConsumerState<FilterScreen> {
           return SelectPriceBottomSheet(
             context: context,
             title: "Choose Price",
-            priceFrom: "5",
-            priceTo: "30",
+            priceFrom: priceFrom == null ? "" : priceFrom.toString() ,
+            priceTo: priceTo == null ? "" : priceTo.toString(),
             applyBtu: (from,to){
               afterSuccessSelectMultiItems?.call(from,to);
             }
@@ -499,57 +500,53 @@ class _FilterScreenState extends ConsumerState<FilterScreen> {
   }
 
   void setDefaultPrice(int? priceFrom, int? priceTo) {
-    priceTextController.text = "$priceFrom - $priceTo";
+    if(priceFrom != null && priceTo != null){
+      priceTextController.text = "SAR ${priceFrom??""} - SAR ${priceTo??""}";
+    }else if(priceFrom != null && priceTo == null){
+      priceTextController.text = "SAR $priceFrom";
+    } else if(priceFrom == null && priceTo != null){
+      priceTextController.text = "SAR ${priceFrom??0} - SAR ${priceTo}";
+    }else{
+      priceTextController.text = "" ;
+    }
   }
 
 
   void fetchProducts(int page) {
     ref.read(getProductsStateNotifiers.notifier).getProductsData(
         page: page,
-        categoriesIds:
-            widget.type == CategoryType.Search
-                ? filterData?.categoriesIdsSelected
-            : null,
-        occasionsIds:
-            widget.type == CategoryType.Search
-            ? filterData?.occasionsIdsSelected
-            : null,
-        ratings: filterData?.ratingValueSelected
-            ?.map((item) => item.toString())
-            .toList(),
+        categoriesIds: categoriesSelected,
+        occasionsIds: occasionsSelected,
+        ratings: ratingSelected?.map((item) => item.toString()).toList(),
         type: ItemType.Products.name.toLowerCase(),
-        // searchByName: searchForProductData == null || searchForProductData?.isEmpty == true ? null : searchForProductData
+        priceFrom: priceFrom.toString(),
+        priceTo: priceTo.toString(),
+        searchByName: widget.searchValue == null || widget.searchValue?.isEmpty == true ? null : widget.searchValue
     );
   }
 
   void fetchServices(int page) {
     ref.read(getServicesStateNotifiers.notifier).getServicesData(
         page: page,
-        categoriesIds:
-            widget.type == CategoryType.Search
-            ? filterData?.categoriesIdsSelected
-            : null,
-        occasionsIds:
-            widget.type == CategoryType.Search
-            ? filterData?.occasionsIdsSelected
-            : null,
-        ratings: filterData?.ratingValueSelected
-            ?.map((item) => item.toString())
-            .toList(),
+        categoriesIds: categoriesSelected,
+        occasionsIds: occasionsSelected,
+        ratings: ratingSelected?.map((item) => item.toString()).toList(),
         type: ItemType.Services.name.toLowerCase(),
-        // searchByName: searchForServiceData == null || searchForServiceData?.isEmpty == true ? null : searchForServiceData
+        priceFrom: priceFrom.toString(),
+        priceTo: priceTo.toString(),
+        searchByName: widget.searchValue == null || widget.searchValue?.isEmpty == true ? null : widget.searchValue
     );
   }
 
   void fetchSellers(int page) {
     ref.read(getTopSellersDataStateNotifiers.notifier).getTopSellersData(
         page: page,
-        categoriesIds: filterData?.categoriesIdsSelected,
-        occasionsIds: filterData?.occasionsIdsSelected,
-        ratings: filterData?.ratingValueSelected
-            ?.map((item) => item.toString())
-            .toList(),
-        // searchByName: searchForSellersData == null || searchForSellersData?.isEmpty == true ? null : searchForSellersData
+        categoriesIds: categoriesSelected,
+        occasionsIds: occasionsSelected,
+        ratings: ratingSelected?.map((item) => item.toString()).toList(),
+        isPromoted: promotionSelected.toString(),
+        searchByName: widget.searchValue == null || widget.searchValue?.isEmpty == true ? null : widget.searchValue
     );
   }
+
 }

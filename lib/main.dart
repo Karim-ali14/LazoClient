@@ -18,7 +18,7 @@ import 'Presentation//Theme/AppTheme.dart';
 import 'Presentation/Screens/Auth/Otp/OTPScreen.dart';
 import 'Presentation/Screens/home/HomeScreen.dart';
 import 'Presentation/Screens/home/ShowAllCategoryAndOccasionsData.dart';
-import 'Presentation/Screens/home/ShowProductAndServiceScreen.dart';
+import 'Presentation/Screens/home/SearchScreen.dart';
 import 'Presentation/Screens/home/ShowTopSellers.dart';
 import 'Presentation/Screens/mainScreen/MainScreen.dart';
 import 'Presentation/Screens/onbaording/OnBordingScreen.dart';
@@ -216,7 +216,7 @@ class MyApp extends ConsumerWidget {
           path: R_FilterScreen,
           builder: (BuildContext context, GoRouterState state) {
             var extra = state.extra as Map;
-            return FilterScreen(type: extra["type"] as FilterScreenTypes);
+            return FilterScreen(type: extra["type"] as FilterScreenTypes,searchValue: extra["searchValue"],);
           }),
     ],
   );

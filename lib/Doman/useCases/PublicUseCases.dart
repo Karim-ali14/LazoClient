@@ -126,16 +126,15 @@ class GetTopSellersUseCase
         : StateModel.loading();
     requestForPagination(
         () => publicApi.filterTopSellers(
-        filterTopSellersRequest: FilterTopSellersRequest(
-            page: page,
-            searchByName: searchByName,
-            categoriesIds:
-            categoriesIds?.map((item) => item.toString()).toList(),
-            occasionsIds: occasionsIds?.map((item) => item.toString()).toList(),
-            ratings: ratings,
-            isPromoted: isPromoted
-        )
-        ), onComplete: (res) {
+            filterTopSellersRequest: FilterTopSellersRequest(
+                page: page,
+                searchByName: searchByName,
+                categoriesIds:
+                    categoriesIds?.map((item) => item.toString()).toList(),
+                occasionsIds:
+                    occasionsIds?.map((item) => item.toString()).toList(),
+                ratings: ratings,
+                isPromoted: isPromoted)), onComplete: (res) {
       if (page != 1) {
         List<ProviderData> list = state.data?.data?.data ?? [];
         state.data?.data?.data = [...list, ...(res.data?.data ?? [])];
@@ -265,5 +264,9 @@ class FilterDataUseCase extends StateNotifier<FilterData> {
         ratingValueSelected: ratingValueSelected,
         priceFromSelected: priceFromSelected,
         priceToSelected: priceToSelected);
+  }
+
+  void resetDataFilter() {
+    state = FilterData();
   }
 }
