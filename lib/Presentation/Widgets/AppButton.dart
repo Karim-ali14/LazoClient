@@ -20,7 +20,7 @@ class AppButton extends StatelessWidget {
       width: width,
       height: height,
       child: FadeTransition(
-        opacity: enabled! ? const AlwaysStoppedAnimation(1.0) : const AlwaysStoppedAnimation(0.5),
+        opacity: enabled! ? const AlwaysStoppedAnimation(1.0) : const AlwaysStoppedAnimation(1.0),
         child: outlined == true ? OutlinedButton(
           onPressed: enabled! ? onPress : null,
           style: OutlinedButton.styleFrom(
@@ -36,7 +36,7 @@ class AppButton extends StatelessWidget {
             shape: isCircle == true ? MaterialStateProperty.all(const CircleBorder()) : MaterialStateProperty.all(RoundedRectangleBorder(
                 borderRadius: radius??BorderRadius.circular(4)
             )),
-            backgroundColor: MaterialStateProperty.all(backColor ?? AppTheme.appSwatch),
+            backgroundColor: MaterialStateProperty.all(backColor ?? (enabled == true ? AppTheme.appSwatch : AppTheme.appGrey7)),
           ),
           child: child ?? Text(
               text!,

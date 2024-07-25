@@ -12,10 +12,12 @@ import 'package:lazo_client/Presentation/Widgets/AppTextField.dart';
 import 'package:lazo_client/Presentation/Widgets/CustomAppBar.dart';
 import 'package:lazo_client/Presentation/Widgets/SvgIcons.dart';
 
+import '../../Constants/Constants.dart';
 import '../../Data/Models/ItemSelector.dart';
 import '../StateNotifiersViewModel/PublicStateNotifiers.dart';
 import '../Theme/AppTheme.dart';
 import 'Auth/Componants/CustomSelectorBottomSheet.dart';
+import 'mainScreen/MainScreenNavHost.dart';
 
 class FilterScreen extends ConsumerStatefulWidget {
   final FilterScreenTypes type;
@@ -74,6 +76,8 @@ class _FilterScreenState extends ConsumerState<FilterScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var enabled = priceTextController.text.isNotEmpty || promotionTextController.text.isNotEmpty || categoryTextController.text.isNotEmpty || occasionTextController.text.isNotEmpty || ratingsTextController.text.isNotEmpty;
+
     final categoryState = ref.watch(getCategoriesDataStateNotifiers);
     final occasionsState = ref.watch(getOccasionsDataStateNotifiers);
 
@@ -105,6 +109,34 @@ class _FilterScreenState extends ConsumerState<FilterScreen> {
         isCenter: false,
         title: "Filter",
         navigated: true,
+        trailingWidget: InkWell(
+          onTap: (){
+            resetAllData((){
+              setState(() {
+                enabled = false;
+              });
+            });
+          }, child:
+          enabled ?
+          const Padding(
+              padding:
+              EdgeInsets.symmetric(horizontal: defaultPaddingHorizontal),
+              child: Row(
+                children: [
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Reset",
+                        style: AppTheme
+                            .styleWithTextAppMainAppColor15AdelleSansExtendedFonts14w400,
+                      )
+                    ],
+                  ),
+                ],
+              )):const SizedBox(),
+        ),
       ),
       body: SafeArea(
           child: Padding(
@@ -119,6 +151,9 @@ class _FilterScreenState extends ConsumerState<FilterScreen> {
                         priceFrom = from;
                         priceTo = to;
                         setDefaultPrice(priceFrom, priceTo);
+                        setState(() {
+
+                        });
                       });
                     },
                     child: AppTextField(
@@ -163,9 +198,9 @@ class _FilterScreenState extends ConsumerState<FilterScreen> {
                   categoriesSelected = items;
                   setDefaultCategoriesText(
                       categoryState.data?.data ?? [], items);
-                  // ref
-                  //     .read(getCategoriesDataStateNotifiers.notifier)
-                  //     .selectCategoriesInMainList(items);
+                  setState(() {
+
+                  });
                 });
               },
               child: AppTextField(
@@ -193,6 +228,9 @@ class _FilterScreenState extends ConsumerState<FilterScreen> {
                   setDefaultOccasionsText(
                       occasionsState.data?.data ?? [], items);
                 });
+                setState(() {
+
+                });
               },
               child: AppTextField(
                 readOnly: true,
@@ -219,6 +257,9 @@ class _FilterScreenState extends ConsumerState<FilterScreen> {
                   // setDefaultOccasionsText(
                   //     occasionsState.data?.data ?? [], items);
                 });
+                setState(() {
+
+                });
               },
               child: AppTextField(
                 readOnly: true,
@@ -235,6 +276,7 @@ class _FilterScreenState extends ConsumerState<FilterScreen> {
             ),
             SizedBox(height: 24),
             AppButton(
+                enabled: enabled,
                 height: 48,
                 width: double.infinity,
                 onPress: () {
@@ -313,7 +355,9 @@ class _FilterScreenState extends ConsumerState<FilterScreen> {
                 promotionSelected = itemid;
                 promotionTextController.text =
                     promotionSelected == 1 ? "Promoted" : "Not Promoted";
+                setState(() {
 
+                });
                 Navigator.pop(context);
               });
         });
@@ -547,6 +591,33 @@ class _FilterScreenState extends ConsumerState<FilterScreen> {
         isPromoted: promotionSelected.toString(),
         searchByName: widget.searchValue == null || widget.searchValue?.isEmpty == true ? null : widget.searchValue
     );
+  }
+
+  void resetAllData(Function action) {
+    promotionSelected = null;
+    priceTo = null;
+    priceFrom = null;
+    categoriesSelected = null;
+    occasionsSelected = null;
+    ratingSelected = null;
+
+    priceTextController.text = "";
+    promotionTextController.text = "";
+    categoryTextController.text = "";
+    occasionTextController.text = "";
+    ratingsTextController.text = "";
+
+    if (widget.type == FilterScreenTypes.Products) {
+      ref.read(filterForProductStateNotifiers.notifier).resetDataFilter();
+      fetchProducts(1);
+    } else if (widget.type == FilterScreenTypes.Services) {
+      ref.read(filterForServiceStateNotifiers.notifier).resetDataFilter();
+      fetchServices(1);
+    } else if (widget.type == FilterScreenTypes.Sellers) {
+      ref.read(filterForSellerStateNotifiers.notifier).resetDataFilter();
+      fetchSellers(1);
+    }
+    action.call();
   }
 
 }
