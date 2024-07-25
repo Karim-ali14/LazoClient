@@ -203,7 +203,11 @@ class MyApp extends ConsumerWidget {
       GoRoute(
           path: R_SeeAllSeller,
           builder: (BuildContext context, GoRouterState state) {
-            return const ShowTopSellers();
+            var extra = state.extra as Map;
+            return ShowTopSellers(
+            extra["type"] as CategoryType,
+            extra["title"],extra["categoryId"]
+            );
           }),
       GoRoute(
           path: R_ShowBestProductOrService,

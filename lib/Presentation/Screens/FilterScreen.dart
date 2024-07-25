@@ -76,7 +76,7 @@ class _FilterScreenState extends ConsumerState<FilterScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var enabled = priceTextController.text.isNotEmpty || promotionTextController.text.isNotEmpty || categoryTextController.text.isNotEmpty || occasionTextController.text.isNotEmpty || ratingsTextController.text.isNotEmpty;
+    var enabled = promotionSelected != null || priceFrom != null || priceTo != null  || categoriesSelected != null || occasionsSelected != null || ratingSelected != null;
 
     final categoryState = ref.watch(getCategoriesDataStateNotifiers);
     final occasionsState = ref.watch(getOccasionsDataStateNotifiers);
@@ -541,6 +541,10 @@ class _FilterScreenState extends ConsumerState<FilterScreen> {
     setDefaultRatingsText(mainRatingList, ratingSelected ?? []);
 
     setDefaultPrice(priceFrom,priceTo);
+
+    setState(() {
+
+    });
   }
 
   void setDefaultPrice(int? priceFrom, int? priceTo) {

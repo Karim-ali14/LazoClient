@@ -17,7 +17,10 @@ import '../../StateNotifiersViewModel/PublicStateNotifiers.dart';
 import '../../Widgets/SearchWithFilter.dart';
 
 class ShowTopSellers extends ConsumerStatefulWidget {
-  const ShowTopSellers({super.key});
+  final CategoryType type;
+  final String title;
+  final int categoryId;
+  const ShowTopSellers(this.type, this.categoryId, this.title, {super.key});
 
   @override
   ConsumerState<ShowTopSellers> createState() => _ShowTopSellersState();
@@ -29,7 +32,13 @@ class _ShowTopSellersState extends ConsumerState<ShowTopSellers> {
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((callback) {
-      ref.read(getTopSellersDataStateNotifiers.notifier).getTopSellersData();
+      if(widget.type == CategoryType.Search) {
+        ref.read(getTopSellersDataStateNotifiers.notifier).getTopSellersData();
+      }else {
+        ref.read(getTopSellersDataStateNotifiers.notifier).getTopSellersData(
+          categoriesIds: [widget.categoryId]
+        );
+      }
     });
     super.initState();
   }

@@ -5,9 +5,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:lazo_client/Presentation/Widgets/CustomAppBar.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
+import '../../../Constants.dart';
 import '../../../Constants/Eunms.dart';
 import '../../../Data/Models/StateModel.dart';
 import '../../../Data/Network/lib/api.dart';
@@ -52,6 +54,7 @@ class _ShowProductAndServiceScreenState
     super.initState();
   }
 
+  final TextEditingController controller = TextEditingController();
   @override
   Widget build(BuildContext context) {
     final productsState = ref.watch(getProductsStateNotifiers);
@@ -70,8 +73,11 @@ class _ShowProductAndServiceScreenState
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: AppSearchBarWithFilter(
+                controller: controller,
                 hasFilter: true,
-                onFilterClick: () {},
+                onFilterClick: () {
+                  openFilter(widget.type);
+                },
                 delay: 1,
                 onTextChangeListener: (value) {
                   if (activeTabIndex == 0) {
@@ -199,4 +205,15 @@ class _ShowProductAndServiceScreenState
       ),
     );
   }
+
+  void openFilter(ItemType type) {
+    if(type == ItemType.Products){
+      context.push(R_FilterScreen,
+          extra: {"type": FilterScreenTypes.Products,"searchValue" : controller.text});
+    }else if(type == ItemType.Services){
+      context.push(R_FilterScreen,
+          extra: {"type": FilterScreenTypes.Sellers,"searchValue" : controller.text});
+    }
+  }
+
 }

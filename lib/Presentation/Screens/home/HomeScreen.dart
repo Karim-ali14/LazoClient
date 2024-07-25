@@ -118,7 +118,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                               showLoading:
                                   homeDataState.state == DataState.LOADING,
                               itemClick: (itemId) {}, onSeeAllClickListener: () {
-                                navigateToSeeAllTopSeller();
+                                navigateToSeeAllTopSeller(
+                                  title : "",CategoryType.Search ,0
+                                );
                                 },
                             ),
                       SizedBox(
@@ -216,12 +218,15 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     print("filter data -> ${ref.watch(filterForProductStateNotifiers).priceToSelected}");
   }
 
-  void navigateToSeeAllTopSeller() {
-    context.push(R_SeeAllSeller);
+  void navigateToSeeAllTopSeller(String title,CategoryType type,int categoryId) {
+    context.push(R_SeeAllSeller,extra: {"type": type, "title": title, "id": categoryId});
   }
 
-  void navigateToSeeAllBestProductAndService(String title, ItemType type) {
-    context.push(R_ShowBestProductOrService,
+  void navigateToSeeAllBestProductAndService(String title, ItemType type) async{
+    await context.push(R_ShowBestProductOrService,
         extra: {"type": type, "title": title});
+
+    ref.read(filterForProductStateNotifiers.notifier).resetDataFilter();
+    ref.read(filterForServiceStateNotifiers.notifier).resetDataFilter();
   }
 }
