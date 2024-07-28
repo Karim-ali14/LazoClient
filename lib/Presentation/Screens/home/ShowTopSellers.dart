@@ -63,7 +63,7 @@ class _ShowTopSellersState extends ConsumerState<ShowTopSellers> {
                 hasFilter: true,
                 onFilterClick: () {
                   context.push(R_FilterScreen,
-                      extra: {"type": FilterScreenTypes.Sellers});
+                      extra: {"type": FilterScreenTypes.Sellers,"categoryId" : widget.categoryId});
                 },
                 delay: 1,
                 onTextChangeListener: (value) {

@@ -5073,8 +5073,7 @@ paths:
                 is_promoted:
                   nullable: true
                   description: 0-not_promoted, 1-promoted
-                  type: string
-                  example: '1'
+                  type: number
                 occasions_ids:
                   nullable: true
                   type: array
@@ -5206,11 +5205,9 @@ paths:
                 price_from:
                   nullable: true
                   type: number
-                  example: '3.68'
                 price_to:
                   nullable: true
                   type: number
-                  example: '32.43'
                 ratings:
                   nullable: true
                   type: array

@@ -22,7 +22,9 @@ import 'mainScreen/MainScreenNavHost.dart';
 class FilterScreen extends ConsumerStatefulWidget {
   final FilterScreenTypes type;
   final String? searchValue;
-  const FilterScreen({required this.type, this.searchValue, super.key});
+  final int? categoryId;
+  final int? occasionId;
+  const FilterScreen( {required this.type, this.searchValue,this.categoryId, this.occasionId, super.key});
 
   @override
   ConsumerState<FilterScreen> createState() => _FilterScreenState();
@@ -60,9 +62,9 @@ class _FilterScreenState extends ConsumerState<FilterScreen> {
       }
       promotionSelected = filterData?.promotionSelected;
 
-      categoriesSelected = filterData?.categoriesIdsSelected;
+      categoriesSelected = widget.categoryId != null ? [(widget.categoryId ?? 0).toInt()] : filterData?.categoriesIdsSelected;
 
-      occasionsSelected = filterData?.occasionsIdsSelected;
+      occasionsSelected = widget.occasionId != null ? [(widget.occasionId ?? 0).toInt()] : filterData?.occasionsIdsSelected;
 
       ratingSelected = filterData?.ratingValueSelected;
 
@@ -76,7 +78,7 @@ class _FilterScreenState extends ConsumerState<FilterScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var enabled = promotionSelected != null || priceFrom != null || priceTo != null  || categoriesSelected != null || occasionsSelected != null || ratingSelected != null;
+    var enabled = promotionSelected != null || priceFrom != null || priceTo != null  || (widget.categoryId != null ? false : categoriesSelected != null) || (widget.occasionId != null ? false : occasionsSelected != null) || ratingSelected != null;
 
     final categoryState = ref.watch(getCategoriesDataStateNotifiers);
     final occasionsState = ref.watch(getOccasionsDataStateNotifiers);
@@ -193,15 +195,17 @@ class _FilterScreenState extends ConsumerState<FilterScreen> {
             ),
             InkWell(
               onTap: () {
-                showCategoriesBottomSheet(context, categoriesList,
-                    afterSuccessSelectMultiItems: (items) {
-                  categoriesSelected = items;
-                  setDefaultCategoriesText(
-                      categoryState.data?.data ?? [], items);
-                  setState(() {
+                if(widget.categoryId == null) {
+                  showCategoriesBottomSheet(context, categoriesList,
+                      afterSuccessSelectMultiItems: (items) {
+                        categoriesSelected = items;
+                        setDefaultCategoriesText(
+                            categoryState.data?.data ?? [], items);
+                        setState(() {
 
-                  });
-                });
+                        });
+                      });
+                }
               },
               child: AppTextField(
                 readOnly: true,
@@ -222,15 +226,17 @@ class _FilterScreenState extends ConsumerState<FilterScreen> {
             ),
             InkWell(
               onTap: () {
-                showOccasionsBottomSheet(context, occasionsList,
-                    afterSuccessSelectMultiItems: (items) {
-                  occasionsSelected = items;
-                  setDefaultOccasionsText(
-                      occasionsState.data?.data ?? [], items);
-                });
-                setState(() {
+                if(widget.occasionId == null) {
+                  showOccasionsBottomSheet(context, occasionsList,
+                      afterSuccessSelectMultiItems: (items) {
+                        occasionsSelected = items;
+                        setDefaultOccasionsText(
+                            occasionsState.data?.data ?? [], items);
+                      });
+                  setState(() {
 
-                });
+                  });
+                }
               },
               child: AppTextField(
                 readOnly: true,
@@ -595,7 +601,7 @@ class _FilterScreenState extends ConsumerState<FilterScreen> {
         categoriesIds: categoriesSelected,
         occasionsIds: occasionsSelected,
         ratings: ratingSelected?.map((item) => item.toString()).toList(),
-        isPromoted: promotionSelected.toString(),
+        isPromoted: promotionSelected,
         searchByName: widget.searchValue == null || widget.searchValue?.isEmpty == true ? null : widget.searchValue
     );
   }
@@ -604,14 +610,18 @@ class _FilterScreenState extends ConsumerState<FilterScreen> {
     promotionSelected = null;
     priceTo = null;
     priceFrom = null;
-    categoriesSelected = null;
-    occasionsSelected = null;
+    categoriesSelected = widget.categoryId != null ? [widget.categoryId!] : null;
+    occasionsSelected =  widget.occasionId != null ? [widget.occasionId!] : null;
     ratingSelected = null;
 
     priceTextController.text = "";
     promotionTextController.text = "";
-    categoryTextController.text = "";
-    occasionTextController.text = "";
+    if(widget.categoryId == null){
+      categoryTextController.text = "";
+    }
+    if(widget.occasionId == null){
+      occasionTextController.text = "";
+    }
     ratingsTextController.text = "";
 
     if (widget.type == FilterScreenTypes.Products) {

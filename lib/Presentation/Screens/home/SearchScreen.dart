@@ -421,7 +421,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
   void fetchSellers(int page) {
     ref.read(getTopSellersDataStateNotifiers.notifier).getTopSellersData(
         page: page,
-        isPromoted: filterForSellersData?.promotionSelected?.toString(),
+        isPromoted: filterForSellersData?.promotionSelected,
         categoriesIds: widget.type == CategoryType.Categories
             ? filterForSellersData?.categoriesIdsSelected
             : null,
@@ -442,7 +442,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
       case 0:
         {
           context.push(R_FilterScreen,
-              extra: {"type": FilterScreenTypes.Products,"searchValue" : controller.text});
+              extra: {"type": FilterScreenTypes.Products,"searchValue" : controller.text,"occasionId":widget.id});
         }
         break;
       case 1:

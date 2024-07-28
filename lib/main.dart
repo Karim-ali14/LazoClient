@@ -3,6 +3,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:lazo_client/Data/Network/lib/api.dart';
 import 'package:lazo_client/Presentation/Screens/FilterScreen.dart';
 import 'package:lazo_client/Presentation/Screens/Auth/LoginSreen.dart';
 import 'package:lazo_client/Presentation/Screens/Auth/SignUpScreen.dart';
@@ -221,6 +222,7 @@ class MyApp extends ConsumerWidget {
             return FilterScreen(
               type: extra["type"] as FilterScreenTypes,
               searchValue: extra["searchValue"],
+              categoryId: extra["categoryId"], occasionId: extra["occasionId"],
             );
           }),
     ],

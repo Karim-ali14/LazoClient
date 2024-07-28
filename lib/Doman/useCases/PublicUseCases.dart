@@ -118,7 +118,7 @@ class GetTopSellersUseCase
       {num? page,
       String? searchByName,
       List<int>? categoriesIds,
-      String? isPromoted,
+      num? isPromoted,
       List<int>? occasionsIds,
       List<String>? ratings}) async {
     state = page != 1

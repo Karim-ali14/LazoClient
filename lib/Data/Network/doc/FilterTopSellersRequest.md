@@ -11,7 +11,7 @@ Name | Type | Description | Notes
 **page** | **num** |  | [optional] 
 **searchByName** | **String** |  | [optional] 
 **categoriesIds** | **List<String>** |  | [optional] [default to const []]
-**isPromoted** | **String** | 0-not_promoted, 1-promoted | [optional] 
+**isPromoted** | **num** | 0-not_promoted, 1-promoted | [optional] 
 **occasionsIds** | **List<String>** |  | [optional] [default to const []]
 **ratings** | **List<String>** |  | [optional] [default to const []]
 

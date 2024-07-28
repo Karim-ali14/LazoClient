@@ -28,7 +28,7 @@ class FilterTopSellersRequest {
   List<String>? categoriesIds;
 
   /// 0-not_promoted, 1-promoted
-  String? isPromoted;
+  num? isPromoted;
 
   List<String>? occasionsIds;
 
@@ -117,7 +117,9 @@ class FilterTopSellersRequest {
         categoriesIds: json[r'categories_ids'] is List
             ? (json[r'categories_ids'] as List).cast<String>()
             : const [],
-        isPromoted: mapValueOfType<String>(json, r'is_promoted'),
+        isPromoted: json[r'is_promoted'] == null
+            ? null
+            : num.parse(json[r'is_promoted'].toString()),
         occasionsIds: json[r'occasions_ids'] is List
             ? (json[r'occasions_ids'] as List).cast<String>()
             : const [],
