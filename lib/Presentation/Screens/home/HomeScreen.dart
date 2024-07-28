@@ -50,13 +50,13 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: AppSearchBarWithFilter(
-                enableSearch: false,
-                  hasFilter: false, onFilterClick: () {},onSearchClick: (){
-                navigateToProductsAndServices(
-                    CategoryType.Search,
-                    "Search",
-                0);
-              }),
+                  enableSearch: false,
+                  hasFilter: false,
+                  onFilterClick: () {},
+                  onSearchClick: () {
+                    navigateToProductsAndServices(
+                        CategoryType.Search, "Search", 0);
+                  }),
             ),
             const SizedBox(
               height: 24,
@@ -98,7 +98,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                   [],
                               showLoading:
                                   homeDataState.state == DataState.LOADING,
-                              itemClick: (itemId) {},
+                              itemClick: (item) {
+                                navigateToSeeAllTopSeller("${item.name}", CategoryType.Categories ,item.id?.toInt() ?? 0);
+                              },
                               onSeeAllClickListener: () {
                                 navigateToSeeAllCategories();
                               },
@@ -117,11 +119,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                   [],
                               showLoading:
                                   homeDataState.state == DataState.LOADING,
-                              itemClick: (itemId) {}, onSeeAllClickListener: () {
+                              itemClick: (itemId) {},
+                              onSeeAllClickListener: () {
                                 navigateToSeeAllTopSeller(
-                                  title : "",CategoryType.Search ,0
-                                );
-                                },
+                                    "Top Sellers", CategoryType.Search, 0);
+                              },
                             ),
                       SizedBox(
                         height: 32,
@@ -140,7 +142,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                 navigateToProductsAndServices(
                                     CategoryType.Occasions,
                                     occasionItem.name ?? "",
-                                    int.parse((occasionItem.id ?? 0).toString()));
+                                    int.parse(
+                                        (occasionItem.id ?? 0).toString()));
                               },
                               onSeeAllClickListener: () {
                                 navigateToSeeAllOccasions();
@@ -161,9 +164,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                   homeDataState.state == DataState.LOADING,
                               itemClick: (itemId) {},
                               onAddItemToCart: (int) {},
-                              onAddItemToWishList: (int) {}, onSeeAllClickListener: () {
-                                navigateToSeeAllBestProductAndService("Best Products",ItemType.Products);
-                                },
+                              onAddItemToWishList: (int) {},
+                              onSeeAllClickListener: () {
+                                navigateToSeeAllBestProductAndService(
+                                    "Best Products", ItemType.Products);
+                              },
                             ),
                       SizedBox(
                         height: 32,
@@ -180,9 +185,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                   homeDataState.state == DataState.LOADING,
                               itemClick: (itemId) {},
                               onAddItemToCart: (int) {},
-                              onAddItemToWishList: (int) {}, onSeeAllClickListener: () {
-                                navigateToSeeAllBestProductAndService("Best Services", ItemType.Services);
-                      },
+                              onAddItemToWishList: (int) {},
+                              onSeeAllClickListener: () {
+                                navigateToSeeAllBestProductAndService(
+                                    "Best Services", ItemType.Services);
+                              },
                             ),
                     ],
                   ),
@@ -215,14 +222,18 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     ref.read(filterForServiceStateNotifiers.notifier).resetDataFilter();
     ref.read(filterForSellerStateNotifiers.notifier).resetDataFilter();
 
-    print("filter data -> ${ref.watch(filterForProductStateNotifiers).priceToSelected}");
+    print(
+        "filter data -> ${ref.watch(filterForProductStateNotifiers).priceToSelected}");
   }
 
-  void navigateToSeeAllTopSeller(String title,CategoryType type,int categoryId) {
-    context.push(R_SeeAllSeller,extra: {"type": type, "title": title, "id": categoryId});
+  void navigateToSeeAllTopSeller(
+      String title, CategoryType type, int categoryId) {
+    context.push(R_SeeAllSeller,
+        extra: {"type": type, "title": title, "categoryId": categoryId});
   }
 
-  void navigateToSeeAllBestProductAndService(String title, ItemType type) async{
+  void navigateToSeeAllBestProductAndService(
+      String title, ItemType type) async {
     await context.push(R_ShowBestProductOrService,
         extra: {"type": type, "title": title});
 

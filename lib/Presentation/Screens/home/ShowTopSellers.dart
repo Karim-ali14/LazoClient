@@ -7,6 +7,7 @@ import 'package:lazo_client/Constants.dart';
 import 'package:lazo_client/Data/Models/StateModel.dart';
 import 'package:lazo_client/Data/Network/lib/api.dart';
 import 'package:lazo_client/Presentation/Theme/AppTheme.dart';
+import 'package:lazo_client/Presentation/Widgets/CustomAppBar.dart';
 import 'package:lazo_client/Presentation/Widgets/DataListView.dart';
 import 'package:lazo_client/Presentation/Widgets/SellerItemCard.dart';
 import 'package:lazo_client/Presentation/Widgets/SvgIcons.dart';
@@ -32,12 +33,12 @@ class _ShowTopSellersState extends ConsumerState<ShowTopSellers> {
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((callback) {
-      if(widget.type == CategoryType.Search) {
+      if (widget.type == CategoryType.Search) {
         ref.read(getTopSellersDataStateNotifiers.notifier).getTopSellersData();
-      }else {
-        ref.read(getTopSellersDataStateNotifiers.notifier).getTopSellersData(
-          categoriesIds: [widget.categoryId]
-        );
+      } else {
+        ref
+            .read(getTopSellersDataStateNotifiers.notifier)
+            .getTopSellersData(categoriesIds: [widget.categoryId]);
       }
     });
     super.initState();
@@ -47,6 +48,12 @@ class _ShowTopSellersState extends ConsumerState<ShowTopSellers> {
   Widget build(BuildContext context) {
     final topSellerState = ref.watch(getTopSellersDataStateNotifiers);
     return Scaffold(
+      appBar: CustomAppBar(
+        appContext: context,
+        title: widget.title,
+        isCenter: false,
+        navigated: true,
+      ),
       body: SafeArea(
         child: Column(
           children: [
@@ -55,17 +62,17 @@ class _ShowTopSellersState extends ConsumerState<ShowTopSellers> {
               child: AppSearchBarWithFilter(
                 hasFilter: true,
                 onFilterClick: () {
-                  context.push(
-                    R_FilterScreen,extra: {"type":FilterScreenTypes.Sellers}
-                  );
+                  context.push(R_FilterScreen,
+                      extra: {"type": FilterScreenTypes.Sellers});
                 },
                 delay: 1,
                 onTextChangeListener: (value) {
                   currentPage = 1;
-                  ref.read(getTopSellersDataStateNotifiers.notifier).getTopSellersData(
-                    page: currentPage , searchByName: value.isEmpty ? null : value
-                  );
-
+                  ref
+                      .read(getTopSellersDataStateNotifiers.notifier)
+                      .getTopSellersData(
+                          page: currentPage,
+                          searchByName: value.isEmpty ? null : value);
                 },
               ),
             ),

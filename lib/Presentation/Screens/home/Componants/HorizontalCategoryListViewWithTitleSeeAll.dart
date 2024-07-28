@@ -6,7 +6,7 @@ import 'package:skeletonizer/skeletonizer.dart';
 import '../../../../Data/Network/lib/api.dart';
 import '../../../Widgets/TitleWithSeeAll.dart';
 
-typedef OnItemClickListener = Function(int);
+typedef OnItemClickListener = Function(Category);
 typedef OnSeeAllClickListener = Function();
 
 class HorizontalCategoryListViewWithTitleSeeAll extends StatefulWidget {
@@ -48,11 +48,16 @@ class _HorizontalCategoryListViewWithTitleSeeAllState extends State<HorizontalCa
               itemBuilder: (context, index) {
                 return Skeletonizer(
                   enabled: widget.showLoading ,
-                  child: CategoryItemCart(
-                    image: widget.showLoading ? "" : widget.list[index].imagePath ?? "",
-                    title: widget.showLoading ? "" :  widget.list[index].name ?? "",
-                    width: 131,
-                    height: 95,
+                  child: InkWell(
+                    onTap: (){
+                      widget.itemClick.call(widget.list[index]);
+                    },
+                    child: CategoryItemCart(
+                      image: widget.showLoading ? "" : widget.list[index].imagePath ?? "",
+                      title: widget.showLoading ? "" :  widget.list[index].name ?? "",
+                      width: 131,
+                      height: 95,
+                    ),
                   ),
                 );
               },

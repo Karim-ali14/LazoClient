@@ -204,10 +204,8 @@ class MyApp extends ConsumerWidget {
           path: R_SeeAllSeller,
           builder: (BuildContext context, GoRouterState state) {
             var extra = state.extra as Map;
-            return ShowTopSellers(
-            extra["type"] as CategoryType,
-            extra["title"],extra["categoryId"]
-            );
+            return ShowTopSellers(extra["type"] as CategoryType,
+                extra["categoryId"], extra["title"]);
           }),
       GoRoute(
           path: R_ShowBestProductOrService,
@@ -220,7 +218,10 @@ class MyApp extends ConsumerWidget {
           path: R_FilterScreen,
           builder: (BuildContext context, GoRouterState state) {
             var extra = state.extra as Map;
-            return FilterScreen(type: extra["type"] as FilterScreenTypes,searchValue: extra["searchValue"],);
+            return FilterScreen(
+              type: extra["type"] as FilterScreenTypes,
+              searchValue: extra["searchValue"],
+            );
           }),
     ],
   );
