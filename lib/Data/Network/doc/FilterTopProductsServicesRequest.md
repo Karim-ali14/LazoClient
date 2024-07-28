@@ -13,8 +13,8 @@ Name | Type | Description | Notes
 **searchByName** | **String** |  | [optional] 
 **categoriesIds** | **List<num>** |  | [optional] [default to const []]
 **occasionsIds** | **List<num>** |  | [optional] [default to const []]
-**priceFrom** | **String** |  | [optional] 
-**priceTo** | **String** |  | [optional] 
+**priceFrom** | **num** |  | [optional] 
+**priceTo** | **num** |  | [optional] 
 **ratings** | **List<String>** |  | [optional] [default to const []]
 **type** | **String** | products or services | [optional] 
 

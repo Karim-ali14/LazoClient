@@ -34,9 +34,9 @@ class FilterTopProductsServicesRequest {
 
   List<num>? occasionsIds;
 
-  String? priceFrom;
+  num? priceFrom;
 
-  String? priceTo;
+  num? priceTo;
 
   List<String>? ratings;
 
@@ -159,8 +159,12 @@ class FilterTopProductsServicesRequest {
         occasionsIds: json[r'occasions_ids'] is List
             ? (json[r'occasions_ids'] as List).cast<num>()
             : const [],
-        priceFrom: mapValueOfType<String>(json, r'price_from'),
-        priceTo: mapValueOfType<String>(json, r'price_to'),
+        priceFrom: json[r'price_from'] == null
+            ? null
+            : num.parse(json[r'price_from'].toString()),
+        priceTo: json[r'price_to'] == null
+            ? null
+            : num.parse(json[r'price_to'].toString()),
         ratings: json[r'ratings'] is List
             ? (json[r'ratings'] as List).cast<String>()
             : const [],

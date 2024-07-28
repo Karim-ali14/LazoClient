@@ -5205,11 +5205,11 @@ paths:
                     type: number
                 price_from:
                   nullable: true
-                  type: string
+                  type: number
                   example: '3.68'
                 price_to:
                   nullable: true
-                  type: string
+                  type: number
                   example: '32.43'
                 ratings:
                   nullable: true
