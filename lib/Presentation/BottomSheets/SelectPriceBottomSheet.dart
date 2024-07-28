@@ -42,13 +42,12 @@ class _SelectPriceBottomSheetState extends State<SelectPriceBottomSheet> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsetsDirectional.symmetric(horizontal: 16),
-      width: double.infinity,
-      color: Colors.white,
-      child: Form(
-        key: formKey,
+    return Form(
+      key: formKey,
+      child: SingleChildScrollView(
+        padding: const EdgeInsetsDirectional.symmetric(horizontal: 16),
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
             const SizedBox(height: 32),
             Stack(children: [

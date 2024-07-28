@@ -372,14 +372,17 @@ class _FilterScreenState extends ConsumerState<FilterScreen> {
             borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(10), topRight: Radius.circular(10))),
         builder: (BuildContext context) {
-          return SelectPriceBottomSheet(
-            context: context,
-            title: "Choose Price",
-            priceFrom: priceFrom == null ? "" : priceFrom.toString() ,
-            priceTo: priceTo == null ? "" : priceTo.toString(),
-            applyBtu: (from,to){
-              afterSuccessSelectMultiItems?.call(from,to);
-            }
+          return Padding(
+            padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+            child: SelectPriceBottomSheet(
+              context: context,
+              title: "Choose Price",
+              priceFrom: priceFrom == null ? "" : priceFrom.toString() ,
+              priceTo: priceTo == null ? "" : priceTo.toString(),
+              applyBtu: (from,to){
+                afterSuccessSelectMultiItems?.call(from,to);
+              }
+            ),
           );
         });
   }
