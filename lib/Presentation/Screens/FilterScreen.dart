@@ -78,7 +78,7 @@ class _FilterScreenState extends ConsumerState<FilterScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var enabled = promotionSelected != null || priceFrom != null || priceTo != null  || (widget.categoryId != null ? false : categoriesSelected != null) || (widget.occasionId != null ? false : occasionsSelected != null) || ratingSelected != null;
+    var enabled = promotionSelected != null || priceFrom != null || priceTo != null  || (widget.categoryId != null ? false : categoriesSelected?.isNotEmpty == true) || (widget.occasionId != null ? false : occasionsSelected?.isNotEmpty == true) || ratingSelected?.isNotEmpty == true;
 
     final categoryState = ref.watch(getCategoriesDataStateNotifiers);
     final occasionsState = ref.watch(getOccasionsDataStateNotifiers);
@@ -232,10 +232,10 @@ class _FilterScreenState extends ConsumerState<FilterScreen> {
                         occasionsSelected = items;
                         setDefaultOccasionsText(
                             occasionsState.data?.data ?? [], items);
-                      });
-                  setState(() {
+                        setState(() {
 
-                  });
+                        });
+                      });
                 }
               },
               child: AppTextField(
@@ -258,13 +258,12 @@ class _FilterScreenState extends ConsumerState<FilterScreen> {
               onTap: () {
                 showRatingsBottomSheet(context, ratingsList,
                     afterSuccessSelectMultiItems: (items) {
-                  ratingSelected = items;
-                  setDefaultRatingsText(mainRatingList, items);
-                  // setDefaultOccasionsText(
-                  //     occasionsState.data?.data ?? [], items);
-                });
-                setState(() {
-
+                  setState(() {
+                    ratingSelected = items;
+                    setDefaultRatingsText(mainRatingList, items);
+                    // setDefaultOccasionsText(
+                    //     occasionsState.data?.data ?? [], items);
+                  });
                 });
               },
               child: AppTextField(
@@ -465,6 +464,7 @@ class _FilterScreenState extends ConsumerState<FilterScreen> {
               itemSelectedIds: ratingSelected,
               isSingleSelect: false,
               onSelectMultiItemsCallback: (items) {
+                print("${items}");
                 afterSuccessSelectMultiItems?.call(items);
                 Navigator.pop(context);
               },
