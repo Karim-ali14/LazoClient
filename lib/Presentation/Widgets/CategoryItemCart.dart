@@ -22,7 +22,7 @@ class CategoryItemCart extends StatelessWidget {
       replacement: Container(
         width: width, // Adjust dimensions as needed
         height: height,
-        color: Colors.white,
+        color: AppTheme.appGrey9,
       ),
       child: Container(
         width: width ?? MediaQuery.of(context).size.width,
@@ -30,20 +30,21 @@ class CategoryItemCart extends StatelessWidget {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(4),
           border: Border.all(color: AppTheme.appGrey8),
+          color: AppTheme.appGrey9,
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // SizedBox(
-            //   width: 32,
-            //   height: 32,
-            //   child: ImageView(
-            //     width: 32,
-            //     height: 32,
-            //     initialImg: image,
-            //   ),
-            // ),
+            SizedBox(
+              width: 32,
+              height: 32,
+              child: ImageView(
+                width: 32,
+                height: 32,
+                initialImg: image,
+              ),
+            ),
             const SizedBox(
               height: 8,
             ),

@@ -174,7 +174,7 @@ class SVGIcons {
 
   static Widget placeholderIcon(){
     return SvgPicture.asset(
-        placeholder
+        placeHolderForCardsSvg
     );
   }
 

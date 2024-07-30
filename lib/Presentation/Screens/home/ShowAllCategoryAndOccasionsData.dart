@@ -1,11 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:lazo_client/Data/Models/StateModel.dart';
 import 'package:lazo_client/Presentation/StateNotifiersViewModel/PublicStateNotifiers.dart';
 import 'package:lazo_client/Presentation/Widgets/CustomAppBar.dart';
 import 'package:lazo_client/Presentation/Widgets/EmptyDataView.dart';
 import 'package:skeletonizer/skeletonizer.dart';
+import '../../../Constants.dart';
 import '../../../Constants/Eunms.dart';
 import '../../../Data/Network/lib/api.dart';
 import '../../Widgets/CategoryItemCart.dart';
@@ -91,14 +93,19 @@ class _ShowAllCategoryAndOccasionsDataState
                       children: widget.type == CategoryType.Categories
                           ? categoryState.state == DataState.SUCCESS
                               ? categoryState.data?.data.map((Category value) {
-                                    return Padding(
-                                      padding:
-                                          const EdgeInsetsDirectional.symmetric(
-                                              horizontal: 6, vertical: 6),
-                                      child: CategoryItemCart(
-                                        image: value.imagePath ?? "",
-                                        title: value.name ?? "",
-                                        height: 156,
+                                    return InkWell(
+                                      onTap: (){
+                                        navigateToSeeAllTopSeller("${value.name}", CategoryType.Categories ,value.id?.toInt() ?? 0);
+                                      },
+                                      child: Padding(
+                                        padding:
+                                            const EdgeInsetsDirectional.symmetric(
+                                                horizontal: 6, vertical: 6),
+                                        child: CategoryItemCart(
+                                          image: value.imagePath ?? "",
+                                          title: value.name ?? "",
+                                          height: 156,
+                                        ),
                                       ),
                                     );
                                   }).toList() ??
@@ -142,14 +149,23 @@ class _ShowAllCategoryAndOccasionsDataState
                                 }).toList()
                           : occasionsState.state == DataState.SUCCESS
                               ? occasionsState.data?.data.map((Occasion value) {
-                                    return Padding(
-                                      padding:
-                                          const EdgeInsetsDirectional.symmetric(
-                                              horizontal: 6, vertical: 6),
-                                      child: CategoryItemCart(
-                                        image: value.imagePath ?? "",
-                                        title: value.name ?? "",
-                                        height: 156,
+                                    return InkWell(
+                                      onTap: (){
+                                        navigateToProductsAndServices(
+                                            CategoryType.Occasions,
+                                            value.name ?? "",
+                                            int.parse(
+                                                (value.id ?? 0).toString()));
+                                      },
+                                      child: Padding(
+                                        padding:
+                                            const EdgeInsetsDirectional.symmetric(
+                                                horizontal: 6, vertical: 6),
+                                        child: CategoryItemCart(
+                                          image: value.imagePath ?? "",
+                                          title: value.name ?? "",
+                                          height: 156,
+                                        ),
                                       ),
                                     );
                                   }).toList() ??
@@ -194,4 +210,24 @@ class _ShowAllCategoryAndOccasionsDataState
       )),
     );
   }
+  void navigateToSeeAllTopSeller(
+      String title, CategoryType type, int categoryId) {
+    context.push(R_SeeAllSeller,
+        extra: {"type": type, "title": title, "categoryId": categoryId});
+  }
+
+  void navigateToProductsAndServices(
+      CategoryType type, String title, int? id) async {
+    print("occasionId : $id");
+    await context.push(R_SeeAllProductOrService,
+        extra: {"type": type, "title": title, "id": id});
+
+    ref.read(filterForProductStateNotifiers.notifier).resetDataFilter();
+    ref.read(filterForServiceStateNotifiers.notifier).resetDataFilter();
+    ref.read(filterForSellerStateNotifiers.notifier).resetDataFilter();
+
+    print(
+        "filter data -> ${ref.watch(filterForProductStateNotifiers).priceToSelected}");
+  }
+
 }

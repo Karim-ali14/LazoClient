@@ -62,7 +62,7 @@ class _OtpScreenState extends ConsumerState<OTPScreen> {
           print("NAV cannont pop");
         }
       }
-      context.go(R_HomeScreen);
+      context.go(R_MainScreen);
     });
 
     handleState(signUpStateNotifierProvider, onSuccess: (res) {
@@ -73,7 +73,7 @@ class _OtpScreenState extends ConsumerState<OTPScreen> {
           print("NAV cannont pop");
         }
       }
-      context.go(R_HomeScreen);
+      context.go(R_MainScreen);
     });
 
     return Scaffold(
