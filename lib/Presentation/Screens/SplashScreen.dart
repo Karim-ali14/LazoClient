@@ -41,16 +41,16 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
 
       final client = ref.read(clientStateProvider.notifier).checkIfUserExist();
       print("client model : $client");
-      context.go(R_MainScreen);
-      // if(client != null){
-      //   context.go(R_HomeScreen);
-      // }else {
-      //   if(prefs.getBool(doneLandingKey) == true){
-      //     context.go(R_LoginScreen);
-      //   }else {
-      //     context.push(R_OnBoardingScreen);
-      //   }
-      // }
+
+      if(client != null){
+        context.go(R_MainScreen);
+      }else {
+        if(prefs.getBool(doneLandingKey) == true){
+          context.go(R_LoginScreen);
+        }else {
+          context.push(R_OnBoardingScreen);
+        }
+      }
     });
     super.initState();
   }

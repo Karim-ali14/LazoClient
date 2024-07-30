@@ -55,7 +55,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   onFilterClick: () {},
                   onSearchClick: () {
                     navigateToProductsAndServices(
-                        CategoryType.Search, "Search", 0);
+                        CategoryType.Search, "Search", null);
                   }),
             ),
             const SizedBox(
@@ -213,7 +213,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   }
 
   void navigateToProductsAndServices(
-      CategoryType type, String title, int id) async {
+      CategoryType type, String title, int? id) async {
     print("occasionId : $id");
     await context.push(R_SeeAllProductOrService,
         extra: {"type": type, "title": title, "id": id});

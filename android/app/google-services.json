@@ -1,0 +1,68 @@
+{
+  "project_info": {
+    "project_number": "1042680391975",
+    "project_id": "lazo-8e84e",
+    "storage_bucket": "lazo-8e84e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1042680391975:android:afe1c2724a050e820c2102",
+        "android_client_info": {
+          "package_name": "com.pomac.lazo_client"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1042680391975-5eak1qgqbeetdflt3kf4s0g0a921a5a5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCWns0xZVJzhf1W4C7iFgmFsaLl25QsBUE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1042680391975-5eak1qgqbeetdflt3kf4s0g0a921a5a5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1042680391975:android:eb26660c5cb3e2840c2102",
+        "android_client_info": {
+          "package_name": "com.pomac.lazo_provider"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1042680391975-5eak1qgqbeetdflt3kf4s0g0a921a5a5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCWns0xZVJzhf1W4C7iFgmFsaLl25QsBUE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1042680391975-5eak1qgqbeetdflt3kf4s0g0a921a5a5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

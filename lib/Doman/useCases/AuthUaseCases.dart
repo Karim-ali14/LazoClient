@@ -104,10 +104,12 @@ class UserProvider extends StateNotifier<ClientAuthResponseData?> {
   UserProvider(this.ref) : super(null);
 
   ClientAuthResponseData? checkIfUserExist() {
+    print("userModel = ${prefs.getString(userKey)}");
     ClientAuthResponseData? user = prefs.getString(userKey) != null
         ? ClientAuthResponseData.fromJson(
-            json.encode(prefs.getString(userKey) ?? ""))
+            json.decode(prefs.getString(userKey) ?? ""))
         : null;
+    print("userModel = $user");
     if (user != null) {
       ref.read(apiClient).defaultHeaderMap.update(
           "Authorization", (value) => "Bearer ${user.accessToken}",

@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:lazo_client/Constants/Assets.dart';
 import 'package:lazo_client/Presentation/Theme/AppTheme.dart';
 import 'package:lazo_client/Presentation/Widgets/CircleImage.dart';
 import 'package:lazo_client/Presentation/Widgets/SvgIcons.dart';
@@ -42,6 +43,7 @@ class _SellerItemCardState extends State<SellerItemCard> {
                 width: MediaQuery.of(context).size.width,
                 height: 121,
                 initialImg: widget.providerData?.imagePath,
+                placeHolder: placeHolderForCardsSvg,
               ),
             ),
             Padding(

@@ -24,7 +24,7 @@ import '../../Widgets/ServiceAndProductItemCard.dart';
 class SearchScreen extends ConsumerStatefulWidget {
   final String title;
   final CategoryType type;
-  final int id;
+  final int? id;
   const SearchScreen(
       {required this.title, required this.type, required this.id, super.key});
 
@@ -370,13 +370,13 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
         categoriesIds: widget.type == CategoryType.Categories ||
                 widget.type == CategoryType.Search
             ? widget.type == CategoryType.Categories
-                ? [widget.id]
+                ? [widget.id ?? 0]
                 : filterForProductData?.categoriesIdsSelected
             : null,
         occasionsIds: widget.type == CategoryType.Occasions ||
                 widget.type == CategoryType.Search
             ? widget.type == CategoryType.Occasions
-                ? [widget.id]
+                ? [widget.id ?? 0]
                 : filterForProductData?.occasionsIdsSelected
             : null,
         ratings: filterForProductData?.ratingValueSelected
@@ -397,13 +397,13 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
         categoriesIds: widget.type == CategoryType.Categories ||
                 widget.type == CategoryType.Search
             ? widget.type == CategoryType.Categories
-                ? [widget.id]
+                ? [widget.id??0]
                 : filterForServicesData?.categoriesIdsSelected
             : null,
         occasionsIds: widget.type == CategoryType.Occasions ||
                 widget.type == CategoryType.Search
             ? widget.type == CategoryType.Occasions
-                ? [widget.id]
+                ? [widget.id??0]
                 : filterForServicesData?.occasionsIdsSelected
             : null,
         ratings: filterForServicesData?.ratingValueSelected
