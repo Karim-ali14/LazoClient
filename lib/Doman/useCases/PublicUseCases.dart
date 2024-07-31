@@ -160,20 +160,22 @@ class GetProductsUseCase
     String? searchByName,
     List<num>? categoriesIds,
     List<num>? occasionsIds,
-    String? priceFrom ,
+    String? priceFrom,
     String? priceTo,
     List<String>? ratings,
     String? type,
   }) async {
-
     String? priceFromValue = priceFrom;
-    if( priceTo != null && priceFrom == null){
+    if (priceTo != null && priceFrom == null) {
       priceFromValue = "0";
     }
+
+    if(state.data?.data?.products?.lastPage != null && page > (state.data?.data?.products?.lastPage??0)) return;
 
     state = page != 1
         ? StateModel(data: state.data, state: DataState.MORE_LOADING)
         : StateModel.loading();
+
     requestForPagination(
         () => publicApi.filterTopProductsServices(
               filterTopProductsServicesRequest:
@@ -182,17 +184,17 @@ class GetProductsUseCase
                       searchByName: searchByName,
                       categoriesIds: categoriesIds,
                       occasionsIds: occasionsIds,
-                      priceFrom: num.tryParse(priceFromValue??""),
-                      priceTo: num.tryParse(priceTo??""),
+                      priceFrom: num.tryParse(priceFromValue ?? ""),
+                      priceTo: num.tryParse(priceTo ?? ""),
                       ratings: ratings,
                       type: type ?? ItemType.Products.name.toLowerCase()),
             ), onComplete: (res) {
       if (page != 1) {
         List<ProviderProduct> list = state.data?.data?.products?.data ?? [];
-        state.data?.data?.products?.data = [
-          ...list,
-          ...(res.data?.products?.data ?? [])
-        ];
+
+        print("sdafsd ${state.data?.data?.products?.data.length}");
+        state.data?.data?.products?.data = [...list, ...(res.data?.products?.data ?? [])];
+        print("sdafsd ${state.data?.data?.products?.data.length}");
         state = StateModel.success(state.data);
       } else {
         state = StateModel.success(res);
@@ -230,8 +232,8 @@ class GetServicesUseCase
                 searchByName: searchByName,
                 categoriesIds: categoriesIds,
                 occasionsIds: occasionsIds,
-                priceFrom: num.tryParse(priceFrom??""),
-                priceTo: num.tryParse(priceTo??""),
+                priceFrom: num.tryParse(priceFrom ?? ""),
+                priceTo: num.tryParse(priceTo ?? ""),
                 ratings: ratings,
                 type: type ?? ItemType.Services.name.toLowerCase())),
         onComplete: (res) {

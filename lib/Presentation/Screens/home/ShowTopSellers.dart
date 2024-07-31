@@ -89,8 +89,7 @@ class _ShowTopSellersState extends ConsumerState<ShowTopSellers> {
                                   ]
                                 : []),
                         paginated: true,
-                        pageLoading: currentPage <
-                            (topSellerState.data?.data?.lastPage ?? 0),
+                        pageLoading: topSellerState.state == DataState.MORE_LOADING,
                         onBottomReached: () {
                           if (currentPage <
                               (topSellerState.data?.data?.lastPage ?? 0)) {

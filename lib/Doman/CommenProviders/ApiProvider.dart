@@ -75,7 +75,7 @@ extension GenericRequest<T> on StateNotifier<StateModel<T>> {
     try{
       response = await asyncFunc();
       print(" Response $response");
-      state = StateModel(state: DataState.SUCCESS, data: response is T ? response : null ,message: response?.message );
+      //state = StateModel(state: DataState.SUCCESS, data: response is T ? response : null ,message: response?.message );
       onComplete?.call(response);
     }on ApiException catch (e) {
       print("Error Response $response $e");

@@ -116,9 +116,7 @@ class _ShowProductAndServiceScreenState
                                     ]
                                   : []),
                           paginated: true,
-                          pageLoading: currentPageForProducts <
-                              (productsState.data?.data?.products?.lastPage ??
-                                  0),
+                          pageLoading: productsState.state == DataState.MORE_LOADING,
                           onBottomReached: () {
                             if (currentPageForProducts <
                                 (productsState.data?.data?.products?.lastPage ??
@@ -163,9 +161,7 @@ class _ShowProductAndServiceScreenState
                                     ]
                                   : []),
                           paginated: true,
-                          pageLoading: currentPageForServices <
-                              (servicesState.data?.data?.services?.lastPage ??
-                                  0),
+                          pageLoading: servicesState.state == DataState.MORE_LOADING,
                           onBottomReached: () {
                             if (currentPageForServices <
                                 (servicesState.data?.data?.services?.lastPage ??

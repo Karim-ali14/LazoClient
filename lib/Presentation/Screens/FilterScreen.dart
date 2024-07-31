@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:lazo_client/Constants/Eunms.dart';
 import 'package:lazo_client/Data/Models/FilterData.dart';
 import 'package:lazo_client/Data/Models/StateModel.dart';
@@ -297,6 +298,7 @@ class _FilterScreenState extends ConsumerState<FilterScreen> {
                                 occasionsIdsSelected: occasionsSelected,
                                 ratingValueSelected: ratingSelected);
                         fetchProducts(1);
+                        context.pop(false);
                       }
                       break;
                     case FilterScreenTypes.Services:
@@ -325,7 +327,6 @@ class _FilterScreenState extends ConsumerState<FilterScreen> {
                       }
                       break;
                   }
-                  Navigator.pop(context);
                 },
                 text: "Apply")
           ],

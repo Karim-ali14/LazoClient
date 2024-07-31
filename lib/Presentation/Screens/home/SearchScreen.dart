@@ -258,14 +258,11 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
                                   ]
                                 : []),
                         paginated: true,
-                        pageLoading: currentPageForProducts <
-                            (productsState.data?.data?.products?.lastPage ?? 0),
+                        pageLoading: productsState.state == DataState.MORE_LOADING,
                         onBottomReached: () {
-                          if (currentPageForProducts <
-                              (productsState.data?.data?.products?.lastPage ??
-                                  0)) {
+
                             fetchProducts(++currentPageForProducts);
-                          }
+
                         },
                         builder: (item) => Skeletonizer(
                               enabled: productsState.state == DataState.LOADING,
@@ -298,8 +295,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
                                   ]
                                 : []),
                         paginated: true,
-                        pageLoading: currentPageForServices <
-                            (servicesState.data?.data?.services?.lastPage ?? 0),
+                        pageLoading: servicesState.state == DataState.MORE_LOADING,
                         onBottomReached: () {
                           if (currentPageForServices <
                               (servicesState.data?.data?.services?.lastPage ??
@@ -339,8 +335,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
                                     ]
                                   : []),
                           paginated: true,
-                          pageLoading: currentPageForSellers <
-                              (sellersState.data?.data?.lastPage ?? 0),
+                          pageLoading: sellersState.state == DataState.MORE_LOADING,
                           onBottomReached: () {
                             if (currentPageForSellers <
                                 (sellersState.data?.data?.lastPage ?? 0)) {
@@ -437,12 +432,13 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
             : searchForSellersData);
   }
 
-  void openFilterScreen(int activeTabIndex) {
+  void openFilterScreen(int activeTabIndex) async{
     switch (activeTabIndex) {
       case 0:
         {
-          context.push(R_FilterScreen,
+          var isUpdate = await context.push(R_FilterScreen,
               extra: {"type": FilterScreenTypes.Products,"searchValue" : controller.text,"occasionId":widget.id});
+
         }
         break;
       case 1:
