@@ -436,21 +436,29 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
     switch (activeTabIndex) {
       case 0:
         {
-          var isUpdate = await context.push(R_FilterScreen,
+          var filterData = await context.push(R_FilterScreen,
               extra: {"type": FilterScreenTypes.Products,"searchValue" : controller.text,"occasionId":widget.id});
-
+          currentPageForProducts = 1;
+          filterForProductData = filterData as FilterData;
+          fetchProducts(currentPageForServices);
         }
         break;
       case 1:
         {
-          context.push(R_FilterScreen,
+          var filterData = await context.push(R_FilterScreen,
               extra: {"type": FilterScreenTypes.Services});
+          currentPageForServices = 1;
+          filterForServicesData = filterData as FilterData;
+          fetchServices(currentPageForServices);
         }
         break;
       case 2:
         {
-          context
+          var filterData = context
               .push(R_FilterScreen, extra: {"type": FilterScreenTypes.Sellers});
+          currentPageForSellers = 1;
+          filterForSellersData = filterData as FilterData;
+          fetchSellers(currentPageForSellers);
         }
         break;
     }
