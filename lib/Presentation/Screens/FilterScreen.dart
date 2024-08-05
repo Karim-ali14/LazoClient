@@ -289,6 +289,7 @@ class _FilterScreenState extends ConsumerState<FilterScreen> {
                   switch (widget.type) {
                     case FilterScreenTypes.Products:
                       {
+
                         ref
                             .read(filterForProductStateNotifiers.notifier)
                             .applyDataFilter(
@@ -297,8 +298,14 @@ class _FilterScreenState extends ConsumerState<FilterScreen> {
                                 categoriesIdsSelected: categoriesSelected,
                                 occasionsIdsSelected: occasionsSelected,
                                 ratingValueSelected: ratingSelected);
-                        fetchProducts(1);
-                        context.pop(false);
+                        // fetchProducts(1);
+                        context.pop(FilterData(
+                            priceFromSelected: priceFrom,
+                            priceToSelected: priceTo,
+                            categoriesIdsSelected: categoriesSelected,
+                            occasionsIdsSelected: occasionsSelected,
+                            ratingValueSelected: ratingSelected
+                        ));
                       }
                       break;
                     case FilterScreenTypes.Services:
@@ -311,7 +318,14 @@ class _FilterScreenState extends ConsumerState<FilterScreen> {
                                 categoriesIdsSelected: categoriesSelected,
                                 occasionsIdsSelected: occasionsSelected,
                                 ratingValueSelected: ratingSelected);
-                        fetchServices(1);
+                        // fetchServices(1);
+                        context.pop(FilterData(
+                            priceFromSelected: priceFrom,
+                            priceToSelected: priceTo,
+                            categoriesIdsSelected: categoriesSelected,
+                            occasionsIdsSelected: occasionsSelected,
+                            ratingValueSelected: ratingSelected
+                        ));
                       }
                       break;
                     case FilterScreenTypes.Sellers:
@@ -323,7 +337,13 @@ class _FilterScreenState extends ConsumerState<FilterScreen> {
                                 categoriesIdsSelected: categoriesSelected,
                                 occasionsIdsSelected: occasionsSelected,
                                 ratingValueSelected: ratingSelected);
-                        fetchSellers(1);
+                        // fetchSellers(1);
+                        context.pop(FilterData(
+                            promotionSelected: promotionSelected,
+                            categoriesIdsSelected: categoriesSelected,
+                            occasionsIdsSelected: occasionsSelected,
+                            ratingValueSelected: ratingSelected
+                        ));
                       }
                       break;
                   }
@@ -627,13 +647,35 @@ class _FilterScreenState extends ConsumerState<FilterScreen> {
 
     if (widget.type == FilterScreenTypes.Products) {
       ref.read(filterForProductStateNotifiers.notifier).resetDataFilter();
-      fetchProducts(1);
+      // fetchProducts(1);
+      context.pop(FilterData(
+          priceFromSelected: null,
+          priceToSelected: null,
+          categoriesIdsSelected: null,
+          occasionsIdsSelected: null,
+          ratingValueSelected: null
+      ));
     } else if (widget.type == FilterScreenTypes.Services) {
       ref.read(filterForServiceStateNotifiers.notifier).resetDataFilter();
-      fetchServices(1);
+      // fetchServices(1);
+      context.pop(FilterData(
+          priceFromSelected: null,
+          priceToSelected: null,
+          categoriesIdsSelected: null,
+          occasionsIdsSelected: null,
+          ratingValueSelected: null
+      ));
     } else if (widget.type == FilterScreenTypes.Sellers) {
       ref.read(filterForSellerStateNotifiers.notifier).resetDataFilter();
-      fetchSellers(1);
+      // fetchSellers(1);
+      context.pop(FilterData(
+          promotionSelected: null,
+          priceFromSelected: null,
+          priceToSelected: null,
+          categoriesIdsSelected: null,
+          occasionsIdsSelected: null,
+          ratingValueSelected: null
+      ));
     }
     action.call();
   }
