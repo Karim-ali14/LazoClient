@@ -69,9 +69,9 @@ class SVGIcons {
         width: 24, height: 24, fit: BoxFit.scaleDown);
   }
 
-  static Widget smallStarIcon() {
+  static Widget smallStarIcon({double size = 13}) {
     return SvgPicture.asset(smallStarIconSvg,
-        width: 24, height: 24, fit: BoxFit.scaleDown);
+        width: size, height: size, fit: BoxFit.fill);
   }
   static Widget onBoardingOneIcon(){
     return SvgPicture.asset(

@@ -140,6 +140,9 @@ class _ServiceAndProductItemCardHorizontalState
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Skeleton.ignore(child: SVGIcons.smallStarIcon()),
+                            SizedBox(
+                              width: 3,
+                            ),
                             Skeleton.replace(
                               replacement: Container(
                                 width: 30,

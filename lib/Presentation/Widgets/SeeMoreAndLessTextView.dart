@@ -24,9 +24,9 @@ class _ExpandedTextState extends State<ExpandedText> {
         ? "${widget.textValue.substring(0, widget.maxLength)}..."
         : widget.textValue;
     return Text.rich(TextSpan(text: value, style: widget.textStyle, children: [
-      if (widget.textValue.length >= 200)
+      if (widget.textValue.length >= widget.maxLength)
         TextSpan(
-            text: expanded ? widget.showLessText : widget.showMoreText,
+            text: expanded ? " ${widget.showLessText}" : " ${widget.showMoreText}",
             style:
                 AppTheme.styleWithTextMainAppColorAdelleSansExtendedFonts14w400,
             recognizer: TapGestureRecognizer()

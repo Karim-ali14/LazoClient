@@ -126,6 +126,9 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         SVGIcons.smallStarIcon(),
+                        SizedBox(
+                          width: 3,
+                        ),
                         Text(
                           "${productItemState.data?.data?.overallRating ?? 0}",
                           style: AppTheme
@@ -248,10 +251,10 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 12.0),
                         child: ProductRowItem(
-                          title: "Expected Time for processing",
+                          title: "Time for processing",
                           textValue:
                               "${productItemState.data?.data?.expectedProcessingTime}"
-                                  .ellipsize(15),
+                                  .ellipsize(28),
                           hasDivider: false,
                         ),
                       ),
@@ -422,8 +425,12 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
                         end: 0,
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             SVGIcons.smallStarIcon(),
+                            SizedBox(
+                              width: 3,
+                            ),
                             Text(
                               "${productItemState.data?.data?.overallRating ?? 0}",
                               style: AppTheme
@@ -439,7 +446,6 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
                             ),
                           ],
                         ),
-
                       )
                     ]),
                   ),
@@ -450,11 +456,182 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
                 Text(
                   "Product Rating & Reviews",
                   style:
-                  AppTheme.styleWithTextBlackAdelleSansExtendedFonts18w700,
+                      AppTheme.styleWithTextBlackAdelleSansExtendedFonts18w700,
                 ),
                 SizedBox(
                   height: 32,
                 ),
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(4),
+                    border: Border.all(color: AppTheme.appGrey8),
+                    color: Colors.white,
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: Stack(children: [
+                      Row(
+                        children: [
+                          SVGIcons.smallStarIcon(size: 24),
+                          SizedBox(
+                            width: 5,
+                          ),
+                          Text(
+                            "${productItemState.data?.data?.overallRating ?? 0}",
+                            style: AppTheme
+                                .styleWithTextBlackAdelleSansExtendedFonts24w700,
+                          ),
+                          Spacer(),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Text(
+                                "Based on ${productItemState.data?.data?.ratingsCount ?? 0} ratings",
+                                style: AppTheme
+                                    .styleWithTextGray7AdelleSansExtendedFonts12w400,
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                      // PositionedDirectional(
+                      //   end: 0,
+                      //   child: Row(
+                      //     crossAxisAlignment: CrossAxisAlignment.center,
+                      //     children: [
+                      //       Text(
+                      //         "Based on ${productItemState.data?.data?.ratingsCount ?? 0} ratings",
+                      //         style: AppTheme
+                      //             .styleWithTextGray7AdelleSansExtendedFonts12w400,
+                      //       ),
+                      //     ],
+                      //   ),
+                      //
+                      // )
+                    ]),
+                  ),
+                ),
+                SizedBox(
+                  height: 24,
+                ),
+                if(widget.itemType == ItemType.Products)
+                  ...(List.generate(productItemState.data?.data?.ratings?.length ?? 0, (index) =>
+                      Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(4),
+                          border: Border.all(color: AppTheme.appGrey8),
+                          color: Colors.white,
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(16),
+                          child: Column(
+                            children: [
+                              Row(
+                                children: [
+                                  Text(
+                                    "${productItemState.data?.data?.ratings?[index].userName}",
+                                    style: AppTheme
+                                        .styleWithTextAppGrey7AdelleSansExtendedFonts14w500,
+                                  ),
+                                  Spacer(),
+                                  Text(
+                                    "${productItemState.data?.data?.ratings?[index].date}",
+                                    style: AppTheme
+                                        .styleWithTextGray7AdelleSansExtendedFonts12w400,
+                                  )
+                                ],
+                              ),
+                              SizedBox(
+                                height: 8,
+                              ),
+                              Row(
+                                children: [
+                                  SVGIcons.smallStarIcon(),
+                                  SizedBox(
+                                    width: 3,
+                                  ),
+                                  Text(
+                                    "${productItemState.data?.data?.ratings?[index].rating ?? 0}",
+                                    style: AppTheme
+                                        .styleWithTextBlackAdelleSansExtendedFonts14w400,
+                                  ),
+                                ],
+                              ),
+                              SizedBox(
+                                height: 8,
+                              ),
+                              ExpandedText(
+                                textValue:
+                                "${productItemState.data?.data?.ratings?[index].ratingComment ?? 0}",
+                                textStyle: AppTheme
+                                    .styleWithTextBlackAdelleSansExtendedFonts14w500
+                                    .copyWith(height: 1.5),
+                                maxLength: 70,
+                                showLessText: "Read Less", showMoreText: "Read More",)
+                            ],
+                          ),
+                        ),
+                      ),
+                  )),
+                if(widget.itemType == ItemType.Services)
+                  ...(List.generate(serviceItemState.data?.data?.ratings?.length ?? 0, (index) =>
+                      Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(4),
+                          border: Border.all(color: AppTheme.appGrey8),
+                          color: Colors.white,
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(16),
+                          child: Column(
+                            children: [
+                              Row(
+                                children: [
+                                  Text(
+                                    "${serviceItemState.data?.data?.ratings?[index].userName}",
+                                    style: AppTheme
+                                        .styleWithTextAppGrey7AdelleSansExtendedFonts14w500,
+                                  ),
+                                  Spacer(),
+                                  Text(
+                                    "${serviceItemState.data?.data?.ratings?[index].date}",
+                                    style: AppTheme
+                                        .styleWithTextGray7AdelleSansExtendedFonts12w400,
+                                  )
+                                ],
+                              ),
+                              SizedBox(
+                                height: 8,
+                              ),
+                              Row(
+                                children: [
+                                  SVGIcons.smallStarIcon(),
+                                  SizedBox(
+                                    width: 3,
+                                  ),
+                                  Text(
+                                    "${serviceItemState.data?.data?.ratings?[index].rating ?? 0}",
+                                    style: AppTheme
+                                        .styleWithTextBlackAdelleSansExtendedFonts14w400,
+                                  ),
+                                ],
+                              ),
+                              SizedBox(
+                                height: 8,
+                              ),
+                              ExpandedText(
+                                textValue:
+                                "${serviceItemState.data?.data?.ratings?[index].ratingComment ?? 0}",
+                                textStyle: AppTheme
+                                    .styleWithTextBlackAdelleSansExtendedFonts14w500
+                                    .copyWith(height: 1.5),
+                                maxLength: 70,
+                                showLessText: "Read Less", showMoreText: "Read More",)
+                            ],
+                          ),
+                        ),
+                      ),
+                  ))
               ],
             ),
           ),

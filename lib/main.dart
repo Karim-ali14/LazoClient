@@ -161,7 +161,7 @@ class MyApp extends ConsumerWidget {
       GoRoute(
         path: R_MainScreen,
         builder: (BuildContext context, GoRouterState state) =>
-            const MainScreen(),
+            const ProductDetailsScreen(productId: "151",itemType:  ItemType.Products),
       ),
       GoRoute(
         path: R_LoginScreen,

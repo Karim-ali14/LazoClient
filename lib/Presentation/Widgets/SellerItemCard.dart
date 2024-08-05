@@ -79,6 +79,9 @@ class _SellerItemCardState extends State<SellerItemCard> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         SVGIcons.smallStarIcon(),
+                        SizedBox(
+                          width: 3,
+                        ),
                         Text(
                           widget.providerData?.ratingsCount?.toString() ?? "",
                           style: AppTheme

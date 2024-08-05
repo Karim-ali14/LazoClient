@@ -36,7 +36,7 @@ class _FilterScreenState extends ConsumerState<FilterScreen> {
   List<ItemSelector> occasionsList = [];
   List<int> mainRatingList = [1, 2, 3, 4, 5];
   List<ItemSelector> ratingsList = [1, 2, 3, 4, 5]
-      .map((item) => ItemSelector(item, "$item/5", SVGIcons.smallStarIcon(),
+      .map((item) => ItemSelector(item, "$item/5", SVGIcons.smallStarIcon(size: 14),
           isChecked: false))
       .toList();
   final TextEditingController priceTextController = TextEditingController();

@@ -54,6 +54,7 @@ class _HorizontalTopServiceListViewWithTitleSeeAll extends State<HorizontalTopSe
                   enabled: widget.showLoading ,
                   child: ServiceAndProductItemCardHorizontal(
                     width: 163,
+                    service: widget.list[index],
                     type: ItemType.Services, onAddItemToCart: (id ) {
                       widget.onAddItemToCart.call(id);
                   }, onAddItemToWishList: (id ) {

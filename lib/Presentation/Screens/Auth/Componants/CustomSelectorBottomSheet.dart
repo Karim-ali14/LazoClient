@@ -201,9 +201,12 @@ class _CustomSelectorBottomSheetState
                                             ? list[index].isChecked
                                             : false),
                                   ),
+                                  const SizedBox(
+                                    width: 3,
+                                  ),
                                   list[index].widget ?? const SizedBox(),
                                   const SizedBox(
-                                    width: 2,
+                                    width: 3,
                                   ),
                                   Expanded(
                                       child: Text(list[index].text,

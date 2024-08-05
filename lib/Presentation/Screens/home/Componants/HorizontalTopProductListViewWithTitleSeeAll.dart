@@ -54,6 +54,7 @@ class _HorizontalTopProductListViewWithTitleSeeAll extends State<HorizontalTopPr
                   enabled: widget.showLoading ,
                   child: ServiceAndProductItemCardHorizontal(
                     width: 163,
+                    product: widget.list[index],
                     type: ItemType.Products, onAddItemToCart: (id ) {
                     widget.onAddItemToCart.call(id);
                   }, onAddItemToWishList: (id ) {
