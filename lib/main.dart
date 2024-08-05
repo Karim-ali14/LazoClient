@@ -7,6 +7,7 @@ import 'package:lazo_client/Data/Network/lib/api.dart';
 import 'package:lazo_client/Presentation/Screens/FilterScreen.dart';
 import 'package:lazo_client/Presentation/Screens/Auth/LoginSreen.dart';
 import 'package:lazo_client/Presentation/Screens/Auth/SignUpScreen.dart';
+import 'package:lazo_client/Presentation/Screens/details/ProductDetailsScreen.dart';
 import 'package:lazo_client/Presentation/Screens/home/ShowBestProductAndServiceScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:timeago/timeago.dart' as ago;
@@ -160,7 +161,7 @@ class MyApp extends ConsumerWidget {
       GoRoute(
         path: R_MainScreen,
         builder: (BuildContext context, GoRouterState state) =>
-            const MainScreen(),
+            const ProductDetailsScreen(productId: "151",itemType:  ItemType.Products),
       ),
       GoRoute(
         path: R_LoginScreen,

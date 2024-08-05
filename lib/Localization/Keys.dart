@@ -25,6 +25,9 @@ const enterYourPhoneKey = "enterYourPhone";
 const thisPhoneIsNotExitsKey = "thisPhoneIsNotExits";
 const thisPhoneIsExitsKey = "thisPhoneIsExits";
 const enterYourFullNameKey = "enterYourFullName";
+const dashesKey = "dashes";
+const String SARKey = "SAR";
+
 
 // Params Keys
 const String doneLandingKey = "doneLanding";

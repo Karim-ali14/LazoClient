@@ -137,3 +137,17 @@ bool validateEmail(String value) {
   RegExp regex = RegExp(pattern);
   return (!regex.hasMatch(value)) ? false : true;
 }
+
+extension ColorParsing on String{
+  Color get getColorFromHex => Color(int.parse(replaceAll("#", "0xff")));
+}
+
+extension TextEllipsize on String{
+  String ellipsize(int count){
+    if(this.length <= count){
+      return this;
+    }else{
+      return "${this.substring(0,count)}...";
+    }
+  }
+}

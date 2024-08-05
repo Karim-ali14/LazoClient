@@ -25,5 +25,7 @@
   "pleaseContactUsToLearnMore" : "please contact us to learn more",
   "contactUs" : "Contact Us",
   "thisPhoneIsNotExits" : "This phone is not exits",
-  "thisPhoneIsExits" : "This phone is exits"
+  "thisPhoneIsExits" : "This phone is exits",
+  "SAR" : "SAR",
+  "dashes" : "----"
 }

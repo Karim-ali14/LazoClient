@@ -170,7 +170,8 @@ class GetProductsUseCase
       priceFromValue = "0";
     }
 
-    if(state.data?.data?.products?.lastPage != null && page > (state.data?.data?.products?.lastPage??0)) return;
+    if (state.data?.data?.products?.lastPage != null &&
+        page > (state.data?.data?.products?.lastPage ?? 0)) return;
 
     state = page != 1
         ? StateModel(data: state.data, state: DataState.MORE_LOADING)
@@ -193,7 +194,10 @@ class GetProductsUseCase
         List<ProviderProduct> list = state.data?.data?.products?.data ?? [];
 
         print("sdafsd ${state.data?.data?.products?.data.length}");
-        state.data?.data?.products?.data = [...list, ...(res.data?.products?.data ?? [])];
+        state.data?.data?.products?.data = [
+          ...list,
+          ...(res.data?.products?.data ?? [])
+        ];
         print("sdafsd ${state.data?.data?.products?.data.length}");
         state = StateModel.success(state.data);
       } else {
@@ -276,5 +280,31 @@ class FilterDataUseCase extends StateNotifier<FilterData> {
 
   void resetDataFilter() {
     state = FilterData();
+  }
+}
+
+class GetProductDetailsUseCase
+    extends StateNotifier<StateModel<ProductDetailsResponse>> {
+  final Ref ref;
+  final PublicApi publicApi;
+  GetProductDetailsUseCase(this.ref, this.publicApi) : super(StateModel());
+
+  void getProductDetails({
+    String? productId,
+  }) {
+    request(() => publicApi.showProductDetails(productId: productId));
+  }
+}
+
+class GetServiceDetailsUseCase
+    extends StateNotifier<StateModel<ServiceShowResponse>> {
+  final Ref ref;
+  final PublicApi publicApi;
+  GetServiceDetailsUseCase(this.ref, this.publicApi) : super(StateModel());
+
+  void getServiceDetails({
+    String? serviceId,
+  }) {
+    request(() => publicApi.showServiceDetails(serviceId: serviceId));
   }
 }

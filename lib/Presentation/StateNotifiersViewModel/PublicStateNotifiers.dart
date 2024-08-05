@@ -49,3 +49,11 @@ final filterForServiceStateNotifiers =
 final filterForSellerStateNotifiers =
     StateNotifierProvider<FilterDataUseCase, FilterData>(
         (ref) => FilterDataUseCase(ref));
+
+final getProductDetails = StateNotifierProvider<GetProductDetailsUseCase,
+        StateModel<ProductDetailsResponse>>(
+    (ref) => GetProductDetailsUseCase(ref, ref.read(publicApi)));
+
+final getServiceDetails = StateNotifierProvider<GetServiceDetailsUseCase,
+        StateModel<ServiceShowResponse>>(
+    (ref) => GetServiceDetailsUseCase(ref, ref.read(publicApi)));
