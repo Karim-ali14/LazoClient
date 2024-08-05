@@ -589,44 +589,6 @@ class _FilterScreenState extends ConsumerState<FilterScreen> {
     }
   }
 
-
-  void fetchProducts(int page) {
-    ref.read(getProductsStateNotifiers.notifier).getProductsData(
-        page: page,
-        categoriesIds: categoriesSelected,
-        occasionsIds: occasionsSelected,
-        ratings: ratingSelected?.map((item) => item.toString()).toList(),
-        type: ItemType.Products.name.toLowerCase(),
-        priceFrom: priceFrom.toString(),
-        priceTo: priceTo.toString(),
-        searchByName: widget.searchValue == null || widget.searchValue?.isEmpty == true ? null : widget.searchValue
-    );
-  }
-
-  void fetchServices(int page) {
-    ref.read(getServicesStateNotifiers.notifier).getServicesData(
-        page: page,
-        categoriesIds: categoriesSelected,
-        occasionsIds: occasionsSelected,
-        ratings: ratingSelected?.map((item) => item.toString()).toList(),
-        type: ItemType.Services.name.toLowerCase(),
-        priceFrom: priceFrom.toString(),
-        priceTo: priceTo.toString(),
-        searchByName: widget.searchValue == null || widget.searchValue?.isEmpty == true ? null : widget.searchValue
-    );
-  }
-
-  void fetchSellers(int page) {
-    ref.read(getTopSellersDataStateNotifiers.notifier).getTopSellersData(
-        page: page,
-        categoriesIds: categoriesSelected,
-        occasionsIds: occasionsSelected,
-        ratings: ratingSelected?.map((item) => item.toString()).toList(),
-        isPromoted: promotionSelected,
-        searchByName: widget.searchValue == null || widget.searchValue?.isEmpty == true ? null : widget.searchValue
-    );
-  }
-
   void resetAllData(Function action) {
     promotionSelected = null;
     priceTo = null;

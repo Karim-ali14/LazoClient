@@ -227,9 +227,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   }
 
   void navigateToSeeAllTopSeller(
-      String title, CategoryType type, int categoryId) {
-    context.push(R_SeeAllSeller,
+      String title, CategoryType type, int categoryId) async{
+    await context.push(R_SeeAllSeller,
         extra: {"type": type, "title": title, "categoryId": categoryId});
+
+    ref.read(filterForSellerStateNotifiers.notifier).resetDataFilter();
   }
 
   void navigateToSeeAllBestProductAndService(

@@ -1,20 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lazo_client/Presentation/Widgets/CustomAppBar.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../../Constants.dart';
 import '../../../Constants/Eunms.dart';
+import '../../../Data/Models/FilterData.dart';
 import '../../../Data/Models/StateModel.dart';
 import '../../../Data/Network/lib/api.dart';
 import '../../StateNotifiersViewModel/PublicStateNotifiers.dart';
-import '../../Theme/AppTheme.dart';
 import '../../Widgets/DataListView.dart';
 import '../../Widgets/SearchWithFilter.dart';
 import '../../Widgets/ServiceAndProductItemCard.dart';
@@ -38,17 +34,19 @@ class _ShowProductAndServiceScreenState
   var currentPageForProducts = 1;
   var currentPageForServices = 1;
 
+  String? searchForProductData = null;
+  String? searchForServiceData = null;
+
+  FilterData? filterForProductData = null;
+  FilterData? filterForServicesData = null;
+
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       if (widget.type == ItemType.Products) {
-        ref.read(getProductsStateNotifiers.notifier).getProductsData(
-            page: currentPageForProducts,
-            type: ItemType.Products.name.toLowerCase());
+        fetchProducts(currentPageForProducts);
       } else {
-        ref.read(getServicesStateNotifiers.notifier).getServicesData(
-            page: currentPageForServices,
-            type: ItemType.Services.name.toLowerCase());
+        fetchServices(currentPageForServices);
       }
     });
     super.initState();
@@ -57,6 +55,11 @@ class _ShowProductAndServiceScreenState
   final TextEditingController controller = TextEditingController();
   @override
   Widget build(BuildContext context) {
+
+    filterForProductData = ref.watch(filterForProductStateNotifiers);
+
+    filterForServicesData = ref.watch(filterForServiceStateNotifiers);
+
     final productsState = ref.watch(getProductsStateNotifiers);
     final servicesState = ref.watch(getServicesStateNotifiers);
 
@@ -80,22 +83,14 @@ class _ShowProductAndServiceScreenState
                 },
                 delay: 1,
                 onTextChangeListener: (value) {
-                  if (activeTabIndex == 0) {
+                  if (widget.type == ItemType.Products) {
+                    searchForProductData = value;
                     currentPageForProducts = 1;
-                    ref
-                        .read(getProductsStateNotifiers.notifier)
-                        .getProductsData(
-                            page: currentPageForProducts,
-                            type: ItemType.Products.name.toLowerCase(),
-                            searchByName: value.isNotEmpty ? value : null);
+                    fetchProducts(currentPageForProducts);
                   } else {
+                    searchForServiceData = value;
                     currentPageForServices = 1;
-                    ref
-                        .read(getServicesStateNotifiers.notifier)
-                        .getServicesData(
-                            page: currentPageForServices,
-                            type: ItemType.Services.name.toLowerCase(),
-                            searchByName: value.isNotEmpty ? value : null);
+                    fetchServices(currentPageForServices);
                   }
                 },
               ),
@@ -121,12 +116,7 @@ class _ShowProductAndServiceScreenState
                             if (currentPageForProducts <
                                 (productsState.data?.data?.products?.lastPage ??
                                     0)) {
-                              ref
-                                  .read(getProductsStateNotifiers.notifier)
-                                  .getProductsData(
-                                      page: ++currentPageForProducts,
-                                      type:
-                                          ItemType.Products.name.toLowerCase());
+                              fetchProducts(++currentPageForProducts);
                             }
                           },
                           builder: (item) => Skeletonizer(
@@ -166,12 +156,7 @@ class _ShowProductAndServiceScreenState
                             if (currentPageForServices <
                                 (servicesState.data?.data?.services?.lastPage ??
                                     0)) {
-                              ref
-                                  .read(getServicesStateNotifiers.notifier)
-                                  .getServicesData(
-                                      page: ++currentPageForServices,
-                                      type:
-                                          ItemType.Services.name.toLowerCase());
+                              fetchServices(++currentPageForServices);
                             }
                           },
                           builder: (item) => Skeletonizer(
@@ -202,14 +187,54 @@ class _ShowProductAndServiceScreenState
     );
   }
 
-  void openFilter(ItemType type) {
+  void openFilter(ItemType type) async {
     if(type == ItemType.Products){
-      context.push(R_FilterScreen,
-          extra: {"type": FilterScreenTypes.Products,"searchValue" : controller.text});
+      var filterData = await context.push(R_FilterScreen,
+          extra: {"type": FilterScreenTypes.Products,"searchValue" : searchForProductData});
+      currentPageForProducts = 1;
+      filterForProductData = filterData as FilterData;
+      fetchProducts(currentPageForProducts);
     }else if(type == ItemType.Services){
-      context.push(R_FilterScreen,
-          extra: {"type": FilterScreenTypes.Sellers,"searchValue" : controller.text});
+      var filterData = await context.push(R_FilterScreen,
+          extra: {"type": FilterScreenTypes.Services,"searchValue" : searchForServiceData});
+      currentPageForServices = 1;
+      filterForServicesData = filterData as FilterData;
+      fetchServices(currentPageForServices);
     }
+  }
+
+  void fetchProducts(int page) {
+    ref
+        .read(getProductsStateNotifiers.notifier)
+        .getProductsData(
+        page: page,
+        categoriesIds: filterForProductData?.categoriesIdsSelected,
+        occasionsIds: filterForProductData?.occasionsIdsSelected,
+        ratings: filterForProductData?.ratingValueSelected
+            ?.map((item) => item.toString())
+            .toList(),
+        priceTo: filterForProductData?.priceToSelected.toString(),
+        priceFrom: filterForProductData?.priceFromSelected.toString(),
+        type:
+        ItemType.Products.name.toLowerCase(),
+        searchByName: searchForProductData?.isNotEmpty == true ? searchForProductData : null);
+  }
+
+  void fetchServices(int page) {
+    ref
+        .read(getServicesStateNotifiers.notifier)
+        .getServicesData(
+        page: page,
+        categoriesIds:  filterForServicesData?.categoriesIdsSelected,
+        occasionsIds: filterForServicesData?.occasionsIdsSelected,
+        ratings: filterForServicesData?.ratingValueSelected
+            ?.map((item) => item.toString())
+            .toList(),
+        priceTo: filterForServicesData?.priceToSelected.toString(),
+        priceFrom: filterForServicesData?.priceFromSelected.toString(),
+        type:
+        ItemType.Services.name.toLowerCase(),
+        searchByName: searchForServiceData?.isNotEmpty == true ? searchForServiceData : null);
   }
 
 }

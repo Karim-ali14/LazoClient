@@ -362,18 +362,14 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
   void fetchProducts(int page) {
     ref.read(getProductsStateNotifiers.notifier).getProductsData(
         page: page,
-        categoriesIds: widget.type == CategoryType.Categories ||
-                widget.type == CategoryType.Search
-            ? widget.type == CategoryType.Categories
+        categoriesIds: widget.type == CategoryType.Categories
                 ? [widget.id ?? 0]
                 : filterForProductData?.categoriesIdsSelected
-            : null,
-        occasionsIds: widget.type == CategoryType.Occasions ||
-                widget.type == CategoryType.Search
-            ? widget.type == CategoryType.Occasions
+            ,
+        occasionsIds: widget.type == CategoryType.Occasions
                 ? [widget.id ?? 0]
                 : filterForProductData?.occasionsIdsSelected
-            : null,
+            ,
         ratings: filterForProductData?.ratingValueSelected
             ?.map((item) => item.toString())
             .toList(),
@@ -454,7 +450,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
         break;
       case 2:
         {
-          var filterData = context
+          var filterData = await context
               .push(R_FilterScreen, extra: {"type": FilterScreenTypes.Sellers});
           currentPageForSellers = 1;
           filterForSellersData = filterData as FilterData;

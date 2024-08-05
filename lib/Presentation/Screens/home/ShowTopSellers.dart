@@ -14,6 +14,7 @@ import 'package:lazo_client/Presentation/Widgets/SvgIcons.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../../Constants/Eunms.dart';
+import '../../../Data/Models/FilterData.dart';
 import '../../StateNotifiersViewModel/PublicStateNotifiers.dart';
 import '../../Widgets/SearchWithFilter.dart';
 
@@ -29,17 +30,12 @@ class ShowTopSellers extends ConsumerStatefulWidget {
 
 class _ShowTopSellersState extends ConsumerState<ShowTopSellers> {
   var currentPage = 1;
-
+  String? searchValue = null;
+  FilterData? sellerFilterData = null;
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((callback) {
-      if (widget.type == CategoryType.Search) {
-        ref.read(getTopSellersDataStateNotifiers.notifier).getTopSellersData();
-      } else {
-        ref
-            .read(getTopSellersDataStateNotifiers.notifier)
-            .getTopSellersData(categoriesIds: [widget.categoryId]);
-      }
+      fetchSellers(currentPage);
     });
     super.initState();
   }
@@ -62,17 +58,13 @@ class _ShowTopSellersState extends ConsumerState<ShowTopSellers> {
               child: AppSearchBarWithFilter(
                 hasFilter: true,
                 onFilterClick: () {
-                  context.push(R_FilterScreen,
-                      extra: {"type": FilterScreenTypes.Sellers,"categoryId" : widget.categoryId});
+                  openFilter();
                 },
                 delay: 1,
                 onTextChangeListener: (value) {
                   currentPage = 1;
-                  ref
-                      .read(getTopSellersDataStateNotifiers.notifier)
-                      .getTopSellersData(
-                          page: currentPage,
-                          searchByName: value.isEmpty ? null : value);
+                  searchValue = value;
+                  fetchSellers(currentPage);
                 },
               ),
             ),
@@ -89,13 +81,12 @@ class _ShowTopSellersState extends ConsumerState<ShowTopSellers> {
                                   ]
                                 : []),
                         paginated: true,
-                        pageLoading: topSellerState.state == DataState.MORE_LOADING,
+                        pageLoading:
+                            topSellerState.state == DataState.MORE_LOADING,
                         onBottomReached: () {
                           if (currentPage <
                               (topSellerState.data?.data?.lastPage ?? 0)) {
-                            ref
-                                .read(getTopSellersDataStateNotifiers.notifier)
-                                .getTopSellersData(page: ++currentPage);
+                            fetchSellers(++currentPage);
                           }
                         },
                         builder: (item) => Padding(
@@ -124,5 +115,40 @@ class _ShowTopSellersState extends ConsumerState<ShowTopSellers> {
         ),
       ),
     );
+  }
+
+  void openFilter() async {
+    var filterData = await context.push(R_FilterScreen, extra: {
+      "type": FilterScreenTypes.Sellers,
+      "categoryId": widget.categoryId
+    });
+    currentPage = 1;
+    sellerFilterData = filterData as FilterData;
+    fetchSellers(++currentPage);
+  }
+
+  void fetchSellers(int page) {
+    if (widget.type == CategoryType.Search) {
+      ref.read(getTopSellersDataStateNotifiers.notifier).getTopSellersData(
+            page: page,
+            searchByName: searchValue?.isNotEmpty == true ? searchValue : null,
+            isPromoted: sellerFilterData?.promotionSelected,
+            categoriesIds: sellerFilterData?.categoriesIdsSelected,
+            occasionsIds: sellerFilterData?.occasionsIdsSelected,
+            ratings: sellerFilterData?.ratingValueSelected
+                ?.map((item) => item.toString())
+                .toList(),
+          );
+    } else {
+      ref.read(getTopSellersDataStateNotifiers.notifier).getTopSellersData(
+          categoriesIds: [widget.categoryId],
+          isPromoted: sellerFilterData?.promotionSelected,
+          occasionsIds: sellerFilterData?.occasionsIdsSelected,
+          ratings: sellerFilterData?.ratingValueSelected
+              ?.map((item) => item.toString())
+              .toList(),
+          page: page,
+          searchByName: searchValue?.isNotEmpty == true ? searchValue : null);
+    }
   }
 }
