@@ -4,6 +4,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lazo_client/Constants.dart';
+import 'package:lazo_client/Data/Models/ItemSelector.dart';
+import 'package:lazo_client/Presentation/Screens/details/componants/ProductMultipleSelectItems.dart';
+import 'package:lazo_client/Presentation/Screens/details/componants/ProductSingleSelectItems.dart';
 import 'package:lazo_client/Presentation/StateNotifiersViewModel/PublicStateNotifiers.dart';
 import 'package:lazo_client/Presentation/Theme/AppTheme.dart';
 import 'package:lazo_client/Presentation/Widgets/CircleImage.dart';
@@ -290,30 +293,32 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
                                         Border.all(color: AppTheme.appGrey8),
                                     color: Colors.white,
                                   ),
-                                  child: Column(
-                                    children: [
-                                      ...(List.generate(
-                                          productItemState.data?.data
-                                                  ?.lists[index].items.length ??
-                                              0,
-                                          (itemIndex) => ProductRowItem(
-                                                title:
-                                                    "${productItemState.data?.data?.lists[index].items[itemIndex].name}",
-                                                textValue:
-                                                    "SAR ${productItemState.data?.data?.lists[index].items[itemIndex].price}",
-                                                hasDivider: itemIndex !=
-                                                    ((productItemState
-                                                            .data
-                                                            ?.data
-                                                            ?.lists[index]
-                                                            .items
-                                                            .asMap()
-                                                            .keys
-                                                            .last ??
-                                                        0)),
-                                              )))
-                                    ],
-                                  ),
+                                  child:
+                                  productItemState.data?.data?.lists[index].isMultiSelectable == 0?
+                                  ProductSingleSelectItems(
+                                      list: productItemState.data?.data?.lists[index].items
+                                          .map((item) => ItemSelector(
+                                          item.id?.toInt() ?? 0,
+                                          item.name ?? "",
+                                          Text(
+                                            "SAR ${item.price}",
+                                            style: AppTheme
+                                                .styleWithTextAppGrey7AdelleSansExtendedFonts14w400,
+                                          )))
+                                          .toList() ??
+                                          [], onItemSelect: (item) {  },) :
+                                  ProductMultipleSelectItems(
+                                    list: productItemState.data?.data?.lists[index].items
+                                        .map((item) => ItemSelector(
+                                        item.id?.toInt() ?? 0,
+                                        item.name ?? "",
+                                        Text(
+                                          "SAR ${item.price}",
+                                          style: AppTheme
+                                              .styleWithTextAppGrey7AdelleSansExtendedFonts14w400,
+                                        )))
+                                        .toList() ??
+                                        [], onItemSelect: (item) {  },),
                                 ),
                               ),
                             ],
@@ -346,30 +351,14 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
                                         Border.all(color: AppTheme.appGrey8),
                                     color: Colors.white,
                                   ),
-                                  child: Column(
-                                    children: [
-                                      ...(List.generate(
-                                          serviceItemState
-                                                  .data?.data?.lists.length ??
-                                              0,
-                                          (itemIndex) => ProductRowItem(
-                                                title:
-                                                    "${serviceItemState.data?.data?.lists[index].items[itemIndex].name}",
-                                                textValue:
-                                                    "SAR ${serviceItemState.data?.data?.lists[index].items[itemIndex].price}",
-                                                hasDivider: itemIndex !=
-                                                    ((serviceItemState
-                                                            .data
-                                                            ?.data
-                                                            ?.lists[index]
-                                                            .items
-                                                            .asMap()
-                                                            .keys
-                                                            .last ??
-                                                        0)),
-                                              )))
-                                    ],
-                                  ),
+                                  child: ProductMultipleSelectItems(
+                                      list: serviceItemState.data?.data?.lists
+                                              .map((item) => ItemSelector(
+                                                  item.id?.toInt() ?? 0,
+                                                  item.name ?? "",
+                                                  SizedBox()))
+                                              .toList() ??
+                                          [], onItemSelect: (item) {  },),
                                 ),
                               )
                             ],
@@ -494,143 +483,135 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
                           ),
                         ],
                       ),
-                      // PositionedDirectional(
-                      //   end: 0,
-                      //   child: Row(
-                      //     crossAxisAlignment: CrossAxisAlignment.center,
-                      //     children: [
-                      //       Text(
-                      //         "Based on ${productItemState.data?.data?.ratingsCount ?? 0} ratings",
-                      //         style: AppTheme
-                      //             .styleWithTextGray7AdelleSansExtendedFonts12w400,
-                      //       ),
-                      //     ],
-                      //   ),
-                      //
-                      // )
                     ]),
                   ),
                 ),
                 SizedBox(
                   height: 24,
                 ),
-                if(widget.itemType == ItemType.Products)
-                  ...(List.generate(productItemState.data?.data?.ratings?.length ?? 0, (index) =>
-                      Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(4),
-                          border: Border.all(color: AppTheme.appGrey8),
-                          color: Colors.white,
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(16),
-                          child: Column(
-                            children: [
-                              Row(
-                                children: [
-                                  Text(
-                                    "${productItemState.data?.data?.ratings?[index].userName}",
-                                    style: AppTheme
-                                        .styleWithTextAppGrey7AdelleSansExtendedFonts14w500,
-                                  ),
-                                  Spacer(),
-                                  Text(
-                                    "${productItemState.data?.data?.ratings?[index].date}",
-                                    style: AppTheme
-                                        .styleWithTextGray7AdelleSansExtendedFonts12w400,
-                                  )
-                                ],
-                              ),
-                              SizedBox(
-                                height: 8,
-                              ),
-                              Row(
-                                children: [
-                                  SVGIcons.smallStarIcon(),
-                                  SizedBox(
-                                    width: 3,
-                                  ),
-                                  Text(
-                                    "${productItemState.data?.data?.ratings?[index].rating ?? 0}",
-                                    style: AppTheme
-                                        .styleWithTextBlackAdelleSansExtendedFonts14w400,
-                                  ),
-                                ],
-                              ),
-                              SizedBox(
-                                height: 8,
-                              ),
-                              ExpandedText(
-                                textValue:
-                                "${productItemState.data?.data?.ratings?[index].ratingComment ?? 0}",
-                                textStyle: AppTheme
-                                    .styleWithTextBlackAdelleSansExtendedFonts14w500
-                                    .copyWith(height: 1.5),
-                                maxLength: 70,
-                                showLessText: "Read Less", showMoreText: "Read More",)
-                            ],
-                          ),
+                if (widget.itemType == ItemType.Products)
+                  ...(List.generate(
+                    productItemState.data?.data?.ratings?.length ?? 0,
+                    (index) => Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(4),
+                        border: Border.all(color: AppTheme.appGrey8),
+                        color: Colors.white,
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(16),
+                        child: Column(
+                          children: [
+                            Row(
+                              children: [
+                                Text(
+                                  "${productItemState.data?.data?.ratings?[index].userName}",
+                                  style: AppTheme
+                                      .styleWithTextAppGrey7AdelleSansExtendedFonts14w500,
+                                ),
+                                Spacer(),
+                                Text(
+                                  "${productItemState.data?.data?.ratings?[index].date}",
+                                  style: AppTheme
+                                      .styleWithTextGray7AdelleSansExtendedFonts12w400,
+                                )
+                              ],
+                            ),
+                            SizedBox(
+                              height: 8,
+                            ),
+                            Row(
+                              children: [
+                                SVGIcons.smallStarIcon(),
+                                SizedBox(
+                                  width: 3,
+                                ),
+                                Text(
+                                  "${productItemState.data?.data?.ratings?[index].rating ?? 0}",
+                                  style: AppTheme
+                                      .styleWithTextBlackAdelleSansExtendedFonts14w400,
+                                ),
+                              ],
+                            ),
+                            SizedBox(
+                              height: 8,
+                            ),
+                            ExpandedText(
+                              textValue:
+                                  "${productItemState.data?.data?.ratings?[index].ratingComment ?? 0}",
+                              textStyle: AppTheme
+                                  .styleWithTextBlackAdelleSansExtendedFonts14w500
+                                  .copyWith(height: 1.5),
+                              maxLength: 70,
+                              showLessText: "Read Less",
+                              showMoreText: "Read More",
+                            )
+                          ],
                         ),
                       ),
+                    ),
                   )),
-                if(widget.itemType == ItemType.Services)
-                  ...(List.generate(serviceItemState.data?.data?.ratings?.length ?? 0, (index) =>
-                      Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(4),
-                          border: Border.all(color: AppTheme.appGrey8),
-                          color: Colors.white,
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(16),
-                          child: Column(
-                            children: [
-                              Row(
-                                children: [
-                                  Text(
-                                    "${serviceItemState.data?.data?.ratings?[index].userName}",
-                                    style: AppTheme
-                                        .styleWithTextAppGrey7AdelleSansExtendedFonts14w500,
-                                  ),
-                                  Spacer(),
-                                  Text(
-                                    "${serviceItemState.data?.data?.ratings?[index].date}",
-                                    style: AppTheme
-                                        .styleWithTextGray7AdelleSansExtendedFonts12w400,
-                                  )
-                                ],
-                              ),
-                              SizedBox(
-                                height: 8,
-                              ),
-                              Row(
-                                children: [
-                                  SVGIcons.smallStarIcon(),
-                                  SizedBox(
-                                    width: 3,
-                                  ),
-                                  Text(
-                                    "${serviceItemState.data?.data?.ratings?[index].rating ?? 0}",
-                                    style: AppTheme
-                                        .styleWithTextBlackAdelleSansExtendedFonts14w400,
-                                  ),
-                                ],
-                              ),
-                              SizedBox(
-                                height: 8,
-                              ),
-                              ExpandedText(
-                                textValue:
-                                "${serviceItemState.data?.data?.ratings?[index].ratingComment ?? 0}",
-                                textStyle: AppTheme
-                                    .styleWithTextBlackAdelleSansExtendedFonts14w500
-                                    .copyWith(height: 1.5),
-                                maxLength: 70,
-                                showLessText: "Read Less", showMoreText: "Read More",)
-                            ],
-                          ),
+                if (widget.itemType == ItemType.Services)
+                  ...(List.generate(
+                    serviceItemState.data?.data?.ratings?.length ?? 0,
+                    (index) => Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(4),
+                        border: Border.all(color: AppTheme.appGrey8),
+                        color: Colors.white,
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(16),
+                        child: Column(
+                          children: [
+                            Row(
+                              children: [
+                                Text(
+                                  "${serviceItemState.data?.data?.ratings?[index].userName}",
+                                  style: AppTheme
+                                      .styleWithTextAppGrey7AdelleSansExtendedFonts14w500,
+                                ),
+                                Spacer(),
+                                Text(
+                                  "${serviceItemState.data?.data?.ratings?[index].date}",
+                                  style: AppTheme
+                                      .styleWithTextGray7AdelleSansExtendedFonts12w400,
+                                )
+                              ],
+                            ),
+                            SizedBox(
+                              height: 8,
+                            ),
+                            Row(
+                              children: [
+                                SVGIcons.smallStarIcon(),
+                                SizedBox(
+                                  width: 3,
+                                ),
+                                Text(
+                                  "${serviceItemState.data?.data?.ratings?[index].rating ?? 0}",
+                                  style: AppTheme
+                                      .styleWithTextBlackAdelleSansExtendedFonts14w400,
+                                ),
+                              ],
+                            ),
+                            SizedBox(
+                              height: 8,
+                            ),
+                            ExpandedText(
+                              textValue:
+                                  "${serviceItemState.data?.data?.ratings?[index].ratingComment ?? 0}",
+                              textStyle: AppTheme
+                                  .styleWithTextBlackAdelleSansExtendedFonts14w500
+                                  .copyWith(height: 1.5),
+                              maxLength: 70,
+                              showLessText: "Read Less",
+                              showMoreText: "Read More",
+                            )
+                          ],
                         ),
                       ),
+                    ),
                   ))
               ],
             ),

@@ -1,11 +1,8 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:skeletonizer/skeletonizer.dart';
-
 import '../../../Theme/AppTheme.dart';
-
 
 class ProductRowItem extends StatelessWidget {
   final String? title;
