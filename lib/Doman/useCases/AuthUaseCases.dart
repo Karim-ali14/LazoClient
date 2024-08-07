@@ -114,6 +114,7 @@ class UserProvider extends StateNotifier<ClientAuthResponseData?> {
       ref.read(apiClient).defaultHeaderMap.update(
           "Authorization", (value) => "Bearer ${user.accessToken}",
           ifAbsent: () => "Bearer ${user.accessToken}");
+      ref.read(apiClient).defaultHeaderMap["lang"] = "en";
     }
     return user;
   }
@@ -125,6 +126,8 @@ class UserProvider extends StateNotifier<ClientAuthResponseData?> {
     ref.read(apiClient).defaultHeaderMap.update(
         "Authorization", (value) => "Bearer ${user?.accessToken}",
         ifAbsent: () => "Bearer ${user?.accessToken}");
+
+    ref.read(apiClient).defaultHeaderMap["lang"] = "en";
   }
 
   Future<bool> logout() async{

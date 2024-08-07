@@ -63,7 +63,9 @@ class _SellerItemCardState extends State<SellerItemCard> {
                     child: Text(
                       widget.providerData?.name ?? "",
                       style: AppTheme
-                          .styleWithTextBlackAdelleSansExtendedFonts16w700,
+                          .styleWithTextBlackAdelleSansExtendedFonts16w700.copyWith(overflow: TextOverflow.ellipsis),
+                        maxLines: 1,
+                        textAlign: TextAlign.center
                     ),
                   ),
                   SizedBox(
@@ -83,7 +85,7 @@ class _SellerItemCardState extends State<SellerItemCard> {
                           width: 3,
                         ),
                         Text(
-                          widget.providerData?.ratingsCount?.toString() ?? "",
+                          widget.providerData?.overallRating?.toString() ?? "",
                           style: AppTheme
                               .styleWithTextGray7AdelleSansExtendedFonts12w400,
                         ),
@@ -120,7 +122,7 @@ class _SellerItemCardState extends State<SellerItemCard> {
       widget.providerData?.isPromoted == 1 ?
       Positioned(
           top: 20,
-          left: 214,
+          left: (widget.width ?? MediaQuery.of(context).size.width) * 0.68,
           child: Container(
             padding: EdgeInsetsDirectional.only(
               end: 8,top: 1,bottom: 1

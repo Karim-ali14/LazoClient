@@ -12,8 +12,10 @@ import '../../../Data/Models/StateModel.dart';
 import '../../../Data/Network/lib/api.dart';
 import '../../StateNotifiersViewModel/PublicStateNotifiers.dart';
 import '../../Widgets/DataListView.dart';
+import '../../Widgets/EmptyDataView.dart';
 import '../../Widgets/SearchWithFilter.dart';
 import '../../Widgets/ServiceAndProductItemCard.dart';
+import '../../Widgets/SvgIcons.dart';
 
 class ShowBestProductAndServiceScreen extends ConsumerStatefulWidget {
   final String title;
@@ -55,7 +57,6 @@ class _ShowProductAndServiceScreenState
   final TextEditingController controller = TextEditingController();
   @override
   Widget build(BuildContext context) {
-
     filterForProductData = ref.watch(filterForProductStateNotifiers);
 
     filterForServicesData = ref.watch(filterForServiceStateNotifiers);
@@ -101,7 +102,12 @@ class _ShowProductAndServiceScreenState
             Expanded(
               child: widget.type == ItemType.Products
                   ? productsState.state == DataState.EMPTY
-                      ? /*OrderPlaceHolder(onAddOrderClick: () {})*/ SizedBox()
+                      ? /*OrderPlaceHolder(onAddOrderClick: () {})*/ EmptyDataView(
+                          icon: SVGIcons.searchGifIcon(),
+                          title: "No Data Found",
+                          description:
+                              "Please refine your search using common words to get accurate results",
+                        )
                       : DataListView<ProviderProduct>(
                           dataList: productsState.data?.data?.products?.data ??
                               (productsState.state == DataState.LOADING
@@ -111,7 +117,8 @@ class _ShowProductAndServiceScreenState
                                     ]
                                   : []),
                           paginated: true,
-                          pageLoading: productsState.state == DataState.MORE_LOADING,
+                          pageLoading:
+                              productsState.state == DataState.MORE_LOADING,
                           onBottomReached: () {
                             if (currentPageForProducts <
                                 (productsState.data?.data?.products?.lastPage ??
@@ -141,7 +148,12 @@ class _ShowProductAndServiceScreenState
                                 ),
                               ))
                   : servicesState.state == DataState.EMPTY
-                      ? /*OrderPlaceHolder(onAddOrderClick: () {})*/ SizedBox()
+                      ? /*OrderPlaceHolder(onAddOrderClick: () {})*/ EmptyDataView(
+                          icon: SVGIcons.searchGifIcon(),
+                          title: "No Data Found",
+                          description:
+                              "Please refine your search using common words to get accurate results",
+                        )
                       : DataListView<ServiceShowData>(
                           dataList: servicesState.data?.data?.services?.data ??
                               (servicesState.state == DataState.LOADING
@@ -151,7 +163,8 @@ class _ShowProductAndServiceScreenState
                                     ]
                                   : []),
                           paginated: true,
-                          pageLoading: servicesState.state == DataState.MORE_LOADING,
+                          pageLoading:
+                              servicesState.state == DataState.MORE_LOADING,
                           onBottomReached: () {
                             if (currentPageForServices <
                                 (servicesState.data?.data?.services?.lastPage ??
@@ -188,15 +201,19 @@ class _ShowProductAndServiceScreenState
   }
 
   void openFilter(ItemType type) async {
-    if(type == ItemType.Products){
-      var filterData = await context.push(R_FilterScreen,
-          extra: {"type": FilterScreenTypes.Products,"searchValue" : searchForProductData});
+    if (type == ItemType.Products) {
+      var filterData = await context.push(R_FilterScreen, extra: {
+        "type": FilterScreenTypes.Products,
+        "searchValue": searchForProductData
+      });
       currentPageForProducts = 1;
       filterForProductData = filterData as FilterData;
       fetchProducts(currentPageForProducts);
-    }else if(type == ItemType.Services){
-      var filterData = await context.push(R_FilterScreen,
-          extra: {"type": FilterScreenTypes.Services,"searchValue" : searchForServiceData});
+    } else if (type == ItemType.Services) {
+      var filterData = await context.push(R_FilterScreen, extra: {
+        "type": FilterScreenTypes.Services,
+        "searchValue": searchForServiceData
+      });
       currentPageForServices = 1;
       filterForServicesData = filterData as FilterData;
       fetchServices(currentPageForServices);
@@ -204,9 +221,7 @@ class _ShowProductAndServiceScreenState
   }
 
   void fetchProducts(int page) {
-    ref
-        .read(getProductsStateNotifiers.notifier)
-        .getProductsData(
+    ref.read(getProductsStateNotifiers.notifier).getProductsData(
         page: page,
         categoriesIds: filterForProductData?.categoriesIdsSelected,
         occasionsIds: filterForProductData?.occasionsIdsSelected,
@@ -215,26 +230,25 @@ class _ShowProductAndServiceScreenState
             .toList(),
         priceTo: filterForProductData?.priceToSelected.toString(),
         priceFrom: filterForProductData?.priceFromSelected.toString(),
-        type:
-        ItemType.Products.name.toLowerCase(),
-        searchByName: searchForProductData?.isNotEmpty == true ? searchForProductData : null);
+        type: ItemType.Products.name.toLowerCase(),
+        searchByName: searchForProductData?.isNotEmpty == true
+            ? searchForProductData
+            : null);
   }
 
   void fetchServices(int page) {
-    ref
-        .read(getServicesStateNotifiers.notifier)
-        .getServicesData(
+    ref.read(getServicesStateNotifiers.notifier).getServicesData(
         page: page,
-        categoriesIds:  filterForServicesData?.categoriesIdsSelected,
+        categoriesIds: filterForServicesData?.categoriesIdsSelected,
         occasionsIds: filterForServicesData?.occasionsIdsSelected,
         ratings: filterForServicesData?.ratingValueSelected
             ?.map((item) => item.toString())
             .toList(),
         priceTo: filterForServicesData?.priceToSelected.toString(),
         priceFrom: filterForServicesData?.priceFromSelected.toString(),
-        type:
-        ItemType.Services.name.toLowerCase(),
-        searchByName: searchForServiceData?.isNotEmpty == true ? searchForServiceData : null);
+        type: ItemType.Services.name.toLowerCase(),
+        searchByName: searchForServiceData?.isNotEmpty == true
+            ? searchForServiceData
+            : null);
   }
-
 }

@@ -76,6 +76,7 @@ class _SelectPriceBottomSheetState extends State<SelectPriceBottomSheet> {
                       AppTheme.styleWithTextBlackAdelleSansExtendedFonts16w500,
                   textFieldBorderColor: AppTheme.appGrey8,
                   textFieldColor: AppTheme.appGrey8,
+                  textInputType: TextInputType.phone,
                   label: "From",
                   labelStyle: AppTheme
                       .styleWithTextBlackAdelleSansExtendedFonts16w500
@@ -110,6 +111,7 @@ class _SelectPriceBottomSheetState extends State<SelectPriceBottomSheet> {
                     textFieldBorderColor: AppTheme.appGrey8,
                     textFieldColor: AppTheme.appGrey8,
                     label: "To",
+                    textInputType: TextInputType.phone,
                     labelStyle: AppTheme
                         .styleWithTextBlackAdelleSansExtendedFonts16w500
                         .copyWith(color: AppTheme.appGrey10),

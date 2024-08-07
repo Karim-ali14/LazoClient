@@ -16,6 +16,7 @@ import 'package:skeletonizer/skeletonizer.dart';
 import '../../../Constants/Eunms.dart';
 import '../../../Data/Models/FilterData.dart';
 import '../../StateNotifiersViewModel/PublicStateNotifiers.dart';
+import '../../Widgets/EmptyDataView.dart';
 import '../../Widgets/SearchWithFilter.dart';
 
 class ShowTopSellers extends ConsumerStatefulWidget {
@@ -98,19 +99,12 @@ class _ShowTopSellersState extends ConsumerState<ShowTopSellers> {
                                   child: SellerItemCard(providerData: item)),
                             )),
                   )
-                : Expanded(
-                    child: Column(
-                    children: [
-                      SizedBox(
-                        height: 53,
-                      ),
-                      SVGIcons.noTopSellerDataIcon(),
-                      SizedBox(
-                        height: 16,
-                      ),
-                      Text("No seller found")
-                    ],
-                  ))
+                : EmptyDataView(
+                    icon: SVGIcons.searchGifIcon(),
+                    title: "No Data Found",
+                    description:
+                        "Please refine your search using common words to get accurate results",
+                  )
           ],
         ),
       ),

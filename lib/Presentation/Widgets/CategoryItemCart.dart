@@ -13,7 +13,8 @@ class CategoryItemCart extends StatelessWidget {
   const CategoryItemCart(
       {super.key,
       required this.image,
-      required this.title, this.width,
+      required this.title,
+      this.width,
       required this.height});
 
   @override
@@ -48,9 +49,13 @@ class CategoryItemCart extends StatelessWidget {
             const SizedBox(
               height: 8,
             ),
-            Text(
-              title,
-              style: AppTheme.styleWithTextBlackAdelleSansExtendedFonts14w400,
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 5),
+              child: Text(title,
+                  style: AppTheme.styleWithTextBlackAdelleSansExtendedFonts14w400
+                      .copyWith(overflow: TextOverflow.ellipsis),
+                  maxLines: 1,
+                  textAlign: TextAlign.center),
             )
           ],
         ),

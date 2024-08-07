@@ -178,5 +178,14 @@ class SVGIcons {
     );
   }
 
+  static Widget searchGifIcon(){
+    return Image.asset(
+        searchIconGif,
+      width: 138,
+      height: 138,
+      fit: BoxFit.fill,
+    );
+  }
+
 
 }

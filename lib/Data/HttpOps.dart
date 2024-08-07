@@ -33,12 +33,12 @@ class HttpOps {
           'Content-Type': 'application/json; charset=UTF-8',
           'Authorization': 'Bearer ${_userModel?.token}',
           "Accept" : "application/json",
-          'lang' : AppLocalizations.globalLocale?.languageCode ?? "en"
+          'lang' : /*AppLocalizations.globalLocale?.languageCode ??*/ "en"
         } :
         {
           'Content-Type': 'application/json; charset=UTF-8',
           "Accept" : "application/json",
-          'lang' : AppLocalizations.globalLocale?.languageCode ?? "en"
+          'lang' : /*AppLocalizations.globalLocale?.languageCode ??*/ "en"
         },
         body: json.encode(data ?? {}),
       );
@@ -79,12 +79,12 @@ class HttpOps {
           'Content-Type': 'application/json; charset=UTF-8',
           'Authorization': 'Bearer ${_userModel?.token}',
           "Accept" : "application/json",
-          'lang' : AppLocalizations.globalLocale?.languageCode ?? "en"
+          'lang' : /*AppLocalizations.globalLocale?.languageCode ??*/ "en"
         } :
         {
           'Content-Type': 'application/json; charset=UTF-8',
           "Accept" : "application/json",
-          'lang' : AppLocalizations.globalLocale?.languageCode ?? "en"
+          'lang' : /*AppLocalizations.globalLocale?.languageCode ??*/ "en"
         },
       );
       developer.log(
@@ -112,12 +112,12 @@ class HttpOps {
           'Content-Type': 'application/json; charset=UTF-8',
           'Authorization': 'Bearer ${_userModel?.token}',
           "Accept" : "application/json",
-          'lang' : AppLocalizations.globalLocale?.languageCode ?? "en"
+          'lang' : /*AppLocalizations.globalLocale?.languageCode ??*/ "en"
         } :
         {
           'Content-Type': 'application/json; charset=UTF-8',
           "Accept" : "application/json",
-          'lang' : AppLocalizations.globalLocale?.languageCode ?? "en"
+          'lang' : /*AppLocalizations.globalLocale?.languageCode ??*/ "en"
         },
       );
       developer.log(
@@ -146,12 +146,12 @@ class HttpOps {
         'Authorization': 'Bearer ${_userModel?.token}',
         'Content-Type': 'multipart/form-data;',
         'Accept': 'application/json',
-        'lang' : AppLocalizations.globalLocale?.languageCode ?? "en"
+        'lang' : /*AppLocalizations.globalLocale?.languageCode ??*/ "en"
       } :
       {
         'Content-Type': 'multipart/form-data;',
         'Accept': 'application/json',
-        'lang' : AppLocalizations.globalLocale?.languageCode ?? "en"
+        'lang' : /*AppLocalizations.globalLocale?.languageCode ??*/ "en"
       },);
 
       request.fields.addAll(data);

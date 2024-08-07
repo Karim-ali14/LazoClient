@@ -38,15 +38,20 @@ class GetCategoriesUseCase
   void getCategoriesData() async {
     state = StateModel.loading();
     request(() => publicApi.showAllCategories(), onComplete: (res) {
+      list.clear();
       list.addAll(res.data);
     });
   }
 
   void searchInMainList(String value) {
-    final filterList =
-        list.where((item) => item.name?.contains(value) ?? false);
+    final filterList = list.where((item) {
+      return item.nameAr?.contains(value) ??
+          item.nameEn?.contains(value) ??
+          item.name?.contains(value) ??
+          false;
+    });
     state.data?.data = [...filterList];
-    print(state.data?.data.isNotEmpty);
+    print("sadklfj ${state.data?.data.isNotEmpty}");
     if (state.data?.data.isNotEmpty == true) {
       state = StateModel.success(state.data);
     } else {
@@ -90,15 +95,19 @@ class GetOccasionsUseCase extends StateNotifier<StateModel<OccasionsResponse>> {
   void getOccasionsData() async {
     state = StateModel.loading();
     request(() => publicApi.showAllOccasions(), onComplete: (res) {
+      list.clear();
       list.addAll(res.data);
     });
   }
 
   void searchInMainList(String value) {
-    final filterList =
-        list.where((item) => item.name?.contains(value) ?? false);
+    final filterList = list.where((item) =>
+        item.nameAr?.contains(value) ??
+        item.nameEn?.contains(value) ??
+        item.name?.contains(value) ??
+        false);
     state.data?.data = [...filterList];
-    print(state.data?.data.isNotEmpty);
+    print("sadklfj ${state.data?.data.isNotEmpty}");
     if (state.data?.data.isNotEmpty == true) {
       state = StateModel.success(state.data);
     } else {
@@ -251,7 +260,7 @@ class GetServicesUseCase
       } else {
         state = StateModel.success(res);
       }
-      if (state.data?.data?.products?.data.isEmpty == true) {
+      if (state.data?.data?.services?.data.isEmpty == true) {
         state = StateModel.empty();
       }
     });

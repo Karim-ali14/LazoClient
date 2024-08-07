@@ -18,8 +18,10 @@ import '../../../Data/Network/lib/api.dart';
 import '../../StateNotifiersViewModel/PublicStateNotifiers.dart';
 import '../../Theme/AppTheme.dart';
 import '../../Widgets/DataListView.dart';
+import '../../Widgets/EmptyDataView.dart';
 import '../../Widgets/SearchWithFilter.dart';
 import '../../Widgets/ServiceAndProductItemCard.dart';
+import '../../Widgets/SvgIcons.dart';
 
 class SearchScreen extends ConsumerStatefulWidget {
   final String title;
@@ -78,13 +80,13 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
 
   @override
   Widget build(BuildContext context) {
-
     filterForProductData = ref.watch(filterForProductStateNotifiers);
 
     filterForServicesData = ref.watch(filterForServiceStateNotifiers);
 
     filterForSellersData = ref.watch(filterForSellerStateNotifiers);
-    print("filter data ->${filterForProductData?.categoriesIdsSelected} ${filterForProductData?.occasionsIdsSelected} , ${filterForProductData?.ratingValueSelected} ${filterForProductData?.priceToSelected}");
+    print(
+        "filter data ->${filterForProductData?.categoriesIdsSelected} ${filterForProductData?.occasionsIdsSelected} , ${filterForProductData?.ratingValueSelected} ${filterForProductData?.priceToSelected}");
 
     final productsState = ref.watch(getProductsStateNotifiers);
     final servicesState = ref.watch(getServicesStateNotifiers);
@@ -96,7 +98,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
         title: widget.title,
         navigated: true,
         isCenter: false,
-        customCallBack: (){
+        customCallBack: () {
           context.pop("Data");
         },
       ),
@@ -248,7 +250,12 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
               controller: tabController,
               children: [
                 productsState.state == DataState.EMPTY
-                    ? /*OrderPlaceHolder(onAddOrderClick: () {})*/ SizedBox()
+                    ? /*OrderPlaceHolder(onAddOrderClick: () {})*/ EmptyDataView(
+                        icon: SVGIcons.searchGifIcon(),
+                        title: "No Data Found",
+                        description:
+                            "Please refine your search using common words to get accurate results",
+                      )
                     : DataListView<ProviderProduct>(
                         dataList: productsState.data?.data?.products?.data ??
                             (productsState.state == DataState.LOADING
@@ -258,11 +265,10 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
                                   ]
                                 : []),
                         paginated: true,
-                        pageLoading: productsState.state == DataState.MORE_LOADING,
+                        pageLoading:
+                            productsState.state == DataState.MORE_LOADING,
                         onBottomReached: () {
-
-                            fetchProducts(++currentPageForProducts);
-
+                          fetchProducts(++currentPageForProducts);
                         },
                         builder: (item) => Skeletonizer(
                               enabled: productsState.state == DataState.LOADING,
@@ -285,7 +291,12 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
                               ),
                             )),
                 servicesState.state == DataState.EMPTY
-                    ? /*OrderPlaceHolder(onAddOrderClick: () {})*/ SizedBox()
+                    ? /*OrderPlaceHolder(onAddOrderClick: () {})*/ EmptyDataView(
+                        icon: SVGIcons.searchGifIcon(),
+                        title: "No Data Found",
+                        description:
+                            "Please refine your search using common words to get accurate results",
+                      )
                     : DataListView<ServiceShowData>(
                         dataList: servicesState.data?.data?.services?.data ??
                             (servicesState.state == DataState.LOADING
@@ -295,7 +306,8 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
                                   ]
                                 : []),
                         paginated: true,
-                        pageLoading: servicesState.state == DataState.MORE_LOADING,
+                        pageLoading:
+                            servicesState.state == DataState.MORE_LOADING,
                         onBottomReached: () {
                           if (currentPageForServices <
                               (servicesState.data?.data?.services?.lastPage ??
@@ -325,7 +337,12 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
                             )),
                 if (widget.type == CategoryType.Search)
                   sellersState.state == DataState.EMPTY
-                      ? /*OrderPlaceHolder(onAddOrderClick: () {})*/ SizedBox()
+                      ? /*OrderPlaceHolder(onAddOrderClick: () {})*/ EmptyDataView(
+                          icon: SVGIcons.searchGifIcon(),
+                          title: "No Data Found",
+                          description:
+                              "Please refine your search using common words to get accurate results",
+                        )
                       : DataListView<ProviderData>(
                           dataList: sellersState.data?.data?.data ??
                               (sellersState.state == DataState.LOADING
@@ -335,7 +352,8 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
                                     ]
                                   : []),
                           paginated: true,
-                          pageLoading: sellersState.state == DataState.MORE_LOADING,
+                          pageLoading:
+                              sellersState.state == DataState.MORE_LOADING,
                           onBottomReached: () {
                             if (currentPageForSellers <
                                 (sellersState.data?.data?.lastPage ?? 0)) {
@@ -363,13 +381,11 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
     ref.read(getProductsStateNotifiers.notifier).getProductsData(
         page: page,
         categoriesIds: widget.type == CategoryType.Categories
-                ? [widget.id ?? 0]
-                : filterForProductData?.categoriesIdsSelected
-            ,
+            ? [widget.id ?? 0]
+            : filterForProductData?.categoriesIdsSelected,
         occasionsIds: widget.type == CategoryType.Occasions
-                ? [widget.id ?? 0]
-                : filterForProductData?.occasionsIdsSelected
-            ,
+            ? [widget.id ?? 0]
+            : filterForProductData?.occasionsIdsSelected,
         ratings: filterForProductData?.ratingValueSelected
             ?.map((item) => item.toString())
             .toList(),
@@ -388,13 +404,13 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
         categoriesIds: widget.type == CategoryType.Categories ||
                 widget.type == CategoryType.Search
             ? widget.type == CategoryType.Categories
-                ? [widget.id??0]
+                ? [widget.id ?? 0]
                 : filterForServicesData?.categoriesIdsSelected
             : null,
         occasionsIds: widget.type == CategoryType.Occasions ||
                 widget.type == CategoryType.Search
             ? widget.type == CategoryType.Occasions
-                ? [widget.id??0]
+                ? [widget.id ?? 0]
                 : filterForServicesData?.occasionsIdsSelected
             : null,
         ratings: filterForServicesData?.ratingValueSelected
@@ -428,12 +444,15 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
             : searchForSellersData);
   }
 
-  void openFilterScreen(int activeTabIndex) async{
+  void openFilterScreen(int activeTabIndex) async {
     switch (activeTabIndex) {
       case 0:
         {
-          var filterData = await context.push(R_FilterScreen,
-              extra: {"type": FilterScreenTypes.Products,"searchValue" : controller.text,"occasionId":widget.id});
+          var filterData = await context.push(R_FilterScreen, extra: {
+            "type": FilterScreenTypes.Products,
+            "searchValue": controller.text,
+            "occasionId": widget.id
+          });
           currentPageForProducts = 1;
           filterForProductData = filterData as FilterData;
           fetchProducts(currentPageForServices);
@@ -459,5 +478,4 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
         break;
     }
   }
-
 }

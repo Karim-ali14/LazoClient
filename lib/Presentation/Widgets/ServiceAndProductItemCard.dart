@@ -79,6 +79,7 @@ class _ServiceAndProductItemCardHorizontalState
                             : widget.service?.name ?? "",
                         style: AppTheme
                             .styleWithTextBlackAdelleSansExtendedFonts14w500,
+                          maxLines: 1,overflow: TextOverflow.ellipsis ,
                       ),
                     ),
                     SizedBox(

@@ -4,8 +4,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lazo_client/Data/Models/StateModel.dart';
 import 'package:lazo_client/Presentation/StateNotifiersViewModel/PublicStateNotifiers.dart';
+import 'package:lazo_client/Presentation/Theme/AppTheme.dart';
 import 'package:lazo_client/Presentation/Widgets/CustomAppBar.dart';
 import 'package:lazo_client/Presentation/Widgets/EmptyDataView.dart';
+import 'package:lazo_client/Presentation/Widgets/SvgIcons.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import '../../../Constants.dart';
 import '../../../Constants/Eunms.dart';
@@ -15,7 +17,7 @@ import '../../Widgets/SearchWithFilter.dart';
 
 class ShowAllCategoryAndOccasionsData extends ConsumerStatefulWidget {
   final CategoryType type;
-  const ShowAllCategoryAndOccasionsData( {required this.type,super.key});
+  const ShowAllCategoryAndOccasionsData({required this.type, super.key});
 
   @override
   ConsumerState<ShowAllCategoryAndOccasionsData> createState() =>
@@ -82,8 +84,14 @@ class _ShowAllCategoryAndOccasionsDataState
             ),
             Container(
               padding: EdgeInsetsDirectional.symmetric(horizontal: 8),
-              child: categoryState.state == DataState.EMPTY
-                  ? SizedBox()
+              child: categoryState.state == DataState.EMPTY ||
+                      occasionsState.state == DataState.EMPTY
+                  ? EmptyDataView(
+                      icon: SVGIcons.searchGifIcon(),
+                      title: "No Data Found",
+                      description:
+                          "Please refine your search using common words to get accurate results",
+                    )
                   : GridView.count(
                       crossAxisCount: 2,
                       childAspectRatio: (itemWidth / itemHeight),
@@ -94,13 +102,16 @@ class _ShowAllCategoryAndOccasionsDataState
                           ? categoryState.state == DataState.SUCCESS
                               ? categoryState.data?.data.map((Category value) {
                                     return InkWell(
-                                      onTap: (){
-                                        navigateToSeeAllTopSeller("${value.name}", CategoryType.Categories ,value.id?.toInt() ?? 0);
+                                      onTap: () {
+                                        navigateToSeeAllTopSeller(
+                                            "${value.name}",
+                                            CategoryType.Categories,
+                                            value.id?.toInt() ?? 0);
                                       },
                                       child: Padding(
-                                        padding:
-                                            const EdgeInsetsDirectional.symmetric(
-                                                horizontal: 6, vertical: 6),
+                                        padding: const EdgeInsetsDirectional
+                                            .symmetric(
+                                            horizontal: 6, vertical: 6),
                                         child: CategoryItemCart(
                                           image: value.imagePath ?? "",
                                           title: value.name ?? "",
@@ -150,7 +161,7 @@ class _ShowAllCategoryAndOccasionsDataState
                           : occasionsState.state == DataState.SUCCESS
                               ? occasionsState.data?.data.map((Occasion value) {
                                     return InkWell(
-                                      onTap: (){
+                                      onTap: () {
                                         navigateToProductsAndServices(
                                             CategoryType.Occasions,
                                             value.name ?? "",
@@ -158,9 +169,9 @@ class _ShowAllCategoryAndOccasionsDataState
                                                 (value.id ?? 0).toString()));
                                       },
                                       child: Padding(
-                                        padding:
-                                            const EdgeInsetsDirectional.symmetric(
-                                                horizontal: 6, vertical: 6),
+                                        padding: const EdgeInsetsDirectional
+                                            .symmetric(
+                                            horizontal: 6, vertical: 6),
                                         child: CategoryItemCart(
                                           image: value.imagePath ?? "",
                                           title: value.name ?? "",
@@ -210,6 +221,7 @@ class _ShowAllCategoryAndOccasionsDataState
       )),
     );
   }
+
   void navigateToSeeAllTopSeller(
       String title, CategoryType type, int categoryId) {
     context.push(R_SeeAllSeller,
@@ -229,5 +241,4 @@ class _ShowAllCategoryAndOccasionsDataState
     print(
         "filter data -> ${ref.watch(filterForProductStateNotifiers).priceToSelected}");
   }
-
 }
