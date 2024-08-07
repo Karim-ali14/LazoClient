@@ -59,7 +59,7 @@ class _ServiceAndProductItemCardHorizontalState
                   height: 121,
                   initialImg: widget.type == ItemType.Products
                       ? widget.product?.images?.isNotEmpty == true ? widget.product?.images?.first.imagePath :""
-                      : widget.service?.coverImagePath,
+                      : widget.service?.imagePath,
                 ),
               ),
               Padding(

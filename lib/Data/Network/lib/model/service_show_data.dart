@@ -27,6 +27,7 @@ class ServiceShowData {
     this.duration,
     this.id,
     this.images = const [],
+    this.imagePath,
     this.isServiceDeliverableOutsideStore,
     this.isVisible,
     this.lists = const [],
@@ -42,6 +43,7 @@ class ServiceShowData {
     this.overallRating,
     this.ratingsCount,
     this.ratings = const [],
+    this.provider,
   });
 
   ///
@@ -137,6 +139,8 @@ class ServiceShowData {
   num? id;
 
   List<ImageItem> images;
+
+  String? imagePath;
 
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
@@ -246,6 +250,14 @@ class ServiceShowData {
 
   List<ProductDetailsRatingsInner>? ratings;
 
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  ProviderData? provider;
+
   @override
   bool operator ==(Object other) => identical(this, other) || other is ServiceShowData &&
      other.cardExpiration == cardExpiration &&
@@ -262,6 +274,7 @@ class ServiceShowData {
      other.duration == duration &&
      other.id == id &&
      other.images == images &&
+     other.imagePath == imagePath &&
      other.isServiceDeliverableOutsideStore == isServiceDeliverableOutsideStore &&
      other.isVisible == isVisible &&
      other.lists == lists &&
@@ -276,7 +289,8 @@ class ServiceShowData {
      other.inWishlist == inWishlist &&
      other.overallRating == overallRating &&
      other.ratingsCount == ratingsCount &&
-     other.ratings == ratings;
+     other.ratings == ratings &&
+     other.provider == provider;
 
   @override
   int get hashCode =>
@@ -295,6 +309,7 @@ class ServiceShowData {
     (duration == null ? 0 : duration!.hashCode) +
     (id == null ? 0 : id!.hashCode) +
     (images.hashCode) +
+    (imagePath == null ? 0 : imagePath!.hashCode) +
     (isServiceDeliverableOutsideStore == null ? 0 : isServiceDeliverableOutsideStore!.hashCode) +
     (isVisible == null ? 0 : isVisible!.hashCode) +
     (lists.hashCode) +
@@ -309,10 +324,11 @@ class ServiceShowData {
     (inWishlist == null ? 0 : inWishlist!.hashCode) +
     (overallRating == null ? 0 : overallRating!.hashCode) +
     (ratingsCount == null ? 0 : ratingsCount!.hashCode) +
-    (ratings == null ? 0 : ratings!.hashCode);
+    (ratings == null ? 0 : ratings!.hashCode) +
+    (provider == null ? 0 : provider!.hashCode);
 
   @override
-  String toString() => 'ServiceShowData[cardExpiration=$cardExpiration, cardPrice=$cardPrice, cardType=$cardType, categories=$categories, categoryMenu=$categoryMenu, coverImagePath=$coverImagePath, coverImage=$coverImage, createdAt=$createdAt, description=$description, descriptionAr=$descriptionAr, descriptionEn=$descriptionEn, duration=$duration, id=$id, images=$images, isServiceDeliverableOutsideStore=$isServiceDeliverableOutsideStore, isVisible=$isVisible, lists=$lists, name=$name, nameAr=$nameAr, nameEn=$nameEn, price=$price, priceAfterDiscount=$priceAfterDiscount, providerId=$providerId, updatedAt=$updatedAt, inCart=$inCart, inWishlist=$inWishlist, overallRating=$overallRating, ratingsCount=$ratingsCount, ratings=$ratings]';
+  String toString() => 'ServiceShowData[cardExpiration=$cardExpiration, cardPrice=$cardPrice, cardType=$cardType, categories=$categories, categoryMenu=$categoryMenu, coverImagePath=$coverImagePath, coverImage=$coverImage, createdAt=$createdAt, description=$description, descriptionAr=$descriptionAr, descriptionEn=$descriptionEn, duration=$duration, id=$id, images=$images, imagePath=$imagePath, isServiceDeliverableOutsideStore=$isServiceDeliverableOutsideStore, isVisible=$isVisible, lists=$lists, name=$name, nameAr=$nameAr, nameEn=$nameEn, price=$price, priceAfterDiscount=$priceAfterDiscount, providerId=$providerId, updatedAt=$updatedAt, inCart=$inCart, inWishlist=$inWishlist, overallRating=$overallRating, ratingsCount=$ratingsCount, ratings=$ratings, provider=$provider]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -374,6 +390,11 @@ class ServiceShowData {
       json[r'id'] = null;
     }
       json[r'images'] = this.images;
+    if (this.imagePath != null) {
+      json[r'imagePath'] = this.imagePath;
+    } else {
+      json[r'imagePath'] = null;
+    }
     if (this.isServiceDeliverableOutsideStore != null) {
       json[r'is_service_deliverable_outside_store'] = this.isServiceDeliverableOutsideStore;
     } else {
@@ -445,6 +466,11 @@ class ServiceShowData {
     } else {
       json[r'ratings'] = null;
     }
+    if (this.provider != null) {
+      json[r'provider'] = this.provider;
+    } else {
+      json[r'provider'] = null;
+    }
     return json;
   }
 
@@ -485,6 +511,7 @@ class ServiceShowData {
             ? null
             : num.parse(json[r'id'].toString()),
         images: ImageItem.listFromJson(json[r'images']),
+        imagePath: mapValueOfType<String>(json, r'imagePath'),
         isServiceDeliverableOutsideStore: json[r'is_service_deliverable_outside_store'] == null
             ? null
             : num.parse(json[r'is_service_deliverable_outside_store'].toString()),
@@ -514,6 +541,7 @@ class ServiceShowData {
             ? null
             : num.parse(json[r'ratings_count'].toString()),
         ratings: ProductDetailsRatingsInner.listFromJson(json[r'ratings']),
+        provider: ProviderData.fromJson(json[r'provider']),
       );
     }
     return null;

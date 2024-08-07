@@ -14,7 +14,6 @@ class FilterTopProductsServicesRequest {
   /// Returns a new [FilterTopProductsServicesRequest] instance.
   FilterTopProductsServicesRequest({
     this.page,
-    this.limit,
     this.searchByName,
     this.categoriesIds = const [],
     this.occasionsIds = const [],
@@ -25,8 +24,6 @@ class FilterTopProductsServicesRequest {
   });
 
   num? page;
-
-  num? limit;
 
   String? searchByName;
 
@@ -52,7 +49,6 @@ class FilterTopProductsServicesRequest {
   @override
   bool operator ==(Object other) => identical(this, other) || other is FilterTopProductsServicesRequest &&
      other.page == page &&
-     other.limit == limit &&
      other.searchByName == searchByName &&
      other.categoriesIds == categoriesIds &&
      other.occasionsIds == occasionsIds &&
@@ -65,7 +61,6 @@ class FilterTopProductsServicesRequest {
   int get hashCode =>
     // ignore: unnecessary_parenthesis
     (page == null ? 0 : page!.hashCode) +
-    (limit == null ? 0 : limit!.hashCode) +
     (searchByName == null ? 0 : searchByName!.hashCode) +
     (categoriesIds == null ? 0 : categoriesIds!.hashCode) +
     (occasionsIds == null ? 0 : occasionsIds!.hashCode) +
@@ -75,7 +70,7 @@ class FilterTopProductsServicesRequest {
     (type == null ? 0 : type!.hashCode);
 
   @override
-  String toString() => 'FilterTopProductsServicesRequest[page=$page, limit=$limit, searchByName=$searchByName, categoriesIds=$categoriesIds, occasionsIds=$occasionsIds, priceFrom=$priceFrom, priceTo=$priceTo, ratings=$ratings, type=$type]';
+  String toString() => 'FilterTopProductsServicesRequest[page=$page, searchByName=$searchByName, categoriesIds=$categoriesIds, occasionsIds=$occasionsIds, priceFrom=$priceFrom, priceTo=$priceTo, ratings=$ratings, type=$type]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -83,11 +78,6 @@ class FilterTopProductsServicesRequest {
       json[r'page'] = this.page;
     } else {
       json[r'page'] = null;
-    }
-    if (this.limit != null) {
-      json[r'limit'] = this.limit;
-    } else {
-      json[r'limit'] = null;
     }
     if (this.searchByName != null) {
       json[r'search_by_name'] = this.searchByName;
@@ -149,9 +139,6 @@ class FilterTopProductsServicesRequest {
         page: json[r'page'] == null
             ? null
             : num.parse(json[r'page'].toString()),
-        limit: json[r'limit'] == null
-            ? null
-            : num.parse(json[r'limit'].toString()),
         searchByName: mapValueOfType<String>(json, r'search_by_name'),
         categoriesIds: json[r'categories_ids'] is List
             ? (json[r'categories_ids'] as List).cast<num>()

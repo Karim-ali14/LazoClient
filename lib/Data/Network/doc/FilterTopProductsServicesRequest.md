@@ -9,7 +9,6 @@ import 'package:lazo/api.dart';
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **page** | **num** |  | [optional] 
-**limit** | **num** |  | [optional] 
 **searchByName** | **String** |  | [optional] 
 **categoriesIds** | **List<num>** |  | [optional] [default to const []]
 **occasionsIds** | **List<num>** |  | [optional] [default to const []]

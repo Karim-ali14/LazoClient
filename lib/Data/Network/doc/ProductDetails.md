@@ -36,6 +36,7 @@ Name | Type | Description | Notes
 **overallRating** | **num** |  | [optional] 
 **ratingsCount** | **num** |  | [optional] 
 **ratings** | [**List<ProductDetailsRatingsInner>**](ProductDetailsRatingsInner.md) |  | [optional] [default to const []]
+**provider** | [**ProviderData**](ProviderData.md) |  | [optional] 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

@@ -54,7 +54,7 @@ class _BannerCardItemsState extends State<BannerCardItems> {
                     ),
                     child: ImageView(
                       initialImg: imagePath,
-                      placeHolder: placeholder,
+                      placeHolder: placeHolderForCardsSvg,
                     ),
                   ),
                 ),

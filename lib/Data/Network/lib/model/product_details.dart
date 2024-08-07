@@ -41,6 +41,7 @@ class ProductDetails {
     this.overallRating,
     this.ratingsCount,
     this.ratings = const [],
+    this.provider,
   });
 
   ///
@@ -219,6 +220,14 @@ class ProductDetails {
 
   List<ProductDetailsRatingsInner>? ratings;
 
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  ProviderData? provider;
+
   @override
   bool operator ==(Object other) => identical(this, other) || other is ProductDetails &&
      other.amount == amount &&
@@ -248,7 +257,8 @@ class ProductDetails {
      other.inWishlist == inWishlist &&
      other.overallRating == overallRating &&
      other.ratingsCount == ratingsCount &&
-     other.ratings == ratings;
+     other.ratings == ratings &&
+     other.provider == provider;
 
   @override
   int get hashCode =>
@@ -280,10 +290,11 @@ class ProductDetails {
     (inWishlist == null ? 0 : inWishlist!.hashCode) +
     (overallRating == null ? 0 : overallRating!.hashCode) +
     (ratingsCount == null ? 0 : ratingsCount!.hashCode) +
-    (ratings == null ? 0 : ratings!.hashCode);
+    (ratings == null ? 0 : ratings!.hashCode) +
+    (provider == null ? 0 : provider!.hashCode);
 
   @override
-  String toString() => 'ProductDetails[amount=$amount, categories=$categories, categoryMenu=$categoryMenu, colors=$colors, createdAt=$createdAt, description=$description, descriptionAr=$descriptionAr, descriptionEn=$descriptionEn, expectedProcessingTime=$expectedProcessingTime, isVisible=$isVisible, id=$id, images=$images, lists=$lists, name=$name, nameAr=$nameAr, nameEn=$nameEn, occasions=$occasions, price=$price, priceAfterDiscount=$priceAfterDiscount, providerId=$providerId, sizes=$sizes, type=$type, updatedAt=$updatedAt, inCart=$inCart, inWishlist=$inWishlist, overallRating=$overallRating, ratingsCount=$ratingsCount, ratings=$ratings]';
+  String toString() => 'ProductDetails[amount=$amount, categories=$categories, categoryMenu=$categoryMenu, colors=$colors, createdAt=$createdAt, description=$description, descriptionAr=$descriptionAr, descriptionEn=$descriptionEn, expectedProcessingTime=$expectedProcessingTime, isVisible=$isVisible, id=$id, images=$images, lists=$lists, name=$name, nameAr=$nameAr, nameEn=$nameEn, occasions=$occasions, price=$price, priceAfterDiscount=$priceAfterDiscount, providerId=$providerId, sizes=$sizes, type=$type, updatedAt=$updatedAt, inCart=$inCart, inWishlist=$inWishlist, overallRating=$overallRating, ratingsCount=$ratingsCount, ratings=$ratings, provider=$provider]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -399,6 +410,11 @@ class ProductDetails {
     } else {
       json[r'ratings'] = null;
     }
+    if (this.provider != null) {
+      json[r'provider'] = this.provider;
+    } else {
+      json[r'provider'] = null;
+    }
     return json;
   }
 
@@ -463,6 +479,7 @@ class ProductDetails {
             ? null
             : num.parse(json[r'ratings_count'].toString()),
         ratings: ProductDetailsRatingsInner.listFromJson(json[r'ratings']),
+        provider: ProviderData.fromJson(json[r'provider']),
       );
     }
     return null;

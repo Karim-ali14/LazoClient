@@ -1012,7 +1012,9 @@ components:
                 type: string
               user_name:
                 type: string
-
+        provider:
+          nullable: true
+          $ref: '#/components/schemas/ProviderData'
 
     ImageItem:
       type: object
@@ -3138,6 +3140,9 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ImageItem'
+        imagePath:
+          type: string
+          nullable: true
         is_service_deliverable_outside_store:
           type: number
           example: 1
@@ -3193,6 +3198,9 @@ components:
                 type: string
               user_name:
                 type: string
+        provider:
+          nullable: true
+          $ref: '#/components/schemas/ProviderData'
 
     ServiceList:
       type: object
@@ -5184,9 +5192,6 @@ paths:
               type: object
               properties:
                 page:
-                  type: number
-                  nullable: true
-                limit:
                   type: number
                   nullable: true
                 search_by_name:
