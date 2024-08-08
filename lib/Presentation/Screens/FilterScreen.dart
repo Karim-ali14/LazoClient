@@ -25,7 +25,12 @@ class FilterScreen extends ConsumerStatefulWidget {
   final String? searchValue;
   final int? categoryId;
   final int? occasionId;
-  const FilterScreen( {required this.type, this.searchValue,this.categoryId, this.occasionId, super.key});
+  const FilterScreen(
+      {required this.type,
+      this.searchValue,
+      this.categoryId,
+      this.occasionId,
+      super.key});
 
   @override
   ConsumerState<FilterScreen> createState() => _FilterScreenState();
@@ -36,7 +41,8 @@ class _FilterScreenState extends ConsumerState<FilterScreen> {
   List<ItemSelector> occasionsList = [];
   List<int> mainRatingList = [1, 2, 3, 4, 5];
   List<ItemSelector> ratingsList = [1, 2, 3, 4, 5]
-      .map((item) => ItemSelector(item, "$item/5", SVGIcons.smallStarIcon(size: 14),
+      .map((item) => ItemSelector(
+          item, "$item/5", SVGIcons.smallStarIcon(size: 14),
           isChecked: false))
       .toList();
   final TextEditingController priceTextController = TextEditingController();
@@ -63,9 +69,13 @@ class _FilterScreenState extends ConsumerState<FilterScreen> {
       }
       promotionSelected = filterData?.promotionSelected;
 
-      categoriesSelected = widget.categoryId != null ? [(widget.categoryId ?? 0).toInt()] : filterData?.categoriesIdsSelected;
+      categoriesSelected = widget.categoryId != null
+          ? [(widget.categoryId ?? 0).toInt()]
+          : filterData?.categoriesIdsSelected;
 
-      occasionsSelected = widget.occasionId != null ? [(widget.occasionId ?? 0).toInt()] : filterData?.occasionsIdsSelected;
+      occasionsSelected = widget.occasionId != null
+          ? [(widget.occasionId ?? 0).toInt()]
+          : filterData?.occasionsIdsSelected;
 
       ratingSelected = filterData?.ratingValueSelected;
 
@@ -79,7 +89,16 @@ class _FilterScreenState extends ConsumerState<FilterScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var enabled = promotionSelected != null || priceFrom != null || priceTo != null  || (widget.categoryId != null ? false : categoriesSelected?.isNotEmpty == true) || (widget.occasionId != null ? false : occasionsSelected?.isNotEmpty == true) || ratingSelected?.isNotEmpty == true;
+    var enabled = promotionSelected != null ||
+        priceFrom != null ||
+        priceTo != null ||
+        (widget.categoryId != null
+            ? false
+            : categoriesSelected?.isNotEmpty == true) ||
+        (widget.occasionId != null
+            ? false
+            : occasionsSelected?.isNotEmpty == true) ||
+        ratingSelected?.isNotEmpty == true;
 
     final categoryState = ref.watch(getCategoriesDataStateNotifiers);
     final occasionsState = ref.watch(getOccasionsDataStateNotifiers);
@@ -113,32 +132,33 @@ class _FilterScreenState extends ConsumerState<FilterScreen> {
         title: "Filter",
         navigated: true,
         trailingWidget: InkWell(
-          onTap: (){
-            resetAllData((){
+          onTap: () {
+            resetAllData(() {
               setState(() {
                 enabled = false;
               });
             });
-          }, child:
-          enabled ?
-          const Padding(
-              padding:
-              EdgeInsets.symmetric(horizontal: defaultPaddingHorizontal),
-              child: Row(
-                children: [
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
+          },
+          child: enabled
+              ? const Padding(
+                  padding: EdgeInsets.symmetric(
+                      horizontal: defaultPaddingHorizontal),
+                  child: Row(
                     children: [
-                      Text(
-                        "Reset",
-                        style: AppTheme
-                            .styleWithTextAppMainAppColor15AdelleSansExtendedFonts14w400,
-                      )
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            "Reset",
+                            style: AppTheme
+                                .styleWithTextAppMainAppColor15AdelleSansExtendedFonts14w400,
+                          )
+                        ],
+                      ),
                     ],
-                  ),
-                ],
-              )):const SizedBox(),
+                  ))
+              : const SizedBox(),
         ),
       ),
       body: SafeArea(
@@ -149,14 +169,13 @@ class _FilterScreenState extends ConsumerState<FilterScreen> {
             widget.type != FilterScreenTypes.Sellers
                 ? InkWell(
                     onTap: () {
-                      showPriceBottomSheet(context,afterSuccessSelectMultiItems:(from,to){
+                      showPriceBottomSheet(context,
+                          afterSuccessSelectMultiItems: (from, to) {
                         print("$from $to");
                         priceFrom = from;
                         priceTo = to;
                         setDefaultPrice(priceFrom, priceTo);
-                        setState(() {
-
-                        });
+                        setState(() {});
                       });
                     },
                     child: AppTextField(
@@ -196,16 +215,14 @@ class _FilterScreenState extends ConsumerState<FilterScreen> {
             ),
             InkWell(
               onTap: () {
-                if(widget.categoryId == null) {
+                if (widget.categoryId == null) {
                   showCategoriesBottomSheet(context, categoriesList,
                       afterSuccessSelectMultiItems: (items) {
-                        categoriesSelected = items;
-                        setDefaultCategoriesText(
-                            categoryState.data?.data ?? [], items);
-                        setState(() {
-
-                        });
-                      });
+                    categoriesSelected = items;
+                    setDefaultCategoriesText(
+                        categoryState.data?.data ?? [], items);
+                    setState(() {});
+                  });
                 }
               },
               child: AppTextField(
@@ -225,35 +242,36 @@ class _FilterScreenState extends ConsumerState<FilterScreen> {
             SizedBox(
               height: 16,
             ),
-            InkWell(
-              onTap: () {
-                if(widget.occasionId == null) {
-                  showOccasionsBottomSheet(context, occasionsList,
-                      afterSuccessSelectMultiItems: (items) {
-                        occasionsSelected = items;
-                        setDefaultOccasionsText(
-                            occasionsState.data?.data ?? [], items);
-                        setState(() {
-
+            widget.type != FilterScreenTypes.Services
+                ? InkWell(
+                    onTap: () {
+                      if (widget.occasionId == null) {
+                        showOccasionsBottomSheet(context, occasionsList,
+                            afterSuccessSelectMultiItems: (items) {
+                          occasionsSelected = items;
+                          setDefaultOccasionsText(
+                              occasionsState.data?.data ?? [], items);
+                          setState(() {});
                         });
-                      });
-                }
-              },
-              child: AppTextField(
-                readOnly: true,
-                disabled: true,
-                hint: "Occasions",
-                style: AppTheme.styleWithTextBlackAdelleSansExtendedFonts16w500,
-                textFieldBorderColor: AppTheme.appGrey8,
-                label: "Occasions",
-                labelStyle:
-                    AppTheme.styleWithTextBlackAdelleSansExtendedFonts16w500,
-                textEditingController: occasionTextController,
-                endWidget: SVGIcons.rightIcon(),
-              ),
-            ),
+                      }
+                    },
+                    child: AppTextField(
+                      readOnly: true,
+                      disabled: true,
+                      hint: "Occasions",
+                      style: AppTheme
+                          .styleWithTextBlackAdelleSansExtendedFonts16w500,
+                      textFieldBorderColor: AppTheme.appGrey8,
+                      label: "Occasions",
+                      labelStyle: AppTheme
+                          .styleWithTextBlackAdelleSansExtendedFonts16w500,
+                      textEditingController: occasionTextController,
+                      endWidget: SVGIcons.rightIcon(),
+                    ),
+                  )
+                : SizedBox(),
             SizedBox(
-              height: 16,
+              height: widget.type != FilterScreenTypes.Services ? 16 : 0,
             ),
             InkWell(
               onTap: () {
@@ -289,7 +307,6 @@ class _FilterScreenState extends ConsumerState<FilterScreen> {
                   switch (widget.type) {
                     case FilterScreenTypes.Products:
                       {
-
                         ref
                             .read(filterForProductStateNotifiers.notifier)
                             .applyDataFilter(
@@ -304,8 +321,7 @@ class _FilterScreenState extends ConsumerState<FilterScreen> {
                             priceToSelected: priceTo,
                             categoriesIdsSelected: categoriesSelected,
                             occasionsIdsSelected: occasionsSelected,
-                            ratingValueSelected: ratingSelected
-                        ));
+                            ratingValueSelected: ratingSelected));
                       }
                       break;
                     case FilterScreenTypes.Services:
@@ -324,8 +340,7 @@ class _FilterScreenState extends ConsumerState<FilterScreen> {
                             priceToSelected: priceTo,
                             categoriesIdsSelected: categoriesSelected,
                             occasionsIdsSelected: occasionsSelected,
-                            ratingValueSelected: ratingSelected
-                        ));
+                            ratingValueSelected: ratingSelected));
                       }
                       break;
                     case FilterScreenTypes.Sellers:
@@ -342,8 +357,7 @@ class _FilterScreenState extends ConsumerState<FilterScreen> {
                             promotionSelected: promotionSelected,
                             categoriesIdsSelected: categoriesSelected,
                             occasionsIdsSelected: occasionsSelected,
-                            ratingValueSelected: ratingSelected
-                        ));
+                            ratingValueSelected: ratingSelected));
                       }
                       break;
                   }
@@ -381,15 +395,14 @@ class _FilterScreenState extends ConsumerState<FilterScreen> {
                 promotionSelected = itemid;
                 promotionTextController.text =
                     promotionSelected == 1 ? "Promoted" : "Not Promoted";
-                setState(() {
-
-                });
+                setState(() {});
                 Navigator.pop(context);
               });
         });
   }
 
-  void showPriceBottomSheet(BuildContext context,{Function(int?,int?)? afterSuccessSelectMultiItems}) {
+  void showPriceBottomSheet(BuildContext context,
+      {Function(int?, int?)? afterSuccessSelectMultiItems}) {
     print("filterForSellerStateNotifiers : ${promotionSelected}");
 
     showModalBottomSheet(
@@ -399,16 +412,16 @@ class _FilterScreenState extends ConsumerState<FilterScreen> {
                 topLeft: Radius.circular(10), topRight: Radius.circular(10))),
         builder: (BuildContext context) {
           return Padding(
-            padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+            padding: EdgeInsets.only(
+                bottom: MediaQuery.of(context).viewInsets.bottom),
             child: SelectPriceBottomSheet(
-              context: context,
-              title: "Choose Price",
-              priceFrom: priceFrom == null ? "" : priceFrom.toString() ,
-              priceTo: priceTo == null ? "" : priceTo.toString(),
-              applyBtu: (from,to){
-                afterSuccessSelectMultiItems?.call(from,to);
-              }
-            ),
+                context: context,
+                title: "Choose Price",
+                priceFrom: priceFrom == null ? "" : priceFrom.toString(),
+                priceTo: priceTo == null ? "" : priceTo.toString(),
+                applyBtu: (from, to) {
+                  afterSuccessSelectMultiItems?.call(from, to);
+                }),
           );
         });
   }
@@ -570,22 +583,21 @@ class _FilterScreenState extends ConsumerState<FilterScreen> {
 
     setDefaultRatingsText(mainRatingList, ratingSelected ?? []);
 
-    setDefaultPrice(priceFrom,priceTo);
+    setDefaultPrice(priceFrom, priceTo);
 
-    setState(() {
-
-    });
+    setState(() {});
   }
 
   void setDefaultPrice(int? priceFrom, int? priceTo) {
-    if(priceFrom != null && priceTo != null){
-      priceTextController.text = "SAR ${priceFrom??""} - SAR ${priceTo??""}";
-    }else if(priceFrom != null && priceTo == null){
+    if (priceFrom != null && priceTo != null) {
+      priceTextController.text =
+          "SAR ${priceFrom ?? ""} - SAR ${priceTo ?? ""}";
+    } else if (priceFrom != null && priceTo == null) {
       priceTextController.text = "SAR $priceFrom";
-    } else if(priceFrom == null && priceTo != null){
-      priceTextController.text = "SAR ${priceFrom??0} - SAR ${priceTo}";
-    }else{
-      priceTextController.text = "" ;
+    } else if (priceFrom == null && priceTo != null) {
+      priceTextController.text = "SAR ${priceFrom ?? 0} - SAR ${priceTo}";
+    } else {
+      priceTextController.text = "";
     }
   }
 
@@ -593,16 +605,17 @@ class _FilterScreenState extends ConsumerState<FilterScreen> {
     promotionSelected = null;
     priceTo = null;
     priceFrom = null;
-    categoriesSelected = widget.categoryId != null ? [widget.categoryId!] : null;
-    occasionsSelected =  widget.occasionId != null ? [widget.occasionId!] : null;
+    categoriesSelected =
+        widget.categoryId != null ? [widget.categoryId!] : null;
+    occasionsSelected = widget.occasionId != null ? [widget.occasionId!] : null;
     ratingSelected = null;
 
     priceTextController.text = "";
     promotionTextController.text = "";
-    if(widget.categoryId == null){
+    if (widget.categoryId == null) {
       categoryTextController.text = "";
     }
-    if(widget.occasionId == null){
+    if (widget.occasionId == null) {
       occasionTextController.text = "";
     }
     ratingsTextController.text = "";
@@ -615,8 +628,7 @@ class _FilterScreenState extends ConsumerState<FilterScreen> {
           priceToSelected: null,
           categoriesIdsSelected: null,
           occasionsIdsSelected: null,
-          ratingValueSelected: null
-      ));
+          ratingValueSelected: null));
     } else if (widget.type == FilterScreenTypes.Services) {
       ref.read(filterForServiceStateNotifiers.notifier).resetDataFilter();
       // fetchServices(1);
@@ -625,8 +637,7 @@ class _FilterScreenState extends ConsumerState<FilterScreen> {
           priceToSelected: null,
           categoriesIdsSelected: null,
           occasionsIdsSelected: null,
-          ratingValueSelected: null
-      ));
+          ratingValueSelected: null));
     } else if (widget.type == FilterScreenTypes.Sellers) {
       ref.read(filterForSellerStateNotifiers.notifier).resetDataFilter();
       // fetchSellers(1);
@@ -636,10 +647,8 @@ class _FilterScreenState extends ConsumerState<FilterScreen> {
           priceToSelected: null,
           categoriesIdsSelected: null,
           occasionsIdsSelected: null,
-          ratingValueSelected: null
-      ));
+          ratingValueSelected: null));
     }
     action.call();
   }
-
 }

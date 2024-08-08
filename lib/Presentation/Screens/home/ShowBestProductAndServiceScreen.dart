@@ -20,7 +20,8 @@ import '../../Widgets/SvgIcons.dart';
 class ShowBestProductAndServiceScreen extends ConsumerStatefulWidget {
   final String title;
   final ItemType type;
-  const ShowBestProductAndServiceScreen(this.title, this.type, {super.key});
+  final int? occasionId;
+  const ShowBestProductAndServiceScreen(this.title, this.type, {this.occasionId,super.key});
 
   @override
   ConsumerState<ShowBestProductAndServiceScreen> createState() =>
@@ -204,7 +205,8 @@ class _ShowProductAndServiceScreenState
     if (type == ItemType.Products) {
       var filterData = await context.push(R_FilterScreen, extra: {
         "type": FilterScreenTypes.Products,
-        "searchValue": searchForProductData
+        "searchValue": searchForProductData,
+        "occasionId": widget.occasionId
       });
       currentPageForProducts = 1;
       filterForProductData = filterData as FilterData;

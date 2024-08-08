@@ -99,7 +99,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                               showLoading:
                                   homeDataState.state == DataState.LOADING,
                               itemClick: (item) {
-                                navigateToSeeAllTopSeller("${item.name}", CategoryType.Categories ,item.id?.toInt() ?? 0);
+                                navigateToSeeAllTopSeller(
+                                    "${item.name}",
+                                    CategoryType.Categories,
+                                    item.id?.toInt() ?? 0);
                               },
                               onSeeAllClickListener: () {
                                 navigateToSeeAllCategories();
@@ -139,11 +142,14 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                               showLoading:
                                   homeDataState.state == DataState.LOADING,
                               itemClick: (occasionItem) {
-                                navigateToProductsAndServices(
-                                    CategoryType.Occasions,
-                                    occasionItem.name ?? "",
-                                    int.parse(
-                                        (occasionItem.id ?? 0).toString()));
+                                navigateToSeeAllBestProductAndService(
+                                    occasionItem.name ?? "", ItemType.Products,
+                                    occasionId: occasionItem.id?.toInt());
+                                // navigateToProductsAndServices(
+                                //     CategoryType.Occasions,
+                                //     occasionItem.name ?? "",
+                                //     int.parse(
+                                //         (occasionItem.id ?? 0).toString()));
                               },
                               onSeeAllClickListener: () {
                                 navigateToSeeAllOccasions();
@@ -227,17 +233,17 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   }
 
   void navigateToSeeAllTopSeller(
-      String title, CategoryType type, int categoryId) async{
+      String title, CategoryType type, int categoryId) async {
     await context.push(R_SeeAllSeller,
         extra: {"type": type, "title": title, "categoryId": categoryId});
 
     ref.read(filterForSellerStateNotifiers.notifier).resetDataFilter();
   }
 
-  void navigateToSeeAllBestProductAndService(
-      String title, ItemType type) async {
+  void navigateToSeeAllBestProductAndService(String title, ItemType type,
+      {int? occasionId}) async {
     await context.push(R_ShowBestProductOrService,
-        extra: {"type": type, "title": title});
+        extra: {"type": type, "title": title,"occasionId" :occasionId});
 
     ref.read(filterForProductStateNotifiers.notifier).resetDataFilter();
     ref.read(filterForServiceStateNotifiers.notifier).resetDataFilter();

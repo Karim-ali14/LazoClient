@@ -214,7 +214,10 @@ class MyApp extends ConsumerWidget {
           builder: (BuildContext context, GoRouterState state) {
             var extra = state.extra as Map;
             return ShowBestProductAndServiceScreen(
-                extra["title"], extra["type"] as ItemType);
+              extra["title"],
+              extra["type"] as ItemType,
+              occasionId: extra["occasionId"],
+            );
           }),
       GoRoute(
           path: R_FilterScreen,
@@ -223,7 +226,8 @@ class MyApp extends ConsumerWidget {
             return FilterScreen(
               type: extra["type"] as FilterScreenTypes,
               searchValue: extra["searchValue"],
-              categoryId: extra["categoryId"], occasionId: extra["occasionId"],
+              categoryId: extra["categoryId"],
+              occasionId: extra["occasionId"],
             );
           }),
     ],
