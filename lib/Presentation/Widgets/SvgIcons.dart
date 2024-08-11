@@ -174,7 +174,8 @@ class SVGIcons {
 
   static Widget placeholderIcon(){
     return SvgPicture.asset(
-        placeHolderForCardsSvg
+        placeHolderForCardsSvg,
+      fit: BoxFit.cover,
     );
   }
 

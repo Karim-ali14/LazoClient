@@ -41,7 +41,7 @@ class _BannerCardItemsState extends State<BannerCardItems> {
                 enabled: widget.showLoading,
                 child: Container(
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(4.0),
+                    borderRadius: BorderRadius.circular(8.0),
                   ),
                   height: widget.height,
                   width: widget.width,

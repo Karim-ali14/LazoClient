@@ -70,7 +70,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     children: [
                       (homeDataState.state == DataState.SUCCESS &&
                               homeDataState.data?.data?.banners.isEmpty == true)
-                          ? SizedBox()
+                          ? const SizedBox()
                           : BannerCardItems(
                               list: homeDataState.state != DataState.LOADING
                                   ? homeDataState.data?.data?.banners
