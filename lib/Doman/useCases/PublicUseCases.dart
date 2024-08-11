@@ -45,10 +45,13 @@ class GetCategoriesUseCase
 
   void searchInMainList(String value) {
     final filterList = list.where((item) {
-      return item.nameAr?.contains(value) ??
-          item.nameEn?.contains(value) ??
-          item.name?.contains(value) ??
-          false;
+      if (item.name?.contains(value) == true ||
+          item.nameAr?.contains(value) == true ||
+          item.nameEn?.contains(value) == true) {
+        return true;
+      } else {
+        return false;
+      }
     });
     state.data?.data = [...filterList];
     print("sadklfj ${state.data?.data.isNotEmpty}");
@@ -101,11 +104,15 @@ class GetOccasionsUseCase extends StateNotifier<StateModel<OccasionsResponse>> {
   }
 
   void searchInMainList(String value) {
-    final filterList = list.where((item) =>
-        item.nameAr?.contains(value) ??
-        item.nameEn?.contains(value) ??
-        item.name?.contains(value) ??
-        false);
+    final filterList = list.where((item) {
+      if (item.name?.contains(value) == true ||
+          item.nameAr?.contains(value) == true ||
+          item.nameEn?.contains(value) == true) {
+        return true;
+      } else {
+        return false;
+      }
+    });
     state.data?.data = [...filterList];
     print("sadklfj ${state.data?.data.isNotEmpty}");
     if (state.data?.data.isNotEmpty == true) {

@@ -22,7 +22,7 @@ import '../../Widgets/SearchWithFilter.dart';
 class ShowTopSellers extends ConsumerStatefulWidget {
   final CategoryType type;
   final String title;
-  final int categoryId;
+  final int? categoryId;
   const ShowTopSellers(this.type, this.categoryId, this.title, {super.key});
 
   @override
@@ -118,7 +118,7 @@ class _ShowTopSellersState extends ConsumerState<ShowTopSellers> {
     });
     currentPage = 1;
     sellerFilterData = filterData as FilterData;
-    fetchSellers(++currentPage);
+    fetchSellers(currentPage);
   }
 
   void fetchSellers(int page) {
@@ -135,7 +135,7 @@ class _ShowTopSellersState extends ConsumerState<ShowTopSellers> {
           );
     } else {
       ref.read(getTopSellersDataStateNotifiers.notifier).getTopSellersData(
-          categoriesIds: [widget.categoryId],
+          categoriesIds: [widget.categoryId??0],
           isPromoted: sellerFilterData?.promotionSelected,
           occasionsIds: sellerFilterData?.occasionsIdsSelected,
           ratings: sellerFilterData?.ratingValueSelected

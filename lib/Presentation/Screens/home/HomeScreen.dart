@@ -100,9 +100,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                   homeDataState.state == DataState.LOADING,
                               itemClick: (item) {
                                 navigateToSeeAllTopSeller(
-                                    "${item.name}",
-                                    CategoryType.Categories,
-                                    item.id?.toInt() ?? 0);
+                                    "${item.name}", CategoryType.Categories,
+                                    categoryId: item.id?.toInt() ?? 0);
                               },
                               onSeeAllClickListener: () {
                                 navigateToSeeAllCategories();
@@ -125,7 +124,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                               itemClick: (itemId) {},
                               onSeeAllClickListener: () {
                                 navigateToSeeAllTopSeller(
-                                    "Top Sellers", CategoryType.Search, 0);
+                                    "Top Sellers", CategoryType.Search);
                               },
                             ),
                       SizedBox(
@@ -232,8 +231,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         "filter data -> ${ref.watch(filterForProductStateNotifiers).priceToSelected}");
   }
 
-  void navigateToSeeAllTopSeller(
-      String title, CategoryType type, int categoryId) async {
+  void navigateToSeeAllTopSeller(String title, CategoryType type,
+      {int? categoryId}) async {
     await context.push(R_SeeAllSeller,
         extra: {"type": type, "title": title, "categoryId": categoryId});
 
@@ -243,7 +242,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   void navigateToSeeAllBestProductAndService(String title, ItemType type,
       {int? occasionId}) async {
     await context.push(R_ShowBestProductOrService,
-        extra: {"type": type, "title": title,"occasionId" :occasionId});
+        extra: {"type": type, "title": title, "occasionId": occasionId});
 
     ref.read(filterForProductStateNotifiers.notifier).resetDataFilter();
     ref.read(filterForServiceStateNotifiers.notifier).resetDataFilter();
