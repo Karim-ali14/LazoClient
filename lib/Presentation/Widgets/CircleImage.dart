@@ -39,22 +39,19 @@ class ImageView extends StatelessWidget {
         child: isCircle == true
             ? ClipOval(
                 child: CachedNetworkImage(
-                    placeholder: (context, url) => Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Image.asset(
-                            placeHolder ?? userPlaceholder,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
+                    placeholder: (context, url) => Image.asset(
+                      placeHolder ?? userPlaceholder,
+                      fit: BoxFit.cover,
+                    ),
                     imageUrl: initialImg ?? "",
                     errorWidget: (context, err, child) => Image.asset(
                         placeHolder ?? userPlaceholder,
-                        fit: BoxFit.contain),
+                        fit: BoxFit.cover),
                     fit: BoxFit.cover))
             : CachedNetworkImage(
                 placeholder: (context, url) => SvgPicture.asset(
                       placeHolder ?? userPlaceholder,
-                      fit: BoxFit.contain,
+                      fit: BoxFit.cover,
                     ),
                 imageUrl: initialImg ?? "",
                 errorWidget: (context, err, child) => Image.asset(
