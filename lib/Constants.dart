@@ -18,6 +18,8 @@ const R_SeeAllCategoryOrOccasion = '/SeeAllCategoryOrOccasion';
 const R_SeeAllProductOrService = '/SeeAllProductOrService';
 const R_ShowBestProductOrService = '/ShowBestProductAndServiceScreen';
 const R_SeeAllSeller = '/SeeAllSeller';
+const R_ProductAndServiceDetails = '/ProductDetailsScreen';
+const R_ShowAllReviews = '/ShowAllRatingAndReviewScreen';
 //EXTRAS
 const userKey = "LazoClientKey";
 

@@ -106,6 +106,10 @@ extension DateHelper on DateTime {
   }
 }
 
+extension DateFormater on String {
+  String get convertDateToDdMmmYyyy => DateFormat("dd MMM, yyyy").format(DateTime.parse(this));
+}
+
 extension ListHelper<T> on List<T?> {
   T? getSafe(int index) => index < length ?  this[index] : null;
   List<T?> sublistSafe(int from,int to) {

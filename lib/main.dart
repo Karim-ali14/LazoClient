@@ -18,6 +18,7 @@ import '../../../../../Presentation/Screens/SplashScreen.dart';
 import 'Constants/Eunms.dart';
 import 'Presentation//Theme/AppTheme.dart';
 import 'Presentation/Screens/Auth/Otp/OTPScreen.dart';
+import 'Presentation/Screens/details/ShowAllRatingAndReviewScreen.dart';
 import 'Presentation/Screens/home/HomeScreen.dart';
 import 'Presentation/Screens/home/ShowAllCategoryAndOccasionsData.dart';
 import 'Presentation/Screens/home/SearchScreen.dart';
@@ -230,6 +231,24 @@ class MyApp extends ConsumerWidget {
               occasionId: extra["occasionId"],
             );
           }),
+      GoRoute(path: R_ProductAndServiceDetails,
+      builder: (BuildContext context , GoRouterState status){
+        var extra = status.extra as Map;
+        return ProductDetailsScreen(
+          name: extra["name"],
+          id: extra["id"],
+          relatedCategoriesIds: extra["categoryIds"] as List<int>,
+          itemType : extra["type"] as ItemType,
+        );
+      }),
+      GoRoute(path: R_ShowAllReviews,
+      builder: (BuildContext context , GoRouterState status){
+        var extra = status.extra as Map;
+        return ShowAllRatingAndReviewScreen(
+          id: extra["id"],
+          itemType : extra["type"] as ItemType,
+        );
+      }),
     ],
   );
 }

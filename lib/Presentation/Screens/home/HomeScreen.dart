@@ -167,7 +167,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                   [],
                               showLoading:
                                   homeDataState.state == DataState.LOADING,
-                              itemClick: (itemId) {},
+                              itemClick: (itemId,itemName,categoryIds) {
+                                navigateToItemDetails(ItemType.Products,itemId,itemName,categoryIds);
+                              },
                               onAddItemToCart: (int) {},
                               onAddItemToWishList: (int) {},
                               onSeeAllClickListener: () {
@@ -188,7 +190,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                   [],
                               showLoading:
                                   homeDataState.state == DataState.LOADING,
-                              itemClick: (itemId) {},
+                              itemClick:  (itemId,itemName,categoryIds) {
+                                navigateToItemDetails(ItemType.Services,itemId,itemName,categoryIds);
+                              },
                               onAddItemToCart: (int) {},
                               onAddItemToWishList: (int) {},
                               onSeeAllClickListener: () {
@@ -246,5 +250,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
     ref.read(filterForProductStateNotifiers.notifier).resetDataFilter();
     ref.read(filterForServiceStateNotifiers.notifier).resetDataFilter();
+  }
+
+  void navigateToItemDetails(ItemType itemType, int itemId, String itemName,List<int> categoriesIds) {
+    print("asdlfkjlksadjf $itemId");
+    context.push(R_ProductAndServiceDetails , extra: {"type" : itemType, "id" : itemId.toString() , "name" : itemName , "categoryIds" : categoriesIds});
   }
 }

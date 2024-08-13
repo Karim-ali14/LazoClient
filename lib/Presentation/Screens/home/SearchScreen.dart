@@ -284,8 +284,8 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
                                   onAddItemToWishList: (id) {
                                     // widget.onAddItemToWishList.call(id);
                                   },
-                                  onItemClick: (id) {
-                                    // widget.itemClick.call(id);
+                                  onItemClick: (id,name,categoriesIds) {
+                                    navigateToItemDetails(ItemType.Products, id, name, categoriesIds);
                                   },
                                 ),
                               ),
@@ -329,8 +329,8 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
                                   onAddItemToWishList: (id) {
                                     // widget.onAddItemToWishList.call(id);
                                   },
-                                  onItemClick: (id) {
-                                    // widget.itemClick.call(id);
+                                  onItemClick: (id,name,categoriesIds) {
+                                    navigateToItemDetails(ItemType.Services, id, name, categoriesIds);
                                   },
                                 ),
                               ),
@@ -477,5 +477,9 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
         }
         break;
     }
+  }
+
+  void navigateToItemDetails(ItemType itemType, int itemId, String itemName,List<int> categoriesIds) {
+    context.push(R_ProductAndServiceDetails , extra: {"type" : itemType, "id" : itemId.toString() , "name" : itemName , "categoryIds" : categoriesIds});
   }
 }

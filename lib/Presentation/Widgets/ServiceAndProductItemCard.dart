@@ -9,14 +9,15 @@ import '../Theme/AppTheme.dart';
 import 'AppButton.dart';
 import 'CircleImage.dart';
 
-typedef OnItemClick = Function(int);
+typedef OnItemClick = Function(int,String,List<int>);
+typedef OnAddItemClick = Function(int);
 
 class ServiceAndProductItemCardHorizontal extends StatefulWidget {
   final ItemType type;
   final ProviderProduct? product;
   final ServiceShowData? service;
-  final OnItemClick onAddItemToCart;
-  final OnItemClick onAddItemToWishList;
+  final OnAddItemClick onAddItemToCart;
+  final OnAddItemClick onAddItemToWishList;
   final OnItemClick onItemClick;
   final double? width;
   const ServiceAndProductItemCardHorizontal(
@@ -40,178 +41,189 @@ class _ServiceAndProductItemCardHorizontalState
     return SizedBox(
       width: widget.width ?? double.infinity,
       child: Stack(children: [
-        Container(
-          clipBehavior: Clip.antiAlias,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(8),
-            border: Border.all(color: AppTheme.appGrey6),
-          ),
-          child: Column(
-            children: [
-              Skeleton.replace(
-                replacement: Container(
-                  width: double.infinity,
-                  height: 121,
-                  color: Colors.white,
+        InkWell(
+          onTap: (){
+            widget.onItemClick.call(
+                (widget.type == ItemType.Products ? widget.product?.id ?? 0 : widget.service?.id ?? 0 ).toInt()
+                ,widget.type == ItemType.Products ? widget.product?.name ?? "" : widget.service?.name ??"",
+              widget.type == ItemType.Products ?
+              widget.product?.categories?.map((item) => (item.id ?? 0).toInt()).toList() ?? [] :
+              widget.service?.categories.map((item) => (item.id ?? 0).toInt()).toList() ?? []
+            );
+          },
+          child: Container(
+            clipBehavior: Clip.antiAlias,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8),
+              border: Border.all(color: AppTheme.appGrey6),
+            ),
+            child: Column(
+              children: [
+                Skeleton.replace(
+                  replacement: Container(
+                    width: double.infinity,
+                    height: 121,
+                    color: Colors.white,
+                  ),
+                  child: ImageView(
+                    width: double.infinity,
+                    height: 121,
+                    initialImg: widget.type == ItemType.Products
+                        ? widget.product?.images?.isNotEmpty == true ? widget.product?.images?.first.imagePath :""
+                        : widget.service?.imagePath,
+                  ),
                 ),
-                child: ImageView(
-                  width: double.infinity,
-                  height: 121,
-                  initialImg: widget.type == ItemType.Products
-                      ? widget.product?.images?.isNotEmpty == true ? widget.product?.images?.first.imagePath :""
-                      : widget.service?.imagePath,
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(vertical: 12, horizontal: 8),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Skeleton.replace(
-                      replacement: Container(
-                        width: 30,
-                        height: 10,
-                        color: Colors.white,
-                      ),
-                      child: Text(
-                        widget.type == ItemType.Products
-                            ? widget.product?.name ?? ""
-                            : widget.service?.name ?? "",
-                        style: AppTheme
-                            .styleWithTextBlackAdelleSansExtendedFonts14w500,
-                          maxLines: 1,overflow: TextOverflow.ellipsis ,
-                      ),
-                    ),
-                    SizedBox(
-                      height: 12,
-                    ),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Skeleton.replace(
-                          replacement: Container(
-                            width: 50,
-                            height: 20,
-                            color: Colors.white,
-                          ),
-                          child: Text(
-                            "SAR ${widget.type == ItemType.Products ? widget.product?.priceAfterDiscount??"" : widget.service?.priceAfterDiscount??""}",
-                            style: AppTheme
-                                .styleWithTextRedAdelleSansExtendedFonts16w500,
-                          ),
+                Padding(
+                  padding: EdgeInsets.symmetric(vertical: 12, horizontal: 8),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Skeleton.replace(
+                        replacement: Container(
+                          width: 30,
+                          height: 10,
+                          color: Colors.white,
                         ),
-                        SizedBox(
-                          width: 5,
+                        child: Text(
+                          widget.type == ItemType.Products
+                              ? widget.product?.name ?? ""
+                              : widget.service?.name ?? "",
+                          style: AppTheme
+                              .styleWithTextBlackAdelleSansExtendedFonts14w500,
+                            maxLines: 1,overflow: TextOverflow.ellipsis ,
                         ),
-                        widget.type == ItemType.Products
-                            ? widget.product?.priceAfterDiscount ==
-                                    widget.product?.price
-                                ? Skeleton.ignore(
-                                  child: Text(
-                                      "SAR ${widget.product?.price}",
-                                      style: AppTheme
-                                          .styleWithTextGray7AdelleSansExtendedFonts12w400
-                                          .copyWith(
-                                              decoration:
-                                                  TextDecoration.lineThrough),
-                                    ),
-                                )
-                                : SizedBox()
-                            : widget.service?.priceAfterDiscount ==
-                                    widget.service?.price
-                                ? Skeleton.ignore(
-                                  child: Text(
-                                      "SAR ${widget.service?.price}",
-                                      style: AppTheme
-                                          .styleWithTextGray7AdelleSansExtendedFonts12w400
-                                          .copyWith(
-                                              decoration:
-                                                  TextDecoration.lineThrough),
-                                    ),
-                                )
-                                : SizedBox(),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 8,
-                    ),
-                    Row(
-                      children: [
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Skeleton.ignore(child: SVGIcons.smallStarIcon()),
-                            SizedBox(
-                              width: 3,
+                      ),
+                      SizedBox(
+                        height: 12,
+                      ),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Skeleton.replace(
+                            replacement: Container(
+                              width: 50,
+                              height: 20,
+                              color: Colors.white,
                             ),
-                            Skeleton.replace(
-                              replacement: Container(
-                                width: 30,
-                                height: 15,
-                                color: Colors.white,
-                              ),
-                              child: Text(
-                                widget.type == ItemType.Products
-                                    ? "${widget.product?.overallRating}"
-                                    : "${widget.service?.overallRating}",
-                                style: AppTheme
-                                    .styleWithTextGray7AdelleSansExtendedFonts12w400,
-                              ),
+                            child: Text(
+                              "SAR ${widget.type == ItemType.Products ? widget.product?.priceAfterDiscount??"" : widget.service?.priceAfterDiscount??""}",
+                              style: AppTheme
+                                  .styleWithTextRedAdelleSansExtendedFonts16w500,
                             ),
-                          ],
-                        ),
-                        Spacer(),
-                        Skeleton.replace(
-                          replacement: Container(
-                            width: 10,
-                            height: 15,
-                            color: Colors.white,
                           ),
-                          child: Text(
-                            "(${"${widget.type == ItemType.Products ? "${widget.product?.ratingsCount}" : "${widget.service?.ratingsCount}"}"})",
-                            style: AppTheme
-                                .styleWithTextGray7AdelleSansExtendedFonts12w400,
+                          SizedBox(
+                            width: 5,
                           ),
-                        )
-                      ],
-                    ),
-                    SizedBox(
-                      height: 11,
-                    ),
-                    Skeleton.leaf(
-                      child: AppButton(
-                        width: context.getScreenSize.width,
-                        height: 36,
-                        onPress: () {
-                          if(widget.type == ItemType.Products
-                              && widget.product?.inCart == false ){
-                            widget.onAddItemToCart.call(widget.product?.id?.toInt() ?? 0);
-                          }
-                          else if(widget.type == ItemType.Services
-                              && widget.service?.inCart == false ){
-                            widget.onAddItemToCart.call(widget.product?.id?.toInt() ?? 0);
-                          }
-                        },
-                        child: Skeleton.ignore(
-                          child: Text(
-                            widget.type == ItemType.Products
-                                ? widget.product?.inCart == true
-                                    ? "Added"
-                                    : "Add to cart"
-                                : widget.service?.inCart == true
-                                    ? "Added"
-                                    : "Add to cart",
-                            style: AppTheme
-                                .styleWithTextGray7AdelleSansExtendedFonts12w400
-                                .copyWith(color: Colors.white),
+                          widget.type == ItemType.Products
+                              ? widget.product?.priceAfterDiscount ==
+                                      widget.product?.price
+                                  ? Skeleton.ignore(
+                                    child: Text(
+                                        "SAR ${widget.product?.price}",
+                                        style: AppTheme
+                                            .styleWithTextGray7AdelleSansExtendedFonts12w400
+                                            .copyWith(
+                                                decoration:
+                                                    TextDecoration.lineThrough),
+                                      ),
+                                  )
+                                  : SizedBox()
+                              : widget.service?.priceAfterDiscount ==
+                                      widget.service?.price
+                                  ? Skeleton.ignore(
+                                    child: Text(
+                                        "SAR ${widget.service?.price}",
+                                        style: AppTheme
+                                            .styleWithTextGray7AdelleSansExtendedFonts12w400
+                                            .copyWith(
+                                                decoration:
+                                                    TextDecoration.lineThrough),
+                                      ),
+                                  )
+                                  : SizedBox(),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 8,
+                      ),
+                      Row(
+                        children: [
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Skeleton.ignore(child: SVGIcons.smallStarIcon()),
+                              SizedBox(
+                                width: 3,
+                              ),
+                              Skeleton.replace(
+                                replacement: Container(
+                                  width: 30,
+                                  height: 15,
+                                  color: Colors.white,
+                                ),
+                                child: Text(
+                                  widget.type == ItemType.Products
+                                      ? "${widget.product?.overallRating}"
+                                      : "${widget.service?.overallRating}",
+                                  style: AppTheme
+                                      .styleWithTextGray7AdelleSansExtendedFonts12w400,
+                                ),
+                              ),
+                            ],
+                          ),
+                          Spacer(),
+                          Skeleton.replace(
+                            replacement: Container(
+                              width: 10,
+                              height: 15,
+                              color: Colors.white,
+                            ),
+                            child: Text(
+                              "(${"${widget.type == ItemType.Products ? "${widget.product?.ratingsCount}" : "${widget.service?.ratingsCount}"}"})",
+                              style: AppTheme
+                                  .styleWithTextGray7AdelleSansExtendedFonts12w400,
+                            ),
+                          )
+                        ],
+                      ),
+                      SizedBox(
+                        height: 11,
+                      ),
+                      Skeleton.leaf(
+                        child: AppButton(
+                          width: context.getScreenSize.width,
+                          height: 36,
+                          onPress: () {
+                            if(widget.type == ItemType.Products
+                                && widget.product?.inCart == false ){
+                              widget.onAddItemToCart.call(widget.product?.id?.toInt() ?? 0);
+                            }
+                            else if(widget.type == ItemType.Services
+                                && widget.service?.inCart == false ){
+                              widget.onAddItemToCart.call(widget.product?.id?.toInt() ?? 0);
+                            }
+                          },
+                          child: Skeleton.ignore(
+                            child: Text(
+                              widget.type == ItemType.Products
+                                  ? widget.product?.inCart == true
+                                      ? "Added"
+                                      : "Add to cart"
+                                  : widget.service?.inCart == true
+                                      ? "Added"
+                                      : "Add to cart",
+                              style: AppTheme
+                                  .styleWithTextGray7AdelleSansExtendedFonts12w400
+                                  .copyWith(color: Colors.white),
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-              )
-            ],
+                    ],
+                  ),
+                )
+              ],
+            ),
           ),
         ),
         Padding(

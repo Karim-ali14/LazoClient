@@ -9,14 +9,14 @@ import '../../../../Data/Network/lib/api.dart';
 import '../../../Widgets/TitleWithSeeAll.dart';
 import 'HorizontalCategoryListViewWithTitleSeeAll.dart';
 
-typedef OnItemClickListener = Function(int);
+typedef OnItemClickListener = Function(int,String,List<int>);
 
 class HorizontalTopProductListViewWithTitleSeeAll extends StatefulWidget {
   final List<ProviderProduct> list;
   final bool showLoading;
   final OnItemClickListener itemClick;
-  final OnItemClick onAddItemToCart;
-  final OnItemClick onAddItemToWishList;
+  final OnAddItemClick onAddItemToCart;
+  final OnAddItemClick onAddItemToWishList;
   final OnSeeAllClickListener onSeeAllClickListener;
   const HorizontalTopProductListViewWithTitleSeeAll(
       {super.key,
@@ -59,8 +59,8 @@ class _HorizontalTopProductListViewWithTitleSeeAll extends State<HorizontalTopPr
                     widget.onAddItemToCart.call(id);
                   }, onAddItemToWishList: (id ) {
                     widget.onAddItemToWishList.call(id);
-                  }, onItemClick: (id ) {
-                    widget.itemClick.call(id);
+                  }, onItemClick: (id,name,categoriesIds ) {
+                    widget.itemClick.call(id,name,categoriesIds);
                   },
 
                   ),

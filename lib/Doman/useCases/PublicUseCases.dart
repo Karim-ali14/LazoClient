@@ -324,3 +324,29 @@ class GetServiceDetailsUseCase
     request(() => publicApi.showServiceDetails(serviceId: serviceId));
   }
 }
+
+class GetProductReviewsUseCase
+    extends StateNotifier<StateModel<ProductDetailsResponse>> {
+  final Ref ref;
+  final PublicApi publicApi;
+  GetProductReviewsUseCase(this.ref, this.publicApi) : super(StateModel());
+
+  void getProductDetails({
+    String? productId,
+  }) {
+    request(() => publicApi.showProductReviews(productId: productId));
+  }
+}
+
+class GetServiceReviewsUseCase
+    extends StateNotifier<StateModel<ServiceShowResponse>> {
+  final Ref ref;
+  final PublicApi publicApi;
+  GetServiceReviewsUseCase(this.ref, this.publicApi) : super(StateModel());
+
+  void getServiceDetails({
+    String? serviceId,
+  }) {
+    request(() => publicApi.showServiceReviews(serviceId: serviceId));
+  }
+}

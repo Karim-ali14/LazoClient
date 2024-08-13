@@ -50,10 +50,18 @@ final filterForSellerStateNotifiers =
     StateNotifierProvider<FilterDataUseCase, FilterData>(
         (ref) => FilterDataUseCase(ref));
 
-final getProductDetails = StateNotifierProvider<GetProductDetailsUseCase,
+final getProductDetails = StateNotifierProvider.autoDispose<GetProductDetailsUseCase,
         StateModel<ProductDetailsResponse>>(
     (ref) => GetProductDetailsUseCase(ref, ref.read(publicApi)));
 
-final getServiceDetails = StateNotifierProvider<GetServiceDetailsUseCase,
+final getServiceDetails = StateNotifierProvider.autoDispose<GetServiceDetailsUseCase,
         StateModel<ServiceShowResponse>>(
     (ref) => GetServiceDetailsUseCase(ref, ref.read(publicApi)));
+
+final getProductReviews = StateNotifierProvider.autoDispose<GetProductReviewsUseCase,
+        StateModel<ProductDetailsResponse>>(
+    (ref) => GetProductReviewsUseCase(ref, ref.read(publicApi)));
+
+final getServiceReviews = StateNotifierProvider.autoDispose<GetServiceReviewsUseCase,
+        StateModel<ServiceShowResponse>>(
+    (ref) => GetServiceReviewsUseCase(ref, ref.read(publicApi)));
