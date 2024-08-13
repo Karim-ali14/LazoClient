@@ -168,6 +168,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                               showLoading:
                                   homeDataState.state == DataState.LOADING,
                               itemClick: (itemId,itemName,categoryIds) {
+                                print("homeCategories ${categoryIds}");
                                 navigateToItemDetails(ItemType.Products,itemId,itemName,categoryIds);
                               },
                               onAddItemToCart: (int) {},
@@ -253,7 +254,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   }
 
   void navigateToItemDetails(ItemType itemType, int itemId, String itemName,List<int> categoriesIds) {
-    print("asdlfkjlksadjf $itemId");
-    context.push(R_ProductAndServiceDetails , extra: {"type" : itemType, "id" : itemId.toString() , "name" : itemName , "categoryIds" : categoriesIds});
+    context.push("$R_ProductAndServiceDetails/${itemId.toString()}" , extra: {"type" : itemType,"name" : itemName , "categoryIds" : categoriesIds});
   }
 }

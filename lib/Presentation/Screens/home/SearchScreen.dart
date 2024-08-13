@@ -480,6 +480,6 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
   }
 
   void navigateToItemDetails(ItemType itemType, int itemId, String itemName,List<int> categoriesIds) {
-    context.push(R_ProductAndServiceDetails , extra: {"type" : itemType, "id" : itemId.toString() , "name" : itemName , "categoryIds" : categoriesIds});
+    context.push("$R_ProductAndServiceDetails/${itemId.toString()}" , extra: {"type" : itemType, "name" : itemName , "categoryIds" : categoriesIds});
   }
 }

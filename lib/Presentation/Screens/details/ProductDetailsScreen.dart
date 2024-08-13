@@ -47,18 +47,21 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((callback) {
+
+      print("sadfasdfas ${widget.relatedCategoriesIds}");
+
       if (widget.itemType == ItemType.Products) {
         ref
             .read(getProductDetails.notifier)
             .getProductDetails(productId: widget.id);
         ref.read(getProductsStateNotifiers.notifier).getProductsData(
-            page: 1, categoriesIds: widget.relatedCategoriesIds);
+            page: 1, categoriesIds: widget.relatedCategoriesIds,productId: widget.id);
       } else {
         ref
             .read(getServiceDetails.notifier)
             .getServiceDetails(serviceId: widget.id);
         ref.read(getServicesStateNotifiers.notifier).getServicesData(
-            page: 1, categoriesIds: widget.relatedCategoriesIds);
+            page: 1, categoriesIds: widget.relatedCategoriesIds,serviceId: widget.id);
       }
     });
 
@@ -71,8 +74,7 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
     final serviceItemState = ref.watch(getServiceDetails);
     final relatedProductData = ref.watch(getProductsStateNotifiers);
     final relatedServiceData = ref.watch(getServicesStateNotifiers);
-    handleState(getProductDetails, showLoading: true);
-    handleState(getServiceDetails, showLoading: true);
+
     return Scaffold(
       appBar: CustomAppBar(
         title: widget.name,
@@ -949,6 +951,6 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
     context.push(R_ShowAllReviews, extra: {"id": id, "type": itemType});
   }
   void navigateToItemDetails(ItemType itemType, int itemId, String itemName,List<int> categoriesIds) {
-    context.push(R_ProductAndServiceDetails , extra: {"type" : itemType, "id" : itemId.toString() , "name" : itemName , "categoryIds" : categoriesIds});
+    context.push("$R_ProductAndServiceDetails/${itemId.toString()}" , extra: {"type" : itemType , "name" : itemName , "categoryIds" : categoriesIds});
   }
 }

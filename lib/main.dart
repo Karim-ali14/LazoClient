@@ -231,12 +231,12 @@ class MyApp extends ConsumerWidget {
               occasionId: extra["occasionId"],
             );
           }),
-      GoRoute(path: R_ProductAndServiceDetails,
+      GoRoute(path: "$R_ProductAndServiceDetails/:id",
       builder: (BuildContext context , GoRouterState status){
         var extra = status.extra as Map;
         return ProductDetailsScreen(
           name: extra["name"],
-          id: extra["id"],
+          id: status.pathParameters ["id"],
           relatedCategoriesIds: extra["categoryIds"] as List<int>,
           itemType : extra["type"] as ItemType,
         );

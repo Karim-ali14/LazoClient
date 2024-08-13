@@ -180,6 +180,7 @@ class GetProductsUseCase
     String? priceTo,
     List<String>? ratings,
     String? type,
+    String? productId
   }) async {
     String? priceFromValue = priceFrom;
     if (priceTo != null && priceFrom == null) {
@@ -216,10 +217,25 @@ class GetProductsUseCase
         ];
         print("sdafsd ${state.data?.data?.products?.data.length}");
         state = StateModel.success(state.data);
-      } else {
+      }
+      else if(page == 1 && res.data?.products?.data.isNotEmpty == true) {
+        if(productId != null) {
+          print("sajdlfkjlsdkjf ${productId}");
+          var list = res.data?.products?.data.toList() ?? [];
+          var indexWhere = list.indexWhere((item) {
+            print("sajdlfkjlsdkjf ${item.id?.toInt() == int.parse(productId ?? "0")}");
+
+            return item.id?.toInt() == int.parse(productId ?? "0");
+          }
+          );
+          print("sajdlfkjlsdkjf ${list.length}");
+          list.removeAt(indexWhere);
+          print("sajdlfkjlsdkjf ${list.length}");
+          res.data?.products?.data = list;
+        }
         state = StateModel.success(res);
       }
-      if (state.data?.data?.products?.data.isEmpty == true) {
+      else if (state.data?.data?.products?.data.isEmpty == true) {
         state = StateModel.empty();
       }
     });
@@ -241,6 +257,7 @@ class GetServicesUseCase
     String? priceTo,
     List<String>? ratings,
     String? type,
+    String? serviceId
   }) async {
     state = page != 1
         ? StateModel(data: state.data, state: DataState.MORE_LOADING)
@@ -264,7 +281,21 @@ class GetServicesUseCase
           ...(res.data?.services?.data ?? [])
         ];
         state = StateModel.success(state.data);
-      } else {
+      } else if(page == 1 && res.data?.services?.data.isNotEmpty == true) {
+          if(serviceId != null) {
+          print("sajdlfkjlsdkjf ${serviceId}");
+          var list = res.data?.services?.data.toList() ?? [];
+          var indexWhere = list.indexWhere((item) {
+          print("sajdlfkjlsdkjf ${item.id?.toInt() == int.parse(serviceId ?? "0")}");
+
+          return item.id?.toInt() == int.parse(serviceId ?? "0");
+          }
+          );
+          print("sajdlfkjlsdkjf ${list.length}");
+          list.removeAt(indexWhere);
+          print("sajdlfkjlsdkjf ${list.length}");
+          res.data?.services?.data = list;
+          }
         state = StateModel.success(res);
       }
       if (state.data?.data?.services?.data.isEmpty == true) {
