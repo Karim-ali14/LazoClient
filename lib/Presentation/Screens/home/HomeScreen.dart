@@ -121,7 +121,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                   [],
                               showLoading:
                                   homeDataState.state == DataState.LOADING,
-                              itemClick: (itemId) {},
+                              itemClick: (itemId) {
+                                print(
+                                  "seller $itemId"
+                                );
+                              },
                               onSeeAllClickListener: () {
                                 navigateToSeeAllTopSeller(
                                     "Top Sellers", CategoryType.Search);
