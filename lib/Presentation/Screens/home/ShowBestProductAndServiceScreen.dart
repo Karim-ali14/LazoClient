@@ -143,6 +143,7 @@ class _ShowProductAndServiceScreenState
                                       // widget.onAddItemToWishList.call(id);
                                     },
                                     onItemClick: (id,name,categoriesIds) {
+                                      print("Selected Product : $categoriesIds");
                                       navigateToItemDetails(ItemType.Products, id, name, categoriesIds);
                                     },
                                   ),

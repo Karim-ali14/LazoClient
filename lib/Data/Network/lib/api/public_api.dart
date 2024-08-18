@@ -350,6 +350,73 @@ class PublicApi {
     return null;
   }
 
+  /// provider details
+  ///
+  /// show provider details
+  ///
+  /// Note: This method returns the HTTP [Response].
+  ///
+  /// Parameters:
+  ///
+  /// * [num] providerId:
+  ///
+  /// * [num] type:
+  Future<Response> showAProviderDetailsWithHttpInfo({ num? providerId, num? type, }) async {
+    // ignore: prefer_const_declarations
+    final path = r'/provider/details';
+
+    // ignore: prefer_final_locals
+    Object? postBody;
+
+    final queryParams = <QueryParam>[];
+    final headerParams = <String, String>{};
+    final formParams = <String, String>{};
+
+    if (providerId != null) {
+      queryParams.addAll(_queryParams('', 'provider_id', providerId));
+    }
+    if (type != null) {
+      queryParams.addAll(_queryParams('', 'type', type));
+    }
+
+    const contentTypes = <String>[];
+
+
+    return apiClient.invokeAPI(
+      path,
+      'GET',
+      queryParams,
+      postBody,
+      headerParams,
+      formParams,
+      contentTypes.isEmpty ? null : contentTypes.first,
+    );
+  }
+
+  /// provider details
+  ///
+  /// show provider details
+  ///
+  /// Parameters:
+  ///
+  /// * [num] providerId:
+  ///
+  /// * [num] type:
+  Future<ShowAProviderDetails200Response?> showAProviderDetails({ num? providerId, num? type, }) async {
+    final response = await showAProviderDetailsWithHttpInfo( providerId: providerId, type: type, );
+    if (response.statusCode >= HttpStatus.badRequest) {
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
+    }
+    // When a remote server returns no body with a status of 204, we shall not decode it.
+    // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
+    // FormatException when trying to decode an empty string.
+    if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'ShowAProviderDetails200Response',) as ShowAProviderDetails200Response;
+    
+    }
+    return null;
+  }
+
   /// show all banners
   ///
   /// show all banners

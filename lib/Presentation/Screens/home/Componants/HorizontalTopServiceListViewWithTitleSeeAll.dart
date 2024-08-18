@@ -18,11 +18,13 @@ class HorizontalTopServiceListViewWithTitleSeeAll extends StatefulWidget {
   final OnAddItemClick onAddItemToCart;
   final OnAddItemClick onAddItemToWishList;
   final OnSeeAllClickListener onSeeAllClickListener;
+  final double itemWidth;
+  final String title;
   const HorizontalTopServiceListViewWithTitleSeeAll(
       {super.key,
       required this.list,
       required this.showLoading,
-      required this.itemClick, required this.onAddItemToCart, required this.onAddItemToWishList, required this.onSeeAllClickListener});
+      required this.itemClick, required this.onAddItemToCart, required this.onAddItemToWishList, required this.onSeeAllClickListener, required this.itemWidth, required this.title});
 
   @override
   State<HorizontalTopServiceListViewWithTitleSeeAll> createState() => _HorizontalTopServiceListViewWithTitleSeeAll();
@@ -36,7 +38,7 @@ class _HorizontalTopServiceListViewWithTitleSeeAll extends State<HorizontalTopSe
         Skeletonizer(
           enabled: widget.showLoading,
           child: TitleWithSeeAll(
-            title: "Best Service",
+            title: widget.title,
             onClickOnSeeAll: () {
               widget.onSeeAllClickListener.call();
             },
@@ -53,7 +55,7 @@ class _HorizontalTopServiceListViewWithTitleSeeAll extends State<HorizontalTopSe
                 return Skeletonizer(
                   enabled: widget.showLoading ,
                   child: ServiceAndProductItemCardHorizontal(
-                    width: 163,
+                    width: widget.itemWidth,
                     service: widget.list[index],
                     type: ItemType.Services, onAddItemToCart: (id ) {
                       widget.onAddItemToCart.call(id);

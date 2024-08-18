@@ -43,6 +43,7 @@ class ProviderData {
     this.startTime,
     this.endTime,
     this.workingDaysIndices,
+    this.workingHours,
     this.bankName,
     this.beneficiaryName,
     this.bankAccountNumber,
@@ -56,11 +57,14 @@ class ProviderData {
     this.coverImagePath,
     this.imagePath,
     this.workingDaysIndicesList = const [],
+    this.workingHoursList = const [],
     this.selfEmploymentDocumentPath,
     this.commercialRegisterImagePath,
     this.city,
     this.locations = const [],
     this.tags = const [],
+    this.categories = const [],
+    this.reviews = const [],
   });
 
   ///
@@ -279,20 +283,8 @@ class ProviderData {
   ///
   String? selfEmploymentDocument;
 
-  ///
-  /// Please note: This property should have been non-nullable! Since the specification file
-  /// does not include a default value (using the "default:" property), however, the generated
-  /// source code must fall back to having a nullable type.
-  /// Consider adding a "default:" property in the specification file to hide this note.
-  ///
   String? startTime;
 
-  ///
-  /// Please note: This property should have been non-nullable! Since the specification file
-  /// does not include a default value (using the "default:" property), however, the generated
-  /// source code must fall back to having a nullable type.
-  /// Consider adding a "default:" property in the specification file to hide this note.
-  ///
   String? endTime;
 
   ///
@@ -302,6 +294,14 @@ class ProviderData {
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
   String? workingDaysIndices;
+
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  String? workingHours;
 
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
@@ -389,6 +389,8 @@ class ProviderData {
 
   List<String> workingDaysIndicesList;
 
+  List<String> workingHoursList;
+
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
   /// does not include a default value (using the "default:" property), however, the generated
@@ -416,6 +418,10 @@ class ProviderData {
   List<ProviderDataLocationsInner> locations;
 
   List<ProviderDataTagsInner> tags;
+
+  List<Category>? categories;
+
+  List<ProviderDataReviewsInner>? reviews;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is ProviderData &&
@@ -449,6 +455,7 @@ class ProviderData {
      other.startTime == startTime &&
      other.endTime == endTime &&
      other.workingDaysIndices == workingDaysIndices &&
+     other.workingHours == workingHours &&
      other.bankName == bankName &&
      other.beneficiaryName == beneficiaryName &&
      other.bankAccountNumber == bankAccountNumber &&
@@ -462,11 +469,14 @@ class ProviderData {
      other.coverImagePath == coverImagePath &&
      other.imagePath == imagePath &&
      other.workingDaysIndicesList == workingDaysIndicesList &&
+     other.workingHoursList == workingHoursList &&
      other.selfEmploymentDocumentPath == selfEmploymentDocumentPath &&
      other.commercialRegisterImagePath == commercialRegisterImagePath &&
      other.city == city &&
      other.locations == locations &&
-     other.tags == tags;
+     other.tags == tags &&
+     other.categories == categories &&
+     other.reviews == reviews;
 
   @override
   int get hashCode =>
@@ -501,6 +511,7 @@ class ProviderData {
     (startTime == null ? 0 : startTime!.hashCode) +
     (endTime == null ? 0 : endTime!.hashCode) +
     (workingDaysIndices == null ? 0 : workingDaysIndices!.hashCode) +
+    (workingHours == null ? 0 : workingHours!.hashCode) +
     (bankName == null ? 0 : bankName!.hashCode) +
     (beneficiaryName == null ? 0 : beneficiaryName!.hashCode) +
     (bankAccountNumber == null ? 0 : bankAccountNumber!.hashCode) +
@@ -514,14 +525,17 @@ class ProviderData {
     (coverImagePath == null ? 0 : coverImagePath!.hashCode) +
     (imagePath == null ? 0 : imagePath!.hashCode) +
     (workingDaysIndicesList.hashCode) +
+    (workingHoursList.hashCode) +
     (selfEmploymentDocumentPath == null ? 0 : selfEmploymentDocumentPath!.hashCode) +
     (commercialRegisterImagePath == null ? 0 : commercialRegisterImagePath!.hashCode) +
     (city == null ? 0 : city!.hashCode) +
     (locations.hashCode) +
-    (tags.hashCode);
+    (tags.hashCode) +
+    (categories == null ? 0 : categories!.hashCode) +
+    (reviews == null ? 0 : reviews!.hashCode);
 
   @override
-  String toString() => 'ProviderData[id=$id, nameEn=$nameEn, nameAr=$nameAr, ownerName=$ownerName, email=$email, phone=$phone, image=$image, cityId=$cityId, accountType=$accountType, deviceType=$deviceType, fcmToken=$fcmToken, lang=$lang, status=$status, instagramLink=$instagramLink, snapchatLink=$snapchatLink, tiktokLink=$tiktokLink, xLink=$xLink, hasOfflineStores=$hasOfflineStores, offlineStoresNumber=$offlineStoresNumber, provideDelivery=$provideDelivery, overallRating=$overallRating, ratingsCount=$ratingsCount, isEmailVerified=$isEmailVerified, isPhoneVerified=$isPhoneVerified, businessType=$businessType, commercialRegisterImage=$commercialRegisterImage, selfEmploymentDocument=$selfEmploymentDocument, startTime=$startTime, endTime=$endTime, workingDaysIndices=$workingDaysIndices, bankName=$bankName, beneficiaryName=$beneficiaryName, bankAccountNumber=$bankAccountNumber, iban=$iban, ibanImage=$ibanImage, createdAt=$createdAt, updatedAt=$updatedAt, name=$name, isPromoted=$isPromoted, coverImage=$coverImage, coverImagePath=$coverImagePath, imagePath=$imagePath, workingDaysIndicesList=$workingDaysIndicesList, selfEmploymentDocumentPath=$selfEmploymentDocumentPath, commercialRegisterImagePath=$commercialRegisterImagePath, city=$city, locations=$locations, tags=$tags]';
+  String toString() => 'ProviderData[id=$id, nameEn=$nameEn, nameAr=$nameAr, ownerName=$ownerName, email=$email, phone=$phone, image=$image, cityId=$cityId, accountType=$accountType, deviceType=$deviceType, fcmToken=$fcmToken, lang=$lang, status=$status, instagramLink=$instagramLink, snapchatLink=$snapchatLink, tiktokLink=$tiktokLink, xLink=$xLink, hasOfflineStores=$hasOfflineStores, offlineStoresNumber=$offlineStoresNumber, provideDelivery=$provideDelivery, overallRating=$overallRating, ratingsCount=$ratingsCount, isEmailVerified=$isEmailVerified, isPhoneVerified=$isPhoneVerified, businessType=$businessType, commercialRegisterImage=$commercialRegisterImage, selfEmploymentDocument=$selfEmploymentDocument, startTime=$startTime, endTime=$endTime, workingDaysIndices=$workingDaysIndices, workingHours=$workingHours, bankName=$bankName, beneficiaryName=$beneficiaryName, bankAccountNumber=$bankAccountNumber, iban=$iban, ibanImage=$ibanImage, createdAt=$createdAt, updatedAt=$updatedAt, name=$name, isPromoted=$isPromoted, coverImage=$coverImage, coverImagePath=$coverImagePath, imagePath=$imagePath, workingDaysIndicesList=$workingDaysIndicesList, workingHoursList=$workingHoursList, selfEmploymentDocumentPath=$selfEmploymentDocumentPath, commercialRegisterImagePath=$commercialRegisterImagePath, city=$city, locations=$locations, tags=$tags, categories=$categories, reviews=$reviews]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -675,6 +689,11 @@ class ProviderData {
     } else {
       json[r'working_days_indices'] = null;
     }
+    if (this.workingHours != null) {
+      json[r'working_hours'] = this.workingHours;
+    } else {
+      json[r'working_hours'] = null;
+    }
     if (this.bankName != null) {
       json[r'bank_name'] = this.bankName;
     } else {
@@ -736,6 +755,7 @@ class ProviderData {
       json[r'imagePath'] = null;
     }
       json[r'working_days_indices_list'] = this.workingDaysIndicesList;
+      json[r'working_hours_list'] = this.workingHoursList;
     if (this.selfEmploymentDocumentPath != null) {
       json[r'self_employment_document_path'] = this.selfEmploymentDocumentPath;
     } else {
@@ -753,6 +773,16 @@ class ProviderData {
     }
       json[r'locations'] = this.locations;
       json[r'tags'] = this.tags;
+    if (this.categories != null) {
+      json[r'categories'] = this.categories;
+    } else {
+      json[r'categories'] = null;
+    }
+    if (this.reviews != null) {
+      json[r'reviews'] = this.reviews;
+    } else {
+      json[r'reviews'] = null;
+    }
     return json;
   }
 
@@ -807,6 +837,7 @@ class ProviderData {
         startTime: mapValueOfType<String>(json, r'start_time'),
         endTime: mapValueOfType<String>(json, r'end_time'),
         workingDaysIndices: mapValueOfType<String>(json, r'working_days_indices'),
+        workingHours: mapValueOfType<String>(json, r'working_hours'),
         bankName: mapValueOfType<String>(json, r'bank_name'),
         beneficiaryName: mapValueOfType<String>(json, r'beneficiary_name'),
         bankAccountNumber: mapValueOfType<String>(json, r'bank_account_number'),
@@ -824,11 +855,16 @@ class ProviderData {
         workingDaysIndicesList: json[r'working_days_indices_list'] is List
             ? (json[r'working_days_indices_list'] as List).cast<String>()
             : const [],
+        workingHoursList: json[r'working_hours_list'] is List
+            ? (json[r'working_hours_list'] as List).cast<String>()
+            : const [],
         selfEmploymentDocumentPath: mapValueOfType<String>(json, r'self_employment_document_path'),
         commercialRegisterImagePath: mapValueOfType<String>(json, r'commercial_register_image_path'),
         city: ProviderDataCity.fromJson(json[r'city']),
         locations: ProviderDataLocationsInner.listFromJson(json[r'locations']),
         tags: ProviderDataTagsInner.listFromJson(json[r'tags']),
+        categories: Category.listFromJson(json[r'categories']),
+        reviews: ProviderDataReviewsInner.listFromJson(json[r'reviews']),
       );
     }
     return null;

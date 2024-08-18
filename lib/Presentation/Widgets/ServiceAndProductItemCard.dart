@@ -43,9 +43,13 @@ class _ServiceAndProductItemCardHorizontalState
       child: Stack(children: [
         InkWell(
           onTap: (){
+            print("Selected Product : ${widget.type == ItemType.Products}");
             var categoriesIds = widget.type == ItemType.Products ?
             widget.product?.categories?.map((item) => (item.id ?? 0).toInt()).toList() ?? [] :
             widget.service?.categories.map((item) => (item.id ?? 0).toInt()).toList() ?? [];
+
+            print("Selected Product Categories: ${widget.product?.categories}");
+            print("Selected Product : $categoriesIds");
             widget.onItemClick.call(
                 (widget.type == ItemType.Products ? widget.product?.id ?? 0 : widget.service?.id ?? 0 ).toInt()
                 ,widget.type == ItemType.Products ? widget.product?.name ?? "" : widget.service?.name ??"",

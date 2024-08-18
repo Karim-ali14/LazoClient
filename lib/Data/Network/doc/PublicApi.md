@@ -5,7 +5,7 @@
 import 'package:lazo/api.dart';
 ```
 
-All URIs are relative to *http://localhost*
+All URIs are relative to *http://}*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -14,6 +14,7 @@ Method | HTTP request | Description
 [**clientSignup**](PublicApi.md#clientsignup) | **POST** /client/register | client signup
 [**filterTopProductsServices**](PublicApi.md#filtertopproductsservices) | **POST** /top-products-services/filter | Filter top products & services
 [**filterTopSellers**](PublicApi.md#filtertopsellers) | **POST** /top-sellers/filter | Filter top sellers
+[**showAProviderDetails**](PublicApi.md#showaproviderdetails) | **GET** /provider/details | provider details
 [**showAllBanners**](PublicApi.md#showallbanners) | **GET** /banners | show all banners
 [**showAllCategories**](PublicApi.md#showallcategories) | **GET** /categories | show all categories
 [**showAllColors**](PublicApi.md#showallcolors) | **GET** /colors | show all colors
@@ -250,6 +251,51 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: application/json
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **showAProviderDetails**
+> ShowAProviderDetails200Response showAProviderDetails(providerId, type)
+
+provider details
+
+show provider details
+
+### Example
+```dart
+import 'package:lazo/api.dart';
+
+final api_instance = PublicApi();
+final providerId = 8.14; // num | 
+final type = 8.14; // num | 
+
+try {
+    final result = api_instance.showAProviderDetails(providerId, type);
+    print(result);
+} catch (e) {
+    print('Exception when calling PublicApi->showAProviderDetails: $e\n');
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **providerId** | **num**|  | [optional] 
+ **type** | **num**|  | [optional] 
+
+### Return type
+
+[**ShowAProviderDetails200Response**](ShowAProviderDetails200Response.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

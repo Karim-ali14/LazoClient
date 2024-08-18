@@ -24,6 +24,8 @@ class Category {
     this.createdAt,
     this.updatedAt,
     this.isChecked,
+    this.products = const [],
+    this.services = const [],
   });
 
   ///
@@ -114,6 +116,10 @@ class Category {
   ///
   bool? isChecked;
 
+  List<ProviderProduct>? products;
+
+  List<ServiceShowData>? services;
+
   @override
   bool operator ==(Object other) => identical(this, other) || other is Category &&
      other.id == id &&
@@ -126,7 +132,9 @@ class Category {
      other.imagePath == imagePath &&
      other.createdAt == createdAt &&
      other.updatedAt == updatedAt &&
-     other.isChecked == isChecked;
+     other.isChecked == isChecked &&
+     other.products == products &&
+     other.services == services;
 
   @override
   int get hashCode =>
@@ -141,10 +149,12 @@ class Category {
     (imagePath == null ? 0 : imagePath!.hashCode) +
     (createdAt == null ? 0 : createdAt!.hashCode) +
     (updatedAt == null ? 0 : updatedAt!.hashCode) +
-    (isChecked == null ? 0 : isChecked!.hashCode);
+    (isChecked == null ? 0 : isChecked!.hashCode) +
+    (products == null ? 0 : products!.hashCode) +
+    (services == null ? 0 : services!.hashCode);
 
   @override
-  String toString() => 'Category[id=$id, nameEn=$nameEn, nameAr=$nameAr, name=$name, image=$image, servicesCount=$servicesCount, productsCount=$productsCount, imagePath=$imagePath, createdAt=$createdAt, updatedAt=$updatedAt, isChecked=$isChecked]';
+  String toString() => 'Category[id=$id, nameEn=$nameEn, nameAr=$nameAr, name=$name, image=$image, servicesCount=$servicesCount, productsCount=$productsCount, imagePath=$imagePath, createdAt=$createdAt, updatedAt=$updatedAt, isChecked=$isChecked, products=$products, services=$services]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -203,6 +213,16 @@ class Category {
     } else {
       json[r'is_checked'] = null;
     }
+    if (this.products != null) {
+      json[r'products'] = this.products;
+    } else {
+      json[r'products'] = null;
+    }
+    if (this.services != null) {
+      json[r'services'] = this.services;
+    } else {
+      json[r'services'] = null;
+    }
     return json;
   }
 
@@ -242,6 +262,8 @@ class Category {
         createdAt: mapValueOfType<String>(json, r'created_at'),
         updatedAt: mapValueOfType<String>(json, r'updated_at'),
         isChecked: mapValueOfType<bool>(json, r'is_checked'),
+        products: ProviderProduct.listFromJson(json[r'products']),
+        services: ServiceShowData.listFromJson(json[r'services']),
       );
     }
     return null;

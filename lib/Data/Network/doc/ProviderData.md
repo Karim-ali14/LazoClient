@@ -38,6 +38,7 @@ Name | Type | Description | Notes
 **startTime** | **String** |  | [optional] 
 **endTime** | **String** |  | [optional] 
 **workingDaysIndices** | **String** |  | [optional] 
+**workingHours** | **String** |  | [optional] 
 **bankName** | **String** |  | [optional] 
 **beneficiaryName** | **String** |  | [optional] 
 **bankAccountNumber** | **String** |  | [optional] 
@@ -51,11 +52,14 @@ Name | Type | Description | Notes
 **coverImagePath** | **String** |  | [optional] 
 **imagePath** | **String** |  | [optional] 
 **workingDaysIndicesList** | **List<String>** |  | [optional] [default to const []]
+**workingHoursList** | **List<String>** |  | [optional] [default to const []]
 **selfEmploymentDocumentPath** | **String** |  | [optional] 
 **commercialRegisterImagePath** | **String** |  | [optional] 
 **city** | [**ProviderDataCity**](ProviderDataCity.md) |  | [optional] 
 **locations** | [**List<ProviderDataLocationsInner>**](ProviderDataLocationsInner.md) |  | [optional] [default to const []]
 **tags** | [**List<ProviderDataTagsInner>**](ProviderDataTagsInner.md) |  | [optional] [default to const []]
+**categories** | [**List<Category>**](Category.md) |  | [optional] [default to const []]
+**reviews** | [**List<ProviderDataReviewsInner>**](ProviderDataReviewsInner.md) |  | [optional] [default to const []]
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

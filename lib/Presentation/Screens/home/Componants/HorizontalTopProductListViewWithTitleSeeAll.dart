@@ -18,11 +18,13 @@ class HorizontalTopProductListViewWithTitleSeeAll extends StatefulWidget {
   final OnAddItemClick onAddItemToCart;
   final OnAddItemClick onAddItemToWishList;
   final OnSeeAllClickListener onSeeAllClickListener;
+  final double itemWidth;
+  final String title;
   const HorizontalTopProductListViewWithTitleSeeAll(
       {super.key,
       required this.list,
       required this.showLoading,
-      required this.itemClick, required this.onAddItemToCart, required this.onAddItemToWishList, required this.onSeeAllClickListener});
+      required this.itemClick, required this.onAddItemToCart, required this.onAddItemToWishList, required this.onSeeAllClickListener, required this.itemWidth, required this.title});
 
   @override
   State<HorizontalTopProductListViewWithTitleSeeAll> createState() => _HorizontalTopProductListViewWithTitleSeeAll();
@@ -36,7 +38,7 @@ class _HorizontalTopProductListViewWithTitleSeeAll extends State<HorizontalTopPr
         Skeletonizer(
           enabled: widget.showLoading,
           child: TitleWithSeeAll(
-            title: "Best products",
+            title: widget.title,
             onClickOnSeeAll: () {
               widget.onSeeAllClickListener.call();
             },
@@ -53,7 +55,7 @@ class _HorizontalTopProductListViewWithTitleSeeAll extends State<HorizontalTopPr
                 return Skeletonizer(
                   enabled: widget.showLoading ,
                   child: ServiceAndProductItemCardHorizontal(
-                    width: 163,
+                    width: widget.itemWidth,
                     product: widget.list[index],
                     type: ItemType.Products, onAddItemToCart: (id ) {
                     widget.onAddItemToCart.call(id);

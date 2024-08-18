@@ -180,7 +180,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                               onSeeAllClickListener: () {
                                 navigateToSeeAllBestProductAndService(
                                     "Best Products", ItemType.Products);
-                              },
+                              }, itemWidth: 163, title: 'Best products',
                             ),
                       SizedBox(
                         height: 32,
@@ -203,7 +203,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                               onSeeAllClickListener: () {
                                 navigateToSeeAllBestProductAndService(
                                     "Best Services", ItemType.Services);
-                              },
+                              }, itemWidth: 163, title: 'Best Services',
                             ),
                     ],
                   ),

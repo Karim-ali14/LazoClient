@@ -11,7 +11,7 @@
 part of openapi.api;
 
 class ApiClient {
-  ApiClient({this.basePath = 'http://localhost', this.authentication,});
+  ApiClient({this.basePath = 'http://}', this.authentication,});
 
   final String basePath;
   final Authentication? authentication;
@@ -273,6 +273,8 @@ class ApiClient {
           return ProviderDataCity.fromJson(value);
         case 'ProviderDataLocationsInner':
           return ProviderDataLocationsInner.fromJson(value);
+        case 'ProviderDataReviewsInner':
+          return ProviderDataReviewsInner.fromJson(value);
         case 'ProviderDataTagsInner':
           return ProviderDataTagsInner.fromJson(value);
         case 'ProviderLocation':
@@ -353,6 +355,8 @@ class ApiClient {
           return ServicesListResponse.fromJson(value);
         case 'ServicesListResponseData':
           return ServicesListResponseData.fromJson(value);
+        case 'ShowAProviderDetails200Response':
+          return ShowAProviderDetails200Response.fromJson(value);
         case 'ShowAllGiftBoxes200Response':
           return ShowAllGiftBoxes200Response.fromJson(value);
         case 'ShowAllGiftCards200Response':

@@ -427,7 +427,7 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
                         ),
                       if (widget.itemType == ItemType.Products)
                         ...(List.generate(
-                            productItemState.data?.data?.lists.length ?? 0,
+                            productItemState.data?.data?.lists?.length ?? 0,
                             (index) => Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   mainAxisSize: MainAxisSize.min,
@@ -436,7 +436,7 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
                                       height: 32,
                                     ),
                                     Text(
-                                      "${productItemState.data?.data?.lists[index].name}",
+                                      "${productItemState.data?.data!.lists?[index].name}",
                                       style: AppTheme
                                           .styleWithTextBlackAdelleSansExtendedFonts18w700,
                                     ),
@@ -458,14 +458,14 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
                                         child: productItemState
                                                     .data
                                                     ?.data
-                                                    ?.lists[index]
+                                                    ?.lists?[index]
                                                     .isMultiSelectable ==
                                                 0
                                             ? ProductSingleSelectItems(
                                                 list: productItemState
                                                         .data
                                                         ?.data
-                                                        ?.lists[index]
+                                                        ?.lists?[index]
                                                         .items
                                                         .map((item) =>
                                                             ItemSelector(
@@ -485,7 +485,7 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
                                                 list: productItemState
                                                         .data
                                                         ?.data
-                                                        ?.lists[index]
+                                                        ?.lists?[index]
                                                         .items
                                                         .map((item) =>
                                                             ItemSelector(
@@ -507,7 +507,7 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
                                 )))
                       else
                         ...(List.generate(
-                            serviceItemState.data?.data?.lists.length ?? 0,
+                            serviceItemState.data?.data?.lists?.length ?? 0,
                             (index) => Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -515,7 +515,7 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
                                       height: 32,
                                     ),
                                     Text(
-                                      "${serviceItemState.data?.data?.lists[index].name}",
+                                      "${serviceItemState.data?.data?.lists?[index].name}",
                                       style: AppTheme
                                           .styleWithTextBlackAdelleSansExtendedFonts18w700,
                                     ),
@@ -537,7 +537,7 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
                                         child: ProductMultipleSelectItems(
                                           list: serviceItemState
                                                   .data?.data?.lists
-                                                  .map((item) => ItemSelector(
+                                                  ?.map((item) => ItemSelector(
                                                       item.id?.toInt() ?? 0,
                                                       item.name ?? "",
                                                       SizedBox()))

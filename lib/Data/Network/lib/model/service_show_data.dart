@@ -158,7 +158,7 @@ class ServiceShowData {
   ///
   num? isVisible;
 
-  List<ServiceList> lists;
+  List<ServiceList>? lists;
 
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
@@ -312,7 +312,7 @@ class ServiceShowData {
     (imagePath == null ? 0 : imagePath!.hashCode) +
     (isServiceDeliverableOutsideStore == null ? 0 : isServiceDeliverableOutsideStore!.hashCode) +
     (isVisible == null ? 0 : isVisible!.hashCode) +
-    (lists.hashCode) +
+    (lists == null ? 0 : lists!.hashCode) +
     (name == null ? 0 : name!.hashCode) +
     (nameAr == null ? 0 : nameAr!.hashCode) +
     (nameEn == null ? 0 : nameEn!.hashCode) +
@@ -405,7 +405,11 @@ class ServiceShowData {
     } else {
       json[r'is_visible'] = null;
     }
+    if (this.lists != null) {
       json[r'lists'] = this.lists;
+    } else {
+      json[r'lists'] = null;
+    }
     if (this.name != null) {
       json[r'name'] = this.name;
     } else {

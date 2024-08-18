@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lazo_client/Constants/Eunms.dart';
 import 'package:lazo_client/Data/Models/FilterData.dart';
 import 'package:lazo_client/Data/Models/StateModel.dart';
 import 'package:lazo_client/Doman/CommenProviders/ApiProvider.dart';
@@ -65,3 +66,15 @@ final getProductReviews = StateNotifierProvider.autoDispose<GetProductReviewsUse
 final getServiceReviews = StateNotifierProvider.autoDispose<GetServiceReviewsUseCase,
         StateModel<ServiceShowResponse>>(
     (ref) => GetServiceReviewsUseCase(ref, ref.read(publicApi)));
+
+final getSellerDetailsWithProductStateNotifier = StateNotifierProvider.autoDispose<GetSellerDetailsUseCase,
+        StateModel<ShowAProviderDetails200Response>>(
+    (ref) => GetSellerDetailsUseCase(ref, ref.read(publicApi),ItemType.Products.index));
+
+final getSellerDetailsWithServicesStateNotifier = StateNotifierProvider.autoDispose<GetSellerDetailsUseCase,
+        StateModel<ShowAProviderDetails200Response>>(
+    (ref) => GetSellerDetailsUseCase(ref, ref.read(publicApi),ItemType.Services.index));
+
+final getSellerDetailsWithReviewsStateNotifier = StateNotifierProvider.autoDispose<GetSellerDetailsUseCase,
+        StateModel<ShowAProviderDetails200Response>>(
+    (ref) => GetSellerDetailsUseCase(ref, ref.read(publicApi),2));

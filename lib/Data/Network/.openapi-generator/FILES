@@ -58,6 +58,7 @@ doc/ProviderCategoryMenuResponse.md
 doc/ProviderData.md
 doc/ProviderDataCity.md
 doc/ProviderDataLocationsInner.md
+doc/ProviderDataReviewsInner.md
 doc/ProviderDataTagsInner.md
 doc/ProviderLocation.md
 doc/ProviderLoginResponse.md
@@ -100,6 +101,7 @@ doc/ServiceShowData.md
 doc/ServiceShowResponse.md
 doc/ServicesListResponse.md
 doc/ServicesListResponseData.md
+doc/ShowAProviderDetails200Response.md
 doc/ShowAllGiftBoxes200Response.md
 doc/ShowAllGiftCards200Response.md
 doc/ShowAllProviderSOrders200Response.md
@@ -207,6 +209,7 @@ lib/model/provider_category_menu_response.dart
 lib/model/provider_data.dart
 lib/model/provider_data_city.dart
 lib/model/provider_data_locations_inner.dart
+lib/model/provider_data_reviews_inner.dart
 lib/model/provider_data_tags_inner.dart
 lib/model/provider_location.dart
 lib/model/provider_login_response.dart
@@ -247,6 +250,7 @@ lib/model/service_show_data.dart
 lib/model/service_show_response.dart
 lib/model/services_list_response.dart
 lib/model/services_list_response_data.dart
+lib/model/show_a_provider_details200_response.dart
 lib/model/show_all_gift_boxes200_response.dart
 lib/model/show_all_gift_cards200_response.dart
 lib/model/show_all_provider_s_orders200_response.dart

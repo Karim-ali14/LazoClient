@@ -116,7 +116,7 @@ class ProductDetails {
 
   List<ImageItem> images;
 
-  List<ProductListItem> lists;
+  List<ProductListItem>? lists;
 
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
@@ -275,7 +275,7 @@ class ProductDetails {
     (isVisible == null ? 0 : isVisible!.hashCode) +
     (id == null ? 0 : id!.hashCode) +
     (images.hashCode) +
-    (lists.hashCode) +
+    (lists == null ? 0 : lists!.hashCode) +
     (name == null ? 0 : name!.hashCode) +
     (nameAr == null ? 0 : nameAr!.hashCode) +
     (nameEn == null ? 0 : nameEn!.hashCode) +
@@ -342,7 +342,11 @@ class ProductDetails {
       json[r'id'] = null;
     }
       json[r'images'] = this.images;
+    if (this.lists != null) {
       json[r'lists'] = this.lists;
+    } else {
+      json[r'lists'] = null;
+    }
     if (this.name != null) {
       json[r'name'] = this.name;
     } else {

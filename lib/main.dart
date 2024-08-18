@@ -148,7 +148,7 @@ class MyApp extends ConsumerWidget {
       GoRoute(
         path: R_splashScreenRout,
         builder: (BuildContext context, GoRouterState state) =>
-            const SellerDetailsScreen(sellerId: 72),
+            const SellerDetailsScreen(sellerId: 76),
       ),
       GoRoute(
         path: R_OnBoardingScreen,
