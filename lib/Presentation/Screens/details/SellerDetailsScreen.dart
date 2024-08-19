@@ -34,9 +34,20 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
     with SingleTickerProviderStateMixin {
   late TabController tabController;
   int activeTabIndex = 0;
-
+  late ScrollController _scrollController;
+  bool _appBarTitleVisible = true;
   @override
   void initState() {
+    _scrollController = ScrollController();
+    _scrollController.addListener(() {
+      if (_scrollController.hasClients) {
+        // Update visibility based on scroll offset
+        setState(() {
+          print(_scrollController.offset);
+          _appBarTitleVisible = _scrollController.offset < 100;
+        });
+      }
+    });
     tabController = TabController(length: 3, vsync: this);
     tabController.addListener(() {
       setState(() {
@@ -62,84 +73,121 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
     final sellerProducts = ref.watch(getSellerDetailsWithProductStateNotifier);
     final sellerServices = ref.watch(getSellerDetailsWithServicesStateNotifier);
     final sellerReview = ref.watch(getSellerDetailsWithReviewsStateNotifier);
+
+
+
     return Scaffold(
-      body: CustomScrollView(slivers: [
-        SliverToBoxAdapter(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SliderView(
-                  images: [sellerProducts.data?.data?.coverImagePath ?? ""],
-                  withIndicator: true,
-                  height: 206,
-                  width: double.infinity,
-                  showLoading: sellerProducts.state == DataState.LOADING),
-              SizedBox(
-                height: 24,
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      body: CustomScrollView(
+          controller: _scrollController,
+          slivers: [
+        SliverAppBar(
+        expandedHeight: 250, titleSpacing: 0, // Set spacing between leading and title// Adjust based on your needs
+        pinned: true,
+          floating: true,
+          flexibleSpace: FlexibleSpaceBar(
+            titlePadding: EdgeInsetsDirectional.only(start: 55, end: 0.0), // Adjust padding around the title
+            title: AnimatedOpacity(
+              opacity: _appBarTitleVisible ? 0.0 : 1.0, // Fade in/out based on scroll
+              duration: Duration(milliseconds: 300),
+              child: Padding(
+                padding: const EdgeInsetsDirectional.only(bottom: 2),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
+
                   children: [
                     ImageView(
                         isCircle: true,
-                        initialImg: sellerProducts.data?.data?.imagePath),
-                    SizedBox(
-                      width: 8,
+                        initialImg: sellerProducts.data?.data?.imagePath,
+                      width: 25,
                     ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Store Name",
-                          style: AppTheme
-                              .styleWithTextBlackAdelleSansExtendedFonts18w700,
-                        ),
-                        SizedBox(
-                          height: 8,
-                        ),
-                        Row(
-                          children: [
-                            SVGIcons.smallStarIcon(),
-                            SizedBox(
-                              width: 3,
-                            ),
-                            Text(
-                              "${sellerProducts.data?.data?.overallRating ?? 0}",
-                              style: AppTheme
-                                  .styleWithTextGray7AdelleSansExtendedFonts12w400,
-                            ),
-                            SizedBox(
-                              width: 5,
-                            ),
-                            Text(
-                              "(${sellerProducts.data?.data?.ratingsCount ?? 0})",
-                              style: AppTheme
-                                  .styleWithTextGray7AdelleSansExtendedFonts12w400,
-                            )
-                          ],
-                        ),
-                      ],
-                    )
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Text(
+                      sellerProducts.data?.data?.name ?? "Store Name",
+                      style: AppTheme.styleWithTextBlackAdelleSansExtendedFonts18w700,
+                    ),
                   ],
                 ),
+              )
+
+            ),
+          background: Stack(
+            children: [
+              Positioned(
+                child:
+                SizedBox(
+                  child: Image.network(
+                    sellerProducts.data?.data?.coverImagePath ?? "",
+                    fit: BoxFit.cover,
+                  ),
+                  width: double.infinity,
+                  height: 206,
+                ),
               ),
-              SizedBox(
-                height: 15,
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                child: ExpandedText(
-                    textValue: sellerProducts.data?.data?.name ?? "",
-                    textStyle: AppTheme
-                        .styleWithTextAppGrey15AdelleSansExtendedFonts14w400
-                        .copyWith(height: 1.4),
-                    maxLength: 150),
+              Positioned(
+                bottom: 0,
+                left: 0,
+                right: 0,
+                child:
+                Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        ImageView(
+                            isCircle: true,
+                            initialImg: sellerProducts.data?.data?.imagePath),
+                        SizedBox(
+                          width: 8,
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              sellerProducts.data?.data?.name ??"",
+                              style: AppTheme
+                                  .styleWithTextBlackAdelleSansExtendedFonts18w700,
+                            ),
+                            SizedBox(
+                              height: 8,
+                            ),
+                            Row(
+                              children: [
+                                SVGIcons.smallStarIcon(),
+                                SizedBox(
+                                  width: 3,
+                                ),
+                                Text(
+                                  "${sellerProducts.data?.data?.overallRating ?? 0}",
+                                  style: AppTheme
+                                      .styleWithTextGray7AdelleSansExtendedFonts12w400,
+                                ),
+                                SizedBox(
+                                  width: 5,
+                                ),
+                                Text(
+                                  "(${sellerProducts.data?.data?.ratingsCount ?? 0})",
+                                  style: AppTheme
+                                      .styleWithTextGray7AdelleSansExtendedFonts12w400,
+                                )
+                              ],
+                            ),
+                          ],
+                        )
+                      ],
+                    )),
               ),
             ],
           ),
         ),
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back,color: _appBarTitleVisible ? Colors.white : Colors.black,),
+            onPressed: () {
+              Navigator.of(context).pop(); // Go back to the previous screen
+            },
+          ),
+      ),
         SliverPersistentHeader(
           delegate: _SliverTabsDelegate(
             TabBar(
@@ -156,7 +204,7 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
                     child: Container(
                       width: 140,
                       height: 40,
-                      padding: EdgeInsets.all(10),
+                      padding: const EdgeInsets.all(10),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(4),
                         border: Border.all(
@@ -566,7 +614,7 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
 
 class _SliverTabsDelegate extends SliverPersistentHeaderDelegate {
   final TabBar _tabBar;
-  final double paddingTop = 30.0;
+  final double paddingTop = 20.0;
   _SliverTabsDelegate(this._tabBar);
 
   @override
