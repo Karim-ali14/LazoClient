@@ -36,6 +36,7 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
   int activeTabIndex = 0;
   late ScrollController _scrollController;
   bool _appBarTitleVisible = true;
+  bool defaultExpandedValue = false;
   @override
   void initState() {
     _scrollController = ScrollController();
@@ -43,7 +44,6 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
       if (_scrollController.hasClients) {
         // Update visibility based on scroll offset
         setState(() {
-          print(_scrollController.offset);
           _appBarTitleVisible = _scrollController.offset < 100;
         });
       }
@@ -70,125 +70,148 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
 
   @override
   Widget build(BuildContext context) {
+    print(defaultExpandedValue);
     final sellerProducts = ref.watch(getSellerDetailsWithProductStateNotifier);
     final sellerServices = ref.watch(getSellerDetailsWithServicesStateNotifier);
     final sellerReview = ref.watch(getSellerDetailsWithReviewsStateNotifier);
 
-
-
     return Scaffold(
-      body: CustomScrollView(
-          controller: _scrollController,
-          slivers: [
+      body: CustomScrollView(controller: _scrollController, slivers: [
         SliverAppBar(
-        expandedHeight: 250, titleSpacing: 0, // Set spacing between leading and title// Adjust based on your needs
-        pinned: true,
+          expandedHeight: 250,
+          titleSpacing:
+              0, // Set spacing between leading and title// Adjust based on your needs
+          pinned: true,
           floating: true,
           elevation: 0,
           flexibleSpace: FlexibleSpaceBar(
-            titlePadding: EdgeInsetsDirectional.only(start: 55, end: 0.0), // Adjust padding around the title
+            titlePadding: EdgeInsetsDirectional.only(
+                start: 55, end: 0.0), // Adjust padding around the title
             title: AnimatedOpacity(
-              opacity: _appBarTitleVisible ? 0.0 : 1.0, // Fade in/out based on scroll
-              duration: Duration(milliseconds: 300),
-              child: Padding(
-                padding: const EdgeInsetsDirectional.only(bottom: 2),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-
-                  children: [
-                    ImageView(
+                opacity: _appBarTitleVisible
+                    ? 0.0
+                    : 1.0, // Fade in/out based on scroll
+                duration: Duration(milliseconds: 300),
+                child: Padding(
+                  padding: const EdgeInsetsDirectional.only(bottom: 2),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      ImageView(
                         isCircle: true,
                         initialImg: sellerProducts.data?.data?.imagePath,
-                      width: 25,
-                    ),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    Text(
-                      sellerProducts.data?.data?.name ?? "Store Name",
-                      style: AppTheme.styleWithTextBlackAdelleSansExtendedFonts18w700,
-                    ),
-                  ],
-                ),
-              )
-
-            ),
-          background: Stack(
-            children: [
-              Positioned(
-                child:
-                SizedBox(
-                  child: Image.network(
-                    sellerProducts.data?.data?.coverImagePath ?? "",
-                    fit: BoxFit.cover,
+                        width: 25,
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Text(
+                        sellerProducts.data?.data?.name ?? "Store Name",
+                        style: AppTheme
+                            .styleWithTextBlackAdelleSansExtendedFonts18w700,
+                      ),
+                    ],
                   ),
-                  width: double.infinity,
-                  height: 206,
+                )),
+            background: Stack(
+              children: [
+                Positioned(
+                  child: SizedBox(
+                    child: Image.network(
+                      sellerProducts.data?.data?.coverImagePath ?? "",
+                      fit: BoxFit.cover,
+                    ),
+                    width: double.infinity,
+                    height: 206,
+                  ),
                 ),
-              ),
-              Positioned(
-                bottom: 0,
-                left: 0,
-                right: 0,
-                child:
-                Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        ImageView(
-                            isCircle: true,
-                            initialImg: sellerProducts.data?.data?.imagePath),
-                        SizedBox(
-                          width: 8,
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              sellerProducts.data?.data?.name ??"",
-                              style: AppTheme
-                                  .styleWithTextBlackAdelleSansExtendedFonts18w700,
-                            ),
-                            SizedBox(
-                              height: 8,
-                            ),
-                            Row(
+                _appBarTitleVisible
+                    ? Positioned(
+                        bottom: 0,
+                        left: 0,
+                        right: 0,
+                        child: Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 16.0),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                SVGIcons.smallStarIcon(),
+                                ImageView(
+                                    isCircle: true,
+                                    initialImg:
+                                        sellerProducts.data?.data?.imagePath),
                                 SizedBox(
-                                  width: 3,
+                                  width: 8,
                                 ),
-                                Text(
-                                  "${sellerProducts.data?.data?.overallRating ?? 0}",
-                                  style: AppTheme
-                                      .styleWithTextGray7AdelleSansExtendedFonts12w400,
-                                ),
-                                SizedBox(
-                                  width: 5,
-                                ),
-                                Text(
-                                  "(${sellerProducts.data?.data?.ratingsCount ?? 0})",
-                                  style: AppTheme
-                                      .styleWithTextGray7AdelleSansExtendedFonts12w400,
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      sellerProducts.data?.data?.name ?? "",
+                                      style: AppTheme
+                                          .styleWithTextBlackAdelleSansExtendedFonts18w700,
+                                    ),
+                                    SizedBox(
+                                      height: 8,
+                                    ),
+                                    Row(
+                                      children: [
+                                        SVGIcons.smallStarIcon(),
+                                        SizedBox(
+                                          width: 3,
+                                        ),
+                                        Text(
+                                          "${sellerProducts.data?.data?.overallRating ?? 0}",
+                                          style: AppTheme
+                                              .styleWithTextGray7AdelleSansExtendedFonts12w400,
+                                        ),
+                                        SizedBox(
+                                          width: 5,
+                                        ),
+                                        Text(
+                                          "(${sellerProducts.data?.data?.ratingsCount ?? 0})",
+                                          style: AppTheme
+                                              .styleWithTextGray7AdelleSansExtendedFonts12w400,
+                                        )
+                                      ],
+                                    ),
+                                  ],
                                 )
                               ],
-                            ),
-                          ],
-                        )
-                      ],
-                    )),
-              ),
-            ],
+                            )),
+                      )
+                    : SizedBox(),
+              ],
+            ),
           ),
-        ),
           leading: IconButton(
-            icon: Icon(Icons.arrow_back,color: _appBarTitleVisible ? Colors.white : Colors.black,),
+            icon: Icon(
+              Icons.arrow_back,
+              color: _appBarTitleVisible ? Colors.white : Colors.black,
+            ),
             onPressed: () {
               Navigator.of(context).pop(); // Go back to the previous screen
             },
           ),
-      ),
+        ),
+        SliverToBoxAdapter(
+          child: _appBarTitleVisible ? Padding(
+            padding: const EdgeInsets.only(left: 16.0 ,right: 16,top: 16),
+            child: ExpandedText(
+              defaultExpandedValue: defaultExpandedValue,
+              maxLength: 165,
+              textStyle: AppTheme.styleWithTextAppGrey7AdelleSansExtendedFonts14w400.copyWith(
+                height: 1.5
+              ),
+              onExpandChangeStatus: (value){
+                defaultExpandedValue = value;
+                print(defaultExpandedValue);
+              },
+              textValue:
+              "lksdajf laskjd flkasj dflka jsdkflj alksdf jlaksj dflkajs dflk jakdf lakdslkasjflkasdjf lkdjsaf lkjdsakfl laksdjf laksdjf lkasjd flk asdkljf lkasjd flksadj flkaj sdflkj asdkflj lakdsj flkasdjflkjdsf lka sdfljas klfjalkdslaksjdflkasj flkj adkfl"
+            ),
+          ):SizedBox(),
+        ),
         SliverPersistentHeader(
           delegate: _SliverTabsDelegate(
             TabBar(
@@ -301,11 +324,203 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
           ),
           pinned: true,
         ),
-        SliverFillRemaining(
+        if (activeTabIndex == 0)
+          SliverList(
+            delegate: SliverChildBuilderDelegate(
+              (BuildContext context, int index) {
+                return Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 16.0, vertical: 9),
+                  child: HorizontalTopProductListViewWithTitleSeeAll(
+                    list: sellerProducts.state == DataState.LOADING
+                        ? [
+                            ProviderProduct(),
+                            ProviderProduct(),
+                            ProviderProduct(),
+                            ProviderProduct(),
+                          ]
+                        : sellerProducts
+                                .data?.data?.categories?[index].products ??
+                            [],
+                    showLoading: sellerProducts.state == DataState.LOADING,
+                    itemClick: (itemId, itemName, categoryIds) {
+                      navigateToItemDetails(
+                          ItemType.Products, itemId, itemName, categoryIds);
+                    },
+                    onAddItemToCart: (int) {},
+                    onAddItemToWishList: (int) {},
+                    onSeeAllClickListener: () {
+                      // navigateToSeeAllBestProductAndService(
+                      //     "Best Products", ItemType.Products);
+                    },
+                    itemWidth: 163,
+                    title: sellerProducts.data?.data?.categories?[index].name ??
+                        "",
+                  ),
+                );
+              },
+              childCount: sellerProducts.state == DataState.LOADING
+                  ? 5
+                  : sellerProducts.data?.data?.categories?.length ?? 0,
+            ),
+          ),
+        if (activeTabIndex == 1)
+          SliverList(
+            delegate: SliverChildBuilderDelegate(
+              (BuildContext context, int index) {
+                return Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 16.0, vertical: 9),
+                  child: HorizontalTopServiceListViewWithTitleSeeAll(
+                    list: sellerServices.state == DataState.LOADING
+                        ? [
+                            ServiceShowData(),
+                            ServiceShowData(),
+                            ServiceShowData(),
+                            ServiceShowData(),
+                            ServiceShowData(),
+                          ]
+                        : sellerServices
+                                .data?.data?.categories?[index].services ??
+                            [],
+                    showLoading: sellerServices.state == DataState.LOADING,
+                    itemClick: (itemId, itemName, categoryIds) {
+                      navigateToItemDetails(
+                          ItemType.Services, itemId, itemName, categoryIds);
+                    },
+                    onAddItemToCart: (int) {},
+                    onAddItemToWishList: (int) {},
+                    onSeeAllClickListener: () {
+                      // navigateToSeeAllBestProductAndService(
+                      //     "Best Products", ItemType.Products);
+                    },
+                    itemWidth: 163,
+                    title: sellerServices.data?.data?.categories?[index].name ??
+                        "",
+                  ),
+                );
+              },
+              childCount: sellerProducts.state == DataState.LOADING
+                  ? 5
+                  : sellerProducts.data?.data?.categories?.length ?? 0,
+            ),
+          ),
+        if (activeTabIndex == 2)
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(4),
+                  border: Border.all(color: AppTheme.appGrey8),
+                  color: Colors.white,
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: Stack(children: [
+                    Row(
+                      children: [
+                        SVGIcons.smallStarIcon(size: 24),
+                        SizedBox(
+                          width: 5,
+                        ),
+                        Text(
+                          "${sellerReview.data?.data?.overallRating ?? 0}",
+                          style: AppTheme
+                              .styleWithTextBlackAdelleSansExtendedFonts24w700,
+                        ),
+                        Spacer(),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
+                              "Based on ${sellerReview.data?.data?.ratingsCount ?? 0} ratings",
+                              style: AppTheme
+                                  .styleWithTextGray7AdelleSansExtendedFonts12w400,
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ]),
+                ),
+              ),
+            ),
+          ),
+        if (activeTabIndex == 2)
+          SliverList(
+            delegate:
+                SliverChildBuilderDelegate((BuildContext context, int index) {
+              return Container(
+                margin: const EdgeInsetsDirectional.symmetric(vertical: 8),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(4),
+                  border: Border.all(color: AppTheme.appGrey8),
+                  color: Colors.white,
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          Text(
+                            "${sellerReview.data?.data?.reviews?[index].userName}",
+                            style: AppTheme
+                                .styleWithTextAppGrey7AdelleSansExtendedFonts14w500,
+                          ),
+                          Spacer(),
+                          Text(
+                            sellerReview.data?.data?.reviews?[index].date
+                                    ?.convertDateToDdMmmYyyy ??
+                                "",
+                            style: AppTheme
+                                .styleWithTextGray7AdelleSansExtendedFonts12w400,
+                          )
+                        ],
+                      ),
+                      SizedBox(
+                        height: 8,
+                      ),
+                      Row(
+                        children: [
+                          SVGIcons.smallStarIcon(),
+                          SizedBox(
+                            width: 3,
+                          ),
+                          Text(
+                            "${sellerReview.data?.data?.reviews?[index].rating ?? 0}",
+                            style: AppTheme
+                                .styleWithTextBlackAdelleSansExtendedFonts14w400,
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 8,
+                      ),
+                      ExpandedText(
+                        textValue:
+                            "${sellerReview.data?.data?.reviews?[index].ratingComment ?? 0}",
+                        textStyle: AppTheme
+                            .styleWithTextBlackAdelleSansExtendedFonts14w500
+                            .copyWith(height: 1.5),
+                        maxLength: 70,
+                        showLessText: "Read Less",
+                        showMoreText: "Read More",
+                      )
+                    ],
+                  ),
+                ),
+              );
+            }, childCount: sellerReview.data?.data?.reviews?.length ?? 0),
+          )
+        /*SliverFillRemaining(
           child: Column(
             children: [
               Expanded(
-                  child: TabBarView(
+                  child:
+                  TabBarView(
                 controller: tabController,
                 children: [
                   sellerProducts.state == DataState.EMPTY
@@ -322,22 +537,25 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
                                   0,
                           itemBuilder: (BuildContext context, int index) {
                             return Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 16.0,vertical: 9),
-                              child: HorizontalTopProductListViewWithTitleSeeAll(
-                                list:  sellerProducts.state == DataState.LOADING ? [
-                                  ProviderProduct(),
-                                  ProviderProduct(),
-                                  ProviderProduct(),
-                                  ProviderProduct(),
-                                ] :
-                                sellerProducts.data?.data
-                                        ?.categories?[index].products ??
-                                    [],
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 16.0, vertical: 9),
+                              child:
+                                  HorizontalTopProductListViewWithTitleSeeAll(
+                                list: sellerProducts.state == DataState.LOADING
+                                    ? [
+                                        ProviderProduct(),
+                                        ProviderProduct(),
+                                        ProviderProduct(),
+                                        ProviderProduct(),
+                                      ]
+                                    : sellerProducts.data?.data
+                                            ?.categories?[index].products ??
+                                        [],
                                 showLoading:
                                     sellerProducts.state == DataState.LOADING,
                                 itemClick: (itemId, itemName, categoryIds) {
-                                  navigateToItemDetails(ItemType.Products, itemId,
-                                      itemName, categoryIds);
+                                  navigateToItemDetails(ItemType.Products,
+                                      itemId, itemName, categoryIds);
                                 },
                                 onAddItemToCart: (int) {},
                                 onAddItemToWishList: (int) {},
@@ -345,8 +563,10 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
                                   // navigateToSeeAllBestProductAndService(
                                   //     "Best Products", ItemType.Products);
                                 },
-                                itemWidth: 163, title: sellerProducts.data?.data
-                                  ?.categories?[index].name ??"",
+                                itemWidth: 163,
+                                title: sellerProducts
+                                        .data?.data?.categories?[index].name ??
+                                    "",
                               ),
                             );
                           }),
@@ -363,24 +583,28 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
                               : sellerServices.data?.data?.categories?.length ??
                                   0,
                           itemBuilder: (BuildContext context, int index) {
-                            return Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 16.0,vertical: 9),
-                              child: HorizontalTopServiceListViewWithTitleSeeAll(
-                                list:  sellerServices.state == DataState.LOADING ? [
-                                  ServiceShowData(),
-                                  ServiceShowData(),
-                                  ServiceShowData(),
-                                  ServiceShowData(),
-                                  ServiceShowData(),
-                                ] :
-                                sellerServices.data?.data
-                                        ?.categories?[index].services ??
-                                    [],
+                            return
+                              Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 16.0, vertical: 9),
+                              child:
+                                  HorizontalTopServiceListViewWithTitleSeeAll(
+                                list: sellerServices.state == DataState.LOADING
+                                    ? [
+                                        ServiceShowData(),
+                                        ServiceShowData(),
+                                        ServiceShowData(),
+                                        ServiceShowData(),
+                                        ServiceShowData(),
+                                      ]
+                                    : sellerServices.data?.data
+                                            ?.categories?[index].services ??
+                                        [],
                                 showLoading:
                                     sellerServices.state == DataState.LOADING,
                                 itemClick: (itemId, itemName, categoryIds) {
-                                  navigateToItemDetails(ItemType.Services, itemId,
-                                      itemName, categoryIds);
+                                  navigateToItemDetails(ItemType.Services,
+                                      itemId, itemName, categoryIds);
                                 },
                                 onAddItemToCart: (int) {},
                                 onAddItemToWishList: (int) {},
@@ -388,8 +612,10 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
                                   // navigateToSeeAllBestProductAndService(
                                   //     "Best Products", ItemType.Products);
                                 },
-                                itemWidth: 163, title: sellerServices.data?.data
-                                  ?.categories?[index].name ??"",
+                                itemWidth: 163,
+                                title: sellerServices
+                                        .data?.data?.categories?[index].name ??
+                                    "",
                               ),
                             );
                           }),
@@ -421,7 +647,8 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
                                     ),
                                     Spacer(),
                                     Row(
-                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
                                       children: [
                                         Text(
                                           "Based on ${sellerReview.data?.data?.ratingsCount ?? 0} ratings",
@@ -439,75 +666,75 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
                             height: 16,
                           ),
                           ...(List.generate(
-                              sellerReview.data?.data?.reviews?.length ?? 0,
-                                  (index) => Container(
-                                margin: const EdgeInsetsDirectional.symmetric(
-                                    vertical: 8),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(4),
-                                  border: Border.all(color: AppTheme.appGrey8),
-                                  color: Colors.white,
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(16),
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Row(
-                                        children: [
-                                          Text(
-                                            "${sellerReview.data?.data?.reviews?[index].userName}",
-                                            style: AppTheme
-                                                .styleWithTextAppGrey7AdelleSansExtendedFonts14w500,
-                                          ),
-                                          Spacer(),
-                                          Text(
-                                            sellerReview
-                                                .data
-                                                ?.data
-                                                ?.reviews?[index]
-                                                .date
-                                                ?.convertDateToDdMmmYyyy ??
-                                                "",
-                                            style: AppTheme
-                                                .styleWithTextGray7AdelleSansExtendedFonts12w400,
-                                          )
-                                        ],
-                                      ),
-                                      SizedBox(
-                                        height: 8,
-                                      ),
-                                      Row(
-                                        children: [
-                                          SVGIcons.smallStarIcon(),
-                                          SizedBox(
-                                            width: 3,
-                                          ),
-                                          Text(
-                                            "${sellerReview.data?.data?.reviews?[index].rating ?? 0}",
-                                            style: AppTheme
-                                                .styleWithTextBlackAdelleSansExtendedFonts14w400,
-                                          ),
-                                        ],
-                                      ),
-                                      SizedBox(
-                                        height: 8,
-                                      ),
-                                      ExpandedText(
-                                        textValue:
-                                        "${sellerReview.data?.data?.reviews?[index].ratingComment ?? 0}",
-                                        textStyle: AppTheme
-                                            .styleWithTextBlackAdelleSansExtendedFonts14w500
-                                            .copyWith(height: 1.5),
-                                        maxLength: 70,
-                                        showLessText: "Read Less",
-                                        showMoreText: "Read More",
-                                      )
-                                    ],
-                                  ),
+                            sellerReview.data?.data?.reviews?.length ?? 0,
+                            (index) => Container(
+                              margin: const EdgeInsetsDirectional.symmetric(
+                                  vertical: 8),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(4),
+                                border: Border.all(color: AppTheme.appGrey8),
+                                color: Colors.white,
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(16),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Text(
+                                          "${sellerReview.data?.data?.reviews?[index].userName}",
+                                          style: AppTheme
+                                              .styleWithTextAppGrey7AdelleSansExtendedFonts14w500,
+                                        ),
+                                        Spacer(),
+                                        Text(
+                                          sellerReview
+                                                  .data
+                                                  ?.data
+                                                  ?.reviews?[index]
+                                                  .date
+                                                  ?.convertDateToDdMmmYyyy ??
+                                              "",
+                                          style: AppTheme
+                                              .styleWithTextGray7AdelleSansExtendedFonts12w400,
+                                        )
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      height: 8,
+                                    ),
+                                    Row(
+                                      children: [
+                                        SVGIcons.smallStarIcon(),
+                                        SizedBox(
+                                          width: 3,
+                                        ),
+                                        Text(
+                                          "${sellerReview.data?.data?.reviews?[index].rating ?? 0}",
+                                          style: AppTheme
+                                              .styleWithTextBlackAdelleSansExtendedFonts14w400,
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      height: 8,
+                                    ),
+                                    ExpandedText(
+                                      textValue:
+                                          "${sellerReview.data?.data?.reviews?[index].ratingComment ?? 0}",
+                                      textStyle: AppTheme
+                                          .styleWithTextBlackAdelleSansExtendedFonts14w500
+                                          .copyWith(height: 1.5),
+                                      maxLength: 70,
+                                      showLessText: "Read Less",
+                                      showMoreText: "Read More",
+                                    )
+                                  ],
                                 ),
                               ),
-                            )),
+                            ),
+                          )),
                           SizedBox(
                             height: 16,
                           ),
@@ -515,90 +742,11 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
                       ),
                     ),
                   ),
-                  // servicesState.state == DataState.EMPTY
-                  //     ? /*OrderPlaceHolder(onAddOrderClick: () {})*/ EmptyDataView(
-                  //   icon: SVGIcons.searchGifIcon(),
-                  //   title: "No Data Found",
-                  //   description:
-                  //   "Please refine your search using common words to get accurate results",
-                  // )
-                  //     : DataListView<ServiceShowData>(
-                  //     dataList: servicesState.data?.data?.services?.data ??
-                  //         (servicesState.state == DataState.LOADING
-                  //             ? [
-                  //           ...List.generate(
-                  //               5, (index) => ServiceShowData())
-                  //         ]
-                  //             : []),
-                  //     paginated: true,
-                  //     pageLoading:
-                  //     servicesState.state == DataState.MORE_LOADING,
-                  //     onBottomReached: () {
-                  //       if (currentPageForServices <
-                  //           (servicesState.data?.data?.services?.lastPage ??
-                  //               0)) {
-                  //         fetchServices(++currentPageForServices);
-                  //       }
-                  //     },
-                  //     builder: (item) => Skeletonizer(
-                  //       enabled: servicesState.state == DataState.LOADING,
-                  //       child: Padding(
-                  //         padding: EdgeInsetsDirectional.symmetric(
-                  //             horizontal: 16, vertical: 6),
-                  //         child: ServiceAndProductItemCardHorizontal(
-                  //           service: item,
-                  //           type: ItemType.Services,
-                  //           onAddItemToCart: (id) {
-                  //             // widget.onAddItemToCart.call(id);
-                  //           },
-                  //           onAddItemToWishList: (id) {
-                  //             // widget.onAddItemToWishList.call(id);
-                  //           },
-                  //           onItemClick: (id,name,categoriesIds) {
-                  //             navigateToItemDetails(ItemType.Services, id, name, categoriesIds);
-                  //           },
-                  //         ),
-                  //       ),
-                  //     )),
-                  // if (widget.type == CategoryType.Search)
-                  //   sellersState.state == DataState.EMPTY
-                  //       ? /*OrderPlaceHolder(onAddOrderClick: () {})*/ EmptyDataView(
-                  //     icon: SVGIcons.searchGifIcon(),
-                  //     title: "No Data Found",
-                  //     description:
-                  //     "Please refine your search using common words to get accurate results",
-                  //   )
-                  //       : DataListView<ProviderData>(
-                  //       dataList: sellersState.data?.data?.data ??
-                  //           (sellersState.state == DataState.LOADING
-                  //               ? [
-                  //             ...List.generate(
-                  //                 5, (index) => ProviderData())
-                  //           ]
-                  //               : []),
-                  //       paginated: true,
-                  //       pageLoading:
-                  //       sellersState.state == DataState.MORE_LOADING,
-                  //       onBottomReached: () {
-                  //         if (currentPageForSellers <
-                  //             (sellersState.data?.data?.lastPage ?? 0)) {
-                  //           fetchSellers(++currentPageForSellers);
-                  //         }
-                  //       },
-                  //       builder: (item) => Skeletonizer(
-                  //         enabled:
-                  //         sellersState.state == DataState.LOADING,
-                  //         child: Padding(
-                  //           padding: EdgeInsetsDirectional.symmetric(
-                  //               horizontal: 16, vertical: 6),
-                  //           child: SellerItemCard(providerData: item),
-                  //         ),
-                  //       )),
                 ],
               ))
             ],
           ),
-        ),
+        )*/
       ]),
     );
   }
