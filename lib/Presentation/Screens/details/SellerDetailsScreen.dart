@@ -84,6 +84,7 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
         expandedHeight: 250, titleSpacing: 0, // Set spacing between leading and title// Adjust based on your needs
         pinned: true,
           floating: true,
+          elevation: 0,
           flexibleSpace: FlexibleSpaceBar(
             titlePadding: EdgeInsetsDirectional.only(start: 55, end: 0.0), // Adjust padding around the title
             title: AnimatedOpacity(
@@ -614,7 +615,7 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
 
 class _SliverTabsDelegate extends SliverPersistentHeaderDelegate {
   final TabBar _tabBar;
-  final double paddingTop = 20.0;
+  final double paddingTop = 15;
   _SliverTabsDelegate(this._tabBar);
 
   @override
