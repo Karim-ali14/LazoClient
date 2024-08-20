@@ -46,7 +46,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
         context.go(R_MainScreen);
       }else {
         if(prefs.getBool(doneLandingKey) == true){
-          context.go(R_LoginScreen);
+          context.go(R_MainScreen);
         }else {
           context.push(R_OnBoardingScreen);
         }
