@@ -300,7 +300,7 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
                       ),
                       child: Center(
                         child: Text(
-                          "Sellers",
+                          "Reviews",
                           style: activeTabIndex == 2
                               ? AppTheme
                                   .styleWithTextWhiteAdelleSansExtendedFonts14w400
