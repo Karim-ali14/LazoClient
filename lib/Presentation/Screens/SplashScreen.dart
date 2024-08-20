@@ -8,6 +8,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../Constants.dart';
 import '../../Data/Models/User.dart';
+import '../../Doman/CommenProviders/ApiProvider.dart';
 import '../../Localization/Keys.dart';
 import '../../Localization/LanguageProvider.dart';
 import '../../Utils/UtilsExts.dart';
@@ -51,6 +52,9 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
           context.push(R_OnBoardingScreen);
         }
       }
+      WidgetsBinding.instance.addPostFrameCallback((_){
+        ref.read(apiClient).defaultHeaderMap["lang"] = "en";
+      });
     });
     super.initState();
   }

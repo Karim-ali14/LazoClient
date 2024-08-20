@@ -51,15 +51,15 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
       });
     });
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      ref
-          .read(getSellerDetailsWithProductStateNotifier.notifier)
-          .getSellerDetails(providerId: widget.sellerId);
+      // ref
+      //     .read(getSellerDetailsWithProductStateNotifier.notifier)
+      //     .getSellerDetails(providerId: widget.sellerId);
       ref
           .read(getSellerDetailsWithServicesStateNotifier.notifier)
           .getSellerDetails(providerId: widget.sellerId);
-      ref
-          .read(getSellerDetailsWithReviewsStateNotifier.notifier)
-          .getSellerDetails(providerId: widget.sellerId); // to get reviews
+      // ref
+      //     .read(getSellerDetailsWithReviewsStateNotifier.notifier)
+      //     .getSellerDetails(providerId: widget.sellerId); // to get reviews
     });
     super.initState();
   }
