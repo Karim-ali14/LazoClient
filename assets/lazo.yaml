@@ -1113,10 +1113,12 @@ components:
           example: 4
         name_en:
           type: string
-          example: hyper market
         name_ar:
           type: string
-          example: متاجر هايبر
+        bio_en:
+          type: string
+        bio_ar:
+          type: string
         owner_name:
           type: string
           example: Ali Ahmed
@@ -1221,7 +1223,8 @@ components:
           example: '2024-04-20T16:31:09.000000Z'
         name:
           type: string
-          example: متاجر هايبر
+        bio:
+          type: string
         is_promoted:
           type: number
         cover_image:
@@ -7984,7 +7987,7 @@ paths:
                               type: object
                               properties:
                                 data:
-                                  $ref: '#/components/schemas/ProductDetails'
+                                  $ref: '#/components/schemas/ProviderProduct'
                             product_id:
                               type: number
                               nullable: true
@@ -9174,7 +9177,7 @@ paths:
                       products:
                         type: array
                         items:
-                          $ref: '#/components/schemas/ProductDetails'
+                          $ref: '#/components/schemas/ProviderProduct'
 
                       services:
                         type: array

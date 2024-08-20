@@ -103,7 +103,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                     "${item.name}", CategoryType.Categories,
                                     categoryId: item.id?.toInt() ?? 0);
                               },
-                              onSeeAllClickListener: () {
+                              onSeeAllClickListener: (id,name) {
                                 navigateToSeeAllCategories();
                               },
                             ),
@@ -125,8 +125,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                 print(
                                   "seller $itemId"
                                 );
+                                navigateToSellerDetails(itemId);
                               },
-                              onSeeAllClickListener: () {
+                              onSeeAllClickListener: (id,name) {
                                 navigateToSeeAllTopSeller(
                                     "Top Sellers", CategoryType.Search);
                               },
@@ -154,7 +155,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                 //     int.parse(
                                 //         (occasionItem.id ?? 0).toString()));
                               },
-                              onSeeAllClickListener: () {
+                              onSeeAllClickListener: (id,name) {
                                 navigateToSeeAllOccasions();
                               },
                             ),
@@ -177,7 +178,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                               },
                               onAddItemToCart: (int) {},
                               onAddItemToWishList: (int) {},
-                              onSeeAllClickListener: () {
+                              onSeeAllClickListener: (id,name) {
                                 navigateToSeeAllBestProductAndService(
                                     "Best Products", ItemType.Products);
                               }, itemWidth: 163, title: 'Best products',
@@ -200,7 +201,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                               },
                               onAddItemToCart: (int) {},
                               onAddItemToWishList: (int) {},
-                              onSeeAllClickListener: () {
+                              onSeeAllClickListener: (id,name) {
                                 navigateToSeeAllBestProductAndService(
                                     "Best Services", ItemType.Services);
                               }, itemWidth: 163, title: 'Best Services',
@@ -259,5 +260,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   void navigateToItemDetails(ItemType itemType, int itemId, String itemName,List<int> categoriesIds) {
     context.push("$R_ProductAndServiceDetails/${itemId.toString()}" , extra: {"type" : itemType,"name" : itemName , "categoryIds" : categoriesIds});
+  }
+
+  void navigateToSellerDetails(int sellerId,) {
+    context.push(R_SellerDetails , extra: {"sellerId" : sellerId});
   }
 }

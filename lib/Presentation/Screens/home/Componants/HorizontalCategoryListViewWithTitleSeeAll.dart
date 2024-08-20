@@ -7,7 +7,7 @@ import '../../../../Data/Network/lib/api.dart';
 import '../../../Widgets/TitleWithSeeAll.dart';
 
 typedef OnItemClickListener = Function(Category);
-typedef OnSeeAllClickListener = Function();
+typedef OnSeeAllClickListener = Function(int?,String);
 
 class HorizontalCategoryListViewWithTitleSeeAll extends StatefulWidget {
   final List<Category> list;
@@ -34,7 +34,7 @@ class _HorizontalCategoryListViewWithTitleSeeAllState extends State<HorizontalCa
           child: TitleWithSeeAll(
             title: "Categories",
             onClickOnSeeAll: () {
-              widget.onSeeAllClickListener.call();
+              widget.onSeeAllClickListener.call(null,"");
             },
           ),
         ),

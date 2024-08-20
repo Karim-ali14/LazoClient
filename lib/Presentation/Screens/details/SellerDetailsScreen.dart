@@ -1,13 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lazo_client/Constants/Eunms.dart';
 import 'package:lazo_client/Data/Models/StateModel.dart';
 import 'package:lazo_client/Data/Network/lib/api.dart';
-import 'package:lazo_client/Presentation/Screens/details/componants/SliderView.dart';
+
 import 'package:lazo_client/Presentation/Screens/home/Componants/HorizontalTopProductListViewWithTitleSeeAll.dart';
 import 'package:lazo_client/Presentation/Screens/home/Componants/HorizontalTopServiceListViewWithTitleSeeAll.dart';
 import 'package:lazo_client/Presentation/Theme/AppTheme.dart';
@@ -17,8 +15,6 @@ import 'package:lazo_client/Utils/Extintions.dart';
 import '../../../Constants.dart';
 import '../../StateNotifiersViewModel/PublicStateNotifiers.dart';
 import '../../Widgets/CircleImage.dart';
-import '../../Widgets/DataListView.dart';
-import '../../Widgets/EmptyDataView.dart';
 import '../../Widgets/SvgIcons.dart';
 
 class SellerDetailsScreen extends ConsumerStatefulWidget {
@@ -106,7 +102,7 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
                         width: 10,
                       ),
                       Text(
-                        sellerProducts.data?.data?.name ?? "Store Name",
+                        sellerProducts.data?.data?.name?.ellipsize(20) ?? "Store Name",
                         style: AppTheme
                             .styleWithTextBlackAdelleSansExtendedFonts18w700,
                       ),
@@ -147,7 +143,7 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      sellerProducts.data?.data?.name ?? "",
+                                      sellerProducts.data?.data?.name?.ellipsize(25) ?? "",
                                       style: AppTheme
                                           .styleWithTextBlackAdelleSansExtendedFonts18w700,
                                     ),
@@ -207,9 +203,7 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
                 defaultExpandedValue = value;
                 print(defaultExpandedValue);
               },
-              textValue:
-              "lksdajf laskjd flkasj dflka jsdkflj alksdf jlaksj dflkajs dflk jakdf lakdslkasjflkasdjf lkdjsaf lkjdsakfl laksdjf laksdjf lkasjd flk asdkljf lkasjd flksadj flkaj sdflkj asdkflj lakdsj flkasdjflkjdsf lka sdfljas klfjalkdslaksjdflkasj flkj adkfl"
-            ),
+              textValue:sellerProducts.data?.data?.bio??""),
           ):SizedBox(),
         ),
         SliverPersistentHeader(
@@ -349,13 +343,14 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
                     },
                     onAddItemToCart: (int) {},
                     onAddItemToWishList: (int) {},
-                    onSeeAllClickListener: () {
-                      // navigateToSeeAllBestProductAndService(
-                      //     "Best Products", ItemType.Products);
+                    onSeeAllClickListener: (id,name) {
+                      navigateToSeeAllBestProductAndService(categoryId: id,
+                          name, ItemType.Products);
                     },
                     itemWidth: 163,
                     title: sellerProducts.data?.data?.categories?[index].name ??
                         "",
+                    rootId: sellerProducts.data?.data?.categories?[index].id?.toInt(),
                   ),
                 );
               },
@@ -390,13 +385,15 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
                     },
                     onAddItemToCart: (int) {},
                     onAddItemToWishList: (int) {},
-                    onSeeAllClickListener: () {
-                      // navigateToSeeAllBestProductAndService(
-                      //     "Best Products", ItemType.Products);
+                    onSeeAllClickListener: (id,name) {
+                      print("$id $name");
+                      navigateToSeeAllBestProductAndService(categoryId: id,
+                          name, ItemType.Services);
                     },
                     itemWidth: 163,
                     title: sellerServices.data?.data?.categories?[index].name ??
                         "",
+                    rootId: sellerServices.data?.data?.categories?[index].id?.toInt() ?? 0,
                   ),
                 );
               },
@@ -749,6 +746,15 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
         )*/
       ]),
     );
+  }
+
+  void navigateToSeeAllBestProductAndService(String title, ItemType type,
+      {int? categoryId}) async {
+    await context.push(R_ShowBestProductOrService,
+        extra: {"type": type, "title": title, "categoryId": categoryId});
+
+    ref.read(filterForProductStateNotifiers.notifier).resetDataFilter();
+    ref.read(filterForServiceStateNotifiers.notifier).resetDataFilter();
   }
 
   void navigateToItemDetails(

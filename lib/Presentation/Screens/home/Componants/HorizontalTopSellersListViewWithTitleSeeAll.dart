@@ -1,9 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:lazo_client/Presentation/Widgets/CategoryItemCart.dart';
 import 'package:lazo_client/Presentation/Widgets/SellerItemCard.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
+import '../../../../Constants.dart';
 import '../../../../Data/Network/lib/api.dart';
 import '../../../Widgets/TitleWithSeeAll.dart';
 import 'HorizontalCategoryListViewWithTitleSeeAll.dart';
@@ -35,7 +37,7 @@ class _HorizontalTopSellersListViewWithTitleSeeAllState extends State<Horizontal
           child: TitleWithSeeAll(
             title: "Top Sellers",
             onClickOnSeeAll: () {
-              widget.onSeeAllClickListener.call();
+              widget.onSeeAllClickListener.call(null,"");
             },
           ),
         ),
@@ -51,7 +53,9 @@ class _HorizontalTopSellersListViewWithTitleSeeAllState extends State<Horizontal
                   enabled: widget.showLoading ,
                   child: SellerItemCard(
                     width: 307,
-                    providerData: widget.showLoading ? null : widget.list[index],
+                    providerData: widget.showLoading ? null : widget.list[index], onSellerClickListener: (sellerId ) {
+                      navigateToSellerDetails(sellerId);
+                  },
                   ),
                 );
               },
@@ -62,5 +66,8 @@ class _HorizontalTopSellersListViewWithTitleSeeAllState extends State<Horizontal
         ),
       ]
     );
+  }
+  void navigateToSellerDetails(int sellerId,) {
+    context.push(R_SellerDetails , extra: {"sellerId" : sellerId});
   }
 }

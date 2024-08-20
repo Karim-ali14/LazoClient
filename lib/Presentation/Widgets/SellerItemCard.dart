@@ -10,10 +10,12 @@ import 'package:skeletonizer/skeletonizer.dart';
 import '../../Data/Network/lib/api.dart';
 import 'AppButton.dart';
 
+typedef OnSellerClickListener = Function(int);
 class SellerItemCard extends StatefulWidget {
   final ProviderData? providerData;
   final int? width;
-  const SellerItemCard({super.key, required this.providerData, this.width});
+  final OnSellerClickListener onSellerClickListener;
+  const SellerItemCard({super.key, required this.providerData, this.width, required this.onSellerClickListener});
 
   @override
   State<SellerItemCard> createState() => _SellerItemCardState();
@@ -104,7 +106,9 @@ class _SellerItemCardState extends State<SellerItemCard> {
                     child: AppButton(
                       width: context.getScreenSize.width,
                       height: 36,
-                      onPress: () {},
+                      onPress: () {
+                        widget.onSellerClickListener.call(widget.providerData?.id??0);
+                      },
                       child: Text(
                         "View Store",
                         style: AppTheme

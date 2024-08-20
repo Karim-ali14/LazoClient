@@ -366,7 +366,9 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
                                 child: Padding(
                                   padding: EdgeInsetsDirectional.symmetric(
                                       horizontal: 16, vertical: 6),
-                                  child: SellerItemCard(providerData: item),
+                                  child: SellerItemCard(providerData: item, onSellerClickListener: (sellerId) {
+                                    navigateToSellerDetails(sellerId);
+                                  },),
                                 ),
                               )),
               ],
@@ -481,5 +483,8 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
 
   void navigateToItemDetails(ItemType itemType, int itemId, String itemName,List<int> categoriesIds) {
     context.push("$R_ProductAndServiceDetails/${itemId.toString()}" , extra: {"type" : itemType, "name" : itemName , "categoryIds" : categoriesIds});
+  }
+  void navigateToSellerDetails(int sellerId,) {
+    context.push(R_SellerDetails , extra: {"sellerId" : sellerId});
   }
 }

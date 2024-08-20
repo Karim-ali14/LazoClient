@@ -16,6 +16,8 @@ class ProviderData {
     this.id,
     this.nameEn,
     this.nameAr,
+    this.bioEn,
+    this.bioAr,
     this.ownerName,
     this.email,
     this.phone,
@@ -52,6 +54,7 @@ class ProviderData {
     this.createdAt,
     this.updatedAt,
     this.name,
+    this.bio,
     this.isPromoted,
     this.coverImage,
     this.coverImagePath,
@@ -90,6 +93,22 @@ class ProviderData {
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
   String? nameAr;
+
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  String? bioEn;
+
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  String? bioAr;
 
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
@@ -373,6 +392,14 @@ class ProviderData {
   /// source code must fall back to having a nullable type.
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
+  String? bio;
+
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
   num? isPromoted;
 
   String? coverImage;
@@ -428,6 +455,8 @@ class ProviderData {
      other.id == id &&
      other.nameEn == nameEn &&
      other.nameAr == nameAr &&
+     other.bioEn == bioEn &&
+     other.bioAr == bioAr &&
      other.ownerName == ownerName &&
      other.email == email &&
      other.phone == phone &&
@@ -464,6 +493,7 @@ class ProviderData {
      other.createdAt == createdAt &&
      other.updatedAt == updatedAt &&
      other.name == name &&
+     other.bio == bio &&
      other.isPromoted == isPromoted &&
      other.coverImage == coverImage &&
      other.coverImagePath == coverImagePath &&
@@ -484,6 +514,8 @@ class ProviderData {
     (id == null ? 0 : id!.hashCode) +
     (nameEn == null ? 0 : nameEn!.hashCode) +
     (nameAr == null ? 0 : nameAr!.hashCode) +
+    (bioEn == null ? 0 : bioEn!.hashCode) +
+    (bioAr == null ? 0 : bioAr!.hashCode) +
     (ownerName == null ? 0 : ownerName!.hashCode) +
     (email == null ? 0 : email!.hashCode) +
     (phone == null ? 0 : phone!.hashCode) +
@@ -520,6 +552,7 @@ class ProviderData {
     (createdAt == null ? 0 : createdAt!.hashCode) +
     (updatedAt == null ? 0 : updatedAt!.hashCode) +
     (name == null ? 0 : name!.hashCode) +
+    (bio == null ? 0 : bio!.hashCode) +
     (isPromoted == null ? 0 : isPromoted!.hashCode) +
     (coverImage == null ? 0 : coverImage!.hashCode) +
     (coverImagePath == null ? 0 : coverImagePath!.hashCode) +
@@ -535,7 +568,7 @@ class ProviderData {
     (reviews == null ? 0 : reviews!.hashCode);
 
   @override
-  String toString() => 'ProviderData[id=$id, nameEn=$nameEn, nameAr=$nameAr, ownerName=$ownerName, email=$email, phone=$phone, image=$image, cityId=$cityId, accountType=$accountType, deviceType=$deviceType, fcmToken=$fcmToken, lang=$lang, status=$status, instagramLink=$instagramLink, snapchatLink=$snapchatLink, tiktokLink=$tiktokLink, xLink=$xLink, hasOfflineStores=$hasOfflineStores, offlineStoresNumber=$offlineStoresNumber, provideDelivery=$provideDelivery, overallRating=$overallRating, ratingsCount=$ratingsCount, isEmailVerified=$isEmailVerified, isPhoneVerified=$isPhoneVerified, businessType=$businessType, commercialRegisterImage=$commercialRegisterImage, selfEmploymentDocument=$selfEmploymentDocument, startTime=$startTime, endTime=$endTime, workingDaysIndices=$workingDaysIndices, workingHours=$workingHours, bankName=$bankName, beneficiaryName=$beneficiaryName, bankAccountNumber=$bankAccountNumber, iban=$iban, ibanImage=$ibanImage, createdAt=$createdAt, updatedAt=$updatedAt, name=$name, isPromoted=$isPromoted, coverImage=$coverImage, coverImagePath=$coverImagePath, imagePath=$imagePath, workingDaysIndicesList=$workingDaysIndicesList, workingHoursList=$workingHoursList, selfEmploymentDocumentPath=$selfEmploymentDocumentPath, commercialRegisterImagePath=$commercialRegisterImagePath, city=$city, locations=$locations, tags=$tags, categories=$categories, reviews=$reviews]';
+  String toString() => 'ProviderData[id=$id, nameEn=$nameEn, nameAr=$nameAr, bioEn=$bioEn, bioAr=$bioAr, ownerName=$ownerName, email=$email, phone=$phone, image=$image, cityId=$cityId, accountType=$accountType, deviceType=$deviceType, fcmToken=$fcmToken, lang=$lang, status=$status, instagramLink=$instagramLink, snapchatLink=$snapchatLink, tiktokLink=$tiktokLink, xLink=$xLink, hasOfflineStores=$hasOfflineStores, offlineStoresNumber=$offlineStoresNumber, provideDelivery=$provideDelivery, overallRating=$overallRating, ratingsCount=$ratingsCount, isEmailVerified=$isEmailVerified, isPhoneVerified=$isPhoneVerified, businessType=$businessType, commercialRegisterImage=$commercialRegisterImage, selfEmploymentDocument=$selfEmploymentDocument, startTime=$startTime, endTime=$endTime, workingDaysIndices=$workingDaysIndices, workingHours=$workingHours, bankName=$bankName, beneficiaryName=$beneficiaryName, bankAccountNumber=$bankAccountNumber, iban=$iban, ibanImage=$ibanImage, createdAt=$createdAt, updatedAt=$updatedAt, name=$name, bio=$bio, isPromoted=$isPromoted, coverImage=$coverImage, coverImagePath=$coverImagePath, imagePath=$imagePath, workingDaysIndicesList=$workingDaysIndicesList, workingHoursList=$workingHoursList, selfEmploymentDocumentPath=$selfEmploymentDocumentPath, commercialRegisterImagePath=$commercialRegisterImagePath, city=$city, locations=$locations, tags=$tags, categories=$categories, reviews=$reviews]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -553,6 +586,16 @@ class ProviderData {
       json[r'name_ar'] = this.nameAr;
     } else {
       json[r'name_ar'] = null;
+    }
+    if (this.bioEn != null) {
+      json[r'bio_en'] = this.bioEn;
+    } else {
+      json[r'bio_en'] = null;
+    }
+    if (this.bioAr != null) {
+      json[r'bio_ar'] = this.bioAr;
+    } else {
+      json[r'bio_ar'] = null;
     }
     if (this.ownerName != null) {
       json[r'owner_name'] = this.ownerName;
@@ -734,6 +777,11 @@ class ProviderData {
     } else {
       json[r'name'] = null;
     }
+    if (this.bio != null) {
+      json[r'bio'] = this.bio;
+    } else {
+      json[r'bio'] = null;
+    }
     if (this.isPromoted != null) {
       json[r'is_promoted'] = this.isPromoted;
     } else {
@@ -808,6 +856,8 @@ class ProviderData {
         id: mapValueOfType<int>(json, r'id'),
         nameEn: mapValueOfType<String>(json, r'name_en'),
         nameAr: mapValueOfType<String>(json, r'name_ar'),
+        bioEn: mapValueOfType<String>(json, r'bio_en'),
+        bioAr: mapValueOfType<String>(json, r'bio_ar'),
         ownerName: mapValueOfType<String>(json, r'owner_name'),
         email: mapValueOfType<String>(json, r'email'),
         phone: mapValueOfType<String>(json, r'phone'),
@@ -846,6 +896,7 @@ class ProviderData {
         createdAt: mapValueOfType<String>(json, r'created_at'),
         updatedAt: mapValueOfType<String>(json, r'updated_at'),
         name: mapValueOfType<String>(json, r'name'),
+        bio: mapValueOfType<String>(json, r'bio'),
         isPromoted: json[r'is_promoted'] == null
             ? null
             : num.parse(json[r'is_promoted'].toString()),

@@ -20,11 +20,12 @@ class HorizontalTopServiceListViewWithTitleSeeAll extends StatefulWidget {
   final OnSeeAllClickListener onSeeAllClickListener;
   final double itemWidth;
   final String title;
+  final int? rootId;
   const HorizontalTopServiceListViewWithTitleSeeAll(
       {super.key,
       required this.list,
       required this.showLoading,
-      required this.itemClick, required this.onAddItemToCart, required this.onAddItemToWishList, required this.onSeeAllClickListener, required this.itemWidth, required this.title});
+      required this.itemClick, required this.onAddItemToCart, required this.onAddItemToWishList, required this.onSeeAllClickListener, required this.itemWidth, required this.title, this.rootId});
 
   @override
   State<HorizontalTopServiceListViewWithTitleSeeAll> createState() => _HorizontalTopServiceListViewWithTitleSeeAll();
@@ -40,7 +41,7 @@ class _HorizontalTopServiceListViewWithTitleSeeAll extends State<HorizontalTopSe
           child: TitleWithSeeAll(
             title: widget.title,
             onClickOnSeeAll: () {
-              widget.onSeeAllClickListener.call();
+              widget.onSeeAllClickListener.call(widget.rootId,widget.title);
             },
           ),
         ),

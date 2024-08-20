@@ -21,7 +21,8 @@ class ShowBestProductAndServiceScreen extends ConsumerStatefulWidget {
   final String title;
   final ItemType type;
   final int? occasionId;
-  const ShowBestProductAndServiceScreen(this.title, this.type, {this.occasionId,super.key});
+  final int? categoryId;
+  const ShowBestProductAndServiceScreen(this.title, this.type,  {this.categoryId,this.occasionId,super.key});
 
   @override
   ConsumerState<ShowBestProductAndServiceScreen> createState() =>
@@ -207,7 +208,8 @@ class _ShowProductAndServiceScreenState
       var filterData = await context.push(R_FilterScreen, extra: {
         "type": FilterScreenTypes.Products,
         "searchValue": searchForProductData,
-        "occasionId": widget.occasionId
+        "occasionId": widget.occasionId,
+        "categoryId" : widget.categoryId
       });
       currentPageForProducts = 1;
       filterForProductData = filterData as FilterData;
@@ -215,7 +217,8 @@ class _ShowProductAndServiceScreenState
     } else if (type == ItemType.Services) {
       var filterData = await context.push(R_FilterScreen, extra: {
         "type": FilterScreenTypes.Services,
-        "searchValue": searchForServiceData
+        "searchValue": searchForServiceData,
+        "categoryId" : widget.categoryId
       });
       currentPageForServices = 1;
       filterForServicesData = filterData as FilterData;
@@ -226,7 +229,7 @@ class _ShowProductAndServiceScreenState
   void fetchProducts(int page) {
     ref.read(getProductsStateNotifiers.notifier).getProductsData(
         page: page,
-        categoriesIds: filterForProductData?.categoriesIdsSelected,
+        categoriesIds: widget.categoryId != null ? [num.parse((widget.categoryId??0).toString())] : filterForProductData?.categoriesIdsSelected,
         occasionsIds: filterForProductData?.occasionsIdsSelected,
         ratings: filterForProductData?.ratingValueSelected
             ?.map((item) => item.toString())

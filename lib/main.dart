@@ -148,7 +148,7 @@ class MyApp extends ConsumerWidget {
       GoRoute(
         path: R_splashScreenRout,
         builder: (BuildContext context, GoRouterState state) =>
-            const SellerDetailsScreen(sellerId: 76),
+            const SplashScreen(),
       ),
       GoRoute(
         path: R_OnBoardingScreen,
@@ -219,6 +219,7 @@ class MyApp extends ConsumerWidget {
               extra["title"],
               extra["type"] as ItemType,
               occasionId: extra["occasionId"],
+              categoryId: extra["categoryId"],
             );
           }),
       GoRoute(
@@ -232,24 +233,32 @@ class MyApp extends ConsumerWidget {
               occasionId: extra["occasionId"],
             );
           }),
-      GoRoute(path: "$R_ProductAndServiceDetails/:id",
-      builder: (BuildContext context , GoRouterState status){
-        var extra = status.extra as Map;
-        return ProductDetailsScreen(
-          name: extra["name"],
-          id: status.pathParameters ["id"],
-          relatedCategoriesIds: extra["categoryIds"] as List<int>,
-          itemType : extra["type"] as ItemType,
-        );
-      }),
-      GoRoute(path: R_ShowAllReviews,
-      builder: (BuildContext context , GoRouterState status){
-        var extra = status.extra as Map;
-        return ShowAllRatingAndReviewScreen(
-          id: extra["id"],
-          itemType : extra["type"] as ItemType,
-        );
-      }),
+      GoRoute(
+          path: "$R_ProductAndServiceDetails/:id",
+          builder: (BuildContext context, GoRouterState status) {
+            var extra = status.extra as Map;
+            return ProductDetailsScreen(
+              name: extra["name"],
+              id: status.pathParameters["id"],
+              relatedCategoriesIds: extra["categoryIds"] as List<int>,
+              itemType: extra["type"] as ItemType,
+            );
+          }),
+      GoRoute(
+          path: R_ShowAllReviews,
+          builder: (BuildContext context, GoRouterState status) {
+            var extra = status.extra as Map;
+            return ShowAllRatingAndReviewScreen(
+              id: extra["id"],
+              itemType: extra["type"] as ItemType,
+            );
+          }),
+      GoRoute(
+          path: R_SellerDetails,
+          builder: (BuildContext context, GoRouterState status) {
+            var extra = status.extra as Map;
+            return SellerDetailsScreen(sellerId: extra["sellerId"]);
+          }),
     ],
   );
 }

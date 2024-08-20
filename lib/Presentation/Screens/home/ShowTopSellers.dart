@@ -96,7 +96,9 @@ class _ShowTopSellersState extends ConsumerState<ShowTopSellers> {
                               child: Skeletonizer(
                                   enabled:
                                       topSellerState.state == DataState.LOADING,
-                                  child: SellerItemCard(providerData: item)),
+                                  child: SellerItemCard(providerData: item, onSellerClickListener: (sellerId) {
+                                    navigateToSellerDetails(sellerId);
+                                  },)),
                             )),
                   )
                 : EmptyDataView(
@@ -144,5 +146,9 @@ class _ShowTopSellersState extends ConsumerState<ShowTopSellers> {
           page: page,
           searchByName: searchValue?.isNotEmpty == true ? searchValue : null);
     }
+  }
+
+  void navigateToSellerDetails(int sellerId,) {
+    context.push(R_SellerDetails , extra: {"sellerId" : sellerId});
   }
 }

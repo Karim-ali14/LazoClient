@@ -17,7 +17,7 @@ class ShowWishlistItemsWithSearchByName200ResponseData {
     this.services = const [],
   });
 
-  List<ProductDetails> products;
+  List<ProviderProduct> products;
 
   List<ServiceShowData> services;
 
@@ -61,7 +61,7 @@ class ShowWishlistItemsWithSearchByName200ResponseData {
       }());
 
       return ShowWishlistItemsWithSearchByName200ResponseData(
-        products: ProductDetails.listFromJson(json[r'products']),
+        products: ProviderProduct.listFromJson(json[r'products']),
         services: ServiceShowData.listFromJson(json[r'services']),
       );
     }

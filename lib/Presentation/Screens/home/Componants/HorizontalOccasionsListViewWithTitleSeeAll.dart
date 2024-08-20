@@ -34,7 +34,7 @@ class _HorizontalOccasionsListViewWithTitleSeeAllState extends State<HorizontalO
           child: TitleWithSeeAll(
             title: "Occasions",
             onClickOnSeeAll: () {
-              widget.onSeeAllClickListener.call();
+              widget.onSeeAllClickListener.call(null,"");
             },
           ),
         ),
