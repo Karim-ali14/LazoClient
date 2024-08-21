@@ -44,7 +44,7 @@ class SVGIcons {
 
   static Widget editIcon({double? width, double? height}) {
     return SvgPicture.asset(
-      editIc,
+      editIconSvg,
       width: width,
       height: height,
     );
@@ -187,6 +187,95 @@ class SVGIcons {
       fit: BoxFit.fill,
     );
   }
+  static Widget langIcon(){
+    return SvgPicture.asset(
+      langImg,
+    );
+  }
+  static Widget deleteAccountIcon(){
+    return SvgPicture.asset(
+      deleteAccountImg,
+    );
+  }
+  static Widget signOutIcon(){
+    return SvgPicture.asset(
+      signOutImg,
+    );
+  }
 
-
+  static Widget privacyPolicyIcon(){
+    return SvgPicture.asset(
+      privacyPolicyImg,
+    );
+  }
+  static Widget termsConditionsImgIcon(){
+    return SvgPicture.asset(
+      termsConditionsImg,
+    );
+  }
+  static Widget shareImgIcon(){
+    return SvgPicture.asset(
+      shareImg,
+    );
+  }
+  static Widget faqIcon(){
+    return SvgPicture.asset(
+      faqImg,
+    );
+  }
+  static Widget contactUsIcon(){
+    return SvgPicture.asset(
+      contactUsImg,
+    );
+  }
+  static Widget whatsAppImgIcon(){
+    return SvgPicture.asset(
+      whatsAppImg,
+    );
+  }
+  static Widget redFaqIcon(){
+    return SvgPicture.asset(
+      redFaqImg,
+    );
+  }
+  static Widget messageIcon(){
+    return SvgPicture.asset(
+      messageImg,
+    );
+  }
+  static Widget callingIcon(){
+    return SvgPicture.asset(
+      callingImg,
+    );
+  }
+  static Widget sadFaceIcon(){
+    return SvgPicture.asset(
+      sadFaceImg,
+    );
+  }
+  static Widget deleteAccountIcIcon(){
+    return SvgPicture.asset(
+      deleteAccountIc,
+    );
+  }
+  static Widget rightArrowWithBackgroundIcon(){
+    return SvgPicture.asset(
+      rightArrowWithBackgroundImg,
+    );
+  }
+  static Widget downArrowWithBackgroundIcon(){
+    return SvgPicture.asset(
+      downArrowWithBackgroundImg,
+    );
+  }
+  static Widget upArrowWithBackgroundIcon(){
+    return SvgPicture.asset(
+      upArrowWithBackgroundImg,
+    );
+  }
+  static Widget walletWithWhiteBackgroundIcon(){
+    return SvgPicture.asset(
+      walletWithWhiteBackgroundIconSvg,
+    );
+  }
 }

@@ -19,6 +19,8 @@ import '../../../../../Presentation/Screens/SplashScreen.dart';
 import 'Constants/Eunms.dart';
 import 'Presentation//Theme/AppTheme.dart';
 import 'Presentation/Screens/Auth/Otp/OTPScreen.dart';
+import 'Presentation/Screens/More/FAQScreen.dart';
+import 'Presentation/Screens/More/MoreScreen.dart';
 import 'Presentation/Screens/details/ShowAllRatingAndReviewScreen.dart';
 import 'Presentation/Screens/home/HomeScreen.dart';
 import 'Presentation/Screens/home/ShowAllCategoryAndOccasionsData.dart';
@@ -26,6 +28,7 @@ import 'Presentation/Screens/home/SearchScreen.dart';
 import 'Presentation/Screens/home/ShowTopSellers.dart';
 import 'Presentation/Screens/mainScreen/MainScreen.dart';
 import 'Presentation/Screens/onbaording/OnBordingScreen.dart';
+import 'Presentation/Screens/profileScreen/ProfileScreen.dart';
 
 late SharedPreferences prefs;
 
@@ -148,7 +151,7 @@ class MyApp extends ConsumerWidget {
       GoRoute(
         path: R_splashScreenRout,
         builder: (BuildContext context, GoRouterState state) =>
-            const SplashScreen(),
+            const ProfileScreen(),
       ),
       GoRoute(
         path: R_OnBoardingScreen,
@@ -259,6 +262,17 @@ class MyApp extends ConsumerWidget {
             var extra = status.extra as Map;
             return SellerDetailsScreen(sellerId: extra["sellerId"]);
           }),
+      GoRoute(
+          path: R_MoreScreen,
+          builder: (BuildContext context, GoRouterState state) => const MoreScreen()
+      ), GoRoute(
+          path: R_NotificationScreen,
+          builder: (BuildContext context, GoRouterState state) => const SizedBox()
+      ),
+      GoRoute(
+          path: R_FAQScreen,
+          builder: (BuildContext context, GoRouterState state) => const FAQScreen()
+      ),
     ],
   );
 }

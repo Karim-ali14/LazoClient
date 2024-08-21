@@ -54,4 +54,6 @@ const notificationIconSvg = "assets/images/notification_ic.svg";
 const smallLocationIconSvg = "assets/images/small_location.svg";
 const placeHolderForCardsSvg = "assets/images/placeHolderForCard.svg";
 const searchIconGif = "assets/images/search_icon.gif";
+const editIconSvg = "assets/images/edit_icon.svg";
+const walletWithWhiteBackgroundIconSvg = "assets/images/wallet_with_white_background.svg";
 

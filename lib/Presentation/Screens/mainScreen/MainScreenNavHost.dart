@@ -10,6 +10,7 @@ import 'package:lazo_client/Presentation/Widgets/CustomAppBar.dart';
 import '../../../Constants/Constants.dart';
 import '../../Widgets/AppButton.dart';
 import '../../Widgets/SvgIcons.dart';
+import '../More/MoreScreen.dart';
 
 class MainScreenNavHost extends ConsumerStatefulWidget {
   const MainScreenNavHost({super.key});
@@ -21,7 +22,7 @@ class MainScreenNavHost extends ConsumerStatefulWidget {
 class _MainScreenNavHostState extends ConsumerState<MainScreenNavHost> {
   int currentTab = 0;
   Widget currentScreen = HomeScreen();
-  final listTabsName = ["Home", "orders", "more"];
+  final listTabsName = ["Home", "More"];
 
   @override
   Widget build(BuildContext context) {
@@ -80,6 +81,33 @@ class _MainScreenNavHostState extends ConsumerState<MainScreenNavHost> {
                                 .styleWithTextRedAdelleSansExtendedFonts11w500
                             : AppTheme
                                 .styleWithTextGray7AdelleSansExtendedFonts11w500,
+                      )
+                    ],
+                  ),
+                ),
+
+                MaterialButton(
+                  onPressed: () {
+                    setState(() {
+                      currentScreen = const MoreScreen();
+                      currentTab = 1;
+                    });
+                  },
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      currentTab == 1 ?
+                      SVGIcons.moreActiveIcon()
+                          : SVGIcons.moreUnActiveIcon(),
+                      SizedBox(
+                        height: 6,
+                      ),
+                      Text(
+                        listTabsName[1],
+                        style: currentTab == 1 ?
+                        AppTheme.styleWithTextRedAdelleSansExtendedFonts11w500
+                            : AppTheme.styleWithTextGray7AdelleSansExtendedFonts11w500
+                        ,
                       )
                     ],
                   ),
