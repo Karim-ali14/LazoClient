@@ -54,6 +54,15 @@ class SVGIcons {
     return SvgPicture.asset(placeHolderForPickImagesSvg);
   }
 
+  static Widget defaultUseIconSvgIcon() {
+    return SvgPicture.asset(defaultUseIconSvg);
+  }
+
+  static Widget editPhoneImgSvgIcon() {
+    return SvgPicture.asset(editPhoneImgSvg,
+        width: 24, height: 24, fit: BoxFit.scaleDown);
+  }
+
   static Widget bottomRedArrowIcon() {
     return SvgPicture.asset(bottomRedArrowSvg,
         width: 24, height: 24, fit: BoxFit.scaleDown);
@@ -266,6 +275,14 @@ class SVGIcons {
   static Widget downArrowWithBackgroundIcon(){
     return SvgPicture.asset(
       downArrowWithBackgroundImg,
+    );
+  }
+  static Widget downArrowIcon(){
+    return SvgPicture.asset(
+      downArrowImg,
+      width: 24,
+      height: 24,
+      fit: BoxFit.scaleDown,
     );
   }
   static Widget upArrowWithBackgroundIcon(){

@@ -28,6 +28,7 @@ const deleteAccountIc = "assets/images/delete_account_ic.svg";
 const sadFaceImg = "assets/images/sad_face_ic.svg";
 const rightArrowWithBackgroundImg = "assets/images/right_arrow_with_background.svg";
 const downArrowWithBackgroundImg = "assets/images/down_arrow_ic.svg";
+const downArrowImg = "assets/images/arrow_down.svg";
 const upArrowWithBackgroundImg = "assets/images/up_arrow_ic.svg";
 const homeActiveImg = "assets/images/home_active_img.svg";
 const homeUnActiveImg = "assets/images/home_unactive_img.svg";
@@ -55,5 +56,7 @@ const smallLocationIconSvg = "assets/images/small_location.svg";
 const placeHolderForCardsSvg = "assets/images/placeHolderForCard.svg";
 const searchIconGif = "assets/images/search_icon.gif";
 const editIconSvg = "assets/images/edit_icon.svg";
+const editPhoneImgSvg = "assets/images/edit_phone_img.svg";
+const defaultUseIconSvg = "assets/images/default_use_img.svg";
 const walletWithWhiteBackgroundIconSvg = "assets/images/wallet_with_white_background.svg";
 

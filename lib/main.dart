@@ -10,6 +10,7 @@ import 'package:lazo_client/Presentation/Screens/Auth/SignUpScreen.dart';
 import 'package:lazo_client/Presentation/Screens/details/ProductDetailsScreen.dart';
 import 'package:lazo_client/Presentation/Screens/details/SellerDetailsScreen.dart';
 import 'package:lazo_client/Presentation/Screens/home/ShowBestProductAndServiceScreen.dart';
+import 'package:lazo_client/Presentation/Screens/profileScreen/EditProfileScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:timeago/timeago.dart' as ago;
 
@@ -151,7 +152,7 @@ class MyApp extends ConsumerWidget {
       GoRoute(
         path: R_splashScreenRout,
         builder: (BuildContext context, GoRouterState state) =>
-            const ProfileScreen(),
+            const EditProfileScreen(),
       ),
       GoRoute(
         path: R_OnBoardingScreen,
