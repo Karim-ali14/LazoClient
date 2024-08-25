@@ -6,9 +6,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lazo_client/Constants/Eunms.dart';
+import 'package:lazo_client/Doman/CommenProviders/ApiProvider.dart';
 import 'package:lazo_client/Presentation/Widgets/AppButton.dart';
 import '../../../Constants.dart';
 import '../../../Constants/Constants.dart';
+import '../../../Data/Network/lib/api.dart';
 import '../../StateNotifiersViewModel/UserAuthStateNotifiers.dart';
 import '../../Theme/AppTheme.dart';
 import '../../Widgets/SvgIcons.dart';
@@ -24,21 +26,23 @@ class MoreScreen extends ConsumerStatefulWidget {
 }
 
 class _MoreScreenState extends ConsumerState<MoreScreen> {
+
+  @override
+  void initState() {
+    ref.read(clientStateProvider.notifier).checkIfUserExist();
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
-    final client = ref.read(clientStateProvider.notifier).checkIfUserExist();
+     final client = ref.watch(clientStateProvider);
 
-    // handleState(providerLogoutStateProvider,showLoading: true , onSuccess: (res){
-    //   if(res.state == DataState.SUCCESS){
-    //     navigateToLogin();
-    //   }
-    // });
+    handleState(logoutStateProvider,showLoading: true , onSuccess: (res){
+      navigateToLogin(TypeOfMode.AuthMode);
+    });
 
-    // handleState(providerDeleteAccountStateProvider,showLoading: true , onSuccess: (res){
-    //   if(res.state == DataState.SUCCESS){
-    //     navigateToLogin();
-    //   }
-    // });
+    handleState(deleteAccountStateProvider,showLoading: true , onSuccess: (res){
+      navigateToLogin(TypeOfMode.AuthMode);
+    });
     return Scaffold(
       body: SafeArea(
           child: SingleChildScrollView(
@@ -73,7 +77,7 @@ class _MoreScreenState extends ConsumerState<MoreScreen> {
                                   ),
                                   Spacer(),
                                   Text(
-                                    "SAR 1,352",
+                                    "SAR ${client.client?.balance}",
                                     style: AppTheme
                                         .styleWithTextWhiteAdelleSansExtendedFonts20w700,
                                   )
@@ -256,8 +260,7 @@ class _MoreScreenState extends ConsumerState<MoreScreen> {
               description: "Are you sure you want to sign out?",
               icon: SVGIcons.sadFaceIcon(),
               onPositiveButtonClick: () {
-                ref.read(clientStateProvider.notifier).logout();
-                navigateToLogin(TypeOfMode.AuthMode);
+                ref.read(logoutStateProvider.notifier).logout();
               },
             ));
   }
@@ -273,16 +276,16 @@ class _MoreScreenState extends ConsumerState<MoreScreen> {
               description: "Are you sure you want to delete account?",
               icon: SVGIcons.deleteAccountIcIcon(),
               onPositiveButtonClick: () {
-                // ref.read(providerDeleteAccountStateProvider.notifier).delete();
+                ref.read(deleteAccountStateProvider.notifier).deleteAccount();
               },
             ));
   }
 
-  void navigateToLogin(TypeOfMode type) {
+  void navigateToLogin(TypeOfMode type) async{
     if(type == TypeOfMode.AuthMode){
       context.go(R_LoginScreen,extra: {"type" : type});
     }else {
-      context.push(R_LoginScreen,extra: {"type" : type});
+      var extra = await context.push(R_LoginScreen,extra: {"type" : type});
     }
   }
 }

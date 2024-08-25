@@ -29,4 +29,12 @@ final clientStateProvider =
     StateNotifierProvider<UserProvider, ClientAuthResponseData?>(
         (ref) => UserProvider(ref));
 
+final deleteAccountStateProvider =
+    StateNotifierProvider.autoDispose<DeleteAccountUseCase, StateModel<void>>(
+        (ref) => DeleteAccountUseCase(ref,ref.read(clientApi)));
+
+final logoutStateProvider =
+    StateNotifierProvider.autoDispose<LogoutUseCase, StateModel<void>>(
+        (ref) => LogoutUseCase(ref,ref.read(clientApi)));
+
 

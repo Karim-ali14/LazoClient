@@ -41,6 +41,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
           statusBarColor: AppTheme.mainAppColor);
 
       final client = ref.read(clientStateProvider.notifier).checkIfUserExist();
+      ref.read(clientStateProvider.notifier).setUser(client);
       print("client model : $client");
 
       if(client != null){

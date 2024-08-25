@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:collection/collection.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lazo_client/Data/Models/StateModel.dart';
 import 'package:lazo_client/Data/Network/lib/api.dart';
@@ -35,6 +34,36 @@ class SignUpUseCase extends StateNotifier<StateModel<ClientAuthResponse>> {
     state = StateModel.loading();
     request(() => authApi.clientSignup(cityId: cityId,email: email,image: image,name: name,phone: phone), onComplete:(res) {
       ref.read(clientStateProvider.notifier).setUser(res.data);
+    });
+  }
+}
+
+class LogoutUseCase extends StateNotifier<StateModel<void>> {
+
+  final Ref ref;
+  final ClientApi clientApi;
+
+  LogoutUseCase(this.ref, this.clientApi) : super(StateModel());
+
+  void logout() async {
+    state = StateModel.loading();
+    request(() => clientApi.clientLogoutGet(), onComplete:(res) {
+      ref.read(clientStateProvider.notifier).logout();
+    });
+  }
+}
+
+class DeleteAccountUseCase extends StateNotifier<StateModel<void>> {
+
+  final Ref ref;
+  final ClientApi clientApi;
+
+  DeleteAccountUseCase(this.ref, this.clientApi) : super(StateModel());
+
+  void deleteAccount() async {
+    state = StateModel.loading();
+    request(() => clientApi.clientAccountDeleteGet(), onComplete:(res) {
+      ref.read(clientStateProvider.notifier).logout();
     });
   }
 }
