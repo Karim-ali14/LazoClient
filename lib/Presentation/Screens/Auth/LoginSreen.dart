@@ -18,7 +18,8 @@ import '../../../Localization/Keys.dart';
 import '../../../Utils/Snaks.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
-  const LoginScreen({super.key});
+  final TypeOfMode? type;
+  const LoginScreen({this.type = TypeOfMode.AuthMode, super.key});
 
   @override
   ConsumerState<LoginScreen> createState() => _LoginScreenState();
@@ -29,21 +30,21 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   final formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
-
-    handleState(sendOtpForLoginStateProvider,showLoading: true, onSuccess: (res) {
+    handleState(sendOtpForLoginStateProvider, showLoading: true,
+        onSuccess: (res) {
       print("formLogin $res");
-      if(res.data?.isExist == true){
-        AppSnackBar.showSnackBar(context, isSuccess: true, message: res.data?.message ?? "Success !");
+      if (res.data?.isExist == true) {
+        AppSnackBar.showSnackBar(context,
+            isSuccess: true, message: res.data?.message ?? "Success !");
+        completeLoginProcess();
 
-        context.push(R_OTP, extra: {
-          "phone": phoneController.text.toString(),
-          "type": OTPType.Login
-        });
-      }else{
-        AppSnackBar.showSnackBar(context, isSuccess: false, message: context.tr(thisPhoneIsNotExitsKey));
+      } else {
+        AppSnackBar.showSnackBar(context,
+            isSuccess: false, message: context.tr(thisPhoneIsNotExitsKey));
       }
-    },onFail: (res){
-      AppSnackBar.showSnackBar(context, isSuccess: false, message: res.message ?? "");
+    }, onFail: (res) {
+      AppSnackBar.showSnackBar(context,
+          isSuccess: false, message: res.message ?? "");
     });
 
     return Scaffold(
@@ -56,6 +57,20 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
               children: [
                 Row(
                   children: [
+                    widget.type == TypeOfMode.ViewMode
+                        ? Row(
+                            children: [
+                              InkWell(
+                                  onTap: () {
+                                    context.pop(context);
+                                  },
+                                  child: SVGIcons.backArrowIcon()),
+                              const SizedBox(
+                                width: 10,
+                              )
+                            ],
+                          )
+                        : const SizedBox(),
                     Text(
                       context.tr(loginKey),
                       style: AppTheme
@@ -148,11 +163,21 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
   void sendOtp() async {
     if (formKey.currentState?.validate() == true) {
-      ref.read(sendOtpForLoginStateProvider.notifier).sendOtp(phoneController.text.toString());
+      ref
+          .read(sendOtpForLoginStateProvider.notifier)
+          .sendOtp(phoneController.text.toString());
     }
   }
 
   void signUp() async {
     context.push(R_SignUp);
+  }
+
+  void completeLoginProcess() {
+    context.push(R_OTP, extra: {
+      "phone": phoneController.text.toString(),
+      "type": OTPType.Login,
+      "typeOfMode" : widget.type
+    });
   }
 }

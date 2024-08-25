@@ -36,3 +36,7 @@ enum CategoryType {
 enum FilterScreenTypes {
   Services,Products,Sellers
 }
+
+enum TypeOfMode {
+  ViewMode,AuthMode
+}

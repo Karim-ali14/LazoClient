@@ -171,8 +171,12 @@ class MyApp extends ConsumerWidget {
       ),
       GoRoute(
         path: R_LoginScreen,
-        builder: (BuildContext context, GoRouterState state) =>
-            const LoginScreen(),
+        builder: (BuildContext context, GoRouterState state) {
+          var extra = state.extra as Map;
+          return LoginScreen(
+            type: extra["type"] as TypeOfMode,
+          );
+        },
       ),
       GoRoute(
           path: R_OTP,
@@ -185,6 +189,7 @@ class MyApp extends ConsumerWidget {
               email: extra["email"],
               cityId: extra["cityId"],
               otpType: extra["type"],
+              typeOfMode: extra["typeOfMode"] as TypeOfMode,
             );
           }),
       GoRoute(
@@ -266,15 +271,16 @@ class MyApp extends ConsumerWidget {
           }),
       GoRoute(
           path: R_MoreScreen,
-          builder: (BuildContext context, GoRouterState state) => const MoreScreen()
-      ), GoRoute(
+          builder: (BuildContext context, GoRouterState state) =>
+              const MoreScreen()),
+      GoRoute(
           path: R_NotificationScreen,
-          builder: (BuildContext context, GoRouterState state) => const SizedBox()
-      ),
+          builder: (BuildContext context, GoRouterState state) =>
+              const SizedBox()),
       GoRoute(
           path: R_FAQScreen,
-          builder: (BuildContext context, GoRouterState state) => const FAQScreen()
-      ),
+          builder: (BuildContext context, GoRouterState state) =>
+              const FAQScreen()),
     ],
   );
 }

@@ -57,8 +57,9 @@ class _AskBottomSheetState extends State<AskBottomSheet> {
             children: [
               Expanded(
                   child: AppButton(
-                    height: 46,
+                height: 46,
                 onPress: () {
+                  context.pop();
                   widget.onPositiveButtonClick.call();
                 },
                 child: Center(
@@ -72,8 +73,8 @@ class _AskBottomSheetState extends State<AskBottomSheet> {
               SizedBox(width: 8),
               Expanded(
                   child: AppButton(
-                    height: 46,
-                    onPress: () {
+                height: 46,
+                onPress: () {
                   context.pop();
                 },
                 backColor: AppTheme.mainAppColorLight2,

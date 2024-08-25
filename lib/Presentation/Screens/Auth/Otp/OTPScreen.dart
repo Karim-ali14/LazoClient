@@ -27,7 +27,8 @@ class OTPScreen extends ConsumerStatefulWidget {
   final String? image;
   final String? name;
   final OTPType otpType;
-  const OTPScreen({super.key,required this.phone,required this.otpType,this.cityId, this.email, this.image, this.name});
+  final TypeOfMode? typeOfMode;
+  const OTPScreen( {super.key,this.typeOfMode = TypeOfMode.ViewMode,required this.phone,required this.otpType,this.cityId, this.email, this.image, this.name});
 
   @override
   ConsumerState<OTPScreen> createState() => _OtpScreenState();
@@ -57,23 +58,34 @@ class _OtpScreenState extends ConsumerState<OTPScreen> {
     handleState(loginStateNotifierProvider, onSuccess: (res) {
       if(context.isThereCurrentDialogShowing()){
         try{
-          context.pop();
+          if(widget.typeOfMode == TypeOfMode.AuthMode){
+            context.go(R_MainScreen);
+          }else{
+            context.pop(context);
+            context.pop(context);
+            context.pop(context);
+          }
         }catch(e){
           print("NAV cannont pop");
         }
       }
-      context.go(R_MainScreen);
     });
 
     handleState(signUpStateNotifierProvider, onSuccess: (res) {
       if(context.isThereCurrentDialogShowing()){
         try{
-          context.pop();
+          if(widget.typeOfMode == TypeOfMode.AuthMode){
+            context.go(R_MainScreen);
+          }else{
+            context.pop(context);
+            context.pop(context);
+            context.pop(context);
+            context.pop(context);
+          }
         }catch(e){
           print("NAV cannont pop");
         }
       }
-      context.go(R_MainScreen);
     });
 
     return Scaffold(

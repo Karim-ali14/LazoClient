@@ -28,6 +28,7 @@ const deleteAccountIc = "assets/images/delete_account_ic.svg";
 const sadFaceImg = "assets/images/sad_face_ic.svg";
 const rightArrowWithBackgroundImg = "assets/images/right_arrow_with_background.svg";
 const downArrowWithBackgroundImg = "assets/images/down_arrow_ic.svg";
+const backArrowImg = "assets/images/back_arrow.svg";
 const downArrowImg = "assets/images/arrow_down.svg";
 const upArrowWithBackgroundImg = "assets/images/up_arrow_ic.svg";
 const homeActiveImg = "assets/images/home_active_img.svg";

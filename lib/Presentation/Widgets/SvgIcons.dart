@@ -277,6 +277,11 @@ class SVGIcons {
       downArrowWithBackgroundImg,
     );
   }
+  static Widget backArrowIcon(){
+    return SvgPicture.asset(
+      backArrowImg,
+    );
+  }
   static Widget downArrowIcon(){
     return SvgPicture.asset(
       downArrowImg,

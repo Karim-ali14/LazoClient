@@ -1,8 +1,11 @@
-import 'package:easy_localization/easy_localization.dart';
+
+import 'dart:typed_data';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:lazo_client/Constants/Eunms.dart';
 import 'package:lazo_client/Presentation/Widgets/AppButton.dart';
 import '../../../Constants.dart';
 import '../../../Constants/Constants.dart';
@@ -89,7 +92,9 @@ class _MoreScreenState extends ConsumerState<MoreScreen> {
                         Expanded(
                           child: AppButton(
                             text: "Log In",
-                            onPress: () {},
+                            onPress: () {
+                              navigateToLogin(TypeOfMode.ViewMode);
+                            },
                             height: 46,
                           ),
                         ),
@@ -251,7 +256,8 @@ class _MoreScreenState extends ConsumerState<MoreScreen> {
               description: "Are you sure you want to sign out?",
               icon: SVGIcons.sadFaceIcon(),
               onPositiveButtonClick: () {
-                // ref.read(providerLogoutStateProvider.notifier).logout();
+                ref.read(clientStateProvider.notifier).logout();
+                navigateToLogin(TypeOfMode.AuthMode);
               },
             ));
   }
@@ -272,7 +278,11 @@ class _MoreScreenState extends ConsumerState<MoreScreen> {
             ));
   }
 
-  void navigateToLogin() {
-    context.go(R_LoginScreen);
+  void navigateToLogin(TypeOfMode type) {
+    if(type == TypeOfMode.AuthMode){
+      context.go(R_LoginScreen,extra: {"type" : type});
+    }else {
+      context.push(R_LoginScreen,extra: {"type" : type});
+    }
   }
 }
