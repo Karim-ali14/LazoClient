@@ -10,6 +10,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **page** | **num** |  | [optional] 
 **searchByName** | **String** |  | [optional] 
+**providerId** | **num** |  | [optional] 
 **categoriesIds** | **List<num>** |  | [optional] [default to const []]
 **occasionsIds** | **List<num>** |  | [optional] [default to const []]
 **priceFrom** | **num** |  | [optional] 

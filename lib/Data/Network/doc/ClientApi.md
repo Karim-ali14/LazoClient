@@ -9,29 +9,29 @@ All URIs are relative to *http://}*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**addProductServiceToCartCartItem**](ClientApi.md#addproductservicetocartcartitem) | **POST** /client/cart/create | Add product/service to cart (cart-item)
+[**addProductServiceToCartCartItem**](ClientApi.md#addproductservicetocartcartitem) | **POST** /cart/create | Add product/service to cart (cart-item)
 [**assignChatNotificationToAProvider**](ClientApi.md#assignchatnotificationtoaprovider) | **POST** /client/chat/notification/assign | Assign chat notification to a provider
 [**clientAccountDeleteGet**](ClientApi.md#clientaccountdeleteget) | **GET** /client/account-delete | client\\'s account deleted successfully
 [**clientLogoutGet**](ClientApi.md#clientlogoutget) | **GET** /client/logout | client logout
 [**createOrder**](ClientApi.md#createorder) | **POST** /client/order/create | Create order
-[**deleteCartItem**](ClientApi.md#deletecartitem) | **POST** /client/cart-item/delete | Delete cart item
+[**deleteCartItem**](ClientApi.md#deletecartitem) | **POST** /cart-item/delete | Delete cart item
 [**manageOrder**](ClientApi.md#manageorder) | **POST** /client/order/manage | Manage order
 [**rateOrder**](ClientApi.md#rateorder) | **POST** /client/order/rating | Rate order
 [**readANotification122**](ClientApi.md#readanotification122) | **POST** /client/notification/read | read a notification
-[**resetCartForClient**](ClientApi.md#resetcartforclient) | **GET** /client/cart/delete | Reset cart for client
+[**resetCartForClient**](ClientApi.md#resetcartforclient) | **POST** /cart/delete | Reset cart for client
 [**showNotifications2**](ClientApi.md#shownotifications2) | **GET** /client/notifications | show notifications
 [**showOrderDetails**](ClientApi.md#showorderdetails) | **GET** /client/order/show | Show order details
 [**showOrders**](ClientApi.md#showorders) | **GET** /client/orders | Show orders
 [**showProfile**](ClientApi.md#showprofile) | **GET** /client/profile/show | show profile
 [**showWishlistItemsWithSearchByName**](ClientApi.md#showwishlistitemswithsearchbyname) | **GET** /client/wishlist/show | Show wishlist items (with search by name)
 [**toggleProductServiceInWishlist**](ClientApi.md#toggleproductserviceinwishlist) | **POST** /client/wishlist/toggle | Toggle product/service in wishlist
-[**updateCartItemQuantity**](ClientApi.md#updatecartitemquantity) | **POST** /client/cart/update | Update cart item quantity
+[**updateCartItemQuantity**](ClientApi.md#updatecartitemquantity) | **POST** /cart/update | Update cart item quantity
 [**updateFcmTokenAndDeviceType2**](ClientApi.md#updatefcmtokenanddevicetype2) | **POST** /client/update/device-data | update fcm_token and device_type
 [**updateProfile**](ClientApi.md#updateprofile) | **POST** /client/profile/update | update profile
 
 
 # **addProductServiceToCartCartItem**
-> addProductServiceToCartCartItem(productId, productQuantity, productSelectedListIds, productSelectedListItemsIds, serviceId, serviceQuantity, serviceSelectedListIds, serviceSelectedListItemsIds)
+> addProductServiceToCartCartItem(sessionId, productId, productQuantity, productSelectedListIds, productSelectedListItemsIds, serviceId, serviceQuantity, serviceSelectedListIds, serviceSelectedListItemsIds)
 
 Add product/service to cart (cart-item)
 
@@ -48,6 +48,7 @@ import 'package:lazo/api.dart';
 //defaultApiClient.getAuthentication<HttpBearerAuth>('bearerAuth').setAccessToken(yourTokenGeneratorFunction);
 
 final api_instance = ClientApi();
+final sessionId = sessionId_example; // String | 
 final productId = productId_example; // String | Optional (insert a product or a service)
 final productQuantity = productQuantity_example; // String | Required with product_id
 final productSelectedListIds = productSelectedListIds_example; // String | Optional, but required with product_id if provided
@@ -58,7 +59,7 @@ final serviceSelectedListIds = serviceSelectedListIds_example; // String | Optio
 final serviceSelectedListItemsIds = serviceSelectedListItemsIds_example; // String | Optional, but required with service_id if provided
 
 try {
-    api_instance.addProductServiceToCartCartItem(productId, productQuantity, productSelectedListIds, productSelectedListItemsIds, serviceId, serviceQuantity, serviceSelectedListIds, serviceSelectedListItemsIds);
+    api_instance.addProductServiceToCartCartItem(sessionId, productId, productQuantity, productSelectedListIds, productSelectedListItemsIds, serviceId, serviceQuantity, serviceSelectedListIds, serviceSelectedListItemsIds);
 } catch (e) {
     print('Exception when calling ClientApi->addProductServiceToCartCartItem: $e\n');
 }
@@ -68,6 +69,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
+ **sessionId** | **String**|  | [optional] 
  **productId** | **String**| Optional (insert a product or a service) | [optional] 
  **productQuantity** | **String**| Required with product_id | [optional] 
  **productSelectedListIds** | **String**| Optional, but required with product_id if provided | [optional] 
@@ -499,7 +501,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **resetCartForClient**
-> resetCartForClient()
+> resetCartForClient(sessionId)
 
 Reset cart for client
 
@@ -516,16 +518,20 @@ import 'package:lazo/api.dart';
 //defaultApiClient.getAuthentication<HttpBearerAuth>('bearerAuth').setAccessToken(yourTokenGeneratorFunction);
 
 final api_instance = ClientApi();
+final sessionId = sessionId_example; // String | 
 
 try {
-    api_instance.resetCartForClient();
+    api_instance.resetCartForClient(sessionId);
 } catch (e) {
     print('Exception when calling ClientApi->resetCartForClient: $e\n');
 }
 ```
 
 ### Parameters
-This endpoint does not need any parameter.
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **sessionId** | **String**|  | [optional] 
 
 ### Return type
 
@@ -537,7 +543,7 @@ void (empty response body)
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
+ - **Content-Type**: multipart/form-data
  - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

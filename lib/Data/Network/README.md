@@ -40,14 +40,13 @@ Please follow the [installation procedure](#installation--usage) and then run th
 import 'package:lazo/api.dart';
 
 
-final api_instance = AuthApi();
-final phone = phone_example; // String | 
+final api_instance = AppInfoApi();
 
 try {
-    final result = api_instance.clientLogin(phone);
+    final result = api_instance.getAppInfo();
     print(result);
 } catch (e) {
-    print('Exception when calling AuthApi->clientLogin: $e\n');
+    print('Exception when calling AppInfoApi->getAppInfo: $e\n');
 }
 
 ```
@@ -58,30 +57,31 @@ All URIs are relative to *http://}*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
+*AppInfoApi* | [**getAppInfo**](doc//AppInfoApi.md#getappinfo) | **GET** /app-info | get app info
 *AuthApi* | [**clientLogin**](doc//AuthApi.md#clientlogin) | **POST** /client/login | client login
 *AuthApi* | [**clientSignup**](doc//AuthApi.md#clientsignup) | **POST** /client/register | client signup
-*CartApi* | [**addProductServiceToCartCartItem**](doc//CartApi.md#addproductservicetocartcartitem) | **POST** /client/cart/create | Add product/service to cart (cart-item)
-*CartApi* | [**deleteCartItem**](doc//CartApi.md#deletecartitem) | **POST** /client/cart-item/delete | Delete cart item
-*CartApi* | [**resetCartForClient**](doc//CartApi.md#resetcartforclient) | **GET** /client/cart/delete | Reset cart for client
-*CartApi* | [**showCartDetails**](doc//CartApi.md#showcartdetails) | **GET** /client/cart/show | show cart details
-*CartApi* | [**updateCartItemQuantity**](doc//CartApi.md#updatecartitemquantity) | **POST** /client/cart/update | Update cart item quantity
-*ClientApi* | [**addProductServiceToCartCartItem**](doc//ClientApi.md#addproductservicetocartcartitem) | **POST** /client/cart/create | Add product/service to cart (cart-item)
+*CartApi* | [**addProductServiceToCartCartItem**](doc//CartApi.md#addproductservicetocartcartitem) | **POST** /cart/create | Add product/service to cart (cart-item)
+*CartApi* | [**deleteCartItem**](doc//CartApi.md#deletecartitem) | **POST** /cart-item/delete | Delete cart item
+*CartApi* | [**resetCartForClient**](doc//CartApi.md#resetcartforclient) | **POST** /cart/delete | Reset cart for client
+*CartApi* | [**showCartDetails**](doc//CartApi.md#showcartdetails) | **POST** /cart/show | show cart details
+*CartApi* | [**updateCartItemQuantity**](doc//CartApi.md#updatecartitemquantity) | **POST** /cart/update | Update cart item quantity
+*ClientApi* | [**addProductServiceToCartCartItem**](doc//ClientApi.md#addproductservicetocartcartitem) | **POST** /cart/create | Add product/service to cart (cart-item)
 *ClientApi* | [**assignChatNotificationToAProvider**](doc//ClientApi.md#assignchatnotificationtoaprovider) | **POST** /client/chat/notification/assign | Assign chat notification to a provider
 *ClientApi* | [**clientAccountDeleteGet**](doc//ClientApi.md#clientaccountdeleteget) | **GET** /client/account-delete | client\\'s account deleted successfully
 *ClientApi* | [**clientLogoutGet**](doc//ClientApi.md#clientlogoutget) | **GET** /client/logout | client logout
 *ClientApi* | [**createOrder**](doc//ClientApi.md#createorder) | **POST** /client/order/create | Create order
-*ClientApi* | [**deleteCartItem**](doc//ClientApi.md#deletecartitem) | **POST** /client/cart-item/delete | Delete cart item
+*ClientApi* | [**deleteCartItem**](doc//ClientApi.md#deletecartitem) | **POST** /cart-item/delete | Delete cart item
 *ClientApi* | [**manageOrder**](doc//ClientApi.md#manageorder) | **POST** /client/order/manage | Manage order
 *ClientApi* | [**rateOrder**](doc//ClientApi.md#rateorder) | **POST** /client/order/rating | Rate order
 *ClientApi* | [**readANotification122**](doc//ClientApi.md#readanotification122) | **POST** /client/notification/read | read a notification
-*ClientApi* | [**resetCartForClient**](doc//ClientApi.md#resetcartforclient) | **GET** /client/cart/delete | Reset cart for client
+*ClientApi* | [**resetCartForClient**](doc//ClientApi.md#resetcartforclient) | **POST** /cart/delete | Reset cart for client
 *ClientApi* | [**showNotifications2**](doc//ClientApi.md#shownotifications2) | **GET** /client/notifications | show notifications
 *ClientApi* | [**showOrderDetails**](doc//ClientApi.md#showorderdetails) | **GET** /client/order/show | Show order details
 *ClientApi* | [**showOrders**](doc//ClientApi.md#showorders) | **GET** /client/orders | Show orders
 *ClientApi* | [**showProfile**](doc//ClientApi.md#showprofile) | **GET** /client/profile/show | show profile
 *ClientApi* | [**showWishlistItemsWithSearchByName**](doc//ClientApi.md#showwishlistitemswithsearchbyname) | **GET** /client/wishlist/show | Show wishlist items (with search by name)
 *ClientApi* | [**toggleProductServiceInWishlist**](doc//ClientApi.md#toggleproductserviceinwishlist) | **POST** /client/wishlist/toggle | Toggle product/service in wishlist
-*ClientApi* | [**updateCartItemQuantity**](doc//ClientApi.md#updatecartitemquantity) | **POST** /client/cart/update | Update cart item quantity
+*ClientApi* | [**updateCartItemQuantity**](doc//ClientApi.md#updatecartitemquantity) | **POST** /cart/update | Update cart item quantity
 *ClientApi* | [**updateFcmTokenAndDeviceType2**](doc//ClientApi.md#updatefcmtokenanddevicetype2) | **POST** /client/update/device-data | update fcm_token and device_type
 *ClientApi* | [**updateProfile**](doc//ClientApi.md#updateprofile) | **POST** /client/profile/update | update profile
 *NotificationsApi* | [**assignChatNotificationToAClient**](doc//NotificationsApi.md#assignchatnotificationtoaclient) | **POST** /provider/chat/notification/assign | Assign chat notification to a client
@@ -177,6 +177,9 @@ Class | Method | HTTP request | Description
  - [FilterTopSellers200ResponseData](doc//FilterTopSellers200ResponseData.md)
  - [FilterTopSellers200ResponseDataLinksInner](doc//FilterTopSellers200ResponseDataLinksInner.md)
  - [FilterTopSellersRequest](doc//FilterTopSellersRequest.md)
+ - [GetAppInfo200Response](doc//GetAppInfo200Response.md)
+ - [GetAppInfo200ResponseData](doc//GetAppInfo200ResponseData.md)
+ - [GetAppInfo200ResponseDataProviderAppInfo](doc//GetAppInfo200ResponseDataProviderAppInfo.md)
  - [GiftBox](doc//GiftBox.md)
  - [GiftCard](doc//GiftCard.md)
  - [ImageItem](doc//ImageItem.md)

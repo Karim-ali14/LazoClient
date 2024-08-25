@@ -5266,6 +5266,9 @@ paths:
                 search_by_name:
                   type: string
                   nullable: true
+                provider_id:
+                  type: number
+                  nullable: true
                 categories_ids:
                   nullable: true
                   type: array
@@ -7414,6 +7417,9 @@ paths:
                 phone:
                   type: string
                   example: '534053560'
+                session_id:
+                  nullable: true
+                  type: string
       responses:
         '200':
           description: client signup
@@ -7501,6 +7507,9 @@ paths:
                 phone:
                   type: string
                   example: '534053560'
+                session_id:
+                  nullable: true
+                  type: string
       responses:
         '200':
           description: client login
@@ -7907,13 +7916,23 @@ paths:
       security:
         - bearerAuth: []
 
-  /client/cart/show:
-    get:
+  /cart/show:
+    post:
       tags:
         - cart
       summary: show cart details
       description: show cart details
       operationId: showCartDetails
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              nullable: true
+              properties:
+                session_id:
+                  type: string
+
       responses:
         '200':
           description: show cart details
@@ -8031,7 +8050,7 @@ paths:
                     example: true
       security:
         - bearerAuth: []
-  /client/cart/create:
+  /cart/create:
     post:
       tags:
         - client
@@ -8045,6 +8064,8 @@ paths:
             schema:
               type: object
               properties:
+                session_id:
+                  type: string
                 product_id:
                   description: 'Optional (insert a product or a service)'
                   type: string
@@ -8082,7 +8103,7 @@ paths:
           description: Successfully added product/service to cart
       security:
         - bearerAuth: []
-  /client/cart/update:
+  /cart/update:
     post:
       tags:
         - client
@@ -8107,7 +8128,7 @@ paths:
           description: Successfully updated cart item quantity
       security:
         - bearerAuth: []
-  /client/cart-item/delete:
+  /cart-item/delete:
     post:
       tags:
         - client
@@ -8129,14 +8150,23 @@ paths:
           description: Successfully deleted cart item
       security:
         - bearerAuth: []
-  /client/cart/delete:
-    get:
+  /cart/delete:
+    post:
       tags:
         - client
         - cart
       summary: Reset cart for client
       description: Reset cart for client
       operationId: resetCartForClient
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                session_id:
+                  type: string
+
       responses:
         '200':
           description: Successfully reset cart for client
@@ -9579,3 +9609,112 @@ paths:
           content:
             application/json: {}
 
+  /app-info:
+    get:
+      tags:
+        - app-info
+      summary: get app info
+      description: get app info
+      operationId: getAppInfo
+      responses:
+        '200':
+          description: Show wishlist items
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+            Cache-Control:
+              schema:
+                type: string
+                example: no-cache, private
+            Connection:
+              schema:
+                type: string
+                example: close
+            Date:
+              schema:
+                type: string
+                example: Wed, 22 May 2024 10:29:41 GMT
+            Host:
+              schema:
+                type: string
+                example: localhost:8000
+            X-Powered-By:
+              schema:
+                type: string
+                example: PHP/8.2.3
+            X-RateLimit-Limit:
+              schema:
+                type: string
+                example: '60'
+            X-RateLimit-Remaining:
+              schema:
+                type: string
+                example: '59'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      provider_app_info:
+                        type: object
+                        properties:
+                          id:
+                            type: number
+                          type:
+                            type: string
+                          terms_conditions:
+                            type: string
+                          about_app:
+                            type: string
+                          contact_email:
+                            type: string
+                          contact_phone:
+                            type: string
+                          contact_whatsapp:
+                            type: string
+                          created_at:
+                            type: string
+                          updated_at:
+                            type: string
+                          terms_conditions_path:
+                            type: string
+                          about_app_path:
+                            type: string
+
+                      client_app_info:
+                        type: object
+                        properties:
+                          id:
+                            type: number
+                          type:
+                            type: string
+                          terms_conditions:
+                            type: string
+                          about_app:
+                            type: string
+                          contact_email:
+                            type: string
+                          contact_phone:
+                            type: string
+                          contact_whatsapp:
+                            type: string
+                          created_at:
+                            type: string
+                          updated_at:
+                            type: string
+                          terms_conditions_path:
+                            type: string
+                          about_app_path:
+                            type: string
+
+                  message:
+                    type: string
+                    example: app info
+                  status:
+                    type: boolean
+                    example: true

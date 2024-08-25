@@ -81,7 +81,9 @@ class PublicApi {
   /// Parameters:
   ///
   /// * [String] phone:
-  Future<Response> clientLoginWithHttpInfo({ String? phone, }) async {
+  ///
+  /// * [String] sessionId:
+  Future<Response> clientLoginWithHttpInfo({ String? phone, String? sessionId, }) async {
     // ignore: prefer_const_declarations
     final path = r'/client/login';
 
@@ -99,6 +101,10 @@ class PublicApi {
     if (phone != null) {
       hasFields = true;
       mp.fields[r'phone'] = parameterToString(phone);
+    }
+    if (sessionId != null) {
+      hasFields = true;
+      mp.fields[r'session_id'] = parameterToString(sessionId);
     }
     if (hasFields) {
       postBody = mp;
@@ -122,8 +128,10 @@ class PublicApi {
   /// Parameters:
   ///
   /// * [String] phone:
-  Future<ClientAuthResponse?> clientLogin({ String? phone, }) async {
-    final response = await clientLoginWithHttpInfo( phone: phone, );
+  ///
+  /// * [String] sessionId:
+  Future<ClientAuthResponse?> clientLogin({ String? phone, String? sessionId, }) async {
+    final response = await clientLoginWithHttpInfo( phone: phone, sessionId: sessionId, );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -156,7 +164,9 @@ class PublicApi {
   /// * [String] name:
   ///
   /// * [String] phone:
-  Future<Response> clientSignupWithHttpInfo({ String? cityId, String? email, String? image, String? name, String? phone, }) async {
+  ///
+  /// * [String] sessionId:
+  Future<Response> clientSignupWithHttpInfo({ String? cityId, String? email, String? image, String? name, String? phone, String? sessionId, }) async {
     // ignore: prefer_const_declarations
     final path = r'/client/register';
 
@@ -191,6 +201,10 @@ class PublicApi {
       hasFields = true;
       mp.fields[r'phone'] = parameterToString(phone);
     }
+    if (sessionId != null) {
+      hasFields = true;
+      mp.fields[r'session_id'] = parameterToString(sessionId);
+    }
     if (hasFields) {
       postBody = mp;
     }
@@ -223,8 +237,10 @@ class PublicApi {
   /// * [String] name:
   ///
   /// * [String] phone:
-  Future<ClientAuthResponse?> clientSignup({ String? cityId, String? email, String? image, String? name, String? phone, }) async {
-    final response = await clientSignupWithHttpInfo( cityId: cityId, email: email, image: image, name: name, phone: phone, );
+  ///
+  /// * [String] sessionId:
+  Future<ClientAuthResponse?> clientSignup({ String? cityId, String? email, String? image, String? name, String? phone, String? sessionId, }) async {
+    final response = await clientSignupWithHttpInfo( cityId: cityId, email: email, image: image, name: name, phone: phone, sessionId: sessionId, );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }

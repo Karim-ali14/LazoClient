@@ -24,6 +24,8 @@ class ClientApi {
   ///
   /// Parameters:
   ///
+  /// * [String] sessionId:
+  ///
   /// * [String] productId:
   ///   Optional (insert a product or a service)
   ///
@@ -47,9 +49,9 @@ class ClientApi {
   ///
   /// * [String] serviceSelectedListItemsIds:
   ///   Optional, but required with service_id if provided
-  Future<Response> addProductServiceToCartCartItemWithHttpInfo({ String? productId, String? productQuantity, String? productSelectedListIds, String? productSelectedListItemsIds, String? serviceId, String? serviceQuantity, String? serviceSelectedListIds, String? serviceSelectedListItemsIds, }) async {
+  Future<Response> addProductServiceToCartCartItemWithHttpInfo({ String? sessionId, String? productId, String? productQuantity, String? productSelectedListIds, String? productSelectedListItemsIds, String? serviceId, String? serviceQuantity, String? serviceSelectedListIds, String? serviceSelectedListItemsIds, }) async {
     // ignore: prefer_const_declarations
-    final path = r'/client/cart/create';
+    final path = r'/cart/create';
 
     // ignore: prefer_final_locals
     Object? postBody;
@@ -62,6 +64,10 @@ class ClientApi {
 
     bool hasFields = false;
     final mp = MultipartRequest('POST', Uri.parse(path));
+    if (sessionId != null) {
+      hasFields = true;
+      mp.fields[r'session_id'] = parameterToString(sessionId);
+    }
     if (productId != null) {
       hasFields = true;
       mp.fields[r'product_id'] = parameterToString(productId);
@@ -115,6 +121,8 @@ class ClientApi {
   ///
   /// Parameters:
   ///
+  /// * [String] sessionId:
+  ///
   /// * [String] productId:
   ///   Optional (insert a product or a service)
   ///
@@ -138,8 +146,8 @@ class ClientApi {
   ///
   /// * [String] serviceSelectedListItemsIds:
   ///   Optional, but required with service_id if provided
-  Future<void> addProductServiceToCartCartItem({ String? productId, String? productQuantity, String? productSelectedListIds, String? productSelectedListItemsIds, String? serviceId, String? serviceQuantity, String? serviceSelectedListIds, String? serviceSelectedListItemsIds, }) async {
-    final response = await addProductServiceToCartCartItemWithHttpInfo( productId: productId, productQuantity: productQuantity, productSelectedListIds: productSelectedListIds, productSelectedListItemsIds: productSelectedListItemsIds, serviceId: serviceId, serviceQuantity: serviceQuantity, serviceSelectedListIds: serviceSelectedListIds, serviceSelectedListItemsIds: serviceSelectedListItemsIds, );
+  Future<void> addProductServiceToCartCartItem({ String? sessionId, String? productId, String? productQuantity, String? productSelectedListIds, String? productSelectedListItemsIds, String? serviceId, String? serviceQuantity, String? serviceSelectedListIds, String? serviceSelectedListItemsIds, }) async {
+    final response = await addProductServiceToCartCartItemWithHttpInfo( sessionId: sessionId, productId: productId, productQuantity: productQuantity, productSelectedListIds: productSelectedListIds, productSelectedListItemsIds: productSelectedListItemsIds, serviceId: serviceId, serviceQuantity: serviceQuantity, serviceSelectedListIds: serviceSelectedListIds, serviceSelectedListItemsIds: serviceSelectedListItemsIds, );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -464,7 +472,7 @@ class ClientApi {
   /// * [String] cartItemId:
   Future<Response> deleteCartItemWithHttpInfo({ String? cartItemId, }) async {
     // ignore: prefer_const_declarations
-    final path = r'/client/cart-item/delete';
+    final path = r'/cart-item/delete';
 
     // ignore: prefer_final_locals
     Object? postBody;
@@ -736,9 +744,13 @@ class ClientApi {
   /// Reset cart for client
   ///
   /// Note: This method returns the HTTP [Response].
-  Future<Response> resetCartForClientWithHttpInfo() async {
+  ///
+  /// Parameters:
+  ///
+  /// * [String] sessionId:
+  Future<Response> resetCartForClientWithHttpInfo({ String? sessionId, }) async {
     // ignore: prefer_const_declarations
-    final path = r'/client/cart/delete';
+    final path = r'/cart/delete';
 
     // ignore: prefer_final_locals
     Object? postBody;
@@ -747,12 +759,21 @@ class ClientApi {
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
-    const contentTypes = <String>[];
+    const contentTypes = <String>['multipart/form-data'];
 
+    bool hasFields = false;
+    final mp = MultipartRequest('POST', Uri.parse(path));
+    if (sessionId != null) {
+      hasFields = true;
+      mp.fields[r'session_id'] = parameterToString(sessionId);
+    }
+    if (hasFields) {
+      postBody = mp;
+    }
 
     return apiClient.invokeAPI(
       path,
-      'GET',
+      'POST',
       queryParams,
       postBody,
       headerParams,
@@ -764,8 +785,12 @@ class ClientApi {
   /// Reset cart for client
   ///
   /// Reset cart for client
-  Future<void> resetCartForClient() async {
-    final response = await resetCartForClientWithHttpInfo();
+  ///
+  /// Parameters:
+  ///
+  /// * [String] sessionId:
+  Future<void> resetCartForClient({ String? sessionId, }) async {
+    final response = await resetCartForClientWithHttpInfo( sessionId: sessionId, );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -1146,7 +1171,7 @@ class ClientApi {
   /// * [String] quantity:
   Future<Response> updateCartItemQuantityWithHttpInfo({ String? cartItemId, String? quantity, }) async {
     // ignore: prefer_const_declarations
-    final path = r'/client/cart/update';
+    final path = r'/cart/update';
 
     // ignore: prefer_final_locals
     Object? postBody;

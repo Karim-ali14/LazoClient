@@ -102,7 +102,8 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
                         width: 10,
                       ),
                       Text(
-                        sellerProducts.data?.data?.name?.ellipsize(20) ?? "Store Name",
+                        sellerProducts.data?.data?.name?.ellipsize(20) ??
+                            "Store Name",
                         style: AppTheme
                             .styleWithTextBlackAdelleSansExtendedFonts18w700,
                       ),
@@ -143,7 +144,9 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      sellerProducts.data?.data?.name?.ellipsize(25) ?? "",
+                                      sellerProducts.data?.data?.name
+                                              ?.ellipsize(25) ??
+                                          "",
                                       style: AppTheme
                                           .styleWithTextBlackAdelleSansExtendedFonts18w700,
                                     ),
@@ -191,20 +194,23 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
           ),
         ),
         SliverToBoxAdapter(
-          child: _appBarTitleVisible ? Padding(
-            padding: const EdgeInsets.only(left: 16.0 ,right: 16,top: 16),
-            child: ExpandedText(
-              defaultExpandedValue: defaultExpandedValue,
-              maxLength: 165,
-              textStyle: AppTheme.styleWithTextAppGrey7AdelleSansExtendedFonts14w400.copyWith(
-                height: 1.5
-              ),
-              onExpandChangeStatus: (value){
-                defaultExpandedValue = value;
-                print(defaultExpandedValue);
-              },
-              textValue:sellerProducts.data?.data?.bio??""),
-          ):SizedBox(),
+          child: _appBarTitleVisible
+              ? Padding(
+                  padding:
+                      const EdgeInsets.only(left: 16.0, right: 16, top: 16),
+                  child: ExpandedText(
+                      defaultExpandedValue: defaultExpandedValue,
+                      maxLength: 165,
+                      textStyle: AppTheme
+                          .styleWithTextAppGrey7AdelleSansExtendedFonts14w400
+                          .copyWith(height: 1.5),
+                      onExpandChangeStatus: (value) {
+                        defaultExpandedValue = value;
+                        print(defaultExpandedValue);
+                      },
+                      textValue: sellerProducts.data?.data?.bio ?? ""),
+                )
+              : SizedBox(),
         ),
         SliverPersistentHeader(
           delegate: _SliverTabsDelegate(
@@ -286,7 +292,7 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
                     child: Container(
                       width: 140,
                       height: 40,
-                      padding: EdgeInsets.all(10),
+                      padding: const EdgeInsets.all(10),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(4),
                         border: Border.all(
@@ -343,14 +349,18 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
                     },
                     onAddItemToCart: (int) {},
                     onAddItemToWishList: (int) {},
-                    onSeeAllClickListener: (id,name) {
-                      navigateToSeeAllBestProductAndService(categoryId: id,
-                          name, ItemType.Products);
+                    onSeeAllClickListener: (id, name) {
+                      navigateToSeeAllBestProductAndService(
+                          categoryId: id,
+                          name,
+                          ItemType.Products,
+                          providerId: widget.sellerId);
                     },
                     itemWidth: 163,
                     title: sellerProducts.data?.data?.categories?[index].name ??
                         "",
-                    rootId: sellerProducts.data?.data?.categories?[index].id?.toInt(),
+                    rootId: sellerProducts.data?.data?.categories?[index].id
+                        ?.toInt(),
                   ),
                 );
               },
@@ -385,15 +395,20 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
                     },
                     onAddItemToCart: (int) {},
                     onAddItemToWishList: (int) {},
-                    onSeeAllClickListener: (id,name) {
+                    onSeeAllClickListener: (id, name) {
                       print("$id $name");
-                      navigateToSeeAllBestProductAndService(categoryId: id,
-                          name, ItemType.Services);
+                      navigateToSeeAllBestProductAndService(
+                          categoryId: id,
+                          name,
+                          ItemType.Services,
+                          providerId: widget.sellerId);
                     },
                     itemWidth: 163,
                     title: sellerServices.data?.data?.categories?[index].name ??
                         "",
-                    rootId: sellerServices.data?.data?.categories?[index].id?.toInt() ?? 0,
+                    rootId: sellerServices.data?.data?.categories?[index].id
+                            ?.toInt() ??
+                        0,
                   ),
                 );
               },
@@ -749,9 +764,13 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
   }
 
   void navigateToSeeAllBestProductAndService(String title, ItemType type,
-      {int? categoryId}) async {
-    await context.push(R_ShowBestProductOrService,
-        extra: {"type": type, "title": title, "categoryId": categoryId});
+      {int? categoryId, num? providerId}) async {
+    await context.push(R_ShowBestProductOrService, extra: {
+      "type": type,
+      "title": title,
+      "categoryId": categoryId,
+      "providerId": providerId
+    });
 
     ref.read(filterForProductStateNotifiers.notifier).resetDataFilter();
     ref.read(filterForServiceStateNotifiers.notifier).resetDataFilter();

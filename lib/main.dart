@@ -152,7 +152,7 @@ class MyApp extends ConsumerWidget {
       GoRoute(
         path: R_splashScreenRout,
         builder: (BuildContext context, GoRouterState state) =>
-            const EditProfileScreen(),
+            const SplashScreen(),
       ),
       GoRoute(
         path: R_OnBoardingScreen,
@@ -224,6 +224,7 @@ class MyApp extends ConsumerWidget {
               extra["type"] as ItemType,
               occasionId: extra["occasionId"],
               categoryId: extra["categoryId"],
+              providerId: extra["providerId"],
             );
           }),
       GoRoute(

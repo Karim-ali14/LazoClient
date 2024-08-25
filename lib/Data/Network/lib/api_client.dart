@@ -239,6 +239,12 @@ class ApiClient {
           return FilterTopSellers200ResponseDataLinksInner.fromJson(value);
         case 'FilterTopSellersRequest':
           return FilterTopSellersRequest.fromJson(value);
+        case 'GetAppInfo200Response':
+          return GetAppInfo200Response.fromJson(value);
+        case 'GetAppInfo200ResponseData':
+          return GetAppInfo200ResponseData.fromJson(value);
+        case 'GetAppInfo200ResponseDataProviderAppInfo':
+          return GetAppInfo200ResponseDataProviderAppInfo.fromJson(value);
         case 'GiftBox':
           return GiftBox.fromJson(value);
         case 'GiftCard':

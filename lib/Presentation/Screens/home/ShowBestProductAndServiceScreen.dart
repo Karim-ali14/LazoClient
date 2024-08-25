@@ -22,7 +22,8 @@ class ShowBestProductAndServiceScreen extends ConsumerStatefulWidget {
   final ItemType type;
   final int? occasionId;
   final int? categoryId;
-  const ShowBestProductAndServiceScreen(this.title, this.type,  {this.categoryId,this.occasionId,super.key});
+  final num? providerId;
+  const ShowBestProductAndServiceScreen(this.title, this.type,  {this.providerId,this.categoryId,this.occasionId,super.key});
 
   @override
   ConsumerState<ShowBestProductAndServiceScreen> createState() =>
@@ -228,6 +229,7 @@ class _ShowProductAndServiceScreenState
 
   void fetchProducts(int page) {
     ref.read(getProductsStateNotifiers.notifier).getProductsData(
+        providerId: widget.providerId,
         page: page,
         categoriesIds: widget.categoryId != null ? [num.parse((widget.categoryId??0).toString())] : filterForProductData?.categoriesIdsSelected,
         occasionsIds: filterForProductData?.occasionsIdsSelected,
@@ -244,6 +246,7 @@ class _ShowProductAndServiceScreenState
 
   void fetchServices(int page) {
     ref.read(getServicesStateNotifiers.notifier).getServicesData(
+        providerId: widget.providerId,
         page: page,
         categoriesIds: filterForServicesData?.categoriesIdsSelected,
         occasionsIds: filterForServicesData?.occasionsIdsSelected,

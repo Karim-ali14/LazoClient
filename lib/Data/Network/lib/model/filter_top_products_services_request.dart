@@ -15,6 +15,7 @@ class FilterTopProductsServicesRequest {
   FilterTopProductsServicesRequest({
     this.page,
     this.searchByName,
+    this.providerId,
     this.categoriesIds = const [],
     this.occasionsIds = const [],
     this.priceFrom,
@@ -26,6 +27,8 @@ class FilterTopProductsServicesRequest {
   num? page;
 
   String? searchByName;
+
+  num? providerId;
 
   List<num>? categoriesIds;
 
@@ -50,6 +53,7 @@ class FilterTopProductsServicesRequest {
   bool operator ==(Object other) => identical(this, other) || other is FilterTopProductsServicesRequest &&
      other.page == page &&
      other.searchByName == searchByName &&
+     other.providerId == providerId &&
      other.categoriesIds == categoriesIds &&
      other.occasionsIds == occasionsIds &&
      other.priceFrom == priceFrom &&
@@ -62,6 +66,7 @@ class FilterTopProductsServicesRequest {
     // ignore: unnecessary_parenthesis
     (page == null ? 0 : page!.hashCode) +
     (searchByName == null ? 0 : searchByName!.hashCode) +
+    (providerId == null ? 0 : providerId!.hashCode) +
     (categoriesIds == null ? 0 : categoriesIds!.hashCode) +
     (occasionsIds == null ? 0 : occasionsIds!.hashCode) +
     (priceFrom == null ? 0 : priceFrom!.hashCode) +
@@ -70,7 +75,7 @@ class FilterTopProductsServicesRequest {
     (type == null ? 0 : type!.hashCode);
 
   @override
-  String toString() => 'FilterTopProductsServicesRequest[page=$page, searchByName=$searchByName, categoriesIds=$categoriesIds, occasionsIds=$occasionsIds, priceFrom=$priceFrom, priceTo=$priceTo, ratings=$ratings, type=$type]';
+  String toString() => 'FilterTopProductsServicesRequest[page=$page, searchByName=$searchByName, providerId=$providerId, categoriesIds=$categoriesIds, occasionsIds=$occasionsIds, priceFrom=$priceFrom, priceTo=$priceTo, ratings=$ratings, type=$type]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -83,6 +88,11 @@ class FilterTopProductsServicesRequest {
       json[r'search_by_name'] = this.searchByName;
     } else {
       json[r'search_by_name'] = null;
+    }
+    if (this.providerId != null) {
+      json[r'provider_id'] = this.providerId;
+    } else {
+      json[r'provider_id'] = null;
     }
     if (this.categoriesIds != null) {
       json[r'categories_ids'] = this.categoriesIds;
@@ -140,6 +150,9 @@ class FilterTopProductsServicesRequest {
             ? null
             : num.parse(json[r'page'].toString()),
         searchByName: mapValueOfType<String>(json, r'search_by_name'),
+        providerId: json[r'provider_id'] == null
+            ? null
+            : num.parse(json[r'provider_id'].toString()),
         categoriesIds: json[r'categories_ids'] is List
             ? (json[r'categories_ids'] as List).cast<num>()
             : const [],

@@ -171,16 +171,18 @@ class GetProductsUseCase
   final PublicApi publicApi;
   GetProductsUseCase(this.ref, this.publicApi) : super(StateModel());
 
-  void getProductsData(
-      {int page = 1,
-      String? searchByName,
-      List<num>? categoriesIds,
-      List<num>? occasionsIds,
-      String? priceFrom,
-      String? priceTo,
-      List<String>? ratings,
-      String? type,
-      String? productId}) async {
+  void getProductsData({
+    int page = 1,
+    String? searchByName,
+    List<num>? categoriesIds,
+    List<num>? occasionsIds,
+    String? priceFrom,
+    String? priceTo,
+    List<String>? ratings,
+    String? type,
+    String? productId,
+    num? providerId,
+  }) async {
     String? priceFromValue = priceFrom;
     if (priceTo != null && priceFrom == null) {
       priceFromValue = "0";
@@ -204,7 +206,8 @@ class GetProductsUseCase
                       priceFrom: num.tryParse(priceFromValue ?? ""),
                       priceTo: num.tryParse(priceTo ?? ""),
                       ratings: ratings,
-                      type: type ?? ItemType.Products.name.toLowerCase()),
+                      type: type ?? ItemType.Products.name.toLowerCase(),
+                      providerId: providerId),
             ), onComplete: (res) {
       if (page != 1) {
         List<ProviderProduct> list = state.data?.data?.products?.data ?? [];
@@ -225,7 +228,7 @@ class GetProductsUseCase
           res.data?.products?.data = list;
         }
         state = StateModel.success(res);
-      } else if (state.data?.data?.products?.data.isEmpty == true) {
+      } else if (page == 1 && res.data?.products?.data.isEmpty == true) {
         state = StateModel.empty();
       }
     });
@@ -247,7 +250,8 @@ class GetServicesUseCase
       String? priceTo,
       List<String>? ratings,
       String? type,
-      String? serviceId}) async {
+      String? serviceId,
+      num? providerId}) async {
     state = page != 1
         ? StateModel(data: state.data, state: DataState.MORE_LOADING)
         : StateModel.loading();
@@ -261,8 +265,8 @@ class GetServicesUseCase
                 priceFrom: num.tryParse(priceFrom ?? ""),
                 priceTo: num.tryParse(priceTo ?? ""),
                 ratings: ratings,
-                type: type ?? ItemType.Services.name.toLowerCase())),
-        onComplete: (res) {
+                type: type ?? ItemType.Services.name.toLowerCase(),
+                providerId: providerId)), onComplete: (res) {
       if (page != 1) {
         List<ServiceShowData> list = state.data?.data?.services?.data ?? [];
         state.data?.data?.services?.data = [
@@ -283,7 +287,7 @@ class GetServicesUseCase
         }
         state = StateModel.success(res);
       }
-      if (state.data?.data?.services?.data.isEmpty == true) {
+      else if (page == 1 && res.data?.services?.data.isEmpty == true) {
         state = StateModel.empty();
       }
     });
@@ -376,12 +380,14 @@ class GetSellerDetailsUseCase
   final Ref ref;
   final PublicApi publicApi;
   final int type;
-  GetSellerDetailsUseCase(this.ref, this.publicApi, this.type) : super(StateModel());
+  GetSellerDetailsUseCase(this.ref, this.publicApi, this.type)
+      : super(StateModel());
 
   void getSellerDetails({
     num? providerId,
   }) {
     state = StateModel.loading();
-    request(() => publicApi.showAProviderDetails(providerId: providerId,type: type));
+    request(() =>
+        publicApi.showAProviderDetails(providerId: providerId, type: type));
   }
 }

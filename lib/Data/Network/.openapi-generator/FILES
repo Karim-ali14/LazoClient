@@ -2,6 +2,7 @@
 .travis.yml
 README.md
 analysis_options.yaml
+doc/AppInfoApi.md
 doc/AuthApi.md
 doc/Banner.md
 doc/BannersResponse.md
@@ -34,6 +35,9 @@ doc/FilterTopSellers200Response.md
 doc/FilterTopSellers200ResponseData.md
 doc/FilterTopSellers200ResponseDataLinksInner.md
 doc/FilterTopSellersRequest.md
+doc/GetAppInfo200Response.md
+doc/GetAppInfo200ResponseData.md
+doc/GetAppInfo200ResponseDataProviderAppInfo.md
 doc/GiftBox.md
 doc/GiftCard.md
 doc/ImageItem.md
@@ -142,6 +146,7 @@ doc/UploadFilesResponse.md
 doc/WishlistApi.md
 git_push.sh
 lib/api.dart
+lib/api/app_info_api.dart
 lib/api/auth_api.dart
 lib/api/cart_api.dart
 lib/api/client_api.dart
@@ -192,6 +197,9 @@ lib/model/filter_top_sellers200_response.dart
 lib/model/filter_top_sellers200_response_data.dart
 lib/model/filter_top_sellers200_response_data_links_inner.dart
 lib/model/filter_top_sellers_request.dart
+lib/model/get_app_info200_response.dart
+lib/model/get_app_info200_response_data.dart
+lib/model/get_app_info200_response_data_provider_app_info.dart
 lib/model/gift_box.dart
 lib/model/gift_card.dart
 lib/model/image_item.dart
@@ -289,3 +297,7 @@ lib/model/update_profile200_response_data_city.dart
 lib/model/upload_files.dart
 lib/model/upload_files_response.dart
 pubspec.yaml
+test/app_info_api_test.dart
+test/get_app_info200_response_data_provider_app_info_test.dart
+test/get_app_info200_response_data_test.dart
+test/get_app_info200_response_test.dart

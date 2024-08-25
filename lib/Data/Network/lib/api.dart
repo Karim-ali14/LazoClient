@@ -27,6 +27,7 @@ part 'auth/oauth.dart';
 part 'auth/http_basic_auth.dart';
 part 'auth/http_bearer_auth.dart';
 
+part 'api/app_info_api.dart';
 part 'api/auth_api.dart';
 part 'api/cart_api.dart';
 part 'api/client_api.dart';
@@ -70,6 +71,9 @@ part 'model/filter_top_sellers200_response.dart';
 part 'model/filter_top_sellers200_response_data.dart';
 part 'model/filter_top_sellers200_response_data_links_inner.dart';
 part 'model/filter_top_sellers_request.dart';
+part 'model/get_app_info200_response.dart';
+part 'model/get_app_info200_response_data.dart';
+part 'model/get_app_info200_response_data_provider_app_info.dart';
 part 'model/gift_box.dart';
 part 'model/gift_card.dart';
 part 'model/image_item.dart';
