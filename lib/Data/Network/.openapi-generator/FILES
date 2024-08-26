@@ -297,7 +297,3 @@ lib/model/update_profile200_response_data_city.dart
 lib/model/upload_files.dart
 lib/model/upload_files_response.dart
 pubspec.yaml
-test/app_info_api_test.dart
-test/get_app_info200_response_data_provider_app_info_test.dart
-test/get_app_info200_response_data_test.dart
-test/get_app_info200_response_test.dart

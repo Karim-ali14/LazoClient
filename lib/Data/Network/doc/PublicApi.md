@@ -14,6 +14,7 @@ Method | HTTP request | Description
 [**clientSignup**](PublicApi.md#clientsignup) | **POST** /client/register | client signup
 [**filterTopProductsServices**](PublicApi.md#filtertopproductsservices) | **POST** /top-products-services/filter | Filter top products & services
 [**filterTopSellers**](PublicApi.md#filtertopsellers) | **POST** /top-sellers/filter | Filter top sellers
+[**getAppInfo**](PublicApi.md#getappinfo) | **GET** /app-info | get app info
 [**showAProviderDetails**](PublicApi.md#showaproviderdetails) | **GET** /provider/details | provider details
 [**showAllBanners**](PublicApi.md#showallbanners) | **GET** /banners | show all banners
 [**showAllCategories**](PublicApi.md#showallcategories) | **GET** /categories | show all categories
@@ -255,6 +256,45 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: application/json
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **getAppInfo**
+> GetAppInfo200Response getAppInfo()
+
+get app info
+
+get app info
+
+### Example
+```dart
+import 'package:lazo/api.dart';
+
+final api_instance = PublicApi();
+
+try {
+    final result = api_instance.getAppInfo();
+    print(result);
+} catch (e) {
+    print('Exception when calling PublicApi->getAppInfo: $e\n');
+}
+```
+
+### Parameters
+This endpoint does not need any parameter.
+
+### Return type
+
+[**GetAppInfo200Response**](GetAppInfo200Response.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

@@ -391,3 +391,18 @@ class GetSellerDetailsUseCase
         publicApi.showAProviderDetails(providerId: providerId, type: type));
   }
 }
+
+class AppInfoUseCase
+    extends StateNotifier<StateModel<GetAppInfo200Response>> {
+  final Ref ref;
+  final PublicApi publicApi;
+  AppInfoUseCase(this.ref, this.publicApi)
+      : super(StateModel());
+
+  void getSellerDetails({
+    num? providerId,
+  }) {
+    state = StateModel.loading();
+    request(() => publicApi.getAppInfo());
+  }
+}

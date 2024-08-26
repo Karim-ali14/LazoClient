@@ -9612,6 +9612,7 @@ paths:
   /app-info:
     get:
       tags:
+        - public
         - app-info
       summary: get app info
       description: get app info

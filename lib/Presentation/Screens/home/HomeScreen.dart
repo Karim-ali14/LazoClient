@@ -71,140 +71,184 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       (homeDataState.state == DataState.SUCCESS &&
                               homeDataState.data?.data?.banners.isEmpty == true)
                           ? const SizedBox()
-                          : BannerCardItems(
-                              list: homeDataState.state != DataState.LOADING
-                                  ? homeDataState.data?.data?.banners
-                                          .map((item) => item.imagePath ?? "")
-                                          .toList() ??
-                                      []
-                                  : [""],
-                              height: 149,
-                              width: MediaQuery.of(context).size.width,
-                              showLoading:
-                                  homeDataState.state == DataState.LOADING,
-                              showIndicator:
-                                  homeDataState.state != DataState.LOADING,
+                          : Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                BannerCardItems(
+                                  list: homeDataState.state != DataState.LOADING
+                                      ? homeDataState.data?.data?.banners
+                                              .map((item) =>
+                                                  item.imagePath ?? "")
+                                              .toList() ??
+                                          []
+                                      : [""],
+                                  height: 149,
+                                  width: MediaQuery.of(context).size.width,
+                                  showLoading:
+                                      homeDataState.state == DataState.LOADING,
+                                  showIndicator:
+                                      homeDataState.state != DataState.LOADING,
+                                ),
+                                SizedBox(
+                                  height: 32,
+                                )
+                              ],
                             ),
-                      SizedBox(
-                        height: 32,
-                      ),
                       (homeDataState.state == DataState.SUCCESS &&
                               homeDataState.data?.data?.categories.isEmpty ==
                                   true)
                           ? SizedBox()
-                          : HorizontalCategoryListViewWithTitleSeeAll(
-                              list: homeDataState.data?.data?.categories
-                                      .toList() ??
-                                  [],
-                              showLoading:
-                                  homeDataState.state == DataState.LOADING,
-                              itemClick: (item) {
-                                navigateToSeeAllTopSeller(
-                                    "${item.name}", CategoryType.Categories,
-                                    categoryId: item.id?.toInt() ?? 0);
-                              },
-                              onSeeAllClickListener: (id,name) {
-                                navigateToSeeAllCategories();
-                              },
+                          : Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                HorizontalCategoryListViewWithTitleSeeAll(
+                                  list: homeDataState.data?.data?.categories
+                                          .toList() ??
+                                      [],
+                                  showLoading:
+                                      homeDataState.state == DataState.LOADING,
+                                  itemClick: (item) {
+                                    navigateToSeeAllTopSeller(
+                                        "${item.name}", CategoryType.Categories,
+                                        categoryId: item.id?.toInt() ?? 0);
+                                  },
+                                  onSeeAllClickListener: (id, name) {
+                                    navigateToSeeAllCategories();
+                                  },
+                                ),
+                                SizedBox(
+                                  height: 32,
+                                )
+                              ],
                             ),
-                      SizedBox(
-                        height: 32,
-                      ),
                       (homeDataState.state == DataState.SUCCESS &&
                               homeDataState
                                       .data?.data?.topRatedProviders.isEmpty ==
                                   true)
                           ? SizedBox()
-                          : HorizontalTopSellersListViewWithTitleSeeAll(
-                              list: homeDataState.data?.data?.topRatedProviders
-                                      .toList() ??
-                                  [],
-                              showLoading:
-                                  homeDataState.state == DataState.LOADING,
-                              itemClick: (itemId) {
-                                print(
-                                  "seller $itemId"
-                                );
-                                navigateToSellerDetails(itemId);
-                              },
-                              onSeeAllClickListener: (id,name) {
-                                navigateToSeeAllTopSeller(
-                                    "Top Sellers", CategoryType.Search);
-                              },
+                          : Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                HorizontalTopSellersListViewWithTitleSeeAll(
+                                  list: homeDataState
+                                          .data?.data?.topRatedProviders
+                                          .toList() ??
+                                      [],
+                                  showLoading:
+                                      homeDataState.state == DataState.LOADING,
+                                  itemClick: (itemId) {
+                                    print("seller $itemId");
+                                    navigateToSellerDetails(itemId);
+                                  },
+                                  onSeeAllClickListener: (id, name) {
+                                    navigateToSeeAllTopSeller(
+                                        "Top Sellers", CategoryType.Search);
+                                  },
+                                ),
+                                SizedBox(
+                                  height: 32,
+                                ),
+                              ],
                             ),
-                      SizedBox(
-                        height: 32,
-                      ),
                       (homeDataState.state == DataState.SUCCESS &&
-                              homeDataState.data?.data?.categories.isEmpty ==
+                              homeDataState.data?.data?.occasions.isEmpty ==
                                   true)
                           ? SizedBox()
-                          : HorizontalOccasionsListViewWithTitleSeeAll(
-                              list: homeDataState.data?.data?.occasions
-                                      .toList() ??
-                                  [],
-                              showLoading:
-                                  homeDataState.state == DataState.LOADING,
-                              itemClick: (occasionItem) {
-                                navigateToSeeAllBestProductAndService(
-                                    occasionItem.name ?? "", ItemType.Products,
-                                    occasionId: occasionItem.id?.toInt());
-                                // navigateToProductsAndServices(
-                                //     CategoryType.Occasions,
-                                //     occasionItem.name ?? "",
-                                //     int.parse(
-                                //         (occasionItem.id ?? 0).toString()));
-                              },
-                              onSeeAllClickListener: (id,name) {
-                                navigateToSeeAllOccasions();
-                              },
+                          : Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                HorizontalOccasionsListViewWithTitleSeeAll(
+                                  list: homeDataState.data?.data?.occasions
+                                          .toList() ??
+                                      [],
+                                  showLoading:
+                                      homeDataState.state == DataState.LOADING,
+                                  itemClick: (occasionItem) {
+                                    navigateToSeeAllBestProductAndService(
+                                        occasionItem.name ?? "",
+                                        ItemType.Products,
+                                        occasionId: occasionItem.id?.toInt());
+                                    // navigateToProductsAndServices(
+                                    //     CategoryType.Occasions,
+                                    //     occasionItem.name ?? "",
+                                    //     int.parse(
+                                    //         (occasionItem.id ?? 0).toString()));
+                                  },
+                                  onSeeAllClickListener: (id, name) {
+                                    navigateToSeeAllOccasions();
+                                  },
+                                ),
+                                SizedBox(
+                                  height: 32,
+                                ),
+                              ],
                             ),
-                      SizedBox(
-                        height: 32,
-                      ),
                       (homeDataState.state == DataState.SUCCESS &&
-                              homeDataState.data?.data?.categories.isEmpty ==
+                              homeDataState
+                                      .data?.data?.topRatedProducts.isEmpty ==
                                   true)
                           ? SizedBox()
-                          : HorizontalTopProductListViewWithTitleSeeAll(
-                              list: homeDataState.data?.data?.topRatedProducts
-                                      .toList() ??
-                                  [],
-                              showLoading:
-                                  homeDataState.state == DataState.LOADING,
-                              itemClick: (itemId,itemName,categoryIds) {
-                                print("homeCategories ${categoryIds}");
-                                navigateToItemDetails(ItemType.Products,itemId,itemName,categoryIds);
-                              },
-                              onAddItemToCart: (int) {},
-                              onAddItemToWishList: (int) {},
-                              onSeeAllClickListener: (id,name) {
-                                navigateToSeeAllBestProductAndService(
-                                    "Best Products", ItemType.Products);
-                              }, itemWidth: 163, title: 'Best products',
+                          : Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                HorizontalTopProductListViewWithTitleSeeAll(
+                                  list: homeDataState
+                                          .data?.data?.topRatedProducts
+                                          .toList() ??
+                                      [],
+                                  showLoading:
+                                      homeDataState.state == DataState.LOADING,
+                                  itemClick: (itemId, itemName, categoryIds) {
+                                    print("homeCategories ${categoryIds}");
+                                    navigateToItemDetails(ItemType.Products,
+                                        itemId, itemName, categoryIds);
+                                  },
+                                  onAddItemToCart: (int) {},
+                                  onAddItemToWishList: (int) {},
+                                  onSeeAllClickListener: (id, name) {
+                                    navigateToSeeAllBestProductAndService(
+                                        "Best Products", ItemType.Products);
+                                  },
+                                  itemWidth: 163,
+                                  title: 'Best products',
+                                ),
+                                SizedBox(
+                                  height: 32,
+                                )
+                              ],
                             ),
-                      SizedBox(
-                        height: 32,
-                      ),
                       (homeDataState.state == DataState.SUCCESS &&
-                              homeDataState.data?.data?.categories.isEmpty ==
+                              homeDataState
+                                      .data?.data?.topRatedServices.isEmpty ==
                                   true)
                           ? SizedBox()
-                          : HorizontalTopServiceListViewWithTitleSeeAll(
-                              list: homeDataState.data?.data?.topRatedServices
-                                      .toList() ??
-                                  [],
-                              showLoading:
-                                  homeDataState.state == DataState.LOADING,
-                              itemClick:  (itemId,itemName,categoryIds) {
-                                navigateToItemDetails(ItemType.Services,itemId,itemName,categoryIds);
-                              },
-                              onAddItemToCart: (int) {},
-                              onAddItemToWishList: (int) {},
-                              onSeeAllClickListener: (id,name) {
-                                navigateToSeeAllBestProductAndService(
-                                    "Best Services", ItemType.Services);
-                              }, itemWidth: 163, title: 'Best Services',
+                          : Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                HorizontalTopServiceListViewWithTitleSeeAll(
+                                  list: homeDataState
+                                          .data?.data?.topRatedServices
+                                          .toList() ??
+                                      [],
+                                  showLoading:
+                                      homeDataState.state == DataState.LOADING,
+                                  itemClick: (itemId, itemName, categoryIds) {
+                                    navigateToItemDetails(ItemType.Services,
+                                        itemId, itemName, categoryIds);
+                                  },
+                                  onAddItemToCart: (int) {},
+                                  onAddItemToWishList: (int) {},
+                                  onSeeAllClickListener: (id, name) {
+                                    navigateToSeeAllBestProductAndService(
+                                        "Best Services", ItemType.Services);
+                                  },
+                                  itemWidth: 163,
+                                  title: 'Best Services',
+                                ),
+                                SizedBox(
+                                  height: 10,
+                                )
+                              ],
                             ),
                     ],
                   ),
@@ -258,11 +302,18 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     ref.read(filterForServiceStateNotifiers.notifier).resetDataFilter();
   }
 
-  void navigateToItemDetails(ItemType itemType, int itemId, String itemName,List<int> categoriesIds) {
-    context.push("$R_ProductAndServiceDetails/${itemId.toString()}" , extra: {"type" : itemType,"name" : itemName , "categoryIds" : categoriesIds});
+  void navigateToItemDetails(
+      ItemType itemType, int itemId, String itemName, List<int> categoriesIds) {
+    context.push("$R_ProductAndServiceDetails/${itemId.toString()}", extra: {
+      "type": itemType,
+      "name": itemName,
+      "categoryIds": categoriesIds
+    });
   }
 
-  void navigateToSellerDetails(int sellerId,) {
-    context.push(R_SellerDetails , extra: {"sellerId" : sellerId});
+  void navigateToSellerDetails(
+    int sellerId,
+  ) {
+    context.push(R_SellerDetails, extra: {"sellerId": sellerId});
   }
 }

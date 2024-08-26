@@ -248,7 +248,7 @@ class _ShowProductAndServiceScreenState
     ref.read(getServicesStateNotifiers.notifier).getServicesData(
         providerId: widget.providerId,
         page: page,
-        categoriesIds: filterForServicesData?.categoriesIdsSelected,
+        categoriesIds: widget.categoryId != null ? [num.parse((widget.categoryId??0).toString())] : filterForServicesData?.categoriesIdsSelected,
         occasionsIds: filterForServicesData?.occasionsIdsSelected,
         ratings: filterForServicesData?.ratingValueSelected
             ?.map((item) => item.toString())

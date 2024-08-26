@@ -117,6 +117,7 @@ Class | Method | HTTP request | Description
 *PublicApi* | [**clientSignup**](doc//PublicApi.md#clientsignup) | **POST** /client/register | client signup
 *PublicApi* | [**filterTopProductsServices**](doc//PublicApi.md#filtertopproductsservices) | **POST** /top-products-services/filter | Filter top products & services
 *PublicApi* | [**filterTopSellers**](doc//PublicApi.md#filtertopsellers) | **POST** /top-sellers/filter | Filter top sellers
+*PublicApi* | [**getAppInfo**](doc//PublicApi.md#getappinfo) | **GET** /app-info | get app info
 *PublicApi* | [**showAProviderDetails**](doc//PublicApi.md#showaproviderdetails) | **GET** /provider/details | provider details
 *PublicApi* | [**showAllBanners**](doc//PublicApi.md#showallbanners) | **GET** /banners | show all banners
 *PublicApi* | [**showAllCategories**](doc//PublicApi.md#showallcategories) | **GET** /categories | show all categories

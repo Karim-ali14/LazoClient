@@ -527,238 +527,6 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
               );
             }, childCount: sellerReview.data?.data?.reviews?.length ?? 0),
           )
-        /*SliverFillRemaining(
-          child: Column(
-            children: [
-              Expanded(
-                  child:
-                  TabBarView(
-                controller: tabController,
-                children: [
-                  sellerProducts.state == DataState.EMPTY
-                      ? /*OrderPlaceHolder(onAddOrderClick: () {})*/ EmptyDataView(
-                          icon: SVGIcons.searchGifIcon(),
-                          title: "No Data Found",
-                          description:
-                              "Please refine your search using common words to get accurate results",
-                        )
-                      : ListView.builder(
-                          itemCount: sellerProducts.state == DataState.LOADING
-                              ? 5
-                              : sellerProducts.data?.data?.categories?.length ??
-                                  0,
-                          itemBuilder: (BuildContext context, int index) {
-                            return Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 16.0, vertical: 9),
-                              child:
-                                  HorizontalTopProductListViewWithTitleSeeAll(
-                                list: sellerProducts.state == DataState.LOADING
-                                    ? [
-                                        ProviderProduct(),
-                                        ProviderProduct(),
-                                        ProviderProduct(),
-                                        ProviderProduct(),
-                                      ]
-                                    : sellerProducts.data?.data
-                                            ?.categories?[index].products ??
-                                        [],
-                                showLoading:
-                                    sellerProducts.state == DataState.LOADING,
-                                itemClick: (itemId, itemName, categoryIds) {
-                                  navigateToItemDetails(ItemType.Products,
-                                      itemId, itemName, categoryIds);
-                                },
-                                onAddItemToCart: (int) {},
-                                onAddItemToWishList: (int) {},
-                                onSeeAllClickListener: () {
-                                  // navigateToSeeAllBestProductAndService(
-                                  //     "Best Products", ItemType.Products);
-                                },
-                                itemWidth: 163,
-                                title: sellerProducts
-                                        .data?.data?.categories?[index].name ??
-                                    "",
-                              ),
-                            );
-                          }),
-                  sellerServices.state == DataState.EMPTY
-                      ? /*OrderPlaceHolder(onAddOrderClick: () {})*/ EmptyDataView(
-                          icon: SVGIcons.searchGifIcon(),
-                          title: "No Data Found",
-                          description:
-                              "Please refine your search using common words to get accurate results",
-                        )
-                      : ListView.builder(
-                          itemCount: sellerServices.state == DataState.LOADING
-                              ? 5
-                              : sellerServices.data?.data?.categories?.length ??
-                                  0,
-                          itemBuilder: (BuildContext context, int index) {
-                            return
-                              Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 16.0, vertical: 9),
-                              child:
-                                  HorizontalTopServiceListViewWithTitleSeeAll(
-                                list: sellerServices.state == DataState.LOADING
-                                    ? [
-                                        ServiceShowData(),
-                                        ServiceShowData(),
-                                        ServiceShowData(),
-                                        ServiceShowData(),
-                                        ServiceShowData(),
-                                      ]
-                                    : sellerServices.data?.data
-                                            ?.categories?[index].services ??
-                                        [],
-                                showLoading:
-                                    sellerServices.state == DataState.LOADING,
-                                itemClick: (itemId, itemName, categoryIds) {
-                                  navigateToItemDetails(ItemType.Services,
-                                      itemId, itemName, categoryIds);
-                                },
-                                onAddItemToCart: (int) {},
-                                onAddItemToWishList: (int) {},
-                                onSeeAllClickListener: () {
-                                  // navigateToSeeAllBestProductAndService(
-                                  //     "Best Products", ItemType.Products);
-                                },
-                                itemWidth: 163,
-                                title: sellerServices
-                                        .data?.data?.categories?[index].name ??
-                                    "",
-                              ),
-                            );
-                          }),
-                  SingleChildScrollView(
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(4),
-                              border: Border.all(color: AppTheme.appGrey8),
-                              color: Colors.white,
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(16),
-                              child: Stack(children: [
-                                Row(
-                                  children: [
-                                    SVGIcons.smallStarIcon(size: 24),
-                                    SizedBox(
-                                      width: 5,
-                                    ),
-                                    Text(
-                                      "${sellerReview.data?.data?.overallRating ?? 0}",
-                                      style: AppTheme
-                                          .styleWithTextBlackAdelleSansExtendedFonts24w700,
-                                    ),
-                                    Spacer(),
-                                    Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        Text(
-                                          "Based on ${sellerReview.data?.data?.ratingsCount ?? 0} ratings",
-                                          style: AppTheme
-                                              .styleWithTextGray7AdelleSansExtendedFonts12w400,
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ]),
-                            ),
-                          ),
-                          SizedBox(
-                            height: 16,
-                          ),
-                          ...(List.generate(
-                            sellerReview.data?.data?.reviews?.length ?? 0,
-                            (index) => Container(
-                              margin: const EdgeInsetsDirectional.symmetric(
-                                  vertical: 8),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(4),
-                                border: Border.all(color: AppTheme.appGrey8),
-                                color: Colors.white,
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.all(16),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Row(
-                                      children: [
-                                        Text(
-                                          "${sellerReview.data?.data?.reviews?[index].userName}",
-                                          style: AppTheme
-                                              .styleWithTextAppGrey7AdelleSansExtendedFonts14w500,
-                                        ),
-                                        Spacer(),
-                                        Text(
-                                          sellerReview
-                                                  .data
-                                                  ?.data
-                                                  ?.reviews?[index]
-                                                  .date
-                                                  ?.convertDateToDdMmmYyyy ??
-                                              "",
-                                          style: AppTheme
-                                              .styleWithTextGray7AdelleSansExtendedFonts12w400,
-                                        )
-                                      ],
-                                    ),
-                                    SizedBox(
-                                      height: 8,
-                                    ),
-                                    Row(
-                                      children: [
-                                        SVGIcons.smallStarIcon(),
-                                        SizedBox(
-                                          width: 3,
-                                        ),
-                                        Text(
-                                          "${sellerReview.data?.data?.reviews?[index].rating ?? 0}",
-                                          style: AppTheme
-                                              .styleWithTextBlackAdelleSansExtendedFonts14w400,
-                                        ),
-                                      ],
-                                    ),
-                                    SizedBox(
-                                      height: 8,
-                                    ),
-                                    ExpandedText(
-                                      textValue:
-                                          "${sellerReview.data?.data?.reviews?[index].ratingComment ?? 0}",
-                                      textStyle: AppTheme
-                                          .styleWithTextBlackAdelleSansExtendedFonts14w500
-                                          .copyWith(height: 1.5),
-                                      maxLength: 70,
-                                      showLessText: "Read Less",
-                                      showMoreText: "Read More",
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ),
-                          )),
-                          SizedBox(
-                            height: 16,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ))
-            ],
-          ),
-        )*/
       ]),
     );
   }
@@ -789,6 +557,7 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
 class _SliverTabsDelegate extends SliverPersistentHeaderDelegate {
   final TabBar _tabBar;
   final double paddingTop = 15;
+  final double paddingBottom = 10;
   _SliverTabsDelegate(this._tabBar);
 
   @override
@@ -798,7 +567,9 @@ class _SliverTabsDelegate extends SliverPersistentHeaderDelegate {
       color: Colors.white,
       child: Padding(
         padding: EdgeInsets.only(
-            top: paddingTop), // Adjust the space above the TabBar
+            top: paddingTop,
+          bottom: paddingBottom
+        ), // Adjust the space above the TabBar
         child: _tabBar,
       ),
     );
@@ -806,11 +577,11 @@ class _SliverTabsDelegate extends SliverPersistentHeaderDelegate {
 
   @override
   double get maxExtent =>
-      _tabBar.preferredSize.height + paddingTop; // Add space above the TabBar
+      _tabBar.preferredSize.height + paddingTop + paddingBottom; // Add space above the TabBar
 
   @override
   double get minExtent =>
-      _tabBar.preferredSize.height + paddingTop; // Add space above the TabBar
+      _tabBar.preferredSize.height + paddingTop + paddingBottom; // Add space above the TabBar
 
   @override
   bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) {
