@@ -9713,6 +9713,22 @@ paths:
                           about_app_path:
                             type: string
 
+                      faqs:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            id:
+                              type: integer
+                            question:
+                              type: string
+                            answer:
+                              type: string
+                            created_at:
+                              type: string
+                            updated_at:
+                              type: string
+
                   message:
                     type: string
                     example: app info

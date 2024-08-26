@@ -243,6 +243,8 @@ class ApiClient {
           return GetAppInfo200Response.fromJson(value);
         case 'GetAppInfo200ResponseData':
           return GetAppInfo200ResponseData.fromJson(value);
+        case 'GetAppInfo200ResponseDataFaqsInner':
+          return GetAppInfo200ResponseDataFaqsInner.fromJson(value);
         case 'GetAppInfo200ResponseDataProviderAppInfo':
           return GetAppInfo200ResponseDataProviderAppInfo.fromJson(value);
         case 'GiftBox':

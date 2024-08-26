@@ -79,6 +79,6 @@ final getSellerDetailsWithReviewsStateNotifier = StateNotifierProvider.autoDispo
         StateModel<ShowAProviderDetails200Response>>(
     (ref) => GetSellerDetailsUseCase(ref, ref.read(publicApi),2));
 
-final getAppInfoStateNotifier = StateNotifierProvider.autoDispose<AppInfoUseCase,
+final getAppInfoStateNotifier = StateNotifierProvider<AppInfoUseCase,
         StateModel<GetAppInfo200Response>>(
     (ref) => AppInfoUseCase(ref, ref.read(publicApi)));

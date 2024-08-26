@@ -37,6 +37,8 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
 
       ref.read(getOccasionsDataStateNotifiers.notifier).getOccasionsData();
 
+      ref.read(getAppInfoStateNotifier.notifier).getAppInfo();
+
       UtilsExts.handleStatusBarColorWithIcon(
           statusBarColor: AppTheme.mainAppColor);
 

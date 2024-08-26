@@ -37,6 +37,7 @@ doc/FilterTopSellers200ResponseDataLinksInner.md
 doc/FilterTopSellersRequest.md
 doc/GetAppInfo200Response.md
 doc/GetAppInfo200ResponseData.md
+doc/GetAppInfo200ResponseDataFaqsInner.md
 doc/GetAppInfo200ResponseDataProviderAppInfo.md
 doc/GiftBox.md
 doc/GiftCard.md
@@ -199,6 +200,7 @@ lib/model/filter_top_sellers200_response_data_links_inner.dart
 lib/model/filter_top_sellers_request.dart
 lib/model/get_app_info200_response.dart
 lib/model/get_app_info200_response_data.dart
+lib/model/get_app_info200_response_data_faqs_inner.dart
 lib/model/get_app_info200_response_data_provider_app_info.dart
 lib/model/gift_box.dart
 lib/model/gift_card.dart

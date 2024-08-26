@@ -15,6 +15,7 @@ class GetAppInfo200ResponseData {
   GetAppInfo200ResponseData({
     this.providerAppInfo,
     this.clientAppInfo,
+    this.faqs = const [],
   });
 
   ///
@@ -33,19 +34,23 @@ class GetAppInfo200ResponseData {
   ///
   GetAppInfo200ResponseDataProviderAppInfo? clientAppInfo;
 
+  List<GetAppInfo200ResponseDataFaqsInner> faqs;
+
   @override
   bool operator ==(Object other) => identical(this, other) || other is GetAppInfo200ResponseData &&
      other.providerAppInfo == providerAppInfo &&
-     other.clientAppInfo == clientAppInfo;
+     other.clientAppInfo == clientAppInfo &&
+     other.faqs == faqs;
 
   @override
   int get hashCode =>
     // ignore: unnecessary_parenthesis
     (providerAppInfo == null ? 0 : providerAppInfo!.hashCode) +
-    (clientAppInfo == null ? 0 : clientAppInfo!.hashCode);
+    (clientAppInfo == null ? 0 : clientAppInfo!.hashCode) +
+    (faqs.hashCode);
 
   @override
-  String toString() => 'GetAppInfo200ResponseData[providerAppInfo=$providerAppInfo, clientAppInfo=$clientAppInfo]';
+  String toString() => 'GetAppInfo200ResponseData[providerAppInfo=$providerAppInfo, clientAppInfo=$clientAppInfo, faqs=$faqs]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -59,6 +64,7 @@ class GetAppInfo200ResponseData {
     } else {
       json[r'client_app_info'] = null;
     }
+      json[r'faqs'] = this.faqs;
     return json;
   }
 
@@ -83,6 +89,7 @@ class GetAppInfo200ResponseData {
       return GetAppInfo200ResponseData(
         providerAppInfo: GetAppInfo200ResponseDataProviderAppInfo.fromJson(json[r'provider_app_info']),
         clientAppInfo: GetAppInfo200ResponseDataProviderAppInfo.fromJson(json[r'client_app_info']),
+        faqs: GetAppInfo200ResponseDataFaqsInner.listFromJson(json[r'faqs']),
       );
     }
     return null;

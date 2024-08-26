@@ -73,6 +73,7 @@ part 'model/filter_top_sellers200_response_data_links_inner.dart';
 part 'model/filter_top_sellers_request.dart';
 part 'model/get_app_info200_response.dart';
 part 'model/get_app_info200_response_data.dart';
+part 'model/get_app_info200_response_data_faqs_inner.dart';
 part 'model/get_app_info200_response_data_provider_app_info.dart';
 part 'model/gift_box.dart';
 part 'model/gift_card.dart';

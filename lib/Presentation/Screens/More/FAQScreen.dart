@@ -1,61 +1,62 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../Constants/Constants.dart';
+import '../../StateNotifiersViewModel/PublicStateNotifiers.dart';
 import '../../Widgets/CustomAppBar.dart';
 import 'Componants/FAQItemCard.dart';
 
-class FAQScreen extends StatefulWidget {
+class FAQScreen extends ConsumerStatefulWidget {
   const FAQScreen({super.key});
 
   @override
-  State<FAQScreen> createState() => _FAQScreenState();
+  ConsumerState<FAQScreen> createState() => _FAQScreenState();
 }
 
-class _FAQScreenState extends State<FAQScreen> {
+class _FAQScreenState extends ConsumerState<FAQScreen> {
   @override
   Widget build(BuildContext context) {
+    final appInfoData = ref.watch(getAppInfoStateNotifier);
+    print("${appInfoData.data?.data?.faqs.length}");
     return Scaffold(
       appBar: CustomAppBar(
         appContext: context,
         title: "FAQ",
         navigated: true,
+        isCenter: false,
       ),
       body: SafeArea(
         child: Padding(
           padding:
               const EdgeInsets.symmetric(horizontal: defaultPaddingHorizontal),
-          child: Column(
-            children: [
-              SizedBox(
-                height: 32,
-              ),
-              FAQItemCard(
-                title: '1. Lorem ipsum dolor sit amasvwet?',
-                description: '',
-              ),
-              SizedBox(height: defaultPaddingHorizontal),
-              FAQItemCard(
-                title: '2. Lorem ipsum dolor sit amasvwet?',
-                description: '',
-              ),
-              SizedBox(height: defaultPaddingHorizontal),
-              FAQItemCard(
-                title: '3. Lorem ipsum dolor sit amasvwet?',
-                description: '',
-              ),
-              SizedBox(height: defaultPaddingHorizontal),
-              FAQItemCard(
-                title: '4. Lorem ipsum dolor sit amasvwet?',
-                description: '',
-              ),
-              SizedBox(height: defaultPaddingHorizontal),
-              FAQItemCard(
-                title: '5. Lorem ipsum dolor sit amasvwet?',
-                description: '',
-              ),
-              SizedBox(height: defaultPaddingHorizontal),
-            ],
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                SizedBox(
+                  height: 32,
+                ),
+                ...(List.generate(
+                    appInfoData.data?.data?.faqs.length ?? 0,
+                    (int index) => Column(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsetsDirectional.symmetric(vertical: 8),
+                              child: FAQItemCard(
+                                title:
+                                    appInfoData.data?.data?.faqs[index].question ??
+                                        "",
+                                description:
+                                    appInfoData.data?.data?.faqs[index].answer ??
+                                        "",
+                              ),
+                            )
+                          ],
+                        )))
+              ],
+            ),
           ),
         ),
       ),

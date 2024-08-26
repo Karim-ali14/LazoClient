@@ -180,6 +180,7 @@ Class | Method | HTTP request | Description
  - [FilterTopSellersRequest](doc//FilterTopSellersRequest.md)
  - [GetAppInfo200Response](doc//GetAppInfo200Response.md)
  - [GetAppInfo200ResponseData](doc//GetAppInfo200ResponseData.md)
+ - [GetAppInfo200ResponseDataFaqsInner](doc//GetAppInfo200ResponseDataFaqsInner.md)
  - [GetAppInfo200ResponseDataProviderAppInfo](doc//GetAppInfo200ResponseDataProviderAppInfo.md)
  - [GiftBox](doc//GiftBox.md)
  - [GiftCard](doc//GiftCard.md)

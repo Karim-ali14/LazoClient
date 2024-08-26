@@ -399,9 +399,7 @@ class AppInfoUseCase
   AppInfoUseCase(this.ref, this.publicApi)
       : super(StateModel());
 
-  void getSellerDetails({
-    num? providerId,
-  }) {
+  void getAppInfo() {
     state = StateModel.loading();
     request(() => publicApi.getAppInfo());
   }
