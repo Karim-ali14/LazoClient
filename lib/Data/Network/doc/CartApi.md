@@ -17,7 +17,7 @@ Method | HTTP request | Description
 
 
 # **addProductServiceToCartCartItem**
-> addProductServiceToCartCartItem(sessionId, productId, productQuantity, productSelectedListIds, productSelectedListItemsIds, serviceId, serviceQuantity, serviceSelectedListIds, serviceSelectedListItemsIds)
+> AddProductServiceToCartCartItem200Response addProductServiceToCartCartItem(sessionId, productId, productQuantity, productSelectedListIds, productSelectedListItemsIds, serviceId, serviceQuantity, serviceSelectedListIds, serviceSelectedListItemsIds)
 
 Add product/service to cart (cart-item)
 
@@ -45,7 +45,8 @@ final serviceSelectedListIds = serviceSelectedListIds_example; // String | Optio
 final serviceSelectedListItemsIds = serviceSelectedListItemsIds_example; // String | Optional, but required with service_id if provided
 
 try {
-    api_instance.addProductServiceToCartCartItem(sessionId, productId, productQuantity, productSelectedListIds, productSelectedListItemsIds, serviceId, serviceQuantity, serviceSelectedListIds, serviceSelectedListItemsIds);
+    final result = api_instance.addProductServiceToCartCartItem(sessionId, productId, productQuantity, productSelectedListIds, productSelectedListItemsIds, serviceId, serviceQuantity, serviceSelectedListIds, serviceSelectedListItemsIds);
+    print(result);
 } catch (e) {
     print('Exception when calling CartApi->addProductServiceToCartCartItem: $e\n');
 }
@@ -67,7 +68,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-void (empty response body)
+[**AddProductServiceToCartCartItem200Response**](AddProductServiceToCartCartItem200Response.md)
 
 ### Authorization
 
@@ -76,7 +77,7 @@ void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: multipart/form-data
- - **Accept**: Not defined
+ - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -226,7 +227,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **updateCartItemQuantity**
-> updateCartItemQuantity(cartItemId, quantity)
+> AddProductServiceToCartCartItem200Response updateCartItemQuantity(cartItemId, quantity)
 
 Update cart item quantity
 
@@ -247,7 +248,8 @@ final cartItemId = cartItemId_example; // String |
 final quantity = quantity_example; // String | 
 
 try {
-    api_instance.updateCartItemQuantity(cartItemId, quantity);
+    final result = api_instance.updateCartItemQuantity(cartItemId, quantity);
+    print(result);
 } catch (e) {
     print('Exception when calling CartApi->updateCartItemQuantity: $e\n');
 }
@@ -262,7 +264,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-void (empty response body)
+[**AddProductServiceToCartCartItem200Response**](AddProductServiceToCartCartItem200Response.md)
 
 ### Authorization
 
@@ -271,7 +273,7 @@ void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: multipart/form-data
- - **Accept**: Not defined
+ - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

@@ -10,6 +10,7 @@ import 'package:lazo_client/Doman/CommenProviders/ApiProvider.dart';
 import 'package:lazo_client/Presentation/Screens/home/Componants/HorizontalCategoryListViewWithTitleSeeAll.dart';
 import 'package:lazo_client/Presentation/Screens/home/Componants/HorizontalTopServiceListViewWithTitleSeeAll.dart';
 import 'package:lazo_client/Presentation/StateNotifiersViewModel/PublicStateNotifiers.dart';
+import 'package:lazo_client/Presentation/StateNotifiersViewModel/UserAuthStateNotifiers.dart';
 import 'package:lazo_client/Presentation/Widgets/BannerCardItems.dart';
 import 'package:lazo_client/Presentation/Widgets/CategoryItemCart.dart';
 import 'package:lazo_client/Presentation/Widgets/SearchWithFilter.dart';
@@ -42,6 +43,21 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final homeDataState = ref.watch(homeDataStateNotifiers);
+
+    handleState(addProductToCartUseCaseStateNotifier , showLoading: true ,onSuccess: (res){
+      var id = res.data?.data?.id;
+      print("product id : $id");
+      if(id != null){
+        ref.read(homeDataStateNotifiers.notifier).handleAddProductToCart(id);
+      }
+    });
+
+    handleState(addServiceToCartUseCaseStateNotifier , showLoading: true ,onSuccess: (res){
+      var id = res.data?.data?.id;
+      if(id != null){
+        ref.read(homeDataStateNotifiers.notifier).handelAddServiceToCart(id);
+      }
+    });
 
     return Scaffold(
       body: SafeArea(
@@ -203,7 +219,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                     navigateToItemDetails(ItemType.Products,
                                         itemId, itemName, categoryIds);
                                   },
-                                  onAddItemToCart: (int) {},
+                                  onAddItemToCart: (id) {
+                                    addProductToCart(id);
+                                  },
                                   onAddItemToWishList: (int) {},
                                   onSeeAllClickListener: (id, name) {
                                     navigateToSeeAllBestProductAndService(
@@ -236,7 +254,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                     navigateToItemDetails(ItemType.Services,
                                         itemId, itemName, categoryIds);
                                   },
-                                  onAddItemToCart: (int) {},
+                                  onAddItemToCart: (id) {
+                                    addServiceToCart(id);
+                                  },
                                   onAddItemToWishList: (int) {},
                                   onSeeAllClickListener: (id, name) {
                                     navigateToSeeAllBestProductAndService(
@@ -315,5 +335,34 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     int sellerId,
   ) {
     context.push(R_SellerDetails, extra: {"sellerId": sellerId});
+  }
+
+  void addProductToCart(int id) {
+    var sessionId = ref
+        .read(getSessionHandlerStateNotifier.notifier)
+        .checkIfSessionIdExist();
+    if (ref.read(clientStateProvider.notifier).checkIfUserExist() == null && sessionId?.isNotEmpty == true) {
+      ref
+          .read(addProductToCartUseCaseStateNotifier.notifier)
+          .addToCart(productId: id.toString(), sessionId: sessionId);
+    }else {
+      ref
+          .read(addProductToCartUseCaseStateNotifier.notifier)
+          .addToCart(productId: id.toString());
+    }
+  }
+  void addServiceToCart(int id) {
+    var sessionId = ref
+        .read(getSessionHandlerStateNotifier.notifier)
+        .checkIfSessionIdExist();
+    if (ref.read(clientStateProvider.notifier).checkIfUserExist() == null && sessionId?.isNotEmpty == true) {
+      ref
+          .read(addServiceToCartUseCaseStateNotifier.notifier)
+          .addToCart(serviceId: id.toString(), sessionId: sessionId);
+    }else {
+      ref
+          .read(addServiceToCartUseCaseStateNotifier.notifier)
+          .addToCart(serviceId: id.toString());
+    }
   }
 }

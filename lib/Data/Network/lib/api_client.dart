@@ -181,6 +181,10 @@ class ApiClient {
           return valueString == 'true' || valueString == '1';
         case 'DateTime':
           return value is DateTime ? value : DateTime.tryParse(value);
+        case 'AddProductServiceToCartCartItem200Response':
+          return AddProductServiceToCartCartItem200Response.fromJson(value);
+        case 'AddProductServiceToCartCartItem200ResponseData':
+          return AddProductServiceToCartCartItem200ResponseData.fromJson(value);
         case 'Banner':
           return Banner.fromJson(value);
         case 'BannersResponse':

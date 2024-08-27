@@ -2,6 +2,8 @@
 .travis.yml
 README.md
 analysis_options.yaml
+doc/AddProductServiceToCartCartItem200Response.md
+doc/AddProductServiceToCartCartItem200ResponseData.md
 doc/AppInfoApi.md
 doc/AuthApi.md
 doc/Banner.md
@@ -169,6 +171,8 @@ lib/auth/authentication.dart
 lib/auth/http_basic_auth.dart
 lib/auth/http_bearer_auth.dart
 lib/auth/oauth.dart
+lib/model/add_product_service_to_cart_cart_item200_response.dart
+lib/model/add_product_service_to_cart_cart_item200_response_data.dart
 lib/model/banner.dart
 lib/model/banners_response.dart
 lib/model/categories_response.dart
@@ -299,3 +303,5 @@ lib/model/update_profile200_response_data_city.dart
 lib/model/upload_files.dart
 lib/model/upload_files_response.dart
 pubspec.yaml
+test/add_product_service_to_cart_cart_item200_response_data_test.dart
+test/add_product_service_to_cart_cart_item200_response_test.dart

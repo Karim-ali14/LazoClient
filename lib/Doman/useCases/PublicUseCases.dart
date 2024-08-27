@@ -1,10 +1,15 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lazo_client/Constants.dart';
 import 'package:lazo_client/Data/Models/FilterData.dart';
 import 'package:lazo_client/Data/Models/StateModel.dart';
 import 'package:lazo_client/Data/Network/lib/api.dart';
 import 'package:lazo_client/Doman/CommenProviders/ApiProvider.dart';
+import 'package:lazo_client/Utils/Extintions.dart';
 
 import '../../Constants/Eunms.dart';
+import '../../Presentation/StateNotifiersViewModel/PublicStateNotifiers.dart';
+import '../../Presentation/StateNotifiersViewModel/UserAuthStateNotifiers.dart';
+import '../../main.dart';
 
 class CitiesUseCases extends StateNotifier<StateModel<CitiesResponse?>> {
   final Ref ref;
@@ -20,12 +25,36 @@ class CitiesUseCases extends StateNotifier<StateModel<CitiesResponse?>> {
 class HomeDataUseCase extends StateNotifier<StateModel<ShowHome200Response>> {
   final Ref ref;
   final PublicApi publicApi;
+  ShowHome200Response? data;
   HomeDataUseCase(this.ref, this.publicApi) : super(StateModel());
 
   void getHomeData() async {
     state = StateModel.loading();
-    request(() => publicApi.showHome());
+    request(() => publicApi.showHome(),onComplete: (res){
+       data = res;
+    });
   }
+
+  void handleAddProductToCart(num productId){
+    if(data != null){
+      var index = data?.data?.topRatedProducts.indexWhere((product) => productId == product.id);
+      if(index != null && index != -1){
+        data?.data?.topRatedProducts.getSafe(index)?.inCart = true;
+      }
+      state = StateModel.success(data);
+    }
+  }
+
+  void handelAddServiceToCart(num serviceId){
+    if(data != null){
+      var index = data?.data?.topRatedServices.indexWhere((product) => serviceId == product.id);
+      if(index != null && index != -1){
+        data?.data?.topRatedServices.getSafe(index)?.inCart = true;
+      }
+      state = StateModel.success(data);
+    }
+  }
+
 }
 
 class GetCategoriesUseCase
@@ -286,8 +315,7 @@ class GetServicesUseCase
           res.data?.services?.data = list;
         }
         state = StateModel.success(res);
-      }
-      else if (page == 1 && res.data?.services?.data.isEmpty == true) {
+      } else if (page == 1 && res.data?.services?.data.isEmpty == true) {
         state = StateModel.empty();
       }
     });
@@ -392,15 +420,74 @@ class GetSellerDetailsUseCase
   }
 }
 
-class AppInfoUseCase
-    extends StateNotifier<StateModel<GetAppInfo200Response>> {
+class AppInfoUseCase extends StateNotifier<StateModel<GetAppInfo200Response>> {
   final Ref ref;
   final PublicApi publicApi;
-  AppInfoUseCase(this.ref, this.publicApi)
-      : super(StateModel());
+  AppInfoUseCase(this.ref, this.publicApi) : super(StateModel());
 
   void getAppInfo() {
     state = StateModel.loading();
     request(() => publicApi.getAppInfo());
+  }
+}
+
+class AddToCartUseCase
+    extends StateNotifier<StateModel<AddProductServiceToCartCartItem200Response>> {
+  final Ref ref;
+  final PublicApi publicApi;
+  AddToCartUseCase(this.ref, this.publicApi) : super(StateModel());
+
+  void addToCart({
+    String? sessionId,
+    String? productId,
+    String? productQuantity = "1",
+    String? productSelectedListIds,
+    String? productSelectedListItemsIds,
+    String? serviceId,
+    String? serviceQuantity = "1",
+    String? serviceSelectedListIds,
+    String? serviceSelectedListItemsIds,
+  }) {
+    state = StateModel.loading();
+    request(() => publicApi.addProductServiceToCartCartItem(
+        sessionId: sessionId,
+        productId: productId,
+        productQuantity: productQuantity,
+        productSelectedListIds: productSelectedListIds,
+        productSelectedListItemsIds: productSelectedListItemsIds,
+        serviceId: serviceId,
+        serviceQuantity: serviceQuantity,
+        serviceSelectedListIds: serviceSelectedListIds,
+        serviceSelectedListItemsIds: serviceSelectedListItemsIds),onComplete: (res) {
+      if(ref.read(clientStateProvider.notifier).checkIfUserExist() == null){
+        ref.read(getSessionHandlerStateNotifier.notifier).setSessionId(res.data?.sessionId);
+        print("${ref.read(getSessionHandlerStateNotifier.notifier).checkIfSessionIdExist()}");
+      }
+    });
+  }
+}
+
+class SessionHandler extends StateNotifier<String?> {
+  final Ref ref;
+  SessionHandler(this.ref) : super(null);
+
+  String? checkIfSessionIdExist() {
+    print("SessionId = ${prefs.getString(sessionIdKey)}");
+    String? sessionId = prefs.getString(sessionIdKey);
+    print("SessionId = $sessionId");
+
+    return sessionId?.isNotEmpty == true ? sessionId : null;
+  }
+
+  void setSessionId(String? sessionId) {
+    state = sessionId;
+    prefs.setString(sessionIdKey, sessionId ?? "");
+    print("clint model saved $sessionId");
+  }
+
+  Future<bool> clearSessionId() async {
+    state = null;
+    await prefs.remove(sessionIdKey);
+    return true;
   }
 }

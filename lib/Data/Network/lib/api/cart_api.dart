@@ -146,11 +146,19 @@ class CartApi {
   ///
   /// * [String] serviceSelectedListItemsIds:
   ///   Optional, but required with service_id if provided
-  Future<void> addProductServiceToCartCartItem({ String? sessionId, String? productId, String? productQuantity, String? productSelectedListIds, String? productSelectedListItemsIds, String? serviceId, String? serviceQuantity, String? serviceSelectedListIds, String? serviceSelectedListItemsIds, }) async {
+  Future<AddProductServiceToCartCartItem200Response?> addProductServiceToCartCartItem({ String? sessionId, String? productId, String? productQuantity, String? productSelectedListIds, String? productSelectedListItemsIds, String? serviceId, String? serviceQuantity, String? serviceSelectedListIds, String? serviceSelectedListItemsIds, }) async {
     final response = await addProductServiceToCartCartItemWithHttpInfo( sessionId: sessionId, productId: productId, productQuantity: productQuantity, productSelectedListIds: productSelectedListIds, productSelectedListItemsIds: productSelectedListItemsIds, serviceId: serviceId, serviceQuantity: serviceQuantity, serviceSelectedListIds: serviceSelectedListIds, serviceSelectedListItemsIds: serviceSelectedListItemsIds, );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
+    // When a remote server returns no body with a status of 204, we shall not decode it.
+    // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
+    // FormatException when trying to decode an empty string.
+    if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'AddProductServiceToCartCartItem200Response',) as AddProductServiceToCartCartItem200Response;
+    
+    }
+    return null;
   }
 
   /// Delete cart item
@@ -390,10 +398,18 @@ class CartApi {
   /// * [String] cartItemId:
   ///
   /// * [String] quantity:
-  Future<void> updateCartItemQuantity({ String? cartItemId, String? quantity, }) async {
+  Future<AddProductServiceToCartCartItem200Response?> updateCartItemQuantity({ String? cartItemId, String? quantity, }) async {
     final response = await updateCartItemQuantityWithHttpInfo( cartItemId: cartItemId, quantity: quantity, );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
+    // When a remote server returns no body with a status of 204, we shall not decode it.
+    // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
+    // FormatException when trying to decode an empty string.
+    if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'AddProductServiceToCartCartItem200Response',) as AddProductServiceToCartCartItem200Response;
+    
+    }
+    return null;
   }
 }

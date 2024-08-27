@@ -65,23 +65,19 @@ Class | Method | HTTP request | Description
 *CartApi* | [**resetCartForClient**](doc//CartApi.md#resetcartforclient) | **POST** /cart/delete | Reset cart for client
 *CartApi* | [**showCartDetails**](doc//CartApi.md#showcartdetails) | **POST** /cart/show | show cart details
 *CartApi* | [**updateCartItemQuantity**](doc//CartApi.md#updatecartitemquantity) | **POST** /cart/update | Update cart item quantity
-*ClientApi* | [**addProductServiceToCartCartItem**](doc//ClientApi.md#addproductservicetocartcartitem) | **POST** /cart/create | Add product/service to cart (cart-item)
 *ClientApi* | [**assignChatNotificationToAProvider**](doc//ClientApi.md#assignchatnotificationtoaprovider) | **POST** /client/chat/notification/assign | Assign chat notification to a provider
 *ClientApi* | [**clientAccountDeleteGet**](doc//ClientApi.md#clientaccountdeleteget) | **GET** /client/account-delete | client\\'s account deleted successfully
 *ClientApi* | [**clientLogoutGet**](doc//ClientApi.md#clientlogoutget) | **GET** /client/logout | client logout
 *ClientApi* | [**createOrder**](doc//ClientApi.md#createorder) | **POST** /client/order/create | Create order
-*ClientApi* | [**deleteCartItem**](doc//ClientApi.md#deletecartitem) | **POST** /cart-item/delete | Delete cart item
 *ClientApi* | [**manageOrder**](doc//ClientApi.md#manageorder) | **POST** /client/order/manage | Manage order
 *ClientApi* | [**rateOrder**](doc//ClientApi.md#rateorder) | **POST** /client/order/rating | Rate order
 *ClientApi* | [**readANotification122**](doc//ClientApi.md#readanotification122) | **POST** /client/notification/read | read a notification
-*ClientApi* | [**resetCartForClient**](doc//ClientApi.md#resetcartforclient) | **POST** /cart/delete | Reset cart for client
 *ClientApi* | [**showNotifications2**](doc//ClientApi.md#shownotifications2) | **GET** /client/notifications | show notifications
 *ClientApi* | [**showOrderDetails**](doc//ClientApi.md#showorderdetails) | **GET** /client/order/show | Show order details
 *ClientApi* | [**showOrders**](doc//ClientApi.md#showorders) | **GET** /client/orders | Show orders
 *ClientApi* | [**showProfile**](doc//ClientApi.md#showprofile) | **GET** /client/profile/show | show profile
 *ClientApi* | [**showWishlistItemsWithSearchByName**](doc//ClientApi.md#showwishlistitemswithsearchbyname) | **GET** /client/wishlist/show | Show wishlist items (with search by name)
 *ClientApi* | [**toggleProductServiceInWishlist**](doc//ClientApi.md#toggleproductserviceinwishlist) | **POST** /client/wishlist/toggle | Toggle product/service in wishlist
-*ClientApi* | [**updateCartItemQuantity**](doc//ClientApi.md#updatecartitemquantity) | **POST** /cart/update | Update cart item quantity
 *ClientApi* | [**updateFcmTokenAndDeviceType2**](doc//ClientApi.md#updatefcmtokenanddevicetype2) | **POST** /client/update/device-data | update fcm_token and device_type
 *ClientApi* | [**updateProfile**](doc//ClientApi.md#updateprofile) | **POST** /client/profile/update | update profile
 *NotificationsApi* | [**assignChatNotificationToAClient**](doc//NotificationsApi.md#assignchatnotificationtoaclient) | **POST** /provider/chat/notification/assign | Assign chat notification to a client
@@ -112,12 +108,15 @@ Class | Method | HTTP request | Description
 *ProviderApi* | [**showNotifications1**](doc//ProviderApi.md#shownotifications1) | **GET** /provider/notifications | show notifications
 *ProviderApi* | [**showOrderDetails2**](doc//ProviderApi.md#showorderdetails2) | **GET** /provider/order/show | show order details
 *ProviderApi* | [**updateFcmTokenAndDeviceType1**](doc//ProviderApi.md#updatefcmtokenanddevicetype1) | **POST** /provider/update/device-data | update fcm_token and device_type
+*PublicApi* | [**addProductServiceToCartCartItem**](doc//PublicApi.md#addproductservicetocartcartitem) | **POST** /cart/create | Add product/service to cart (cart-item)
 *PublicApi* | [**citiesGet**](doc//PublicApi.md#citiesget) | **GET** /cities | show all cities
 *PublicApi* | [**clientLogin**](doc//PublicApi.md#clientlogin) | **POST** /client/login | client login
 *PublicApi* | [**clientSignup**](doc//PublicApi.md#clientsignup) | **POST** /client/register | client signup
+*PublicApi* | [**deleteCartItem**](doc//PublicApi.md#deletecartitem) | **POST** /cart-item/delete | Delete cart item
 *PublicApi* | [**filterTopProductsServices**](doc//PublicApi.md#filtertopproductsservices) | **POST** /top-products-services/filter | Filter top products & services
 *PublicApi* | [**filterTopSellers**](doc//PublicApi.md#filtertopsellers) | **POST** /top-sellers/filter | Filter top sellers
 *PublicApi* | [**getAppInfo**](doc//PublicApi.md#getappinfo) | **GET** /app-info | get app info
+*PublicApi* | [**resetCartForClient**](doc//PublicApi.md#resetcartforclient) | **POST** /cart/delete | Reset cart for client
 *PublicApi* | [**showAProviderDetails**](doc//PublicApi.md#showaproviderdetails) | **GET** /provider/details | provider details
 *PublicApi* | [**showAllBanners**](doc//PublicApi.md#showallbanners) | **GET** /banners | show all banners
 *PublicApi* | [**showAllCategories**](doc//PublicApi.md#showallcategories) | **GET** /categories | show all categories
@@ -128,6 +127,7 @@ Class | Method | HTTP request | Description
 *PublicApi* | [**showAllProducts**](doc//PublicApi.md#showallproducts) | **GET** /products/filter | show all products
 *PublicApi* | [**showAllServicesWithFilter**](doc//PublicApi.md#showallserviceswithfilter) | **GET** /services/filter | show all services (with filter)
 *PublicApi* | [**showAllSizes**](doc//PublicApi.md#showallsizes) | **GET** /sizes | show all sizes
+*PublicApi* | [**showCartDetails**](doc//PublicApi.md#showcartdetails) | **POST** /cart/show | show cart details
 *PublicApi* | [**showHome**](doc//PublicApi.md#showhome) | **GET** /home | Show home
 *PublicApi* | [**showProductDetails**](doc//PublicApi.md#showproductdetails) | **GET** /product/show | show product details
 *PublicApi* | [**showProductReviews**](doc//PublicApi.md#showproductreviews) | **GET** /product/reviews | product with its list of ratings
@@ -135,6 +135,7 @@ Class | Method | HTTP request | Description
 *PublicApi* | [**showServiceDetails**](doc//PublicApi.md#showservicedetails) | **GET** /service/show | show service details
 *PublicApi* | [**showServiceReviews**](doc//PublicApi.md#showservicereviews) | **GET** /service/reviews | service with its list of ratings
 *PublicApi* | [**tagsGet**](doc//PublicApi.md#tagsget) | **GET** /tags | show all tags
+*PublicApi* | [**updateCartItemQuantity**](doc//PublicApi.md#updatecartitemquantity) | **POST** /cart/update | Update cart item quantity
 *PublicApi* | [**uploadFilesPost**](doc//PublicApi.md#uploadfilespost) | **POST** /upload/files | upload file(s)
 *PublicAuthApi* | [**codeConfirmPost**](doc//PublicAuthApi.md#codeconfirmpost) | **POST** /code/confirm | confirm code
 *PublicAuthApi* | [**codeSendPost**](doc//PublicAuthApi.md#codesendpost) | **POST** /code/send | send code
@@ -149,6 +150,8 @@ Class | Method | HTTP request | Description
 
 ## Documentation For Models
 
+ - [AddProductServiceToCartCartItem200Response](doc//AddProductServiceToCartCartItem200Response.md)
+ - [AddProductServiceToCartCartItem200ResponseData](doc//AddProductServiceToCartCartItem200ResponseData.md)
  - [Banner](doc//Banner.md)
  - [BannersResponse](doc//BannersResponse.md)
  - [CategoriesResponse](doc//CategoriesResponse.md)

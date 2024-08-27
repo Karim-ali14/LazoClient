@@ -7919,6 +7919,7 @@ paths:
   /cart/show:
     post:
       tags:
+        - public
         - cart
       summary: show cart details
       description: show cart details
@@ -7932,6 +7933,7 @@ paths:
               properties:
                 session_id:
                   type: string
+                  nullable: true
 
       responses:
         '200':
@@ -8053,7 +8055,7 @@ paths:
   /cart/create:
     post:
       tags:
-        - client
+        - public
         - cart
       summary: Add product/service to cart (cart-item)
       description: Add product/service to cart (cart-item)
@@ -8066,6 +8068,7 @@ paths:
               properties:
                 session_id:
                   type: string
+                  nullable: true
                 product_id:
                   description: 'Optional (insert a product or a service)'
                   type: string
@@ -8101,12 +8104,128 @@ paths:
       responses:
         '200':
           description: Successfully added product/service to cart
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+            Cache-Control:
+              schema:
+                type: string
+                example: no-cache, private
+            Connection:
+              schema:
+                type: string
+                example: close
+            Date:
+              schema:
+                type: string
+                example: Wed, 15 May 2024 18:16:01 GMT
+            Host:
+              schema:
+                type: string
+                example: localhost:8000
+            X-Powered-By:
+              schema:
+                type: string
+                example: PHP/8.1.2-1ubuntu2.14
+            X-RateLimit-Limit:
+              schema:
+                type: string
+                example: '60'
+            X-RateLimit-Remaining:
+              schema:
+                type: string
+                example: '59'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      cart_items:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            card_price:
+                              type: number
+                              nullable: true
+                              example: null
+                            cart_id:
+                              type: number
+                              example: 2
+                            created_at:
+                              type: string
+                              example: '2024-05-15T17:59:26.000000Z'
+                            id:
+                              type: number
+                              example: 2
+                            lists_total_price:
+                              type: number
+                              example: 20.26
+                            price:
+                              type: number
+                              example: 40.21
+                            product:
+                              nullable: true
+                              type: object
+                              properties:
+                                data:
+                                  $ref: '#/components/schemas/ProviderProduct'
+                            product_id:
+                              type: number
+                              nullable: true
+                              example: 4
+                            quantity:
+                              type: number
+                              example: 4
+                            service:
+                              type: object
+                              nullable: true
+                              properties:
+                                data:
+                                  $ref: '#/components/schemas/ServiceShowData'
+                            service_id:
+                              type: number
+                              nullable: true
+                              example: null
+                            updated_at:
+                              type: string
+                              example: '2024-05-15T17:59:26.000000Z'
+                      created_at:
+                        type: string
+                        example: '2024-05-15T17:59:26.000000Z'
+                      id:
+                        type: number
+                        example: 2
+                      total:
+                        type: number
+                        example: 1001.51
+                      updated_at:
+                        type: string
+                        example: '2024-05-15T18:06:07.000000Z'
+                      user_id:
+                        type: number
+                        example: 1
+                      session_id:
+                        type: string
+                        nullable: true
+                  message:
+                    type: string
+                    example: cart details
+                  status:
+                    type: boolean
+                    example: true
+
       security:
         - bearerAuth: []
   /cart/update:
     post:
       tags:
-        - client
+        - public
         - cart
       summary: Update cart item quantity
       description: Update cart item quantity
@@ -8126,12 +8245,128 @@ paths:
       responses:
         '200':
           description: Successfully updated cart item quantity
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+            Cache-Control:
+              schema:
+                type: string
+                example: no-cache, private
+            Connection:
+              schema:
+                type: string
+                example: close
+            Date:
+              schema:
+                type: string
+                example: Wed, 15 May 2024 18:16:01 GMT
+            Host:
+              schema:
+                type: string
+                example: localhost:8000
+            X-Powered-By:
+              schema:
+                type: string
+                example: PHP/8.1.2-1ubuntu2.14
+            X-RateLimit-Limit:
+              schema:
+                type: string
+                example: '60'
+            X-RateLimit-Remaining:
+              schema:
+                type: string
+                example: '59'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      cart_items:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            card_price:
+                              type: number
+                              nullable: true
+                              example: null
+                            cart_id:
+                              type: number
+                              example: 2
+                            created_at:
+                              type: string
+                              example: '2024-05-15T17:59:26.000000Z'
+                            id:
+                              type: number
+                              example: 2
+                            lists_total_price:
+                              type: number
+                              example: 20.26
+                            price:
+                              type: number
+                              example: 40.21
+                            product:
+                              nullable: true
+                              type: object
+                              properties:
+                                data:
+                                  $ref: '#/components/schemas/ProviderProduct'
+                            product_id:
+                              type: number
+                              nullable: true
+                              example: 4
+                            quantity:
+                              type: number
+                              example: 4
+                            service:
+                              type: object
+                              nullable: true
+                              properties:
+                                data:
+                                  $ref: '#/components/schemas/ServiceShowData'
+                            service_id:
+                              type: number
+                              nullable: true
+                              example: null
+                            updated_at:
+                              type: string
+                              example: '2024-05-15T17:59:26.000000Z'
+                      created_at:
+                        type: string
+                        example: '2024-05-15T17:59:26.000000Z'
+                      id:
+                        type: number
+                        example: 2
+                      total:
+                        type: number
+                        example: 1001.51
+                      updated_at:
+                        type: string
+                        example: '2024-05-15T18:06:07.000000Z'
+                      user_id:
+                        type: number
+                        example: 1
+                      session_id:
+                        type: string
+                        nullable: true
+                  message:
+                    type: string
+                    example: cart details
+                  status:
+                    type: boolean
+                    example: true
+
       security:
         - bearerAuth: []
   /cart-item/delete:
     post:
       tags:
-        - client
+        - public
         - cart
       summary: Delete cart item
       description: Delete cart item
@@ -8153,7 +8388,7 @@ paths:
   /cart/delete:
     post:
       tags:
-        - client
+        - public
         - cart
       summary: Reset cart for client
       description: Reset cart for client
@@ -8166,6 +8401,7 @@ paths:
               properties:
                 session_id:
                   type: string
+                  nullable: true
 
       responses:
         '200':
@@ -9686,6 +9922,8 @@ paths:
                             type: string
                           about_app_path:
                             type: string
+                          privacy_policy:
+                            type: string
 
                       client_app_info:
                         type: object
@@ -9711,6 +9949,8 @@ paths:
                           terms_conditions_path:
                             type: string
                           about_app_path:
+                            type: string
+                          privacy_policy:
                             type: string
 
                       faqs:

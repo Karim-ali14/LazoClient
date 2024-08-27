@@ -42,6 +42,8 @@ part 'api/public_api.dart';
 part 'api/public_auth_api.dart';
 part 'api/wishlist_api.dart';
 
+part 'model/add_product_service_to_cart_cart_item200_response.dart';
+part 'model/add_product_service_to_cart_cart_item200_response_data.dart';
 part 'model/banner.dart';
 part 'model/banners_response.dart';
 part 'model/categories_response.dart';

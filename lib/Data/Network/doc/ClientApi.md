@@ -9,90 +9,22 @@ All URIs are relative to *http://}*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**addProductServiceToCartCartItem**](ClientApi.md#addproductservicetocartcartitem) | **POST** /cart/create | Add product/service to cart (cart-item)
 [**assignChatNotificationToAProvider**](ClientApi.md#assignchatnotificationtoaprovider) | **POST** /client/chat/notification/assign | Assign chat notification to a provider
 [**clientAccountDeleteGet**](ClientApi.md#clientaccountdeleteget) | **GET** /client/account-delete | client\\'s account deleted successfully
 [**clientLogoutGet**](ClientApi.md#clientlogoutget) | **GET** /client/logout | client logout
 [**createOrder**](ClientApi.md#createorder) | **POST** /client/order/create | Create order
-[**deleteCartItem**](ClientApi.md#deletecartitem) | **POST** /cart-item/delete | Delete cart item
 [**manageOrder**](ClientApi.md#manageorder) | **POST** /client/order/manage | Manage order
 [**rateOrder**](ClientApi.md#rateorder) | **POST** /client/order/rating | Rate order
 [**readANotification122**](ClientApi.md#readanotification122) | **POST** /client/notification/read | read a notification
-[**resetCartForClient**](ClientApi.md#resetcartforclient) | **POST** /cart/delete | Reset cart for client
 [**showNotifications2**](ClientApi.md#shownotifications2) | **GET** /client/notifications | show notifications
 [**showOrderDetails**](ClientApi.md#showorderdetails) | **GET** /client/order/show | Show order details
 [**showOrders**](ClientApi.md#showorders) | **GET** /client/orders | Show orders
 [**showProfile**](ClientApi.md#showprofile) | **GET** /client/profile/show | show profile
 [**showWishlistItemsWithSearchByName**](ClientApi.md#showwishlistitemswithsearchbyname) | **GET** /client/wishlist/show | Show wishlist items (with search by name)
 [**toggleProductServiceInWishlist**](ClientApi.md#toggleproductserviceinwishlist) | **POST** /client/wishlist/toggle | Toggle product/service in wishlist
-[**updateCartItemQuantity**](ClientApi.md#updatecartitemquantity) | **POST** /cart/update | Update cart item quantity
 [**updateFcmTokenAndDeviceType2**](ClientApi.md#updatefcmtokenanddevicetype2) | **POST** /client/update/device-data | update fcm_token and device_type
 [**updateProfile**](ClientApi.md#updateprofile) | **POST** /client/profile/update | update profile
 
-
-# **addProductServiceToCartCartItem**
-> addProductServiceToCartCartItem(sessionId, productId, productQuantity, productSelectedListIds, productSelectedListItemsIds, serviceId, serviceQuantity, serviceSelectedListIds, serviceSelectedListItemsIds)
-
-Add product/service to cart (cart-item)
-
-Add product/service to cart (cart-item)
-
-### Example
-```dart
-import 'package:lazo/api.dart';
-// TODO Configure HTTP Bearer authorization: bearerAuth
-// Case 1. Use String Token
-//defaultApiClient.getAuthentication<HttpBearerAuth>('bearerAuth').setAccessToken('YOUR_ACCESS_TOKEN');
-// Case 2. Use Function which generate token.
-// String yourTokenGeneratorFunction() { ... }
-//defaultApiClient.getAuthentication<HttpBearerAuth>('bearerAuth').setAccessToken(yourTokenGeneratorFunction);
-
-final api_instance = ClientApi();
-final sessionId = sessionId_example; // String | 
-final productId = productId_example; // String | Optional (insert a product or a service)
-final productQuantity = productQuantity_example; // String | Required with product_id
-final productSelectedListIds = productSelectedListIds_example; // String | Optional, but required with product_id if provided
-final productSelectedListItemsIds = productSelectedListItemsIds_example; // String | Optional, but required with product_id if provided
-final serviceId = serviceId_example; // String | Optional (insert a product or a service)
-final serviceQuantity = serviceQuantity_example; // String | Required with service_id
-final serviceSelectedListIds = serviceSelectedListIds_example; // String | Optional, but required with service_id if provided
-final serviceSelectedListItemsIds = serviceSelectedListItemsIds_example; // String | Optional, but required with service_id if provided
-
-try {
-    api_instance.addProductServiceToCartCartItem(sessionId, productId, productQuantity, productSelectedListIds, productSelectedListItemsIds, serviceId, serviceQuantity, serviceSelectedListIds, serviceSelectedListItemsIds);
-} catch (e) {
-    print('Exception when calling ClientApi->addProductServiceToCartCartItem: $e\n');
-}
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **sessionId** | **String**|  | [optional] 
- **productId** | **String**| Optional (insert a product or a service) | [optional] 
- **productQuantity** | **String**| Required with product_id | [optional] 
- **productSelectedListIds** | **String**| Optional, but required with product_id if provided | [optional] 
- **productSelectedListItemsIds** | **String**| Optional, but required with product_id if provided | [optional] 
- **serviceId** | **String**| Optional (insert a product or a service) | [optional] 
- **serviceQuantity** | **String**| Required with service_id | [optional] 
- **serviceSelectedListIds** | **String**| Optional, but required with service_id if provided | [optional] 
- **serviceSelectedListItemsIds** | **String**| Optional, but required with service_id if provided | [optional] 
-
-### Return type
-
-void (empty response body)
-
-### Authorization
-
-[bearerAuth](../README.md#bearerAuth)
-
-### HTTP request headers
-
- - **Content-Type**: multipart/form-data
- - **Accept**: Not defined
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **assignChatNotificationToAProvider**
 > assignChatNotificationToAProvider(chatroomId, notificationMessage, providerId)
@@ -299,54 +231,6 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **deleteCartItem**
-> deleteCartItem(cartItemId)
-
-Delete cart item
-
-Delete cart item
-
-### Example
-```dart
-import 'package:lazo/api.dart';
-// TODO Configure HTTP Bearer authorization: bearerAuth
-// Case 1. Use String Token
-//defaultApiClient.getAuthentication<HttpBearerAuth>('bearerAuth').setAccessToken('YOUR_ACCESS_TOKEN');
-// Case 2. Use Function which generate token.
-// String yourTokenGeneratorFunction() { ... }
-//defaultApiClient.getAuthentication<HttpBearerAuth>('bearerAuth').setAccessToken(yourTokenGeneratorFunction);
-
-final api_instance = ClientApi();
-final cartItemId = cartItemId_example; // String | 
-
-try {
-    api_instance.deleteCartItem(cartItemId);
-} catch (e) {
-    print('Exception when calling ClientApi->deleteCartItem: $e\n');
-}
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **cartItemId** | **String**|  | [optional] 
-
-### Return type
-
-void (empty response body)
-
-### Authorization
-
-[bearerAuth](../README.md#bearerAuth)
-
-### HTTP request headers
-
- - **Content-Type**: multipart/form-data
- - **Accept**: Not defined
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
 # **manageOrder**
 > ClientOrderDetailsResponse manageOrder(orderId, statusId)
 
@@ -497,54 +381,6 @@ Name | Type | Description  | Notes
 
  - **Content-Type**: multipart/form-data
  - **Accept**: application/json
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
-# **resetCartForClient**
-> resetCartForClient(sessionId)
-
-Reset cart for client
-
-Reset cart for client
-
-### Example
-```dart
-import 'package:lazo/api.dart';
-// TODO Configure HTTP Bearer authorization: bearerAuth
-// Case 1. Use String Token
-//defaultApiClient.getAuthentication<HttpBearerAuth>('bearerAuth').setAccessToken('YOUR_ACCESS_TOKEN');
-// Case 2. Use Function which generate token.
-// String yourTokenGeneratorFunction() { ... }
-//defaultApiClient.getAuthentication<HttpBearerAuth>('bearerAuth').setAccessToken(yourTokenGeneratorFunction);
-
-final api_instance = ClientApi();
-final sessionId = sessionId_example; // String | 
-
-try {
-    api_instance.resetCartForClient(sessionId);
-} catch (e) {
-    print('Exception when calling ClientApi->resetCartForClient: $e\n');
-}
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **sessionId** | **String**|  | [optional] 
-
-### Return type
-
-void (empty response body)
-
-### Authorization
-
-[bearerAuth](../README.md#bearerAuth)
-
-### HTTP request headers
-
- - **Content-Type**: multipart/form-data
- - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -835,56 +671,6 @@ Name | Type | Description  | Notes
 
  - **Content-Type**: multipart/form-data
  - **Accept**: application/json
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
-# **updateCartItemQuantity**
-> updateCartItemQuantity(cartItemId, quantity)
-
-Update cart item quantity
-
-Update cart item quantity
-
-### Example
-```dart
-import 'package:lazo/api.dart';
-// TODO Configure HTTP Bearer authorization: bearerAuth
-// Case 1. Use String Token
-//defaultApiClient.getAuthentication<HttpBearerAuth>('bearerAuth').setAccessToken('YOUR_ACCESS_TOKEN');
-// Case 2. Use Function which generate token.
-// String yourTokenGeneratorFunction() { ... }
-//defaultApiClient.getAuthentication<HttpBearerAuth>('bearerAuth').setAccessToken(yourTokenGeneratorFunction);
-
-final api_instance = ClientApi();
-final cartItemId = cartItemId_example; // String | 
-final quantity = quantity_example; // String | 
-
-try {
-    api_instance.updateCartItemQuantity(cartItemId, quantity);
-} catch (e) {
-    print('Exception when calling ClientApi->updateCartItemQuantity: $e\n');
-}
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **cartItemId** | **String**|  | [optional] 
- **quantity** | **String**|  | [optional] 
-
-### Return type
-
-void (empty response body)
-
-### Authorization
-
-[bearerAuth](../README.md#bearerAuth)
-
-### HTTP request headers
-
- - **Content-Type**: multipart/form-data
- - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

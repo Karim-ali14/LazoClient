@@ -24,6 +24,7 @@ class GetAppInfo200ResponseDataProviderAppInfo {
     this.updatedAt,
     this.termsConditionsPath,
     this.aboutAppPath,
+    this.privacyPolicy,
   });
 
   ///
@@ -114,6 +115,14 @@ class GetAppInfo200ResponseDataProviderAppInfo {
   ///
   String? aboutAppPath;
 
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  String? privacyPolicy;
+
   @override
   bool operator ==(Object other) => identical(this, other) || other is GetAppInfo200ResponseDataProviderAppInfo &&
      other.id == id &&
@@ -126,7 +135,8 @@ class GetAppInfo200ResponseDataProviderAppInfo {
      other.createdAt == createdAt &&
      other.updatedAt == updatedAt &&
      other.termsConditionsPath == termsConditionsPath &&
-     other.aboutAppPath == aboutAppPath;
+     other.aboutAppPath == aboutAppPath &&
+     other.privacyPolicy == privacyPolicy;
 
   @override
   int get hashCode =>
@@ -141,10 +151,11 @@ class GetAppInfo200ResponseDataProviderAppInfo {
     (createdAt == null ? 0 : createdAt!.hashCode) +
     (updatedAt == null ? 0 : updatedAt!.hashCode) +
     (termsConditionsPath == null ? 0 : termsConditionsPath!.hashCode) +
-    (aboutAppPath == null ? 0 : aboutAppPath!.hashCode);
+    (aboutAppPath == null ? 0 : aboutAppPath!.hashCode) +
+    (privacyPolicy == null ? 0 : privacyPolicy!.hashCode);
 
   @override
-  String toString() => 'GetAppInfo200ResponseDataProviderAppInfo[id=$id, type=$type, termsConditions=$termsConditions, aboutApp=$aboutApp, contactEmail=$contactEmail, contactPhone=$contactPhone, contactWhatsapp=$contactWhatsapp, createdAt=$createdAt, updatedAt=$updatedAt, termsConditionsPath=$termsConditionsPath, aboutAppPath=$aboutAppPath]';
+  String toString() => 'GetAppInfo200ResponseDataProviderAppInfo[id=$id, type=$type, termsConditions=$termsConditions, aboutApp=$aboutApp, contactEmail=$contactEmail, contactPhone=$contactPhone, contactWhatsapp=$contactWhatsapp, createdAt=$createdAt, updatedAt=$updatedAt, termsConditionsPath=$termsConditionsPath, aboutAppPath=$aboutAppPath, privacyPolicy=$privacyPolicy]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -203,6 +214,11 @@ class GetAppInfo200ResponseDataProviderAppInfo {
     } else {
       json[r'about_app_path'] = null;
     }
+    if (this.privacyPolicy != null) {
+      json[r'privacy_policy'] = this.privacyPolicy;
+    } else {
+      json[r'privacy_policy'] = null;
+    }
     return json;
   }
 
@@ -238,6 +254,7 @@ class GetAppInfo200ResponseDataProviderAppInfo {
         updatedAt: mapValueOfType<String>(json, r'updated_at'),
         termsConditionsPath: mapValueOfType<String>(json, r'terms_conditions_path'),
         aboutAppPath: mapValueOfType<String>(json, r'about_app_path'),
+        privacyPolicy: mapValueOfType<String>(json, r'privacy_policy'),
       );
     }
     return null;

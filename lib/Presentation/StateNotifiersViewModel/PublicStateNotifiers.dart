@@ -51,34 +51,51 @@ final filterForSellerStateNotifiers =
     StateNotifierProvider<FilterDataUseCase, FilterData>(
         (ref) => FilterDataUseCase(ref));
 
-final getProductDetails = StateNotifierProvider.autoDispose<GetProductDetailsUseCase,
-        StateModel<ProductDetailsResponse>>(
+final getProductDetails = StateNotifierProvider.autoDispose<
+        GetProductDetailsUseCase, StateModel<ProductDetailsResponse>>(
     (ref) => GetProductDetailsUseCase(ref, ref.read(publicApi)));
 
-final getServiceDetails = StateNotifierProvider.autoDispose<GetServiceDetailsUseCase,
-        StateModel<ServiceShowResponse>>(
+final getServiceDetails = StateNotifierProvider.autoDispose<
+        GetServiceDetailsUseCase, StateModel<ServiceShowResponse>>(
     (ref) => GetServiceDetailsUseCase(ref, ref.read(publicApi)));
 
-final getProductReviews = StateNotifierProvider.autoDispose<GetProductReviewsUseCase,
-        StateModel<ProductDetailsResponse>>(
+final getProductReviews = StateNotifierProvider.autoDispose<
+        GetProductReviewsUseCase, StateModel<ProductDetailsResponse>>(
     (ref) => GetProductReviewsUseCase(ref, ref.read(publicApi)));
 
-final getServiceReviews = StateNotifierProvider.autoDispose<GetServiceReviewsUseCase,
-        StateModel<ServiceShowResponse>>(
+final getServiceReviews = StateNotifierProvider.autoDispose<
+        GetServiceReviewsUseCase, StateModel<ServiceShowResponse>>(
     (ref) => GetServiceReviewsUseCase(ref, ref.read(publicApi)));
 
-final getSellerDetailsWithProductStateNotifier = StateNotifierProvider.autoDispose<GetSellerDetailsUseCase,
-        StateModel<ShowAProviderDetails200Response>>(
-    (ref) => GetSellerDetailsUseCase(ref, ref.read(publicApi),ItemType.Products.index));
+final getSellerDetailsWithProductStateNotifier =
+    StateNotifierProvider.autoDispose<GetSellerDetailsUseCase,
+            StateModel<ShowAProviderDetails200Response>>(
+        (ref) => GetSellerDetailsUseCase(
+            ref, ref.read(publicApi), ItemType.Products.index));
 
-final getSellerDetailsWithServicesStateNotifier = StateNotifierProvider.autoDispose<GetSellerDetailsUseCase,
-        StateModel<ShowAProviderDetails200Response>>(
-    (ref) => GetSellerDetailsUseCase(ref, ref.read(publicApi),ItemType.Services.index));
+final getSellerDetailsWithServicesStateNotifier =
+    StateNotifierProvider.autoDispose<GetSellerDetailsUseCase,
+            StateModel<ShowAProviderDetails200Response>>(
+        (ref) => GetSellerDetailsUseCase(
+            ref, ref.read(publicApi), ItemType.Services.index));
 
-final getSellerDetailsWithReviewsStateNotifier = StateNotifierProvider.autoDispose<GetSellerDetailsUseCase,
-        StateModel<ShowAProviderDetails200Response>>(
-    (ref) => GetSellerDetailsUseCase(ref, ref.read(publicApi),2));
+final getSellerDetailsWithReviewsStateNotifier =
+    StateNotifierProvider.autoDispose<GetSellerDetailsUseCase,
+            StateModel<ShowAProviderDetails200Response>>(
+        (ref) => GetSellerDetailsUseCase(ref, ref.read(publicApi), 2));
 
-final getAppInfoStateNotifier = StateNotifierProvider<AppInfoUseCase,
-        StateModel<GetAppInfo200Response>>(
-    (ref) => AppInfoUseCase(ref, ref.read(publicApi)));
+final getAppInfoStateNotifier =
+    StateNotifierProvider<AppInfoUseCase, StateModel<GetAppInfo200Response>>(
+        (ref) => AppInfoUseCase(ref, ref.read(publicApi)));
+
+final getSessionHandlerStateNotifier =
+    StateNotifierProvider<SessionHandler, String?>(
+        (ref) => SessionHandler(ref));
+
+final addProductToCartUseCaseStateNotifier = StateNotifierProvider.autoDispose<AddToCartUseCase,
+        StateModel<AddProductServiceToCartCartItem200Response>>(
+    (ref) => AddToCartUseCase(ref, ref.read(publicApi)));
+
+final addServiceToCartUseCaseStateNotifier = StateNotifierProvider.autoDispose<AddToCartUseCase,
+        StateModel<AddProductServiceToCartCartItem200Response>>(
+    (ref) => AddToCartUseCase(ref, ref.read(publicApi)));

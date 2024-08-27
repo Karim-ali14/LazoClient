@@ -27,4 +27,5 @@ const R_NotificationScreen = '/notification';
 const R_FAQScreen = '/faqScreen';
 //EXTRAS
 const userKey = "LazoClientKey";
+const sessionIdKey = "LazoClientSessionIdKey";
 

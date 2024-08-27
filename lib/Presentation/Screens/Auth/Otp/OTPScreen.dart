@@ -7,6 +7,7 @@ import 'package:go_router/go_router.dart';
 import 'package:lazo_client/Constants.dart';
 import 'package:lazo_client/Doman/CommenProviders/ApiProvider.dart';
 import 'package:lazo_client/Presentation/Dialogs/LoadingDialog.dart';
+import 'package:lazo_client/Presentation/StateNotifiersViewModel/PublicStateNotifiers.dart';
 import 'package:lazo_client/Utils/Extintions.dart';
 
 import '../../../../Constants/Constants.dart';
@@ -56,6 +57,7 @@ class _OtpScreenState extends ConsumerState<OTPScreen> {
     });
 
     handleState(loginStateNotifierProvider, onSuccess: (res) {
+      ref.read(getSessionHandlerStateNotifier.notifier).clearSessionId();
       if(context.isThereCurrentDialogShowing()){
         try{
           if(widget.typeOfMode == TypeOfMode.AuthMode){
@@ -72,6 +74,7 @@ class _OtpScreenState extends ConsumerState<OTPScreen> {
     });
 
     handleState(signUpStateNotifierProvider, onSuccess: (res) {
+      ref.read(getSessionHandlerStateNotifier.notifier).clearSessionId();
       if(context.isThereCurrentDialogShowing()){
         try{
           if(widget.typeOfMode == TypeOfMode.AuthMode){
@@ -195,17 +198,36 @@ class _OtpScreenState extends ConsumerState<OTPScreen> {
   }
 
   void login() async {
-    ref.read(loginStateNotifierProvider.notifier)
-        .login(widget.phone);
+    var sessionId = ref.read(getSessionHandlerStateNotifier.notifier).checkIfSessionIdExist();
+    if(sessionId?.isNotEmpty == true){
+      ref.read(loginStateNotifierProvider.notifier)
+          .login(widget.phone,sessionId: sessionId);
+    }else{
+      ref.read(loginStateNotifierProvider.notifier)
+          .login(widget.phone);
+    }
   }
 
   void signUp() {
-    ref.read(signUpStateNotifierProvider.notifier).signUp(
-        image: widget.image,
-        name: widget.name,
-        phone: widget.phone,
-        email: widget.email?.isNotEmpty == true ? widget.email : null,
-        cityId: "${widget.cityId}"
-    );
+    var sessionId = ref.read(getSessionHandlerStateNotifier.notifier).checkIfSessionIdExist();
+    if(sessionId?.isNotEmpty == true){
+      ref.read(signUpStateNotifierProvider.notifier).signUp(
+          image: widget.image,
+          name: widget.name,
+          phone: widget.phone,
+          email: widget.email?.isNotEmpty == true ? widget.email : null,
+          cityId: "${widget.cityId}",
+        sessionId: sessionId
+      );
+    }else{
+      ref.read(signUpStateNotifierProvider.notifier).signUp(
+          image: widget.image,
+          name: widget.name,
+          phone: widget.phone,
+          email: widget.email?.isNotEmpty == true ? widget.email : null,
+          cityId: "${widget.cityId}",
+      );
+    }
+
   }
 }

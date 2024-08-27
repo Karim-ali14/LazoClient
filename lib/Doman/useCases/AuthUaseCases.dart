@@ -17,9 +17,9 @@ class LoginUseCase extends StateNotifier<StateModel<ClientAuthResponse>> {
   final AuthApi authApi;
   LoginUseCase(this.ref, this.authApi) : super(StateModel());
 
-  void login(String phone) async {
+  void login(String phone,{String? sessionId}) async {
     state = StateModel.loading();
-    request(() => authApi.clientLogin(phone: phone), onComplete:(res) {
+    request(() => authApi.clientLogin(phone: phone,sessionId: sessionId), onComplete:(res) {
       ref.read(clientStateProvider.notifier).setUser(res.data);
     });
   }
@@ -30,9 +30,9 @@ class SignUpUseCase extends StateNotifier<StateModel<ClientAuthResponse>> {
   final AuthApi authApi;
   SignUpUseCase(this.ref, this.authApi) : super(StateModel());
 
-  void signUp({ String? cityId, String? email, String? image, String? name, String? phone, }) async {
+  void signUp({ String? cityId, String? email, String? image, String? name, String? phone, String? sessionId}) async {
     state = StateModel.loading();
-    request(() => authApi.clientSignup(cityId: cityId,email: email,image: image,name: name,phone: phone), onComplete:(res) {
+    request(() => authApi.clientSignup(cityId: cityId,email: email,image: image,name: name,phone: phone,sessionId: sessionId), onComplete:(res) {
       ref.read(clientStateProvider.notifier).setUser(res.data);
     });
   }
