@@ -20,6 +20,7 @@ import 'package:lazo_client/Utils/Extintions.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../../Constants/Eunms.dart';
+import '../../StateNotifiersViewModel/UserAuthStateNotifiers.dart';
 import '../../Widgets/BannerCardItems.dart';
 import '../../Widgets/ServiceAndProductItemCard.dart';
 import '../../Widgets/SvgIcons.dart';
@@ -47,7 +48,6 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((callback) {
-
       print("sadfasdfas ${widget.relatedCategoriesIds}");
 
       if (widget.itemType == ItemType.Products) {
@@ -55,13 +55,17 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
             .read(getProductDetails.notifier)
             .getProductDetails(productId: widget.id);
         ref.read(getProductsStateNotifiers.notifier).getProductsData(
-            page: 1, categoriesIds: widget.relatedCategoriesIds,productId: widget.id);
+            page: 1,
+            categoriesIds: widget.relatedCategoriesIds,
+            productId: widget.id);
       } else {
         ref
             .read(getServiceDetails.notifier)
             .getServiceDetails(serviceId: widget.id);
         ref.read(getServicesStateNotifiers.notifier).getServicesData(
-            page: 1, categoriesIds: widget.relatedCategoriesIds,serviceId: widget.id);
+            page: 1,
+            categoriesIds: widget.relatedCategoriesIds,
+            serviceId: widget.id);
       }
     });
 
@@ -74,6 +78,25 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
     final serviceItemState = ref.watch(getServiceDetails);
     final relatedProductData = ref.watch(getProductsStateNotifiers);
     final relatedServiceData = ref.watch(getServicesStateNotifiers);
+
+    handleState(addProductToCartUseCaseStateNotifier , showLoading: true ,onSuccess: (res){
+      var id = res.data?.data?.productId;
+      print("product id : $id");
+      if(id != null){
+        ref.read(getProductDetails.notifier).handelAddProductToCart(id);
+        ref.read(homeDataStateNotifiers.notifier).handleAddProductToCart(id);
+        ref.read(getProductsStateNotifiers.notifier).handleAddProductToCart(id);
+      }
+    });
+
+    handleState(addServiceToCartUseCaseStateNotifier , showLoading: true ,onSuccess: (res){
+      var id = res.data?.data?.serviceId;
+      if(id != null){
+        ref.read(getServiceDetails.notifier).handelAddServiceToCart(id);
+        ref.read(homeDataStateNotifiers.notifier).handelAddServiceToCart(id);
+        ref.read(getServicesStateNotifiers.notifier).handelAddServiceToCart(id);
+      }
+    });
 
     return Scaffold(
       appBar: CustomAppBar(
@@ -596,10 +619,12 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
                                     Text(
                                       widget.itemType == ItemType.Products
                                           ? productItemState
-                                                  .data?.data?.provider?.name?.ellipsize(28) ??
+                                                  .data?.data?.provider?.name
+                                                  ?.ellipsize(28) ??
                                               ""
                                           : serviceItemState
-                                                  .data?.data?.provider?.name?.ellipsize(28) ??
+                                                  .data?.data?.provider?.name
+                                                  ?.ellipsize(28) ??
                                               "",
                                       style: AppTheme
                                           .styleWithTextBlackAdelleSansExtendedFonts16w700,
@@ -847,7 +872,9 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
                                       .data?.data?.products?.data.length !=
                                   0
                           ? Text(
-                        widget.itemType == ItemType.Products ? "Related Products" : "Related Service",
+                              widget.itemType == ItemType.Products
+                                  ? "Related Products"
+                                  : "Related Service",
                               style: AppTheme
                                   .styleWithTextBlackAdelleSansExtendedFonts18w700,
                             )
@@ -871,8 +898,9 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
                                     type: ItemType.Products,
                                     onAddItemToCart: (id) {},
                                     onAddItemToWishList: (id) {},
-                                    onItemClick: (id,itemName,categoryIds) {
-                                      navigateToItemDetails(ItemType.Products,id,itemName,categoryIds);
+                                    onItemClick: (id, itemName, categoryIds) {
+                                      navigateToItemDetails(ItemType.Products,
+                                          id, itemName, categoryIds);
                                     },
                                   ),
                                 );
@@ -904,8 +932,9 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
                                     type: ItemType.Services,
                                     onAddItemToCart: (id) {},
                                     onAddItemToWishList: (id) {},
-                                    onItemClick: (id,itemName,categoryIds) {
-                                      navigateToItemDetails(ItemType.Services,id,itemName,categoryIds);
+                                    onItemClick: (id, itemName, categoryIds) {
+                                      navigateToItemDetails(ItemType.Services,
+                                          id, itemName, categoryIds);
                                     },
                                   ),
                                 );
@@ -932,8 +961,26 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: AppButton(
-                onPress: () {},
-                text: "Add to cart",
+                onPress: () {
+                  if (widget.itemType == ItemType.Products) {
+                    if (productItemState.data?.data?.id != null) {
+                      addProductToCart(int.parse(
+                          productItemState.data?.data?.id!.toString() ?? ""));
+                    }
+                  } else {
+                    if (serviceItemState.data?.data?.id != null) {
+                      addServiceToCart(int.parse(
+                          serviceItemState.data?.data?.id!.toString() ?? ""));
+                    }
+                  }
+                },
+                text: widget.itemType == ItemType.Products
+                    ? productItemState.data?.data!.inCart == true
+                        ? "Added"
+                        : "Add to cart"
+                    : serviceItemState.data?.data!.inCart == true
+                        ? "Added"
+                        : "Add to cart",
                 height: 46,
                 width: double.infinity,
               ),
@@ -950,7 +997,45 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
   void navigateToShowAllReviews(String? id, ItemType? itemType) {
     context.push(R_ShowAllReviews, extra: {"id": id, "type": itemType});
   }
-  void navigateToItemDetails(ItemType itemType, int itemId, String itemName,List<int> categoriesIds) {
-    context.push("$R_ProductAndServiceDetails/${itemId.toString()}" , extra: {"type" : itemType , "name" : itemName , "categoryIds" : categoriesIds});
+
+  void navigateToItemDetails(
+      ItemType itemType, int itemId, String itemName, List<int> categoriesIds) {
+    context.push("$R_ProductAndServiceDetails/${itemId.toString()}", extra: {
+      "type": itemType,
+      "name": itemName,
+      "categoryIds": categoriesIds
+    });
+  }
+
+  void addProductToCart(int id) {
+    var sessionId = ref
+        .read(getSessionHandlerStateNotifier.notifier)
+        .checkIfSessionIdExist();
+    if (ref.read(clientStateProvider.notifier).checkIfUserExist() == null &&
+        sessionId?.isNotEmpty == true) {
+      ref
+          .read(addProductToCartUseCaseStateNotifier.notifier)
+          .addToCart(productId: id.toString(), sessionId: sessionId);
+    } else {
+      ref
+          .read(addProductToCartUseCaseStateNotifier.notifier)
+          .addToCart(productId: id.toString());
+    }
+  }
+
+  void addServiceToCart(int id) {
+    var sessionId = ref
+        .read(getSessionHandlerStateNotifier.notifier)
+        .checkIfSessionIdExist();
+    if (ref.read(clientStateProvider.notifier).checkIfUserExist() == null &&
+        sessionId?.isNotEmpty == true) {
+      ref
+          .read(addServiceToCartUseCaseStateNotifier.notifier)
+          .addToCart(serviceId: id.toString(), sessionId: sessionId);
+    } else {
+      ref
+          .read(addServiceToCartUseCaseStateNotifier.notifier)
+          .addToCart(serviceId: id.toString());
+    }
   }
 }

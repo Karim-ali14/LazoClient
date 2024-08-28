@@ -141,6 +141,8 @@ doc/Tag.md
 doc/TagsResponse.md
 doc/ToggleProductServiceInWishlist200Response.md
 doc/ToggleProductServiceInWishlist200ResponseData.md
+doc/UpdateCartItemQuantity200Response.md
+doc/UpdateCartItemQuantity200ResponseData.md
 doc/UpdateProfile200Response.md
 doc/UpdateProfile200ResponseData.md
 doc/UpdateProfile200ResponseDataCity.md
@@ -297,11 +299,13 @@ lib/model/tag.dart
 lib/model/tags_response.dart
 lib/model/toggle_product_service_in_wishlist200_response.dart
 lib/model/toggle_product_service_in_wishlist200_response_data.dart
+lib/model/update_cart_item_quantity200_response.dart
+lib/model/update_cart_item_quantity200_response_data.dart
 lib/model/update_profile200_response.dart
 lib/model/update_profile200_response_data.dart
 lib/model/update_profile200_response_data_city.dart
 lib/model/upload_files.dart
 lib/model/upload_files_response.dart
 pubspec.yaml
-test/add_product_service_to_cart_cart_item200_response_data_test.dart
-test/add_product_service_to_cart_cart_item200_response_test.dart
+test/update_cart_item_quantity200_response_data_test.dart
+test/update_cart_item_quantity200_response_test.dart

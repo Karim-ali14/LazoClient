@@ -45,7 +45,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     final homeDataState = ref.watch(homeDataStateNotifiers);
 
     handleState(addProductToCartUseCaseStateNotifier , showLoading: true ,onSuccess: (res){
-      var id = res.data?.data?.id;
+      var id = res.data?.data?.productId;
       print("product id : $id");
       if(id != null){
         ref.read(homeDataStateNotifiers.notifier).handleAddProductToCart(id);
@@ -53,7 +53,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     });
 
     handleState(addServiceToCartUseCaseStateNotifier , showLoading: true ,onSuccess: (res){
-      var id = res.data?.data?.id;
+      var id = res.data?.data?.serviceId;
       if(id != null){
         ref.read(homeDataStateNotifiers.notifier).handelAddServiceToCart(id);
       }
@@ -351,7 +351,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           .addToCart(productId: id.toString());
     }
   }
+
   void addServiceToCart(int id) {
+    print("service id : $id" );
     var sessionId = ref
         .read(getSessionHandlerStateNotifier.notifier)
         .checkIfSessionIdExist();

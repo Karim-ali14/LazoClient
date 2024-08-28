@@ -1222,7 +1222,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **updateCartItemQuantity**
-> AddProductServiceToCartCartItem200Response updateCartItemQuantity(cartItemId, quantity)
+> UpdateCartItemQuantity200Response updateCartItemQuantity(cartItemId, quantity)
 
 Update cart item quantity
 
@@ -1259,7 +1259,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**AddProductServiceToCartCartItem200Response**](AddProductServiceToCartCartItem200Response.md)
+[**UpdateCartItemQuantity200Response**](UpdateCartItemQuantity200Response.md)
 
 ### Authorization
 

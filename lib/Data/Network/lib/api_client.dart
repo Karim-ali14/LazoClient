@@ -433,6 +433,10 @@ class ApiClient {
           return ToggleProductServiceInWishlist200Response.fromJson(value);
         case 'ToggleProductServiceInWishlist200ResponseData':
           return ToggleProductServiceInWishlist200ResponseData.fromJson(value);
+        case 'UpdateCartItemQuantity200Response':
+          return UpdateCartItemQuantity200Response.fromJson(value);
+        case 'UpdateCartItemQuantity200ResponseData':
+          return UpdateCartItemQuantity200ResponseData.fromJson(value);
         case 'UpdateProfile200Response':
           return UpdateProfile200Response.fromJson(value);
         case 'UpdateProfile200ResponseData':

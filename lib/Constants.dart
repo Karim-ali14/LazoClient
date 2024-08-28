@@ -25,6 +25,8 @@ const R_SellerDetails = '/ShowSellerDetailsScreen';
 const R_MoreScreen = '/more';
 const R_NotificationScreen = '/notification';
 const R_FAQScreen = '/faqScreen';
+const R_TermsAndConditionsScreen = '/termsAndConditionsScreen';
+const R_PrivacyAndPolicyScreen = '/privacyAndPolicyScreen';
 //EXTRAS
 const userKey = "LazoClientKey";
 const sessionIdKey = "LazoClientSessionIdKey";

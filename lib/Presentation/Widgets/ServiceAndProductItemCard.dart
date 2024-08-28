@@ -205,7 +205,7 @@ class _ServiceAndProductItemCardHorizontalState
                             }
                             else if(widget.type == ItemType.Services
                                 && widget.service?.inCart == false ){
-                              widget.onAddItemToCart.call(widget.product?.id?.toInt() ?? 0);
+                              widget.onAddItemToCart.call(widget.service?.id?.toInt() ?? 0);
                             }
                           },
                           child: Skeleton.ignore(

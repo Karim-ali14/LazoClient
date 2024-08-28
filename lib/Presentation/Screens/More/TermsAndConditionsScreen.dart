@@ -8,6 +8,7 @@ import 'package:lazo_client/Presentation/Theme/AppTheme.dart';
 import '../../StateNotifiersViewModel/PublicStateNotifiers.dart';
 import '../../Widgets/CustomAppBar.dart';
 
+
 class TermsAndConditionsScreen extends ConsumerStatefulWidget {
   const TermsAndConditionsScreen({super.key});
 
@@ -29,7 +30,8 @@ class _TermsAndConditionsScreenState extends ConsumerState<TermsAndConditionsScr
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
-          child: Text(
+          child:
+          Text(
             appInfoData.data?.data?.clientAppInfo?.termsConditions ?? "",
             style: AppTheme.styleWithTextAppBlackAdelleSansExtendedFonts14w700,
           ),

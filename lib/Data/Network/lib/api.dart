@@ -168,6 +168,8 @@ part 'model/tag.dart';
 part 'model/tags_response.dart';
 part 'model/toggle_product_service_in_wishlist200_response.dart';
 part 'model/toggle_product_service_in_wishlist200_response_data.dart';
+part 'model/update_cart_item_quantity200_response.dart';
+part 'model/update_cart_item_quantity200_response_data.dart';
 part 'model/update_profile200_response.dart';
 part 'model/update_profile200_response_data.dart';
 part 'model/update_profile200_response_data_city.dart';

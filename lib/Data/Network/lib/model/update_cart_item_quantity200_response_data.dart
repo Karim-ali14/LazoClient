@@ -10,15 +10,12 @@
 
 part of openapi.api;
 
-class AddProductServiceToCartCartItem200ResponseData {
-  /// Returns a new [AddProductServiceToCartCartItem200ResponseData] instance.
-  AddProductServiceToCartCartItem200ResponseData({
+class UpdateCartItemQuantity200ResponseData {
+  /// Returns a new [UpdateCartItemQuantity200ResponseData] instance.
+  UpdateCartItemQuantity200ResponseData({
     this.cartItems = const [],
     this.createdAt,
     this.id,
-    this.productId,
-    this.serviceId,
-    this.categoriesIds = const [],
     this.total,
     this.updatedAt,
     this.userId,
@@ -42,12 +39,6 @@ class AddProductServiceToCartCartItem200ResponseData {
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
   num? id;
-
-  int? productId;
-
-  int? serviceId;
-
-  List<String>? categoriesIds;
 
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
@@ -76,13 +67,10 @@ class AddProductServiceToCartCartItem200ResponseData {
   String? sessionId;
 
   @override
-  bool operator ==(Object other) => identical(this, other) || other is AddProductServiceToCartCartItem200ResponseData &&
+  bool operator ==(Object other) => identical(this, other) || other is UpdateCartItemQuantity200ResponseData &&
      other.cartItems == cartItems &&
      other.createdAt == createdAt &&
      other.id == id &&
-     other.productId == productId &&
-     other.serviceId == serviceId &&
-     other.categoriesIds == categoriesIds &&
      other.total == total &&
      other.updatedAt == updatedAt &&
      other.userId == userId &&
@@ -94,16 +82,13 @@ class AddProductServiceToCartCartItem200ResponseData {
     (cartItems.hashCode) +
     (createdAt == null ? 0 : createdAt!.hashCode) +
     (id == null ? 0 : id!.hashCode) +
-    (productId == null ? 0 : productId!.hashCode) +
-    (serviceId == null ? 0 : serviceId!.hashCode) +
-    (categoriesIds == null ? 0 : categoriesIds!.hashCode) +
     (total == null ? 0 : total!.hashCode) +
     (updatedAt == null ? 0 : updatedAt!.hashCode) +
     (userId == null ? 0 : userId!.hashCode) +
     (sessionId == null ? 0 : sessionId!.hashCode);
 
   @override
-  String toString() => 'AddProductServiceToCartCartItem200ResponseData[cartItems=$cartItems, createdAt=$createdAt, id=$id, productId=$productId, serviceId=$serviceId, categoriesIds=$categoriesIds, total=$total, updatedAt=$updatedAt, userId=$userId, sessionId=$sessionId]';
+  String toString() => 'UpdateCartItemQuantity200ResponseData[cartItems=$cartItems, createdAt=$createdAt, id=$id, total=$total, updatedAt=$updatedAt, userId=$userId, sessionId=$sessionId]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -117,21 +102,6 @@ class AddProductServiceToCartCartItem200ResponseData {
       json[r'id'] = this.id;
     } else {
       json[r'id'] = null;
-    }
-    if (this.productId != null) {
-      json[r'product_id'] = this.productId;
-    } else {
-      json[r'product_id'] = null;
-    }
-    if (this.serviceId != null) {
-      json[r'service_id'] = this.serviceId;
-    } else {
-      json[r'service_id'] = null;
-    }
-    if (this.categoriesIds != null) {
-      json[r'categories_ids'] = this.categoriesIds;
-    } else {
-      json[r'categories_ids'] = null;
     }
     if (this.total != null) {
       json[r'total'] = this.total;
@@ -156,10 +126,10 @@ class AddProductServiceToCartCartItem200ResponseData {
     return json;
   }
 
-  /// Returns a new [AddProductServiceToCartCartItem200ResponseData] instance and imports its values from
+  /// Returns a new [UpdateCartItemQuantity200ResponseData] instance and imports its values from
   /// [value] if it's a [Map], null otherwise.
   // ignore: prefer_constructors_over_static_methods
-  static AddProductServiceToCartCartItem200ResponseData? fromJson(dynamic value) {
+  static UpdateCartItemQuantity200ResponseData? fromJson(dynamic value) {
     if (value is Map) {
       final json = value.cast<String, dynamic>();
 
@@ -168,23 +138,18 @@ class AddProductServiceToCartCartItem200ResponseData {
       // Note 2: this code is stripped in release mode!
       assert(() {
         requiredKeys.forEach((key) {
-          assert(json.containsKey(key), 'Required key "AddProductServiceToCartCartItem200ResponseData[$key]" is missing from JSON.');
-          assert(json[key] != null, 'Required key "AddProductServiceToCartCartItem200ResponseData[$key]" has a null value in JSON.');
+          assert(json.containsKey(key), 'Required key "UpdateCartItemQuantity200ResponseData[$key]" is missing from JSON.');
+          assert(json[key] != null, 'Required key "UpdateCartItemQuantity200ResponseData[$key]" has a null value in JSON.');
         });
         return true;
       }());
 
-      return AddProductServiceToCartCartItem200ResponseData(
+      return UpdateCartItemQuantity200ResponseData(
         cartItems: ShowCartDetails200ResponseDataCartItemsInner.listFromJson(json[r'cart_items']),
         createdAt: mapValueOfType<String>(json, r'created_at'),
         id: json[r'id'] == null
             ? null
             : num.parse(json[r'id'].toString()),
-        productId: mapValueOfType<int>(json, r'product_id'),
-        serviceId: mapValueOfType<int>(json, r'service_id'),
-        categoriesIds: json[r'categories_ids'] is List
-            ? (json[r'categories_ids'] as List).cast<String>()
-            : const [],
         total: json[r'total'] == null
             ? null
             : num.parse(json[r'total'].toString()),
@@ -198,11 +163,11 @@ class AddProductServiceToCartCartItem200ResponseData {
     return null;
   }
 
-  static List<AddProductServiceToCartCartItem200ResponseData> listFromJson(dynamic json, {bool growable = false,}) {
-    final result = <AddProductServiceToCartCartItem200ResponseData>[];
+  static List<UpdateCartItemQuantity200ResponseData> listFromJson(dynamic json, {bool growable = false,}) {
+    final result = <UpdateCartItemQuantity200ResponseData>[];
     if (json is List && json.isNotEmpty) {
       for (final row in json) {
-        final value = AddProductServiceToCartCartItem200ResponseData.fromJson(row);
+        final value = UpdateCartItemQuantity200ResponseData.fromJson(row);
         if (value != null) {
           result.add(value);
         }
@@ -211,12 +176,12 @@ class AddProductServiceToCartCartItem200ResponseData {
     return result.toList(growable: growable);
   }
 
-  static Map<String, AddProductServiceToCartCartItem200ResponseData> mapFromJson(dynamic json) {
-    final map = <String, AddProductServiceToCartCartItem200ResponseData>{};
+  static Map<String, UpdateCartItemQuantity200ResponseData> mapFromJson(dynamic json) {
+    final map = <String, UpdateCartItemQuantity200ResponseData>{};
     if (json is Map && json.isNotEmpty) {
       json = json.cast<String, dynamic>(); // ignore: parameter_assignments
       for (final entry in json.entries) {
-        final value = AddProductServiceToCartCartItem200ResponseData.fromJson(entry.value);
+        final value = UpdateCartItemQuantity200ResponseData.fromJson(entry.value);
         if (value != null) {
           map[entry.key] = value;
         }
@@ -225,14 +190,14 @@ class AddProductServiceToCartCartItem200ResponseData {
     return map;
   }
 
-  // maps a json object with a list of AddProductServiceToCartCartItem200ResponseData-objects as value to a dart map
-  static Map<String, List<AddProductServiceToCartCartItem200ResponseData>> mapListFromJson(dynamic json, {bool growable = false,}) {
-    final map = <String, List<AddProductServiceToCartCartItem200ResponseData>>{};
+  // maps a json object with a list of UpdateCartItemQuantity200ResponseData-objects as value to a dart map
+  static Map<String, List<UpdateCartItemQuantity200ResponseData>> mapListFromJson(dynamic json, {bool growable = false,}) {
+    final map = <String, List<UpdateCartItemQuantity200ResponseData>>{};
     if (json is Map && json.isNotEmpty) {
       // ignore: parameter_assignments
       json = json.cast<String, dynamic>();
       for (final entry in json.entries) {
-        map[entry.key] = AddProductServiceToCartCartItem200ResponseData.listFromJson(entry.value, growable: growable,);
+        map[entry.key] = UpdateCartItemQuantity200ResponseData.listFromJson(entry.value, growable: growable,);
       }
     }
     return map;

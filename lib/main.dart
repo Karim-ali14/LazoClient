@@ -7,6 +7,8 @@ import 'package:lazo_client/Data/Network/lib/api.dart';
 import 'package:lazo_client/Presentation/Screens/FilterScreen.dart';
 import 'package:lazo_client/Presentation/Screens/Auth/LoginSreen.dart';
 import 'package:lazo_client/Presentation/Screens/Auth/SignUpScreen.dart';
+import 'package:lazo_client/Presentation/Screens/More/PrivacyAndPolicyScreen.dart';
+import 'package:lazo_client/Presentation/Screens/More/TermsAndConditionsScreen.dart';
 import 'package:lazo_client/Presentation/Screens/details/ProductDetailsScreen.dart';
 import 'package:lazo_client/Presentation/Screens/details/SellerDetailsScreen.dart';
 import 'package:lazo_client/Presentation/Screens/home/ShowBestProductAndServiceScreen.dart';
@@ -281,6 +283,14 @@ class MyApp extends ConsumerWidget {
           path: R_FAQScreen,
           builder: (BuildContext context, GoRouterState state) =>
               const FAQScreen()),
+      GoRoute(
+          path: R_TermsAndConditionsScreen,
+          builder: (BuildContext context, GoRouterState state) =>
+              const TermsAndConditionsScreen()),
+      GoRoute(
+          path: R_PrivacyAndPolicyScreen,
+          builder: (BuildContext context, GoRouterState state) =>
+              const PrivacyAndPolicyScreen()),
     ],
   );
 }

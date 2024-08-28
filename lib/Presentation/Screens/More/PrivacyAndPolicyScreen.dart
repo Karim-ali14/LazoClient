@@ -12,10 +12,10 @@ class PrivacyAndPolicyScreen extends ConsumerStatefulWidget {
   const PrivacyAndPolicyScreen({super.key});
 
   @override
-  ConsumerState<PrivacyAndPolicyScreen> createState() => _TermsAndConditionsScreenState();
+  ConsumerState<PrivacyAndPolicyScreen> createState() => _PrivacyAndPolicyScreenState();
 }
 
-class _TermsAndConditionsScreenState extends ConsumerState<PrivacyAndPolicyScreen> {
+class _PrivacyAndPolicyScreenState extends ConsumerState<PrivacyAndPolicyScreen> {
   @override
   Widget build(BuildContext context) {
     final appInfoData = ref.watch(getAppInfoStateNotifier);

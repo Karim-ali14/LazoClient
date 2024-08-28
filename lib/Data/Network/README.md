@@ -276,6 +276,8 @@ Class | Method | HTTP request | Description
  - [TagsResponse](doc//TagsResponse.md)
  - [ToggleProductServiceInWishlist200Response](doc//ToggleProductServiceInWishlist200Response.md)
  - [ToggleProductServiceInWishlist200ResponseData](doc//ToggleProductServiceInWishlist200ResponseData.md)
+ - [UpdateCartItemQuantity200Response](doc//UpdateCartItemQuantity200Response.md)
+ - [UpdateCartItemQuantity200ResponseData](doc//UpdateCartItemQuantity200ResponseData.md)
  - [UpdateProfile200Response](doc//UpdateProfile200Response.md)
  - [UpdateProfile200ResponseData](doc//UpdateProfile200ResponseData.md)
  - [UpdateProfile200ResponseDataCity](doc//UpdateProfile200ResponseDataCity.md)

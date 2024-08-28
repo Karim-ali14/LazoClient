@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:lazo_client/Constants/Eunms.dart';
 import 'package:lazo_client/Data/Models/StateModel.dart';
 import 'package:lazo_client/Data/Network/lib/api.dart';
+import 'package:lazo_client/Doman/CommenProviders/ApiProvider.dart';
 
 import 'package:lazo_client/Presentation/Screens/home/Componants/HorizontalTopProductListViewWithTitleSeeAll.dart';
 import 'package:lazo_client/Presentation/Screens/home/Componants/HorizontalTopServiceListViewWithTitleSeeAll.dart';
@@ -14,6 +15,7 @@ import 'package:lazo_client/Utils/Extintions.dart';
 
 import '../../../Constants.dart';
 import '../../StateNotifiersViewModel/PublicStateNotifiers.dart';
+import '../../StateNotifiersViewModel/UserAuthStateNotifiers.dart';
 import '../../Widgets/CircleImage.dart';
 import '../../Widgets/SvgIcons.dart';
 
@@ -70,6 +72,27 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
     final sellerProducts = ref.watch(getSellerDetailsWithProductStateNotifier);
     final sellerServices = ref.watch(getSellerDetailsWithServicesStateNotifier);
     final sellerReview = ref.watch(getSellerDetailsWithReviewsStateNotifier);
+
+    handleState(addProductToCartUseCaseStateNotifier , showLoading: true ,onSuccess: (res){
+      var id = res.data?.data?.productId;
+      print("product id : $id");
+      if(id != null){
+        ref.read(getProductDetails.notifier).handelAddProductToCart(id);
+        ref.read(getSellerDetailsWithProductStateNotifier.notifier).handleAddProductToCart(id,res.data?.data?.categoriesIds ?? []);
+        ref.read(homeDataStateNotifiers.notifier).handleAddProductToCart(id);
+        ref.read(getProductsStateNotifiers.notifier).handleAddProductToCart(id);
+      }
+    });
+
+    handleState(addServiceToCartUseCaseStateNotifier , showLoading: true ,onSuccess: (res){
+      var id = res.data?.data?.serviceId;
+      if(id != null){
+        ref.read(getSellerDetailsWithProductStateNotifier.notifier).handleAddServiceToCart(id,res.data?.data?.categoriesIds ?? []);
+        ref.read(getServiceDetails.notifier).handelAddServiceToCart(id);
+        ref.read(homeDataStateNotifiers.notifier).handelAddServiceToCart(id);
+        ref.read(getServicesStateNotifiers.notifier).handelAddServiceToCart(id);
+      }
+    });
 
     return Scaffold(
       body: CustomScrollView(controller: _scrollController, slivers: [
@@ -347,7 +370,9 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
                       navigateToItemDetails(
                           ItemType.Products, itemId, itemName, categoryIds);
                     },
-                    onAddItemToCart: (int) {},
+                    onAddItemToCart: (id) {
+                      addProductToCart(id);
+                    },
                     onAddItemToWishList: (int) {},
                     onSeeAllClickListener: (id, name) {
                       navigateToSeeAllBestProductAndService(
@@ -393,7 +418,9 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
                       navigateToItemDetails(
                           ItemType.Services, itemId, itemName, categoryIds);
                     },
-                    onAddItemToCart: (int) {},
+                    onAddItemToCart: (id) {
+                      addServiceToCart(id);
+                    },
                     onAddItemToWishList: (int) {},
                     onSeeAllClickListener: (id, name) {
                       print("$id $name");
@@ -531,6 +558,38 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
     );
   }
 
+  void addProductToCart(int id) {
+    var sessionId = ref
+        .read(getSessionHandlerStateNotifier.notifier)
+        .checkIfSessionIdExist();
+    if (ref.read(clientStateProvider.notifier).checkIfUserExist() == null &&
+        sessionId?.isNotEmpty == true) {
+      ref
+          .read(addProductToCartUseCaseStateNotifier.notifier)
+          .addToCart(productId: id.toString(), sessionId: sessionId);
+    } else {
+      ref
+          .read(addProductToCartUseCaseStateNotifier.notifier)
+          .addToCart(productId: id.toString());
+    }
+  }
+
+  void addServiceToCart(int id) {
+    var sessionId = ref
+        .read(getSessionHandlerStateNotifier.notifier)
+        .checkIfSessionIdExist();
+    if (ref.read(clientStateProvider.notifier).checkIfUserExist() == null &&
+        sessionId?.isNotEmpty == true) {
+      ref
+          .read(addServiceToCartUseCaseStateNotifier.notifier)
+          .addToCart(serviceId: id.toString(), sessionId: sessionId);
+    } else {
+      ref
+          .read(addServiceToCartUseCaseStateNotifier.notifier)
+          .addToCart(serviceId: id.toString());
+    }
+  }
+
   void navigateToSeeAllBestProductAndService(String title, ItemType type,
       {int? categoryId, num? providerId}) async {
     await context.push(R_ShowBestProductOrService, extra: {
@@ -587,4 +646,5 @@ class _SliverTabsDelegate extends SliverPersistentHeaderDelegate {
   bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) {
     return _tabBar != (oldDelegate as _SliverTabsDelegate)._tabBar;
   }
+
 }

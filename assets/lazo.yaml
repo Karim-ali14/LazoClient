@@ -8201,6 +8201,17 @@ paths:
                       id:
                         type: number
                         example: 2
+                      product_id:
+                        type: integer
+                        nullable: true
+                      service_id:
+                        type: integer
+                        nullable: true
+                      categories_ids:
+                        type: array
+                        nullable: true
+                        items:
+                          type: string
                       total:
                         type: number
                         example: 1001.51

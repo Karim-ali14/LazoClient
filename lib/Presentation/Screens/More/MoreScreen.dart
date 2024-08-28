@@ -175,23 +175,33 @@ class _MoreScreenState extends ConsumerState<MoreScreen> {
             SizedBox(
               height: defaultPaddingHorizontal,
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: MoreItemCard(
-                startIcon: SVGIcons.termsConditionsImgIcon(),
-                text: "Terms & Conditions",
-                endIcon: SVGIcons.rightArrowWithBackgroundIcon(),
+            InkWell(
+              onTap: (){
+                navigateToTermsAndConditions();
+              },
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: MoreItemCard(
+                  startIcon: SVGIcons.termsConditionsImgIcon(),
+                  text: "Terms & Conditions",
+                  endIcon: SVGIcons.rightArrowWithBackgroundIcon(),
+                ),
               ),
             ),
             SizedBox(
               height: defaultPaddingHorizontal,
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: MoreItemCard(
-                startIcon: SVGIcons.langIcon(),
-                text: "Privacy & Policy",
-                endIcon: SVGIcons.rightArrowWithBackgroundIcon(),
+            InkWell(
+              onTap: (){
+                navigateToPrivacyAndPolicyScreen();
+              },
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: MoreItemCard(
+                  startIcon: SVGIcons.langIcon(),
+                  text: "Privacy & Policy",
+                  endIcon: SVGIcons.rightArrowWithBackgroundIcon(),
+                ),
               ),
             ),
             SizedBox(
@@ -287,5 +297,13 @@ class _MoreScreenState extends ConsumerState<MoreScreen> {
     }else {
       var extra = await context.push(R_LoginScreen,extra: {"type" : type});
     }
+  }
+
+  void navigateToTermsAndConditions() {
+    context.push(R_TermsAndConditionsScreen);
+  }
+
+  void navigateToPrivacyAndPolicyScreen() {
+    context.push(R_PrivacyAndPolicyScreen);
   }
 }

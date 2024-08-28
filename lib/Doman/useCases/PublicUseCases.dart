@@ -30,31 +30,32 @@ class HomeDataUseCase extends StateNotifier<StateModel<ShowHome200Response>> {
 
   void getHomeData() async {
     state = StateModel.loading();
-    request(() => publicApi.showHome(),onComplete: (res){
-       data = res;
+    request(() => publicApi.showHome(), onComplete: (res) {
+      data = res;
     });
   }
 
-  void handleAddProductToCart(num productId){
-    if(data != null){
-      var index = data?.data?.topRatedProducts.indexWhere((product) => productId == product.id);
-      if(index != null && index != -1){
+  void handleAddProductToCart(num productId) {
+    if (data != null) {
+      var index = data?.data?.topRatedProducts
+          .indexWhere((product) => productId == product.id);
+      if (index != null && index != -1) {
         data?.data?.topRatedProducts.getSafe(index)?.inCart = true;
       }
       state = StateModel.success(data);
     }
   }
 
-  void handelAddServiceToCart(num serviceId){
-    if(data != null){
-      var index = data?.data?.topRatedServices.indexWhere((product) => serviceId == product.id);
-      if(index != null && index != -1){
+  void handelAddServiceToCart(num serviceId) {
+    if (data != null) {
+      var index = data?.data?.topRatedServices
+          .indexWhere((product) => serviceId == product.id);
+      if (index != null && index != -1) {
         data?.data?.topRatedServices.getSafe(index)?.inCart = true;
       }
       state = StateModel.success(data);
     }
   }
-
 }
 
 class GetCategoriesUseCase
@@ -262,6 +263,18 @@ class GetProductsUseCase
       }
     });
   }
+
+  void handleAddProductToCart(num productId) {
+    if (state.data != null) {
+      final data = state.data;
+      var index = data?.data?.products?.data
+          .indexWhere((product) => productId == product.id);
+      if (index != null && index != -1) {
+        data?.data?.products?.data.getSafe(index)?.inCart = true;
+      }
+      state = StateModel.success(data);
+    }
+  }
 }
 
 class GetServicesUseCase
@@ -320,6 +333,18 @@ class GetServicesUseCase
       }
     });
   }
+
+  void handelAddServiceToCart(num serviceId) {
+    if (state.data != null) {
+      final data = state.data;
+      var index = data?.data?.services?.data
+          .indexWhere((product) => serviceId == product.id);
+      if (index != null && index != -1) {
+        data?.data?.services?.data.getSafe(index)?.inCart = true;
+      }
+      state = StateModel.success(data);
+    }
+  }
 }
 
 class FilterDataUseCase extends StateNotifier<FilterData> {
@@ -359,6 +384,12 @@ class GetProductDetailsUseCase
     state = StateModel.loading();
     request(() => publicApi.showProductDetails(productId: productId));
   }
+
+  void handelAddProductToCart(num productId) {
+    final data = state.data;
+    data?.data?.inCart = true;
+    state = StateModel.success(data);
+  }
 }
 
 class GetServiceDetailsUseCase
@@ -372,6 +403,12 @@ class GetServiceDetailsUseCase
   }) {
     state = StateModel.loading();
     request(() => publicApi.showServiceDetails(serviceId: serviceId));
+  }
+
+  void handelAddServiceToCart(num serviceId) {
+    final data = state.data;
+    data?.data?.inCart = true;
+    state = StateModel.success(data);
   }
 }
 
@@ -418,6 +455,38 @@ class GetSellerDetailsUseCase
     request(() =>
         publicApi.showAProviderDetails(providerId: providerId, type: type));
   }
+
+  void handleAddProductToCart(int id,List<String> categories){
+    final data = state.data;
+    for (var categoryId in categories) {
+      for (int i = 0; i < (data?.data?.categories?.length ?? 0); i++) {
+        if(data?.data?.categories?[i].id == int.parse(categoryId)){
+          for (int n = 0; n < (data?.data?.categories?[i].products?.length ?? 0); n++) {
+            if(data?.data?.categories?[i].products?[n].id == id){
+              data?.data?.categories?[i].products?[n].inCart = true;
+            }
+          }
+        }
+      }
+    }
+    state = StateModel.success(data);
+  }
+
+  void handleAddServiceToCart(int id,List<String> categories){
+    final data = state.data;
+    for (var categoryId in categories) {
+      for (int i = 0; i < (data?.data?.categories?.length ?? 0); i++) {
+        if(data?.data?.categories?[i].id == int.parse(categoryId)){
+          for (int n = 0; n < (data?.data?.categories?[i].services?.length ?? 0); n++) {
+            if(data?.data?.categories?[i].services?[n].id == id){
+              data?.data?.categories?[i].services?[n].inCart = true;
+            }
+          }
+        }
+      }
+    }
+    state = StateModel.success(data);
+  }
 }
 
 class AppInfoUseCase extends StateNotifier<StateModel<GetAppInfo200Response>> {
@@ -431,8 +500,8 @@ class AppInfoUseCase extends StateNotifier<StateModel<GetAppInfo200Response>> {
   }
 }
 
-class AddToCartUseCase
-    extends StateNotifier<StateModel<AddProductServiceToCartCartItem200Response>> {
+class AddToCartUseCase extends StateNotifier<
+    StateModel<AddProductServiceToCartCartItem200Response>> {
   final Ref ref;
   final PublicApi publicApi;
   AddToCartUseCase(this.ref, this.publicApi) : super(StateModel());
@@ -449,19 +518,24 @@ class AddToCartUseCase
     String? serviceSelectedListItemsIds,
   }) {
     state = StateModel.loading();
-    request(() => publicApi.addProductServiceToCartCartItem(
-        sessionId: sessionId,
-        productId: productId,
-        productQuantity: productQuantity,
-        productSelectedListIds: productSelectedListIds,
-        productSelectedListItemsIds: productSelectedListItemsIds,
-        serviceId: serviceId,
-        serviceQuantity: serviceQuantity,
-        serviceSelectedListIds: serviceSelectedListIds,
-        serviceSelectedListItemsIds: serviceSelectedListItemsIds),onComplete: (res) {
-      if(ref.read(clientStateProvider.notifier).checkIfUserExist() == null){
-        ref.read(getSessionHandlerStateNotifier.notifier).setSessionId(res.data?.sessionId);
-        print("${ref.read(getSessionHandlerStateNotifier.notifier).checkIfSessionIdExist()}");
+    request(
+        () => publicApi.addProductServiceToCartCartItem(
+            sessionId: sessionId,
+            productId: productId,
+            productQuantity: productQuantity,
+            productSelectedListIds: productSelectedListIds,
+            productSelectedListItemsIds: productSelectedListItemsIds,
+            serviceId: serviceId,
+            serviceQuantity: serviceQuantity,
+            serviceSelectedListIds: serviceSelectedListIds,
+            serviceSelectedListItemsIds: serviceSelectedListItemsIds),
+        onComplete: (res) {
+      if (ref.read(clientStateProvider.notifier).checkIfUserExist() == null) {
+        ref
+            .read(getSessionHandlerStateNotifier.notifier)
+            .setSessionId(res.data?.sessionId);
+        print(
+            "${ref.read(getSessionHandlerStateNotifier.notifier).checkIfSessionIdExist()}");
       }
     });
   }

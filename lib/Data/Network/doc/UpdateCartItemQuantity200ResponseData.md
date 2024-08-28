@@ -1,4 +1,4 @@
-# lazo.model.AddProductServiceToCartCartItem200ResponseData
+# lazo.model.UpdateCartItemQuantity200ResponseData
 
 ## Load the model package
 ```dart
@@ -11,9 +11,6 @@ Name | Type | Description | Notes
 **cartItems** | [**List<ShowCartDetails200ResponseDataCartItemsInner>**](ShowCartDetails200ResponseDataCartItemsInner.md) |  | [optional] [default to const []]
 **createdAt** | **String** |  | [optional] 
 **id** | **num** |  | [optional] 
-**productId** | **int** |  | [optional] 
-**serviceId** | **int** |  | [optional] 
-**categoriesIds** | **List<String>** |  | [optional] [default to const []]
 **total** | **num** |  | [optional] 
 **updatedAt** | **String** |  | [optional] 
 **userId** | **num** |  | [optional] 

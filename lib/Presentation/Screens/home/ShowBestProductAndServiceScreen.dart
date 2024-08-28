@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:lazo_client/Doman/CommenProviders/ApiProvider.dart';
 import 'package:lazo_client/Presentation/Widgets/CustomAppBar.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
@@ -11,6 +12,7 @@ import '../../../Data/Models/FilterData.dart';
 import '../../../Data/Models/StateModel.dart';
 import '../../../Data/Network/lib/api.dart';
 import '../../StateNotifiersViewModel/PublicStateNotifiers.dart';
+import '../../StateNotifiersViewModel/UserAuthStateNotifiers.dart';
 import '../../Widgets/DataListView.dart';
 import '../../Widgets/EmptyDataView.dart';
 import '../../Widgets/SearchWithFilter.dart';
@@ -66,6 +68,21 @@ class _ShowProductAndServiceScreenState
 
     final productsState = ref.watch(getProductsStateNotifiers);
     final servicesState = ref.watch(getServicesStateNotifiers);
+
+    handleState(addProductToCartUseCaseStateNotifier , showLoading: true ,onSuccess: (res){
+      var id = res.data?.data?.productId;
+      print("product id : $id");
+      if(id != null){
+        ref.read(getProductsStateNotifiers.notifier).handleAddProductToCart(id);
+      }
+    });
+
+    handleState(addServiceToCartUseCaseStateNotifier , showLoading: true ,onSuccess: (res){
+      var id = res.data?.data?.serviceId;
+      if(id != null){
+        ref.read(getServicesStateNotifiers.notifier).handelAddServiceToCart(id);
+      }
+    });
 
     return Scaffold(
       appBar: CustomAppBar(
@@ -139,7 +156,7 @@ class _ShowProductAndServiceScreenState
                                     type: ItemType.Products,
                                     product: item,
                                     onAddItemToCart: (id) {
-                                      // widget.onAddItemToCart.call(id);
+                                      addProductToCart(id);
                                     },
                                     onAddItemToWishList: (id) {
                                       // widget.onAddItemToWishList.call(id);
@@ -186,7 +203,7 @@ class _ShowProductAndServiceScreenState
                                     service: item,
                                     type: ItemType.Services,
                                     onAddItemToCart: (id) {
-                                      // widget.onAddItemToCart.call(id);
+                                      addServiceToCart(id);
                                     },
                                     onAddItemToWishList: (id) {
                                       // widget.onAddItemToWishList.call(id);
@@ -263,4 +280,36 @@ class _ShowProductAndServiceScreenState
   void navigateToItemDetails(ItemType itemType, int itemId, String itemName,List<int> categoriesIds) {
     context.push("$R_ProductAndServiceDetails/${itemId.toString()}" , extra: {"type" : itemType, "id" : itemId.toString() , "name" : itemName , "categoryIds" : categoriesIds});
   }
+
+
+  void addProductToCart(int id) {
+    var sessionId = ref
+        .read(getSessionHandlerStateNotifier.notifier)
+        .checkIfSessionIdExist();
+    if (ref.read(clientStateProvider.notifier).checkIfUserExist() == null && sessionId?.isNotEmpty == true) {
+      ref
+          .read(addProductToCartUseCaseStateNotifier.notifier)
+          .addToCart(productId: id.toString(), sessionId: sessionId);
+    }else {
+      ref
+          .read(addProductToCartUseCaseStateNotifier.notifier)
+          .addToCart(productId: id.toString());
+    }
+  }
+
+  void addServiceToCart(int id) {
+    var sessionId = ref
+        .read(getSessionHandlerStateNotifier.notifier)
+        .checkIfSessionIdExist();
+    if (ref.read(clientStateProvider.notifier).checkIfUserExist() == null && sessionId?.isNotEmpty == true) {
+      ref
+          .read(addServiceToCartUseCaseStateNotifier.notifier)
+          .addToCart(serviceId: id.toString(), sessionId: sessionId);
+    }else {
+      ref
+          .read(addServiceToCartUseCaseStateNotifier.notifier)
+          .addToCart(serviceId: id.toString());
+    }
+  }
+
 }
