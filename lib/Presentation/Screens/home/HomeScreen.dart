@@ -7,6 +7,7 @@ import 'package:go_router/go_router.dart';
 import 'package:lazo_client/Constants/Assets.dart';
 import 'package:lazo_client/Data/Models/StateModel.dart';
 import 'package:lazo_client/Doman/CommenProviders/ApiProvider.dart';
+import 'package:lazo_client/Presentation/BottomSheets/AuthenticateBottomSheet.dart';
 import 'package:lazo_client/Presentation/Screens/home/Componants/HorizontalCategoryListViewWithTitleSeeAll.dart';
 import 'package:lazo_client/Presentation/Screens/home/Componants/HorizontalTopServiceListViewWithTitleSeeAll.dart';
 import 'package:lazo_client/Presentation/StateNotifiersViewModel/PublicStateNotifiers.dart';
@@ -43,18 +44,20 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final homeDataState = ref.watch(homeDataStateNotifiers);
-
-    handleState(addProductToCartUseCaseStateNotifier , showLoading: true ,onSuccess: (res){
+    var client = ref.read(clientStateProvider.notifier).checkIfUserExist();
+    handleState(addProductToCartUseCaseStateNotifier, showLoading: true,
+        onSuccess: (res) {
       var id = res.data?.data?.productId;
       print("product id : $id");
-      if(id != null){
+      if (id != null) {
         ref.read(homeDataStateNotifiers.notifier).handleAddProductToCart(id);
       }
     });
 
-    handleState(addServiceToCartUseCaseStateNotifier , showLoading: true ,onSuccess: (res){
+    handleState(addServiceToCartUseCaseStateNotifier, showLoading: true,
+        onSuccess: (res) {
       var id = res.data?.data?.serviceId;
-      if(id != null){
+      if (id != null) {
         ref.read(homeDataStateNotifiers.notifier).handelAddServiceToCart(id);
       }
     });
@@ -222,7 +225,13 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                   onAddItemToCart: (id) {
                                     addProductToCart(id);
                                   },
-                                  onAddItemToWishList: (int) {},
+                                  onAddItemToWishList: (int) {
+                                    if(client != null){
+
+                                    }else{
+                                      showAuthenticated();
+                                    }
+                                  },
                                   onSeeAllClickListener: (id, name) {
                                     navigateToSeeAllBestProductAndService(
                                         "Best Products", ItemType.Products);
@@ -341,11 +350,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     var sessionId = ref
         .read(getSessionHandlerStateNotifier.notifier)
         .checkIfSessionIdExist();
-    if (ref.read(clientStateProvider.notifier).checkIfUserExist() == null && sessionId?.isNotEmpty == true) {
+    if (ref.read(clientStateProvider.notifier).checkIfUserExist() == null &&
+        sessionId?.isNotEmpty == true) {
       ref
           .read(addProductToCartUseCaseStateNotifier.notifier)
           .addToCart(productId: id.toString(), sessionId: sessionId);
-    }else {
+    } else {
       ref
           .read(addProductToCartUseCaseStateNotifier.notifier)
           .addToCart(productId: id.toString());
@@ -353,18 +363,29 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   }
 
   void addServiceToCart(int id) {
-    print("service id : $id" );
+    print("service id : $id");
     var sessionId = ref
         .read(getSessionHandlerStateNotifier.notifier)
         .checkIfSessionIdExist();
-    if (ref.read(clientStateProvider.notifier).checkIfUserExist() == null && sessionId?.isNotEmpty == true) {
+    if (ref.read(clientStateProvider.notifier).checkIfUserExist() == null &&
+        sessionId?.isNotEmpty == true) {
       ref
           .read(addServiceToCartUseCaseStateNotifier.notifier)
           .addToCart(serviceId: id.toString(), sessionId: sessionId);
-    }else {
+    } else {
       ref
           .read(addServiceToCartUseCaseStateNotifier.notifier)
           .addToCart(serviceId: id.toString());
     }
+  }
+
+  void showAuthenticated() {
+    showModalBottomSheet(
+      isScrollControlled: true,
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+                topRight: Radius.circular(10), topLeft: Radius.circular(10))),
+        context: context,
+        builder: (BuildContext context) => AuthenticateBottomSheet());
   }
 }

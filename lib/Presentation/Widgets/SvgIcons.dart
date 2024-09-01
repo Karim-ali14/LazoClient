@@ -196,6 +196,14 @@ class SVGIcons {
       fit: BoxFit.fill,
     );
   }
+  static Widget existGifIcon(){
+    return Image.asset(
+      existIconGif,
+      width: 138,
+      height: 138,
+      fit: BoxFit.fill,
+    );
+  }
   static Widget langIcon(){
     return SvgPicture.asset(
       langImg,

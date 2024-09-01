@@ -56,6 +56,7 @@ const notificationIconSvg = "assets/images/notification_ic.svg";
 const smallLocationIconSvg = "assets/images/small_location.svg";
 const placeHolderForCardsSvg = "assets/images/placeHolderForCard.svg";
 const searchIconGif = "assets/images/search_icon.gif";
+const existIconGif = "assets/images/exist_icon.gif";
 const editIconSvg = "assets/images/edit_icon.svg";
 const editPhoneImgSvg = "assets/images/edit_phone_img.svg";
 const defaultUseIconSvg = "assets/images/default_use_img.svg";

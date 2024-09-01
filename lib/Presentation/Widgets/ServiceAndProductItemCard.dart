@@ -231,11 +231,18 @@ class _ServiceAndProductItemCardHorizontalState
             ),
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: Align(
-            alignment: AlignmentDirectional.topEnd,
-            child: Skeleton.ignore(child: SVGIcons.unFavoriteIcon()),
+        InkWell(
+          onTap: (){
+            widget.onAddItemToWishList(
+                widget.type == ItemType.Products ? widget.product?.id?.toInt() ??0 : widget.service?.id?.toInt()??0
+            );
+          },
+          child: Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Align(
+              alignment: AlignmentDirectional.topEnd,
+              child: Skeleton.ignore(child: SVGIcons.unFavoriteIcon()),
+            ),
           ),
         )
       ]),

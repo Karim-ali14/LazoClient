@@ -228,7 +228,8 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
       "email": emailController.text.isNotEmpty ? emailController.text : null,
       "image": images.first,
       "cityId": "$cityItemSelected",
-      "type": OTPType.SignUp
+      "type": OTPType.SignUp,
+      "typeOfMode": TypeOfMode.AuthMode,
     });
   }
 
