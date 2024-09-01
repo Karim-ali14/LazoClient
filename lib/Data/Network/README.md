@@ -202,7 +202,7 @@ Class | Method | HTTP request | Description
  - [ProviderData](doc//ProviderData.md)
  - [ProviderDataCity](doc//ProviderDataCity.md)
  - [ProviderDataLocationsInner](doc//ProviderDataLocationsInner.md)
- - [ProviderDataReviewsInner](doc//ProviderDataReviewsInner.md)
+ - [ProviderDataRatingsInner](doc//ProviderDataRatingsInner.md)
  - [ProviderDataTagsInner](doc//ProviderDataTagsInner.md)
  - [ProviderLocation](doc//ProviderLocation.md)
  - [ProviderLoginResponse](doc//ProviderLoginResponse.md)

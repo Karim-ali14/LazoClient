@@ -549,13 +549,16 @@ class SessionHandler extends StateNotifier<String?> {
     print("SessionId = ${prefs.getString(sessionIdKey)}");
     String? sessionId = prefs.getString(sessionIdKey);
     print("SessionId = $sessionId");
-
+    if(sessionId?.isNotEmpty == true){
+      ref.read(apiClient).defaultHeaderMap["session_id"] = sessionId??"";
+    }
     return sessionId?.isNotEmpty == true ? sessionId : null;
   }
 
   void setSessionId(String? sessionId) {
     state = sessionId;
     prefs.setString(sessionIdKey, sessionId ?? "");
+    ref.read(apiClient).defaultHeaderMap["session_id"] = sessionId??"";
     print("clint model saved $sessionId");
   }
 

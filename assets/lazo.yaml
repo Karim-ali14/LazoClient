@@ -1325,7 +1325,7 @@ components:
           items:
             type: object
             $ref: '#/components/schemas/Category'
-        reviews:
+        ratings:
           nullable: true
           type: array
           items:

@@ -57,6 +57,11 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
       }
       WidgetsBinding.instance.addPostFrameCallback((_){
         ref.read(apiClient).defaultHeaderMap["lang"] = "en";
+        var sessionId = ref.read(getSessionHandlerStateNotifier.notifier)
+            .checkIfSessionIdExist();
+        if(client == null && sessionId?.isNotEmpty == true){
+          ref.read(apiClient).defaultHeaderMap["session_id"] = sessionId??"";
+        }
       });
     });
     super.initState();

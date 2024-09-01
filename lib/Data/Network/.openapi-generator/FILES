@@ -65,7 +65,7 @@ doc/ProviderCategoryMenuResponse.md
 doc/ProviderData.md
 doc/ProviderDataCity.md
 doc/ProviderDataLocationsInner.md
-doc/ProviderDataReviewsInner.md
+doc/ProviderDataRatingsInner.md
 doc/ProviderDataTagsInner.md
 doc/ProviderLocation.md
 doc/ProviderLoginResponse.md
@@ -225,7 +225,7 @@ lib/model/provider_category_menu_response.dart
 lib/model/provider_data.dart
 lib/model/provider_data_city.dart
 lib/model/provider_data_locations_inner.dart
-lib/model/provider_data_reviews_inner.dart
+lib/model/provider_data_ratings_inner.dart
 lib/model/provider_data_tags_inner.dart
 lib/model/provider_location.dart
 lib/model/provider_login_response.dart
@@ -307,5 +307,4 @@ lib/model/update_profile200_response_data_city.dart
 lib/model/upload_files.dart
 lib/model/upload_files_response.dart
 pubspec.yaml
-test/update_cart_item_quantity200_response_data_test.dart
-test/update_cart_item_quantity200_response_test.dart
+test/provider_data_ratings_inner_test.dart

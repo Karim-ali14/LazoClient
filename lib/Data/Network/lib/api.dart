@@ -94,7 +94,7 @@ part 'model/provider_category_menu_response.dart';
 part 'model/provider_data.dart';
 part 'model/provider_data_city.dart';
 part 'model/provider_data_locations_inner.dart';
-part 'model/provider_data_reviews_inner.dart';
+part 'model/provider_data_ratings_inner.dart';
 part 'model/provider_data_tags_inner.dart';
 part 'model/provider_location.dart';
 part 'model/provider_login_response.dart';

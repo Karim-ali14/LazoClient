@@ -62,7 +62,7 @@ Name | Type | Description | Notes
 **locations** | [**List<ProviderDataLocationsInner>**](ProviderDataLocationsInner.md) |  | [optional] [default to const []]
 **tags** | [**List<ProviderDataTagsInner>**](ProviderDataTagsInner.md) |  | [optional] [default to const []]
 **categories** | [**List<Category>**](Category.md) |  | [optional] [default to const []]
-**reviews** | [**List<ProviderDataReviewsInner>**](ProviderDataReviewsInner.md) |  | [optional] [default to const []]
+**ratings** | [**List<ProviderDataRatingsInner>**](ProviderDataRatingsInner.md) |  | [optional] [default to const []]
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

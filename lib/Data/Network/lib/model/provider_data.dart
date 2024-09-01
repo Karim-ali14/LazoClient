@@ -67,7 +67,7 @@ class ProviderData {
     this.locations = const [],
     this.tags = const [],
     this.categories = const [],
-    this.reviews = const [],
+    this.ratings = const [],
   });
 
   ///
@@ -448,7 +448,7 @@ class ProviderData {
 
   List<Category>? categories;
 
-  List<ProviderDataReviewsInner>? reviews;
+  List<ProviderDataRatingsInner>? ratings;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is ProviderData &&
@@ -506,7 +506,7 @@ class ProviderData {
      other.locations == locations &&
      other.tags == tags &&
      other.categories == categories &&
-     other.reviews == reviews;
+     other.ratings == ratings;
 
   @override
   int get hashCode =>
@@ -565,10 +565,10 @@ class ProviderData {
     (locations.hashCode) +
     (tags.hashCode) +
     (categories == null ? 0 : categories!.hashCode) +
-    (reviews == null ? 0 : reviews!.hashCode);
+    (ratings == null ? 0 : ratings!.hashCode);
 
   @override
-  String toString() => 'ProviderData[id=$id, nameEn=$nameEn, nameAr=$nameAr, bioEn=$bioEn, bioAr=$bioAr, ownerName=$ownerName, email=$email, phone=$phone, image=$image, cityId=$cityId, accountType=$accountType, deviceType=$deviceType, fcmToken=$fcmToken, lang=$lang, status=$status, instagramLink=$instagramLink, snapchatLink=$snapchatLink, tiktokLink=$tiktokLink, xLink=$xLink, hasOfflineStores=$hasOfflineStores, offlineStoresNumber=$offlineStoresNumber, provideDelivery=$provideDelivery, overallRating=$overallRating, ratingsCount=$ratingsCount, isEmailVerified=$isEmailVerified, isPhoneVerified=$isPhoneVerified, businessType=$businessType, commercialRegisterImage=$commercialRegisterImage, selfEmploymentDocument=$selfEmploymentDocument, startTime=$startTime, endTime=$endTime, workingDaysIndices=$workingDaysIndices, workingHours=$workingHours, bankName=$bankName, beneficiaryName=$beneficiaryName, bankAccountNumber=$bankAccountNumber, iban=$iban, ibanImage=$ibanImage, createdAt=$createdAt, updatedAt=$updatedAt, name=$name, bio=$bio, isPromoted=$isPromoted, coverImage=$coverImage, coverImagePath=$coverImagePath, imagePath=$imagePath, workingDaysIndicesList=$workingDaysIndicesList, workingHoursList=$workingHoursList, selfEmploymentDocumentPath=$selfEmploymentDocumentPath, commercialRegisterImagePath=$commercialRegisterImagePath, city=$city, locations=$locations, tags=$tags, categories=$categories, reviews=$reviews]';
+  String toString() => 'ProviderData[id=$id, nameEn=$nameEn, nameAr=$nameAr, bioEn=$bioEn, bioAr=$bioAr, ownerName=$ownerName, email=$email, phone=$phone, image=$image, cityId=$cityId, accountType=$accountType, deviceType=$deviceType, fcmToken=$fcmToken, lang=$lang, status=$status, instagramLink=$instagramLink, snapchatLink=$snapchatLink, tiktokLink=$tiktokLink, xLink=$xLink, hasOfflineStores=$hasOfflineStores, offlineStoresNumber=$offlineStoresNumber, provideDelivery=$provideDelivery, overallRating=$overallRating, ratingsCount=$ratingsCount, isEmailVerified=$isEmailVerified, isPhoneVerified=$isPhoneVerified, businessType=$businessType, commercialRegisterImage=$commercialRegisterImage, selfEmploymentDocument=$selfEmploymentDocument, startTime=$startTime, endTime=$endTime, workingDaysIndices=$workingDaysIndices, workingHours=$workingHours, bankName=$bankName, beneficiaryName=$beneficiaryName, bankAccountNumber=$bankAccountNumber, iban=$iban, ibanImage=$ibanImage, createdAt=$createdAt, updatedAt=$updatedAt, name=$name, bio=$bio, isPromoted=$isPromoted, coverImage=$coverImage, coverImagePath=$coverImagePath, imagePath=$imagePath, workingDaysIndicesList=$workingDaysIndicesList, workingHoursList=$workingHoursList, selfEmploymentDocumentPath=$selfEmploymentDocumentPath, commercialRegisterImagePath=$commercialRegisterImagePath, city=$city, locations=$locations, tags=$tags, categories=$categories, ratings=$ratings]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -826,10 +826,10 @@ class ProviderData {
     } else {
       json[r'categories'] = null;
     }
-    if (this.reviews != null) {
-      json[r'reviews'] = this.reviews;
+    if (this.ratings != null) {
+      json[r'ratings'] = this.ratings;
     } else {
-      json[r'reviews'] = null;
+      json[r'ratings'] = null;
     }
     return json;
   }
@@ -915,7 +915,7 @@ class ProviderData {
         locations: ProviderDataLocationsInner.listFromJson(json[r'locations']),
         tags: ProviderDataTagsInner.listFromJson(json[r'tags']),
         categories: Category.listFromJson(json[r'categories']),
-        reviews: ProviderDataReviewsInner.listFromJson(json[r'reviews']),
+        ratings: ProviderDataRatingsInner.listFromJson(json[r'ratings']),
       );
     }
     return null;

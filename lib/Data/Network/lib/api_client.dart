@@ -285,8 +285,8 @@ class ApiClient {
           return ProviderDataCity.fromJson(value);
         case 'ProviderDataLocationsInner':
           return ProviderDataLocationsInner.fromJson(value);
-        case 'ProviderDataReviewsInner':
-          return ProviderDataReviewsInner.fromJson(value);
+        case 'ProviderDataRatingsInner':
+          return ProviderDataRatingsInner.fromJson(value);
         case 'ProviderDataTagsInner':
           return ProviderDataTagsInner.fromJson(value);
         case 'ProviderLocation':

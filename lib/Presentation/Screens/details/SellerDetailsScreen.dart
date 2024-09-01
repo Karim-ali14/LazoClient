@@ -505,13 +505,13 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
                       Row(
                         children: [
                           Text(
-                            "${sellerReview.data?.data?.reviews?[index].userName}",
+                            "${sellerReview.data?.data?.ratings?[index].userName}",
                             style: AppTheme
                                 .styleWithTextAppGrey7AdelleSansExtendedFonts14w500,
                           ),
                           Spacer(),
                           Text(
-                            sellerReview.data?.data?.reviews?[index].date
+                            sellerReview.data?.data?.ratings?[index].date
                                     ?.convertDateToDdMmmYyyy ??
                                 "",
                             style: AppTheme
@@ -529,7 +529,7 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
                             width: 3,
                           ),
                           Text(
-                            "${sellerReview.data?.data?.reviews?[index].rating ?? 0}",
+                            "${sellerReview.data?.data?.ratings?[index].rating ?? 0}",
                             style: AppTheme
                                 .styleWithTextBlackAdelleSansExtendedFonts14w400,
                           ),
@@ -540,7 +540,7 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
                       ),
                       ExpandedText(
                         textValue:
-                            "${sellerReview.data?.data?.reviews?[index].ratingComment ?? 0}",
+                            "${sellerReview.data?.data?.ratings?[index].ratingComment ?? 0}",
                         textStyle: AppTheme
                             .styleWithTextBlackAdelleSansExtendedFonts14w500
                             .copyWith(height: 1.5),
@@ -552,7 +552,7 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
                   ),
                 ),
               );
-            }, childCount: sellerReview.data?.data?.reviews?.length ?? 0),
+            }, childCount: sellerReview.data?.data?.ratings?.length ?? 0),
           )
       ]),
     );
