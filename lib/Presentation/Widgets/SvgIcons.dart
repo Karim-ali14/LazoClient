@@ -308,4 +308,19 @@ class SVGIcons {
       walletWithWhiteBackgroundIconSvg,
     );
   }
+  static Widget activeFavoriteIcon(){
+    return SvgPicture.asset(
+      activeFavoriteIconSvg,
+    );
+  }
+  static Widget unFavoriteIconWithLightRedIcon(){
+    return SvgPicture.asset(
+      unFavoriteIconWithLightRedSvg,
+    );
+  }
+  static Widget smallShareIcon(){
+    return SvgPicture.asset(
+      smallShareIconSvg,
+    );
+  }
 }

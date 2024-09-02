@@ -9,7 +9,7 @@ import '../Theme/AppTheme.dart';
 import 'AppButton.dart';
 import 'CircleImage.dart';
 
-typedef OnItemClick = Function(int,String,List<int>);
+typedef OnItemClick = Function(int, String, List<int>);
 typedef OnAddItemClick = Function(int);
 
 class ServiceAndProductItemCardHorizontal extends StatefulWidget {
@@ -27,7 +27,8 @@ class ServiceAndProductItemCardHorizontal extends StatefulWidget {
       this.service,
       required this.onAddItemToCart,
       required this.onAddItemToWishList,
-      required this.onItemClick, this.width});
+      required this.onItemClick,
+      this.width});
 
   @override
   State<ServiceAndProductItemCardHorizontal> createState() =>
@@ -42,19 +43,29 @@ class _ServiceAndProductItemCardHorizontalState
       width: widget.width ?? double.infinity,
       child: Stack(children: [
         InkWell(
-          onTap: (){
+          onTap: () {
             print("Selected Product : ${widget.type == ItemType.Products}");
-            var categoriesIds = widget.type == ItemType.Products ?
-            widget.product?.categories?.map((item) => (item.id ?? 0).toInt()).toList() ?? [] :
-            widget.service?.categories.map((item) => (item.id ?? 0).toInt()).toList() ?? [];
+            var categoriesIds = widget.type == ItemType.Products
+                ? widget.product?.categories
+                        ?.map((item) => (item.id ?? 0).toInt())
+                        .toList() ??
+                    []
+                : widget.service?.categories
+                        .map((item) => (item.id ?? 0).toInt())
+                        .toList() ??
+                    [];
 
             print("Selected Product Categories: ${widget.product?.categories}");
             print("Selected Product : $categoriesIds");
             widget.onItemClick.call(
-                (widget.type == ItemType.Products ? widget.product?.id ?? 0 : widget.service?.id ?? 0 ).toInt()
-                ,widget.type == ItemType.Products ? widget.product?.name ?? "" : widget.service?.name ??"",
-              categoriesIds
-            );
+                (widget.type == ItemType.Products
+                        ? widget.product?.id ?? 0
+                        : widget.service?.id ?? 0)
+                    .toInt(),
+                widget.type == ItemType.Products
+                    ? widget.product?.name ?? ""
+                    : widget.service?.name ?? "",
+                categoriesIds);
           },
           child: Container(
             clipBehavior: Clip.antiAlias,
@@ -74,7 +85,9 @@ class _ServiceAndProductItemCardHorizontalState
                     width: double.infinity,
                     height: 121,
                     initialImg: widget.type == ItemType.Products
-                        ? widget.product?.images?.isNotEmpty == true ? widget.product?.images?.first.imagePath :""
+                        ? widget.product?.images?.isNotEmpty == true
+                            ? widget.product?.images?.first.imagePath
+                            : ""
                         : widget.service?.imagePath,
                   ),
                 ),
@@ -95,7 +108,8 @@ class _ServiceAndProductItemCardHorizontalState
                               : widget.service?.name ?? "",
                           style: AppTheme
                               .styleWithTextBlackAdelleSansExtendedFonts14w500,
-                            maxLines: 1,overflow: TextOverflow.ellipsis ,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
                       SizedBox(
@@ -111,7 +125,7 @@ class _ServiceAndProductItemCardHorizontalState
                               color: Colors.white,
                             ),
                             child: Text(
-                              "SAR ${widget.type == ItemType.Products ? widget.product?.priceAfterDiscount??"" : widget.service?.priceAfterDiscount??""}",
+                              "SAR ${widget.type == ItemType.Products ? widget.product?.priceAfterDiscount ?? "" : widget.service?.priceAfterDiscount ?? ""}",
                               style: AppTheme
                                   .styleWithTextRedAdelleSansExtendedFonts16w500,
                             ),
@@ -123,7 +137,7 @@ class _ServiceAndProductItemCardHorizontalState
                               ? widget.product?.priceAfterDiscount ==
                                       widget.product?.price
                                   ? Skeleton.ignore(
-                                    child: Text(
+                                      child: Text(
                                         "SAR ${widget.product?.price}",
                                         style: AppTheme
                                             .styleWithTextGray7AdelleSansExtendedFonts12w400
@@ -131,12 +145,12 @@ class _ServiceAndProductItemCardHorizontalState
                                                 decoration:
                                                     TextDecoration.lineThrough),
                                       ),
-                                  )
+                                    )
                                   : SizedBox()
                               : widget.service?.priceAfterDiscount ==
                                       widget.service?.price
                                   ? Skeleton.ignore(
-                                    child: Text(
+                                      child: Text(
                                         "SAR ${widget.service?.price}",
                                         style: AppTheme
                                             .styleWithTextGray7AdelleSansExtendedFonts12w400
@@ -144,7 +158,7 @@ class _ServiceAndProductItemCardHorizontalState
                                                 decoration:
                                                     TextDecoration.lineThrough),
                                       ),
-                                  )
+                                    )
                                   : SizedBox(),
                         ],
                       ),
@@ -199,13 +213,14 @@ class _ServiceAndProductItemCardHorizontalState
                           width: context.getScreenSize.width,
                           height: 36,
                           onPress: () {
-                            if(widget.type == ItemType.Products
-                                && widget.product?.inCart == false ){
-                              widget.onAddItemToCart.call(widget.product?.id?.toInt() ?? 0);
-                            }
-                            else if(widget.type == ItemType.Services
-                                && widget.service?.inCart == false ){
-                              widget.onAddItemToCart.call(widget.service?.id?.toInt() ?? 0);
+                            if (widget.type == ItemType.Products &&
+                                widget.product?.inCart == false) {
+                              widget.onAddItemToCart
+                                  .call(widget.product?.id?.toInt() ?? 0);
+                            } else if (widget.type == ItemType.Services &&
+                                widget.service?.inCart == false) {
+                              widget.onAddItemToCart
+                                  .call(widget.service?.id?.toInt() ?? 0);
                             }
                           },
                           child: Skeleton.ignore(
@@ -231,18 +246,24 @@ class _ServiceAndProductItemCardHorizontalState
             ),
           ),
         ),
-        InkWell(
-          onTap: (){
-            widget.onAddItemToWishList(
-                widget.type == ItemType.Products ? widget.product?.id?.toInt() ??0 : widget.service?.id?.toInt()??0
-            );
-          },
-          child: Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Align(
-              alignment: AlignmentDirectional.topEnd,
-              child: Skeleton.ignore(child: SVGIcons.unFavoriteIcon()),
-            ),
+        Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Align(
+            alignment: AlignmentDirectional.topEnd,
+            child: InkWell(
+                onTap: () {
+                  widget.onAddItemToWishList(widget.type == ItemType.Products
+                      ? widget.product?.id?.toInt() ?? 0
+                      : widget.service?.id?.toInt() ?? 0);
+                },
+                child: Skeleton.ignore(
+                    child: widget.type == ItemType.Products
+                        ? widget.product?.inWishlist == true
+                            ? SVGIcons.activeFavoriteIcon()
+                            : SVGIcons.unFavoriteIcon()
+                        : widget.service?.inWishlist == true
+                            ? SVGIcons.activeFavoriteIcon()
+                            : SVGIcons.unFavoriteIcon())),
           ),
         )
       ]),

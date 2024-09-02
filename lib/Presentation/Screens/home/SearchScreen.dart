@@ -18,6 +18,7 @@ import '../../../Data/Models/StateModel.dart';
 import '../../../Data/Network/lib/api.dart';
 import '../../StateNotifiersViewModel/PublicStateNotifiers.dart';
 import '../../StateNotifiersViewModel/UserAuthStateNotifiers.dart';
+import '../../StateNotifiersViewModel/WishListStateNotifiers.dart';
 import '../../Theme/AppTheme.dart';
 import '../../Widgets/DataListView.dart';
 import '../../Widgets/EmptyDataView.dart';
@@ -101,6 +102,44 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
         ref.read(getProductsStateNotifiers.notifier).handleAddProductToCart(id);
       }
     });
+
+    handleState(productToggleStateNotifier, showLoading: true,
+        onSuccess: (res) {
+          ref
+              .read(getSellerDetailsWithProductStateNotifier.notifier)
+              .handleAddProductToWishList(
+              res.data?.data?.productId?.toInt() ?? 0,
+              res.data?.data?.categoriesIds ?? [],
+              res.data?.data?.inWishlist ?? false);
+
+          ref.read(getProductDetails.notifier).handelAddProductToWishList(
+              res.data?.data?.productId ?? 0, res.data?.data?.inWishlist ?? false);
+
+          ref.read(homeDataStateNotifiers.notifier).handleAddProductToWishList(
+              res.data?.data?.productId ?? 0, res.data?.data?.inWishlist ?? false);
+
+          ref.read(getProductsStateNotifiers.notifier).handleAddProductToWishList(
+              res.data?.data?.productId ?? 0, res.data?.data?.inWishlist ?? false);
+        });
+
+    handleState(serviceToggleStateNotifier, showLoading: true,
+        onSuccess: (res) {
+          ref
+              .read(getSellerDetailsWithServicesStateNotifier.notifier)
+              .handleAddServiceToWishList(
+              res.data?.data?.serviceId?.toInt() ?? 0,
+              res.data?.data?.categoriesIds ?? [],
+              res.data?.data?.inWishlist ?? false);
+
+          ref.read(getServiceDetails.notifier).handelAddServiceToWishList(
+              res.data?.data?.serviceId ?? 0, res.data?.data?.inWishlist ?? false);
+
+          ref.read(homeDataStateNotifiers.notifier).handelAddServiceToWishList(
+              res.data?.data?.serviceId ?? 0, res.data?.data?.inWishlist ?? false);
+
+          ref.read(getServicesStateNotifiers.notifier).handelAddServiceToWishlist(
+              res.data?.data?.serviceId ?? 0, res.data?.data?.inWishlist ?? false);
+        });
 
     handleState(addServiceToCartUseCaseStateNotifier , showLoading: true ,onSuccess: (res){
       var id = res.data?.data?.serviceId;
@@ -299,7 +338,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
                                     addProductToCart(id);
                                   },
                                   onAddItemToWishList: (id) {
-                                    // widget.onAddItemToWishList.call(id);
+                                    productWishlistToggle(id);
                                   },
                                   onItemClick: (id,name,categoriesIds) {
                                     navigateToItemDetails(ItemType.Products, id, name, categoriesIds);
@@ -344,7 +383,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
                                     addServiceToCart(id);
                                   },
                                   onAddItemToWishList: (id) {
-                                    // widget.onAddItemToWishList.call(id);
+                                    serviceWishlistToggle(id.toString());
                                   },
                                   onItemClick: (id,name,categoriesIds) {
                                     navigateToItemDetails(ItemType.Services, id, name, categoriesIds);
@@ -536,4 +575,15 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
           .addToCart(serviceId: id.toString());
     }
   }
+
+  void productWishlistToggle(int id) {
+    ref
+        .read(productToggleStateNotifier.notifier)
+        .toggle(productId: id.toString());
+  }
+
+  void serviceWishlistToggle(String serviceId) {
+    ref.read(serviceToggleStateNotifier.notifier).toggle(serviceId: serviceId);
+  }
+
 }

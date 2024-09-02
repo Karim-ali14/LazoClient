@@ -9504,14 +9504,29 @@ paths:
                     properties:
                       id:
                         type: number
+                        nullable: true
                       user_id:
                         type: number
                       service_id:
                         type: number
+                        nullable: true
+                      product_id:
+                        type: number
+                        nullable: true
                       created_at:
                         type: string
+                        nullable: true
                       updated_at:
                         type: string
+                        nullable: true
+                      in_wishlist:
+                        type: boolean
+                        nullable: true
+                      categories_ids:
+                        type: array
+                        nullable: true
+                        items:
+                          type: string
                   message:
                     type: string
                   status:
@@ -9916,24 +9931,32 @@ paths:
                           type:
                             type: string
                           terms_conditions:
+                            nullable: true
                             type: string
                           about_app:
+                            nullable: true
                             type: string
                           contact_email:
+                            nullable: true
                             type: string
                           contact_phone:
+                            nullable: true
                             type: string
                           contact_whatsapp:
+                            nullable: true
                             type: string
                           created_at:
                             type: string
                           updated_at:
                             type: string
                           terms_conditions_path:
+                            nullable: true
                             type: string
                           about_app_path:
+                            nullable: true
                             type: string
                           privacy_policy:
+                            nullable: true
                             type: string
 
                       client_app_info:
@@ -9944,24 +9967,32 @@ paths:
                           type:
                             type: string
                           terms_conditions:
+                            nullable: true
                             type: string
                           about_app:
+                            nullable: true
                             type: string
                           contact_email:
+                            nullable: true
                             type: string
                           contact_phone:
+                            nullable: true
                             type: string
                           contact_whatsapp:
+                            nullable: true
                             type: string
                           created_at:
                             type: string
                           updated_at:
                             type: string
                           terms_conditions_path:
+                            nullable: true
                             type: string
                           about_app_path:
+                            nullable: true
                             type: string
                           privacy_policy:
+                            nullable: true
                             type: string
 
                       faqs:

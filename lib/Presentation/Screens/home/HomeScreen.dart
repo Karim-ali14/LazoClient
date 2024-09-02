@@ -21,6 +21,7 @@ import 'package:lazo_client/Presentation/Widgets/TitleWithSeeAll.dart';
 
 import '../../../Constants.dart';
 import '../../../Constants/Eunms.dart';
+import '../../StateNotifiersViewModel/WishListStateNotifiers.dart';
 import 'Componants/HorizontalOccasionsListViewWithTitleSeeAll.dart';
 import 'Componants/HorizontalTopProductListViewWithTitleSeeAll.dart';
 import 'Componants/HorizontalTopSellersListViewWithTitleSeeAll.dart';
@@ -60,6 +61,18 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       if (id != null) {
         ref.read(homeDataStateNotifiers.notifier).handelAddServiceToCart(id);
       }
+    });
+
+    handleState(productToggleStateNotifier, showLoading: true,
+        onSuccess: (res) {
+      ref.read(homeDataStateNotifiers.notifier).handleAddProductToWishList(
+          res.data?.data?.productId ?? 0, res.data?.data?.inWishlist ?? false);
+    });
+
+    handleState(serviceToggleStateNotifier, showLoading: true,
+        onSuccess: (res) {
+      ref.read(homeDataStateNotifiers.notifier).handelAddServiceToWishList(
+          res.data?.data?.serviceId ?? 0, res.data?.data?.inWishlist ?? false);
     });
 
     return Scaffold(
@@ -223,12 +236,15 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                         itemId, itemName, categoryIds);
                                   },
                                   onAddItemToCart: (id) {
+                                    print("homeCategories onAddItemToCart");
                                     addProductToCart(id);
                                   },
-                                  onAddItemToWishList: (int) {
-                                    if(client != null){
+                                  onAddItemToWishList: (id) {
+                                    print("homeCategories onAddItemToWishList");
 
-                                    }else{
+                                    if (client != null) {
+                                      productWishlistToggle(id);
+                                    } else {
                                       showAuthenticated();
                                     }
                                   },
@@ -266,7 +282,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                   onAddItemToCart: (id) {
                                     addServiceToCart(id);
                                   },
-                                  onAddItemToWishList: (int) {},
+                                  onAddItemToWishList: (id) {
+                                    print("object");
+                                    serviceWishlistToggle(id.toString());
+                                  },
                                   onSeeAllClickListener: (id, name) {
                                     navigateToSeeAllBestProductAndService(
                                         "Best Services", ItemType.Services);
@@ -362,6 +381,16 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     }
   }
 
+  void productWishlistToggle(int id) {
+    ref
+        .read(productToggleStateNotifier.notifier)
+        .toggle(productId: id.toString());
+  }
+
+  void serviceWishlistToggle(String serviceId) {
+    ref.read(serviceToggleStateNotifier.notifier).toggle(serviceId: serviceId);
+  }
+
   void addServiceToCart(int id) {
     print("service id : $id");
     var sessionId = ref
@@ -381,7 +410,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   void showAuthenticated() {
     showModalBottomSheet(
-      isScrollControlled: true,
+        isScrollControlled: true,
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.only(
                 topRight: Radius.circular(10), topLeft: Radius.circular(10))),

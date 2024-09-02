@@ -16,16 +16,13 @@ class ToggleProductServiceInWishlist200ResponseData {
     this.id,
     this.userId,
     this.serviceId,
+    this.productId,
     this.createdAt,
     this.updatedAt,
+    this.inWishlist,
+    this.categoriesIds = const [],
   });
 
-  ///
-  /// Please note: This property should have been non-nullable! Since the specification file
-  /// does not include a default value (using the "default:" property), however, the generated
-  /// source code must fall back to having a nullable type.
-  /// Consider adding a "default:" property in the specification file to hide this note.
-  ///
   num? id;
 
   ///
@@ -36,37 +33,28 @@ class ToggleProductServiceInWishlist200ResponseData {
   ///
   num? userId;
 
-  ///
-  /// Please note: This property should have been non-nullable! Since the specification file
-  /// does not include a default value (using the "default:" property), however, the generated
-  /// source code must fall back to having a nullable type.
-  /// Consider adding a "default:" property in the specification file to hide this note.
-  ///
   num? serviceId;
 
-  ///
-  /// Please note: This property should have been non-nullable! Since the specification file
-  /// does not include a default value (using the "default:" property), however, the generated
-  /// source code must fall back to having a nullable type.
-  /// Consider adding a "default:" property in the specification file to hide this note.
-  ///
+  num? productId;
+
   String? createdAt;
 
-  ///
-  /// Please note: This property should have been non-nullable! Since the specification file
-  /// does not include a default value (using the "default:" property), however, the generated
-  /// source code must fall back to having a nullable type.
-  /// Consider adding a "default:" property in the specification file to hide this note.
-  ///
   String? updatedAt;
+
+  bool? inWishlist;
+
+  List<String>? categoriesIds;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is ToggleProductServiceInWishlist200ResponseData &&
      other.id == id &&
      other.userId == userId &&
      other.serviceId == serviceId &&
+     other.productId == productId &&
      other.createdAt == createdAt &&
-     other.updatedAt == updatedAt;
+     other.updatedAt == updatedAt &&
+     other.inWishlist == inWishlist &&
+     other.categoriesIds == categoriesIds;
 
   @override
   int get hashCode =>
@@ -74,11 +62,14 @@ class ToggleProductServiceInWishlist200ResponseData {
     (id == null ? 0 : id!.hashCode) +
     (userId == null ? 0 : userId!.hashCode) +
     (serviceId == null ? 0 : serviceId!.hashCode) +
+    (productId == null ? 0 : productId!.hashCode) +
     (createdAt == null ? 0 : createdAt!.hashCode) +
-    (updatedAt == null ? 0 : updatedAt!.hashCode);
+    (updatedAt == null ? 0 : updatedAt!.hashCode) +
+    (inWishlist == null ? 0 : inWishlist!.hashCode) +
+    (categoriesIds == null ? 0 : categoriesIds!.hashCode);
 
   @override
-  String toString() => 'ToggleProductServiceInWishlist200ResponseData[id=$id, userId=$userId, serviceId=$serviceId, createdAt=$createdAt, updatedAt=$updatedAt]';
+  String toString() => 'ToggleProductServiceInWishlist200ResponseData[id=$id, userId=$userId, serviceId=$serviceId, productId=$productId, createdAt=$createdAt, updatedAt=$updatedAt, inWishlist=$inWishlist, categoriesIds=$categoriesIds]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -97,6 +88,11 @@ class ToggleProductServiceInWishlist200ResponseData {
     } else {
       json[r'service_id'] = null;
     }
+    if (this.productId != null) {
+      json[r'product_id'] = this.productId;
+    } else {
+      json[r'product_id'] = null;
+    }
     if (this.createdAt != null) {
       json[r'created_at'] = this.createdAt;
     } else {
@@ -106,6 +102,16 @@ class ToggleProductServiceInWishlist200ResponseData {
       json[r'updated_at'] = this.updatedAt;
     } else {
       json[r'updated_at'] = null;
+    }
+    if (this.inWishlist != null) {
+      json[r'in_wishlist'] = this.inWishlist;
+    } else {
+      json[r'in_wishlist'] = null;
+    }
+    if (this.categoriesIds != null) {
+      json[r'categories_ids'] = this.categoriesIds;
+    } else {
+      json[r'categories_ids'] = null;
     }
     return json;
   }
@@ -138,8 +144,15 @@ class ToggleProductServiceInWishlist200ResponseData {
         serviceId: json[r'service_id'] == null
             ? null
             : num.parse(json[r'service_id'].toString()),
+        productId: json[r'product_id'] == null
+            ? null
+            : num.parse(json[r'product_id'].toString()),
         createdAt: mapValueOfType<String>(json, r'created_at'),
         updatedAt: mapValueOfType<String>(json, r'updated_at'),
+        inWishlist: mapValueOfType<bool>(json, r'in_wishlist'),
+        categoriesIds: json[r'categories_ids'] is List
+            ? (json[r'categories_ids'] as List).cast<String>()
+            : const [],
       );
     }
     return null;

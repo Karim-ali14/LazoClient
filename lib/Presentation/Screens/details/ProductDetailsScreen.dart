@@ -21,6 +21,7 @@ import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../../Constants/Eunms.dart';
 import '../../StateNotifiersViewModel/UserAuthStateNotifiers.dart';
+import '../../StateNotifiersViewModel/WishListStateNotifiers.dart';
 import '../../Widgets/BannerCardItems.dart';
 import '../../Widgets/ServiceAndProductItemCard.dart';
 import '../../Widgets/SvgIcons.dart';
@@ -79,23 +80,63 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
     final relatedProductData = ref.watch(getProductsStateNotifiers);
     final relatedServiceData = ref.watch(getServicesStateNotifiers);
 
-    handleState(addProductToCartUseCaseStateNotifier , showLoading: true ,onSuccess: (res){
+    handleState(addProductToCartUseCaseStateNotifier, showLoading: true,
+        onSuccess: (res) {
       var id = res.data?.data?.productId;
       print("product id : $id");
-      if(id != null){
+      if (id != null) {
         ref.read(getProductDetails.notifier).handelAddProductToCart(id);
         ref.read(homeDataStateNotifiers.notifier).handleAddProductToCart(id);
         ref.read(getProductsStateNotifiers.notifier).handleAddProductToCart(id);
       }
     });
 
-    handleState(addServiceToCartUseCaseStateNotifier , showLoading: true ,onSuccess: (res){
+    handleState(addServiceToCartUseCaseStateNotifier, showLoading: true,
+        onSuccess: (res) {
       var id = res.data?.data?.serviceId;
-      if(id != null){
+      if (id != null) {
         ref.read(getServiceDetails.notifier).handelAddServiceToCart(id);
         ref.read(homeDataStateNotifiers.notifier).handelAddServiceToCart(id);
         ref.read(getServicesStateNotifiers.notifier).handelAddServiceToCart(id);
       }
+    });
+
+    handleState(productToggleStateNotifier, showLoading: true,
+        onSuccess: (res) {
+      ref
+          .read(getSellerDetailsWithProductStateNotifier.notifier)
+          .handleAddProductToWishList(
+              res.data?.data?.productId?.toInt() ?? 0,
+              res.data?.data?.categoriesIds ?? [],
+              res.data?.data?.inWishlist ?? false);
+
+      ref.read(getProductDetails.notifier).handelAddProductToWishList(
+          res.data?.data?.productId ?? 0, res.data?.data?.inWishlist ?? false);
+
+      ref.read(homeDataStateNotifiers.notifier).handleAddProductToWishList(
+          res.data?.data?.productId ?? 0, res.data?.data?.inWishlist ?? false);
+
+      ref.read(getProductsStateNotifiers.notifier).handleAddProductToWishList(
+          res.data?.data?.productId ?? 0, res.data?.data?.inWishlist ?? false);
+    });
+
+    handleState(serviceToggleStateNotifier, showLoading: true,
+        onSuccess: (res) {
+      ref
+          .read(getSellerDetailsWithServicesStateNotifier.notifier)
+          .handleAddServiceToWishList(
+              res.data?.data?.serviceId?.toInt() ?? 0,
+              res.data?.data?.categoriesIds ?? [],
+              res.data?.data?.inWishlist ?? false);
+
+      ref.read(getServiceDetails.notifier).handelAddServiceToWishList(
+          res.data?.data?.serviceId ?? 0, res.data?.data?.inWishlist ?? false);
+
+      ref.read(homeDataStateNotifiers.notifier).handelAddServiceToWishList(
+          res.data?.data?.serviceId ?? 0, res.data?.data?.inWishlist ?? false);
+
+      ref.read(getServicesStateNotifiers.notifier).handelAddServiceToWishlist(
+          res.data?.data?.serviceId ?? 0, res.data?.data?.inWishlist ?? false);
     });
 
     return Scaffold(
@@ -104,6 +145,32 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
         isCenter: false,
         navigated: true,
         appContext: context,
+        trailingWidget: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: Row(
+            children: [
+              SVGIcons.smallShareIcon(),
+              SizedBox(
+                width: 10,
+              ),
+              InkWell(
+                  onTap: () {
+                    widget.itemType == ItemType.Products
+                        ? productWishlistToggle(
+                            productItemState.data?.data?.id?.toInt() ?? 0)
+                        : serviceWishlistToggle(
+                            serviceItemState.data?.data?.id?.toString() ?? "");
+                  },
+                  child: widget.itemType == ItemType.Products
+                      ? productItemState.data?.data?.inWishlist == true
+                          ? SVGIcons.activeFavoriteIcon()
+                          : SVGIcons.unFavoriteIconWithLightRedIcon()
+                      : serviceItemState.data?.data?.inWishlist == true
+                          ? SVGIcons.activeFavoriteIcon()
+                          : SVGIcons.unFavoriteIconWithLightRedIcon())
+            ],
+          ),
+        ),
       ),
       body: SafeArea(
         child: Column(
@@ -1037,5 +1104,15 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
           .read(addServiceToCartUseCaseStateNotifier.notifier)
           .addToCart(serviceId: id.toString());
     }
+  }
+
+  void productWishlistToggle(int id) {
+    ref
+        .read(productToggleStateNotifier.notifier)
+        .toggle(productId: id.toString());
+  }
+
+  void serviceWishlistToggle(String serviceId) {
+    ref.read(serviceToggleStateNotifier.notifier).toggle(serviceId: serviceId);
   }
 }

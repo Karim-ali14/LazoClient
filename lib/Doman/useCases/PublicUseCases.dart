@@ -56,6 +56,28 @@ class HomeDataUseCase extends StateNotifier<StateModel<ShowHome200Response>> {
       state = StateModel.success(data);
     }
   }
+
+  void handleAddProductToWishList(num productId,bool inWishlist) {
+    if (data != null) {
+      var index = data?.data?.topRatedProducts
+          .indexWhere((product) => productId == product.id);
+      if (index != null && index != -1) {
+        data?.data?.topRatedProducts.getSafe(index)?.inWishlist = inWishlist;
+      }
+      state = StateModel.success(data);
+    }
+  }
+
+  void handelAddServiceToWishList(num serviceId, bool inWishlist) {
+    if (data != null) {
+      var index = data?.data?.topRatedServices
+          .indexWhere((product) => serviceId == product.id);
+      if (index != null && index != -1) {
+        data?.data?.topRatedServices.getSafe(index)?.inWishlist = inWishlist;
+      }
+      state = StateModel.success(data);
+    }
+  }
 }
 
 class GetCategoriesUseCase
@@ -275,6 +297,18 @@ class GetProductsUseCase
       state = StateModel.success(data);
     }
   }
+
+  void handleAddProductToWishList(num productId, bool inWishList) {
+    if (state.data != null) {
+      final data = state.data;
+      var index = data?.data?.products?.data
+          .indexWhere((product) => productId == product.id);
+      if (index != null && index != -1) {
+        data?.data?.products?.data.getSafe(index)?.inWishlist = inWishList;
+      }
+      state = StateModel.success(data);
+    }
+  }
 }
 
 class GetServicesUseCase
@@ -345,6 +379,17 @@ class GetServicesUseCase
       state = StateModel.success(data);
     }
   }
+  void handelAddServiceToWishlist(num serviceId,bool inWishlist) {
+    if (state.data != null) {
+      final data = state.data;
+      var index = data?.data?.services?.data
+          .indexWhere((product) => serviceId == product.id);
+      if (index != null && index != -1) {
+        data?.data?.services?.data.getSafe(index)?.inWishlist = inWishlist;
+      }
+      state = StateModel.success(data);
+    }
+  }
 }
 
 class FilterDataUseCase extends StateNotifier<FilterData> {
@@ -390,6 +435,12 @@ class GetProductDetailsUseCase
     data?.data?.inCart = true;
     state = StateModel.success(data);
   }
+
+  void handelAddProductToWishList(num productId,bool inWishlist) {
+    final data = state.data;
+    data?.data?.inWishlist = inWishlist;
+    state = StateModel.success(data);
+  }
 }
 
 class GetServiceDetailsUseCase
@@ -408,6 +459,11 @@ class GetServiceDetailsUseCase
   void handelAddServiceToCart(num serviceId) {
     final data = state.data;
     data?.data?.inCart = true;
+    state = StateModel.success(data);
+  }
+  void handelAddServiceToWishList(num serviceId,bool inWishList) {
+    final data = state.data;
+    data?.data?.inWishlist = inWishList;
     state = StateModel.success(data);
   }
 }
@@ -472,6 +528,22 @@ class GetSellerDetailsUseCase
     state = StateModel.success(data);
   }
 
+  void handleAddProductToWishList(int id,List<String> categories,bool inWishlist){
+    final data = state.data;
+    for (var categoryId in categories) {
+      for (int i = 0; i < (data?.data?.categories?.length ?? 0); i++) {
+        if(data?.data?.categories?[i].id == int.parse(categoryId)){
+          for (int n = 0; n < (data?.data?.categories?[i].products?.length ?? 0); n++) {
+            if(data?.data?.categories?[i].products?[n].id == id){
+              data?.data?.categories?[i].products?[n].inWishlist = inWishlist;
+            }
+          }
+        }
+      }
+    }
+    state = StateModel.success(data);
+  }
+
   void handleAddServiceToCart(int id,List<String> categories){
     final data = state.data;
     for (var categoryId in categories) {
@@ -480,6 +552,22 @@ class GetSellerDetailsUseCase
           for (int n = 0; n < (data?.data?.categories?[i].services?.length ?? 0); n++) {
             if(data?.data?.categories?[i].services?[n].id == id){
               data?.data?.categories?[i].services?[n].inCart = true;
+            }
+          }
+        }
+      }
+    }
+    state = StateModel.success(data);
+  }
+
+  void handleAddServiceToWishList(int id,List<String> categories, bool inWishList){
+    final data = state.data;
+    for (var categoryId in categories) {
+      for (int i = 0; i < (data?.data?.categories?.length ?? 0); i++) {
+        if(data?.data?.categories?[i].id == int.parse(categoryId)){
+          for (int n = 0; n < (data?.data?.categories?[i].services?.length ?? 0); n++) {
+            if(data?.data?.categories?[i].services?[n].id == id){
+              data?.data?.categories?[i].services?[n].inWishlist = inWishList;
             }
           }
         }

@@ -16,6 +16,7 @@ import 'package:lazo_client/Utils/Extintions.dart';
 import '../../../Constants.dart';
 import '../../StateNotifiersViewModel/PublicStateNotifiers.dart';
 import '../../StateNotifiersViewModel/UserAuthStateNotifiers.dart';
+import '../../StateNotifiersViewModel/WishListStateNotifiers.dart';
 import '../../Widgets/CircleImage.dart';
 import '../../Widgets/SvgIcons.dart';
 
@@ -87,12 +88,42 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
     handleState(addServiceToCartUseCaseStateNotifier , showLoading: true ,onSuccess: (res){
       var id = res.data?.data?.serviceId;
       if(id != null){
-        ref.read(getSellerDetailsWithProductStateNotifier.notifier).handleAddServiceToCart(id,res.data?.data?.categoriesIds ?? []);
+        ref.read(getSellerDetailsWithServicesStateNotifier.notifier).handleAddServiceToCart(id,res.data?.data?.categoriesIds ?? []);
         ref.read(getServiceDetails.notifier).handelAddServiceToCart(id);
         ref.read(homeDataStateNotifiers.notifier).handelAddServiceToCart(id);
         ref.read(getServicesStateNotifiers.notifier).handelAddServiceToCart(id);
       }
     });
+
+    handleState(productToggleStateNotifier, showLoading: true,
+        onSuccess: (res) {
+          ref.read(getSellerDetailsWithProductStateNotifier.notifier).handleAddProductToWishList(
+              res.data?.data?.productId?.toInt() ?? 0,res.data?.data?.categoriesIds ?? [],res.data?.data?.inWishlist ?? false);
+
+          ref.read(getProductDetails.notifier).handelAddProductToWishList(res.data?.data?.productId ?? 0,res.data?.data?.inWishlist ?? false);
+
+          ref.read(homeDataStateNotifiers.notifier).handleAddProductToWishList(
+              res.data?.data?.productId ?? 0, res.data?.data?.inWishlist ?? false);
+
+          ref.read(getProductsStateNotifiers.notifier).handleAddProductToWishList(
+              res.data?.data?.productId ?? 0, res.data?.data?.inWishlist ?? false);
+
+        });
+
+    handleState(serviceToggleStateNotifier, showLoading: true,
+        onSuccess: (res) {
+          ref.read(getSellerDetailsWithServicesStateNotifier.notifier).handleAddServiceToWishList(
+              res.data?.data?.serviceId?.toInt() ?? 0,res.data?.data?.categoriesIds ?? [],res.data?.data?.inWishlist ?? false);
+
+          ref.read(getServiceDetails.notifier).handelAddServiceToWishList(res.data?.data?.serviceId ?? 0,res.data?.data?.inWishlist ?? false);
+
+          ref.read(homeDataStateNotifiers.notifier).handelAddServiceToWishList(
+              res.data?.data?.serviceId ?? 0, res.data?.data?.inWishlist ?? false);
+
+          ref.read(getServicesStateNotifiers.notifier).handelAddServiceToWishlist(
+              res.data?.data?.serviceId ?? 0, res.data?.data?.inWishlist ?? false);
+
+        });
 
     return Scaffold(
       body: CustomScrollView(controller: _scrollController, slivers: [
@@ -373,7 +404,9 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
                     onAddItemToCart: (id) {
                       addProductToCart(id);
                     },
-                    onAddItemToWishList: (int) {},
+                    onAddItemToWishList: (id) {
+                      productWishlistToggle(id);
+                    },
                     onSeeAllClickListener: (id, name) {
                       navigateToSeeAllBestProductAndService(
                           categoryId: id,
@@ -421,7 +454,9 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
                     onAddItemToCart: (id) {
                       addServiceToCart(id);
                     },
-                    onAddItemToWishList: (int) {},
+                    onAddItemToWishList: (id) {
+                      serviceWishlistToggle(id.toString());
+                    },
                     onSeeAllClickListener: (id, name) {
                       print("$id $name");
                       navigateToSeeAllBestProductAndService(
@@ -572,6 +607,15 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
           .read(addProductToCartUseCaseStateNotifier.notifier)
           .addToCart(productId: id.toString());
     }
+  }
+  void productWishlistToggle(int id) {
+    ref
+        .read(productToggleStateNotifier.notifier)
+        .toggle(productId: id.toString());
+  }
+
+  void serviceWishlistToggle(String serviceId) {
+    ref.read(serviceToggleStateNotifier.notifier).toggle(serviceId: serviceId);
   }
 
   void addServiceToCart(int id) {

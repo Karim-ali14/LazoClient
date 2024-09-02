@@ -61,4 +61,7 @@ const editIconSvg = "assets/images/edit_icon.svg";
 const editPhoneImgSvg = "assets/images/edit_phone_img.svg";
 const defaultUseIconSvg = "assets/images/default_use_img.svg";
 const walletWithWhiteBackgroundIconSvg = "assets/images/wallet_with_white_background.svg";
+const activeFavoriteIconSvg = "assets/images/active_favorite_icon.svg";
+const unFavoriteIconWithLightRedSvg = "assets/images/un_favorite_icon_with_light_red.svg";
+const smallShareIconSvg = "assets/images/shareIcon.svg";
 
