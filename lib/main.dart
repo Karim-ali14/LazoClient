@@ -291,6 +291,10 @@ class MyApp extends ConsumerWidget {
           path: R_PrivacyAndPolicyScreen,
           builder: (BuildContext context, GoRouterState state) =>
               const PrivacyAndPolicyScreen()),
+      GoRoute(
+          path: R_ProfileScreen,
+          builder: (BuildContext context, GoRouterState state) =>
+              const ProfileScreen()),
     ],
   );
 }

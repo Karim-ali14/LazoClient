@@ -12,13 +12,14 @@ class CircleImgPicker extends StatefulWidget {
   final String? initialImg;
   final double? size;
   final Widget? placeHolder;
+  final bool enableClick;
   final Function(String, String) onResult;
   CircleImgPicker(
       {Key? key,
       this.size,
       required this.onResult,
       this.initialImg,
-      this.placeHolder})
+      this.placeHolder, this.enableClick = true})
       : super(key: key);
 
   @override
@@ -32,8 +33,10 @@ class _CircleImgPickerState extends State<CircleImgPicker> {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () async {
-        context.showSelectionActionSheet(imagePickOptions, onSelect,
-            header: "Add Image");
+        if(widget.enableClick){
+          context.showSelectionActionSheet(imagePickOptions, onSelect,
+              header: "Add Image");
+        }
       },
       child: SizedBox(
         width: widget.size ?? 50,

@@ -1,24 +1,45 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lazo_client/Data/Network/lib/api.dart';
+import 'package:lazo_client/Doman/CommenProviders/ApiProvider.dart';
 import 'package:lazo_client/Presentation/Theme/AppTheme.dart';
 import 'package:lazo_client/Presentation/Widgets/AppTextField.dart';
 import 'package:lazo_client/Presentation/Widgets/CustomAppBar.dart';
 import 'package:lazo_client/Presentation/Widgets/SvgIcons.dart';
 
-class ProfileScreen extends StatefulWidget {
+import '../../StateNotifiersViewModel/PublicStateNotifiers.dart';
+import '../../StateNotifiersViewModel/UserAuthStateNotifiers.dart';
+import '../../Widgets/CircleImagePicker.dart';
+
+class ProfileScreen extends ConsumerStatefulWidget {
   const ProfileScreen({super.key});
 
   @override
-  State<ProfileScreen> createState() => _ProfileScreenState();
+  ConsumerState<ProfileScreen> createState() => _ProfileScreenState();
 }
 
-class _ProfileScreenState extends State<ProfileScreen> {
+class _ProfileScreenState extends ConsumerState<ProfileScreen> {
   final fullNameTextEditingController = TextEditingController();
+  final phoneTextEditingController = TextEditingController();
+  final emailTextEditingController = TextEditingController();
+  final cityTextEditingController = TextEditingController();
 
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((callback) {
+      setClientData(ref.watch(clientStateProvider));
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    fullNameTextEditingController.text = "dsfasdfsdaf";
+    var client = ref.watch(clientStateProvider);
     return Scaffold(
       appBar: CustomAppBar(
         appContext: context,
@@ -26,21 +47,25 @@ class _ProfileScreenState extends State<ProfileScreen> {
         isCenter: false,
         navigated: true,
         trailingWidget: Padding(
-          padding: EdgeInsetsDirectional.symmetric(horizontal: 13,vertical: 13),
+          padding:
+              EdgeInsetsDirectional.symmetric(horizontal: 13, vertical: 13),
           child: Container(
             decoration: BoxDecoration(
-              color: AppTheme.mainAppColorLight2,
-              borderRadius: BorderRadius.circular(4)
-            ),
+                color: AppTheme.mainAppColorLight2,
+                borderRadius: BorderRadius.circular(4)),
             height: 26,
             padding: EdgeInsetsDirectional.symmetric(horizontal: 12),
             child: Row(
               children: [
-                SVGIcons.editIcon() ,
+                SVGIcons.editIcon(),
                 SizedBox(
                   width: 2,
                 ),
-                Text("Edit Profile",style: AppTheme.styleWithTextMainAppColorAdelleSansExtendedFonts12w400,)
+                Text(
+                  "Edit Profile",
+                  style: AppTheme
+                      .styleWithTextMainAppColorAdelleSansExtendedFonts12w400,
+                )
               ],
             ),
           ),
@@ -58,7 +83,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  SVGIcons.defaultUseIconSvgIcon(),
+                  CircleImgPicker(
+                    enableClick: false,
+                    size: 88,
+                    placeHolder: SVGIcons.placeHolderForPickImagesSvgIcon(),
+                    initialImg: client?.client?.imagePath,
+                    onResult: (path, value46) {},
+                  ),
+                  // SVGIcons.defaultUseIconSvgIcon(),
                 ],
               ),
               SizedBox(
@@ -77,14 +109,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
               SizedBox(
                 height: 16,
               ),
-
               AppTextField(
                 textInputType: TextInputType.phone,
                 textFieldBorderColor: AppTheme.appGrey3,
                 mode: AutovalidateMode.onUserInteraction,
                 hint: "Phone Number",
                 label: "Phone Number",
-                textEditingController: fullNameTextEditingController,
+                textEditingController: phoneTextEditingController,
                 disabled: true,
                 endWidget: SVGIcons.editPhoneImgSvgIcon(),
                 style: AppTheme.styleWithTextGray7AdelleSansExtendedFonts16w500,
@@ -92,31 +123,28 @@ class _ProfileScreenState extends State<ProfileScreen> {
               SizedBox(
                 height: 16,
               ),
-
               AppTextField(
                 textInputType: TextInputType.emailAddress,
                 textFieldBorderColor: AppTheme.appGrey3,
                 mode: AutovalidateMode.onUserInteraction,
                 hint: "Email Address",
                 label: "Email Address",
-                textEditingController: fullNameTextEditingController,
+                textEditingController: emailTextEditingController,
                 disabled: true,
                 style: AppTheme.styleWithTextGray7AdelleSansExtendedFonts16w500,
               ),
               SizedBox(
                 height: 16,
               ),
-
               AppTextField(
                 textInputType: TextInputType.text,
                 textFieldBorderColor: AppTheme.appGrey3,
                 mode: AutovalidateMode.onUserInteraction,
                 hint: "City",
                 label: "City",
-                textEditingController: fullNameTextEditingController,
+                textEditingController: cityTextEditingController,
                 disabled: true,
                 style: AppTheme.styleWithTextGray7AdelleSansExtendedFonts16w500,
-
               ),
               SizedBox(
                 height: 16,
@@ -126,5 +154,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ),
       ),
     );
+  }
+
+  void setClientData(ClientAuthResponseData? client) {
+    fullNameTextEditingController.text = client?.client?.name ?? "";
+    phoneTextEditingController.text = client?.client?.phone ?? "";
+    emailTextEditingController.text = client?.client?.email ?? "";
+    cityTextEditingController.text = client?.client?.city?.name ?? "";
   }
 }

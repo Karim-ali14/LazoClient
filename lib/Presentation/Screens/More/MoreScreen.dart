@@ -120,6 +120,24 @@ class _MoreScreenState extends ConsumerState<MoreScreen> {
             SizedBox(
               height: 10,
             ),
+
+            client != null ?
+            InkWell(
+              onTap: (){
+                navigateToProfileScreen();
+              },
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: MoreItemCard(
+                  startIcon: SVGIcons.langIcon(),
+                  text: "Profile",
+                  endIcon: SVGIcons.rightArrowWithBackgroundIcon(),
+                ),
+              ),
+            ):SizedBox(),
+            SizedBox(
+              height: defaultPaddingHorizontal,
+            ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: MoreItemCard(
@@ -305,5 +323,9 @@ class _MoreScreenState extends ConsumerState<MoreScreen> {
 
   void navigateToPrivacyAndPolicyScreen() {
     context.push(R_PrivacyAndPolicyScreen);
+  }
+
+  void navigateToProfileScreen() {
+    context.push(R_ProfileScreen);
   }
 }
