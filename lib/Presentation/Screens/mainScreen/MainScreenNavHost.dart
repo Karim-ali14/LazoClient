@@ -26,7 +26,7 @@ class _MainScreenNavHostState extends ConsumerState<MainScreenNavHost> {
 
   @override
   Widget build(BuildContext context) {
-    final client = ref.read(clientStateProvider.notifier).checkIfUserExist();
+    final client = ref.watch(clientStateProvider);
     return Scaffold(
       appBar: PreferredSize(
           preferredSize: const Size.fromHeight(60),

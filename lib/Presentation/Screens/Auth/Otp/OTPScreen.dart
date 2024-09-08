@@ -63,9 +63,9 @@ class _OtpScreenState extends ConsumerState<OTPScreen> {
           if(widget.typeOfMode == TypeOfMode.AuthMode){
             context.go(R_MainScreen);
           }else{
-            context.pop(context);
-            context.pop(context);
-            context.pop(context);
+            context.pop();
+            context.pop();
+            context.pop(true);
           }
         }catch(e){
           print("NAV cannont pop");
@@ -80,10 +80,10 @@ class _OtpScreenState extends ConsumerState<OTPScreen> {
           if(widget.typeOfMode == TypeOfMode.AuthMode){
             context.go(R_MainScreen);
           }else{
-            context.pop(context);
-            context.pop(context);
-            context.pop(context);
-            context.pop(context);
+            context.pop();
+            context.pop();
+            context.pop();
+            context.pop(true);
           }
         }catch(e){
           print("NAV cannont pop");

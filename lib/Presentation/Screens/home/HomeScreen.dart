@@ -21,6 +21,7 @@ import 'package:lazo_client/Presentation/Widgets/TitleWithSeeAll.dart';
 
 import '../../../Constants.dart';
 import '../../../Constants/Eunms.dart';
+import '../../../Data/Network/lib/api.dart';
 import '../../StateNotifiersViewModel/WishListStateNotifiers.dart';
 import 'Componants/HorizontalOccasionsListViewWithTitleSeeAll.dart';
 import 'Componants/HorizontalTopProductListViewWithTitleSeeAll.dart';
@@ -37,7 +38,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      ref.read(homeDataStateNotifiers.notifier).getHomeData();
+      getHomeData();
     });
     super.initState();
   }
@@ -45,7 +46,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final homeDataState = ref.watch(homeDataStateNotifiers);
-    var client = ref.read(clientStateProvider.notifier).checkIfUserExist();
+    var client = ref.watch(clientStateProvider);
+
     handleState(addProductToCartUseCaseStateNotifier, showLoading: true,
         onSuccess: (res) {
       var id = res.data?.data?.productId;
@@ -134,9 +136,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 HorizontalCategoryListViewWithTitleSeeAll(
-                                  list: homeDataState.data?.data?.categories
+                                  list: homeDataState.state != DataState.LOADING ?
+                                  homeDataState.data?.data?.categories
                                           .toList() ??
-                                      [],
+                                      []:[Category(),Category(),Category(),Category()],
                                   showLoading:
                                       homeDataState.state == DataState.LOADING,
                                   itemClick: (item) {
@@ -162,10 +165,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 HorizontalTopSellersListViewWithTitleSeeAll(
-                                  list: homeDataState
+                                  list: homeDataState.state != DataState.LOADING ? homeDataState
                                           .data?.data?.topRatedProviders
                                           .toList() ??
-                                      [],
+                                      []:[ProviderData(),ProviderData(),ProviderData(),ProviderData()],
                                   showLoading:
                                       homeDataState.state == DataState.LOADING,
                                   itemClick: (itemId) {
@@ -190,9 +193,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 HorizontalOccasionsListViewWithTitleSeeAll(
-                                  list: homeDataState.data?.data?.occasions
+                                  list: homeDataState.state != DataState.LOADING ?
+                                  homeDataState.data?.data?.occasions
                                           .toList() ??
-                                      [],
+                                      []:[Occasion(),Occasion(),Occasion(),Occasion()],
                                   showLoading:
                                       homeDataState.state == DataState.LOADING,
                                   itemClick: (occasionItem) {
@@ -224,10 +228,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 HorizontalTopProductListViewWithTitleSeeAll(
-                                  list: homeDataState
+                                  list: homeDataState.state != DataState.LOADING ?
+                                  homeDataState
                                           .data?.data?.topRatedProducts
                                           .toList() ??
-                                      [],
+                                      [] : [ProviderProduct(),ProviderProduct(),ProviderProduct(),ProviderProduct(),],
                                   showLoading:
                                       homeDataState.state == DataState.LOADING,
                                   itemClick: (itemId, itemName, categoryIds) {
@@ -269,10 +274,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 HorizontalTopServiceListViewWithTitleSeeAll(
-                                  list: homeDataState
+                                  list: homeDataState.state != DataState.LOADING ? homeDataState
                                           .data?.data?.topRatedServices
-                                          .toList() ??
-                                      [],
+                                          .toList() ?? []
+                                      :[ServiceShowData(),ServiceShowData(),ServiceShowData(),ServiceShowData(),ServiceShowData()],
                                   showLoading:
                                       homeDataState.state == DataState.LOADING,
                                   itemClick: (itemId, itemName, categoryIds) {
@@ -284,7 +289,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                   },
                                   onAddItemToWishList: (id) {
                                     print("object");
-                                    serviceWishlistToggle(id.toString());
+                                    if (client != null) {
+                                      serviceWishlistToggle(id.toString());
+                                    } else {
+                                      showAuthenticated();
+                                    }
                                   },
                                   onSeeAllClickListener: (id, name) {
                                     navigateToSeeAllBestProductAndService(
@@ -415,6 +424,21 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             borderRadius: BorderRadius.only(
                 topRight: Radius.circular(10), topLeft: Radius.circular(10))),
         context: context,
-        builder: (BuildContext context) => AuthenticateBottomSheet());
+        builder: (BuildContext context) => AuthenticateBottomSheet(
+              onLoginClicked: () {
+                navigateToLogin();
+              },
+            ));
+  }
+
+  void navigateToLogin() async{
+    var makeRefresh = await context.push(R_LoginScreen, extra: {"type": TypeOfMode.ViewMode});
+    if(makeRefresh == true){
+      getHomeData();
+    }
+  }
+
+  void getHomeData() {
+    ref.read(homeDataStateNotifiers.notifier).getHomeData();
   }
 }

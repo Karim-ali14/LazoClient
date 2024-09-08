@@ -9,8 +9,10 @@ import 'package:lazo_client/Presentation/Widgets/AppButton.dart';
 import '../../Constants/Eunms.dart';
 import '../Widgets/SvgIcons.dart';
 
+// typedef OnLoginClicked = Function()
 class AuthenticateBottomSheet extends StatelessWidget {
-  const AuthenticateBottomSheet({super.key});
+  final VoidCallback onLoginClicked ;
+  const AuthenticateBottomSheet({super.key, required this.onLoginClicked});
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +59,8 @@ class AuthenticateBottomSheet extends StatelessWidget {
                     text: "Login",
                     onPress: (){
                       context.pop();
-                      navigateToLogin(context);
+                      onLoginClicked.call();
+                      // navigateToLogin(context);
                     })
               ],
             )

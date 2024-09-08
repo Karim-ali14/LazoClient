@@ -34,7 +34,6 @@ class HorizontalTopServiceListViewWithTitleSeeAll extends StatefulWidget {
 class _HorizontalTopServiceListViewWithTitleSeeAll extends State<HorizontalTopServiceListViewWithTitleSeeAll> {
   @override
   Widget build(BuildContext context) {
-    print(widget.list[0].images[0].imagePath);
     return Column(
       children:[
         Skeletonizer(
