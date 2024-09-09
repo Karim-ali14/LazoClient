@@ -13,12 +13,14 @@ import 'package:lazo_client/Presentation/Widgets/AppTextField.dart';
 import 'package:lazo_client/Presentation/Widgets/CustomAppBar.dart';
 import 'package:lazo_client/Presentation/Widgets/SvgIcons.dart';
 import 'package:lazo_client/Utils/Extintions.dart';
+import 'package:lazo_client/main.dart';
 
 import '../../../Constants/Constants.dart';
 import '../../../Data/Models/ItemSelector.dart';
 import '../../../Data/Network/lib/api.dart';
 import '../../../Localization/Keys.dart';
 import '../../StateNotifiersViewModel/PublicStateNotifiers.dart';
+import '../../StateNotifiersViewModel/UserAuthStateNotifiers.dart';
 import '../../Widgets/CircleImagePicker.dart';
 import '../Auth/Componants/CustomSelectorBottomSheet.dart';
 
@@ -43,6 +45,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((call) {
+      setClientData(ref.watch(clientStateProvider));
       ref.read(getCities.notifier).getCities();
     });
     super.initState();
@@ -50,10 +53,25 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var client = ref.watch(clientStateProvider);
     handleState(getCities, onSuccess: (res) {
       cities = res.data?.data ?? [];
+      var index = cities.indexWhere((city) => city.id == client?.client?.cityId);
+      if(index != -1){
+        cityItemSelected = index;
+      }
     });
 
+    handleState(uploadFilesStateNotifiers, onSuccess: (res) {
+      images = res.data?.data ?? [];
+      editProfile(images.first);
+    }, showLoading: true);
+
+    handleState(updateProfileStateProvider, onSuccess: (res) {
+      var client = ref.watch(clientStateProvider);
+      client?.client = res.data?.data?.client;
+      ref.read(clientStateProvider.notifier).setUser(client);
+    }, showLoading: true);
 
     return Scaffold(
       appBar: CustomAppBar(
@@ -138,14 +156,16 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                     width: context.getScreenSize.width,
                     height: 48,
                     onPress: () {
-                      // cityController.text = "sdafsd";
-                      // if (formKey.currentState?.validate() == true) {
-                      //   context.showSuccessDialog(description: "description");
-                      // }
-                      // uploadFiles();
+                      if (formKey.currentState?.validate() == true) {
+                        if(imageFile != null){
+                          uploadFiles();
+                        }else{
+                          editProfile(null);
+                        }
+                      }
                     },
                     child: Text(
-                      signUpKey,
+                      "Save",
                       style: AppTheme
                           .styleWithTextBlackAdelleSansExtendedFonts16w400
                           .copyWith(color: Colors.white),
@@ -191,5 +211,25 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                 Navigator.pop(context);
               });
         });
+  }
+  void setClientData(ClientAuthResponseData? client) {
+    fullNameController.text = client?.client?.name ?? "";
+    phoneController.text = client?.client?.phone ?? "";
+    emailController.text = client?.client?.email ?? "";
+    cityController.text = client?.client?.city?.name ?? "";
+  }
+
+  void uploadFiles() {
+    ref.read(uploadFilesStateNotifiers.notifier).uploadFilesPost([imageFile!]);
+  }
+
+  void editProfile(String? imageLink) {
+    ref.read(updateProfileStateProvider.notifier).updateProfile(
+      cityId: cityItemSelected.toString() ,
+      name: fullNameController.text ,
+      email: emailController.text ,
+      phone: phoneController.text,
+      image: imageLink
+    );
   }
 }

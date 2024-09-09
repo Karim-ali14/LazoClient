@@ -37,4 +37,8 @@ final logoutStateProvider =
     StateNotifierProvider.autoDispose<LogoutUseCase, StateModel<void>>(
         (ref) => LogoutUseCase(ref,ref.read(clientApi)));
 
+final updateProfileStateProvider =
+    StateNotifierProvider.autoDispose<UpdateProfileUseCase, StateModel<ClientAuthResponse>>(
+        (ref) => UpdateProfileUseCase(ref,ref.read(clientApi)));
+
 

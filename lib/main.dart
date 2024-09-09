@@ -31,6 +31,7 @@ import 'Presentation/Screens/home/SearchScreen.dart';
 import 'Presentation/Screens/home/ShowTopSellers.dart';
 import 'Presentation/Screens/mainScreen/MainScreen.dart';
 import 'Presentation/Screens/onbaording/OnBordingScreen.dart';
+import 'Presentation/Screens/profileScreen/EditPhoneScreen.dart';
 import 'Presentation/Screens/profileScreen/ProfileScreen.dart';
 
 late SharedPreferences prefs;
@@ -295,6 +296,14 @@ class MyApp extends ConsumerWidget {
           path: R_ProfileScreen,
           builder: (BuildContext context, GoRouterState state) =>
               const ProfileScreen()),
+      GoRoute(
+          path: R_EditProfileScreen,
+          builder: (BuildContext context, GoRouterState state) =>
+              const EditProfileScreen()),
+      GoRoute(
+          path: R_EditPhoneScreen,
+          builder: (BuildContext context, GoRouterState state) =>
+              const EditPhoneScreen()),
     ],
   );
 }

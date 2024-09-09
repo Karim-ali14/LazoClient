@@ -143,9 +143,6 @@ doc/ToggleProductServiceInWishlist200Response.md
 doc/ToggleProductServiceInWishlist200ResponseData.md
 doc/UpdateCartItemQuantity200Response.md
 doc/UpdateCartItemQuantity200ResponseData.md
-doc/UpdateProfile200Response.md
-doc/UpdateProfile200ResponseData.md
-doc/UpdateProfile200ResponseDataCity.md
 doc/UploadFiles.md
 doc/UploadFilesResponse.md
 doc/WishlistApi.md
@@ -301,9 +298,6 @@ lib/model/toggle_product_service_in_wishlist200_response.dart
 lib/model/toggle_product_service_in_wishlist200_response_data.dart
 lib/model/update_cart_item_quantity200_response.dart
 lib/model/update_cart_item_quantity200_response_data.dart
-lib/model/update_profile200_response.dart
-lib/model/update_profile200_response_data.dart
-lib/model/update_profile200_response_data_city.dart
 lib/model/upload_files.dart
 lib/model/upload_files_response.dart
 pubspec.yaml

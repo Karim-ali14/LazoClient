@@ -437,12 +437,6 @@ class ApiClient {
           return UpdateCartItemQuantity200Response.fromJson(value);
         case 'UpdateCartItemQuantity200ResponseData':
           return UpdateCartItemQuantity200ResponseData.fromJson(value);
-        case 'UpdateProfile200Response':
-          return UpdateProfile200Response.fromJson(value);
-        case 'UpdateProfile200ResponseData':
-          return UpdateProfile200ResponseData.fromJson(value);
-        case 'UpdateProfile200ResponseDataCity':
-          return UpdateProfile200ResponseDataCity.fromJson(value);
         case 'UploadFiles':
           return UploadFiles.fromJson(value);
         case 'UploadFilesResponse':

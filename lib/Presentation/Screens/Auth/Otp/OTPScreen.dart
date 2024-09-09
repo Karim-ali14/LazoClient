@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lazo_client/Constants.dart';
+import 'package:lazo_client/Data/Models/StateModel.dart';
 import 'package:lazo_client/Doman/CommenProviders/ApiProvider.dart';
 import 'package:lazo_client/Presentation/Dialogs/LoadingDialog.dart';
 import 'package:lazo_client/Presentation/StateNotifiersViewModel/PublicStateNotifiers.dart';
@@ -51,6 +52,8 @@ class _OtpScreenState extends ConsumerState<OTPScreen> {
         login();
       }else if(widget.otpType == OTPType.SignUp){
         signUp();
+      } else if(widget.otpType == OTPType.Update){
+        updatePhone();
       }
     },onLoading: (res){
       context.showLoadingDialog();
@@ -91,6 +94,15 @@ class _OtpScreenState extends ConsumerState<OTPScreen> {
       }
     });
 
+    handleState(updateProfileStateProvider, onSuccess: (res) {
+      var client = ref.watch(clientStateProvider);
+      client?.client = res.data?.data?.client;
+      ref.read(clientStateProvider.notifier).setUser(client);
+      context.pop();
+      context.pop();
+      context.pop(true);
+
+    }, showLoading: true);
     return Scaffold(
       appBar: CustomAppBar(
           appContext: context,
@@ -229,5 +241,11 @@ class _OtpScreenState extends ConsumerState<OTPScreen> {
       );
     }
 
+  }
+
+  void updatePhone() {
+    ref.read(updateProfileStateProvider.notifier).updateProfile(
+        phone: widget.phone
+    );
   }
 }

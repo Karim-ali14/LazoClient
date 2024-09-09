@@ -1058,7 +1058,7 @@ class ClientApi {
   ///
   /// * [String] phone:
   ///   need verification before updating this field here
-  Future<UpdateProfile200Response?> updateProfile({ String? cityId, String? email, String? image, String? name, String? phone, }) async {
+  Future<ClientAuthResponse?> updateProfile({ String? cityId, String? email, String? image, String? name, String? phone, }) async {
     final response = await updateProfileWithHttpInfo( cityId: cityId, email: email, image: image, name: name, phone: phone, );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
@@ -1067,7 +1067,7 @@ class ClientApi {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
-      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'UpdateProfile200Response',) as UpdateProfile200Response;
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'ClientAuthResponse',) as ClientAuthResponse;
     
     }
     return null;

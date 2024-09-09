@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 typedef StringCallBack = Function(String);
 
 class AppTextField extends StatefulWidget {
+  final FocusNode? focusNode;
   final bool? readOnly;
   final String hint;
   final String label;
@@ -47,7 +48,7 @@ class AppTextField extends StatefulWidget {
       this.changeValueCallback,
       this.mask,
       required this.textEditingController,
-      this.textFieldColor, this.textInputAction, this.textFieldBorderColor, this.disabled, this.onClick, this.endText, this.validate, this.mode, this.readOnly = false, this.endWidget, this.startWidget, this.hintStyle, this.labelStyle})
+      this.textFieldColor, this.textInputAction, this.textFieldBorderColor, this.disabled, this.onClick, this.endText, this.validate, this.mode, this.readOnly = false, this.endWidget, this.startWidget, this.hintStyle, this.labelStyle, this.focusNode})
       : super(key: key);
 
   @override
@@ -66,6 +67,7 @@ class _AppTextFieldState extends State<AppTextField> {
       child: Container(
         width: widget.width,
         child:TextFormField(
+            focusNode: widget.focusNode,
             readOnly: widget.readOnly ?? false,
             autovalidateMode: widget.mode,
             inputFormatters: widget.mask != null ? [widget.mask!] : null,

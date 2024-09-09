@@ -24,7 +24,7 @@ class UpdateProfile200Response {
   /// source code must fall back to having a nullable type.
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
-  UpdateProfile200ResponseData? data;
+  ClientAuthResponse? data;
 
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
@@ -97,7 +97,7 @@ class UpdateProfile200Response {
       }());
 
       return UpdateProfile200Response(
-        data: UpdateProfile200ResponseData.fromJson(json[r'data']),
+        data: ClientAuthResponse.fromJson(json[r'data']),
         message: mapValueOfType<String>(json, r'message'),
         status: mapValueOfType<bool>(json, r'status'),
       );

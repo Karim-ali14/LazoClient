@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:math';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lazo_client/Data/Models/StateModel.dart';
 import 'package:lazo_client/Data/Network/lib/api.dart';
@@ -77,6 +78,17 @@ class SendOtpUseCase extends StateNotifier<StateModel<CodeSendResponse>>{
   void sendOtp(String? phone) async {
     state = StateModel.loading();
     request(() => authApi.codeSendPost(emailOrPhone: phone,accountType : accountType));
+  }
+}
+
+class UpdateProfileUseCase extends StateNotifier<StateModel<ClientAuthResponse>>{
+  final Ref ref;
+  final ClientApi clientApi;
+  UpdateProfileUseCase( this.ref, this.clientApi):super(StateModel());
+
+  void updateProfile({ String? cityId, String? email, String? image, String? name, String? phone, }) async {
+    state = StateModel.loading();
+    request(() => clientApi.updateProfile(cityId: cityId,email: email,image: image,name: name,phone: phone));
   }
 }
 

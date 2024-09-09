@@ -725,7 +725,7 @@ void (empty response body)
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **updateProfile**
-> UpdateProfile200Response updateProfile(cityId, email, image, name, phone)
+> ClientAuthResponse updateProfile(cityId, email, image, name, phone)
 
 update profile
 
@@ -768,7 +768,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**UpdateProfile200Response**](UpdateProfile200Response.md)
+[**ClientAuthResponse**](ClientAuthResponse.md)
 
 ### Authorization
 

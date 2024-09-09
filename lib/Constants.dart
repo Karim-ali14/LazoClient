@@ -22,6 +22,8 @@ const R_ProductAndServiceDetails = '/ProductDetailsScreen';
 const R_ShowAllReviews = '/ShowAllRatingAndReviewScreen';
 const R_SellerDetails = '/ShowSellerDetailsScreen';
 const R_ProfileScreen = '/ProfileScreen';
+const R_EditProfileScreen = '/EditProfileScreen';
+const R_EditPhoneScreen = '/EditPhoneScreen';
 
 const R_MoreScreen = '/more';
 const R_NotificationScreen = '/notification';
