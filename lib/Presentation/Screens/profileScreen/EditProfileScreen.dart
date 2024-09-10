@@ -41,7 +41,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
   File? imageFile = null;
   List<City> cities = [];
   List<String> images = [];
-  int? cityItemSelected;
+  int? cityItemIdSelected;
 
   @override
   void initState() {
@@ -59,7 +59,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
       cities = res.data?.data ?? [];
       var index = cities.indexWhere((city) => city.id == client?.client?.cityId);
       if(index != -1){
-        cityItemSelected = index;
+        cityItemIdSelected = cities[index].id;
       }
     });
 
@@ -199,13 +199,13 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                   .map((e) => ItemSelector(e.id ?? 0, e.name ?? "", null))
                   .toList(),
               searchHint: "Search by",
-              itemSelectedId: cityItemSelected,
+              itemSelectedId: cityItemIdSelected,
               isSingleSelect: true,
               onSelectMultiItemsCallback: (items) {},
               onSelectItemCallback: (itemid) {
-                cityItemSelected = itemid;
+                cityItemIdSelected = itemid;
 
-                if (cityItemSelected != null) {
+                if (cityItemIdSelected != null) {
                   cityController.text =
                       cities.firstWhere((item) => item.id == itemid).name ?? "";
                 }
@@ -227,7 +227,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
 
   void editProfile(String? imageLink) {
     ref.read(updateProfileStateProvider.notifier).updateProfile(
-      cityId: cityItemSelected.toString() ,
+      cityId: cityItemIdSelected.toString() ,
       name: fullNameController.text ,
       email: emailController.text ,
       phone: phoneController.text,
