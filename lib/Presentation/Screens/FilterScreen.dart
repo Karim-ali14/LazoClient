@@ -54,8 +54,8 @@ class _FilterScreenState extends ConsumerState<FilterScreen> {
   List<int>? categoriesSelected = null;
   List<int>? occasionsSelected = null;
   List<int>? ratingSelected = null;
-  int? priceFrom = null;
-  int? priceTo = null;
+  String? priceFrom = null;
+  String? priceTo = null;
   FilterData? filterData = null;
   @override
   void initState() {
@@ -402,7 +402,7 @@ class _FilterScreenState extends ConsumerState<FilterScreen> {
   }
 
   void showPriceBottomSheet(BuildContext context,
-      {Function(int?, int?)? afterSuccessSelectMultiItems}) {
+      {Function(String?, String?)? afterSuccessSelectMultiItems}) {
     print("filterForSellerStateNotifiers : ${promotionSelected}");
 
     showModalBottomSheet(
@@ -417,8 +417,8 @@ class _FilterScreenState extends ConsumerState<FilterScreen> {
             child: SelectPriceBottomSheet(
                 context: context,
                 title: "Choose Price",
-                priceFrom: priceFrom == null ? "" : priceFrom.toString(),
-                priceTo: priceTo == null ? "" : priceTo.toString(),
+                priceFrom: priceFrom ?? "",
+                priceTo: priceTo ?? "",
                 applyBtu: (from, to) {
                   afterSuccessSelectMultiItems?.call(from, to);
                 }),
@@ -588,7 +588,7 @@ class _FilterScreenState extends ConsumerState<FilterScreen> {
     setState(() {});
   }
 
-  void setDefaultPrice(int? priceFrom, int? priceTo) {
+  void setDefaultPrice(String? priceFrom, String? priceTo) {
     if (priceFrom != null && priceTo != null) {
       priceTextController.text =
           "SAR ${priceFrom ?? ""} - SAR ${priceTo ?? ""}";

@@ -399,8 +399,8 @@ class FilterDataUseCase extends StateNotifier<FilterData> {
 
   void applyDataFilter(
       {int? promotionSelected,
-      int? priceFromSelected,
-      int? priceToSelected,
+      String? priceFromSelected,
+      String? priceToSelected,
       List<int>? categoriesIdsSelected,
       List<int>? occasionsIdsSelected,
       List<int>? ratingValueSelected}) {

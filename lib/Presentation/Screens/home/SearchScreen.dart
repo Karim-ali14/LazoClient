@@ -470,8 +470,8 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
             ?.map((item) => item.toString())
             .toList(),
         type: ItemType.Products.name.toLowerCase(),
-        priceTo: filterForProductData?.priceToSelected.toString(),
-        priceFrom: filterForProductData?.priceFromSelected.toString(),
+        priceTo: filterForProductData?.priceToSelected,
+        priceFrom: filterForProductData?.priceFromSelected,
         searchByName: searchForProductData == null ||
                 searchForProductData?.isEmpty == true
             ? null

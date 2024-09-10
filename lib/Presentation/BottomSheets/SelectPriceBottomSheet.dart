@@ -6,7 +6,7 @@ import '../Widgets/AppButton.dart';
 import '../Widgets/AppTextField.dart';
 import '../Widgets/SvgIcons.dart';
 
-typedef OnApplyPrice = Function(int?, int?);
+typedef OnApplyPrice = Function(String?, String?);
 
 class SelectPriceBottomSheet extends StatefulWidget {
   final BuildContext context;
@@ -85,8 +85,8 @@ class _SelectPriceBottomSheetState extends State<SelectPriceBottomSheet> {
                   validate: (value) {
                     if (priceToController.text.isNotEmpty &&
                         value?.isNotEmpty == true) {
-                      if (int.parse(value!) <
-                          int.parse(priceToController.text)) {
+                      if (double.parse(value!) <
+                          double.parse(priceToController.text)) {
                         return null;
                       } else {
                         errorMessage = "price from should less then to ";
@@ -119,8 +119,8 @@ class _SelectPriceBottomSheetState extends State<SelectPriceBottomSheet> {
                     validate: (value) {
                       if (priceFromController.text.isNotEmpty &&
                           value?.isNotEmpty == true) {
-                        if (int.parse(value!) >
-                            int.parse(priceFromController.text)) {
+                        if (double.parse(value!) >
+                            double.parse(priceFromController.text)) {
                           return null;
                         } else {
                           return "";
@@ -148,10 +148,10 @@ class _SelectPriceBottomSheetState extends State<SelectPriceBottomSheet> {
                   print("object");
                   widget.applyBtu.call(
                       priceFromController.text.isNotEmpty
-                          ? int.parse(priceFromController.text)
+                          ? double.parse(priceFromController.text).toString()
                           : null,
                       priceToController.text.isNotEmpty
-                          ? int.parse(priceToController.text)
+                          ? double.parse(priceToController.text).toString()
                           : null);
                   Navigator.pop(context);
                   }
