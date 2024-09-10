@@ -11,7 +11,7 @@ class ExpandedText extends StatefulWidget {
   final bool defaultExpandedValue ;
   final OnExpandChangeStatus? onExpandChangeStatus;
   const ExpandedText(
-      {super.key, required this.textValue, required this.textStyle, required this.maxLength, this.showMoreText = " Show Less", this.showLessText = " Show More", this.defaultExpandedValue = false, this.onExpandChangeStatus});
+      {super.key, required this.textValue, required this.textStyle, required this.maxLength, this.showMoreText = " Show More", this.showLessText = " Show Less", this.defaultExpandedValue = false, this.onExpandChangeStatus});
 
   @override
   State<ExpandedText> createState() => _ExpandedTextState();

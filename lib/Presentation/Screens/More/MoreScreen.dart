@@ -110,7 +110,9 @@ class _MoreScreenState extends ConsumerState<MoreScreen> {
                             backColor: AppTheme.mainAppColor,
                             outlined: true,
                             text: "Sign Up",
-                            onPress: () {},
+                            onPress: () {
+                              navigateToSignUp();
+                            },
                             height: 46,
                           ),
                         )
@@ -315,6 +317,10 @@ class _MoreScreenState extends ConsumerState<MoreScreen> {
     }else {
       var extra = await context.push(R_LoginScreen,extra: {"type" : type});
     }
+  }
+
+  void navigateToSignUp() async{
+    context.go(R_SignUp,extra: {"typeOfMode" : TypeOfMode.ViewMode});
   }
 
   void navigateToTermsAndConditions() {

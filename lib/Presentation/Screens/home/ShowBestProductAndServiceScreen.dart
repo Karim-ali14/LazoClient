@@ -278,7 +278,7 @@ class _ShowProductAndServiceScreenState
         providerId: widget.providerId,
         page: page,
         categoriesIds: widget.categoryId != null ? [num.parse((widget.categoryId??0).toString())] : filterForProductData?.categoriesIdsSelected,
-        occasionsIds: filterForProductData?.occasionsIdsSelected,
+        occasionsIds: widget.occasionId != null ? [num.parse((widget.occasionId??0).toString())] :filterForProductData?.occasionsIdsSelected,
         ratings: filterForProductData?.ratingValueSelected
             ?.map((item) => item.toString())
             .toList(),

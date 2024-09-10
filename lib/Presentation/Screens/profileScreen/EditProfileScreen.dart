@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:lazo_client/Doman/CommenProviders/ApiProvider.dart';
 import 'package:lazo_client/Presentation/Theme/AppTheme.dart';
 import 'package:lazo_client/Presentation/Widgets/AppButton.dart';
@@ -71,6 +72,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
       var client = ref.watch(clientStateProvider);
       client?.client = res.data?.data?.client;
       ref.read(clientStateProvider.notifier).setUser(client);
+      context.pop(true);
     }, showLoading: true);
 
     return Scaffold(

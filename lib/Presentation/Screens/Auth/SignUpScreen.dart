@@ -27,7 +27,9 @@ import '../../Widgets/CustomAppBar.dart';
 import 'Componants/CustomSelectorBottomSheet.dart';
 
 class SignUpScreen extends ConsumerStatefulWidget {
-  const SignUpScreen({super.key});
+
+  final TypeOfMode? typeOfMode;
+  const SignUpScreen({this.typeOfMode, super.key});
 
   @override
   ConsumerState<SignUpScreen> createState() => _SignUpScreenState();
@@ -229,7 +231,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
       "image": images.first,
       "cityId": "$cityItemSelected",
       "type": OTPType.SignUp,
-      "typeOfMode": TypeOfMode.AuthMode,
+      "typeOfMode": widget.typeOfMode,
     });
   }
 

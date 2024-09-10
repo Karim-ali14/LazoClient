@@ -198,7 +198,10 @@ class MyApp extends ConsumerWidget {
       GoRoute(
           path: R_SignUp,
           builder: (BuildContext context, GoRouterState state) {
-            return const SignUpScreen();
+            var extra = state.extra as Map;
+            return SignUpScreen(
+              typeOfMode: extra["typeOfMode"] as TypeOfMode,
+            );
           }),
       GoRoute(
           path: R_SeeAllCategoryOrOccasion,

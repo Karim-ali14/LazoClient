@@ -170,7 +170,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   }
 
   void signUp() async {
-    context.push(R_SignUp);
+    context.push(R_SignUp, extra: {"typeOfMode": TypeOfMode.AuthMode});
   }
 
   void completeLoginProcess() {
