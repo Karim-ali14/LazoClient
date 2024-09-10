@@ -506,13 +506,18 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
   }
 
   void fetchSellers(int page) {
+    print(filterForSellersData?.occasionsIdsSelected);
     ref.read(getTopSellersDataStateNotifiers.notifier).getTopSellersData(
         page: page,
         isPromoted: filterForSellersData?.promotionSelected,
         categoriesIds: widget.type == CategoryType.Categories
+            ||
+            widget.type == CategoryType.Search
             ? filterForSellersData?.categoriesIdsSelected
             : null,
         occasionsIds: widget.type == CategoryType.Occasions
+            ||
+            widget.type == CategoryType.Search
             ? filterForSellersData?.occasionsIdsSelected
             : null,
         ratings: filterForSellersData?.ratingValueSelected
