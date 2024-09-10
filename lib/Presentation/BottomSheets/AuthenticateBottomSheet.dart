@@ -49,7 +49,7 @@ class AuthenticateBottomSheet extends StatelessWidget {
                 SizedBox(
                   height: 24,
                 ),
-                Text("You can see your notifications when you login.",style: AppTheme.styleWithTextAppGrey7AdelleSansExtendedFonts14w400,),
+                Text("You can make this action when you login.",style: AppTheme.styleWithTextAppGrey7AdelleSansExtendedFonts14w400,),
                 SizedBox(
                   height: 32,
                 ),

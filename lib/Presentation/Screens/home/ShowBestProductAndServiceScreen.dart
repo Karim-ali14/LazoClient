@@ -11,8 +11,10 @@ import '../../../Constants/Eunms.dart';
 import '../../../Data/Models/FilterData.dart';
 import '../../../Data/Models/StateModel.dart';
 import '../../../Data/Network/lib/api.dart';
+import '../../BottomSheets/AuthenticateBottomSheet.dart';
 import '../../StateNotifiersViewModel/PublicStateNotifiers.dart';
 import '../../StateNotifiersViewModel/UserAuthStateNotifiers.dart';
+import '../../StateNotifiersViewModel/WishListStateNotifiers.dart';
 import '../../Widgets/DataListView.dart';
 import '../../Widgets/EmptyDataView.dart';
 import '../../Widgets/SearchWithFilter.dart';
@@ -62,6 +64,9 @@ class _ShowProductAndServiceScreenState
   final TextEditingController controller = TextEditingController();
   @override
   Widget build(BuildContext context) {
+
+    final client = ref.watch(clientStateProvider);
+
     filterForProductData = ref.watch(filterForProductStateNotifiers);
 
     filterForServicesData = ref.watch(filterForServiceStateNotifiers);
@@ -83,6 +88,22 @@ class _ShowProductAndServiceScreenState
         ref.read(getServicesStateNotifiers.notifier).handelAddServiceToCart(id);
       }
     });
+
+    handleState(productToggleStateNotifier, showLoading: true,
+        onSuccess: (res) {
+          ref.read(getProductsStateNotifiers.notifier).handleAddProductToWishList(
+              res.data?.data?.productId ?? 0, res.data?.data?.inWishlist ?? false);
+          ref.read(homeDataStateNotifiers.notifier).handleAddProductToWishList(
+              res.data?.data?.productId ?? 0, res.data?.data?.inWishlist ?? false);
+        });
+
+    handleState(serviceToggleStateNotifier, showLoading: true,
+        onSuccess: (res) {
+          ref.read(getServicesStateNotifiers.notifier).handelAddServiceToWishlist(
+              res.data?.data?.serviceId ?? 0, res.data?.data?.inWishlist ?? false);
+          ref.read(homeDataStateNotifiers.notifier).handelAddServiceToWishList(
+              res.data?.data?.serviceId ?? 0, res.data?.data?.inWishlist ?? false);
+        });
 
     return Scaffold(
       appBar: CustomAppBar(
@@ -159,8 +180,12 @@ class _ShowProductAndServiceScreenState
                                       addProductToCart(id);
                                     },
                                     onAddItemToWishList: (id) {
-                                      // widget.onAddItemToWishList.call(id);
-                                    },
+                                      if(client != null){
+                                        productWishlistToggle(id);
+                                      }else{
+                                        showAuthenticated();
+                                      }
+                                      },
                                     onItemClick: (id,name,categoriesIds) {
                                       print("Selected Product : $categoriesIds");
                                       navigateToItemDetails(ItemType.Products, id, name, categoriesIds);
@@ -206,7 +231,11 @@ class _ShowProductAndServiceScreenState
                                       addServiceToCart(id);
                                     },
                                     onAddItemToWishList: (id) {
-                                      // widget.onAddItemToWishList.call(id);
+                                      if(client != null){
+                                        serviceWishlistToggle(id.toString());
+                                      }else{
+                                        showAuthenticated();
+                                      }
                                     },
                                     onItemClick: (id,name,categoriesIds) {
                                       navigateToItemDetails(ItemType.Services, id, name, categoriesIds);
@@ -277,10 +306,10 @@ class _ShowProductAndServiceScreenState
             ? searchForServiceData
             : null);
   }
+
   void navigateToItemDetails(ItemType itemType, int itemId, String itemName,List<int> categoriesIds) {
     context.push("$R_ProductAndServiceDetails/${itemId.toString()}" , extra: {"type" : itemType, "id" : itemId.toString() , "name" : itemName , "categoryIds" : categoriesIds});
   }
-
 
   void addProductToCart(int id) {
     var sessionId = ref
@@ -312,4 +341,45 @@ class _ShowProductAndServiceScreenState
     }
   }
 
+  void showAuthenticated() {
+    showModalBottomSheet(
+        isScrollControlled: true,
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+                topRight: Radius.circular(10), topLeft: Radius.circular(10))),
+        context: context,
+        builder: (BuildContext context) => AuthenticateBottomSheet(
+          onLoginClicked: () {
+            navigateToLogin();
+          },
+        ));
+  }
+
+  void navigateToLogin() async {
+    var makeRefresh = await context.push(R_LoginScreen, extra: {"type": TypeOfMode.ViewMode});
+    if(makeRefresh == true){
+      currentPageForProducts = 1;
+      currentPageForServices = 1;
+      if (widget.type == ItemType.Products) {
+        fetchProducts(currentPageForProducts);
+      } else {
+        fetchServices(currentPageForServices);
+      }
+      refreshHomeData();
+    }
+  }
+
+  void productWishlistToggle(int id) {
+    ref
+        .read(productToggleStateNotifier.notifier)
+        .toggle(productId: id.toString());
+  }
+
+  void serviceWishlistToggle(String serviceId) {
+    ref.read(serviceToggleStateNotifier.notifier).toggle(serviceId: serviceId);
+  }
+
+  void refreshHomeData() {
+    ref.read(homeDataStateNotifiers.notifier).getHomeData();
+  }
 }

@@ -16,6 +16,7 @@ import '../../../Constants/Eunms.dart';
 import '../../../Data/Models/FilterData.dart';
 import '../../../Data/Models/StateModel.dart';
 import '../../../Data/Network/lib/api.dart';
+import '../../BottomSheets/AuthenticateBottomSheet.dart';
 import '../../StateNotifiersViewModel/PublicStateNotifiers.dart';
 import '../../StateNotifiersViewModel/UserAuthStateNotifiers.dart';
 import '../../StateNotifiersViewModel/WishListStateNotifiers.dart';
@@ -83,6 +84,9 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
 
   @override
   Widget build(BuildContext context) {
+
+    final client = ref.watch(clientStateProvider);
+
     filterForProductData = ref.watch(filterForProductStateNotifiers);
 
     filterForServicesData = ref.watch(filterForServiceStateNotifiers);
@@ -338,7 +342,11 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
                                     addProductToCart(id);
                                   },
                                   onAddItemToWishList: (id) {
-                                    productWishlistToggle(id);
+                                    if(client != null){
+                                      productWishlistToggle(id);
+                                    }else{
+                                      showAuthenticated();
+                                    }
                                   },
                                   onItemClick: (id,name,categoriesIds) {
                                     navigateToItemDetails(ItemType.Products, id, name, categoriesIds);
@@ -383,7 +391,11 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
                                     addServiceToCart(id);
                                   },
                                   onAddItemToWishList: (id) {
-                                    serviceWishlistToggle(id.toString());
+                                    if(client != null){
+                                      serviceWishlistToggle(id.toString());
+                                    }else{
+                                      showAuthenticated();
+                                    }
                                   },
                                   onItemClick: (id,name,categoriesIds) {
                                     navigateToItemDetails(ItemType.Services, id, name, categoriesIds);
@@ -584,6 +596,30 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
 
   void serviceWishlistToggle(String serviceId) {
     ref.read(serviceToggleStateNotifier.notifier).toggle(serviceId: serviceId);
+  }
+
+  void showAuthenticated() {
+    showModalBottomSheet(
+        isScrollControlled: true,
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+                topRight: Radius.circular(10), topLeft: Radius.circular(10))),
+        context: context,
+        builder: (BuildContext context) => AuthenticateBottomSheet(
+          onLoginClicked: () {
+            navigateToLogin();
+          },
+        ));
+  }
+
+  void navigateToLogin() async{
+    var makeRefresh = await context.push(R_LoginScreen, extra: {"type": TypeOfMode.ViewMode});
+    currentPageForProducts = 1;
+    currentPageForServices = 1;
+    if(makeRefresh == true){
+      fetchProducts(currentPageForProducts);
+      fetchServices(currentPageForServices);
+    }
   }
 
 }

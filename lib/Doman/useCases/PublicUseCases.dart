@@ -379,6 +379,7 @@ class GetServicesUseCase
       state = StateModel.success(data);
     }
   }
+
   void handelAddServiceToWishlist(num serviceId,bool inWishlist) {
     if (state.data != null) {
       final data = state.data;
