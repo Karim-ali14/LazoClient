@@ -331,13 +331,15 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   void navigateToProductsAndServices(
       CategoryType type, String title, int? id) async {
     print("occasionId : $id");
-    await context.push(R_SeeAllProductOrService,
+    var makeRefresh = await context.push(R_SeeAllProductOrService,
         extra: {"type": type, "title": title, "id": id});
 
     ref.read(filterForProductStateNotifiers.notifier).resetDataFilter();
     ref.read(filterForServiceStateNotifiers.notifier).resetDataFilter();
     ref.read(filterForSellerStateNotifiers.notifier).resetDataFilter();
-
+    if(makeRefresh == true){
+      getHomeData();
+    }
     print(
         "filter data -> ${ref.watch(filterForProductStateNotifiers).priceToSelected}");
   }

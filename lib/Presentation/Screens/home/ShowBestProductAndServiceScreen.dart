@@ -307,8 +307,17 @@ class _ShowProductAndServiceScreenState
             : null);
   }
 
-  void navigateToItemDetails(ItemType itemType, int itemId, String itemName,List<int> categoriesIds) {
-    context.push("$R_ProductAndServiceDetails/${itemId.toString()}" , extra: {"type" : itemType, "id" : itemId.toString() , "name" : itemName , "categoryIds" : categoriesIds});
+  void navigateToItemDetails(ItemType itemType, int itemId, String itemName,List<int> categoriesIds) async {
+    var makeRefresh = await context.push("$R_ProductAndServiceDetails/${itemId.toString()}" , extra: {"type" : itemType, "id" : itemId.toString() , "name" : itemName , "categoryIds" : categoriesIds});
+    if(makeRefresh == true){
+      if(itemType == ItemType.Products){
+        currentPageForProducts = 1;
+        fetchProducts(currentPageForProducts);
+      }else {
+        currentPageForServices = 1;
+        fetchServices(currentPageForServices);
+      }
+    }
   }
 
   void addProductToCart(int id) {

@@ -82,6 +82,13 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
     super.initState();
   }
 
+  Future<bool> _onWillPop() async {
+    // Your custom logic here
+    print('Back button pressed!');
+    context.pop(true);
+    return false; // Return true to allow the pop action, false to prevent it
+  }
+
   @override
   Widget build(BuildContext context) {
 
@@ -152,124 +159,61 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
       }
     });
 
-    return Scaffold(
-      appBar: CustomAppBar(
-        appContext: context,
-        title: widget.title,
-        navigated: true,
-        isCenter: false,
-        customCallBack: () {
-          context.pop("Data");
-        },
-      ),
-      body: SafeArea(
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: AppSearchBarWithFilter(
-                controller: controller,
-                hasFilter: true,
-                onFilterClick: () {
-                  openFilterScreen(activeTabIndex);
-                },
-                delay: 1,
-                onTextChangeListener: (value) {
-                  if (activeTabIndex == 0) {
-                    currentPageForProducts = 1;
-                    searchForProductData = value;
-                    fetchProducts(currentPageForProducts);
-                  } else if (activeTabIndex == 1) {
-                    currentPageForServices = 1;
-                    searchForServiceData = value;
-                    fetchServices(currentPageForServices);
-                  } else if (activeTabIndex == 2) {
-                    currentPageForSellers = 1;
-                    searchForSellersData = value;
-                    fetchSellers(currentPageForSellers);
-                  }
-                },
+    return WillPopScope(
+      onWillPop: _onWillPop,
+      child: Scaffold(
+        appBar: CustomAppBar(
+          appContext: context,
+          title: widget.title,
+          navigated: true,
+          isCenter: false,
+          customCallBack: () {
+            context.pop(true);
+          },
+        ),
+        body: SafeArea(
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: AppSearchBarWithFilter(
+                  controller: controller,
+                  hasFilter: true,
+                  onFilterClick: () {
+                    openFilterScreen(activeTabIndex);
+                  },
+                  delay: 1,
+                  onTextChangeListener: (value) {
+                    if (activeTabIndex == 0) {
+                      currentPageForProducts = 1;
+                      searchForProductData = value;
+                      fetchProducts(currentPageForProducts);
+                    } else if (activeTabIndex == 1) {
+                      currentPageForServices = 1;
+                      searchForServiceData = value;
+                      fetchServices(currentPageForServices);
+                    } else if (activeTabIndex == 2) {
+                      currentPageForSellers = 1;
+                      searchForSellersData = value;
+                      fetchSellers(currentPageForSellers);
+                    }
+                  },
+                ),
               ),
-            ),
-            SizedBox(
-              height: 16,
-            ),
-            TabBar(
-              indicatorPadding: EdgeInsets.zero,
-              labelPadding: const EdgeInsetsDirectional.only(end: 0),
-              physics: const ClampingScrollPhysics(),
-              isScrollable: true,
-              dividerColor: Colors.transparent,
-              indicatorColor: Colors.transparent,
-              tabs: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: Tab(
-                    child: Container(
-                      width: 167,
-                      height: 40,
-                      padding: EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(4),
-                        border: Border.all(
-                          color: activeTabIndex == 0
-                              ? AppTheme.mainAppColor
-                              : AppTheme.appGrey8,
-                        ),
-                        color: activeTabIndex == 0
-                            ? AppTheme.mainAppColor
-                            : AppTheme.appGrey9,
-                      ),
-                      child: Center(
-                        child: Text(
-                          "Products",
-                          style: activeTabIndex == 0
-                              ? AppTheme
-                                  .styleWithTextWhiteAdelleSansExtendedFonts14w400
-                              : AppTheme
-                                  .styleWithTextWhiteAdelleSansExtendedFonts14w400
-                                  .copyWith(color: AppTheme.appGrey10),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                Tab(
-                  child: Padding(
-                    padding: EdgeInsetsDirectional.only(end: 16),
-                    child: Container(
-                      width: 167,
-                      height: 40,
-                      padding: EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(4),
-                        border: Border.all(
-                          color: activeTabIndex == 1
-                              ? AppTheme.mainAppColor
-                              : AppTheme.appGrey8,
-                        ),
-                        color: activeTabIndex == 1
-                            ? AppTheme.mainAppColor
-                            : AppTheme.appGrey9,
-                      ),
-                      child: Center(
-                        child: Text(
-                          "Services",
-                          style: activeTabIndex == 1
-                              ? AppTheme
-                                  .styleWithTextWhiteAdelleSansExtendedFonts14w400
-                              : AppTheme
-                                  .styleWithTextWhiteAdelleSansExtendedFonts14w400
-                                  .copyWith(color: AppTheme.appGrey10),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                if (widget.type == CategoryType.Search)
-                  Tab(
-                    child: Padding(
-                      padding: EdgeInsetsDirectional.only(end: 16),
+              SizedBox(
+                height: 16,
+              ),
+              TabBar(
+                indicatorPadding: EdgeInsets.zero,
+                labelPadding: const EdgeInsetsDirectional.only(end: 0),
+                physics: const ClampingScrollPhysics(),
+                isScrollable: true,
+                dividerColor: Colors.transparent,
+                indicatorColor: Colors.transparent,
+                tabs: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: Tab(
                       child: Container(
                         width: 167,
                         height: 40,
@@ -277,18 +221,18 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(4),
                           border: Border.all(
-                            color: activeTabIndex == 2
+                            color: activeTabIndex == 0
                                 ? AppTheme.mainAppColor
                                 : AppTheme.appGrey8,
                           ),
-                          color: activeTabIndex == 2
+                          color: activeTabIndex == 0
                               ? AppTheme.mainAppColor
                               : AppTheme.appGrey9,
                         ),
                         child: Center(
                           child: Text(
-                            "Sellers",
-                            style: activeTabIndex == 2
+                            "Products",
+                            style: activeTabIndex == 0
                                 ? AppTheme
                                     .styleWithTextWhiteAdelleSansExtendedFonts14w400
                                 : AppTheme
@@ -299,149 +243,215 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
                       ),
                     ),
                   ),
-              ],
-              controller: tabController,
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            Expanded(
-                child: TabBarView(
-              controller: tabController,
-              children: [
-                productsState.state == DataState.EMPTY
-                    ? /*OrderPlaceHolder(onAddOrderClick: () {})*/ EmptyDataView(
-                        icon: SVGIcons.searchGifIcon(),
-                        title: "No Data Found",
-                        description:
-                            "Please refine your search using common words to get accurate results",
-                      )
-                    : DataListView<ProviderProduct>(
-                        dataList: productsState.data?.data?.products?.data ??
-                            (productsState.state == DataState.LOADING
-                                ? [
-                                    ...List.generate(
-                                        5, (index) => ProviderProduct())
-                                  ]
-                                : []),
-                        paginated: true,
-                        pageLoading:
-                            productsState.state == DataState.MORE_LOADING,
-                        onBottomReached: () {
-                          fetchProducts(++currentPageForProducts);
-                        },
-                        builder: (item) => Skeletonizer(
-                              enabled: productsState.state == DataState.LOADING,
-                              child: Padding(
-                                padding: EdgeInsetsDirectional.symmetric(
-                                    horizontal: 16, vertical: 6),
-                                child: ServiceAndProductItemCardHorizontal(
-                                  type: ItemType.Products,
-                                  product: item,
-                                  onAddItemToCart: (id) {
-                                    addProductToCart(id);
-                                  },
-                                  onAddItemToWishList: (id) {
-                                    if(client != null){
-                                      productWishlistToggle(id);
-                                    }else{
-                                      showAuthenticated();
-                                    }
-                                  },
-                                  onItemClick: (id,name,categoriesIds) {
-                                    navigateToItemDetails(ItemType.Products, id, name, categoriesIds);
-                                  },
-                                ),
-                              ),
-                            )),
-                servicesState.state == DataState.EMPTY
-                    ? /*OrderPlaceHolder(onAddOrderClick: () {})*/ EmptyDataView(
-                        icon: SVGIcons.searchGifIcon(),
-                        title: "No Data Found",
-                        description:
-                            "Please refine your search using common words to get accurate results",
-                      )
-                    : DataListView<ServiceShowData>(
-                        dataList: servicesState.data?.data?.services?.data ??
-                            (servicesState.state == DataState.LOADING
-                                ? [
-                                    ...List.generate(
-                                        5, (index) => ServiceShowData())
-                                  ]
-                                : []),
-                        paginated: true,
-                        pageLoading:
-                            servicesState.state == DataState.MORE_LOADING,
-                        onBottomReached: () {
-                          if (currentPageForServices <
-                              (servicesState.data?.data?.services?.lastPage ??
-                                  0)) {
-                            fetchServices(++currentPageForServices);
-                          }
-                        },
-                        builder: (item) => Skeletonizer(
-                              enabled: servicesState.state == DataState.LOADING,
-                              child: Padding(
-                                padding: EdgeInsetsDirectional.symmetric(
-                                    horizontal: 16, vertical: 6),
-                                child: ServiceAndProductItemCardHorizontal(
-                                  service: item,
-                                  type: ItemType.Services,
-                                  onAddItemToCart: (id) {
-                                    addServiceToCart(id);
-                                  },
-                                  onAddItemToWishList: (id) {
-                                    if(client != null){
-                                      serviceWishlistToggle(id.toString());
-                                    }else{
-                                      showAuthenticated();
-                                    }
-                                  },
-                                  onItemClick: (id,name,categoriesIds) {
-                                    navigateToItemDetails(ItemType.Services, id, name, categoriesIds);
-                                  },
-                                ),
-                              ),
-                            )),
-                if (widget.type == CategoryType.Search)
-                  sellersState.state == DataState.EMPTY
+                  Tab(
+                    child: Padding(
+                      padding: EdgeInsetsDirectional.only(end: 16),
+                      child: Container(
+                        width: 167,
+                        height: 40,
+                        padding: EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(4),
+                          border: Border.all(
+                            color: activeTabIndex == 1
+                                ? AppTheme.mainAppColor
+                                : AppTheme.appGrey8,
+                          ),
+                          color: activeTabIndex == 1
+                              ? AppTheme.mainAppColor
+                              : AppTheme.appGrey9,
+                        ),
+                        child: Center(
+                          child: Text(
+                            "Services",
+                            style: activeTabIndex == 1
+                                ? AppTheme
+                                    .styleWithTextWhiteAdelleSansExtendedFonts14w400
+                                : AppTheme
+                                    .styleWithTextWhiteAdelleSansExtendedFonts14w400
+                                    .copyWith(color: AppTheme.appGrey10),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  if (widget.type == CategoryType.Search)
+                    Tab(
+                      child: Padding(
+                        padding: EdgeInsetsDirectional.only(end: 16),
+                        child: Container(
+                          width: 167,
+                          height: 40,
+                          padding: EdgeInsets.all(10),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(4),
+                            border: Border.all(
+                              color: activeTabIndex == 2
+                                  ? AppTheme.mainAppColor
+                                  : AppTheme.appGrey8,
+                            ),
+                            color: activeTabIndex == 2
+                                ? AppTheme.mainAppColor
+                                : AppTheme.appGrey9,
+                          ),
+                          child: Center(
+                            child: Text(
+                              "Sellers",
+                              style: activeTabIndex == 2
+                                  ? AppTheme
+                                      .styleWithTextWhiteAdelleSansExtendedFonts14w400
+                                  : AppTheme
+                                      .styleWithTextWhiteAdelleSansExtendedFonts14w400
+                                      .copyWith(color: AppTheme.appGrey10),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                ],
+                controller: tabController,
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Expanded(
+                  child: TabBarView(
+                controller: tabController,
+                children: [
+                  productsState.state == DataState.EMPTY
                       ? /*OrderPlaceHolder(onAddOrderClick: () {})*/ EmptyDataView(
                           icon: SVGIcons.searchGifIcon(),
                           title: "No Data Found",
                           description:
                               "Please refine your search using common words to get accurate results",
                         )
-                      : DataListView<ProviderData>(
-                          dataList: sellersState.data?.data?.data ??
-                              (sellersState.state == DataState.LOADING
+                      : DataListView<ProviderProduct>(
+                          dataList: productsState.data?.data?.products?.data ??
+                              (productsState.state == DataState.LOADING
                                   ? [
                                       ...List.generate(
-                                          5, (index) => ProviderData())
+                                          5, (index) => ProviderProduct())
                                     ]
                                   : []),
                           paginated: true,
                           pageLoading:
-                              sellersState.state == DataState.MORE_LOADING,
+                              productsState.state == DataState.MORE_LOADING,
                           onBottomReached: () {
-                            if (currentPageForSellers <
-                                (sellersState.data?.data?.lastPage ?? 0)) {
-                              fetchSellers(++currentPageForSellers);
-                            }
+                            fetchProducts(++currentPageForProducts);
                           },
                           builder: (item) => Skeletonizer(
-                                enabled:
-                                    sellersState.state == DataState.LOADING,
+                                enabled: productsState.state == DataState.LOADING,
                                 child: Padding(
                                   padding: EdgeInsetsDirectional.symmetric(
                                       horizontal: 16, vertical: 6),
-                                  child: SellerItemCard(providerData: item, onSellerClickListener: (sellerId) {
-                                    navigateToSellerDetails(sellerId);
-                                  },),
+                                  child: ServiceAndProductItemCardHorizontal(
+                                    type: ItemType.Products,
+                                    product: item,
+                                    onAddItemToCart: (id) {
+                                      addProductToCart(id);
+                                    },
+                                    onAddItemToWishList: (id) {
+                                      if(client != null){
+                                        productWishlistToggle(id);
+                                      }else{
+                                        showAuthenticated();
+                                      }
+                                    },
+                                    onItemClick: (id,name,categoriesIds) {
+                                      navigateToItemDetails(ItemType.Products, id, name, categoriesIds);
+                                    },
+                                  ),
                                 ),
                               )),
-              ],
-            ))
-          ],
+                  servicesState.state == DataState.EMPTY
+                      ? /*OrderPlaceHolder(onAddOrderClick: () {})*/ EmptyDataView(
+                          icon: SVGIcons.searchGifIcon(),
+                          title: "No Data Found",
+                          description:
+                              "Please refine your search using common words to get accurate results",
+                        )
+                      : DataListView<ServiceShowData>(
+                          dataList: servicesState.data?.data?.services?.data ??
+                              (servicesState.state == DataState.LOADING
+                                  ? [
+                                      ...List.generate(
+                                          5, (index) => ServiceShowData())
+                                    ]
+                                  : []),
+                          paginated: true,
+                          pageLoading:
+                              servicesState.state == DataState.MORE_LOADING,
+                          onBottomReached: () {
+                            if (currentPageForServices <
+                                (servicesState.data?.data?.services?.lastPage ??
+                                    0)) {
+                              fetchServices(++currentPageForServices);
+                            }
+                          },
+                          builder: (item) => Skeletonizer(
+                                enabled: servicesState.state == DataState.LOADING,
+                                child: Padding(
+                                  padding: EdgeInsetsDirectional.symmetric(
+                                      horizontal: 16, vertical: 6),
+                                  child: ServiceAndProductItemCardHorizontal(
+                                    service: item,
+                                    type: ItemType.Services,
+                                    onAddItemToCart: (id) {
+                                      addServiceToCart(id);
+                                    },
+                                    onAddItemToWishList: (id) {
+                                      if(client != null){
+                                        serviceWishlistToggle(id.toString());
+                                      }else{
+                                        showAuthenticated();
+                                      }
+                                    },
+                                    onItemClick: (id,name,categoriesIds) {
+                                      navigateToItemDetails(ItemType.Services, id, name, categoriesIds);
+                                    },
+                                  ),
+                                ),
+                              )),
+                  if (widget.type == CategoryType.Search)
+                    sellersState.state == DataState.EMPTY
+                        ? /*OrderPlaceHolder(onAddOrderClick: () {})*/ EmptyDataView(
+                            icon: SVGIcons.searchGifIcon(),
+                            title: "No Data Found",
+                            description:
+                                "Please refine your search using common words to get accurate results",
+                          )
+                        : DataListView<ProviderData>(
+                            dataList: sellersState.data?.data?.data ??
+                                (sellersState.state == DataState.LOADING
+                                    ? [
+                                        ...List.generate(
+                                            5, (index) => ProviderData())
+                                      ]
+                                    : []),
+                            paginated: true,
+                            pageLoading:
+                                sellersState.state == DataState.MORE_LOADING,
+                            onBottomReached: () {
+                              if (currentPageForSellers <
+                                  (sellersState.data?.data?.lastPage ?? 0)) {
+                                fetchSellers(++currentPageForSellers);
+                              }
+                            },
+                            builder: (item) => Skeletonizer(
+                                  enabled:
+                                      sellersState.state == DataState.LOADING,
+                                  child: Padding(
+                                    padding: EdgeInsetsDirectional.symmetric(
+                                        horizontal: 16, vertical: 6),
+                                    child: SellerItemCard(providerData: item, onSellerClickListener: (sellerId) {
+                                      navigateToSellerDetails(sellerId);
+                                    },),
+                                  ),
+                                )),
+                ],
+              ))
+            ],
+          ),
         ),
       ),
     );
@@ -549,8 +559,14 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
     }
   }
 
-  void navigateToItemDetails(ItemType itemType, int itemId, String itemName,List<int> categoriesIds) {
-    context.push("$R_ProductAndServiceDetails/${itemId.toString()}" , extra: {"type" : itemType, "name" : itemName , "categoryIds" : categoriesIds});
+  void navigateToItemDetails(ItemType itemType, int itemId, String itemName,List<int> categoriesIds) async{
+    var makeRefresh = await context.push("$R_ProductAndServiceDetails/${itemId.toString()}" , extra: {"type" : itemType, "name" : itemName , "categoryIds" : categoriesIds});
+    if(makeRefresh == true){
+      currentPageForProducts = 1;
+      currentPageForServices = 1;
+      fetchProducts(currentPageForProducts);
+      fetchServices(currentPageForServices);
+    }
   }
   void navigateToSellerDetails(int sellerId,) {
     context.push(R_SellerDetails , extra: {"sellerId" : sellerId});
@@ -614,12 +630,17 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
 
   void navigateToLogin() async{
     var makeRefresh = await context.push(R_LoginScreen, extra: {"type": TypeOfMode.ViewMode});
-    currentPageForProducts = 1;
-    currentPageForServices = 1;
+
     if(makeRefresh == true){
+      currentPageForProducts = 1;
+      currentPageForServices = 1;
       fetchProducts(currentPageForProducts);
       fetchServices(currentPageForServices);
+      refreshHomeData();
     }
   }
 
+  void refreshHomeData() {
+    ref.read(homeDataStateNotifiers.notifier).getHomeData();
+  }
 }

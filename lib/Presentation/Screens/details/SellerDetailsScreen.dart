@@ -14,6 +14,7 @@ import 'package:lazo_client/Presentation/Widgets/SeeMoreAndLessTextView.dart';
 import 'package:lazo_client/Utils/Extintions.dart';
 
 import '../../../Constants.dart';
+import '../../BottomSheets/AuthenticateBottomSheet.dart';
 import '../../StateNotifiersViewModel/PublicStateNotifiers.dart';
 import '../../StateNotifiersViewModel/UserAuthStateNotifiers.dart';
 import '../../StateNotifiersViewModel/WishListStateNotifiers.dart';
@@ -54,15 +55,9 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
       });
     });
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      ref
-          .read(getSellerDetailsWithProductStateNotifier.notifier)
-          .getSellerDetails(providerId: widget.sellerId);
-      ref
-          .read(getSellerDetailsWithServicesStateNotifier.notifier)
-          .getSellerDetails(providerId: widget.sellerId);
-      ref
-          .read(getSellerDetailsWithReviewsStateNotifier.notifier)
-          .getSellerDetails(providerId: widget.sellerId); // to get reviews
+      getProducts();
+      getServices();
+      getReviews();
     });
     super.initState();
   }
@@ -70,6 +65,7 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
   @override
   Widget build(BuildContext context) {
     print(defaultExpandedValue);
+    final client = ref.watch(clientStateProvider);
     final sellerProducts = ref.watch(getSellerDetailsWithProductStateNotifier);
     final sellerServices = ref.watch(getSellerDetailsWithServicesStateNotifier);
     final sellerReview = ref.watch(getSellerDetailsWithReviewsStateNotifier);
@@ -405,7 +401,11 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
                       addProductToCart(id);
                     },
                     onAddItemToWishList: (id) {
-                      productWishlistToggle(id);
+                      if(client != null) {
+                        productWishlistToggle(id);
+                      }else{
+                        showAuthenticated();
+                      }
                     },
                     onSeeAllClickListener: (id, name) {
                       navigateToSeeAllBestProductAndService(
@@ -455,7 +455,11 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
                       addServiceToCart(id);
                     },
                     onAddItemToWishList: (id) {
-                      serviceWishlistToggle(id.toString());
+                      if(client != null){
+                        serviceWishlistToggle(id.toString());
+                      }else{
+                        showAuthenticated();
+                      }
                     },
                     onSeeAllClickListener: (id, name) {
                       print("$id $name");
@@ -608,6 +612,7 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
           .addToCart(productId: id.toString());
     }
   }
+
   void productWishlistToggle(int id) {
     ref
         .read(productToggleStateNotifier.notifier)
@@ -648,13 +653,58 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
   }
 
   void navigateToItemDetails(
-      ItemType itemType, int itemId, String itemName, List<int> categoriesIds) {
-    context.push("$R_ProductAndServiceDetails/${itemId.toString()}", extra: {
+      ItemType itemType, int itemId, String itemName, List<int> categoriesIds) async {
+    var makeRefresh = await context.push("$R_ProductAndServiceDetails/${itemId.toString()}", extra: {
       "type": itemType,
       "name": itemName,
       "categoryIds": categoriesIds
     });
+    if(makeRefresh == true){
+      getProducts();
+      getServices();
+    }
   }
+
+  void showAuthenticated() {
+    showModalBottomSheet(
+        isScrollControlled: true,
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+                topRight: Radius.circular(10), topLeft: Radius.circular(10))),
+        context: context,
+        builder: (BuildContext context) => AuthenticateBottomSheet(
+          onLoginClicked: () {
+            navigateToLogin();
+          },
+        ));
+  }
+
+  void navigateToLogin() async {
+    var makeRefresh = await context.push(R_LoginScreen, extra: {"type": TypeOfMode.ViewMode});
+    if(makeRefresh == true){
+      getProducts();
+      getServices();
+    }
+  }
+
+  void getProducts() {
+    ref
+        .read(getSellerDetailsWithProductStateNotifier.notifier)
+        .getSellerDetails(providerId: widget.sellerId);
+  }
+
+  void getServices() {
+    ref
+        .read(getSellerDetailsWithServicesStateNotifier.notifier)
+        .getSellerDetails(providerId: widget.sellerId);
+  }
+
+  void getReviews() {
+    ref
+        .read(getSellerDetailsWithReviewsStateNotifier.notifier)
+        .getSellerDetails(providerId: widget.sellerId);
+  }
+
 }
 
 class _SliverTabsDelegate extends SliverPersistentHeaderDelegate {

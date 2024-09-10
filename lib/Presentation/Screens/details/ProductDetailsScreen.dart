@@ -20,6 +20,7 @@ import 'package:lazo_client/Utils/Extintions.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../../Constants/Eunms.dart';
+import '../../BottomSheets/AuthenticateBottomSheet.dart';
 import '../../StateNotifiersViewModel/UserAuthStateNotifiers.dart';
 import '../../StateNotifiersViewModel/WishListStateNotifiers.dart';
 import '../../Widgets/BannerCardItems.dart';
@@ -46,27 +47,27 @@ class ProductDetailsScreen extends ConsumerStatefulWidget {
 }
 
 class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
+  var makeRefresh = false;
+
+  Future<bool> _onWillPop() async {
+    // Your custom logic here
+    print('Back button pressed!');
+    context.pop(makeRefresh);
+    return false; // Return true to allow the pop action, false to prevent it
+  }
+
+
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((callback) {
       print("sadfasdfas ${widget.relatedCategoriesIds}");
 
       if (widget.itemType == ItemType.Products) {
-        ref
-            .read(getProductDetails.notifier)
-            .getProductDetails(productId: widget.id);
-        ref.read(getProductsStateNotifiers.notifier).getProductsData(
-            page: 1,
-            categoriesIds: widget.relatedCategoriesIds,
-            productId: widget.id);
+        getDetailsForProduct();
+        getRelatedProducts();
       } else {
-        ref
-            .read(getServiceDetails.notifier)
-            .getServiceDetails(serviceId: widget.id);
-        ref.read(getServicesStateNotifiers.notifier).getServicesData(
-            page: 1,
-            categoriesIds: widget.relatedCategoriesIds,
-            serviceId: widget.id);
+        getDetailsForService();
+        getRelatedServices();
       }
     });
 
@@ -75,6 +76,7 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final client = ref.watch(clientStateProvider);
     final productItemState = ref.watch(getProductDetails);
     final serviceItemState = ref.watch(getServiceDetails);
     final relatedProductData = ref.watch(getProductsStateNotifiers);
@@ -155,11 +157,15 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
               ),
               InkWell(
                   onTap: () {
-                    widget.itemType == ItemType.Products
-                        ? productWishlistToggle(
-                            productItemState.data?.data?.id?.toInt() ?? 0)
-                        : serviceWishlistToggle(
-                            serviceItemState.data?.data?.id?.toString() ?? "");
+                    if(client != null) {
+                      widget.itemType == ItemType.Products
+                          ? productWishlistToggle(
+                          productItemState.data?.data?.id?.toInt() ?? 0)
+                          : serviceWishlistToggle(
+                          serviceItemState.data?.data?.id?.toString() ?? "");
+                    }else{
+                      showAuthenticated();
+                    }
                   },
                   child: widget.itemType == ItemType.Products
                       ? productItemState.data?.data?.inWishlist == true
@@ -171,6 +177,9 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
             ],
           ),
         ),
+        customCallBack: () {
+          context.pop(makeRefresh);
+        },
       ),
       body: SafeArea(
         child: Column(
@@ -1114,5 +1123,68 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
 
   void serviceWishlistToggle(String serviceId) {
     ref.read(serviceToggleStateNotifier.notifier).toggle(serviceId: serviceId);
+  }
+
+  void showAuthenticated() {
+    showModalBottomSheet(
+        isScrollControlled: true,
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+                topRight: Radius.circular(10), topLeft: Radius.circular(10))),
+        context: context,
+        builder: (BuildContext context) => AuthenticateBottomSheet(
+          onLoginClicked: () {
+            navigateToLogin();
+          },
+        ));
+  }
+
+  void navigateToLogin() async{
+    var makeRefresh = await context.push(R_LoginScreen, extra: {"type": TypeOfMode.ViewMode});
+    if(makeRefresh == true){ // Todo make this action butter
+      this.makeRefresh = true;
+      if(widget.itemType == ItemType.Products){
+        getDetailsForProduct();
+        getRelatedProducts();
+        refreshHomeData();
+      }else{
+        getDetailsForService();
+        getRelatedServices();
+        refreshHomeData();
+      }
+    }else{
+      this.makeRefresh = false;
+    }
+  }
+
+  void getDetailsForProduct() {
+    ref
+        .read(getProductDetails.notifier)
+        .getProductDetails(productId: widget.id);
+  }
+
+  void getRelatedProducts() {
+    ref.read(getProductsStateNotifiers.notifier).getProductsData(
+        page: 1,
+        categoriesIds: widget.relatedCategoriesIds,
+        productId: widget.id);
+  }
+
+  void getDetailsForService() {
+    ref
+        .read(getServiceDetails.notifier)
+        .getServiceDetails(serviceId: widget.id);
+  }
+
+  void getRelatedServices() {
+    ref.read(getServicesStateNotifiers.notifier).getServicesData(
+        page: 1,
+        categoriesIds: widget.relatedCategoriesIds,
+        serviceId: widget.id);
+  }
+
+
+  void refreshHomeData() {
+    ref.read(homeDataStateNotifiers.notifier).getHomeData();
   }
 }
