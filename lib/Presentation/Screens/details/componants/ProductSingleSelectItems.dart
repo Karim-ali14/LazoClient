@@ -29,6 +29,7 @@ class _ProductSingleSelectItemsState
           (itemIndex) => InkWell(
                 onTap: () {
                   setState(() {
+
                     itemSelectedId = widget.list[itemIndex].id;
                   });
                   if(itemSelectedId != null) {

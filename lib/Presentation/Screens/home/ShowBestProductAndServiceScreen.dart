@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:lazo_client/Data/Models/UpdateDataModel.dart';
 import 'package:lazo_client/Doman/CommenProviders/ApiProvider.dart';
 import 'package:lazo_client/Presentation/Widgets/CustomAppBar.dart';
 import 'package:skeletonizer/skeletonizer.dart';
@@ -308,8 +309,8 @@ class _ShowProductAndServiceScreenState
   }
 
   void navigateToItemDetails(ItemType itemType, int itemId, String itemName,List<int> categoriesIds) async {
-    var makeRefresh = await context.push("$R_ProductAndServiceDetails/${itemId.toString()}" , extra: {"type" : itemType, "id" : itemId.toString() , "name" : itemName , "categoryIds" : categoriesIds});
-    if(makeRefresh == true){
+    var updateData = await context.push("$R_ProductAndServiceDetails/${itemId.toString()}" , extra: {"type" : itemType, "id" : itemId.toString() , "name" : itemName , "categoryIds" : categoriesIds}) as UpdateDataModel?;
+    if(updateData != null && updateData.updateNormalData == true){
       if(itemType == ItemType.Products){
         currentPageForProducts = 1;
         fetchProducts(currentPageForProducts);

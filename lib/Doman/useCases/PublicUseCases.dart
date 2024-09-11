@@ -276,7 +276,9 @@ class GetProductsUseCase
           var indexWhere = list.indexWhere((item) {
             return item.id?.toInt() == int.parse(productId ?? "0");
           });
-          list.removeAt(indexWhere);
+          if(indexWhere != -1){
+            list.removeAt(indexWhere);
+          }
           res.data?.products?.data = list;
         }
         state = StateModel.success(res);
@@ -356,8 +358,9 @@ class GetServicesUseCase
           var indexWhere = list.indexWhere((item) {
             return item.id?.toInt() == int.parse(serviceId ?? "0");
           });
-
-          list.removeAt(indexWhere);
+          if(indexWhere != -1){
+            list.removeAt(indexWhere);
+          }
 
           res.data?.services?.data = list;
         }
