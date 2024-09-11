@@ -5,7 +5,7 @@ import 'package:lazo_client/Presentation/Screens/details/componants/ProductRowIt
 import '../../../../Data/Models/ItemSelector.dart';
 import '../../../Theme/AppTheme.dart';
 
-typedef OnItemSelect = Function(int);
+typedef OnItemSelect = Function(ItemSelector?,int);
 
 class ProductSingleSelectItems extends StatefulWidget {
   final List<ItemSelector> list;
@@ -29,11 +29,18 @@ class _ProductSingleSelectItemsState
           (itemIndex) => InkWell(
                 onTap: () {
                   setState(() {
-
-                    itemSelectedId = widget.list[itemIndex].id;
+                    if(itemSelectedId == null) {
+                      itemSelectedId = widget.list[itemIndex].id;
+                    }else if(itemSelectedId != null && itemSelectedId != widget.list[itemIndex].id){
+                      itemSelectedId = widget.list[itemIndex].id;
+                    }else{
+                      itemSelectedId = null;
+                    }
                   });
                   if(itemSelectedId != null) {
-                    widget.onItemSelect.call(itemSelectedId!);
+                    widget.onItemSelect.call(widget.list[itemIndex],widget.list[itemIndex].id);
+                  }else{
+                    widget.onItemSelect.call(null,widget.list[itemIndex].id);
                   }
                 },
                 child: Container(
@@ -70,10 +77,18 @@ class _ProductSingleSelectItemsState
                                         }),
                                     onChanged: (value) {
                                       setState(() {
-                                        itemSelectedId = value;
+                                        if(itemSelectedId == null) {
+                                          itemSelectedId = widget.list[itemIndex].id;
+                                        }else if(itemSelectedId != null && itemSelectedId != widget.list[itemIndex].id){
+                                          itemSelectedId = widget.list[itemIndex].id;
+                                        }else{
+                                          itemSelectedId = null;
+                                        }
                                       });
                                       if(itemSelectedId != null) {
-                                        widget.onItemSelect.call(itemSelectedId!);
+                                        widget.onItemSelect.call(widget.list[itemIndex],widget.list[itemIndex].id);
+                                      }else{
+                                        widget.onItemSelect.call(null,widget.list[itemIndex].id);
                                       }
                                     }),
                               ),

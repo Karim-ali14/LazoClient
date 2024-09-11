@@ -95,6 +95,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                   CircleImgPicker(
                       size: 88,
                       placeHolder: SVGIcons.placeHolderForPickImagesSvgIcon(),
+                      initialImg: client?.client?.imagePath??"",
                       onResult: (path, value46) {
                         imageFile = File(path);
                       }),

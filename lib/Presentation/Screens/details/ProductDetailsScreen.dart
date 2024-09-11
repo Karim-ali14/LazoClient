@@ -54,13 +54,13 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
     // Your custom logic here
     print('Back button pressed!');
     context.pop(UpdateDataModel(
-      updateRelatedData: true,
-      updateNormalData: makeRefresh
-    ));
+        updateRelatedData: true, updateNormalData: makeRefresh));
     return false; // Return true to allow the pop action, false to prevent it
   }
 
-
+  final Map<int, List<String>> productSelectedItemsIds = {};
+  final Map<int, List<String>> productSelectedMultipleItems = {};
+  final Map<int, List<String>> serviceSelectemItemsIds = {};
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((callback) {
@@ -163,13 +163,14 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
                 ),
                 InkWell(
                     onTap: () {
-                      if(client != null) {
+                      if (client != null) {
                         widget.itemType == ItemType.Products
                             ? productWishlistToggle(
-                            productItemState.data?.data?.id?.toInt() ?? 0)
+                                productItemState.data?.data?.id?.toInt() ?? 0)
                             : serviceWishlistToggle(
-                            serviceItemState.data?.data?.id?.toString() ?? "");
-                      }else{
+                                serviceItemState.data?.data?.id?.toString() ??
+                                    "");
+                      } else {
                         showAuthenticated();
                       }
                     },
@@ -184,12 +185,8 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
             ),
           ),
           customCallBack: () {
-            context.pop(
-                UpdateDataModel(
-                    updateRelatedData: true,
-                    updateNormalData: makeRefresh
-                )
-            );
+            context.pop(UpdateDataModel(
+                updateRelatedData: true, updateNormalData: makeRefresh));
           },
         ),
         body: SafeArea(
@@ -204,12 +201,12 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
                       children: [
                         BannerCardItems(
                           list: widget.itemType == ItemType.Products
-                              ? (productItemState.data?.data?.images
-                                          .map((item) => item.imagePath ?? "") ??
+                              ? (productItemState.data?.data?.images.map(
+                                          (item) => item.imagePath ?? "") ??
                                       [])
                                   .toList()
-                              : (serviceItemState.data?.data?.images
-                                          .map((item) => item.imagePath ?? "") ??
+                              : (serviceItemState.data?.data?.images.map(
+                                          (item) => item.imagePath ?? "") ??
                                       [])
                                   .toList(),
                           height: 170,
@@ -486,16 +483,18 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
                                         "${serviceItemState.data?.data?.cardType}",
                                   ),
                                 ),
-                                serviceItemState.data?.data?.cardPrice != null ?Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 12.0),
-                                  child: ProductRowItem(
-                                    title: "Price for hard card",
-                                    textValue:
-                                        "SAR ${serviceItemState.data?.data?.cardPrice}",
-                                    hasDivider: true,
-                                  ),
-                                ):SizedBox(),
+                                serviceItemState.data?.data?.cardPrice != null
+                                    ? Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 12.0),
+                                        child: ProductRowItem(
+                                          title: "Price for hard card",
+                                          textValue:
+                                              "SAR ${serviceItemState.data?.data?.cardPrice}",
+                                          hasDivider: true,
+                                        ),
+                                      )
+                                    : SizedBox(),
                                 Padding(
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 12.0),
@@ -539,7 +538,8 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
                           ...(List.generate(
                               productItemState.data?.data?.lists?.length ?? 0,
                               (index) => Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
                                       SizedBox(
@@ -581,7 +581,8 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
                                                               ItemSelector(
                                                                   item.id?.toInt() ??
                                                                       0,
-                                                                  item.name ?? "",
+                                                                  item.name ??
+                                                                      "",
                                                                   Text(
                                                                     "SAR ${item.price}",
                                                                     style: AppTheme
@@ -589,7 +590,23 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
                                                                   )))
                                                           .toList() ??
                                                       [],
-                                                  onItemSelect: (item) {},
+                                                  onItemSelect: (item, id) {
+                                                    var categoryId =
+                                                        productItemState
+                                                                .data
+                                                                ?.data
+                                                                ?.lists?[index]
+                                                                .id
+                                                                ?.toInt() ??
+                                                            0;
+                                                    if (item != null) {
+                                                      productSelectedItemsIds[
+                                                          categoryId] = ["$id"];
+                                                    } else {
+                                                      productSelectedItemsIds[
+                                                          categoryId] = [];
+                                                    }
+                                                  },
                                                 )
                                               : ProductMultipleSelectItems(
                                                   list: productItemState
@@ -601,7 +618,8 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
                                                               ItemSelector(
                                                                   item.id?.toInt() ??
                                                                       0,
-                                                                  item.name ?? "",
+                                                                  item.name ??
+                                                                      "",
                                                                   Text(
                                                                     "SAR ${item.price}",
                                                                     style: AppTheme
@@ -609,7 +627,18 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
                                                                   )))
                                                           .toList() ??
                                                       [],
-                                                  onItemSelect: (item) {},
+                                                  onItemSelect: (items) {
+                                                    var categoryId =
+                                                        productItemState
+                                                                .data
+                                                                ?.data
+                                                                ?.lists?[index]
+                                                                .id
+                                                                ?.toInt() ??
+                                                            0;
+                                                    productSelectedItemsIds[
+                                                        categoryId] = items;
+                                                  },
                                                 ),
                                         ),
                                       ),
@@ -619,7 +648,8 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
                           ...(List.generate(
                               serviceItemState.data?.data?.lists?.length ?? 0,
                               (index) => Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       SizedBox(
                                         height: 32,
@@ -647,13 +677,25 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
                                           child: ProductMultipleSelectItems(
                                             list: serviceItemState
                                                     .data?.data?.lists
-                                                    ?.map((item) => ItemSelector(
-                                                        item.id?.toInt() ?? 0,
-                                                        item.name ?? "",
-                                                        SizedBox()))
+                                                    ?.map((item) =>
+                                                        ItemSelector(
+                                                            item.id?.toInt() ??
+                                                                0,
+                                                            item.name ?? "",
+                                                            SizedBox()))
                                                     .toList() ??
                                                 [],
-                                            onItemSelect: (item) {},
+                                            onItemSelect: (items) {
+                                              var categoryId = serviceItemState
+                                                      .data
+                                                      ?.data
+                                                      ?.lists?[index]
+                                                      .id
+                                                      ?.toInt() ??
+                                                  0;
+                                              serviceSelectemItemsIds[
+                                                  categoryId] = items;
+                                            },
                                           ),
                                         ),
                                       )
@@ -689,7 +731,8 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
                                   ),
                                   Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Row(
                                         children: [
@@ -784,7 +827,8 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
                                   ),
                                   Spacer(),
                                   Row(
-                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
                                     children: [
                                       Text(
                                         "Based on ${productItemState.data?.data?.ratingsCount ?? 0} ratings",
@@ -939,17 +983,24 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
                         SizedBox(
                           height: 16,
                         ),
-                        AppButton(
-                          onPress: () {
-                            navigateToShowAllReviews(widget.id, widget.itemType);
-                          },
-                          strokeWidth: 1,
-                          height: 46,
-                          width: double.infinity,
-                          outlined: true,
-                          text: "View more reviews",
-                          backColor: AppTheme.mainAppColor,
-                        ),
+                        serviceItemState.data?.data?.ratings?.isNotEmpty ==
+                                    true ||
+                                productItemState
+                                        .data?.data?.ratings?.isNotEmpty ==
+                                    true
+                            ? AppButton(
+                                onPress: () {
+                                  navigateToShowAllReviews(
+                                      widget.id, widget.itemType);
+                                },
+                                strokeWidth: 1,
+                                height: 46,
+                                width: double.infinity,
+                                outlined: true,
+                                text: "View more reviews",
+                                backColor: AppTheme.mainAppColor,
+                              )
+                            : SizedBox(),
                         SizedBox(
                           height: 32,
                         ),
@@ -996,12 +1047,12 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
                                     const SizedBox(
                                       width: 12,
                                     ),
-                                itemCount:
-                                    relatedProductData.state == DataState.LOADING
-                                        ? 5
-                                        : relatedProductData.data?.data?.products
-                                                ?.data.length ??
-                                            0),
+                                itemCount: relatedProductData.state ==
+                                        DataState.LOADING
+                                    ? 5
+                                    : relatedProductData.data?.data?.products
+                                            ?.data.length ??
+                                        0),
                           ),
                         if (widget.itemType == ItemType.Services)
                           SizedBox(
@@ -1030,12 +1081,12 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
                                     const SizedBox(
                                       width: 12,
                                     ),
-                                itemCount:
-                                    relatedServiceData.state == DataState.LOADING
-                                        ? 5
-                                        : relatedServiceData.data?.data?.services
-                                                ?.data.length ??
-                                            0),
+                                itemCount: relatedServiceData.state ==
+                                        DataState.LOADING
+                                    ? 5
+                                    : relatedServiceData.data?.data?.services
+                                            ?.data.length ??
+                                        0),
                           ),
                       ],
                     ),
@@ -1086,18 +1137,19 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
     context.push(R_ShowAllReviews, extra: {"id": id, "type": itemType});
   }
 
-  void navigateToItemDetails(
-      ItemType itemType, int itemId, String itemName, List<int> categoriesIds) async{
-    final updateDate = await context.push("$R_ProductAndServiceDetails/${itemId.toString()}", extra: {
+  void navigateToItemDetails(ItemType itemType, int itemId, String itemName,
+      List<int> categoriesIds) async {
+    final updateDate = await context
+        .push("$R_ProductAndServiceDetails/${itemId.toString()}", extra: {
       "type": itemType,
       "name": itemName,
       "categoryIds": categoriesIds
     }) as UpdateDataModel?;
-    if(updateDate != null && updateDate.updateRelatedData == true){
-      if(itemType == ItemType.Products){
+    if (updateDate != null && updateDate.updateRelatedData == true) {
+      if (itemType == ItemType.Products) {
         getDetailsForProduct();
         getRelatedProducts();
-      }else{
+      } else {
         getDetailsForService();
         getRelatedServices();
       }
@@ -1105,34 +1157,52 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
   }
 
   void addProductToCart(int id) {
+    String parentItemIds =
+        productSelectedItemsIds.keys.map((key) => key.toString()).join(",");
+    String childItemIds = productSelectedItemsIds.values
+        .map((value) => value.join(","))
+        .join("|");
+
     var sessionId = ref
         .read(getSessionHandlerStateNotifier.notifier)
         .checkIfSessionIdExist();
     if (ref.read(clientStateProvider.notifier).checkIfUserExist() == null &&
         sessionId?.isNotEmpty == true) {
-      ref
-          .read(addProductToCartUseCaseStateNotifier.notifier)
-          .addToCart(productId: id.toString(), sessionId: sessionId);
+      ref.read(addProductToCartUseCaseStateNotifier.notifier).addToCart(
+          productId: id.toString(),
+          sessionId: sessionId,
+          productSelectedListIds: parentItemIds,
+          productSelectedListItemsIds: childItemIds);
     } else {
-      ref
-          .read(addProductToCartUseCaseStateNotifier.notifier)
-          .addToCart(productId: id.toString());
+      ref.read(addProductToCartUseCaseStateNotifier.notifier).addToCart(
+          productId: id.toString(),
+          productSelectedListIds: parentItemIds,
+          productSelectedListItemsIds: childItemIds);
     }
   }
 
   void addServiceToCart(int id) {
+    String parentItemIds =
+        serviceSelectemItemsIds.keys.map((key) => key.toString()).join(",");
+    String childItemIds = serviceSelectemItemsIds.values
+        .map((value) => value.join(","))
+        .join("|");
+
     var sessionId = ref
         .read(getSessionHandlerStateNotifier.notifier)
         .checkIfSessionIdExist();
     if (ref.read(clientStateProvider.notifier).checkIfUserExist() == null &&
         sessionId?.isNotEmpty == true) {
-      ref
-          .read(addServiceToCartUseCaseStateNotifier.notifier)
-          .addToCart(serviceId: id.toString(), sessionId: sessionId);
+      ref.read(addServiceToCartUseCaseStateNotifier.notifier).addToCart(
+          serviceId: id.toString(),
+          sessionId: sessionId,
+          serviceSelectedListIds: parentItemIds,
+          serviceSelectedListItemsIds: childItemIds);
     } else {
-      ref
-          .read(addServiceToCartUseCaseStateNotifier.notifier)
-          .addToCart(serviceId: id.toString());
+      ref.read(addServiceToCartUseCaseStateNotifier.notifier).addToCart(
+          serviceId: id.toString(),
+          serviceSelectedListIds: parentItemIds,
+          serviceSelectedListItemsIds: childItemIds);
     }
   }
 
@@ -1154,26 +1224,28 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
                 topRight: Radius.circular(10), topLeft: Radius.circular(10))),
         context: context,
         builder: (BuildContext context) => AuthenticateBottomSheet(
-          onLoginClicked: () {
-            navigateToLogin();
-          },
-        ));
+              onLoginClicked: () {
+                navigateToLogin();
+              },
+            ));
   }
 
-  void navigateToLogin() async{
-    var makeRefresh = await context.push(R_LoginScreen, extra: {"type": TypeOfMode.ViewMode});
-    if(makeRefresh == true){ // Todo make this action butter
+  void navigateToLogin() async {
+    var makeRefresh =
+        await context.push(R_LoginScreen, extra: {"type": TypeOfMode.ViewMode});
+    if (makeRefresh == true) {
+      // Todo make this action butter
       this.makeRefresh = true;
-      if(widget.itemType == ItemType.Products){
+      if (widget.itemType == ItemType.Products) {
         getDetailsForProduct();
         getRelatedProducts();
         refreshHomeData();
-      }else{
+      } else {
         getDetailsForService();
         getRelatedServices();
         refreshHomeData();
       }
-    }else{
+    } else {
       this.makeRefresh = false;
     }
   }
@@ -1203,7 +1275,6 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
         categoriesIds: widget.relatedCategoriesIds,
         serviceId: widget.id);
   }
-
 
   void refreshHomeData() {
     ref.read(homeDataStateNotifiers.notifier).getHomeData();

@@ -5,7 +5,7 @@ import 'package:lazo_client/Presentation/Screens/details/componants/ProductRowIt
 import '../../../../Data/Models/ItemSelector.dart';
 import '../../../Theme/AppTheme.dart';
 
-typedef OnItemSelect = Function(List<int>);
+typedef OnItemSelect = Function(List<String>);
 
 class ProductMultipleSelectItems extends StatefulWidget {
   final List<ItemSelector> list;
@@ -20,7 +20,7 @@ class ProductMultipleSelectItems extends StatefulWidget {
 
 class _ProductMultipleSelectItemsState
     extends State<ProductMultipleSelectItems> {
-  List<int> list = [];
+  List<String> list = [];
   @override
   Widget build(BuildContext context) {
     return Column(children: [
@@ -28,11 +28,13 @@ class _ProductMultipleSelectItemsState
           widget.list.length ?? 0,
           (itemIndex) => InkWell(
                 onTap: () {
+                  print(list.contains(widget.list[itemIndex].id.toString()).toString());
+                  print(list.toString());
                   setState(() {
-                    if (!list.contains(widget.list[itemIndex].id)) {
-                      list.add(widget.list[itemIndex].id);
+                    if (!list.contains(widget.list[itemIndex].id.toString())) {
+                      list.add(widget.list[itemIndex].id.toString());
                     } else {
-                      list.remove(widget.list[itemIndex].id);
+                      list.remove(widget.list[itemIndex].id.toString());
                     }
                   });
                   widget.onItemSelect.call(list);
@@ -68,14 +70,14 @@ class _ProductMultipleSelectItemsState
                                     return Colors.white;
                                   }),
                                   value:
-                                      list.contains(widget.list[itemIndex].id),
+                                      list.contains(widget.list[itemIndex].id.toString()),
                                   onChanged: (bool? value) {
                                     setState(() {
                                       if (!list
-                                          .contains(widget.list[itemIndex].id)) {
-                                        list.add(widget.list[itemIndex].id);
+                                          .contains(widget.list[itemIndex].id.toString())) {
+                                        list.add(widget.list[itemIndex].id.toString());
                                       } else {
-                                        list.remove(widget.list[itemIndex].id);
+                                        list.remove(widget.list[itemIndex].id.toString());
                                       }
                                     });
                                     widget.onItemSelect.call(list);
