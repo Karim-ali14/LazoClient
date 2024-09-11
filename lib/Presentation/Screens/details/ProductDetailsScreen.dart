@@ -1157,11 +1157,15 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
   }
 
   void addProductToCart(int id) {
-    String parentItemIds =
-        productSelectedItemsIds.keys.map((key) => key.toString()).join(",");
-    String childItemIds = productSelectedItemsIds.values
-        .map((value) => value.join(","))
-        .join("|");
+    String? parentItemIds;
+    String? childItemIds;
+    if (productSelectedItemsIds.isNotEmpty) {
+      parentItemIds =
+          productSelectedItemsIds.keys.map((key) => key.toString()).join(",");
+      childItemIds = productSelectedItemsIds.values
+          .map((value) => value.join(","))
+          .join("|");
+    }
 
     var sessionId = ref
         .read(getSessionHandlerStateNotifier.notifier)
@@ -1182,11 +1186,15 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
   }
 
   void addServiceToCart(int id) {
-    String parentItemIds =
-        serviceSelectemItemsIds.keys.map((key) => key.toString()).join(",");
-    String childItemIds = serviceSelectemItemsIds.values
-        .map((value) => value.join(","))
-        .join("|");
+    String? parentItemIds;
+    String? childItemIds;
+    if (serviceSelectemItemsIds.isNotEmpty) {
+      parentItemIds =
+          serviceSelectemItemsIds.keys.map((key) => key.toString()).join(",");
+      childItemIds = serviceSelectemItemsIds.values
+          .map((value) => value.join(","))
+          .join("|");
+    }
 
     var sessionId = ref
         .read(getSessionHandlerStateNotifier.notifier)
