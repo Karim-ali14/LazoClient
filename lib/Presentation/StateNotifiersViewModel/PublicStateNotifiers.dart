@@ -31,6 +31,14 @@ final getTopSellersDataStateNotifiers = StateNotifierProvider<
         GetTopSellersUseCase, StateModel<FilterTopSellers200Response>>(
     (ref) => GetTopSellersUseCase(ref, ref.read(publicApi)));
 
+final getRelatedProductsStateNotifiers = StateNotifierProvider.autoDispose<GetProductsUseCase,
+        StateModel<FilterTopProductsServices200Response>>(
+    (ref) => GetProductsUseCase(ref, ref.read(publicApi)));
+
+final getRelatedServicesStateNotifiers = StateNotifierProvider.autoDispose<GetServicesUseCase,
+        StateModel<FilterTopProductsServices200Response>>(
+    (ref) => GetServicesUseCase(ref, ref.read(publicApi)));
+
 final getProductsStateNotifiers = StateNotifierProvider<GetProductsUseCase,
         StateModel<FilterTopProductsServices200Response>>(
     (ref) => GetProductsUseCase(ref, ref.read(publicApi)));

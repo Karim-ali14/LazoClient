@@ -60,7 +60,7 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((callback) {
-      print("sadfasdfas ${widget.relatedCategoriesIds}");
+      // print("sadfasdfas ${widget.relatedCategoriesIds}");
 
       if (widget.itemType == ItemType.Products) {
         getDetailsForProduct();
@@ -79,67 +79,67 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
     final client = ref.watch(clientStateProvider);
     final productItemState = ref.watch(getProductDetails);
     final serviceItemState = ref.watch(getServiceDetails);
-    final relatedProductData = ref.watch(getProductsStateNotifiers);
-    final relatedServiceData = ref.watch(getServicesStateNotifiers);
+    final relatedProductData = ref.watch(getRelatedProductsStateNotifiers);
+    final relatedServiceData = ref.watch(getRelatedServicesStateNotifiers);
 
-    handleState(addProductToCartUseCaseStateNotifier, showLoading: true,
-        onSuccess: (res) {
-      var id = res.data?.data?.productId;
-      print("product id : $id");
-      if (id != null) {
-        ref.read(getProductDetails.notifier).handelAddProductToCart(id);
-        ref.read(homeDataStateNotifiers.notifier).handleAddProductToCart(id);
-        ref.read(getProductsStateNotifiers.notifier).handleAddProductToCart(id);
-      }
-    });
-
-    handleState(addServiceToCartUseCaseStateNotifier, showLoading: true,
-        onSuccess: (res) {
-      var id = res.data?.data?.serviceId;
-      if (id != null) {
-        ref.read(getServiceDetails.notifier).handelAddServiceToCart(id);
-        ref.read(homeDataStateNotifiers.notifier).handelAddServiceToCart(id);
-        ref.read(getServicesStateNotifiers.notifier).handelAddServiceToCart(id);
-      }
-    });
-
-    handleState(productToggleStateNotifier, showLoading: true,
-        onSuccess: (res) {
-      ref
-          .read(getSellerDetailsWithProductStateNotifier.notifier)
-          .handleAddProductToWishList(
-              res.data?.data?.productId?.toInt() ?? 0,
-              res.data?.data?.categoriesIds ?? [],
-              res.data?.data?.inWishlist ?? false);
-
-      ref.read(getProductDetails.notifier).handelAddProductToWishList(
-          res.data?.data?.productId ?? 0, res.data?.data?.inWishlist ?? false);
-
-      ref.read(homeDataStateNotifiers.notifier).handleAddProductToWishList(
-          res.data?.data?.productId ?? 0, res.data?.data?.inWishlist ?? false);
-
-      ref.read(getProductsStateNotifiers.notifier).handleAddProductToWishList(
-          res.data?.data?.productId ?? 0, res.data?.data?.inWishlist ?? false);
-    });
-
-    handleState(serviceToggleStateNotifier, showLoading: true,
-        onSuccess: (res) {
-      ref
-          .read(getSellerDetailsWithServicesStateNotifier.notifier)
-          .handleAddServiceToWishList(
-              res.data?.data?.serviceId?.toInt() ?? 0,
-              res.data?.data?.categoriesIds ?? [],
-              res.data?.data?.inWishlist ?? false);
-
-      ref.read(getServiceDetails.notifier).handelAddServiceToWishList(
-          res.data?.data?.serviceId ?? 0, res.data?.data?.inWishlist ?? false);
-
-      ref.read(homeDataStateNotifiers.notifier).handelAddServiceToWishList(
-          res.data?.data?.serviceId ?? 0, res.data?.data?.inWishlist ?? false);
-
-      ref.read(getServicesStateNotifiers.notifier).handelAddServiceToWishlist(
-          res.data?.data?.serviceId ?? 0, res.data?.data?.inWishlist ?? false);
-    });
+    // handleState(addProductToCartUseCaseStateNotifier, showLoading: true,
+    //     onSuccess: (res) {
+    //   var id = res.data?.data?.productId;
+    //   print("product id : $id");
+    //   if (id != null) {
+    //     ref.read(getProductDetails.notifier).handelAddProductToCart(id);
+    //     ref.read(homeDataStateNotifiers.notifier).handleAddProductToCart(id);
+    //     ref.read(getProductsStateNotifiers.notifier).handleAddProductToCart(id);
+    //   }
+    // });
+    //
+    // handleState(addServiceToCartUseCaseStateNotifier, showLoading: true,
+    //     onSuccess: (res) {
+    //   var id = res.data?.data?.serviceId;
+    //   if (id != null) {
+    //     ref.read(getServiceDetails.notifier).handelAddServiceToCart(id);
+    //     ref.read(homeDataStateNotifiers.notifier).handelAddServiceToCart(id);
+    //     ref.read(getServicesStateNotifiers.notifier).handelAddServiceToCart(id);
+    //   }
+    // });
+    //
+    // handleState(productToggleStateNotifier, showLoading: true,
+    //     onSuccess: (res) {
+    //   ref
+    //       .read(getSellerDetailsWithProductStateNotifier.notifier)
+    //       .handleAddProductToWishList(
+    //           res.data?.data?.productId?.toInt() ?? 0,
+    //           res.data?.data?.categoriesIds ?? [],
+    //           res.data?.data?.inWishlist ?? false);
+    //
+    //   ref.read(getProductDetails.notifier).handelAddProductToWishList(
+    //       res.data?.data?.productId ?? 0, res.data?.data?.inWishlist ?? false);
+    //
+    //   ref.read(homeDataStateNotifiers.notifier).handleAddProductToWishList(
+    //       res.data?.data?.productId ?? 0, res.data?.data?.inWishlist ?? false);
+    //
+    //   ref.read(getProductsStateNotifiers.notifier).handleAddProductToWishList(
+    //       res.data?.data?.productId ?? 0, res.data?.data?.inWishlist ?? false);
+    // });
+    //
+    // handleState(serviceToggleStateNotifier, showLoading: true,
+    //     onSuccess: (res) {
+    //   ref
+    //       .read(getSellerDetailsWithServicesStateNotifier.notifier)
+    //       .handleAddServiceToWishList(
+    //           res.data?.data?.serviceId?.toInt() ?? 0,
+    //           res.data?.data?.categoriesIds ?? [],
+    //           res.data?.data?.inWishlist ?? false);
+    //
+    //   ref.read(getServiceDetails.notifier).handelAddServiceToWishList(
+    //       res.data?.data?.serviceId ?? 0, res.data?.data?.inWishlist ?? false);
+    //
+    //   ref.read(homeDataStateNotifiers.notifier).handelAddServiceToWishList(
+    //       res.data?.data?.serviceId ?? 0, res.data?.data?.inWishlist ?? false);
+    //
+    //   ref.read(getServicesStateNotifiers.notifier).handelAddServiceToWishlist(
+    //       res.data?.data?.serviceId ?? 0, res.data?.data?.inWishlist ?? false);
+    // });
 
     return Scaffold(
       appBar: CustomAppBar(
@@ -1075,7 +1075,7 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
   }
 
   void navigateToItemDetails(
-      ItemType itemType, int itemId, String itemName, List<int> categoriesIds) {
+      ItemType itemType, int itemId, String itemName, List<int> categoriesIds) async{
     context.push("$R_ProductAndServiceDetails/${itemId.toString()}", extra: {
       "type": itemType,
       "name": itemName,
@@ -1164,7 +1164,7 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
   }
 
   void getRelatedProducts() {
-    ref.read(getProductsStateNotifiers.notifier).getProductsData(
+    ref.read(getRelatedProductsStateNotifiers.notifier).getProductsData(
         page: 1,
         categoriesIds: widget.relatedCategoriesIds,
         productId: widget.id);
@@ -1177,7 +1177,7 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
   }
 
   void getRelatedServices() {
-    ref.read(getServicesStateNotifiers.notifier).getServicesData(
+    ref.read(getRelatedServicesStateNotifiers.notifier).getServicesData(
         page: 1,
         categoriesIds: widget.relatedCategoriesIds,
         serviceId: widget.id);
