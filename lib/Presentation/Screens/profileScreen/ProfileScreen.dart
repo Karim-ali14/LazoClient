@@ -50,9 +50,11 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
     super.dispose();
   }
 
+  String clientImage = "";
   @override
   Widget build(BuildContext context) {
     var client = ref.watch(clientStateProvider);
+    clientImage = ref.watch(clientStateProvider)?.client?.imagePath??"";
     return Scaffold(
       appBar: CustomAppBar(
         appContext: context,
@@ -105,7 +107,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                     enableClick: false,
                     size: 88,
                     placeHolder: SVGIcons.placeHolderForPickImagesSvgIcon(),
-                    initialImg: client?.client?.imagePath,
+                    initialImg: clientImage,
                     onResult: (path, value46) {},
                   ),
                   // SVGIcons.defaultUseIconSvgIcon(),
@@ -186,6 +188,9 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
     phoneTextEditingController.text = client?.client?.phone ?? "";
     emailTextEditingController.text = client?.client?.email ?? "";
     cityTextEditingController.text = client?.client?.city?.name ?? "";
+    setState(() {
+      clientImage = client?.client?.imagePath??"";
+    });
   }
 
   void navigateToEditProfile() async {
