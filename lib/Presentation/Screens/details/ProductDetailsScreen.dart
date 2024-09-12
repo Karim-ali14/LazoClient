@@ -94,6 +94,7 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
         ref.read(getProductDetails.notifier).handelAddProductToCart(id);
         ref.read(homeDataStateNotifiers.notifier).handleAddProductToCart(id);
         ref.read(getProductsStateNotifiers.notifier).handleAddProductToCart(id);
+        ref.read(getRelatedProductsStateNotifiers.notifier).handleAddProductToCart(id);
       }
     });
 
@@ -104,6 +105,7 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
         ref.read(getServiceDetails.notifier).handelAddServiceToCart(id);
         ref.read(homeDataStateNotifiers.notifier).handelAddServiceToCart(id);
         ref.read(getServicesStateNotifiers.notifier).handelAddServiceToCart(id);
+        ref.read(getRelatedServicesStateNotifiers.notifier).handelAddServiceToCart(id);
       }
     });
 
@@ -124,6 +126,9 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
 
       ref.read(getProductsStateNotifiers.notifier).handleAddProductToWishList(
           res.data?.data?.productId ?? 0, res.data?.data?.inWishlist ?? false);
+
+      ref.read(getRelatedProductsStateNotifiers.notifier).handleAddProductToWishList(
+          res.data?.data?.productId ?? 0, res.data?.data?.inWishlist ?? false);
     });
 
     handleState(serviceToggleStateNotifier, showLoading: true,
@@ -142,6 +147,9 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
           res.data?.data?.serviceId ?? 0, res.data?.data?.inWishlist ?? false);
 
       ref.read(getServicesStateNotifiers.notifier).handelAddServiceToWishlist(
+          res.data?.data?.serviceId ?? 0, res.data?.data?.inWishlist ?? false);
+
+      ref.read(getRelatedServicesStateNotifiers.notifier).handelAddServiceToWishlist(
           res.data?.data?.serviceId ?? 0, res.data?.data?.inWishlist ?? false);
     });
 
@@ -1034,8 +1042,16 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
                                       product: relatedProductData
                                           .data?.data?.products?.data[index],
                                       type: ItemType.Products,
-                                      onAddItemToCart: (id) {},
-                                      onAddItemToWishList: (id) {},
+                                      onAddItemToCart: (id) {
+                                        addProductToCart(id);
+                                      },
+                                      onAddItemToWishList: (id) {
+                                        if (client != null) {
+                                           productWishlistToggle(id);
+                                        } else {
+                                          showAuthenticated();
+                                        }
+                                      },
                                       onItemClick: (id, itemName, categoryIds) {
                                         navigateToItemDetails(ItemType.Products,
                                             id, itemName, categoryIds);
@@ -1068,8 +1084,16 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
                                       service: relatedServiceData
                                           .data?.data?.services?.data[index],
                                       type: ItemType.Services,
-                                      onAddItemToCart: (id) {},
-                                      onAddItemToWishList: (id) {},
+                                      onAddItemToCart: (id) {
+                                        addServiceToCart(id);
+                                      },
+                                      onAddItemToWishList: (id) {
+                                        if (client != null) {
+                                          serviceWishlistToggle(id.toString());
+                                        } else {
+                                          showAuthenticated();
+                                        }
+                                      },
                                       onItemClick: (id, itemName, categoryIds) {
                                         navigateToItemDetails(ItemType.Services,
                                             id, itemName, categoryIds);

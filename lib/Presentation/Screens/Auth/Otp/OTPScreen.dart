@@ -77,19 +77,20 @@ class _OtpScreenState extends ConsumerState<OTPScreen> {
     });
 
     handleState(signUpStateNotifierProvider, onSuccess: (res) {
+      print("signUp successful");
       ref.read(getSessionHandlerStateNotifier.notifier).clearSessionId();
       if(context.isThereCurrentDialogShowing()){
         try{
           if(widget.typeOfMode == TypeOfMode.AuthMode){
             context.go(R_MainScreen);
           }else{
-            context.pop();
+            print("signUp successful sdf");
             context.pop();
             context.pop();
             context.pop(true);
           }
         }catch(e){
-          print("NAV cannont pop");
+          print("NAV cannont pop $e");
         }
       }
     });
@@ -103,6 +104,7 @@ class _OtpScreenState extends ConsumerState<OTPScreen> {
       context.pop(true);
 
     }, showLoading: true);
+
     return Scaffold(
       appBar: CustomAppBar(
           appContext: context,

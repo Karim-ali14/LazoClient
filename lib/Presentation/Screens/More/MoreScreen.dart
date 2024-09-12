@@ -37,7 +37,8 @@ class _MoreScreenState extends ConsumerState<MoreScreen> {
      final client = ref.watch(clientStateProvider);
 
     handleState(logoutStateProvider,showLoading: true , onSuccess: (res){
-      navigateToLogin(TypeOfMode.AuthMode);
+      // navigateToLogin(TypeOfMode.AuthMode);
+      navigateToHomeScreen();
     });
 
     handleState(deleteAccountStateProvider,showLoading: true , onSuccess: (res){
@@ -320,7 +321,7 @@ class _MoreScreenState extends ConsumerState<MoreScreen> {
   }
 
   void navigateToSignUp() async{
-    context.go(R_SignUp,extra: {"typeOfMode" : TypeOfMode.ViewMode});
+    context.push(R_SignUp,extra: {"typeOfMode" : TypeOfMode.ViewMode});
   }
 
   void navigateToTermsAndConditions() {
@@ -333,5 +334,9 @@ class _MoreScreenState extends ConsumerState<MoreScreen> {
 
   void navigateToProfileScreen() {
     context.push(R_ProfileScreen);
+  }
+
+  void navigateToHomeScreen() {
+    context.go(R_MainScreen);
   }
 }
