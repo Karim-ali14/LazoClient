@@ -323,4 +323,19 @@ class SVGIcons {
       smallShareIconSvg,
     );
   }
+  static Widget incrementButtonSvgIcon(){
+    return SvgPicture.asset(
+      incrementButtonIconSvg,
+    );
+  }
+  static Widget decrementButtonSvgIcon(){
+    return SvgPicture.asset(
+      decrementButtonIconSvg,
+    );
+  }
+  static Widget buyFullIconSvgIcon(){
+    return SvgPicture.asset(
+      buyFullIconSvg,
+    );
+  }
 }

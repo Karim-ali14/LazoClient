@@ -22,7 +22,7 @@ class MainScreenNavHost extends ConsumerStatefulWidget {
 class _MainScreenNavHostState extends ConsumerState<MainScreenNavHost> {
   int currentTab = 0;
   Widget currentScreen = HomeScreen();
-  final listTabsName = ["Home", "More"];
+  final listTabsName = ["Home","Cart", "More"];
 
   @override
   Widget build(BuildContext context) {
@@ -57,6 +57,35 @@ class _MainScreenNavHostState extends ConsumerState<MainScreenNavHost> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
+                MaterialButton(
+                  minWidth: 40,
+                  onPressed: () {
+                    setState(() {
+                      currentTab = 0;
+                      currentScreen = HomeScreen();
+                    });
+                  },
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      currentTab == 0
+                          ? SVGIcons.homeActiveIcon()
+                          : SVGIcons.homeUnActiveIcon(),
+                      SizedBox(
+                        height: 3,
+                      ),
+                      Text(
+                        listTabsName[currentTab],
+                        style: currentTab == 0
+                            ? AppTheme
+                                .styleWithTextRedAdelleSansExtendedFonts11w500
+                            : AppTheme
+                                .styleWithTextGray7AdelleSansExtendedFonts11w500,
+                      )
+                    ],
+                  ),
+                ),
+
                 MaterialButton(
                   minWidth: 40,
                   onPressed: () {

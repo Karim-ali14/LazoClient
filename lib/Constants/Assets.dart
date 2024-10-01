@@ -64,4 +64,7 @@ const walletWithWhiteBackgroundIconSvg = "assets/images/wallet_with_white_backgr
 const activeFavoriteIconSvg = "assets/images/active_favorite_icon.svg";
 const unFavoriteIconWithLightRedSvg = "assets/images/un_favorite_icon_with_light_red.svg";
 const smallShareIconSvg = "assets/images/shareIcon.svg";
+const buyFullIconSvg = "assets/images/buy_full.svg";
+const decrementButtonIconSvg = "assets/images/decrement_button.svg";
+const incrementButtonIconSvg = "assets/images/increment_button.svg";
 
