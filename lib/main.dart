@@ -9,6 +9,7 @@ import 'package:lazo_client/Presentation/Screens/Auth/LoginSreen.dart';
 import 'package:lazo_client/Presentation/Screens/Auth/SignUpScreen.dart';
 import 'package:lazo_client/Presentation/Screens/More/PrivacyAndPolicyScreen.dart';
 import 'package:lazo_client/Presentation/Screens/More/TermsAndConditionsScreen.dart';
+import 'package:lazo_client/Presentation/Screens/cartScreen/CartScreen.dart';
 import 'package:lazo_client/Presentation/Screens/details/ProductDetailsScreen.dart';
 import 'package:lazo_client/Presentation/Screens/details/SellerDetailsScreen.dart';
 import 'package:lazo_client/Presentation/Screens/home/ShowBestProductAndServiceScreen.dart';
@@ -155,7 +156,7 @@ class MyApp extends ConsumerWidget {
       GoRoute(
         path: R_splashScreenRout,
         builder: (BuildContext context, GoRouterState state) =>
-            const SplashScreen(),
+            const CartScreen(),
       ),
       GoRoute(
         path: R_OnBoardingScreen,
