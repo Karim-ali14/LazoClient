@@ -67,4 +67,5 @@ const smallShareIconSvg = "assets/images/shareIcon.svg";
 const buyFullIconSvg = "assets/images/buy_full.svg";
 const decrementButtonIconSvg = "assets/images/decrement_button.svg";
 const incrementButtonIconSvg = "assets/images/increment_button.svg";
+const voucherIconSvg = "assets/images/voucher_ic.svg";
 

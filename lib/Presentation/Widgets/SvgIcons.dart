@@ -338,4 +338,12 @@ class SVGIcons {
       buyFullIconSvg,
     );
   }
+  static Widget voucherIcon(){
+    return SvgPicture.asset(
+      voucherIconSvg,
+      width: 23,
+      height: 15,
+      fit: BoxFit.scaleDown,
+    );
+  }
 }

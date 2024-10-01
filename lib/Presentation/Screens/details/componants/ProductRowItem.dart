@@ -6,6 +6,8 @@ import '../../../Theme/AppTheme.dart';
 
 class ProductRowItem extends StatelessWidget {
   final String? title;
+  final TextStyle? titleTextStyle;
+  final TextStyle? desTextStyle;
   final String? textValue;
   final Widget? endWidget;
   final bool? hasDivider;
@@ -14,7 +16,7 @@ class ProductRowItem extends StatelessWidget {
       this.title,
       this.textValue,
       this.hasDivider = true,
-      this.endWidget});
+      this.endWidget, this.titleTextStyle, this.desTextStyle});
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +35,7 @@ class ProductRowItem extends StatelessWidget {
             children: [
               Text(
                 title ?? "",
-                style: AppTheme.styleWithTextBlackAdelleSansExtendedFonts14w500,
+                style: titleTextStyle ?? AppTheme.styleWithTextBlackAdelleSansExtendedFonts14w500,
               ),
               const Spacer(),
               Row(
@@ -48,7 +50,7 @@ class ProductRowItem extends StatelessWidget {
                       : const SizedBox(),
                   Text(
                     "$textValue",
-                    style: AppTheme
+                    style: desTextStyle ?? AppTheme
                         .styleWithTextAppGrey7AdelleSansExtendedFonts14w400,
                   )
                 ],

@@ -14,7 +14,7 @@ class _CartItemViewState extends State<CartItemView> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 6,horizontal: 16),
+      padding: const EdgeInsets.symmetric(vertical: 6),
       child: Container(
         decoration: BoxDecoration(
           color: CupertinoColors.white,
@@ -58,7 +58,7 @@ class _CartItemViewState extends State<CartItemView> {
                         width: 240,
                         height: 25,
                         child: Text(
-                          "Extra Item 1 - Extra Item 2 - Extra Item 1 - Extra Item 2",
+                          "Extra Item 1 - Extra Item 2 - Extra Item 1 - Extra Item 2- Extra Item 3",
                           overflow: TextOverflow.ellipsis,
                           maxLines: 2,
                           style: AppTheme.styleWithTextAppGrey7AdelleSansExtendedFonts10w400.copyWith(height: 1.2),
