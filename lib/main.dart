@@ -25,6 +25,7 @@ import 'Presentation//Theme/AppTheme.dart';
 import 'Presentation/Screens/Auth/Otp/OTPScreen.dart';
 import 'Presentation/Screens/More/FAQScreen.dart';
 import 'Presentation/Screens/More/MoreScreen.dart';
+import 'Presentation/Screens/checkout/CheckoutScreen.dart';
 import 'Presentation/Screens/details/ShowAllRatingAndReviewScreen.dart';
 import 'Presentation/Screens/home/HomeScreen.dart';
 import 'Presentation/Screens/home/ShowAllCategoryAndOccasionsData.dart';
@@ -156,7 +157,7 @@ class MyApp extends ConsumerWidget {
       GoRoute(
         path: R_splashScreenRout,
         builder: (BuildContext context, GoRouterState state) =>
-            const CartScreen(),
+            const CheckoutScreen(),
       ),
       GoRoute(
         path: R_OnBoardingScreen,
