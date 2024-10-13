@@ -35,7 +35,9 @@ class _CartScreenState extends State<CartScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 ...(List.generate(["", "", ""].length, (index) {
-                  return CartItemView();
+                  return CartItemView(
+
+                  );
                 })),
                 SizedBox(
                   height: 32,

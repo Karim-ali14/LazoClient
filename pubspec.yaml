@@ -57,6 +57,7 @@ dependencies:
   openapi_generator_annotations: ^4.11.0
   skeletonizer: ^1.1.0
   smooth_page_indicator: ^1.1.0
+  flutter_slidable: ^3.1.1
 
 dev_dependencies:
   change_app_package_name: ^1.1.0
