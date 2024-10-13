@@ -8,7 +8,8 @@ import 'package:lazo/api.dart';
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**cancellationReason** | [**Object**](.md) |  | [optional] 
+**cancellationReason** | **String** |  | [optional] 
+**cancelledBy** | **String** |  | [optional] 
 **createdAt** | **String** |  | [optional] 
 **deliveryDate** | **String** |  | [optional] 
 **deliveryTime** | **String** |  | [optional] 

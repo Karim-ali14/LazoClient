@@ -1689,7 +1689,15 @@ class PublicApi {
   /// * [String] cartItemId:
   ///
   /// * [String] quantity:
-  Future<Response> updateCartItemQuantityWithHttpInfo({ String? cartItemId, String? quantity, }) async {
+  ///
+  /// * [String] productSelectedListIds:
+  ///
+  /// * [String] productSelectedListItemsIds:
+  ///
+  /// * [String] serviceSelectedListIds:
+  ///
+  /// * [String] serviceSelectedListItemsIds:
+  Future<Response> updateCartItemQuantityWithHttpInfo({ String? cartItemId, String? quantity, String? productSelectedListIds, String? productSelectedListItemsIds, String? serviceSelectedListIds, String? serviceSelectedListItemsIds, }) async {
     // ignore: prefer_const_declarations
     final path = r'/cart/update';
 
@@ -1711,6 +1719,22 @@ class PublicApi {
     if (quantity != null) {
       hasFields = true;
       mp.fields[r'quantity'] = parameterToString(quantity);
+    }
+    if (productSelectedListIds != null) {
+      hasFields = true;
+      mp.fields[r'product_selected_list_ids'] = parameterToString(productSelectedListIds);
+    }
+    if (productSelectedListItemsIds != null) {
+      hasFields = true;
+      mp.fields[r'product_selected_list_items_ids'] = parameterToString(productSelectedListItemsIds);
+    }
+    if (serviceSelectedListIds != null) {
+      hasFields = true;
+      mp.fields[r'service_selected_list_ids'] = parameterToString(serviceSelectedListIds);
+    }
+    if (serviceSelectedListItemsIds != null) {
+      hasFields = true;
+      mp.fields[r'service_selected_list_items_ids'] = parameterToString(serviceSelectedListItemsIds);
     }
     if (hasFields) {
       postBody = mp;
@@ -1736,8 +1760,16 @@ class PublicApi {
   /// * [String] cartItemId:
   ///
   /// * [String] quantity:
-  Future<UpdateCartItemQuantity200Response?> updateCartItemQuantity({ String? cartItemId, String? quantity, }) async {
-    final response = await updateCartItemQuantityWithHttpInfo( cartItemId: cartItemId, quantity: quantity, );
+  ///
+  /// * [String] productSelectedListIds:
+  ///
+  /// * [String] productSelectedListItemsIds:
+  ///
+  /// * [String] serviceSelectedListIds:
+  ///
+  /// * [String] serviceSelectedListItemsIds:
+  Future<UpdateCartItemQuantity200Response?> updateCartItemQuantity({ String? cartItemId, String? quantity, String? productSelectedListIds, String? productSelectedListItemsIds, String? serviceSelectedListIds, String? serviceSelectedListItemsIds, }) async {
+    final response = await updateCartItemQuantityWithHttpInfo( cartItemId: cartItemId, quantity: quantity, productSelectedListIds: productSelectedListIds, productSelectedListItemsIds: productSelectedListItemsIds, serviceSelectedListIds: serviceSelectedListIds, serviceSelectedListItemsIds: serviceSelectedListItemsIds, );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -1775,7 +1807,8 @@ class PublicApi {
     final mp = MultipartRequest('POST', Uri.parse(path));
     if (files != null) {
       hasFields = true;
-      mp.files.addAll(files);
+      mp.fields[r'files'] = files.field;
+      mp.files.add(files);
     }
     if (hasFields) {
       postBody = mp;

@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lazo_client/Constants.dart';
 import 'package:lazo_client/Data/Models/FilterData.dart';
@@ -631,6 +632,45 @@ class AddToCartUseCase extends StateNotifier<
       }
     });
   }
+}
+
+class FetchAllGiftCardsUseCase extends StateNotifier<StateModel<ShowAllGiftBoxes200Response?>>{
+  final Ref ref;
+  final PublicApi publicApi;
+  FetchAllGiftCardsUseCase(this.ref, this.publicApi):super(StateModel());
+
+  void fetchAllGiftCards(){
+    request(
+        () => publicApi.showAllGiftCards(),
+    );
+  }
+}
+
+class FetchAllGiftBoxUseCase extends StateNotifier<StateModel<ShowAllGiftCards200Response?>>{
+  final Ref ref;
+  final PublicApi publicApi;
+  FetchAllGiftBoxUseCase(this.ref, this.publicApi):super(StateModel());
+
+  void fetchAllGiftBox(){
+    request(
+        () => publicApi.showAllGiftBoxes()
+    );
+  }
+
+}
+
+class FetchCardDetailsUseCase extends StateNotifier<StateModel<ShowCartDetails200Response?>>{
+  final Ref ref;
+  final PublicApi publicApi;
+  FetchCardDetailsUseCase(this.ref, this.publicApi):super(StateModel());
+
+  void getCardDetails({ String? sessionId, }){
+    state = StateModel.loading();
+    request(
+        () => publicApi.showCartDetails(sessionId: sessionId)
+    );
+  }
+
 }
 
 class SessionHandler extends StateNotifier<String?> {

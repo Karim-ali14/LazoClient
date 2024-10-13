@@ -7,7 +7,6 @@ import 'package:lazo_client/Presentation/Widgets/AppButton.dart';
 import 'package:lazo_client/Presentation/Widgets/AppTextField.dart';
 import 'package:lazo_client/Presentation/Widgets/CustomAppBar.dart';
 import 'package:lazo_client/Presentation/Widgets/SvgIcons.dart';
-
 import '../details/componants/ProductRowItem.dart';
 
 class CartScreen extends StatefulWidget {

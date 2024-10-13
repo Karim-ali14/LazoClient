@@ -20,6 +20,7 @@ class GiftBox {
     this.name,
     this.price,
     this.updatedAt,
+    this.isChecked,
   });
 
   ///
@@ -78,6 +79,14 @@ class GiftBox {
   ///
   String? updatedAt;
 
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  bool? isChecked;
+
   @override
   bool operator ==(Object other) => identical(this, other) || other is GiftBox &&
      other.createdAt == createdAt &&
@@ -86,7 +95,8 @@ class GiftBox {
      other.imagePath == imagePath &&
      other.name == name &&
      other.price == price &&
-     other.updatedAt == updatedAt;
+     other.updatedAt == updatedAt &&
+     other.isChecked == isChecked;
 
   @override
   int get hashCode =>
@@ -97,10 +107,11 @@ class GiftBox {
     (imagePath == null ? 0 : imagePath!.hashCode) +
     (name == null ? 0 : name!.hashCode) +
     (price == null ? 0 : price!.hashCode) +
-    (updatedAt == null ? 0 : updatedAt!.hashCode);
+    (updatedAt == null ? 0 : updatedAt!.hashCode) +
+    (isChecked == null ? 0 : isChecked!.hashCode);
 
   @override
-  String toString() => 'GiftBox[createdAt=$createdAt, id=$id, image=$image, imagePath=$imagePath, name=$name, price=$price, updatedAt=$updatedAt]';
+  String toString() => 'GiftBox[createdAt=$createdAt, id=$id, image=$image, imagePath=$imagePath, name=$name, price=$price, updatedAt=$updatedAt, isChecked=$isChecked]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -139,6 +150,11 @@ class GiftBox {
     } else {
       json[r'updated_at'] = null;
     }
+    if (this.isChecked != null) {
+      json[r'is_checked'] = this.isChecked;
+    } else {
+      json[r'is_checked'] = null;
+    }
     return json;
   }
 
@@ -172,6 +188,7 @@ class GiftBox {
             ? null
             : num.parse(json[r'price'].toString()),
         updatedAt: mapValueOfType<String>(json, r'updated_at'),
+        isChecked: mapValueOfType<bool>(json, r'is_checked'),
       );
     }
     return null;

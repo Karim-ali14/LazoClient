@@ -19,6 +19,7 @@ class ShowCartDetails200ResponseData {
     this.total,
     this.updatedAt,
     this.userId,
+    this.type, // soft
   });
 
   List<ShowCartDetails200ResponseDataCartItemsInner> cartItems;
@@ -63,6 +64,14 @@ class ShowCartDetails200ResponseData {
   ///
   num? userId;
 
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  String? type;
+
   @override
   bool operator ==(Object other) => identical(this, other) || other is ShowCartDetails200ResponseData &&
      other.cartItems == cartItems &&
@@ -70,7 +79,8 @@ class ShowCartDetails200ResponseData {
      other.id == id &&
      other.total == total &&
      other.updatedAt == updatedAt &&
-     other.userId == userId;
+     other.userId == userId &&
+     other.type == type;
 
   @override
   int get hashCode =>
@@ -80,10 +90,11 @@ class ShowCartDetails200ResponseData {
     (id == null ? 0 : id!.hashCode) +
     (total == null ? 0 : total!.hashCode) +
     (updatedAt == null ? 0 : updatedAt!.hashCode) +
-    (userId == null ? 0 : userId!.hashCode);
+    (userId == null ? 0 : userId!.hashCode) +
+    (type == null ? 0 : type!.hashCode);
 
   @override
-  String toString() => 'ShowCartDetails200ResponseData[cartItems=$cartItems, createdAt=$createdAt, id=$id, total=$total, updatedAt=$updatedAt, userId=$userId]';
+  String toString() => 'ShowCartDetails200ResponseData[cartItems=$cartItems, createdAt=$createdAt, id=$id, total=$total, updatedAt=$updatedAt, userId=$userId, type=$type]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -112,6 +123,11 @@ class ShowCartDetails200ResponseData {
       json[r'user_id'] = this.userId;
     } else {
       json[r'user_id'] = null;
+    }
+    if (this.type != null) {
+      json[r'type'] = this.type;
+    } else {
+      json[r'type'] = null;
     }
     return json;
   }
@@ -147,6 +163,7 @@ class ShowCartDetails200ResponseData {
         userId: json[r'user_id'] == null
             ? null
             : num.parse(json[r'user_id'].toString()),
+        type: mapValueOfType<String>(json, r'type'),
       );
     }
     return null;

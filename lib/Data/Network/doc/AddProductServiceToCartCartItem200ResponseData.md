@@ -15,6 +15,7 @@ Name | Type | Description | Notes
 **serviceId** | **int** |  | [optional] 
 **categoriesIds** | **List<String>** |  | [optional] [default to const []]
 **total** | **num** |  | [optional] 
+**type** | **String** |  | [optional] 
 **updatedAt** | **String** |  | [optional] 
 **userId** | **num** |  | [optional] 
 **sessionId** | **String** |  | [optional] 

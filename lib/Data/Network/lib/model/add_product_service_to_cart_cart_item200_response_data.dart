@@ -20,6 +20,7 @@ class AddProductServiceToCartCartItem200ResponseData {
     this.serviceId,
     this.categoriesIds = const [],
     this.total,
+    this.type,
     this.updatedAt,
     this.userId,
     this.sessionId,
@@ -63,6 +64,14 @@ class AddProductServiceToCartCartItem200ResponseData {
   /// source code must fall back to having a nullable type.
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
+  String? type;
+
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
   String? updatedAt;
 
   ///
@@ -84,6 +93,7 @@ class AddProductServiceToCartCartItem200ResponseData {
      other.serviceId == serviceId &&
      other.categoriesIds == categoriesIds &&
      other.total == total &&
+     other.type == type &&
      other.updatedAt == updatedAt &&
      other.userId == userId &&
      other.sessionId == sessionId;
@@ -98,12 +108,13 @@ class AddProductServiceToCartCartItem200ResponseData {
     (serviceId == null ? 0 : serviceId!.hashCode) +
     (categoriesIds == null ? 0 : categoriesIds!.hashCode) +
     (total == null ? 0 : total!.hashCode) +
+    (type == null ? 0 : type!.hashCode) +
     (updatedAt == null ? 0 : updatedAt!.hashCode) +
     (userId == null ? 0 : userId!.hashCode) +
     (sessionId == null ? 0 : sessionId!.hashCode);
 
   @override
-  String toString() => 'AddProductServiceToCartCartItem200ResponseData[cartItems=$cartItems, createdAt=$createdAt, id=$id, productId=$productId, serviceId=$serviceId, categoriesIds=$categoriesIds, total=$total, updatedAt=$updatedAt, userId=$userId, sessionId=$sessionId]';
+  String toString() => 'AddProductServiceToCartCartItem200ResponseData[cartItems=$cartItems, createdAt=$createdAt, id=$id, productId=$productId, serviceId=$serviceId, categoriesIds=$categoriesIds, total=$total, type=$type, updatedAt=$updatedAt, userId=$userId, sessionId=$sessionId]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -137,6 +148,11 @@ class AddProductServiceToCartCartItem200ResponseData {
       json[r'total'] = this.total;
     } else {
       json[r'total'] = null;
+    }
+    if (this.type != null) {
+      json[r'type'] = this.type;
+    } else {
+      json[r'type'] = null;
     }
     if (this.updatedAt != null) {
       json[r'updated_at'] = this.updatedAt;
@@ -188,6 +204,7 @@ class AddProductServiceToCartCartItem200ResponseData {
         total: json[r'total'] == null
             ? null
             : num.parse(json[r'total'].toString()),
+        type: mapValueOfType<String>(json, r'type'),
         updatedAt: mapValueOfType<String>(json, r'updated_at'),
         userId: json[r'user_id'] == null
             ? null

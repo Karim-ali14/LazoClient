@@ -14,6 +14,7 @@ class ClientOrderDetails {
   /// Returns a new [ClientOrderDetails] instance.
   ClientOrderDetails({
     this.cancellationReason,
+    this.cancelledBy,
     this.createdAt,
     this.deliveryDate,
     this.deliveryTime,
@@ -44,7 +45,9 @@ class ClientOrderDetails {
     this.giftCard,
   });
 
-  Object? cancellationReason;
+  String? cancellationReason;
+
+  String? cancelledBy;
 
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
@@ -225,6 +228,7 @@ class ClientOrderDetails {
   @override
   bool operator ==(Object other) => identical(this, other) || other is ClientOrderDetails &&
      other.cancellationReason == cancellationReason &&
+     other.cancelledBy == cancelledBy &&
      other.createdAt == createdAt &&
      other.deliveryDate == deliveryDate &&
      other.deliveryTime == deliveryTime &&
@@ -258,6 +262,7 @@ class ClientOrderDetails {
   int get hashCode =>
     // ignore: unnecessary_parenthesis
     (cancellationReason == null ? 0 : cancellationReason!.hashCode) +
+    (cancelledBy == null ? 0 : cancelledBy!.hashCode) +
     (createdAt == null ? 0 : createdAt!.hashCode) +
     (deliveryDate == null ? 0 : deliveryDate!.hashCode) +
     (deliveryTime == null ? 0 : deliveryTime!.hashCode) +
@@ -288,7 +293,7 @@ class ClientOrderDetails {
     (giftCard == null ? 0 : giftCard!.hashCode);
 
   @override
-  String toString() => 'ClientOrderDetails[cancellationReason=$cancellationReason, createdAt=$createdAt, deliveryDate=$deliveryDate, deliveryTime=$deliveryTime, finishedAt=$finishedAt, cancelledAt=$cancelledAt, id=$id, orderFamily=$orderFamily, orderItems=$orderItems, packagingProviderId=$packagingProviderId, paymentMethod=$paymentMethod, promocode=$promocode, promocodeDiscountType=$promocodeDiscountType, promocodeDiscountValue=$promocodeDiscountValue, promocodeId=$promocodeId, rating=$rating, ratingComment=$ratingComment, receiverAddress=$receiverAddress, receiverPhoneNumber=$receiverPhoneNumber, referenceNumber=$referenceNumber, shippingFee=$shippingFee, statusId=$statusId, total=$total, totalWithShippingFee=$totalWithShippingFee, type=$type, updatedAt=$updatedAt, userId=$userId, giftBox=$giftBox, giftCard=$giftCard]';
+  String toString() => 'ClientOrderDetails[cancellationReason=$cancellationReason, cancelledBy=$cancelledBy, createdAt=$createdAt, deliveryDate=$deliveryDate, deliveryTime=$deliveryTime, finishedAt=$finishedAt, cancelledAt=$cancelledAt, id=$id, orderFamily=$orderFamily, orderItems=$orderItems, packagingProviderId=$packagingProviderId, paymentMethod=$paymentMethod, promocode=$promocode, promocodeDiscountType=$promocodeDiscountType, promocodeDiscountValue=$promocodeDiscountValue, promocodeId=$promocodeId, rating=$rating, ratingComment=$ratingComment, receiverAddress=$receiverAddress, receiverPhoneNumber=$receiverPhoneNumber, referenceNumber=$referenceNumber, shippingFee=$shippingFee, statusId=$statusId, total=$total, totalWithShippingFee=$totalWithShippingFee, type=$type, updatedAt=$updatedAt, userId=$userId, giftBox=$giftBox, giftCard=$giftCard]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -296,6 +301,11 @@ class ClientOrderDetails {
       json[r'cancellation_reason'] = this.cancellationReason;
     } else {
       json[r'cancellation_reason'] = null;
+    }
+    if (this.cancelledBy != null) {
+      json[r'cancelled_by'] = this.cancelledBy;
+    } else {
+      json[r'cancelled_by'] = null;
     }
     if (this.createdAt != null) {
       json[r'created_at'] = this.createdAt;
@@ -455,7 +465,8 @@ class ClientOrderDetails {
       }());
 
       return ClientOrderDetails(
-        cancellationReason: mapValueOfType<Object>(json, r'cancellation_reason'),
+        cancellationReason: mapValueOfType<String>(json, r'cancellation_reason'),
+        cancelledBy: mapValueOfType<String>(json, r'cancelled_by'),
         createdAt: mapValueOfType<String>(json, r'created_at'),
         deliveryDate: mapValueOfType<String>(json, r'delivery_date'),
         deliveryTime: mapValueOfType<String>(json, r'delivery_time'),

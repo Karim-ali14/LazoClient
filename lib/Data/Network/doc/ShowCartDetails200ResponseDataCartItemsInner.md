@@ -17,6 +17,7 @@ Name | Type | Description | Notes
 **product** | [**ShowCartDetails200ResponseDataCartItemsInnerProduct**](ShowCartDetails200ResponseDataCartItemsInnerProduct.md) |  | [optional] 
 **productId** | **num** |  | [optional] 
 **quantity** | **num** |  | [optional] 
+**type** | **String** |  | [optional] 
 **service** | [**ShowCartDetails200ResponseDataCartItemsInnerService**](ShowCartDetails200ResponseDataCartItemsInnerService.md) |  | [optional] 
 **serviceId** | **num** |  | [optional] 
 **updatedAt** | **String** |  | [optional] 

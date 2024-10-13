@@ -227,7 +227,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **updateCartItemQuantity**
-> UpdateCartItemQuantity200Response updateCartItemQuantity(cartItemId, quantity)
+> UpdateCartItemQuantity200Response updateCartItemQuantity(cartItemId, quantity, productSelectedListIds, productSelectedListItemsIds, serviceSelectedListIds, serviceSelectedListItemsIds)
 
 Update cart item quantity
 
@@ -246,9 +246,13 @@ import 'package:lazo/api.dart';
 final api_instance = CartApi();
 final cartItemId = cartItemId_example; // String | 
 final quantity = quantity_example; // String | 
+final productSelectedListIds = productSelectedListIds_example; // String | 
+final productSelectedListItemsIds = productSelectedListItemsIds_example; // String | 
+final serviceSelectedListIds = serviceSelectedListIds_example; // String | 
+final serviceSelectedListItemsIds = serviceSelectedListItemsIds_example; // String | 
 
 try {
-    final result = api_instance.updateCartItemQuantity(cartItemId, quantity);
+    final result = api_instance.updateCartItemQuantity(cartItemId, quantity, productSelectedListIds, productSelectedListItemsIds, serviceSelectedListIds, serviceSelectedListItemsIds);
     print(result);
 } catch (e) {
     print('Exception when calling CartApi->updateCartItemQuantity: $e\n');
@@ -261,6 +265,10 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **cartItemId** | **String**|  | [optional] 
  **quantity** | **String**|  | [optional] 
+ **productSelectedListIds** | **String**|  | [optional] 
+ **productSelectedListItemsIds** | **String**|  | [optional] 
+ **serviceSelectedListIds** | **String**|  | [optional] 
+ **serviceSelectedListItemsIds** | **String**|  | [optional] 
 
 ### Return type
 

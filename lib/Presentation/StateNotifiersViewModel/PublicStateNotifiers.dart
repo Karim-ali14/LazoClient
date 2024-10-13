@@ -31,12 +31,12 @@ final getTopSellersDataStateNotifiers = StateNotifierProvider<
         GetTopSellersUseCase, StateModel<FilterTopSellers200Response>>(
     (ref) => GetTopSellersUseCase(ref, ref.read(publicApi)));
 
-final getRelatedProductsStateNotifiers = StateNotifierProvider.autoDispose<GetProductsUseCase,
-        StateModel<FilterTopProductsServices200Response>>(
+final getRelatedProductsStateNotifiers = StateNotifierProvider.autoDispose<
+        GetProductsUseCase, StateModel<FilterTopProductsServices200Response>>(
     (ref) => GetProductsUseCase(ref, ref.read(publicApi)));
 
-final getRelatedServicesStateNotifiers = StateNotifierProvider.autoDispose<GetServicesUseCase,
-        StateModel<FilterTopProductsServices200Response>>(
+final getRelatedServicesStateNotifiers = StateNotifierProvider.autoDispose<
+        GetServicesUseCase, StateModel<FilterTopProductsServices200Response>>(
     (ref) => GetServicesUseCase(ref, ref.read(publicApi)));
 
 final getProductsStateNotifiers = StateNotifierProvider<GetProductsUseCase,
@@ -100,10 +100,24 @@ final getSessionHandlerStateNotifier =
     StateNotifierProvider<SessionHandler, String?>(
         (ref) => SessionHandler(ref));
 
-final addProductToCartUseCaseStateNotifier = StateNotifierProvider.autoDispose<AddToCartUseCase,
+final addProductToCartUseCaseStateNotifier = StateNotifierProvider.autoDispose<
+        AddToCartUseCase,
         StateModel<AddProductServiceToCartCartItem200Response>>(
     (ref) => AddToCartUseCase(ref, ref.read(publicApi)));
 
-final addServiceToCartUseCaseStateNotifier = StateNotifierProvider.autoDispose<AddToCartUseCase,
+final addServiceToCartUseCaseStateNotifier = StateNotifierProvider.autoDispose<
+        AddToCartUseCase,
         StateModel<AddProductServiceToCartCartItem200Response>>(
     (ref) => AddToCartUseCase(ref, ref.read(publicApi)));
+
+final fetchAllGiftCardsStateNotifies = StateNotifierProvider.autoDispose<
+        FetchAllGiftCardsUseCase, StateModel<ShowAllGiftBoxes200Response?>>(
+    (ref) => FetchAllGiftCardsUseCase(ref, ref.read(publicApi)));
+
+final fetchAllGiftBoxStateNotifies = StateNotifierProvider.autoDispose<
+    FetchAllGiftBoxUseCase, StateModel<ShowAllGiftCards200Response?>>(
+    (ref) => FetchAllGiftBoxUseCase(ref, ref.read(publicApi)));
+
+final fetchCardDetailsUseCaseStateNotifies = StateNotifierProvider.autoDispose<
+    FetchCardDetailsUseCase, StateModel<ShowCartDetails200Response?>>(
+    (ref) => FetchCardDetailsUseCase(ref, ref.read(publicApi)));

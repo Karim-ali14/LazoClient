@@ -22,6 +22,7 @@ class ShowCartDetails200ResponseDataCartItemsInner {
     this.product,
     this.productId,
     this.quantity,
+    this.type,
     this.service,
     this.serviceId,
     this.updatedAt,
@@ -81,6 +82,14 @@ class ShowCartDetails200ResponseDataCartItemsInner {
   ///
   num? quantity;
 
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  String? type;
+
   ShowCartDetails200ResponseDataCartItemsInnerService? service;
 
   num? serviceId;
@@ -104,6 +113,7 @@ class ShowCartDetails200ResponseDataCartItemsInner {
      other.product == product &&
      other.productId == productId &&
      other.quantity == quantity &&
+     other.type == type &&
      other.service == service &&
      other.serviceId == serviceId &&
      other.updatedAt == updatedAt;
@@ -120,12 +130,13 @@ class ShowCartDetails200ResponseDataCartItemsInner {
     (product == null ? 0 : product!.hashCode) +
     (productId == null ? 0 : productId!.hashCode) +
     (quantity == null ? 0 : quantity!.hashCode) +
+    (type == null ? 0 : type!.hashCode) +
     (service == null ? 0 : service!.hashCode) +
     (serviceId == null ? 0 : serviceId!.hashCode) +
     (updatedAt == null ? 0 : updatedAt!.hashCode);
 
   @override
-  String toString() => 'ShowCartDetails200ResponseDataCartItemsInner[cardPrice=$cardPrice, cartId=$cartId, createdAt=$createdAt, id=$id, listsTotalPrice=$listsTotalPrice, price=$price, product=$product, productId=$productId, quantity=$quantity, service=$service, serviceId=$serviceId, updatedAt=$updatedAt]';
+  String toString() => 'ShowCartDetails200ResponseDataCartItemsInner[cardPrice=$cardPrice, cartId=$cartId, createdAt=$createdAt, id=$id, listsTotalPrice=$listsTotalPrice, price=$price, product=$product, productId=$productId, quantity=$quantity, type=$type, service=$service, serviceId=$serviceId, updatedAt=$updatedAt]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -173,6 +184,11 @@ class ShowCartDetails200ResponseDataCartItemsInner {
       json[r'quantity'] = this.quantity;
     } else {
       json[r'quantity'] = null;
+    }
+    if (this.type != null) {
+      json[r'type'] = this.type;
+    } else {
+      json[r'type'] = null;
     }
     if (this.service != null) {
       json[r'service'] = this.service;
@@ -234,6 +250,7 @@ class ShowCartDetails200ResponseDataCartItemsInner {
         quantity: json[r'quantity'] == null
             ? null
             : num.parse(json[r'quantity'].toString()),
+        type: mapValueOfType<String>(json, r'type'),
         service: ShowCartDetails200ResponseDataCartItemsInnerService.fromJson(json[r'service']),
         serviceId: json[r'service_id'] == null
             ? null

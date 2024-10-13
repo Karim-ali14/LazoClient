@@ -12,6 +12,7 @@ Name | Type | Description | Notes
 **createdAt** | **String** |  | [optional] 
 **id** | **num** |  | [optional] 
 **total** | **num** |  | [optional] 
+**type** | **String** |  | [optional] 
 **updatedAt** | **String** |  | [optional] 
 **userId** | **num** |  | [optional] 
 **sessionId** | **String** |  | [optional] 
