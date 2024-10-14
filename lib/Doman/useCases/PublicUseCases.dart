@@ -634,7 +634,7 @@ class AddToCartUseCase extends StateNotifier<
   }
 }
 
-class FetchAllGiftCardsUseCase extends StateNotifier<StateModel<ShowAllGiftBoxes200Response?>>{
+class FetchAllGiftCardsUseCase extends StateNotifier<StateModel<ShowAllGiftCards200Response?>>{
   final Ref ref;
   final PublicApi publicApi;
   FetchAllGiftCardsUseCase(this.ref, this.publicApi):super(StateModel());
@@ -646,7 +646,7 @@ class FetchAllGiftCardsUseCase extends StateNotifier<StateModel<ShowAllGiftBoxes
   }
 }
 
-class FetchAllGiftBoxUseCase extends StateNotifier<StateModel<ShowAllGiftCards200Response?>>{
+class FetchAllGiftBoxUseCase extends StateNotifier<StateModel<ShowAllGiftBoxes200Response?>>{
   final Ref ref;
   final PublicApi publicApi;
   FetchAllGiftBoxUseCase(this.ref, this.publicApi):super(StateModel());

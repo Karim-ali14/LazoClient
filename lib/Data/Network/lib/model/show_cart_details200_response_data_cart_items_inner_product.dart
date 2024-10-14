@@ -22,7 +22,7 @@ class ShowCartDetails200ResponseDataCartItemsInnerProduct {
   /// source code must fall back to having a nullable type.
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
-  ProviderProduct? data;
+  ProductDetails? data;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is ShowCartDetails200ResponseDataCartItemsInnerProduct &&
@@ -65,7 +65,7 @@ class ShowCartDetails200ResponseDataCartItemsInnerProduct {
       }());
 
       return ShowCartDetails200ResponseDataCartItemsInnerProduct(
-        data: ProviderProduct.fromJson(json[r'data']),
+        data: ProductDetails.fromJson(json[r'data']),
       );
     }
     return null;

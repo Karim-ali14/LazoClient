@@ -157,7 +157,7 @@ class MyApp extends ConsumerWidget {
       GoRoute(
         path: R_splashScreenRout,
         builder: (BuildContext context, GoRouterState state) =>
-            const CartScreen(),
+            const SplashScreen(),
       ),
       GoRoute(
         path: R_OnBoardingScreen,
@@ -309,6 +309,10 @@ class MyApp extends ConsumerWidget {
           path: R_EditPhoneScreen,
           builder: (BuildContext context, GoRouterState state) =>
               const EditPhoneScreen()),
+      GoRoute(
+          path: R_CartScreen,
+          builder: (BuildContext context, GoRouterState state) =>
+              const CartScreen()),
     ],
   );
 }

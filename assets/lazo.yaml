@@ -7950,7 +7950,7 @@ paths:
                               type: object
                               properties:
                                 data:
-                                  $ref: '#/components/schemas/ProviderProduct'
+                                  $ref: '#/components/schemas/ProductDetails'
                             product_id:
                               type: number
                               nullable: true
@@ -8126,7 +8126,7 @@ paths:
                               type: object
                               properties:
                                 data:
-                                  $ref: '#/components/schemas/ProviderProduct'
+                                  $ref: '#/components/schemas/ProductDetails'
                             product_id:
                               type: number
                               nullable: true
@@ -8294,7 +8294,7 @@ paths:
                               type: object
                               properties:
                                 data:
-                                  $ref: '#/components/schemas/ProviderProduct'
+                                  $ref: '#/components/schemas/ProductDetails'
                             product_id:
                               type: number
                               nullable: true

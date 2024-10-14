@@ -1,31 +1,48 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lazo_client/Constants/Eunms.dart';
 import 'package:lazo_client/Presentation/Screens/cartScreen/componants/CartItemView.dart';
+import 'package:lazo_client/Presentation/Screens/cartScreen/componants/GiftCardListView.dart';
 import 'package:lazo_client/Presentation/Screens/cartScreen/componants/GiftItemView.dart';
+import 'package:lazo_client/Presentation/Screens/cartScreen/componants/GiftBoxListView.dart';
+import 'package:lazo_client/Presentation/StateNotifiersViewModel/PublicStateNotifiers.dart';
 import 'package:lazo_client/Presentation/Theme/AppTheme.dart';
 import 'package:lazo_client/Presentation/Widgets/AppButton.dart';
 import 'package:lazo_client/Presentation/Widgets/AppTextField.dart';
-import 'package:lazo_client/Presentation/Widgets/CustomAppBar.dart';
 import 'package:lazo_client/Presentation/Widgets/SvgIcons.dart';
 import '../details/componants/ProductRowItem.dart';
 
-class CartScreen extends StatefulWidget {
+class CartScreen extends ConsumerStatefulWidget {
   const CartScreen({super.key});
 
   @override
-  State<CartScreen> createState() => _CartScreenState();
+  ConsumerState<CartScreen> createState() => _CartScreenState();
 }
 
-class _CartScreenState extends State<CartScreen> {
+class _CartScreenState extends ConsumerState<CartScreen> {
   final TextEditingController voucherTextController = TextEditingController();
+
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((callback) {
+      var sessionId = ref
+          .read(getSessionHandlerStateNotifier.notifier)
+          .checkIfSessionIdExist();
+      ref
+          .read(fetchCardDetailsStateNotifies.notifier)
+          .getCardDetails(sessionId: sessionId);
+      ref.read(fetchAllGiftCardsStateNotifies.notifier).fetchAllGiftCards();
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
+    var cartData = ref.read(fetchCardDetailsStateNotifies);
+    var giftCards = ref.watch(fetchAllGiftCardsStateNotifies);
+
     return Scaffold(
-      appBar: CustomAppBar(
-        appContext: context,
-        isCenter: false,
-        title: "Cart",
-      ),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
@@ -33,9 +50,10 @@ class _CartScreenState extends State<CartScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                ...(List.generate(["", "", ""].length, (index) {
+                ...(List.generate(cartData.data?.data?.cartItems.length ?? 0,
+                    (index) {
                   return CartItemView(
-
+                    cartItem: cartData.data?.data?.cartItems[index],
                   );
                 })),
                 SizedBox(
@@ -51,15 +69,7 @@ class _CartScreenState extends State<CartScreen> {
                 ),
                 SizedBox(
                   height: 208,
-                  child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemBuilder: (BuildContext context, int index) {
-                        return Padding(
-                          padding:
-                              const EdgeInsetsDirectional.fromSTEB(0, 0, 8, 0),
-                          child: GiftItemView(),
-                        );
-                      }),
+                  child: GiftBoxListView(),
                 ),
                 SizedBox(
                   height: 24,
@@ -84,15 +94,7 @@ class _CartScreenState extends State<CartScreen> {
                 ),
                 SizedBox(
                   height: 208,
-                  child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemBuilder: (BuildContext context, int index) {
-                        return Padding(
-                          padding:
-                              const EdgeInsetsDirectional.fromSTEB(0, 0, 8, 0),
-                          child: GiftItemView(),
-                        );
-                      }),
+                  child: GiftCardListView(),
                 ),
                 SizedBox(
                   height: 24,
@@ -114,7 +116,13 @@ class _CartScreenState extends State<CartScreen> {
                   endWidget: SizedBox(
                       width: 10,
                       height: 56,
-                      child: Center(child: Text("submit",style: AppTheme.styleWithTextMainAppColorAdelleSansExtendedFonts14w400.copyWith(decoration: TextDecoration.underline),))),
+                      child: Center(
+                          child: Text(
+                        "submit",
+                        style: AppTheme
+                            .styleWithTextMainAppColorAdelleSansExtendedFonts14w400
+                            .copyWith(decoration: TextDecoration.underline),
+                      ))),
                 ),
                 // Container(
                 //   padding: EdgeInsets.symmetric(horizontal: 12),

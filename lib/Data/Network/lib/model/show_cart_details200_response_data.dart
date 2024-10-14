@@ -19,7 +19,7 @@ class ShowCartDetails200ResponseData {
     this.total,
     this.updatedAt,
     this.userId,
-    this.type, // soft
+    this.type,
   });
 
   List<ShowCartDetails200ResponseDataCartItemsInner> cartItems;

@@ -1,25 +1,34 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:lazo_client/Presentation/Widgets/CircleImage.dart';
 
+import '../../../../Constants/Eunms.dart';
+import '../../../../Data/Network/lib/api.dart';
 import '../../../Theme/AppTheme.dart';
+import '../../../Widgets/CircleImage.dart';
 
-class GiftItemView extends StatefulWidget {
-  const GiftItemView({super.key});
+typedef OnItemSelected = Function();
 
-  @override
-  State<GiftItemView> createState() => _GiftItemViewState();
-}
+class GiftItemView extends StatelessWidget {
+  final GiftItemType type;
+  final GiftBox? giftBox;
+  final GiftCard? giftCard;
+  final OnItemSelected onItemSelected;
+  final bool isSelected; // New parameter
 
-class _GiftItemViewState extends State<GiftItemView> {
-  bool isSelected = false;
+  const GiftItemView({
+    super.key,
+    required this.type,
+    this.giftBox,
+    this.giftCard,
+    required this.onItemSelected,
+    required this.isSelected, // Initialize the new parameter
+  });
+
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        setState(() {
-          isSelected = !isSelected;
-        });
+        onItemSelected.call();
       },
       child: Container(
         height: 200,
@@ -37,8 +46,9 @@ class _GiftItemViewState extends State<GiftItemView> {
               ImageView(
                 width: double.infinity,
                 height: 142,
-                initialImg:
-                    "https://fps.cdnpk.net/images/home/subhome-ai.webp?w=649&h=649",
+                initialImg: type == GiftItemType.Card
+                    ? giftCard?.imagePath
+                    : giftBox?.imagePath,
               ),
               Padding(
                 padding: EdgeInsets.symmetric(vertical: 12, horizontal: 8),
@@ -48,7 +58,9 @@ class _GiftItemViewState extends State<GiftItemView> {
                     SizedBox(
                         width: 130,
                         child: Text(
-                          "Box Macarons Gavasie...",
+                          type == GiftItemType.Card
+                              ? giftCard?.name ?? ""
+                              : giftBox?.name ?? "",
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           style: AppTheme
@@ -58,7 +70,9 @@ class _GiftItemViewState extends State<GiftItemView> {
                       height: 7,
                     ),
                     Text(
-                      "SAR 350",
+                      type == GiftItemType.Card
+                          ? "SAR ${giftCard?.price}"
+                          : "SAR ${giftBox?.price}",
                       style: AppTheme
                           .styleWithTextRedAdelleSansExtendedFonts16w500,
                     )
@@ -76,9 +90,7 @@ class _GiftItemViewState extends State<GiftItemView> {
                   value: true,
                   groupValue: isSelected,
                   onChanged: (value) {
-                    setState(() {
-                      isSelected = !isSelected;
-                    });
+                    onItemSelected.call();
                   }),
             ),
           ),
@@ -87,3 +99,9 @@ class _GiftItemViewState extends State<GiftItemView> {
     );
   }
 }
+
+
+
+
+
+

@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lazo_client/Presentation/Screens/cartScreen/CartScreen.dart';
 import 'package:lazo_client/Presentation/Screens/home/HomeScreen.dart';
 import 'package:lazo_client/Presentation/StateNotifiersViewModel/UserAuthStateNotifiers.dart';
 import 'package:lazo_client/Presentation/Theme/AppTheme.dart';
@@ -34,8 +35,8 @@ class _MainScreenNavHostState extends ConsumerState<MainScreenNavHost> {
             appContext: context,
             title: currentTab == 0
                 ? client == null
-                    ? "Hi There"
-                    : "Hi ${client.client?.name}"
+                ? "Hi There"
+                : "Hi ${client.client?.name}"
                 : listTabsName[currentTab],
             isCenter: false,
             navigated: false,
@@ -75,12 +76,12 @@ class _MainScreenNavHostState extends ConsumerState<MainScreenNavHost> {
                         height: 3,
                       ),
                       Text(
-                        listTabsName[currentTab],
+                        listTabsName[0],
                         style: currentTab == 0
                             ? AppTheme
-                                .styleWithTextRedAdelleSansExtendedFonts11w500
+                            .styleWithTextRedAdelleSansExtendedFonts11w500
                             : AppTheme
-                                .styleWithTextGray7AdelleSansExtendedFonts11w500,
+                            .styleWithTextGray7AdelleSansExtendedFonts11w500,
                       )
                     ],
                   ),
@@ -90,26 +91,26 @@ class _MainScreenNavHostState extends ConsumerState<MainScreenNavHost> {
                   minWidth: 40,
                   onPressed: () {
                     setState(() {
-                      currentTab = 0;
-                      currentScreen = HomeScreen();
+                      currentTab = 1;
+                      currentScreen = const CartScreen();
                     });
                   },
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      currentTab == 0
+                      currentTab == 1
                           ? SVGIcons.homeActiveIcon()
                           : SVGIcons.homeUnActiveIcon(),
                       SizedBox(
                         height: 3,
                       ),
                       Text(
-                        listTabsName[currentTab],
-                        style: currentTab == 0
+                        listTabsName[1],
+                        style: currentTab == 1
                             ? AppTheme
-                                .styleWithTextRedAdelleSansExtendedFonts11w500
+                            .styleWithTextRedAdelleSansExtendedFonts11w500
                             : AppTheme
-                                .styleWithTextGray7AdelleSansExtendedFonts11w500,
+                            .styleWithTextGray7AdelleSansExtendedFonts11w500,
                       )
                     ],
                   ),
@@ -119,21 +120,21 @@ class _MainScreenNavHostState extends ConsumerState<MainScreenNavHost> {
                   onPressed: () {
                     setState(() {
                       currentScreen = const MoreScreen();
-                      currentTab = 1;
+                      currentTab = 2;
                     });
                   },
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      currentTab == 1 ?
+                      currentTab == 2 ?
                       SVGIcons.moreActiveIcon()
                           : SVGIcons.moreUnActiveIcon(),
                       SizedBox(
                         height: 6,
                       ),
                       Text(
-                        listTabsName[1],
-                        style: currentTab == 1 ?
+                        listTabsName[2],
+                        style: currentTab == 2 ?
                         AppTheme.styleWithTextRedAdelleSansExtendedFonts11w500
                             : AppTheme.styleWithTextGray7AdelleSansExtendedFonts11w500
                         ,
@@ -159,7 +160,7 @@ class AppBarTrailing extends StatelessWidget {
     if (currentTab == 0) {
       return Padding(
           padding:
-              const EdgeInsets.symmetric(horizontal: defaultPaddingHorizontal),
+          const EdgeInsets.symmetric(horizontal: defaultPaddingHorizontal),
           child: Row(
             children: [
               Row(

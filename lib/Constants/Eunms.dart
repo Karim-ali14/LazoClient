@@ -29,6 +29,14 @@ enum ItemType {
   Products,Services,
 }
 
+enum CartItemType {
+  Product,Service,
+}
+
+enum GiftItemType {
+  Box,Card,
+}
+
 enum CategoryType {
   Categories,Occasions,Search
 }
