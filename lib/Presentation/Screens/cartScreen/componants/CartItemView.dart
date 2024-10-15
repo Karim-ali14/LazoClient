@@ -19,6 +19,7 @@ class CartItemView extends StatefulWidget {
 }
 
 class _CartItemViewState extends State<CartItemView> {
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -57,10 +58,9 @@ class _CartItemViewState extends State<CartItemView> {
                         height: 74,
                         initialImg: (widget.cartItem?.type ?? "") ==
                                 CartItemType.Product.name.toLowerCase()
-                            ? widget.cartItem?.product?.data?.images?.first
-                                    .imagePath ??
+                            ? widget.cartItem?.product?.imagePath ??
                                 ""
-                            : widget.cartItem?.service?.data?.imagePath ?? "",
+                            : widget.cartItem?.service?.imagePath ?? "",
                       ),
                     ),
                     SizedBox(
@@ -72,8 +72,8 @@ class _CartItemViewState extends State<CartItemView> {
                         Text(
                           (widget.cartItem?.type ?? "") ==
                                   CartItemType.Product.name.toLowerCase()
-                              ? widget.cartItem?.product?.data?.name ?? ""
-                              : widget.cartItem?.service?.data?.name ?? "",
+                              ? widget.cartItem?.product?.name ?? ""
+                              : widget.cartItem?.service?.name ?? "",
                           style: AppTheme
                               .styleWithTextBlackAdelleSansExtendedFonts16w500,
                         ),
@@ -86,8 +86,8 @@ class _CartItemViewState extends State<CartItemView> {
                           child: Text(
                             (widget.cartItem?.type ?? "") ==
                                     CartItemType.Product.name.toLowerCase()
-                                ? "widget.cartItem"
-                                : "",
+                                ? widget.cartItem?.product?.lists?.map((item) => item.name).join(", ") ?? ""
+                                : widget.cartItem?.service?.lists?.map((item) => item.name).join(", ") ?? "",
                             overflow: TextOverflow.ellipsis,
                             maxLines: 2,
                             style: AppTheme
@@ -104,18 +104,18 @@ class _CartItemViewState extends State<CartItemView> {
                             Text(
                               (widget.cartItem?.type ?? "") ==
                                       CartItemType.Product.name.toLowerCase()
-                                  ? "SAR ${countItemPrice(widget.cartItem?.product?.data?.priceAfterDiscount ?? 0, widget.cartItem?.quantity ?? 1)}"
-                                  : "SAR ${countItemPrice(widget.cartItem?.service?.data?.priceAfterDiscount ?? 0, widget.cartItem?.quantity ?? 1)}",
+                                  ? "SAR ${countItemPrice(widget.cartItem?.product?.priceAfterDiscount ?? 0, widget.cartItem?.quantity ?? 1)}"
+                                  : "SAR ${countItemPrice(widget.cartItem?.service?.priceAfterDiscount ?? 0, widget.cartItem?.quantity ?? 1)}",
                               style: AppTheme
                                   .styleWithTextRedAdelleSansExtendedFonts16w500,
                             ),
                             (widget.cartItem?.type ?? "") ==
                                         CartItemType.Product.name
                                             .toLowerCase() &&
-                                    (widget.cartItem?.product?.data?.price
+                                    (widget.cartItem?.product?.price
                                                 ?.toDouble() ??
                                             0.0) >
-                                        (widget.cartItem?.product?.data
+                                        (widget.cartItem?.product
                                                 ?.priceAfterDiscount
                                                 ?.toDouble() ??
                                             0.0)
@@ -125,7 +125,7 @@ class _CartItemViewState extends State<CartItemView> {
                                         width: 6,
                                       ),
                                       Text(
-                                        "SAR ${countItemPrice(widget.cartItem?.product?.data?.price ?? 0, widget.cartItem?.quantity ?? 1)}",
+                                        "SAR ${countItemPrice(widget.cartItem?.product?.price ?? 0, widget.cartItem?.quantity ?? 1)}",
                                         style: AppTheme
                                             .styleWithTextGray7AdelleSansExtendedFonts12w400
                                             .copyWith(
@@ -138,10 +138,10 @@ class _CartItemViewState extends State<CartItemView> {
                             (widget.cartItem?.type ?? "") ==
                                         CartItemType.Service.name
                                             .toLowerCase() &&
-                                    (widget.cartItem?.service?.data?.price
+                                    (widget.cartItem?.service?.price
                                                 ?.toDouble() ??
                                             0.0) >
-                                        (widget.cartItem?.service?.data
+                                        (widget.cartItem?.service
                                                 ?.priceAfterDiscount
                                                 ?.toDouble() ??
                                             0.0)
@@ -151,7 +151,7 @@ class _CartItemViewState extends State<CartItemView> {
                                         width: 6,
                                       ),
                                       Text(
-                                        "SAR ${countItemPrice(widget.cartItem?.service?.data?.price ?? 0, widget.cartItem?.quantity ?? 1)}",
+                                        "SAR ${countItemPrice(widget.cartItem?.service?.price ?? 0, widget.cartItem?.quantity ?? 1)}",
                                         style: AppTheme
                                             .styleWithTextGray7AdelleSansExtendedFonts12w400
                                             .copyWith(

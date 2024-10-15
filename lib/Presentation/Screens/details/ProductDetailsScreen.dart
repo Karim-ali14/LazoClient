@@ -209,11 +209,11 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
                       children: [
                         BannerCardItems(
                           list: widget.itemType == ItemType.Products
-                              ? (productItemState.data?.data?.images.map(
+                              ? (productItemState.data?.data?.images?.map(
                                           (item) => item.imagePath ?? "") ??
                                       [])
                                   .toList()
-                              : (serviceItemState.data?.data?.images.map(
+                              : (serviceItemState.data?.data?.images?.map(
                                           (item) => item.imagePath ?? "") ??
                                       [])
                                   .toList(),

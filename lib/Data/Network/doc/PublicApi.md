@@ -10,6 +10,7 @@ All URIs are relative to *http://localhost*
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**addProductServiceToCartCartItem**](PublicApi.md#addproductservicetocartcartitem) | **POST** /cart/create | Add product/service to cart (cart-item)
+[**cartCalculation**](PublicApi.md#cartcalculation) | **POST** /cart/calculate | cart calculation
 [**citiesGet**](PublicApi.md#citiesget) | **GET** /cities | show all cities
 [**clientLogin**](PublicApi.md#clientlogin) | **POST** /client/login | client login
 [**clientSignup**](PublicApi.md#clientsignup) | **POST** /client/register | client signup
@@ -97,6 +98,55 @@ Name | Type | Description  | Notes
 ### Authorization
 
 [bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: multipart/form-data
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **cartCalculation**
+> CartCalculation200Response cartCalculation(cartId, promocode, giftBoxId, giftCardId)
+
+cart calculation
+
+cart calculation
+
+### Example
+```dart
+import 'package:lazo/api.dart';
+
+final api_instance = PublicApi();
+final cartId = cartId_example; // String | 
+final promocode = promocode_example; // String | 
+final giftBoxId = giftBoxId_example; // String | 
+final giftCardId = giftCardId_example; // String | 
+
+try {
+    final result = api_instance.cartCalculation(cartId, promocode, giftBoxId, giftCardId);
+    print(result);
+} catch (e) {
+    print('Exception when calling PublicApi->cartCalculation: $e\n');
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **cartId** | **String**|  | [optional] 
+ **promocode** | **String**|  | [optional] 
+ **giftBoxId** | **String**|  | [optional] 
+ **giftCardId** | **String**|  | [optional] 
+
+### Return type
+
+[**CartCalculation200Response**](CartCalculation200Response.md)
+
+### Authorization
+
+No authorization required
 
 ### HTTP request headers
 

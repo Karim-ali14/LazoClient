@@ -138,7 +138,7 @@ class ServiceShowData {
   ///
   num? id;
 
-  List<ImageItem> images;
+  List<ImageItem>? images;
 
   String? imagePath;
 
@@ -308,7 +308,7 @@ class ServiceShowData {
     (descriptionEn == null ? 0 : descriptionEn!.hashCode) +
     (duration == null ? 0 : duration!.hashCode) +
     (id == null ? 0 : id!.hashCode) +
-    (images.hashCode) +
+    (images == null ? 0 : images!.hashCode) +
     (imagePath == null ? 0 : imagePath!.hashCode) +
     (isServiceDeliverableOutsideStore == null ? 0 : isServiceDeliverableOutsideStore!.hashCode) +
     (isVisible == null ? 0 : isVisible!.hashCode) +
@@ -389,7 +389,11 @@ class ServiceShowData {
     } else {
       json[r'id'] = null;
     }
+    if (this.images != null) {
       json[r'images'] = this.images;
+    } else {
+      json[r'images'] = null;
+    }
     if (this.imagePath != null) {
       json[r'imagePath'] = this.imagePath;
     } else {

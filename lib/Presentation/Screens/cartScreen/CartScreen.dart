@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lazo_client/Constants/Eunms.dart';
+import 'package:lazo_client/Data/Network/lib/api.dart';
+import 'package:lazo_client/Doman/CommenProviders/ApiProvider.dart';
 import 'package:lazo_client/Presentation/Screens/cartScreen/componants/CartItemView.dart';
 import 'package:lazo_client/Presentation/Screens/cartScreen/componants/GiftCardListView.dart';
 import 'package:lazo_client/Presentation/Screens/cartScreen/componants/GiftItemView.dart';
@@ -22,7 +24,9 @@ class CartScreen extends ConsumerStatefulWidget {
 
 class _CartScreenState extends ConsumerState<CartScreen> {
   final TextEditingController voucherTextController = TextEditingController();
-
+  GiftCard? giftCartSelected;
+  GiftBox? giftBoxSelected;
+  String? promocode;
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((callback) {
@@ -32,15 +36,26 @@ class _CartScreenState extends ConsumerState<CartScreen> {
       ref
           .read(fetchCardDetailsStateNotifies.notifier)
           .getCardDetails(sessionId: sessionId);
-      ref.read(fetchAllGiftCardsStateNotifies.notifier).fetchAllGiftCards();
     });
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    var cartData = ref.read(fetchCardDetailsStateNotifies);
-    var giftCards = ref.watch(fetchAllGiftCardsStateNotifies);
+    var cartData = ref.watch(fetchCardDetailsStateNotifies);
+    var cartInfo = ref.watch(cartCalculationStateNotifies);
+    handleState(fetchCardDetailsStateNotifies, showLoading: true,
+        onSuccess: (res) {
+      var cartId = res.data?.data?.id;
+      calculateCartItems(cartId: cartId.toString());
+    });
+
+    handleState(showPromoCodeDetailsStateNotifies, showLoading: true,
+        onSuccess: (res) {
+      var cartId = cartData.data?.data?.id;
+      promocode = res.data?.data?.code;
+      calculateCartItems(cartId: cartId.toString());
+    });
 
     return Scaffold(
       body: SafeArea(
@@ -69,7 +84,15 @@ class _CartScreenState extends ConsumerState<CartScreen> {
                 ),
                 SizedBox(
                   height: 208,
-                  child: GiftBoxListView(),
+                  child: GiftBoxListView((giftBox) {
+                    giftBoxSelected = giftBox;
+                    calculateCartItems(
+                      cartId: (cartData.data?.data?.id ?? 0).toString(),
+                      // giftCardId: giftCartSelected?.id.toString(),
+                      // giftBoxId: giftBoxSelected?.id.toString(),
+                      // promocode: promocode
+                    );
+                  }),
                 ),
                 SizedBox(
                   height: 24,
@@ -94,7 +117,15 @@ class _CartScreenState extends ConsumerState<CartScreen> {
                 ),
                 SizedBox(
                   height: 208,
-                  child: GiftCardListView(),
+                  child: GiftCardListView((gift) {
+                    giftCartSelected = gift;
+                    calculateCartItems(
+                      cartId: (cartData.data?.data?.id ?? 0).toString(),
+                      // giftCardId: giftCartSelected?.id.toString(),
+                      // giftBoxId: giftBoxSelected?.id.toString(),
+                      // promocode: promocode
+                    );
+                  }),
                 ),
                 SizedBox(
                   height: 24,
@@ -107,22 +138,29 @@ class _CartScreenState extends ConsumerState<CartScreen> {
                 SizedBox(
                   height: 24,
                 ),
-                AppTextField(
+                AppTextField( // XGFSF35
                   hint: "Enter Voucher code",
                   label: "Enter Voucher code",
                   textFieldBorderColor: AppTheme.appGrey3,
                   textEditingController: voucherTextController,
                   startWidget: SVGIcons.voucherIcon(),
-                  endWidget: SizedBox(
-                      width: 10,
-                      height: 56,
-                      child: Center(
-                          child: Text(
-                        "submit",
-                        style: AppTheme
-                            .styleWithTextMainAppColorAdelleSansExtendedFonts14w400
-                            .copyWith(decoration: TextDecoration.underline),
-                      ))),
+                  endWidget: InkWell(
+                    onTap: () {
+                      if (voucherTextController.text.isNotEmpty) {
+                        getPromoCodeDetails();
+                      }
+                    },
+                    child: SizedBox(
+                        width: 10,
+                        height: 56,
+                        child: Center(
+                            child: Text(
+                          "submit",
+                          style: AppTheme
+                              .styleWithTextMainAppColorAdelleSansExtendedFonts14w400
+                              .copyWith(decoration: TextDecoration.underline),
+                        ))),
+                  ),
                 ),
                 // Container(
                 //   padding: EdgeInsets.symmetric(horizontal: 12),
@@ -169,42 +207,52 @@ class _CartScreenState extends ConsumerState<CartScreen> {
                         padding: const EdgeInsets.symmetric(horizontal: 12.0),
                         child: ProductRowItem(
                           title: "Order Price",
-                          textValue: "SAR 1,200",
+                          textValue:
+                              "SAR ${(cartInfo.data?.data?.totalBefore ?? 0)}",
                           titleTextStyle: AppTheme
                               .styleWithTextBlackColorAdelleSansExtendedFonts12w500,
                           desTextStyle: AppTheme
                               .styleWithTextGray7AdelleSansExtendedFonts12w400,
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                        child: ProductRowItem(
-                          title: "Shipping Fees",
-                          textValue: "SAR 50",
-                          titleTextStyle: AppTheme
-                              .styleWithTextBlackColorAdelleSansExtendedFonts12w500,
-                          desTextStyle: AppTheme
-                              .styleWithTextGray7AdelleSansExtendedFonts12w400,
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                        child: ProductRowItem(
-                          title: "Discount",
-                          textValue: "SAR 50",
-                          titleTextStyle: AppTheme
-                              .styleWithTextBlackColorAdelleSansExtendedFonts12w500
-                              .copyWith(color: AppTheme.mainAppColor),
-                          desTextStyle: AppTheme
-                              .styleWithTextGray7AdelleSansExtendedFonts12w400
-                              .copyWith(color: AppTheme.mainAppColor),
-                        ),
-                      ),
+                      cartInfo.data?.data?.shippingFee != null && cartInfo.data?.data?.shippingFee != 0
+                          ? Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 12.0),
+                              child: ProductRowItem(
+                                title: "Shipping Fees",
+                                textValue:
+                                    "SAR ${(cartInfo.data?.data?.shippingFee ?? 0)}",
+                                titleTextStyle: AppTheme
+                                    .styleWithTextBlackColorAdelleSansExtendedFonts12w500,
+                                desTextStyle: AppTheme
+                                    .styleWithTextGray7AdelleSansExtendedFonts12w400,
+                              ),
+                            )
+                          : SizedBox(),
+                      cartInfo.data?.data?.discountTotal != null &&cartInfo.data?.data?.discountTotal != 0
+                          ? Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 12.0),
+                              child: ProductRowItem(
+                                title: "Discount",
+                                textValue:
+                                    "SAR ${(cartInfo.data?.data?.discountTotal ?? 0)}",
+                                titleTextStyle: AppTheme
+                                    .styleWithTextBlackColorAdelleSansExtendedFonts12w500
+                                    .copyWith(color: AppTheme.mainAppColor),
+                                desTextStyle: AppTheme
+                                    .styleWithTextGray7AdelleSansExtendedFonts12w400
+                                    .copyWith(color: AppTheme.mainAppColor),
+                              ),
+                            )
+                          : SizedBox(),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 12.0),
                         child: ProductRowItem(
                           title: "Total Price",
-                          textValue: "SAR 50",
+                          textValue:
+                              "SAR ${(cartInfo.data?.data?.totalAfter ?? 0)}",
                           titleTextStyle: AppTheme
                               .styleWithTextBlackAdelleSansExtendedFonts16w700,
                           desTextStyle: AppTheme
@@ -229,5 +277,20 @@ class _CartScreenState extends ConsumerState<CartScreen> {
         ),
       ),
     );
+  }
+
+  void calculateCartItems({String? cartId}) {
+    print("cartId :$cartId giftCardId: ${giftCartSelected?.id} giftBoxId: ${giftBoxSelected?.id}");
+    ref.read(cartCalculationStateNotifies.notifier).cartCalculation(
+        cartId: cartId,
+        promocode: promocode,
+        giftCardId: giftCartSelected?.id?.toString(),
+        giftBoxId: giftBoxSelected?.id?.toString());
+  }
+
+  void getPromoCodeDetails() {
+    ref
+        .read(showPromoCodeDetailsStateNotifies.notifier)
+        .showPromoCodeDetails(code: voucherTextController.text);
   }
 }

@@ -115,9 +115,27 @@ final fetchAllGiftCardsStateNotifies = StateNotifierProvider.autoDispose<
     (ref) => FetchAllGiftCardsUseCase(ref, ref.read(publicApi)));
 
 final fetchAllGiftBoxStateNotifies = StateNotifierProvider.autoDispose<
-    FetchAllGiftBoxUseCase, StateModel<ShowAllGiftBoxes200Response?>>(
+        FetchAllGiftBoxUseCase, StateModel<ShowAllGiftBoxes200Response?>>(
     (ref) => FetchAllGiftBoxUseCase(ref, ref.read(publicApi)));
 
 final fetchCardDetailsStateNotifies = StateNotifierProvider.autoDispose<
-    FetchCardDetailsUseCase, StateModel<ShowCartDetails200Response?>>(
+        FetchCardDetailsUseCase, StateModel<ShowCartDetails200Response?>>(
     (ref) => FetchCardDetailsUseCase(ref, ref.read(publicApi)));
+
+final cartCalculationStateNotifies = StateNotifierProvider<CartCalculation,
+        StateModel<CartCalculation200Response?>>(
+    (ref) => CartCalculation(ref, ref.read(publicApi)));
+
+final showPromoCodeDetailsStateNotifies = StateNotifierProvider.autoDispose<
+        ShowPromoCodeDetails, StateModel<ShowPromocodeDetails200Response?>>(
+    (ref) => ShowPromoCodeDetails(ref, ref.read(publicApi)));
+
+final updateCartItemsStateNotifies = StateNotifierProvider.autoDispose<
+        UpdateCartItemsUseCase, StateModel<UpdateCartItemQuantity200Response?>>(
+    (ref) => UpdateCartItemsUseCase(ref, ref.read(publicApi)));
+
+final deleteItemCartStateNotifies = StateNotifierProvider.autoDispose<
+        DeleteItemCartUseCase, StateModel<Object?>>(
+    (ref) => DeleteItemCartUseCase(ref, ref.read(publicApi)));
+
+

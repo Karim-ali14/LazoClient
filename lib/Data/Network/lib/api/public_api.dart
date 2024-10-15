@@ -161,6 +161,95 @@ class PublicApi {
     return null;
   }
 
+  /// cart calculation
+  ///
+  /// cart calculation
+  ///
+  /// Note: This method returns the HTTP [Response].
+  ///
+  /// Parameters:
+  ///
+  /// * [String] cartId:
+  ///
+  /// * [String] promocode:
+  ///
+  /// * [String] giftBoxId:
+  ///
+  /// * [String] giftCardId:
+  Future<Response> cartCalculationWithHttpInfo({ String? cartId, String? promocode, String? giftBoxId, String? giftCardId, }) async {
+    // ignore: prefer_const_declarations
+    final path = r'/cart/calculate';
+
+    // ignore: prefer_final_locals
+    Object? postBody;
+
+    final queryParams = <QueryParam>[];
+    final headerParams = <String, String>{};
+    final formParams = <String, String>{};
+
+    const contentTypes = <String>['multipart/form-data'];
+
+    bool hasFields = false;
+    final mp = MultipartRequest('POST', Uri.parse(path));
+    if (cartId != null) {
+      hasFields = true;
+      mp.fields[r'cart_id'] = parameterToString(cartId);
+    }
+    if (promocode != null) {
+      hasFields = true;
+      mp.fields[r'promocode'] = parameterToString(promocode);
+    }
+    if (giftBoxId != null) {
+      hasFields = true;
+      mp.fields[r'gift_box_id'] = parameterToString(giftBoxId);
+    }
+    if (giftCardId != null) {
+      hasFields = true;
+      mp.fields[r'gift_card_id'] = parameterToString(giftCardId);
+    }
+    if (hasFields) {
+      postBody = mp;
+    }
+
+    return apiClient.invokeAPI(
+      path,
+      'POST',
+      queryParams,
+      postBody,
+      headerParams,
+      formParams,
+      contentTypes.isEmpty ? null : contentTypes.first,
+    );
+  }
+
+  /// cart calculation
+  ///
+  /// cart calculation
+  ///
+  /// Parameters:
+  ///
+  /// * [String] cartId:
+  ///
+  /// * [String] promocode:
+  ///
+  /// * [String] giftBoxId:
+  ///
+  /// * [String] giftCardId:
+  Future<CartCalculation200Response?> cartCalculation({ String? cartId, String? promocode, String? giftBoxId, String? giftCardId, }) async {
+    final response = await cartCalculationWithHttpInfo( cartId: cartId, promocode: promocode, giftBoxId: giftBoxId, giftCardId: giftCardId, );
+    if (response.statusCode >= HttpStatus.badRequest) {
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
+    }
+    // When a remote server returns no body with a status of 204, we shall not decode it.
+    // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
+    // FormatException when trying to decode an empty string.
+    if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'CartCalculation200Response',) as CartCalculation200Response;
+    
+    }
+    return null;
+  }
+
   /// show all cities
   ///
   /// Note: This method returns the HTTP [Response].

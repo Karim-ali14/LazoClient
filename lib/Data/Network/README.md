@@ -109,6 +109,7 @@ Class | Method | HTTP request | Description
 *ProviderApi* | [**showOrderDetails2**](doc//ProviderApi.md#showorderdetails2) | **GET** /provider/order/show | show order details
 *ProviderApi* | [**updateFcmTokenAndDeviceType1**](doc//ProviderApi.md#updatefcmtokenanddevicetype1) | **POST** /provider/update/device-data | update fcm_token and device_type
 *PublicApi* | [**addProductServiceToCartCartItem**](doc//PublicApi.md#addproductservicetocartcartitem) | **POST** /cart/create | Add product/service to cart (cart-item)
+*PublicApi* | [**cartCalculation**](doc//PublicApi.md#cartcalculation) | **POST** /cart/calculate | cart calculation
 *PublicApi* | [**citiesGet**](doc//PublicApi.md#citiesget) | **GET** /cities | show all cities
 *PublicApi* | [**clientLogin**](doc//PublicApi.md#clientlogin) | **POST** /client/login | client login
 *PublicApi* | [**clientSignup**](doc//PublicApi.md#clientsignup) | **POST** /client/register | client signup
@@ -154,6 +155,8 @@ Class | Method | HTTP request | Description
  - [AddProductServiceToCartCartItem200ResponseData](doc//AddProductServiceToCartCartItem200ResponseData.md)
  - [Banner](doc//Banner.md)
  - [BannersResponse](doc//BannersResponse.md)
+ - [CartCalculation200Response](doc//CartCalculation200Response.md)
+ - [CartCalculation200ResponseData](doc//CartCalculation200ResponseData.md)
  - [CategoriesResponse](doc//CategoriesResponse.md)
  - [Category](doc//Category.md)
  - [CategoryMenu](doc//CategoryMenu.md)
@@ -252,8 +255,6 @@ Class | Method | HTTP request | Description
  - [ShowCartDetails200Response](doc//ShowCartDetails200Response.md)
  - [ShowCartDetails200ResponseData](doc//ShowCartDetails200ResponseData.md)
  - [ShowCartDetails200ResponseDataCartItemsInner](doc//ShowCartDetails200ResponseDataCartItemsInner.md)
- - [ShowCartDetails200ResponseDataCartItemsInnerProduct](doc//ShowCartDetails200ResponseDataCartItemsInnerProduct.md)
- - [ShowCartDetails200ResponseDataCartItemsInnerService](doc//ShowCartDetails200ResponseDataCartItemsInnerService.md)
  - [ShowHome200Response](doc//ShowHome200Response.md)
  - [ShowHome200ResponseData](doc//ShowHome200ResponseData.md)
  - [ShowNotifications1200Response](doc//ShowNotifications1200Response.md)

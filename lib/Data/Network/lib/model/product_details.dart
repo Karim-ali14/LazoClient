@@ -14,6 +14,7 @@ class ProductDetails {
   /// Returns a new [ProductDetails] instance.
   ProductDetails({
     this.amount,
+    this.imagePath,
     this.categories = const [],
     this.categoryMenu = const [],
     this.colors = const [],
@@ -51,6 +52,8 @@ class ProductDetails {
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
   num? amount;
+
+  String? imagePath;
 
   List<Category> categories;
 
@@ -114,7 +117,7 @@ class ProductDetails {
   ///
   num? id;
 
-  List<ImageItem> images;
+  List<ImageItem>? images;
 
   List<ProductListItem>? lists;
 
@@ -231,6 +234,7 @@ class ProductDetails {
   @override
   bool operator ==(Object other) => identical(this, other) || other is ProductDetails &&
      other.amount == amount &&
+     other.imagePath == imagePath &&
      other.categories == categories &&
      other.categoryMenu == categoryMenu &&
      other.colors == colors &&
@@ -264,6 +268,7 @@ class ProductDetails {
   int get hashCode =>
     // ignore: unnecessary_parenthesis
     (amount == null ? 0 : amount!.hashCode) +
+    (imagePath == null ? 0 : imagePath!.hashCode) +
     (categories.hashCode) +
     (categoryMenu.hashCode) +
     (colors.hashCode) +
@@ -274,7 +279,7 @@ class ProductDetails {
     (expectedProcessingTime == null ? 0 : expectedProcessingTime!.hashCode) +
     (isVisible == null ? 0 : isVisible!.hashCode) +
     (id == null ? 0 : id!.hashCode) +
-    (images.hashCode) +
+    (images == null ? 0 : images!.hashCode) +
     (lists == null ? 0 : lists!.hashCode) +
     (name == null ? 0 : name!.hashCode) +
     (nameAr == null ? 0 : nameAr!.hashCode) +
@@ -294,7 +299,7 @@ class ProductDetails {
     (provider == null ? 0 : provider!.hashCode);
 
   @override
-  String toString() => 'ProductDetails[amount=$amount, categories=$categories, categoryMenu=$categoryMenu, colors=$colors, createdAt=$createdAt, description=$description, descriptionAr=$descriptionAr, descriptionEn=$descriptionEn, expectedProcessingTime=$expectedProcessingTime, isVisible=$isVisible, id=$id, images=$images, lists=$lists, name=$name, nameAr=$nameAr, nameEn=$nameEn, occasions=$occasions, price=$price, priceAfterDiscount=$priceAfterDiscount, providerId=$providerId, sizes=$sizes, type=$type, updatedAt=$updatedAt, inCart=$inCart, inWishlist=$inWishlist, overallRating=$overallRating, ratingsCount=$ratingsCount, ratings=$ratings, provider=$provider]';
+  String toString() => 'ProductDetails[amount=$amount, imagePath=$imagePath, categories=$categories, categoryMenu=$categoryMenu, colors=$colors, createdAt=$createdAt, description=$description, descriptionAr=$descriptionAr, descriptionEn=$descriptionEn, expectedProcessingTime=$expectedProcessingTime, isVisible=$isVisible, id=$id, images=$images, lists=$lists, name=$name, nameAr=$nameAr, nameEn=$nameEn, occasions=$occasions, price=$price, priceAfterDiscount=$priceAfterDiscount, providerId=$providerId, sizes=$sizes, type=$type, updatedAt=$updatedAt, inCart=$inCart, inWishlist=$inWishlist, overallRating=$overallRating, ratingsCount=$ratingsCount, ratings=$ratings, provider=$provider]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -302,6 +307,11 @@ class ProductDetails {
       json[r'amount'] = this.amount;
     } else {
       json[r'amount'] = null;
+    }
+    if (this.imagePath != null) {
+      json[r'imagePath'] = this.imagePath;
+    } else {
+      json[r'imagePath'] = null;
     }
       json[r'categories'] = this.categories;
       json[r'category_menu'] = this.categoryMenu;
@@ -341,7 +351,11 @@ class ProductDetails {
     } else {
       json[r'id'] = null;
     }
+    if (this.images != null) {
       json[r'images'] = this.images;
+    } else {
+      json[r'images'] = null;
+    }
     if (this.lists != null) {
       json[r'lists'] = this.lists;
     } else {
@@ -444,6 +458,7 @@ class ProductDetails {
         amount: json[r'amount'] == null
             ? null
             : num.parse(json[r'amount'].toString()),
+        imagePath: mapValueOfType<String>(json, r'imagePath'),
         categories: Category.listFromJson(json[r'categories']),
         categoryMenu: CategoryMenu.listFromJson(json[r'category_menu']),
         colors: Color.listFromJson(json[r'colors']),

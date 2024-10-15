@@ -189,6 +189,10 @@ class ApiClient {
           return Banner.fromJson(value);
         case 'BannersResponse':
           return BannersResponse.fromJson(value);
+        case 'CartCalculation200Response':
+          return CartCalculation200Response.fromJson(value);
+        case 'CartCalculation200ResponseData':
+          return CartCalculation200ResponseData.fromJson(value);
         case 'CategoriesResponse':
           return CategoriesResponse.fromJson(value);
         case 'Category':
@@ -385,10 +389,6 @@ class ApiClient {
           return ShowCartDetails200ResponseData.fromJson(value);
         case 'ShowCartDetails200ResponseDataCartItemsInner':
           return ShowCartDetails200ResponseDataCartItemsInner.fromJson(value);
-        case 'ShowCartDetails200ResponseDataCartItemsInnerProduct':
-          return ShowCartDetails200ResponseDataCartItemsInnerProduct.fromJson(value);
-        case 'ShowCartDetails200ResponseDataCartItemsInnerService':
-          return ShowCartDetails200ResponseDataCartItemsInnerService.fromJson(value);
         case 'ShowHome200Response':
           return ShowHome200Response.fromJson(value);
         case 'ShowHome200ResponseData':

@@ -4,11 +4,15 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../Constants/Eunms.dart';
+import '../../../../Data/Network/lib/api.dart';
 import '../../../StateNotifiersViewModel/PublicStateNotifiers.dart';
 import 'GiftItemView.dart';
 
+typedef OnItemSelected = Function(GiftBox?);
+
 class GiftBoxListView extends ConsumerStatefulWidget {
-  const GiftBoxListView({super.key});
+  final OnItemSelected onItemSelected;
+  const GiftBoxListView(this.onItemSelected, {super.key});
 
   @override
   ConsumerState<GiftBoxListView> createState() => _GiftBoxListViewState();
@@ -42,9 +46,12 @@ class _GiftBoxListViewState extends ConsumerState<GiftBoxListView> {
             onItemSelected: () {
               setState(() {
                 if (selectedIndex != index){
+                  widget.onItemSelected.call(giftBox.data?.data[index]);
                   selectedIndex = index; // Update selected index
-                }else
+                }else {
                   selectedIndex = null;
+                  widget.onItemSelected.call(null);
+                }
               });
               print(selectedIndex.toString());
             },

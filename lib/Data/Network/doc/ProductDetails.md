@@ -9,6 +9,7 @@ import 'package:lazo/api.dart';
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **amount** | **num** |  | [optional] 
+**imagePath** | **String** |  | [optional] 
 **categories** | [**List<Category>**](Category.md) |  | [optional] [default to const []]
 **categoryMenu** | [**List<CategoryMenu>**](CategoryMenu.md) |  | [optional] [default to const []]
 **colors** | [**List<Color>**](Color.md) |  | [optional] [default to const []]

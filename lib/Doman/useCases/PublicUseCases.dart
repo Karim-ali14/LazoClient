@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lazo_client/Constants.dart';
@@ -58,7 +60,7 @@ class HomeDataUseCase extends StateNotifier<StateModel<ShowHome200Response>> {
     }
   }
 
-  void handleAddProductToWishList(num productId,bool inWishlist) {
+  void handleAddProductToWishList(num productId, bool inWishlist) {
     if (data != null) {
       var index = data?.data?.topRatedProducts
           .indexWhere((product) => productId == product.id);
@@ -277,7 +279,7 @@ class GetProductsUseCase
           var indexWhere = list.indexWhere((item) {
             return item.id?.toInt() == int.parse(productId ?? "0");
           });
-          if(indexWhere != -1){
+          if (indexWhere != -1) {
             list.removeAt(indexWhere);
           }
           res.data?.products?.data = list;
@@ -359,7 +361,7 @@ class GetServicesUseCase
           var indexWhere = list.indexWhere((item) {
             return item.id?.toInt() == int.parse(serviceId ?? "0");
           });
-          if(indexWhere != -1){
+          if (indexWhere != -1) {
             list.removeAt(indexWhere);
           }
 
@@ -384,7 +386,7 @@ class GetServicesUseCase
     }
   }
 
-  void handelAddServiceToWishlist(num serviceId,bool inWishlist) {
+  void handelAddServiceToWishlist(num serviceId, bool inWishlist) {
     if (state.data != null) {
       final data = state.data;
       var index = data?.data?.services?.data
@@ -441,7 +443,7 @@ class GetProductDetailsUseCase
     state = StateModel.success(data);
   }
 
-  void handelAddProductToWishList(num productId,bool inWishlist) {
+  void handelAddProductToWishList(num productId, bool inWishlist) {
     final data = state.data;
     data?.data?.inWishlist = inWishlist;
     state = StateModel.success(data);
@@ -466,7 +468,8 @@ class GetServiceDetailsUseCase
     data?.data?.inCart = true;
     state = StateModel.success(data);
   }
-  void handelAddServiceToWishList(num serviceId,bool inWishList) {
+
+  void handelAddServiceToWishList(num serviceId, bool inWishList) {
     final data = state.data;
     data?.data?.inWishlist = inWishList;
     state = StateModel.success(data);
@@ -517,13 +520,15 @@ class GetSellerDetailsUseCase
         publicApi.showAProviderDetails(providerId: providerId, type: type));
   }
 
-  void handleAddProductToCart(int id,List<String> categories){
+  void handleAddProductToCart(int id, List<String> categories) {
     final data = state.data;
     for (var categoryId in categories) {
       for (int i = 0; i < (data?.data?.categories?.length ?? 0); i++) {
-        if(data?.data?.categories?[i].id == int.parse(categoryId)){
-          for (int n = 0; n < (data?.data?.categories?[i].products?.length ?? 0); n++) {
-            if(data?.data?.categories?[i].products?[n].id == id){
+        if (data?.data?.categories?[i].id == int.parse(categoryId)) {
+          for (int n = 0;
+              n < (data?.data?.categories?[i].products?.length ?? 0);
+              n++) {
+            if (data?.data?.categories?[i].products?[n].id == id) {
               data?.data?.categories?[i].products?[n].inCart = true;
             }
           }
@@ -533,13 +538,16 @@ class GetSellerDetailsUseCase
     state = StateModel.success(data);
   }
 
-  void handleAddProductToWishList(int id,List<String> categories,bool inWishlist){
+  void handleAddProductToWishList(
+      int id, List<String> categories, bool inWishlist) {
     final data = state.data;
     for (var categoryId in categories) {
       for (int i = 0; i < (data?.data?.categories?.length ?? 0); i++) {
-        if(data?.data?.categories?[i].id == int.parse(categoryId)){
-          for (int n = 0; n < (data?.data?.categories?[i].products?.length ?? 0); n++) {
-            if(data?.data?.categories?[i].products?[n].id == id){
+        if (data?.data?.categories?[i].id == int.parse(categoryId)) {
+          for (int n = 0;
+              n < (data?.data?.categories?[i].products?.length ?? 0);
+              n++) {
+            if (data?.data?.categories?[i].products?[n].id == id) {
               data?.data?.categories?[i].products?[n].inWishlist = inWishlist;
             }
           }
@@ -549,13 +557,15 @@ class GetSellerDetailsUseCase
     state = StateModel.success(data);
   }
 
-  void handleAddServiceToCart(int id,List<String> categories){
+  void handleAddServiceToCart(int id, List<String> categories) {
     final data = state.data;
     for (var categoryId in categories) {
       for (int i = 0; i < (data?.data?.categories?.length ?? 0); i++) {
-        if(data?.data?.categories?[i].id == int.parse(categoryId)){
-          for (int n = 0; n < (data?.data?.categories?[i].services?.length ?? 0); n++) {
-            if(data?.data?.categories?[i].services?[n].id == id){
+        if (data?.data?.categories?[i].id == int.parse(categoryId)) {
+          for (int n = 0;
+              n < (data?.data?.categories?[i].services?.length ?? 0);
+              n++) {
+            if (data?.data?.categories?[i].services?[n].id == id) {
               data?.data?.categories?[i].services?[n].inCart = true;
             }
           }
@@ -565,13 +575,16 @@ class GetSellerDetailsUseCase
     state = StateModel.success(data);
   }
 
-  void handleAddServiceToWishList(int id,List<String> categories, bool inWishList){
+  void handleAddServiceToWishList(
+      int id, List<String> categories, bool inWishList) {
     final data = state.data;
     for (var categoryId in categories) {
       for (int i = 0; i < (data?.data?.categories?.length ?? 0); i++) {
-        if(data?.data?.categories?[i].id == int.parse(categoryId)){
-          for (int n = 0; n < (data?.data?.categories?[i].services?.length ?? 0); n++) {
-            if(data?.data?.categories?[i].services?[n].id == id){
+        if (data?.data?.categories?[i].id == int.parse(categoryId)) {
+          for (int n = 0;
+              n < (data?.data?.categories?[i].services?.length ?? 0);
+              n++) {
+            if (data?.data?.categories?[i].services?[n].id == id) {
               data?.data?.categories?[i].services?[n].inWishlist = inWishList;
             }
           }
@@ -634,41 +647,113 @@ class AddToCartUseCase extends StateNotifier<
   }
 }
 
-class FetchAllGiftCardsUseCase extends StateNotifier<StateModel<ShowAllGiftCards200Response?>>{
+class FetchAllGiftCardsUseCase
+    extends StateNotifier<StateModel<ShowAllGiftCards200Response?>> {
   final Ref ref;
   final PublicApi publicApi;
-  FetchAllGiftCardsUseCase(this.ref, this.publicApi):super(StateModel());
+  FetchAllGiftCardsUseCase(this.ref, this.publicApi) : super(StateModel());
 
-  void fetchAllGiftCards(){
+  void fetchAllGiftCards() {
     request(
-        () => publicApi.showAllGiftCards(),
+      () => publicApi.showAllGiftCards(),
     );
   }
 }
 
-class FetchAllGiftBoxUseCase extends StateNotifier<StateModel<ShowAllGiftBoxes200Response?>>{
+class FetchAllGiftBoxUseCase
+    extends StateNotifier<StateModel<ShowAllGiftBoxes200Response?>> {
   final Ref ref;
   final PublicApi publicApi;
-  FetchAllGiftBoxUseCase(this.ref, this.publicApi):super(StateModel());
+  FetchAllGiftBoxUseCase(this.ref, this.publicApi) : super(StateModel());
 
-  void fetchAllGiftBox(){
-    request(
-        () => publicApi.showAllGiftBoxes()
-    );
+  void fetchAllGiftBox() {
+    request(() => publicApi.showAllGiftBoxes());
   }
-
 }
 
-class FetchCardDetailsUseCase extends StateNotifier<StateModel<ShowCartDetails200Response?>>{
+class FetchCardDetailsUseCase
+    extends StateNotifier<StateModel<ShowCartDetails200Response?>> {
   final Ref ref;
   final PublicApi publicApi;
-  FetchCardDetailsUseCase(this.ref, this.publicApi):super(StateModel());
+  FetchCardDetailsUseCase(this.ref, this.publicApi) : super(StateModel());
 
-  void getCardDetails({ String? sessionId, }){
+  void getCardDetails({
+    String? sessionId,
+  }) {
     state = StateModel.loading();
-    request(
-        () => publicApi.showCartDetails(sessionId: sessionId)
-    );
+    request(() => publicApi.showCartDetails(sessionId: sessionId));
+  }
+}
+
+class CartCalculation
+    extends StateNotifier<StateModel<CartCalculation200Response?>> {
+  final Ref ref;
+  final PublicApi publicApi;
+  CartCalculation(this.ref, this.publicApi) : super(StateModel());
+
+  void cartCalculation({
+    String? cartId,
+    String? promocode,
+    String? giftBoxId,
+    String? giftCardId,
+  }) {
+    state = StateModel.loading();
+    request(() => publicApi.cartCalculation(
+        cartId: cartId,
+        promocode: promocode,
+        giftBoxId: giftBoxId,
+        giftCardId: giftCardId));
+  }
+}
+
+class ShowPromoCodeDetails
+    extends StateNotifier<StateModel<ShowPromocodeDetails200Response?>> {
+  final Ref ref;
+  final PublicApi publicApi;
+  ShowPromoCodeDetails(this.ref, this.publicApi) : super(StateModel());
+  void showPromoCodeDetails({
+    String? promocodeId,
+    String? code,
+  }) {
+    state = StateModel.loading();
+    request(() =>
+        publicApi.showPromocodeDetails(code: code, promocodeId: promocodeId));
+  }
+}
+
+class UpdateCartItemsUseCase
+    extends StateNotifier<StateModel<UpdateCartItemQuantity200Response?>> {
+  final Ref ref;
+  final PublicApi publicApi;
+  UpdateCartItemsUseCase(this.ref, this.publicApi) : super(StateModel());
+
+  void updateCartItems({
+    String? cartItemId,
+    String? quantity,
+    String? productSelectedListIds,
+    String? productSelectedListItemsIds,
+    String? serviceSelectedListIds,
+    String? serviceSelectedListItemsIds,
+  }) {
+    state = StateModel.loading();
+    request(() => publicApi.updateCartItemQuantity(
+        cartItemId: cartItemId,
+        quantity: quantity,
+        productSelectedListIds: productSelectedListIds,
+        productSelectedListItemsIds: productSelectedListItemsIds,
+        serviceSelectedListIds: serviceSelectedListIds,
+        serviceSelectedListItemsIds: serviceSelectedListItemsIds));
+  }
+}
+
+class DeleteItemCartUseCase extends StateNotifier<StateModel<void>>{
+  final Ref ref;
+  final PublicApi publicApi;
+  DeleteItemCartUseCase(this.ref, this.publicApi):super(StateModel());
+
+  void deleteItemCart({ String? cartItemId, }){
+    state = StateModel.loading();
+    request(() => publicApi.deleteCartItem(cartItemId: cartItemId));
   }
 
 }
@@ -681,8 +766,8 @@ class SessionHandler extends StateNotifier<String?> {
     print("SessionId = ${prefs.getString(sessionIdKey)}");
     String? sessionId = prefs.getString(sessionIdKey);
     print("SessionId = $sessionId");
-    if(sessionId?.isNotEmpty == true){
-      ref.read(apiClient).defaultHeaderMap["session_id"] = sessionId??"";
+    if (sessionId?.isNotEmpty == true) {
+      ref.read(apiClient).defaultHeaderMap["session_id"] = sessionId ?? "";
     }
     return sessionId?.isNotEmpty == true ? sessionId : null;
   }
@@ -690,7 +775,7 @@ class SessionHandler extends StateNotifier<String?> {
   void setSessionId(String? sessionId) {
     state = sessionId;
     prefs.setString(sessionIdKey, sessionId ?? "");
-    ref.read(apiClient).defaultHeaderMap["session_id"] = sessionId??"";
+    ref.read(apiClient).defaultHeaderMap["session_id"] = sessionId ?? "";
     print("clint model saved $sessionId");
   }
 

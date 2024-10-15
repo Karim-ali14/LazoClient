@@ -70,7 +70,13 @@ class ShowCartDetails200ResponseDataCartItemsInner {
   ///
   num? price;
 
-  ShowCartDetails200ResponseDataCartItemsInnerProduct? product;
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  ProductDetails? product;
 
   num? productId;
 
@@ -90,7 +96,13 @@ class ShowCartDetails200ResponseDataCartItemsInner {
   ///
   String? type;
 
-  ShowCartDetails200ResponseDataCartItemsInnerService? service;
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  ServiceShowData? service;
 
   num? serviceId;
 
@@ -243,7 +255,7 @@ class ShowCartDetails200ResponseDataCartItemsInner {
         price: json[r'price'] == null
             ? null
             : num.parse(json[r'price'].toString()),
-        product: ShowCartDetails200ResponseDataCartItemsInnerProduct.fromJson(json[r'product']),
+        product: ProductDetails.fromJson(json[r'product']),
         productId: json[r'product_id'] == null
             ? null
             : num.parse(json[r'product_id'].toString()),
@@ -251,7 +263,7 @@ class ShowCartDetails200ResponseDataCartItemsInner {
             ? null
             : num.parse(json[r'quantity'].toString()),
         type: mapValueOfType<String>(json, r'type'),
-        service: ShowCartDetails200ResponseDataCartItemsInnerService.fromJson(json[r'service']),
+        service: ServiceShowData.fromJson(json[r'service']),
         serviceId: json[r'service_id'] == null
             ? null
             : num.parse(json[r'service_id'].toString()),

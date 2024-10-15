@@ -916,6 +916,9 @@ components:
         amount:
           type: number
           example: 5
+        imagePath:
+          nullable: true
+          type: string
         categories:
           type: array
           items:
@@ -950,6 +953,7 @@ components:
           type: number
           example: 4
         images:
+          nullable: true
           type: array
           items:
             $ref: '#/components/schemas/ImageItem'
@@ -3216,6 +3220,7 @@ components:
           type: number
           example: 9
         images:
+          nullable: true
           type: array
           items:
             $ref: '#/components/schemas/ImageItem'
@@ -7947,10 +7952,7 @@ paths:
                               example: 40.21
                             product:
                               nullable: true
-                              type: object
-                              properties:
-                                data:
-                                  $ref: '#/components/schemas/ProductDetails'
+                              $ref: '#/components/schemas/ProductDetails'
                             product_id:
                               type: number
                               nullable: true
@@ -7961,11 +7963,8 @@ paths:
                             type:
                               type: string
                             service:
-                              type: object
                               nullable: true
-                              properties:
-                                data:
-                                  $ref: '#/components/schemas/ServiceShowData'
+                              $ref: '#/components/schemas/ServiceShowData'
                             service_id:
                               type: number
                               nullable: true
@@ -8123,10 +8122,7 @@ paths:
                               example: 40.21
                             product:
                               nullable: true
-                              type: object
-                              properties:
-                                data:
-                                  $ref: '#/components/schemas/ProductDetails'
+                              $ref: '#/components/schemas/ProductDetails'
                             product_id:
                               type: number
                               nullable: true
@@ -8137,11 +8133,8 @@ paths:
                             type:
                               type: string
                             service:
-                              type: object
                               nullable: true
-                              properties:
-                                data:
-                                  $ref: '#/components/schemas/ServiceShowData'
+                              $ref: '#/components/schemas/ServiceShowData'
                             service_id:
                               type: number
                               nullable: true
@@ -8291,10 +8284,7 @@ paths:
                               example: 40.21
                             product:
                               nullable: true
-                              type: object
-                              properties:
-                                data:
-                                  $ref: '#/components/schemas/ProductDetails'
+                              $ref: '#/components/schemas/ProductDetails'
                             product_id:
                               type: number
                               nullable: true
@@ -8305,11 +8295,8 @@ paths:
                             type:
                               type: string
                             service:
-                              type: object
                               nullable: true
-                              properties:
-                                data:
-                                  $ref: '#/components/schemas/ServiceShowData'
+                              $ref: '#/components/schemas/ServiceShowData'
                             service_id:
                               type: number
                               nullable: true
@@ -9853,7 +9840,7 @@ paths:
       operationId: getAppInfo
       responses:
         '200':
-          description: Show wishlist items
+          description: Show app info
           headers:
             Access-Control-Allow-Origin:
               schema:
@@ -9983,6 +9970,90 @@ paths:
                             updated_at:
                               type: string
 
+                  message:
+                    type: string
+                    example: app info
+                  status:
+                    type: boolean
+                    example: true
+
+  /cart/calculate:
+    post:
+      tags:
+        - public
+      summary: cart calculation
+      description: cart calculation
+      operationId: cartCalculation
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                cart_id:
+                  type: string
+                promocode:
+                  nullable: true
+                  type: string
+                gift_box_id:
+                  nullable: true
+                  type: string
+                gift_card_id:
+                  nullable: true
+                  type: string
+
+      responses:
+        '200':
+          description: cart calculation details
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+            Cache-Control:
+              schema:
+                type: string
+                example: no-cache, private
+            Connection:
+              schema:
+                type: string
+                example: close
+            Date:
+              schema:
+                type: string
+                example: Wed, 22 May 2024 10:29:41 GMT
+            Host:
+              schema:
+                type: string
+                example: localhost:8000
+            X-Powered-By:
+              schema:
+                type: string
+                example: PHP/8.2.3
+            X-RateLimit-Limit:
+              schema:
+                type: string
+                example: '60'
+            X-RateLimit-Remaining:
+              schema:
+                type: string
+                example: '59'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      total_before:
+                        type: number
+                      discount_total:
+                        type: number
+                      shipping_fee:
+                        type: number
+                      total_after:
+                        type: number
                   message:
                     type: string
                     example: app info

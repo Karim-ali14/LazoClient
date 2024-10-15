@@ -14,11 +14,11 @@ Name | Type | Description | Notes
 **id** | **num** |  | [optional] 
 **listsTotalPrice** | **num** |  | [optional] 
 **price** | **num** |  | [optional] 
-**product** | [**ShowCartDetails200ResponseDataCartItemsInnerProduct**](ShowCartDetails200ResponseDataCartItemsInnerProduct.md) |  | [optional] 
+**product** | [**ProductDetails**](ProductDetails.md) |  | [optional] 
 **productId** | **num** |  | [optional] 
 **quantity** | **num** |  | [optional] 
 **type** | **String** |  | [optional] 
-**service** | [**ShowCartDetails200ResponseDataCartItemsInnerService**](ShowCartDetails200ResponseDataCartItemsInnerService.md) |  | [optional] 
+**service** | [**ServiceShowData**](ServiceShowData.md) |  | [optional] 
 **serviceId** | **num** |  | [optional] 
 **updatedAt** | **String** |  | [optional] 
 
