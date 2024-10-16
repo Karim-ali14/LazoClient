@@ -7,6 +7,7 @@ import 'package:lazo_client/Presentation/Theme/AppTheme.dart';
 import 'package:lazo_client/Presentation/Widgets/CircleImage.dart';
 import 'package:lazo_client/Presentation/Widgets/SvgIcons.dart';
 import 'package:lazo_client/Utils/DelayedAction.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../../../Constants/Eunms.dart';
 import '../../../../Data/Network/lib/api.dart';
@@ -65,13 +66,20 @@ class _CartItemViewState extends State<CartItemView> {
                       clipBehavior: Clip.antiAlias,
                       decoration:
                           BoxDecoration(borderRadius: BorderRadius.circular(1)),
-                      child: ImageView(
-                        width: 74,
-                        height: 74,
-                        initialImg: (widget.cartItem?.type ?? "") ==
-                                CartItemType.Product.name.toLowerCase()
-                            ? widget.cartItem?.product?.imagePath ?? ""
-                            : widget.cartItem?.service?.imagePath ?? "",
+                      child: Skeleton.replace(
+                        replacement: Container(
+                          width: 74,
+                          height: 74,
+                          color: Colors.white,
+                        ),
+                        child: ImageView(
+                          width: 74,
+                          height: 74,
+                          initialImg: (widget.cartItem?.type ?? "") ==
+                                  CartItemType.Product.name.toLowerCase()
+                              ? widget.cartItem?.product?.imagePath ?? ""
+                              : widget.cartItem?.service?.imagePath ?? "",
+                        ),
                       ),
                     ),
                     SizedBox(
@@ -80,13 +88,20 @@ class _CartItemViewState extends State<CartItemView> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          (widget.cartItem?.type ?? "") ==
-                                  CartItemType.Product.name.toLowerCase()
-                              ? widget.cartItem?.product?.name ?? ""
-                              : widget.cartItem?.service?.name ?? "",
-                          style: AppTheme
-                              .styleWithTextBlackAdelleSansExtendedFonts16w500,
+                        Skeleton.replace(
+                          replacement: Container(
+                            width: 120,
+                            height: 10,
+                              color: Colors.white,
+                          ),
+                          child: Text(
+                            (widget.cartItem?.type ?? "") ==
+                                    CartItemType.Product.name.toLowerCase()
+                                ? widget.cartItem?.product?.name ?? ""
+                                : widget.cartItem?.service?.name ?? "",
+                            style: AppTheme
+                                .styleWithTextBlackAdelleSansExtendedFonts16w500,
+                          ),
                         ),
                         SizedBox(
                           height: 7,
@@ -94,91 +109,105 @@ class _CartItemViewState extends State<CartItemView> {
                         SizedBox(
                           width: 240,
                           height: 25,
-                          child: Text(
-                            (widget.cartItem?.type ?? "") ==
-                                    CartItemType.Product.name.toLowerCase()
-                                ? widget.cartItem?.product?.lists
-                                        ?.map((item) => item.name)
-                                        .join(", ") ??
-                                    ""
-                                : widget.cartItem?.service?.lists
-                                        ?.map((item) => item.name)
-                                        .join(", ") ??
-                                    "",
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 2,
-                            style: AppTheme
-                                .styleWithTextAppGrey7AdelleSansExtendedFonts10w400
-                                .copyWith(height: 1.2),
+                          child: Skeleton.replace(
+                            replacement: Container(
+                              width: 120,
+                              height: 20,
+                              color: Colors.white,
+                            ),
+                            child: Text(
+                              (widget.cartItem?.type ?? "") ==
+                                      CartItemType.Product.name.toLowerCase()
+                                  ? widget.cartItem?.product?.lists
+                                          ?.map((item) => item.name)
+                                          .join(", ") ??
+                                      ""
+                                  : widget.cartItem?.service?.lists
+                                          ?.map((item) => item.name)
+                                          .join(", ") ??
+                                      "",
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 2,
+                              style: AppTheme
+                                  .styleWithTextAppGrey7AdelleSansExtendedFonts10w400
+                                  .copyWith(height: 1.2),
+                            ),
                           ),
                         ),
                         SizedBox(
                           height: 7,
                         ),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Text(
+                        Skeleton.replace(
+                          replacement: Container(
+                            width: 120,
+                            height: 20,
+                            color: Colors.white,
+                          ),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Text(
+                                (widget.cartItem?.type ?? "") ==
+                                        CartItemType.Product.name.toLowerCase()
+                                    ? "SAR ${countItemPrice(widget.cartItem?.product?.priceAfterDiscount ?? 0, widget.cartItem?.quantity ?? 1)}"
+                                    : "SAR ${countItemPrice(widget.cartItem?.service?.priceAfterDiscount ?? 0, widget.cartItem?.quantity ?? 1)}",
+                                style: AppTheme
+                                    .styleWithTextRedAdelleSansExtendedFonts16w500,
+                              ),
                               (widget.cartItem?.type ?? "") ==
-                                      CartItemType.Product.name.toLowerCase()
-                                  ? "SAR ${countItemPrice(widget.cartItem?.product?.priceAfterDiscount ?? 0, widget.cartItem?.quantity ?? 1)}"
-                                  : "SAR ${countItemPrice(widget.cartItem?.service?.priceAfterDiscount ?? 0, widget.cartItem?.quantity ?? 1)}",
-                              style: AppTheme
-                                  .styleWithTextRedAdelleSansExtendedFonts16w500,
-                            ),
-                            (widget.cartItem?.type ?? "") ==
-                                        CartItemType.Product.name
-                                            .toLowerCase() &&
-                                    (widget.cartItem?.product?.price
-                                                ?.toDouble() ??
-                                            0.0) >
-                                        (widget.cartItem?.product
-                                                ?.priceAfterDiscount
-                                                ?.toDouble() ??
-                                            0.0)
-                                ? Row(
-                                    children: [
-                                      SizedBox(
-                                        width: 6,
-                                      ),
-                                      Text(
-                                        "SAR ${countItemPrice(widget.cartItem?.product?.price ?? 0, widget.cartItem?.quantity ?? 1)}",
-                                        style: AppTheme
-                                            .styleWithTextGray7AdelleSansExtendedFonts12w400
-                                            .copyWith(
-                                                decoration:
-                                                    TextDecoration.lineThrough),
-                                      )
-                                    ],
-                                  )
-                                : const SizedBox(),
-                            (widget.cartItem?.type ?? "") ==
-                                        CartItemType.Service.name
-                                            .toLowerCase() &&
-                                    (widget.cartItem?.service?.price
-                                                ?.toDouble() ??
-                                            0.0) >
-                                        (widget.cartItem?.service
-                                                ?.priceAfterDiscount
-                                                ?.toDouble() ??
-                                            0.0)
-                                ? Row(
-                                    children: [
-                                      SizedBox(
-                                        width: 6,
-                                      ),
-                                      Text(
-                                        "SAR ${countItemPrice(widget.cartItem?.service?.price ?? 0, widget.cartItem?.quantity ?? 1)}",
-                                        style: AppTheme
-                                            .styleWithTextGray7AdelleSansExtendedFonts12w400
-                                            .copyWith(
-                                                decoration:
-                                                    TextDecoration.lineThrough),
-                                      )
-                                    ],
-                                  )
-                                : const SizedBox()
-                          ],
+                                          CartItemType.Product.name
+                                              .toLowerCase() &&
+                                      (widget.cartItem?.product?.price
+                                                  ?.toDouble() ??
+                                              0.0) >
+                                          (widget.cartItem?.product
+                                                  ?.priceAfterDiscount
+                                                  ?.toDouble() ??
+                                              0.0)
+                                  ? Row(
+                                      children: [
+                                        SizedBox(
+                                          width: 6,
+                                        ),
+                                        Text(
+                                          "SAR ${countItemPrice(widget.cartItem?.product?.price ?? 0, widget.cartItem?.quantity ?? 1)}",
+                                          style: AppTheme
+                                              .styleWithTextGray7AdelleSansExtendedFonts12w400
+                                              .copyWith(
+                                                  decoration:
+                                                      TextDecoration.lineThrough),
+                                        )
+                                      ],
+                                    )
+                                  : const SizedBox(),
+                              (widget.cartItem?.type ?? "") ==
+                                          CartItemType.Service.name
+                                              .toLowerCase() &&
+                                      (widget.cartItem?.service?.price
+                                                  ?.toDouble() ??
+                                              0.0) >
+                                          (widget.cartItem?.service
+                                                  ?.priceAfterDiscount
+                                                  ?.toDouble() ??
+                                              0.0)
+                                  ? Row(
+                                      children: [
+                                        SizedBox(
+                                          width: 6,
+                                        ),
+                                        Text(
+                                          "SAR ${countItemPrice(widget.cartItem?.service?.price ?? 0, widget.cartItem?.quantity ?? 1)}",
+                                          style: AppTheme
+                                              .styleWithTextGray7AdelleSansExtendedFonts12w400
+                                              .copyWith(
+                                                  decoration:
+                                                      TextDecoration.lineThrough),
+                                        )
+                                      ],
+                                    )
+                                  : const SizedBox()
+                            ],
+                          ),
                         )
                       ],
                     )
@@ -187,64 +216,66 @@ class _CartItemViewState extends State<CartItemView> {
                 SizedBox(
                   height: 16,
                 ),
-                Row(
-                  children: [
-                    Row(
-                      children: <Widget>[
-                        InkWell(
-                            onTap: () {
-                              setState(() {
-                                quantity = (quantity??1) + 1;
-                              });
-                              delayedAction.startTimer(Duration(seconds: 2), (){
-                                widget.onUpdateQuantity.call((widget.cartItem?.id??0),(quantity??1));
-                              });
-                            },
-                            child: SVGIcons.incrementButtonSvgIcon()),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8),
-                          child: Text(
-                            quantity?.toString() ?? "",
-                            style: AppTheme
-                                .styleWithTextBlackAdelleSansExtendedFonts18w500,
-                          ),
-                        ),
-                        InkWell(
-                            onTap: () {
-                              if((quantity??1) > 1) {
+                Skeleton.ignore(
+                  child: Row(
+                    children: [
+                      Row(
+                        children: <Widget>[
+                          InkWell(
+                              onTap: () {
                                 setState(() {
-                                  quantity = (quantity ?? 1) - 1;
+                                  quantity = (quantity??1) + 1;
                                 });
                                 delayedAction.startTimer(Duration(seconds: 2), (){
                                   widget.onUpdateQuantity.call((widget.cartItem?.id??0),(quantity??1));
                                 });
-                              }
-                            },
-                            child: SVGIcons.decrementButtonSvgIcon()),
-                      ],
-                    ),
-                    const Spacer(),
-                    Container(
-                      decoration: BoxDecoration(
-                          color: AppTheme.mainAppColorLight2,
-                          borderRadius: BorderRadius.circular(4)),
-                      height: 26,
-                      padding: EdgeInsetsDirectional.symmetric(horizontal: 12),
-                      child: Row(
-                        children: [
-                          SVGIcons.editIcon(),
-                          const SizedBox(
-                            width: 2,
+                              },
+                              child: SVGIcons.incrementButtonSvgIcon()),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 8),
+                            child: Text(
+                              quantity?.toString() ?? "",
+                              style: AppTheme
+                                  .styleWithTextBlackAdelleSansExtendedFonts18w500,
+                            ),
                           ),
-                          Text(
-                            "Edit",
-                            style: AppTheme
-                                .styleWithTextMainAppColorAdelleSansExtendedFonts12w400,
-                          )
+                          InkWell(
+                              onTap: () {
+                                if((quantity??1) > 1) {
+                                  setState(() {
+                                    quantity = (quantity ?? 1) - 1;
+                                  });
+                                  delayedAction.startTimer(Duration(seconds: 2), (){
+                                    widget.onUpdateQuantity.call((widget.cartItem?.id??0),(quantity??1));
+                                  });
+                                }
+                              },
+                              child: SVGIcons.decrementButtonSvgIcon()),
                         ],
                       ),
-                    ),
-                  ],
+                      const Spacer(),
+                      Container(
+                        decoration: BoxDecoration(
+                            color: AppTheme.mainAppColorLight2,
+                            borderRadius: BorderRadius.circular(4)),
+                        height: 26,
+                        padding: EdgeInsetsDirectional.symmetric(horizontal: 12),
+                        child: Row(
+                          children: [
+                            SVGIcons.editIcon(),
+                            const SizedBox(
+                              width: 2,
+                            ),
+                            Text(
+                              "Edit",
+                              style: AppTheme
+                                  .styleWithTextMainAppColorAdelleSansExtendedFonts12w400,
+                            )
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
                 )
               ],
             ),

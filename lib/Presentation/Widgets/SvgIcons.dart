@@ -196,6 +196,17 @@ class SVGIcons {
       fit: BoxFit.fill,
     );
   }
+
+  static Widget noCartItemsGifIcon(){
+    return Image.asset(
+        noCartItems,
+      width: 138,
+      height: 138,
+      fit: BoxFit.fill,
+    );
+  }
+
+
   static Widget existGifIcon(){
     return Image.asset(
       existIconGif,

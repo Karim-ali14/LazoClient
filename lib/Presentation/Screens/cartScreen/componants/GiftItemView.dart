@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../../../Constants/Eunms.dart';
 import '../../../../Data/Network/lib/api.dart';
@@ -43,12 +44,19 @@ class GiftItemView extends StatelessWidget {
         child: Stack(children: [
           Column(
             children: [
-              ImageView(
-                width: double.infinity,
-                height: 142,
-                initialImg: type == GiftItemType.Card
-                    ? giftCard?.imagePath
-                    : giftBox?.imagePath,
+              Skeleton.replace(
+                replacement: Container(
+                  width: double.infinity,
+                  height: 142,
+                  color: Colors.white,
+                ),
+                child: ImageView(
+                  width: double.infinity,
+                  height: 142,
+                  initialImg: type == GiftItemType.Card
+                      ? giftCard?.imagePath
+                      : giftBox?.imagePath,
+                ),
               ),
               Padding(
                 padding: EdgeInsets.symmetric(vertical: 12, horizontal: 8),
@@ -81,17 +89,19 @@ class GiftItemView extends StatelessWidget {
               )
             ],
           ),
-          SizedBox(
-            width: 33,
-            height: 30,
-            child: Align(
-              alignment: AlignmentDirectional.topStart,
-              child: Radio(
-                  value: true,
-                  groupValue: isSelected,
-                  onChanged: (value) {
-                    onItemSelected.call();
-                  }),
+          Skeleton.ignore(
+            child: SizedBox(
+              width: 33,
+              height: 30,
+              child: Align(
+                alignment: AlignmentDirectional.topStart,
+                child: Radio(
+                    value: true,
+                    groupValue: isSelected,
+                    onChanged: (value) {
+                      onItemSelected.call();
+                    }),
+              ),
             ),
           ),
         ]),

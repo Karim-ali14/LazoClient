@@ -654,6 +654,7 @@ class FetchAllGiftCardsUseCase
   FetchAllGiftCardsUseCase(this.ref, this.publicApi) : super(StateModel());
 
   void fetchAllGiftCards() {
+    state = StateModel.loading();
     request(
       () => publicApi.showAllGiftCards(),
     );
@@ -667,6 +668,7 @@ class FetchAllGiftBoxUseCase
   FetchAllGiftBoxUseCase(this.ref, this.publicApi) : super(StateModel());
 
   void fetchAllGiftBox() {
+    state = StateModel.loading();
     request(() => publicApi.showAllGiftBoxes());
   }
 }
@@ -681,7 +683,12 @@ class FetchCardDetailsUseCase
     String? sessionId,
   }) {
     state = StateModel.loading();
-    request(() => publicApi.showCartDetails(sessionId: sessionId));
+    request(() => publicApi.showCartDetails(sessionId: sessionId),onComplete: (res){
+      print("asdfasdfasdfs${res?.data?.cartItems.isEmpty}");
+      if(res?.data?.cartItems.isEmpty != true){
+        state = StateModel.empty(data: res?.data);
+      }
+    });
   }
 
   void updateItem(ShowCartDetails200ResponseDataCartItemsInner cartItem){
@@ -702,7 +709,11 @@ class FetchCardDetailsUseCase
     }
 
     state.data?.data?.cartItems = [...data];
-    state = StateModel.success(state.data);
+    if(state.data?.data?.cartItems.isNotEmpty == true){
+      state = StateModel.success(state.data);
+    }else {
+      state = StateModel.empty(data:state.data);
+    }
   }
 
 }
