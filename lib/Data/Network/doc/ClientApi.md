@@ -12,6 +12,7 @@ Method | HTTP request | Description
 [**assignChatNotificationToAProvider**](ClientApi.md#assignchatnotificationtoaprovider) | **POST** /client/chat/notification/assign | Assign chat notification to a provider
 [**clientAccountDeleteGet**](ClientApi.md#clientaccountdeleteget) | **GET** /client/account-delete | client\\'s account deleted successfully
 [**clientLogoutGet**](ClientApi.md#clientlogoutget) | **GET** /client/logout | client logout
+[**creatInstantOrder**](ClientApi.md#creatinstantorder) | **POST** /client/instant-order/create | create an instant order
 [**createOrder**](ClientApi.md#createorder) | **POST** /client/order/create | Create order
 [**manageOrder**](ClientApi.md#manageorder) | **POST** /client/order/manage | Manage order
 [**rateOrder**](ClientApi.md#rateorder) | **POST** /client/order/rating | Rate order
@@ -158,6 +159,75 @@ void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **creatInstantOrder**
+> ClientOrderDetails creatInstantOrder(serviceId, serviceQuantity, serviceSelectedListIds, serviceSelectedListItemsIds, paymentMethod, promocode, receiverName, receiverPhoneNumber, cardMessage, cardFrom, cardTo)
+
+create an instant order
+
+create an instant order
+
+### Example
+```dart
+import 'package:lazo/api.dart';
+// TODO Configure HTTP Bearer authorization: bearerAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('bearerAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('bearerAuth').setAccessToken(yourTokenGeneratorFunction);
+
+final api_instance = ClientApi();
+final serviceId = serviceId_example; // String | 
+final serviceQuantity = serviceQuantity_example; // String | 
+final serviceSelectedListIds = serviceSelectedListIds_example; // String | 
+final serviceSelectedListItemsIds = serviceSelectedListItemsIds_example; // String | 
+final paymentMethod = paymentMethod_example; // String | 
+final promocode = promocode_example; // String | 
+final receiverName = receiverName_example; // String | 
+final receiverPhoneNumber = receiverPhoneNumber_example; // String | 
+final cardMessage = cardMessage_example; // String | 
+final cardFrom = cardFrom_example; // String | 
+final cardTo = cardTo_example; // String | 
+
+try {
+    final result = api_instance.creatInstantOrder(serviceId, serviceQuantity, serviceSelectedListIds, serviceSelectedListItemsIds, paymentMethod, promocode, receiverName, receiverPhoneNumber, cardMessage, cardFrom, cardTo);
+    print(result);
+} catch (e) {
+    print('Exception when calling ClientApi->creatInstantOrder: $e\n');
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **serviceId** | **String**|  | [optional] 
+ **serviceQuantity** | **String**|  | [optional] 
+ **serviceSelectedListIds** | **String**|  | [optional] 
+ **serviceSelectedListItemsIds** | **String**|  | [optional] 
+ **paymentMethod** | **String**|  | [optional] 
+ **promocode** | **String**|  | [optional] 
+ **receiverName** | **String**|  | [optional] 
+ **receiverPhoneNumber** | **String**|  | [optional] 
+ **cardMessage** | **String**|  | [optional] 
+ **cardFrom** | **String**|  | [optional] 
+ **cardTo** | **String**|  | [optional] 
+
+### Return type
+
+[**ClientOrderDetails**](ClientOrderDetails.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: multipart/form-data
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

@@ -8,6 +8,7 @@ import 'package:lazo_client/Constants.dart';
 import 'package:lazo_client/Data/Models/ItemSelector.dart';
 import 'package:lazo_client/Data/Models/StateModel.dart';
 import 'package:lazo_client/Data/Models/UpdateDataModel.dart';
+import 'package:lazo_client/Data/Network/lib/api.dart';
 import 'package:lazo_client/Doman/CommenProviders/ApiProvider.dart';
 import 'package:lazo_client/Presentation/Screens/details/componants/ProductMultipleSelectItems.dart';
 import 'package:lazo_client/Presentation/Screens/details/componants/ProductSingleSelectItems.dart';
@@ -35,11 +36,15 @@ class ProductDetailsScreen extends ConsumerStatefulWidget {
   final ItemType? itemType;
   final String? name;
   final List<int>? relatedCategoriesIds;
+  final ProductDetails? productDetails;
+  final ServiceShowData? serviceShowData;
   const ProductDetailsScreen(
       {this.name,
       this.id,
       this.relatedCategoriesIds,
       this.itemType,
+      this.productDetails,
+      this.serviceShowData,
       super.key});
 
   @override
@@ -64,13 +69,20 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((callback) {
-      // print("sadfasdfas ${widget.relatedCategoriesIds}");
+      print("sadfasdfas ${widget.productDetails}");
 
       if (widget.itemType == ItemType.Products) {
-        getDetailsForProduct();
+        if (widget.productDetails == null) {
+          getDetailsForProduct();
+        } else {
+          ref.read(getProductDetails.notifier).getProductDetails(
+              productId: widget.id, product: widget.productDetails);
+        }
         getRelatedProducts();
       } else {
-        getDetailsForService();
+        if (widget.serviceShowData == null) {
+          getDetailsForService();
+        }
         getRelatedServices();
       }
     });
@@ -94,7 +106,9 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
         ref.read(getProductDetails.notifier).handelAddProductToCart(id);
         ref.read(homeDataStateNotifiers.notifier).handleAddProductToCart(id);
         ref.read(getProductsStateNotifiers.notifier).handleAddProductToCart(id);
-        ref.read(getRelatedProductsStateNotifiers.notifier).handleAddProductToCart(id);
+        ref
+            .read(getRelatedProductsStateNotifiers.notifier)
+            .handleAddProductToCart(id);
       }
     });
 
@@ -105,7 +119,9 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
         ref.read(getServiceDetails.notifier).handelAddServiceToCart(id);
         ref.read(homeDataStateNotifiers.notifier).handelAddServiceToCart(id);
         ref.read(getServicesStateNotifiers.notifier).handelAddServiceToCart(id);
-        ref.read(getRelatedServicesStateNotifiers.notifier).handelAddServiceToCart(id);
+        ref
+            .read(getRelatedServicesStateNotifiers.notifier)
+            .handelAddServiceToCart(id);
       }
     });
 
@@ -127,8 +143,10 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
       ref.read(getProductsStateNotifiers.notifier).handleAddProductToWishList(
           res.data?.data?.productId ?? 0, res.data?.data?.inWishlist ?? false);
 
-      ref.read(getRelatedProductsStateNotifiers.notifier).handleAddProductToWishList(
-          res.data?.data?.productId ?? 0, res.data?.data?.inWishlist ?? false);
+      ref
+          .read(getRelatedProductsStateNotifiers.notifier)
+          .handleAddProductToWishList(res.data?.data?.productId ?? 0,
+              res.data?.data?.inWishlist ?? false);
     });
 
     handleState(serviceToggleStateNotifier, showLoading: true,
@@ -149,8 +167,10 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
       ref.read(getServicesStateNotifiers.notifier).handelAddServiceToWishlist(
           res.data?.data?.serviceId ?? 0, res.data?.data?.inWishlist ?? false);
 
-      ref.read(getRelatedServicesStateNotifiers.notifier).handelAddServiceToWishlist(
-          res.data?.data?.serviceId ?? 0, res.data?.data?.inWishlist ?? false);
+      ref
+          .read(getRelatedServicesStateNotifiers.notifier)
+          .handelAddServiceToWishlist(res.data?.data?.serviceId ?? 0,
+              res.data?.data?.inWishlist ?? false);
     });
 
     return WillPopScope(
@@ -647,6 +667,13 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
                                                     productSelectedItemsIds[
                                                         categoryId] = items;
                                                   },
+                                                  itemSelect: widget
+                                                      .productDetails
+                                                      ?.lists?[index]
+                                                      .clientSelectedItemsInCart?.map((toElement) =>
+                                                          toElement.id
+                                                              .toString())
+                                                      .toList()??[],
                                                 ),
                                         ),
                                       ),
@@ -1047,7 +1074,7 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
                                       },
                                       onAddItemToWishList: (id) {
                                         if (client != null) {
-                                           productWishlistToggle(id);
+                                          productWishlistToggle(id);
                                         } else {
                                           showAuthenticated();
                                         }

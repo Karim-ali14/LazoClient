@@ -14,12 +14,16 @@ import '../../../../Data/Network/lib/api.dart';
 
 typedef OnUpdateQuantity = Function(num,num);
 typedef OnDeleteItem = Function(num);
+typedef OnEditProduct = Function(ProductDetails?);
+typedef OnEditService = Function(ServiceShowData?);
 class CartItemView extends StatefulWidget {
   final OnUpdateQuantity onUpdateQuantity;
   final OnDeleteItem onDeleteItem;
+  final OnEditProduct? onEditProduct;
+  final OnEditService? onEditService;
   final ShowCartDetails200ResponseDataCartItemsInner? cartItem;
 
-  const CartItemView({super.key, required this.cartItem, required this.onUpdateQuantity, required this.onDeleteItem});
+  const CartItemView({super.key, required this.cartItem, required this.onUpdateQuantity, required this.onDeleteItem, this.onEditProduct, this.onEditService});
 
   @override
   State<CartItemView> createState() => _CartItemViewState();
@@ -254,24 +258,34 @@ class _CartItemViewState extends State<CartItemView> {
                         ],
                       ),
                       const Spacer(),
-                      Container(
-                        decoration: BoxDecoration(
-                            color: AppTheme.mainAppColorLight2,
-                            borderRadius: BorderRadius.circular(4)),
-                        height: 26,
-                        padding: EdgeInsetsDirectional.symmetric(horizontal: 12),
-                        child: Row(
-                          children: [
-                            SVGIcons.editIcon(),
-                            const SizedBox(
-                              width: 2,
-                            ),
-                            Text(
-                              "Edit",
-                              style: AppTheme
-                                  .styleWithTextMainAppColorAdelleSansExtendedFonts12w400,
-                            )
-                          ],
+                      InkWell(
+                        onTap: (){
+                          if((widget.cartItem?.type ?? "") ==
+                              CartItemType.Product.name.toLowerCase()){
+                            widget.onEditProduct?.call(widget.cartItem?.product);
+                          }else {
+                            widget.onEditService?.call(widget.cartItem?.service);
+                          }
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                              color: AppTheme.mainAppColorLight2,
+                              borderRadius: BorderRadius.circular(4)),
+                          height: 26,
+                          padding: EdgeInsetsDirectional.symmetric(horizontal: 12),
+                          child: Row(
+                            children: [
+                              SVGIcons.editIcon(),
+                              const SizedBox(
+                                width: 2,
+                              ),
+                              Text(
+                                "Edit",
+                                style: AppTheme
+                                    .styleWithTextMainAppColorAdelleSansExtendedFonts12w400,
+                              )
+                            ],
+                          ),
                         ),
                       ),
                     ],

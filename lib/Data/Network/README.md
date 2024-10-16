@@ -68,6 +68,7 @@ Class | Method | HTTP request | Description
 *ClientApi* | [**assignChatNotificationToAProvider**](doc//ClientApi.md#assignchatnotificationtoaprovider) | **POST** /client/chat/notification/assign | Assign chat notification to a provider
 *ClientApi* | [**clientAccountDeleteGet**](doc//ClientApi.md#clientaccountdeleteget) | **GET** /client/account-delete | client\\'s account deleted successfully
 *ClientApi* | [**clientLogoutGet**](doc//ClientApi.md#clientlogoutget) | **GET** /client/logout | client logout
+*ClientApi* | [**creatInstantOrder**](doc//ClientApi.md#creatinstantorder) | **POST** /client/instant-order/create | create an instant order
 *ClientApi* | [**createOrder**](doc//ClientApi.md#createorder) | **POST** /client/order/create | Create order
 *ClientApi* | [**manageOrder**](doc//ClientApi.md#manageorder) | **POST** /client/order/manage | Manage order
 *ClientApi* | [**rateOrder**](doc//ClientApi.md#rateorder) | **POST** /client/order/rating | Rate order
@@ -82,12 +83,13 @@ Class | Method | HTTP request | Description
 *ClientApi* | [**updateProfile**](doc//ClientApi.md#updateprofile) | **POST** /client/profile/update | update profile
 *NotificationsApi* | [**assignChatNotificationToAClient**](doc//NotificationsApi.md#assignchatnotificationtoaclient) | **POST** /provider/chat/notification/assign | Assign chat notification to a client
 *NotificationsApi* | [**assignChatNotificationToAProvider**](doc//NotificationsApi.md#assignchatnotificationtoaprovider) | **POST** /client/chat/notification/assign | Assign chat notification to a provider
-*Notifications1Api* | [**readANotification1**](doc//Notifications1Api.md#readanotification1) | **POST** /provider/notification/read | read a notification
-*Notifications1Api* | [**showNotifications1**](doc//Notifications1Api.md#shownotifications1) | **GET** /provider/notifications | show notifications
-*Notifications1Api* | [**updateFcmTokenAndDeviceType1**](doc//Notifications1Api.md#updatefcmtokenanddevicetype1) | **POST** /provider/update/device-data | update fcm_token and device_type
-*Notifications1Api* | [**updateFcmTokenAndDeviceType2**](doc//Notifications1Api.md#updatefcmtokenanddevicetype2) | **POST** /client/update/device-data | update fcm_token and device_type
-*Notifications122Api* | [**readANotification122**](doc//Notifications122Api.md#readanotification122) | **POST** /client/notification/read | read a notification
-*Notifications2Api* | [**showNotifications2**](doc//Notifications2Api.md#shownotifications2) | **GET** /client/notifications | show notifications
+*NotificationsApi* | [**readANotification1**](doc//NotificationsApi.md#readanotification1) | **POST** /provider/notification/read | read a notification
+*NotificationsApi* | [**readANotification122**](doc//NotificationsApi.md#readanotification122) | **POST** /client/notification/read | read a notification
+*NotificationsApi* | [**showNotifications1**](doc//NotificationsApi.md#shownotifications1) | **GET** /provider/notifications | show notifications
+*NotificationsApi* | [**showNotifications2**](doc//NotificationsApi.md#shownotifications2) | **GET** /client/notifications | show notifications
+*NotificationsApi* | [**updateFcmTokenAndDeviceType1**](doc//NotificationsApi.md#updatefcmtokenanddevicetype1) | **POST** /provider/update/device-data | update fcm_token and device_type
+*NotificationsApi* | [**updateFcmTokenAndDeviceType2**](doc//NotificationsApi.md#updatefcmtokenanddevicetype2) | **POST** /client/update/device-data | update fcm_token and device_type
+*OrdersApi* | [**creatInstantOrder**](doc//OrdersApi.md#creatinstantorder) | **POST** /client/instant-order/create | create an instant order
 *OrdersApi* | [**createOrder**](doc//OrdersApi.md#createorder) | **POST** /client/order/create | Create order
 *OrdersApi* | [**manageOrder**](doc//OrdersApi.md#manageorder) | **POST** /client/order/manage | Manage order
 *OrdersApi* | [**rateOrder**](doc//OrdersApi.md#rateorder) | **POST** /client/order/rating | Rate order

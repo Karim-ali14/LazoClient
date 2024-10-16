@@ -432,9 +432,15 @@ class GetProductDetailsUseCase
 
   void getProductDetails({
     String? productId,
+    ProductDetails? product
   }) {
     state = StateModel.loading();
-    request(() => publicApi.showProductDetails(productId: productId));
+    request(() => publicApi.showProductDetails(productId: productId),onComplete: (res){
+      if(product != null){
+        print("sadkfjakdjsl${product.lists}");
+        res.data?.lists = [...?product.lists];
+      }
+    });
   }
 
   void handelAddProductToCart(num productId) {
@@ -447,6 +453,15 @@ class GetProductDetailsUseCase
     final data = state.data;
     data?.data?.inWishlist = inWishlist;
     state = StateModel.success(data);
+  }
+
+  void productDetails(ProductDetails product){
+    ProductDetailsResponse response = ProductDetailsResponse(
+      status: true,
+      message: "",
+      data: product
+    );
+    state = StateModel.success(response);
   }
 }
 

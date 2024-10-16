@@ -1081,6 +1081,16 @@ components:
         updated_at:
           type: string
           example: '2024-05-02T12:06:05.000000Z'
+        client_selected_items_in_cart:
+          nullable: true
+          type: array
+          items:
+            $ref: '#/components/schemas/ProductListItemDetail'
+        client_selected_items_in_order:
+          nullable: true
+          type: array
+          items:
+            $ref: '#/components/schemas/ProductListItemDetail'
 
     ProductListItemDetail:
       type: object
@@ -1092,6 +1102,7 @@ components:
           type: number
           example: 13
         name:
+          nullable: true
           type: string
           example: التانيه
         name_ar:
@@ -6575,7 +6586,7 @@ paths:
     get:
       tags:
         - provider
-        - notifications1
+        - notifications
       summary: show notifications
       description: show notifications
       operationId: showNotifications1
@@ -6991,7 +7002,7 @@ paths:
     post:
       tags:
         - provider
-        - notifications1
+        - notifications
       summary: read a notification
       description: read a notification
       operationId: readANotification1
@@ -7315,7 +7326,7 @@ paths:
     post:
       tags:
         - provider
-        - notifications1
+        - notifications
       summary: update fcm_token and device_type
       description: update fcm_token and device_type
       operationId: updateFcmTokenAndDeviceType1
@@ -9497,7 +9508,7 @@ paths:
     get:
       tags:
         - client
-        - notifications2
+        - notifications
       summary: show notifications
       description: show notifications
       operationId: showNotifications2
@@ -9698,7 +9709,7 @@ paths:
     post:
       tags:
         - client
-        - notifications122
+        - notifications
       summary: read a notification
       description: read a notification
       operationId: readANotification122
@@ -9766,7 +9777,7 @@ paths:
     post:
       tags:
         - client
-        - notifications1
+        - notifications
       summary: update fcm_token and device_type
       description: update fcm_token and device_type
       operationId: updateFcmTokenAndDeviceType2
@@ -10060,3 +10071,96 @@ paths:
                   status:
                     type: boolean
                     example: true
+
+  /client/instant-order/create:
+    post:
+      tags:
+        - client
+        - orders
+      summary: create an instant order
+      description: create an instant order
+      operationId: creatInstantOrder
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                service_id:
+                  type: string
+                service_quantity:
+                  type: string
+                service_selected_list_ids:
+                  type: string
+                service_selected_list_items_ids:
+                  type: string
+                payment_method:
+                  nullable: true
+                  type: string
+                promocode:
+                  nullable: true
+                  type: string
+                receiver_name:
+                  nullable: true
+                  type: string
+                receiver_phone_number:
+                  nullable: true
+                  type: string
+                card_message:
+                  nullable: true
+                  type: string
+                card_from:
+                  nullable: true
+                  type: string
+                card_to:
+                  nullable: true
+                  type: string
+
+
+      responses:
+        '200':
+          description: instant order for soft service created successfully
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+            Cache-Control:
+              schema:
+                type: string
+                example: no-cache, private
+            Connection:
+              schema:
+                type: string
+                example: close
+            Date:
+              schema:
+                type: string
+                example: Sun, 19 May 2024 15:18:23 GMT
+            Host:
+              schema:
+                type: string
+                example: localhost:8000
+            X-Powered-By:
+              schema:
+                type: string
+                example: PHP/8.2.3
+            X-RateLimit-Limit:
+              schema:
+                type: string
+                example: '60'
+            X-RateLimit-Remaining:
+              schema:
+                type: string
+                example: '59'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClientOrderDetails'
+                message:
+                  type: string
+                status:
+                  type: boolean
+
+      security:
+        - bearerAuth: []

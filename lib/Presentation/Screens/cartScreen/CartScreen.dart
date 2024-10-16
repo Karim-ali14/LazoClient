@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:lazo_client/Data/Models/StateModel.dart';
 import 'package:lazo_client/Data/Network/lib/api.dart';
 import 'package:lazo_client/Doman/CommenProviders/ApiProvider.dart';
@@ -13,6 +14,8 @@ import 'package:lazo_client/Presentation/Widgets/AppTextField.dart';
 import 'package:lazo_client/Presentation/Widgets/EmptyDataPlaceHolder.dart';
 import 'package:lazo_client/Presentation/Widgets/SvgIcons.dart';
 import 'package:skeletonizer/skeletonizer.dart';
+import '../../../Constants.dart';
+import '../../../Constants/Eunms.dart';
 import '../details/componants/ProductRowItem.dart';
 import 'componants/GiftBoxListView.dart';
 import 'componants/GiftCardListView.dart';
@@ -117,7 +120,12 @@ class _CartScreenState extends ConsumerState<CartScreen> {
                               },
                               onDeleteItem: (cartItemId) {
                                 deleteCartItem(cartItemId);
-                              },
+                              }, onEditProduct:(product) {
+                                navigateToItemDetails(ItemType.Products, product, null);
+                              },onEditService: (service){
+                              navigateToItemDetails(ItemType.Services, null, service);
+
+                            },
                             ),
                           );
                         })),
@@ -377,5 +385,26 @@ class _CartScreenState extends ConsumerState<CartScreen> {
     ref
         .read(deleteItemCartStateNotifies.notifier)
         .deleteItemCart(cartItemId: cartItemId.toString());
+  }
+
+  void navigateToItemDetails(
+      ItemType itemType,ProductDetails? product,ServiceShowData? service) {
+    var itemId = itemType == ItemType.Products ? product?.id : service?.id;
+    var itemName = itemType == ItemType.Products ? product?.name : service?.name;
+    var categoriesIds = itemType == ItemType.Products
+        ? product?.categories.map((item) => (item.id ?? 0).toInt())
+        .toList() ??
+        []
+        : service?.categories
+        .map((item) => (item.id ?? 0).toInt())
+        .toList() ??
+        [];
+    context.push("$R_ProductAndServiceDetails/${itemId.toString()}", extra: {
+      "type": itemType,
+      "name": itemName,
+      "categoryIds": categoriesIds,
+      "product" : product,
+      "service" : service
+    });
   }
 }

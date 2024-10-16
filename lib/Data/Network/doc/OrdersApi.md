@@ -9,12 +9,82 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
+[**creatInstantOrder**](OrdersApi.md#creatinstantorder) | **POST** /client/instant-order/create | create an instant order
 [**createOrder**](OrdersApi.md#createorder) | **POST** /client/order/create | Create order
 [**manageOrder**](OrdersApi.md#manageorder) | **POST** /client/order/manage | Manage order
 [**rateOrder**](OrdersApi.md#rateorder) | **POST** /client/order/rating | Rate order
 [**showOrderDetails**](OrdersApi.md#showorderdetails) | **GET** /client/order/show | Show order details
 [**showOrders**](OrdersApi.md#showorders) | **GET** /client/orders | Show orders
 
+
+# **creatInstantOrder**
+> ClientOrderDetails creatInstantOrder(serviceId, serviceQuantity, serviceSelectedListIds, serviceSelectedListItemsIds, paymentMethod, promocode, receiverName, receiverPhoneNumber, cardMessage, cardFrom, cardTo)
+
+create an instant order
+
+create an instant order
+
+### Example
+```dart
+import 'package:lazo/api.dart';
+// TODO Configure HTTP Bearer authorization: bearerAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('bearerAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('bearerAuth').setAccessToken(yourTokenGeneratorFunction);
+
+final api_instance = OrdersApi();
+final serviceId = serviceId_example; // String | 
+final serviceQuantity = serviceQuantity_example; // String | 
+final serviceSelectedListIds = serviceSelectedListIds_example; // String | 
+final serviceSelectedListItemsIds = serviceSelectedListItemsIds_example; // String | 
+final paymentMethod = paymentMethod_example; // String | 
+final promocode = promocode_example; // String | 
+final receiverName = receiverName_example; // String | 
+final receiverPhoneNumber = receiverPhoneNumber_example; // String | 
+final cardMessage = cardMessage_example; // String | 
+final cardFrom = cardFrom_example; // String | 
+final cardTo = cardTo_example; // String | 
+
+try {
+    final result = api_instance.creatInstantOrder(serviceId, serviceQuantity, serviceSelectedListIds, serviceSelectedListItemsIds, paymentMethod, promocode, receiverName, receiverPhoneNumber, cardMessage, cardFrom, cardTo);
+    print(result);
+} catch (e) {
+    print('Exception when calling OrdersApi->creatInstantOrder: $e\n');
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **serviceId** | **String**|  | [optional] 
+ **serviceQuantity** | **String**|  | [optional] 
+ **serviceSelectedListIds** | **String**|  | [optional] 
+ **serviceSelectedListItemsIds** | **String**|  | [optional] 
+ **paymentMethod** | **String**|  | [optional] 
+ **promocode** | **String**|  | [optional] 
+ **receiverName** | **String**|  | [optional] 
+ **receiverPhoneNumber** | **String**|  | [optional] 
+ **cardMessage** | **String**|  | [optional] 
+ **cardFrom** | **String**|  | [optional] 
+ **cardTo** | **String**|  | [optional] 
+
+### Return type
+
+[**ClientOrderDetails**](ClientOrderDetails.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: multipart/form-data
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **createOrder**
 > ClientOrderDetails createOrder(deliveryDate, deliveryTime, giftBoxId, giftCardId, isIdentitySecret, orderType, paymentMethod, promocode, receiverAddress, receiverAddressDetails, receiverPhone)

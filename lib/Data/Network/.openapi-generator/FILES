@@ -46,9 +46,6 @@ doc/GetAppInfo200ResponseDataProviderAppInfo.md
 doc/GiftBox.md
 doc/GiftCard.md
 doc/ImageItem.md
-doc/Notifications122Api.md
-doc/Notifications1Api.md
-doc/Notifications2Api.md
 doc/NotificationsApi.md
 doc/Occasion.md
 doc/OccasionsResponse.md
@@ -152,9 +149,6 @@ lib/api/app_info_api.dart
 lib/api/auth_api.dart
 lib/api/cart_api.dart
 lib/api/client_api.dart
-lib/api/notifications122_api.dart
-lib/api/notifications1_api.dart
-lib/api/notifications2_api.dart
 lib/api/notifications_api.dart
 lib/api/orders12_api.dart
 lib/api/orders_api.dart
@@ -301,5 +295,3 @@ lib/model/update_cart_item_quantity200_response_data.dart
 lib/model/upload_files.dart
 lib/model/upload_files_response.dart
 pubspec.yaml
-test/cart_calculation200_response_data_test.dart
-test/cart_calculation200_response_test.dart

@@ -260,6 +260,8 @@ class MyApp extends ConsumerWidget {
               id: status.pathParameters["id"],
               relatedCategoriesIds: extra["categoryIds"] as List<int>,
               itemType: extra["type"] as ItemType,
+              productDetails: extra["product"],
+              serviceShowData: extra["service"],
             );
           }),
       GoRoute(

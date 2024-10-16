@@ -10,8 +10,9 @@ typedef OnItemSelect = Function(List<String>);
 class ProductMultipleSelectItems extends StatefulWidget {
   final List<ItemSelector> list;
   final OnItemSelect onItemSelect;
-  const ProductMultipleSelectItems(
-      {super.key, required this.list, required this.onItemSelect});
+  List<String>? itemSelect = [];
+  ProductMultipleSelectItems(
+      {super.key, required this.list, required this.onItemSelect,this.itemSelect});
 
   @override
   State<ProductMultipleSelectItems> createState() =>
@@ -20,7 +21,14 @@ class ProductMultipleSelectItems extends StatefulWidget {
 
 class _ProductMultipleSelectItemsState
     extends State<ProductMultipleSelectItems> {
-  List<String> list = [];
+
+  List<String> listItemSelect = [];
+
+  @override
+  void initState() {
+    listItemSelect = widget.itemSelect ?? [];
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Column(children: [
@@ -28,16 +36,16 @@ class _ProductMultipleSelectItemsState
           widget.list.length ?? 0,
           (itemIndex) => InkWell(
                 onTap: () {
-                  print(list.contains(widget.list[itemIndex].id.toString()).toString());
-                  print(list.toString());
+                  print(listItemSelect.contains(widget.list[itemIndex].id.toString()).toString());
+                  print(listItemSelect.toString());
                   setState(() {
-                    if (!list.contains(widget.list[itemIndex].id.toString())) {
-                      list.add(widget.list[itemIndex].id.toString());
+                    if (!listItemSelect.contains(widget.list[itemIndex].id.toString())) {
+                      listItemSelect.add(widget.list[itemIndex].id.toString());
                     } else {
-                      list.remove(widget.list[itemIndex].id.toString());
+                      listItemSelect.remove(widget.list[itemIndex].id.toString());
                     }
                   });
-                  widget.onItemSelect.call(list);
+                  widget.onItemSelect.call(listItemSelect);
                 },
                 child: Container(
                   child: Column(
@@ -70,17 +78,17 @@ class _ProductMultipleSelectItemsState
                                     return Colors.white;
                                   }),
                                   value:
-                                      list.contains(widget.list[itemIndex].id.toString()),
+                                      listItemSelect.contains(widget.list[itemIndex].id.toString()),
                                   onChanged: (bool? value) {
                                     setState(() {
-                                      if (!list
+                                      if (!listItemSelect
                                           .contains(widget.list[itemIndex].id.toString())) {
-                                        list.add(widget.list[itemIndex].id.toString());
+                                        listItemSelect.add(widget.list[itemIndex].id.toString());
                                       } else {
-                                        list.remove(widget.list[itemIndex].id.toString());
+                                        listItemSelect.remove(widget.list[itemIndex].id.toString());
                                       }
                                     });
-                                    widget.onItemSelect.call(list);
+                                    widget.onItemSelect.call(listItemSelect);
                                   },
                                 ),
                               ),
