@@ -683,6 +683,28 @@ class FetchCardDetailsUseCase
     state = StateModel.loading();
     request(() => publicApi.showCartDetails(sessionId: sessionId));
   }
+
+  void updateItem(ShowCartDetails200ResponseDataCartItemsInner cartItem){
+    final data = state.data;
+    final index = data?.data?.cartItems.indexWhere((item) => item.id == cartItem.id);
+    if(index != null && index != -1) {
+      data?.data?.cartItems[index] = cartItem;
+    }
+    state = StateModel.success(data);
+  }
+
+  void deleteItem(num cartItemId){
+    List<ShowCartDetails200ResponseDataCartItemsInner> data = (state.data?.data?.cartItems??[]).toList(growable: true);
+    final index = data.indexWhere((item) => item.id == cartItemId);
+
+    if(index != -1) {
+      data.removeAt(index);
+    }
+
+    state.data?.data?.cartItems = [...data];
+    state = StateModel.success(state.data);
+  }
+
 }
 
 class CartCalculation

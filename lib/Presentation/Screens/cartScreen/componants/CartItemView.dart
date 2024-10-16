@@ -6,20 +6,32 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:lazo_client/Presentation/Theme/AppTheme.dart';
 import 'package:lazo_client/Presentation/Widgets/CircleImage.dart';
 import 'package:lazo_client/Presentation/Widgets/SvgIcons.dart';
+import 'package:lazo_client/Utils/DelayedAction.dart';
 
 import '../../../../Constants/Eunms.dart';
 import '../../../../Data/Network/lib/api.dart';
 
+typedef OnUpdateQuantity = Function(num,num);
+typedef OnDeleteItem = Function(num);
 class CartItemView extends StatefulWidget {
+  final OnUpdateQuantity onUpdateQuantity;
+  final OnDeleteItem onDeleteItem;
   final ShowCartDetails200ResponseDataCartItemsInner? cartItem;
-  const CartItemView({super.key, required this.cartItem});
+
+  const CartItemView({super.key, required this.cartItem, required this.onUpdateQuantity, required this.onDeleteItem});
 
   @override
   State<CartItemView> createState() => _CartItemViewState();
 }
 
 class _CartItemViewState extends State<CartItemView> {
-
+  num? quantity = 1;
+  DelayedAction delayedAction = DelayedAction();
+  @override
+  void initState() {
+    quantity = widget.cartItem?.quantity;
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -28,7 +40,7 @@ class _CartItemViewState extends State<CartItemView> {
         endActionPane: ActionPane(motion: const BehindMotion(), children: [
           SlidableAction(
             onPressed: (context) {
-              print("Delete Item");
+              widget.onDeleteItem.call(widget.cartItem?.id ?? 0);
             },
             icon: Icons.delete,
             label: "Delete",
@@ -58,8 +70,7 @@ class _CartItemViewState extends State<CartItemView> {
                         height: 74,
                         initialImg: (widget.cartItem?.type ?? "") ==
                                 CartItemType.Product.name.toLowerCase()
-                            ? widget.cartItem?.product?.imagePath ??
-                                ""
+                            ? widget.cartItem?.product?.imagePath ?? ""
                             : widget.cartItem?.service?.imagePath ?? "",
                       ),
                     ),
@@ -86,8 +97,14 @@ class _CartItemViewState extends State<CartItemView> {
                           child: Text(
                             (widget.cartItem?.type ?? "") ==
                                     CartItemType.Product.name.toLowerCase()
-                                ? widget.cartItem?.product?.lists?.map((item) => item.name).join(", ") ?? ""
-                                : widget.cartItem?.service?.lists?.map((item) => item.name).join(", ") ?? "",
+                                ? widget.cartItem?.product?.lists
+                                        ?.map((item) => item.name)
+                                        .join(", ") ??
+                                    ""
+                                : widget.cartItem?.service?.lists
+                                        ?.map((item) => item.name)
+                                        .join(", ") ??
+                                    "",
                             overflow: TextOverflow.ellipsis,
                             maxLines: 2,
                             style: AppTheme
@@ -174,16 +191,36 @@ class _CartItemViewState extends State<CartItemView> {
                   children: [
                     Row(
                       children: <Widget>[
-                        SVGIcons.incrementButtonSvgIcon(),
+                        InkWell(
+                            onTap: () {
+                              setState(() {
+                                quantity = (quantity??1) + 1;
+                              });
+                              delayedAction.startTimer(Duration(seconds: 2), (){
+                                widget.onUpdateQuantity.call((widget.cartItem?.id??0),(quantity??1));
+                              });
+                            },
+                            child: SVGIcons.incrementButtonSvgIcon()),
                         Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 6),
+                          padding: const EdgeInsets.symmetric(horizontal: 8),
                           child: Text(
-                            widget.cartItem?.quantity?.toString() ?? "",
+                            quantity?.toString() ?? "",
                             style: AppTheme
                                 .styleWithTextBlackAdelleSansExtendedFonts18w500,
                           ),
                         ),
-                        SVGIcons.decrementButtonSvgIcon(),
+                        InkWell(
+                            onTap: () {
+                              if((quantity??1) > 1) {
+                                setState(() {
+                                  quantity = (quantity ?? 1) - 1;
+                                });
+                                delayedAction.startTimer(Duration(seconds: 2), (){
+                                  widget.onUpdateQuantity.call((widget.cartItem?.id??0),(quantity??1));
+                                });
+                              }
+                            },
+                            child: SVGIcons.decrementButtonSvgIcon()),
                       ],
                     ),
                     const Spacer(),
@@ -223,14 +260,13 @@ class _CartItemViewState extends State<CartItemView> {
 
   void incrementQuantity() {
     setState(() {
-      (widget.cartItem?.quantity?.toInt()??0) + 1;
+      (widget.cartItem?.quantity?.toInt() ?? 0) + 1;
     });
   }
 
   void decrementQuantity() {
     setState(() {
-      (widget.cartItem?.quantity?.toInt()??0) - 1;
+      (widget.cartItem?.quantity?.toInt() ?? 0) - 1;
     });
   }
-
 }

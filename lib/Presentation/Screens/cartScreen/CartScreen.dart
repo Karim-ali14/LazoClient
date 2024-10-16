@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -27,6 +28,7 @@ class _CartScreenState extends ConsumerState<CartScreen> {
   GiftCard? giftCartSelected;
   GiftBox? giftBoxSelected;
   String? promocode;
+  String? deleteCartItemId;
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((callback) {
@@ -57,6 +59,23 @@ class _CartScreenState extends ConsumerState<CartScreen> {
       calculateCartItems(cartId: cartId.toString());
     });
 
+    handleState(updateCartItemsStateNotifies, showLoading: true,
+        onSuccess: (res) {
+      try {
+        ref
+            .read(fetchCardDetailsStateNotifies.notifier)
+            .updateItem(res.data!.data!.cartItems.first);
+      } catch (e) {}
+    });
+
+    handleState(deleteItemCartStateNotifies, showLoading: true,
+        onSuccess: (res) {
+      try {
+        ref.read(fetchCardDetailsStateNotifies.notifier).deleteItem(num.parse(deleteCartItemId??"0"));
+        deleteCartItemId = null;
+      } catch (e) {}
+    });
+
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
@@ -69,6 +88,12 @@ class _CartScreenState extends ConsumerState<CartScreen> {
                     (index) {
                   return CartItemView(
                     cartItem: cartData.data?.data?.cartItems[index],
+                    onUpdateQuantity: (cartItemId, quantity) {
+                      updateItemQuantity(cartItemId, quantity);
+                    },
+                    onDeleteItem: (cartItemId) {
+                      deleteCartItem(cartItemId);
+                    },
                   );
                 })),
                 SizedBox(
@@ -138,7 +163,8 @@ class _CartScreenState extends ConsumerState<CartScreen> {
                 SizedBox(
                   height: 24,
                 ),
-                AppTextField( // XGFSF35
+                AppTextField(
+                  // XGFSF35
                   hint: "Enter Voucher code",
                   label: "Enter Voucher code",
                   textFieldBorderColor: AppTheme.appGrey3,
@@ -215,7 +241,8 @@ class _CartScreenState extends ConsumerState<CartScreen> {
                               .styleWithTextGray7AdelleSansExtendedFonts12w400,
                         ),
                       ),
-                      cartInfo.data?.data?.shippingFee != null && cartInfo.data?.data?.shippingFee != 0
+                      cartInfo.data?.data?.shippingFee != null &&
+                              cartInfo.data?.data?.shippingFee != 0
                           ? Padding(
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 12.0),
@@ -230,7 +257,8 @@ class _CartScreenState extends ConsumerState<CartScreen> {
                               ),
                             )
                           : SizedBox(),
-                      cartInfo.data?.data?.discountTotal != null &&cartInfo.data?.data?.discountTotal != 0
+                      cartInfo.data?.data?.discountTotal != null &&
+                              cartInfo.data?.data?.discountTotal != 0
                           ? Padding(
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 12.0),
@@ -280,7 +308,8 @@ class _CartScreenState extends ConsumerState<CartScreen> {
   }
 
   void calculateCartItems({String? cartId}) {
-    print("cartId :$cartId giftCardId: ${giftCartSelected?.id} giftBoxId: ${giftBoxSelected?.id}");
+    print(
+        "cartId :$cartId giftCardId: ${giftCartSelected?.id} giftBoxId: ${giftBoxSelected?.id}");
     ref.read(cartCalculationStateNotifies.notifier).cartCalculation(
         cartId: cartId,
         promocode: promocode,
@@ -292,5 +321,17 @@ class _CartScreenState extends ConsumerState<CartScreen> {
     ref
         .read(showPromoCodeDetailsStateNotifies.notifier)
         .showPromoCodeDetails(code: voucherTextController.text);
+  }
+
+  void updateItemQuantity(num cartItemId, num quantity) {
+    ref.read(updateCartItemsStateNotifies.notifier).updateCartItems(
+        cartItemId: cartItemId.toString(), quantity: quantity.toString());
+  }
+
+  void deleteCartItem(num cartItemId) {
+    deleteCartItemId = cartItemId.toString();
+    ref
+        .read(deleteItemCartStateNotifies.notifier)
+        .deleteItemCart(cartItemId: cartItemId.toString());
   }
 }
