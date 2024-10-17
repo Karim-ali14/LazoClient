@@ -3335,6 +3335,17 @@ components:
         updated_at:
           type: string
           example: '2024-05-04T14:51:44.000000Z'
+        client_selected_items_in_cart:
+          nullable: true
+          type: array
+          items:
+            $ref: '#/components/schemas/ServiceListItem'
+        client_selected_items_in_order:
+          nullable: true
+          type: array
+          items:
+            $ref: '#/components/schemas/ServiceListItem'
+
 
     ServiceListItem:
       type: object
@@ -3346,6 +3357,7 @@ components:
           type: number
           example: 10
         name:
+          nullable: true
           type: string
           example: الاولي
         name_ar:

@@ -120,10 +120,10 @@ class _CartScreenState extends ConsumerState<CartScreen> {
                               },
                               onDeleteItem: (cartItemId) {
                                 deleteCartItem(cartItemId);
-                              }, onEditProduct:(product) {
-                                navigateToItemDetails(ItemType.Products, product, null);
-                              },onEditService: (service){
-                              navigateToItemDetails(ItemType.Services, null, service);
+                              }, onEditProduct:(product,cartId) {
+                                navigateToItemDetails(ItemType.Products, product, null,cartId);
+                              },onEditService: (service,cartId){
+                              navigateToItemDetails(ItemType.Services, null, service,cartId);
 
                             },
                             ),
@@ -388,7 +388,7 @@ class _CartScreenState extends ConsumerState<CartScreen> {
   }
 
   void navigateToItemDetails(
-      ItemType itemType,ProductDetails? product,ServiceShowData? service) {
+      ItemType itemType,ProductDetails? product,ServiceShowData? service,int cartId) {
     var itemId = itemType == ItemType.Products ? product?.id : service?.id;
     var itemName = itemType == ItemType.Products ? product?.name : service?.name;
     var categoriesIds = itemType == ItemType.Products
@@ -404,7 +404,8 @@ class _CartScreenState extends ConsumerState<CartScreen> {
       "name": itemName,
       "categoryIds": categoriesIds,
       "product" : product,
-      "service" : service
+      "service" : service,
+      "cartId" : cartId
     });
   }
 }

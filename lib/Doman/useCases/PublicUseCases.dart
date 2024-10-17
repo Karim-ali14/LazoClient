@@ -473,9 +473,14 @@ class GetServiceDetailsUseCase
 
   void getServiceDetails({
     String? serviceId,
+    ServiceShowData? service
   }) {
     state = StateModel.loading();
-    request(() => publicApi.showServiceDetails(serviceId: serviceId));
+    request(() => publicApi.showServiceDetails(serviceId: serviceId),onComplete: (res){
+      if(service != null){
+        res.data?.lists = [...?service.lists];
+      }
+    });
   }
 
   void handelAddServiceToCart(num serviceId) {

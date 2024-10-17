@@ -262,6 +262,7 @@ class MyApp extends ConsumerWidget {
               itemType: extra["type"] as ItemType,
               productDetails: extra["product"],
               serviceShowData: extra["service"],
+              cartId: extra["cartId"],
             );
           }),
       GoRoute(

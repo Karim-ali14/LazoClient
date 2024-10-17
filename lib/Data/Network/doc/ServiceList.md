@@ -19,6 +19,8 @@ Name | Type | Description | Notes
 **serviceId** | **num** |  | [optional] 
 **totalPrice** | **num** |  | [optional] 
 **updatedAt** | **String** |  | [optional] 
+**clientSelectedItemsInCart** | [**List<ServiceListItem>**](ServiceListItem.md) |  | [optional] [default to const []]
+**clientSelectedItemsInOrder** | [**List<ServiceListItem>**](ServiceListItem.md) |  | [optional] [default to const []]
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

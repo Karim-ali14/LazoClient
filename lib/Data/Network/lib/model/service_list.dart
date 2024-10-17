@@ -24,6 +24,8 @@ class ServiceList {
     this.serviceId,
     this.totalPrice,
     this.updatedAt,
+    this.clientSelectedItemsInCart = const [],
+    this.clientSelectedItemsInOrder = const [],
   });
 
   ///
@@ -108,6 +110,10 @@ class ServiceList {
   ///
   String? updatedAt;
 
+  List<ServiceListItem>? clientSelectedItemsInCart;
+
+  List<ServiceListItem>? clientSelectedItemsInOrder;
+
   @override
   bool operator ==(Object other) => identical(this, other) || other is ServiceList &&
      other.createdAt == createdAt &&
@@ -120,7 +126,9 @@ class ServiceList {
      other.nameEn == nameEn &&
      other.serviceId == serviceId &&
      other.totalPrice == totalPrice &&
-     other.updatedAt == updatedAt;
+     other.updatedAt == updatedAt &&
+     other.clientSelectedItemsInCart == clientSelectedItemsInCart &&
+     other.clientSelectedItemsInOrder == clientSelectedItemsInOrder;
 
   @override
   int get hashCode =>
@@ -135,10 +143,12 @@ class ServiceList {
     (nameEn == null ? 0 : nameEn!.hashCode) +
     (serviceId == null ? 0 : serviceId!.hashCode) +
     (totalPrice == null ? 0 : totalPrice!.hashCode) +
-    (updatedAt == null ? 0 : updatedAt!.hashCode);
+    (updatedAt == null ? 0 : updatedAt!.hashCode) +
+    (clientSelectedItemsInCart == null ? 0 : clientSelectedItemsInCart!.hashCode) +
+    (clientSelectedItemsInOrder == null ? 0 : clientSelectedItemsInOrder!.hashCode);
 
   @override
-  String toString() => 'ServiceList[createdAt=$createdAt, id=$id, isMultiSelectable=$isMultiSelectable, items=$items, maxSelectableItemsNumber=$maxSelectableItemsNumber, name=$name, nameAr=$nameAr, nameEn=$nameEn, serviceId=$serviceId, totalPrice=$totalPrice, updatedAt=$updatedAt]';
+  String toString() => 'ServiceList[createdAt=$createdAt, id=$id, isMultiSelectable=$isMultiSelectable, items=$items, maxSelectableItemsNumber=$maxSelectableItemsNumber, name=$name, nameAr=$nameAr, nameEn=$nameEn, serviceId=$serviceId, totalPrice=$totalPrice, updatedAt=$updatedAt, clientSelectedItemsInCart=$clientSelectedItemsInCart, clientSelectedItemsInOrder=$clientSelectedItemsInOrder]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -193,6 +203,16 @@ class ServiceList {
     } else {
       json[r'updated_at'] = null;
     }
+    if (this.clientSelectedItemsInCart != null) {
+      json[r'client_selected_items_in_cart'] = this.clientSelectedItemsInCart;
+    } else {
+      json[r'client_selected_items_in_cart'] = null;
+    }
+    if (this.clientSelectedItemsInOrder != null) {
+      json[r'client_selected_items_in_order'] = this.clientSelectedItemsInOrder;
+    } else {
+      json[r'client_selected_items_in_order'] = null;
+    }
     return json;
   }
 
@@ -236,6 +256,8 @@ class ServiceList {
             ? null
             : num.parse(json[r'total_price'].toString()),
         updatedAt: mapValueOfType<String>(json, r'updated_at'),
+        clientSelectedItemsInCart: ServiceListItem.listFromJson(json[r'client_selected_items_in_cart']),
+        clientSelectedItemsInOrder: ServiceListItem.listFromJson(json[r'client_selected_items_in_order']),
       );
     }
     return null;

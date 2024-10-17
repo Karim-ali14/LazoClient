@@ -10,8 +10,9 @@ typedef OnItemSelect = Function(ItemSelector?,int);
 class ProductSingleSelectItems extends StatefulWidget {
   final List<ItemSelector> list;
   final OnItemSelect onItemSelect;
+  final int? itemSelectedId;
   const ProductSingleSelectItems(
-      {super.key, required this.list, required this.onItemSelect});
+      {super.key, required this.list, required this.onItemSelect,this.itemSelectedId});
 
   @override
   State<ProductSingleSelectItems> createState() =>
@@ -20,7 +21,13 @@ class ProductSingleSelectItems extends StatefulWidget {
 
 class _ProductSingleSelectItemsState
     extends State<ProductSingleSelectItems> {
+
   int? itemSelectedId = null;
+  @override
+  void initState() {
+    itemSelectedId = widget.itemSelectedId;
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Column(children: [

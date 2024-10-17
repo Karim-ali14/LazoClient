@@ -14,8 +14,8 @@ import '../../../../Data/Network/lib/api.dart';
 
 typedef OnUpdateQuantity = Function(num,num);
 typedef OnDeleteItem = Function(num);
-typedef OnEditProduct = Function(ProductDetails?);
-typedef OnEditService = Function(ServiceShowData?);
+typedef OnEditProduct = Function(ProductDetails?,int);
+typedef OnEditService = Function(ServiceShowData?,int);
 class CartItemView extends StatefulWidget {
   final OnUpdateQuantity onUpdateQuantity;
   final OnDeleteItem onDeleteItem;
@@ -262,9 +262,9 @@ class _CartItemViewState extends State<CartItemView> {
                         onTap: (){
                           if((widget.cartItem?.type ?? "") ==
                               CartItemType.Product.name.toLowerCase()){
-                            widget.onEditProduct?.call(widget.cartItem?.product);
+                            widget.onEditProduct?.call(widget.cartItem?.product,(widget.cartItem?.cartId ?? 0).toInt());
                           }else {
-                            widget.onEditService?.call(widget.cartItem?.service);
+                            widget.onEditService?.call(widget.cartItem?.service,(widget.cartItem?.cartId ?? 0).toInt());
                           }
                         },
                         child: Container(
