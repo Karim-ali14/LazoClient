@@ -276,6 +276,22 @@ class SVGIcons {
       callingImg,
     );
   }
+  static Widget calendarImageIcon(){
+    return SvgPicture.asset(
+      calendarImage,
+      width: 24,
+      height: 24,
+      fit: BoxFit.scaleDown,
+    );
+  }
+  static Widget timeCircleIcon(){
+    return SvgPicture.asset(
+      timeCircle,
+      width: 24,
+      height: 24,
+      fit: BoxFit.scaleDown,
+    );
+  }
   static Widget sadFaceIcon(){
     return SvgPicture.asset(
       sadFaceImg,

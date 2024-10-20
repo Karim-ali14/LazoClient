@@ -95,3 +95,23 @@ class _DialogBody extends StatelessWidget {
     );
   }
 }
+
+class SelectorDialogList extends StatefulWidget {
+  const SelectorDialogList({super.key});
+
+  @override
+  State<SelectorDialogList> createState() => _SelectorDialogListState();
+}
+
+class _SelectorDialogListState extends State<SelectorDialogList> {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        color: CupertinoColors.white,
+        borderRadius: BorderRadius.only(topLeft: Radius.circular(16),topRight: Radius.circular(16))
+      ),
+    );
+  }
+}
+

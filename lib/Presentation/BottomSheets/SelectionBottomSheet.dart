@@ -1,4 +1,3 @@
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -12,12 +11,14 @@ import '../Widgets/AppTextField.dart';
 import '../Widgets/SvgIcons.dart';
 
 typedef SelectionCallBack = void Function(int);
+
 class SelectionBottomSheetItem {
   final String item;
   bool? disabled;
   final Color? color;
-  SelectionBottomSheetItem({required this.item,this.disabled,this.color});
+  SelectionBottomSheetItem({required this.item, this.disabled, this.color});
 }
+
 class SelectionBottomSheet extends StatefulWidget {
   final int? initialValue;
   final SelectionCallBack onSelection;
@@ -32,7 +33,9 @@ class SelectionBottomSheet extends StatefulWidget {
       required this.items,
       required this.header,
       this.initialValue,
-      this.directSelection,this.searchEnabled,this.searchHint});
+      this.directSelection,
+      this.searchEnabled,
+      this.searchHint});
 
   @override
   State<SelectionBottomSheet> createState() => _SelectionBottomSheetState();
@@ -66,28 +69,33 @@ class _SelectionBottomSheetState extends State<SelectionBottomSheet> {
         const SizedBox(
           height: 25,
         ),
-        if(widget.searchEnabled == true) Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: AppTextField(
-            hint: widget.searchHint ?? "",
-            label: widget.searchHint ?? "",
-            maxLines: 1,
-            textEditingController: textEditingController,
-            startWidget:
-            IconButton(onPressed: () {}, icon: SVGIcons.searchIcon()),
-            changeValueCallback: (value){
-              setState(() {
-                items = widget.items.where((element) => element.item.toLowerCase().startsWith(value.toLowerCase())).toList();
-              });
-            },
+        if (widget.searchEnabled == true)
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: AppTextField(
+              hint: widget.searchHint ?? "",
+              label: widget.searchHint ?? "",
+              maxLines: 1,
+              textEditingController: textEditingController,
+              startWidget:
+                  IconButton(onPressed: () {}, icon: SVGIcons.searchIcon()),
+              changeValueCallback: (value) {
+                setState(() {
+                  items = widget.items
+                      .where((element) => element.item
+                          .toLowerCase()
+                          .startsWith(value.toLowerCase()))
+                      .toList();
+                });
+              },
+            ),
           ),
-        ),
         Expanded(
           child: ListView.separated(
             shrinkWrap: true,
             itemCount: items.length,
             itemBuilder: (context, index) => IgnorePointer(
-              ignoring: items[index].disabled == true ,
+              ignoring: items[index].disabled == true,
               child: Row(
                 children: [
                   Transform.scale(
@@ -95,40 +103,56 @@ class _SelectionBottomSheetState extends State<SelectionBottomSheet> {
                     child: Radio(
                         value: index,
                         groupValue: groupValue,
-                        fillColor: MaterialStateProperty.all(groupValue == index
-                            ? AppTheme.mainAppColorLight
-                            : AppTheme.appGrey3),
+                        activeColor: AppTheme.mainAppColor,
+                        fillColor: MaterialStateProperty.resolveWith((states) {
+                          // active
+                          if (states.contains(MaterialState.selected)) {
+                            return AppTheme.mainAppColor;
+                          }
+                          // inactive
+                          return AppTheme.appGrey10;
+                        }),
                         onChanged: select),
                   ),
                   Expanded(
                     child: GestureDetector(
-                      onTap: (){
+                      onTap: () {
                         select(index);
                       },
                       child: Text(
                         items[index].item,
                         style: AppTheme.appTextTheme.bodyMedium?.copyWith(
-                            color: items[index].disabled == true ? AppTheme.appGrey3 : Colors.black),
+                            color: items[index].disabled == true
+                                ? AppTheme.appGrey3
+                                : Colors.black),
                       ),
                     ),
                   )
                 ],
               ),
             ),
-            separatorBuilder: (BuildContext context, int index) => const Divider(
+            separatorBuilder: (BuildContext context, int index) =>
+                const Divider(
               color: AppTheme.appGrey3,
               indent: 30,
               endIndent: 30,
             ),
           ),
         ),
-        if(widget.directSelection != true) Padding(
-          padding: const EdgeInsets.symmetric(horizontal: defaultPaddingHorizontal),
-          child: AppButton(onPress: (){
-            widget.onSelection(groupValue);
-            context.pop();
-          } , text: "done" ,width: context.getScreenSize.width,),
-        ),
+        if (widget.directSelection != true)
+          Padding(
+            padding: const EdgeInsets.symmetric(
+                horizontal: defaultPaddingHorizontal),
+            child: AppButton(
+              height: 46,
+              onPress: () {
+                widget.onSelection(groupValue);
+                context.pop();
+              },
+              text: "Done",
+              width: context.getScreenSize.width,
+            ),
+          ),
         const SizedBox(
           height: 30,
         ),
@@ -139,7 +163,7 @@ class _SelectionBottomSheetState extends State<SelectionBottomSheet> {
   void select(val) {
     setState(() => groupValue = val ?? 0);
 
-    if(widget.directSelection == true){
+    if (widget.directSelection == true) {
       widget.onSelection(groupValue);
       context.pop();
     }
@@ -148,16 +172,21 @@ class _SelectionBottomSheetState extends State<SelectionBottomSheet> {
 
 void showBottomSheetSelection(BuildContext context, String header,
     List<SelectionBottomSheetItem> items, SelectionCallBack onSelection,
-    {int? initialValue, bool? directSelection,String? searchHint,bool? searchEnabled}) {
+    {int? initialValue,
+    bool? directSelection,
+    String? searchHint,
+    num? heightPresent = 0.34,
+    bool? searchEnabled}) {
   showModalBottomSheet(
       context: context,
       isScrollControlled: true,
       builder: (context) => Padding(
-        padding: EdgeInsets.only(
-            bottom: MediaQuery.of(context).viewInsets.bottom),
-        child: ConstrainedBox(
-          constraints: BoxConstraints(maxHeight: context.getScreenSize.height * 0.6),
-          child: SelectionBottomSheet(
+            padding: EdgeInsets.only(
+                bottom: MediaQuery.of(context).viewInsets.bottom),
+            child: ConstrainedBox(
+              constraints: BoxConstraints(
+                  maxHeight: context.getScreenSize.height * num.parse(heightPresent.toString())),
+              child: SelectionBottomSheet(
                 header: header,
                 items: items,
                 onSelection: onSelection,
@@ -166,8 +195,8 @@ void showBottomSheetSelection(BuildContext context, String header,
                 initialValue: initialValue,
                 directSelection: directSelection,
               ),
-        ),
-      ),
+            ),
+          ),
       shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
               topLeft: Radius.circular(10), topRight: Radius.circular(10))));

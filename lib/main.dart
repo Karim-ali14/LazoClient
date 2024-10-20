@@ -316,6 +316,11 @@ class MyApp extends ConsumerWidget {
           path: R_CartScreen,
           builder: (BuildContext context, GoRouterState state) =>
               const CartScreen()),
+
+      GoRoute(
+          path: R_CheckoutScreen,
+          builder: (BuildContext context, GoRouterState state) =>
+              const CheckoutScreen()),
     ],
   );
 }

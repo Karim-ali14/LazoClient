@@ -69,4 +69,6 @@ const decrementButtonIconSvg = "assets/images/decrement_button.svg";
 const incrementButtonIconSvg = "assets/images/increment_button.svg";
 const voucherIconSvg = "assets/images/voucher_ic.svg";
 const noCartItems = "assets/images/no_cart_items.gif";
+const calendarImage = "assets/images/calendar_image.svg";
+const timeCircle = "assets/images/time_circle.svg";
 

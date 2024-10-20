@@ -349,7 +349,9 @@ class _CartScreenState extends ConsumerState<CartScreen> {
                             text: "Check Out",
                             width: double.infinity,
                             height: 46,
-                            onPress: () {})
+                            onPress: () {
+                              checkout();
+                            })
                       ],
                     ),
                   ),
@@ -407,5 +409,9 @@ class _CartScreenState extends ConsumerState<CartScreen> {
       "service" : service,
       "cartId" : cartId
     });
+  }
+
+  void checkout() {
+    context.push(R_CheckoutScreen);
   }
 }

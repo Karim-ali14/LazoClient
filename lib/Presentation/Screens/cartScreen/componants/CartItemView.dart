@@ -262,9 +262,9 @@ class _CartItemViewState extends State<CartItemView> {
                         onTap: (){
                           if((widget.cartItem?.type ?? "") ==
                               CartItemType.Product.name.toLowerCase()){
-                            widget.onEditProduct?.call(widget.cartItem?.product,(widget.cartItem?.cartId ?? 0).toInt());
+                            widget.onEditProduct?.call(widget.cartItem?.product,(widget.cartItem?.id ?? 0).toInt());
                           }else {
-                            widget.onEditService?.call(widget.cartItem?.service,(widget.cartItem?.cartId ?? 0).toInt());
+                            widget.onEditService?.call(widget.cartItem?.service,(widget.cartItem?.id ?? 0).toInt());
                           }
                         },
                         child: Container(

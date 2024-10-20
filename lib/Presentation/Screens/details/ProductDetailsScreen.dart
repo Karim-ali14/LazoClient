@@ -1289,7 +1289,7 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
           .map((value) => value.join(","))
           .join("|");
     }
-    print("$parentItemIds  ,  $childItemIds");
+    print("$parentItemIds  ,  $childItemIds  , $id");
     ref.read(updateCartItemsStateNotifies.notifier).updateCartItems(
         cartItemId: id.toString(),
         productSelectedListIds: parentItemIds,
