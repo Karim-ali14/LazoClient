@@ -7,6 +7,7 @@ import 'package:lazo_client/Data/Network/lib/api.dart';
 import 'package:lazo_client/Presentation/Screens/FilterScreen.dart';
 import 'package:lazo_client/Presentation/Screens/Auth/LoginSreen.dart';
 import 'package:lazo_client/Presentation/Screens/Auth/SignUpScreen.dart';
+import 'package:lazo_client/Presentation/Screens/GoogleMapScreen.dart';
 import 'package:lazo_client/Presentation/Screens/More/PrivacyAndPolicyScreen.dart';
 import 'package:lazo_client/Presentation/Screens/More/TermsAndConditionsScreen.dart';
 import 'package:lazo_client/Presentation/Screens/cartScreen/CartScreen.dart';
@@ -157,7 +158,7 @@ class MyApp extends ConsumerWidget {
       GoRoute(
         path: R_splashScreenRout,
         builder: (BuildContext context, GoRouterState state) =>
-            const SplashScreen(),
+            const GoogleMapScreen(),
       ),
       GoRoute(
         path: R_OnBoardingScreen,
