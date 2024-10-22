@@ -19,6 +19,8 @@ class AddProductServiceToCartCartItem200ResponseDataCartItemsInner {
     this.id,
     this.listsTotalPrice,
     this.price,
+    this.cartItemTotalBeforeDiscount,
+    this.cartItemTotalAfterDiscount,
     this.product,
     this.productId,
     this.quantity,
@@ -70,7 +72,29 @@ class AddProductServiceToCartCartItem200ResponseDataCartItemsInner {
   ///
   num? price;
 
-  AddProductServiceToCartCartItem200ResponseDataCartItemsInnerProduct? product;
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  num? cartItemTotalBeforeDiscount;
+
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  num? cartItemTotalAfterDiscount;
+
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  ProductDetails? product;
 
   num? productId;
 
@@ -90,7 +114,13 @@ class AddProductServiceToCartCartItem200ResponseDataCartItemsInner {
   ///
   String? type;
 
-  AddProductServiceToCartCartItem200ResponseDataCartItemsInnerService? service;
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  ServiceShowData? service;
 
   num? serviceId;
 
@@ -110,6 +140,8 @@ class AddProductServiceToCartCartItem200ResponseDataCartItemsInner {
      other.id == id &&
      other.listsTotalPrice == listsTotalPrice &&
      other.price == price &&
+     other.cartItemTotalBeforeDiscount == cartItemTotalBeforeDiscount &&
+     other.cartItemTotalAfterDiscount == cartItemTotalAfterDiscount &&
      other.product == product &&
      other.productId == productId &&
      other.quantity == quantity &&
@@ -127,6 +159,8 @@ class AddProductServiceToCartCartItem200ResponseDataCartItemsInner {
     (id == null ? 0 : id!.hashCode) +
     (listsTotalPrice == null ? 0 : listsTotalPrice!.hashCode) +
     (price == null ? 0 : price!.hashCode) +
+    (cartItemTotalBeforeDiscount == null ? 0 : cartItemTotalBeforeDiscount!.hashCode) +
+    (cartItemTotalAfterDiscount == null ? 0 : cartItemTotalAfterDiscount!.hashCode) +
     (product == null ? 0 : product!.hashCode) +
     (productId == null ? 0 : productId!.hashCode) +
     (quantity == null ? 0 : quantity!.hashCode) +
@@ -136,7 +170,7 @@ class AddProductServiceToCartCartItem200ResponseDataCartItemsInner {
     (updatedAt == null ? 0 : updatedAt!.hashCode);
 
   @override
-  String toString() => 'AddProductServiceToCartCartItem200ResponseDataCartItemsInner[cardPrice=$cardPrice, cartId=$cartId, createdAt=$createdAt, id=$id, listsTotalPrice=$listsTotalPrice, price=$price, product=$product, productId=$productId, quantity=$quantity, type=$type, service=$service, serviceId=$serviceId, updatedAt=$updatedAt]';
+  String toString() => 'AddProductServiceToCartCartItem200ResponseDataCartItemsInner[cardPrice=$cardPrice, cartId=$cartId, createdAt=$createdAt, id=$id, listsTotalPrice=$listsTotalPrice, price=$price, cartItemTotalBeforeDiscount=$cartItemTotalBeforeDiscount, cartItemTotalAfterDiscount=$cartItemTotalAfterDiscount, product=$product, productId=$productId, quantity=$quantity, type=$type, service=$service, serviceId=$serviceId, updatedAt=$updatedAt]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -169,6 +203,16 @@ class AddProductServiceToCartCartItem200ResponseDataCartItemsInner {
       json[r'price'] = this.price;
     } else {
       json[r'price'] = null;
+    }
+    if (this.cartItemTotalBeforeDiscount != null) {
+      json[r'cart_item_total_before_discount'] = this.cartItemTotalBeforeDiscount;
+    } else {
+      json[r'cart_item_total_before_discount'] = null;
+    }
+    if (this.cartItemTotalAfterDiscount != null) {
+      json[r'cart_item_total_after_discount'] = this.cartItemTotalAfterDiscount;
+    } else {
+      json[r'cart_item_total_after_discount'] = null;
     }
     if (this.product != null) {
       json[r'product'] = this.product;
@@ -243,7 +287,13 @@ class AddProductServiceToCartCartItem200ResponseDataCartItemsInner {
         price: json[r'price'] == null
             ? null
             : num.parse(json[r'price'].toString()),
-        product: AddProductServiceToCartCartItem200ResponseDataCartItemsInnerProduct.fromJson(json[r'product']),
+        cartItemTotalBeforeDiscount: json[r'cart_item_total_before_discount'] == null
+            ? null
+            : num.parse(json[r'cart_item_total_before_discount'].toString()),
+        cartItemTotalAfterDiscount: json[r'cart_item_total_after_discount'] == null
+            ? null
+            : num.parse(json[r'cart_item_total_after_discount'].toString()),
+        product: ProductDetails.fromJson(json[r'product']),
         productId: json[r'product_id'] == null
             ? null
             : num.parse(json[r'product_id'].toString()),
@@ -251,7 +301,7 @@ class AddProductServiceToCartCartItem200ResponseDataCartItemsInner {
             ? null
             : num.parse(json[r'quantity'].toString()),
         type: mapValueOfType<String>(json, r'type'),
-        service: AddProductServiceToCartCartItem200ResponseDataCartItemsInnerService.fromJson(json[r'service']),
+        service: ServiceShowData.fromJson(json[r'service']),
         serviceId: json[r'service_id'] == null
             ? null
             : num.parse(json[r'service_id'].toString()),

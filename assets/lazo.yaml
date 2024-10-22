@@ -7985,6 +7985,10 @@ paths:
                               example: 4
                             type:
                               type: string
+                            cart_item_total_before_discount:
+                              type: number
+                            cart_item_total_after_discount:
+                              type: number
                             service:
                               nullable: true
                               $ref: '#/components/schemas/ServiceShowData'
@@ -8155,6 +8159,10 @@ paths:
                               example: 4
                             type:
                               type: string
+                            cart_item_total_before_discount:
+                              type: number
+                            cart_item_total_after_discount:
+                              type: number
                             service:
                               nullable: true
                               $ref: '#/components/schemas/ServiceShowData'
@@ -8317,6 +8325,10 @@ paths:
                               example: 4
                             type:
                               type: string
+                            cart_item_total_before_discount:
+                              type: number
+                            cart_item_total_after_discount:
+                              type: number
                             service:
                               nullable: true
                               $ref: '#/components/schemas/ServiceShowData'

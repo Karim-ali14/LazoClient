@@ -23,6 +23,8 @@ class ShowCartDetails200ResponseDataCartItemsInner {
     this.productId,
     this.quantity,
     this.type,
+    this.cartItemTotalBeforeDiscount,
+    this.cartItemTotalAfterDiscount,
     this.service,
     this.serviceId,
     this.updatedAt,
@@ -102,6 +104,22 @@ class ShowCartDetails200ResponseDataCartItemsInner {
   /// source code must fall back to having a nullable type.
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
+  num? cartItemTotalBeforeDiscount;
+
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  num? cartItemTotalAfterDiscount;
+
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
   ServiceShowData? service;
 
   num? serviceId;
@@ -126,6 +144,8 @@ class ShowCartDetails200ResponseDataCartItemsInner {
      other.productId == productId &&
      other.quantity == quantity &&
      other.type == type &&
+     other.cartItemTotalBeforeDiscount == cartItemTotalBeforeDiscount &&
+     other.cartItemTotalAfterDiscount == cartItemTotalAfterDiscount &&
      other.service == service &&
      other.serviceId == serviceId &&
      other.updatedAt == updatedAt;
@@ -143,12 +163,14 @@ class ShowCartDetails200ResponseDataCartItemsInner {
     (productId == null ? 0 : productId!.hashCode) +
     (quantity == null ? 0 : quantity!.hashCode) +
     (type == null ? 0 : type!.hashCode) +
+    (cartItemTotalBeforeDiscount == null ? 0 : cartItemTotalBeforeDiscount!.hashCode) +
+    (cartItemTotalAfterDiscount == null ? 0 : cartItemTotalAfterDiscount!.hashCode) +
     (service == null ? 0 : service!.hashCode) +
     (serviceId == null ? 0 : serviceId!.hashCode) +
     (updatedAt == null ? 0 : updatedAt!.hashCode);
 
   @override
-  String toString() => 'ShowCartDetails200ResponseDataCartItemsInner[cardPrice=$cardPrice, cartId=$cartId, createdAt=$createdAt, id=$id, listsTotalPrice=$listsTotalPrice, price=$price, product=$product, productId=$productId, quantity=$quantity, type=$type, service=$service, serviceId=$serviceId, updatedAt=$updatedAt]';
+  String toString() => 'ShowCartDetails200ResponseDataCartItemsInner[cardPrice=$cardPrice, cartId=$cartId, createdAt=$createdAt, id=$id, listsTotalPrice=$listsTotalPrice, price=$price, product=$product, productId=$productId, quantity=$quantity, type=$type, cartItemTotalBeforeDiscount=$cartItemTotalBeforeDiscount, cartItemTotalAfterDiscount=$cartItemTotalAfterDiscount, service=$service, serviceId=$serviceId, updatedAt=$updatedAt]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -201,6 +223,16 @@ class ShowCartDetails200ResponseDataCartItemsInner {
       json[r'type'] = this.type;
     } else {
       json[r'type'] = null;
+    }
+    if (this.cartItemTotalBeforeDiscount != null) {
+      json[r'cart_item_total_before_discount'] = this.cartItemTotalBeforeDiscount;
+    } else {
+      json[r'cart_item_total_before_discount'] = null;
+    }
+    if (this.cartItemTotalAfterDiscount != null) {
+      json[r'cart_item_total_after_discount'] = this.cartItemTotalAfterDiscount;
+    } else {
+      json[r'cart_item_total_after_discount'] = null;
     }
     if (this.service != null) {
       json[r'service'] = this.service;
@@ -263,6 +295,12 @@ class ShowCartDetails200ResponseDataCartItemsInner {
             ? null
             : num.parse(json[r'quantity'].toString()),
         type: mapValueOfType<String>(json, r'type'),
+        cartItemTotalBeforeDiscount: json[r'cart_item_total_before_discount'] == null
+            ? null
+            : num.parse(json[r'cart_item_total_before_discount'].toString()),
+        cartItemTotalAfterDiscount: json[r'cart_item_total_after_discount'] == null
+            ? null
+            : num.parse(json[r'cart_item_total_after_discount'].toString()),
         service: ServiceShowData.fromJson(json[r'service']),
         serviceId: json[r'service_id'] == null
             ? null

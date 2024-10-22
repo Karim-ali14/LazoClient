@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:lazo_client/Constants.dart';
 import 'package:lazo_client/Presentation/BottomSheets/SelectionBottomSheet.dart';
+import 'package:lazo_client/Presentation/StateNotifiersViewModel/ClientStateNotifiers.dart';
 import 'package:lazo_client/Presentation/Widgets/CustomAppBar.dart';
 import 'package:lazo_client/Utils/LocationHandler.dart';
 
@@ -35,6 +36,7 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
   final messageToController = TextEditingController();
   final messageController = TextEditingController();
   bool _enable = false;
+  bool _enableIsSecret = false;
 
   DateTime? _selectedDate;
   int? selectTypeOfSend;
@@ -48,6 +50,8 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
     SelectionBottomSheetItem(item: "9:00 AM to 3:00 PM"),
     SelectionBottomSheetItem(item: "3:00 PM to 12:00 AM")
   ];
+  final formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     var cartInfo = ref.watch(cartCalculationStateNotifies);
@@ -62,6 +66,7 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
           child: Padding(
         padding: const EdgeInsets.all(defaultPaddingHorizontal),
         child: Form(
+          key: formKey,
           child: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -267,7 +272,7 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                 const SizedBox(
                   height: defaultPaddingHorizontal,
                 ),
-                AppTextField(
+                AppTextField( // 13/5/2024
                   endWidget: InkWell(
                       onTap: () {
                         print("object");
@@ -335,10 +340,10 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                           ),
                           Spacer(),
                           CustomSwitch(
-                            value: _enable,
+                            value: _enableIsSecret,
                             onChanged: (bool val) {
                               setState(() {
-                                _enable = val;
+                                _enableIsSecret = val;
                               });
                             },
                           ),
@@ -452,7 +457,7 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                     width: double.infinity,
                     height: 46,
                     onPress: () {
-                      // checkout();
+                      createOrder();
                     })
               ],
             ),
@@ -498,6 +503,14 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
       selectedLocation = location as LatLng?;
       var address = await LocationHandler.getAddressFromLatLng(selectedLocation!);
       locationController.text = address;
+    }
+  }
+
+  void createOrder(){
+    if (formKey.currentState?.validate() == true) {
+      ref.read(createOrderStateNotifiers.notifier).createOrder(
+        isIdentitySecret: _enableIsSecret == true ? "1" : "0"
+      );
     }
   }
 }

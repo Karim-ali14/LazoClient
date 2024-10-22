@@ -18,6 +18,8 @@ Name | Type | Description | Notes
 **productId** | **num** |  | [optional] 
 **quantity** | **num** |  | [optional] 
 **type** | **String** |  | [optional] 
+**cartItemTotalBeforeDiscount** | **num** |  | [optional] 
+**cartItemTotalAfterDiscount** | **num** |  | [optional] 
 **service** | [**ServiceShowData**](ServiceShowData.md) |  | [optional] 
 **serviceId** | **num** |  | [optional] 
 **updatedAt** | **String** |  | [optional] 
