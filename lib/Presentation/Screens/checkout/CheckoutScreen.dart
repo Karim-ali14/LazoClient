@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:lazo_client/Constants.dart';
@@ -8,19 +9,22 @@ import 'package:lazo_client/Presentation/Widgets/CustomAppBar.dart';
 import 'package:lazo_client/Utils/LocationHandler.dart';
 
 import '../../../Constants/Constants.dart';
+import '../../StateNotifiersViewModel/PublicStateNotifiers.dart';
 import '../../Theme/AppTheme.dart';
+import '../../Widgets/AppButton.dart';
 import '../../Widgets/AppTextField.dart';
 import '../../Widgets/SvgIcons.dart';
 import '../cartScreen/componants/CustomSwitch.dart';
+import '../details/componants/ProductRowItem.dart';
 
-class CheckoutScreen extends StatefulWidget {
+class CheckoutScreen extends ConsumerStatefulWidget {
   const CheckoutScreen({super.key});
 
   @override
-  State<CheckoutScreen> createState() => _CheckoutScreenState();
+  ConsumerState<CheckoutScreen> createState() => _CheckoutScreenState();
 }
 
-class _CheckoutScreenState extends State<CheckoutScreen> {
+class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
   final sendTypeController = TextEditingController();
   final calenderController = TextEditingController();
   final timeController = TextEditingController();
@@ -41,6 +45,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   ];
   @override
   Widget build(BuildContext context) {
+    var cartInfo = ref.watch(cartCalculationStateNotifies);
     return Scaffold(
       appBar: CustomAppBar(
         appContext: context,
@@ -360,6 +365,104 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                     ],
                   ),
                 ),
+                SizedBox(
+                  height: 24,
+                ),
+                Text(
+                  "Payment Summary",
+                  style: AppTheme
+                      .styleWithTextBlackAdelleSansExtendedFonts18w700,
+                ),
+                SizedBox(
+                  height: 24,
+                ),
+                Container(
+                  padding: EdgeInsets.symmetric(vertical: 5),
+                  clipBehavior: Clip.antiAlias,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(4),
+                    border: Border.all(color: AppTheme.appGrey8),
+                    color: Colors.white,
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding:
+                        const EdgeInsets.symmetric(horizontal: 12.0),
+                        child: ProductRowItem(
+                          title: "Order Price",
+                          textValue:
+                          "SAR ${(cartInfo.data?.data?.totalBefore ?? 0)}",
+                          titleTextStyle: AppTheme
+                              .styleWithTextBlackColorAdelleSansExtendedFonts12w500,
+                          desTextStyle: AppTheme
+                              .styleWithTextGray7AdelleSansExtendedFonts12w400,
+                        ),
+                      ),
+                      cartInfo.data?.data?.shippingFee != null &&
+                          cartInfo.data?.data?.shippingFee != 0
+                          ? Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 12.0),
+                        child: ProductRowItem(
+                          title: "Shipping Fees",
+                          textValue:
+                          "SAR ${(cartInfo.data?.data?.shippingFee ?? 0)}",
+                          titleTextStyle: AppTheme
+                              .styleWithTextBlackColorAdelleSansExtendedFonts12w500,
+                          desTextStyle: AppTheme
+                              .styleWithTextGray7AdelleSansExtendedFonts12w400,
+                        ),
+                      )
+                          : SizedBox(),
+                      cartInfo.data?.data?.discountTotal != null &&
+                          cartInfo.data?.data?.discountTotal != 0
+                          ? Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 12.0),
+                        child: ProductRowItem(
+                          title: "Discount",
+                          textValue:
+                          "SAR ${(cartInfo.data?.data?.discountTotal ?? 0)}",
+                          titleTextStyle: AppTheme
+                              .styleWithTextBlackColorAdelleSansExtendedFonts12w500
+                              .copyWith(
+                              color: AppTheme.mainAppColor),
+                          desTextStyle: AppTheme
+                              .styleWithTextGray7AdelleSansExtendedFonts12w400
+                              .copyWith(
+                              color: AppTheme.mainAppColor),
+                        ),
+                      )
+                          : SizedBox(),
+                      Padding(
+                        padding:
+                        const EdgeInsets.symmetric(horizontal: 12.0),
+                        child: ProductRowItem(
+                          title: "Total Price",
+                          textValue:
+                          "SAR ${(cartInfo.data?.data?.totalAfter ?? 0)}",
+                          titleTextStyle: AppTheme
+                              .styleWithTextBlackAdelleSansExtendedFonts16w700,
+                          desTextStyle: AppTheme
+                              .styleWithTextBlackAdelleSansExtendedFonts16w700,
+                          hasDivider: false,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 32,
+                ),
+                AppButton(
+                    text: "Check Out",
+                    width: double.infinity,
+                    height: 46,
+                    onPress: () {
+                      // checkout();
+                    })
               ],
             ),
           ),
