@@ -1,7 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:lazo_client/Constants.dart';
 import 'package:lazo_client/Presentation/BottomSheets/SelectionBottomSheet.dart';
 import 'package:lazo_client/Presentation/Widgets/CustomAppBar.dart';
+import 'package:lazo_client/Utils/LocationHandler.dart';
 
 import '../../../Constants/Constants.dart';
 import '../../Theme/AppTheme.dart';
@@ -20,11 +24,13 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   final sendTypeController = TextEditingController();
   final calenderController = TextEditingController();
   final timeController = TextEditingController();
+  final locationController = TextEditingController();
   bool _enable = false;
 
   DateTime? _selectedDate;
   int? selectTypeOfSend;
   int? selectDeliveryTimeOfSend;
+  LatLng? selectedLocation;
   List<SelectionBottomSheetItem> typeSendArray = [
     SelectionBottomSheetItem(item: "My self"),
     SelectionBottomSheetItem(item: "Someone")
@@ -164,7 +170,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
             AppTextField(
               endWidget: InkWell(
                   onTap: () {
-                    showSendTypesBottomSheet();
+                    selectLocation();
                   },
                   child: SVGIcons.timeCircleIcon()),
               readOnly: true,
@@ -173,7 +179,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
               mode: AutovalidateMode.onUserInteraction,
               hint: "Select Location on map",
               label: "Select Location on map",
-              textEditingController: sendTypeController,
+              textEditingController: locationController,
               validate: (value) {
                 if (value?.isEmpty == true) {
                   return "Select type of send";
@@ -369,6 +375,16 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
 
       calenderController.text = _selectedDate.toString();
 
+    }
+  }
+
+  void selectLocation() async{
+    var location = await context.push(R_GoogleMapScreen,extra: {"locationSelected" : selectedLocation});
+    if(location != null){
+      print("fdlfjsd flksjd lkf fdsf $location");
+      selectedLocation = location as LatLng?;
+      var address = await LocationHandler.getAddressFromLatLng(selectedLocation!);
+      locationController.text = address;
     }
   }
 }

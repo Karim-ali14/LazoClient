@@ -158,7 +158,7 @@ class MyApp extends ConsumerWidget {
       GoRoute(
         path: R_splashScreenRout,
         builder: (BuildContext context, GoRouterState state) =>
-            const GoogleMapScreen(),
+            const SplashScreen(),
       ),
       GoRoute(
         path: R_OnBoardingScreen,
@@ -322,6 +322,15 @@ class MyApp extends ConsumerWidget {
           path: R_CheckoutScreen,
           builder: (BuildContext context, GoRouterState state) =>
               const CheckoutScreen()),
+
+      GoRoute(
+          path: R_GoogleMapScreen,
+          builder: (BuildContext context, GoRouterState state) {
+            var extra = state.extra as Map;
+            return GoogleMapScreen(
+              locationSelected: extra["locationSelected"],
+            );
+          }),
     ],
   );
 }
