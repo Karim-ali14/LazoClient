@@ -82,14 +82,16 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                   height: 32,
                 ),
                 Text(
-                  "Recipient Info",
+                  selectTypeOfSend == 1 ? "Location" : "Recipient Info" ,
                   style:
                       AppTheme.styleWithTextBlackAdelleSansExtendedFonts18w700,
                 ),
-                const SizedBox(
+                selectTypeOfSend != 1 ? const SizedBox(
                   height: 24,
+                ) : const SizedBox(
+                  height: 5,
                 ),
-                Container(
+                selectTypeOfSend != 1 ? Container(
                   decoration: BoxDecoration(
                       color: AppTheme.appGrey9,
                       borderRadius: BorderRadius.circular(4),
@@ -127,67 +129,83 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                       )
                     ],
                   ),
-                ),
+                ): const SizedBox(),
                 const SizedBox(
                   height: 24,
                 ),
-                AppTextField(
-                  textInputType: TextInputType.text,
-                  textFieldBorderColor: AppTheme.appGrey3,
-                  mode: AutovalidateMode.onUserInteraction,
-                  hint: "Recipient Name",
-                  label: "Recipient Name",
-                  textEditingController: sendTypeController,
-                  validate: (value) {
-                    if (value?.isEmpty == true) {
-                      return "Select type of send";
-                    } else {
-                      return null;
-                    }
-                  },
-                ),
-                const SizedBox(
-                  height: defaultPaddingHorizontal,
-                ),
-                AppTextField(
-                  textInputType: TextInputType.text,
-                  textFieldBorderColor: AppTheme.appGrey3,
-                  mode: AutovalidateMode.onUserInteraction,
-                  hint: "Recipient Phone",
-                  label: "Recipient Phone",
-                  textEditingController: sendTypeController,
-                  validate: (value) {
-                    if (value?.isEmpty == true) {
-                      return "Select type of send";
-                    } else {
-                      return null;
-                    }
-                  },
-                ),
-                const SizedBox(
-                  height: defaultPaddingHorizontal,
-                ),
-            AppTextField(
-              endWidget: InkWell(
-                  onTap: () {
-                    selectLocation();
-                  },
-                  child: SVGIcons.timeCircleIcon()),
-              readOnly: true,
-              textInputType: TextInputType.text,
-              textFieldBorderColor: AppTheme.appGrey3,
-              mode: AutovalidateMode.onUserInteraction,
-              hint: "Select Location on map",
-              label: "Select Location on map",
-              textEditingController: locationController,
-              validate: (value) {
-                if (value?.isEmpty == true) {
-                  return "Select type of send";
-                } else {
-                  return null;
-                }
-              },
-            ),
+                selectTypeOfSend == 1 || (selectTypeOfSend == 0 && _enable) ? Column(
+                  children: [
+                    AppTextField(
+                      textInputType: TextInputType.text,
+                      textFieldBorderColor: AppTheme.appGrey3,
+                      mode: AutovalidateMode.onUserInteraction,
+                      hint: "Recipient Name",
+                      label: "Recipient Name",
+                      textEditingController: sendTypeController,
+                      validate: (value) {
+                        if (value?.isEmpty == true) {
+                          return "Select type of send";
+                        } else {
+                          return null;
+                        }
+                      },
+                    ),
+                    const SizedBox(
+                      height: defaultPaddingHorizontal,
+                    ),
+                    AppTextField(
+                      textInputType: TextInputType.text,
+                      textFieldBorderColor: AppTheme.appGrey3,
+                      mode: AutovalidateMode.onUserInteraction,
+                      hint: "Recipient Phone",
+                      label: "Recipient Phone",
+                      textEditingController: sendTypeController,
+                      validate: (value) {
+                        if (value?.isEmpty == true) {
+                          return "Select type of send";
+                        } else {
+                          return null;
+                        }
+                      },
+                    ),
+                    const SizedBox(
+                      height: defaultPaddingHorizontal,
+                    ),
+                    AppTextField(
+                      endWidget: InkWell(
+                          onTap: () {
+                            selectLocation();
+                          },
+                          child: SVGIcons.locationIcon()),
+                      readOnly: true,
+                      textInputType: TextInputType.text,
+                      textFieldBorderColor: AppTheme.appGrey3,
+                      mode: AutovalidateMode.onUserInteraction,
+                      hint: "Select Location on map",
+                      label: "Select Location on map",
+                      textEditingController: locationController,
+                      validate: (value) {
+                        if (value?.isEmpty == true) {
+                          return "Select type of send";
+                        } else {
+                          return null;
+                        }
+                      },
+                    ),
+                    const SizedBox(
+                      height: defaultPaddingHorizontal,
+                    ),
+                    AppTextField(
+                      textInputType: TextInputType.text,
+                      textFieldBorderColor: AppTheme.appGrey3,
+                      mode: AutovalidateMode.onUserInteraction,
+                      hint: "Address Details (optional)",
+                      label: "Address Details (optional)",
+                      textEditingController: sendTypeController,
+                    ),
+                  ],
+                ): const SizedBox(),
+
                 const SizedBox(
                   height: 24,
                 ),
@@ -352,7 +370,9 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
 
   void showSendTypesBottomSheet() {
     showBottomSheetSelection(context, "Send to", typeSendArray, (index) {
-      selectTypeOfSend = index;
+      setState(() {
+        selectTypeOfSend = index;
+      });
       sendTypeController.text = typeSendArray[index].item;
     }, initialValue: selectTypeOfSend);
   }
@@ -368,7 +388,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? pickedDate = await showDatePicker(
       context: context,
-      initialDate: _selectedDate ?? DateTime.now(), firstDate: DateTime.now(), lastDate: DateTime(2100),
+      initialDate: _selectedDate ?? DateTime.now(), firstDate: DateTime.now(), lastDate: DateTime(7200),
     );
     if (pickedDate != null && pickedDate != _selectedDate) {
       _selectedDate = pickedDate;
@@ -381,7 +401,6 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   void selectLocation() async{
     var location = await context.push(R_GoogleMapScreen,extra: {"locationSelected" : selectedLocation});
     if(location != null){
-      print("fdlfjsd flksjd lkf fdsf $location");
       selectedLocation = location as LatLng?;
       var address = await LocationHandler.getAddressFromLatLng(selectedLocation!);
       locationController.text = address;

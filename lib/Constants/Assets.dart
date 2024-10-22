@@ -54,6 +54,7 @@ const noTopSellerDataIconSvg = "assets/images/noTopSellerData.svg";
 const rightIconSvg = "assets/images/rightIcon.svg";
 const notificationIconSvg = "assets/images/notification_ic.svg";
 const smallLocationIconSvg = "assets/images/small_location.svg";
+const locationIconSvg = "assets/images/location.svg";
 const placeHolderForCardsSvg = "assets/images/placeHolderForCard.svg";
 const searchIconGif = "assets/images/search_icon.gif";
 const existIconGif = "assets/images/exist_icon.gif";

@@ -42,7 +42,7 @@ class SelectionBottomSheet extends StatefulWidget {
 }
 
 class _SelectionBottomSheetState extends State<SelectionBottomSheet> {
-  var groupValue = 0;
+  int? groupValue;
   final TextEditingController textEditingController = TextEditingController();
   List<SelectionBottomSheetItem> items = [];
   @override
@@ -146,7 +146,7 @@ class _SelectionBottomSheetState extends State<SelectionBottomSheet> {
             child: AppButton(
               height: 46,
               onPress: () {
-                widget.onSelection(groupValue);
+                widget.onSelection(groupValue!);
                 context.pop();
               },
               text: "Done",
@@ -164,7 +164,7 @@ class _SelectionBottomSheetState extends State<SelectionBottomSheet> {
     setState(() => groupValue = val ?? 0);
 
     if (widget.directSelection == true) {
-      widget.onSelection(groupValue);
+      widget.onSelection(groupValue!);
       context.pop();
     }
   }

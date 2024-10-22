@@ -82,25 +82,19 @@ class SVGIcons {
     return SvgPicture.asset(smallStarIconSvg,
         width: size, height: size, fit: BoxFit.fill);
   }
-  static Widget onBoardingOneIcon(){
-    return SvgPicture.asset(
-      onBoardingOneIconSvg
-    );
+
+  static Widget onBoardingOneIcon() {
+    return SvgPicture.asset(onBoardingOneIconSvg);
   }
 
-  static Widget closeSquareSvgIcon(){
-    return SvgPicture.asset(
-        closeSquareSvg,
-        width: 24,
-        height: 24, fit: BoxFit.scaleDown
-    );
+  static Widget closeSquareSvgIcon() {
+    return SvgPicture.asset(closeSquareSvg,
+        width: 24, height: 24, fit: BoxFit.scaleDown);
   }
-  static Widget searchSvgIcon(){
-    return SvgPicture.asset(
-        searchSvg,
-        width: 24,
-        height: 24, fit: BoxFit.scaleDown
-    );
+
+  static Widget searchSvgIcon() {
+    return SvgPicture.asset(searchSvg,
+        width: 24, height: 24, fit: BoxFit.scaleDown);
   }
 
   static Widget unFavoriteIcon() {
@@ -118,96 +112,89 @@ class SVGIcons {
   }
 
   static Widget rightIcon() {
-    return SvgPicture.asset(rightIconSvg,width: 24,height: 24,fit: BoxFit.scaleDown,);
-  }
-
-  static Widget onBoardingTwoIcon(){
     return SvgPicture.asset(
-        onBoardingTwoIconSvg
+      rightIconSvg,
+      width: 24,
+      height: 24,
+      fit: BoxFit.scaleDown,
     );
   }
 
-  static Widget notificationSvgIcon(){
+  static Widget onBoardingTwoIcon() {
+    return SvgPicture.asset(onBoardingTwoIconSvg);
+  }
+
+  static Widget notificationSvgIcon() {
+    return SvgPicture.asset(notificationIconSvg);
+  }
+
+  static Widget smallLocationIcon() {
+    return SvgPicture.asset(smallLocationIconSvg);
+  }
+
+  static Widget locationIcon() {
     return SvgPicture.asset(
-        notificationIconSvg
+      locationIconSvg,
+      fit: BoxFit.scaleDown,
     );
   }
 
-  static Widget smallLocationIcon(){
-    return SvgPicture.asset(
-        smallLocationIconSvg
-    );
+  static Widget onBoardingThreeIcon() {
+    return SvgPicture.asset(onBoardingThreeIconSvg);
   }
 
-  static Widget onBoardingThreeIcon(){
-    return SvgPicture.asset(
-        onBoardingThreeIconSvg
-    );
-  }
-
-  static Widget homeActiveIcon(){
+  static Widget homeActiveIcon() {
     return SvgPicture.asset(
       homeActiveImg,
     );
   }
 
-  static Widget homeUnActiveIcon(){
-    return SvgPicture.asset(
-        homeUnActiveImg
-    );
+  static Widget homeUnActiveIcon() {
+    return SvgPicture.asset(homeUnActiveImg);
   }
 
-  static Widget notificationActiveIcon(){
-    return SvgPicture.asset(
-        notificationActiveImg
-    );
+  static Widget notificationActiveIcon() {
+    return SvgPicture.asset(notificationActiveImg);
   }
 
-  static Widget notificationUnActiveIcon(){
-    return SvgPicture.asset(
-        notificationUnActiveImg
-    );
+  static Widget notificationUnActiveIcon() {
+    return SvgPicture.asset(notificationUnActiveImg);
   }
 
-  static Widget moreActiveIcon(){
-    return SvgPicture.asset(
-        moreActiveImg
-    );
+  static Widget moreActiveIcon() {
+    return SvgPicture.asset(moreActiveImg);
   }
 
-  static Widget moreUnActiveIcon(){
-    return SvgPicture.asset(
-        moreUnActiveImg
-    );
+  static Widget moreUnActiveIcon() {
+    return SvgPicture.asset(moreUnActiveImg);
   }
 
-  static Widget placeholderIcon(){
+  static Widget placeholderIcon() {
     return SvgPicture.asset(
-        placeHolderForCardsSvg,
+      placeHolderForCardsSvg,
       fit: BoxFit.cover,
     );
   }
 
-  static Widget searchGifIcon(){
+  static Widget searchGifIcon() {
     return Image.asset(
-        searchIconGif,
+      searchIconGif,
       width: 138,
       height: 138,
       fit: BoxFit.fill,
     );
   }
 
-  static Widget noCartItemsGifIcon(){
+  static Widget noCartItemsGifIcon() {
     return Image.asset(
-        noCartItems,
+      noCartItems,
       width: 138,
       height: 138,
       fit: BoxFit.fill,
     );
   }
 
-
-  static Widget existGifIcon(){
+  static Widget existGifIcon() {
     return Image.asset(
       existIconGif,
       width: 138,
@@ -215,68 +202,80 @@ class SVGIcons {
       fit: BoxFit.fill,
     );
   }
-  static Widget langIcon(){
+
+  static Widget langIcon() {
     return SvgPicture.asset(
       langImg,
     );
   }
-  static Widget deleteAccountIcon(){
+
+  static Widget deleteAccountIcon() {
     return SvgPicture.asset(
       deleteAccountImg,
     );
   }
-  static Widget signOutIcon(){
+
+  static Widget signOutIcon() {
     return SvgPicture.asset(
       signOutImg,
     );
   }
 
-  static Widget privacyPolicyIcon(){
+  static Widget privacyPolicyIcon() {
     return SvgPicture.asset(
       privacyPolicyImg,
     );
   }
-  static Widget termsConditionsImgIcon(){
+
+  static Widget termsConditionsImgIcon() {
     return SvgPicture.asset(
       termsConditionsImg,
     );
   }
-  static Widget shareImgIcon(){
+
+  static Widget shareImgIcon() {
     return SvgPicture.asset(
       shareImg,
     );
   }
-  static Widget faqIcon(){
+
+  static Widget faqIcon() {
     return SvgPicture.asset(
       faqImg,
     );
   }
-  static Widget contactUsIcon(){
+
+  static Widget contactUsIcon() {
     return SvgPicture.asset(
       contactUsImg,
     );
   }
-  static Widget whatsAppImgIcon(){
+
+  static Widget whatsAppImgIcon() {
     return SvgPicture.asset(
       whatsAppImg,
     );
   }
-  static Widget redFaqIcon(){
+
+  static Widget redFaqIcon() {
     return SvgPicture.asset(
       redFaqImg,
     );
   }
-  static Widget messageIcon(){
+
+  static Widget messageIcon() {
     return SvgPicture.asset(
       messageImg,
     );
   }
-  static Widget callingIcon(){
+
+  static Widget callingIcon() {
     return SvgPicture.asset(
       callingImg,
     );
   }
-  static Widget calendarImageIcon(){
+
+  static Widget calendarImageIcon() {
     return SvgPicture.asset(
       calendarImage,
       width: 24,
@@ -284,7 +283,8 @@ class SVGIcons {
       fit: BoxFit.scaleDown,
     );
   }
-  static Widget timeCircleIcon(){
+
+  static Widget timeCircleIcon() {
     return SvgPicture.asset(
       timeCircle,
       width: 24,
@@ -292,32 +292,38 @@ class SVGIcons {
       fit: BoxFit.scaleDown,
     );
   }
-  static Widget sadFaceIcon(){
+
+  static Widget sadFaceIcon() {
     return SvgPicture.asset(
       sadFaceImg,
     );
   }
-  static Widget deleteAccountIcIcon(){
+
+  static Widget deleteAccountIcIcon() {
     return SvgPicture.asset(
       deleteAccountIc,
     );
   }
-  static Widget rightArrowWithBackgroundIcon(){
+
+  static Widget rightArrowWithBackgroundIcon() {
     return SvgPicture.asset(
       rightArrowWithBackgroundImg,
     );
   }
-  static Widget downArrowWithBackgroundIcon(){
+
+  static Widget downArrowWithBackgroundIcon() {
     return SvgPicture.asset(
       downArrowWithBackgroundImg,
     );
   }
-  static Widget backArrowIcon(){
+
+  static Widget backArrowIcon() {
     return SvgPicture.asset(
       backArrowImg,
     );
   }
-  static Widget downArrowIcon(){
+
+  static Widget downArrowIcon() {
     return SvgPicture.asset(
       downArrowImg,
       width: 24,
@@ -325,47 +331,56 @@ class SVGIcons {
       fit: BoxFit.scaleDown,
     );
   }
-  static Widget upArrowWithBackgroundIcon(){
+
+  static Widget upArrowWithBackgroundIcon() {
     return SvgPicture.asset(
       upArrowWithBackgroundImg,
     );
   }
-  static Widget walletWithWhiteBackgroundIcon(){
+
+  static Widget walletWithWhiteBackgroundIcon() {
     return SvgPicture.asset(
       walletWithWhiteBackgroundIconSvg,
     );
   }
-  static Widget activeFavoriteIcon(){
+
+  static Widget activeFavoriteIcon() {
     return SvgPicture.asset(
       activeFavoriteIconSvg,
     );
   }
-  static Widget unFavoriteIconWithLightRedIcon(){
+
+  static Widget unFavoriteIconWithLightRedIcon() {
     return SvgPicture.asset(
       unFavoriteIconWithLightRedSvg,
     );
   }
-  static Widget smallShareIcon(){
+
+  static Widget smallShareIcon() {
     return SvgPicture.asset(
       smallShareIconSvg,
     );
   }
-  static Widget incrementButtonSvgIcon(){
+
+  static Widget incrementButtonSvgIcon() {
     return SvgPicture.asset(
       incrementButtonIconSvg,
     );
   }
-  static Widget decrementButtonSvgIcon(){
+
+  static Widget decrementButtonSvgIcon() {
     return SvgPicture.asset(
       decrementButtonIconSvg,
     );
   }
-  static Widget buyFullIconSvgIcon(){
+
+  static Widget buyFullIconSvgIcon() {
     return SvgPicture.asset(
       buyFullIconSvg,
     );
   }
-  static Widget voucherIcon(){
+
+  static Widget voucherIcon() {
     return SvgPicture.asset(
       voucherIconSvg,
       width: 23,
