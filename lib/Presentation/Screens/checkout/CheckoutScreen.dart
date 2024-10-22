@@ -29,6 +29,11 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
   final calenderController = TextEditingController();
   final timeController = TextEditingController();
   final locationController = TextEditingController();
+  final recipientNameController = TextEditingController();
+  final recipientPhoneController = TextEditingController();
+  final addressDescriptionController = TextEditingController();
+  final messageToController = TextEditingController();
+  final messageController = TextEditingController();
   bool _enable = false;
 
   DateTime? _selectedDate;
@@ -146,7 +151,7 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                       mode: AutovalidateMode.onUserInteraction,
                       hint: "Recipient Name",
                       label: "Recipient Name",
-                      textEditingController: sendTypeController,
+                      textEditingController: recipientNameController,
                       validate: (value) {
                         if (value?.isEmpty == true) {
                           return "Select type of send";
@@ -159,12 +164,12 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                       height: defaultPaddingHorizontal,
                     ),
                     AppTextField(
-                      textInputType: TextInputType.text,
+                      textInputType: TextInputType.phone,
                       textFieldBorderColor: AppTheme.appGrey3,
                       mode: AutovalidateMode.onUserInteraction,
                       hint: "Recipient Phone",
                       label: "Recipient Phone",
-                      textEditingController: sendTypeController,
+                      textEditingController: recipientPhoneController,
                       validate: (value) {
                         if (value?.isEmpty == true) {
                           return "Select type of send";
@@ -206,7 +211,7 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                       mode: AutovalidateMode.onUserInteraction,
                       hint: "Address Details (optional)",
                       label: "Address Details (optional)",
-                      textEditingController: sendTypeController,
+                      textEditingController: addressDescriptionController,
                     ),
                   ],
                 ): const SizedBox(),
@@ -238,14 +243,7 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                   mode: AutovalidateMode.onUserInteraction,
                   hint: "To: (optional)",
                   label: "To: (optional)",
-                  textEditingController: sendTypeController,
-                  validate: (value) {
-                    if (value?.isEmpty == true) {
-                      return "Select type of send";
-                    } else {
-                      return null;
-                    }
-                  },
+                  textEditingController: messageToController,
                 ),
                 const SizedBox(
                   height: defaultPaddingHorizontal,
@@ -256,14 +254,7 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                   mode: AutovalidateMode.onUserInteraction,
                   hint: "Type your message and express your feeling",
                   label: "Type your message and express your feeling",
-                  textEditingController: sendTypeController,
-                  validate: (value) {
-                    if (value?.isEmpty == true) {
-                      return "Select type of send";
-                    } else {
-                      return null;
-                    }
-                  },
+                  textEditingController: messageController,
                 ),
                 const SizedBox(
                   height: defaultPaddingHorizontal,
