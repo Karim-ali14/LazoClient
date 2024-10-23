@@ -78,6 +78,9 @@ extension DateFormatting on DateTime {
 
   String formatTo(BuildContext context,{String? dateFormat}) => DateFormat(dateFormat??DateFormat.HOUR_MINUTE,context.locale.languageCode).format(this.toLocal() ?? DateTime.now());
 
+  String convertDateToString(String format){
+    return DateFormat(format).format(this);
+  }
 }
 
 extension DateStringFormat on String {

@@ -32,3 +32,16 @@ const String SARKey = "SAR";
 // Params Keys
 const String doneLandingKey = "doneLanding";
 const String accountType = "client";
+const String giftBoxIdKey = "giftBoxId";
+const String giftCardIdKey = "giftCardId";
+const String promocodeKey = "promocode";
+const String orderTypeKey = "orderType";
+
+const String serviceIdKey = "serviceId";
+const String serviceSelectedListIdsKey = "serviceSelectedListIds";
+const String serviceSelectedListItemsIdsKey = "serviceSelectedListItemsIds";
+const String paymentMethodKey = "paymentMethod";
+const String receiverPhoneNumberKey = "receiverPhoneNumber";
+const String cardMessageKey = "cardMessage";
+const String cardFromKey = "cardFrom";
+const String cardToKey = "cardTo";

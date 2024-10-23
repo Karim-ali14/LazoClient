@@ -17,10 +17,10 @@ class MainScreenNavHost extends ConsumerStatefulWidget {
   const MainScreenNavHost({super.key});
 
   @override
-  ConsumerState<MainScreenNavHost> createState() => _MainScreenNavHostState();
+  ConsumerState<MainScreenNavHost> createState() => MainScreenNavHostState();
 }
 
-class _MainScreenNavHostState extends ConsumerState<MainScreenNavHost> {
+class MainScreenNavHostState extends ConsumerState<MainScreenNavHost> {
   int currentTab = 0;
   Widget currentScreen = HomeScreen();
   final listTabsName = ["Home","Cart", "More"];
@@ -148,6 +148,23 @@ class _MainScreenNavHostState extends ConsumerState<MainScreenNavHost> {
         ),
       ),
     );
+  }
+  void onItemTapped(int tabIndex){
+    setState(() {
+      switch(tabIndex){
+        case 0 :
+          currentScreen = const HomeScreen();
+          break;
+        case 1 :
+          currentScreen = const CartScreen();
+          break;
+        case 2 :
+          currentScreen = const MoreScreen();
+          break;
+
+      }
+      currentTab = tabIndex;
+    });
   }
 }
 

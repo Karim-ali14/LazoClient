@@ -138,4 +138,6 @@ final deleteItemCartStateNotifies = StateNotifierProvider.autoDispose<
         DeleteItemCartUseCase, StateModel<Object?>>(
     (ref) => DeleteItemCartUseCase(ref, ref.read(publicApi)));
 
-
+final cartDateSelectedStateNotifiers =
+    StateNotifierProvider<CartSelectionInfo, Map<String, Object>>(
+        (ref) => CartSelectionInfo());

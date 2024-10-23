@@ -60,7 +60,7 @@ class _CustomSwitchState extends State<CustomSwitch>
                   top: 2.0, bottom: 2.0, right: 2.0, left: 2.0),
               child: Container(
                 alignment:
-                widget.value ? ((Directionality.of(context) == TextDirection.rtl) ? Alignment.centerRight : Alignment.centerLeft ) : ((Directionality.of(context) == TextDirection.rtl) ? Alignment.centerLeft : Alignment.centerRight),
+                widget.value ? ((Directionality.of(context) != TextDirection.rtl) ? Alignment.centerRight : Alignment.centerLeft ) : ((Directionality.of(context) != TextDirection.rtl) ? Alignment.centerLeft : Alignment.centerRight),
                 child: Container(
                   width: 16.0,
                   height: 18.0,

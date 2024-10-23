@@ -16,7 +16,9 @@ import 'package:lazo_client/Presentation/Widgets/SvgIcons.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import '../../../Constants.dart';
 import '../../../Constants/Eunms.dart';
+import '../../../Localization/Keys.dart';
 import '../details/componants/ProductRowItem.dart';
+import '../mainScreen/MainScreenNavHost.dart';
 import 'componants/GiftBoxListView.dart';
 import 'componants/GiftCardListView.dart';
 
@@ -124,7 +126,6 @@ class _CartScreenState extends ConsumerState<CartScreen> {
                                 navigateToItemDetails(ItemType.Products, product, null,cartId);
                               },onEditService: (service,cartId){
                               navigateToItemDetails(ItemType.Services, null, service,cartId);
-
                             },
                             ),
                           );
@@ -350,7 +351,21 @@ class _CartScreenState extends ConsumerState<CartScreen> {
                             width: double.infinity,
                             height: 46,
                             onPress: () {
-                              checkout();
+                              if(giftBoxSelected != null){
+                                var data = {
+                                  giftBoxIdKey : giftBoxSelected?.id.toString() ?? "",
+                                };
+                                if(giftCartSelected != null){
+                                  data[giftCardIdKey] = giftCartSelected?.id?.toString() ?? "";
+                                }
+                                if(promocode?.isNotEmpty == true){
+                                  data[promocodeKey] = promocode??"";
+                                }
+                                ref.read(cartDateSelectedStateNotifiers.notifier).setCartDataSelection(
+                                    data
+                                );
+                                checkout();
+                              }
                             })
                       ],
                     ),
@@ -411,7 +426,16 @@ class _CartScreenState extends ConsumerState<CartScreen> {
     });
   }
 
-  void checkout() {
-    context.push(R_CheckoutScreen);
+  void checkout() async{
+    var success = await context.push(R_CheckoutScreen) as bool? ?? false;
+    print(success);
+    if(success == true){
+      navigateToHomeScreen();
+    }
+  }
+
+  void navigateToHomeScreen(){
+    (context.findAncestorStateOfType<MainScreenNavHostState>() as MainScreenNavHostState)
+        .onItemTapped(0);
   }
 }

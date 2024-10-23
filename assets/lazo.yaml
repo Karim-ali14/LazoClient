@@ -8780,6 +8780,8 @@ paths:
                   description: Required in case of self_order (address of client itself)
                   type: string
                   example: 5th Fahd street, Jeddah
+                receiver_name:
+                  type: string
                 receiver_address_details:
                   type: string
                   example: XWER+ Jeddah

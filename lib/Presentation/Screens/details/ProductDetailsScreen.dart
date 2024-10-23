@@ -10,6 +10,7 @@ import 'package:lazo_client/Data/Models/StateModel.dart';
 import 'package:lazo_client/Data/Models/UpdateDataModel.dart';
 import 'package:lazo_client/Data/Network/lib/api.dart';
 import 'package:lazo_client/Doman/CommenProviders/ApiProvider.dart';
+import 'package:lazo_client/Localization/Keys.dart';
 import 'package:lazo_client/Presentation/Screens/details/componants/ProductMultipleSelectItems.dart';
 import 'package:lazo_client/Presentation/Screens/details/componants/ProductSingleSelectItems.dart';
 import 'package:lazo_client/Presentation/StateNotifiersViewModel/PublicStateNotifiers.dart';
@@ -740,8 +741,8 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
                                           ),
                                           child: ProductMultipleSelectItems(
                                             list: serviceItemState
-                                                    .data?.data?.lists
-                                                    ?.map((item) =>
+                                                    .data?.data?.lists?[index].items
+                                                    .map((item) =>
                                                         ItemSelector(
                                                             item.id?.toInt() ??
                                                                 0,
@@ -1196,7 +1197,10 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
                             productItemState.data?.data?.id!.toString() ?? ""));
                       }
                     } else {
-                      if (serviceItemState.data?.data?.id != null) {
+                      if(serviceItemState.data?.data?.cardType == ServiceTypes.soft_card.name && serviceItemState.data?.data?.id != null){
+                        makeCheckoutForSoftService(int.parse(
+                            serviceItemState.data?.data?.id!.toString() ?? ""));
+                      }else if (serviceItemState.data?.data?.id != null) {
                         addServiceToCart(int.parse(
                             serviceItemState.data?.data?.id!.toString() ?? ""));
                       }
@@ -1208,9 +1212,9 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
                           : productItemState.data?.data!.inCart == true
                               ? "Added"
                               : "Add to cart"
-                      : widget.serviceShowData != null
+                      :  widget.serviceShowData != null
                           ? "Edit Service"
-                          : serviceItemState.data?.data!.inCart == true
+                          : serviceItemState.data?.data?.cardType == ServiceTypes.soft_card.name ? "Checkout" : serviceItemState.data?.data!.inCart == true
                               ? "Added"
                               : "Add to cart",
                   height: 46,
@@ -1406,5 +1410,27 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
     ref
         .read(fetchCardDetailsStateNotifies.notifier)
         .getCardDetails(sessionId: sessionId);
+  }
+
+  void makeCheckoutForSoftService(int id) {
+    String? parentItemIds;
+    String? childItemIds;
+    if (serviceSelectemItemsIds.isNotEmpty) {
+      parentItemIds =
+          serviceSelectemItemsIds.keys.map((key) => key.toString()).join(",");
+      childItemIds = serviceSelectemItemsIds.values
+          .map((value) => value.join(","))
+          .join("|");
+    }
+    ref.read(cartDateSelectedStateNotifiers.notifier).setCartDataSelection(
+      {
+        orderTypeKey : OrderTypes.self_order.name,
+        serviceIdKey : id.toString(),
+        serviceSelectedListIdsKey : parentItemIds.toString(),
+        serviceSelectedListItemsIdsKey : childItemIds.toString(),
+      }
+    );
+
+    context.push(R_CheckoutScreen);
   }
 }

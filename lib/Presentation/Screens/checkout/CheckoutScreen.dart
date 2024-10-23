@@ -4,12 +4,16 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:lazo_client/Constants.dart';
+import 'package:lazo_client/Doman/CommenProviders/ApiProvider.dart';
+import 'package:lazo_client/Localization/Keys.dart';
 import 'package:lazo_client/Presentation/BottomSheets/SelectionBottomSheet.dart';
 import 'package:lazo_client/Presentation/StateNotifiersViewModel/ClientStateNotifiers.dart';
 import 'package:lazo_client/Presentation/Widgets/CustomAppBar.dart';
+import 'package:lazo_client/Utils/Extintions.dart';
 import 'package:lazo_client/Utils/LocationHandler.dart';
 
 import '../../../Constants/Constants.dart';
+import '../../../Constants/Eunms.dart';
 import '../../StateNotifiersViewModel/PublicStateNotifiers.dart';
 import '../../Theme/AppTheme.dart';
 import '../../Widgets/AppButton.dart';
@@ -55,6 +59,12 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
   @override
   Widget build(BuildContext context) {
     var cartInfo = ref.watch(cartCalculationStateNotifies);
+    var cartSelectionData = ref.watch(cartDateSelectedStateNotifiers);
+    handleState(createOrderStateNotifiers,showLoading: true , onSuccess: (res){
+       ref.watch(fetchCardDetailsStateNotifies);
+       context.pop(true);
+    });
+    print("${cartSelectionData.toString()}");
     return Scaffold(
       appBar: CustomAppBar(
         appContext: context,
@@ -94,133 +104,140 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                   },
                 ),
                 const SizedBox(
-                  height: 32,
+                  height: 30,
                 ),
                 Text(
-                  selectTypeOfSend == 1 ? "Location" : "Recipient Info" ,
+                  selectTypeOfSend == 0 ? "Location" : "Recipient Info",
                   style:
                       AppTheme.styleWithTextBlackAdelleSansExtendedFonts18w700,
                 ),
-                selectTypeOfSend != 1 ? const SizedBox(
-                  height: 24,
-                ) : const SizedBox(
-                  height: 5,
-                ),
-                selectTypeOfSend != 1 ? Container(
-                  decoration: BoxDecoration(
-                      color: AppTheme.appGrey9,
-                      borderRadius: BorderRadius.circular(4),
-                      border: Border.all(color: AppTheme.appGrey6, width: 1)),
-                  padding: EdgeInsets.all(defaultPaddingHorizontal),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          Text(
-                            "Ask the recipient for the address",
-                            style: AppTheme
-                                .styleWithTextBlackAdelleSansExtendedFonts16w500,
-                          ),
-                          Spacer(),
-                          CustomSwitch(
-                            value: _enable,
-                            onChanged: (bool val) {
-                              setState(() {
-                                _enable = val;
-                              });
-                            },
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Text(
-                        "We will collect the address from the recipient. Delivery time may be impacted if recipient is unreachable",
-                        style: AppTheme
-                            .styleWithTextGray7AdelleSansExtendedFonts12w400
-                            .copyWith(height: 1.3),
+                selectTypeOfSend != 0
+                    ? const SizedBox(
+                        height: 24,
                       )
-                    ],
-                  ),
-                ): const SizedBox(),
+                    : const SizedBox(
+                        height: 5,
+                      ),
+                selectTypeOfSend != 0
+                    ? Container(
+                        decoration: BoxDecoration(
+                            color: AppTheme.appGrey9,
+                            borderRadius: BorderRadius.circular(4),
+                            border:
+                                Border.all(color: AppTheme.appGrey6, width: 1)),
+                        padding: EdgeInsets.all(defaultPaddingHorizontal),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                Text(
+                                  "Ask the recipient for the address",
+                                  style: AppTheme
+                                      .styleWithTextBlackAdelleSansExtendedFonts16w500,
+                                ),
+                                Spacer(),
+                                CustomSwitch(
+                                  value: _enable,
+                                  onChanged: (bool val) {
+                                    print(val);
+                                    setState(() {
+                                      _enable = val;
+                                    });
+                                  },
+                                ),
+                              ],
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Text(
+                              "We will collect the address from the recipient. Delivery time may be impacted if recipient is unreachable",
+                              style: AppTheme
+                                  .styleWithTextGray7AdelleSansExtendedFonts12w400
+                                  .copyWith(height: 1.3),
+                            )
+                          ],
+                        ),
+                      )
+                    : const SizedBox(),
                 const SizedBox(
                   height: 24,
                 ),
-                selectTypeOfSend == 1 || (selectTypeOfSend == 0 && _enable) ? Column(
-                  children: [
-                    AppTextField(
-                      textInputType: TextInputType.text,
-                      textFieldBorderColor: AppTheme.appGrey3,
-                      mode: AutovalidateMode.onUserInteraction,
-                      hint: "Recipient Name",
-                      label: "Recipient Name",
-                      textEditingController: recipientNameController,
-                      validate: (value) {
-                        if (value?.isEmpty == true) {
-                          return "Select type of send";
-                        } else {
-                          return null;
-                        }
-                      },
-                    ),
-                    const SizedBox(
-                      height: defaultPaddingHorizontal,
-                    ),
-                    AppTextField(
-                      textInputType: TextInputType.phone,
-                      textFieldBorderColor: AppTheme.appGrey3,
-                      mode: AutovalidateMode.onUserInteraction,
-                      hint: "Recipient Phone",
-                      label: "Recipient Phone",
-                      textEditingController: recipientPhoneController,
-                      validate: (value) {
-                        if (value?.isEmpty == true) {
-                          return "Select type of send";
-                        } else {
-                          return null;
-                        }
-                      },
-                    ),
-                    const SizedBox(
-                      height: defaultPaddingHorizontal,
-                    ),
-                    AppTextField(
-                      endWidget: InkWell(
-                          onTap: () {
-                            selectLocation();
-                          },
-                          child: SVGIcons.locationIcon()),
-                      readOnly: true,
-                      textInputType: TextInputType.text,
-                      textFieldBorderColor: AppTheme.appGrey3,
-                      mode: AutovalidateMode.onUserInteraction,
-                      hint: "Select Location on map",
-                      label: "Select Location on map",
-                      textEditingController: locationController,
-                      validate: (value) {
-                        if (value?.isEmpty == true) {
-                          return "Select type of send";
-                        } else {
-                          return null;
-                        }
-                      },
-                    ),
-                    const SizedBox(
-                      height: defaultPaddingHorizontal,
-                    ),
-                    AppTextField(
-                      textInputType: TextInputType.text,
-                      textFieldBorderColor: AppTheme.appGrey3,
-                      mode: AutovalidateMode.onUserInteraction,
-                      hint: "Address Details (optional)",
-                      label: "Address Details (optional)",
-                      textEditingController: addressDescriptionController,
-                    ),
-                  ],
-                ): const SizedBox(),
-
+                selectTypeOfSend != null
+                    ? Column(
+                        children: [
+                          AppTextField(
+                            textInputType: TextInputType.text,
+                            textFieldBorderColor: AppTheme.appGrey3,
+                            mode: AutovalidateMode.onUserInteraction,
+                            hint: "Recipient Name",
+                            label: "Recipient Name",
+                            textEditingController: recipientNameController,
+                            validate: (value) {
+                              if (value?.isEmpty == true) {
+                                return "Select type of send";
+                              } else {
+                                return null;
+                              }
+                            },
+                          ),
+                          const SizedBox(
+                            height: defaultPaddingHorizontal,
+                          ),
+                          AppTextField(
+                            textInputType: TextInputType.phone,
+                            textFieldBorderColor: AppTheme.appGrey3,
+                            mode: AutovalidateMode.onUserInteraction,
+                            hint: "Recipient Phone",
+                            label: "Recipient Phone",
+                            textEditingController: recipientPhoneController,
+                            validate: (value) {
+                              if (value?.isEmpty == true ) {
+                                return "Select type of send";
+                              } else {
+                                return null;
+                              }
+                            },
+                          ),
+                          const SizedBox(
+                            height: defaultPaddingHorizontal,
+                          ),
+                          AppTextField(
+                            endWidget: InkWell(
+                                onTap: () {
+                                  selectLocation();
+                                },
+                                child: SVGIcons.locationIcon()),
+                            readOnly: true,
+                            textInputType: TextInputType.text,
+                            textFieldBorderColor: AppTheme.appGrey3,
+                            mode: AutovalidateMode.onUserInteraction,
+                            hint: "Select Location on map",
+                            label: "Select Location on map",
+                            textEditingController: locationController,
+                            validate: (value) {
+                              if (value?.isEmpty == true && (!_enable && selectTypeOfSend == 1)) {
+                                return "Select type of send";
+                              } else {
+                                return null;
+                              }
+                            },
+                          ),
+                          const SizedBox(
+                            height: defaultPaddingHorizontal,
+                          ),
+                          AppTextField(
+                            textInputType: TextInputType.text,
+                            textFieldBorderColor: AppTheme.appGrey3,
+                            mode: AutovalidateMode.onUserInteraction,
+                            hint: "Address Details (optional)",
+                            label: "Address Details (optional)",
+                            textEditingController: addressDescriptionController,
+                          ),
+                        ],
+                      )
+                    : const SizedBox(),
                 const SizedBox(
                   height: 24,
                 ),
@@ -272,7 +289,8 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                 const SizedBox(
                   height: defaultPaddingHorizontal,
                 ),
-                AppTextField( // 13/5/2024
+                AppTextField(
+                  // 13/5/2024
                   endWidget: InkWell(
                       onTap: () {
                         print("object");
@@ -366,8 +384,8 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                 ),
                 Text(
                   "Payment Summary",
-                  style: AppTheme
-                      .styleWithTextBlackAdelleSansExtendedFonts18w700,
+                  style:
+                      AppTheme.styleWithTextBlackAdelleSansExtendedFonts18w700,
                 ),
                 SizedBox(
                   height: 24,
@@ -384,12 +402,11 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Padding(
-                        padding:
-                        const EdgeInsets.symmetric(horizontal: 12.0),
+                        padding: const EdgeInsets.symmetric(horizontal: 12.0),
                         child: ProductRowItem(
                           title: "Order Price",
                           textValue:
-                          "SAR ${(cartInfo.data?.data?.totalBefore ?? 0)}",
+                              "SAR ${(cartInfo.data?.data?.totalBefore ?? 0)}",
                           titleTextStyle: AppTheme
                               .styleWithTextBlackColorAdelleSansExtendedFonts12w500,
                           desTextStyle: AppTheme
@@ -397,48 +414,45 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                         ),
                       ),
                       cartInfo.data?.data?.shippingFee != null &&
-                          cartInfo.data?.data?.shippingFee != 0
+                              cartInfo.data?.data?.shippingFee != 0
                           ? Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 12.0),
-                        child: ProductRowItem(
-                          title: "Shipping Fees",
-                          textValue:
-                          "SAR ${(cartInfo.data?.data?.shippingFee ?? 0)}",
-                          titleTextStyle: AppTheme
-                              .styleWithTextBlackColorAdelleSansExtendedFonts12w500,
-                          desTextStyle: AppTheme
-                              .styleWithTextGray7AdelleSansExtendedFonts12w400,
-                        ),
-                      )
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 12.0),
+                              child: ProductRowItem(
+                                title: "Shipping Fees",
+                                textValue:
+                                    "SAR ${(cartInfo.data?.data?.shippingFee ?? 0)}",
+                                titleTextStyle: AppTheme
+                                    .styleWithTextBlackColorAdelleSansExtendedFonts12w500,
+                                desTextStyle: AppTheme
+                                    .styleWithTextGray7AdelleSansExtendedFonts12w400,
+                              ),
+                            )
                           : SizedBox(),
                       cartInfo.data?.data?.discountTotal != null &&
-                          cartInfo.data?.data?.discountTotal != 0
+                              cartInfo.data?.data?.discountTotal != 0
                           ? Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 12.0),
-                        child: ProductRowItem(
-                          title: "Discount",
-                          textValue:
-                          "SAR ${(cartInfo.data?.data?.discountTotal ?? 0)}",
-                          titleTextStyle: AppTheme
-                              .styleWithTextBlackColorAdelleSansExtendedFonts12w500
-                              .copyWith(
-                              color: AppTheme.mainAppColor),
-                          desTextStyle: AppTheme
-                              .styleWithTextGray7AdelleSansExtendedFonts12w400
-                              .copyWith(
-                              color: AppTheme.mainAppColor),
-                        ),
-                      )
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 12.0),
+                              child: ProductRowItem(
+                                title: "Discount",
+                                textValue:
+                                    "SAR ${(cartInfo.data?.data?.discountTotal ?? 0)}",
+                                titleTextStyle: AppTheme
+                                    .styleWithTextBlackColorAdelleSansExtendedFonts12w500
+                                    .copyWith(color: AppTheme.mainAppColor),
+                                desTextStyle: AppTheme
+                                    .styleWithTextGray7AdelleSansExtendedFonts12w400
+                                    .copyWith(color: AppTheme.mainAppColor),
+                              ),
+                            )
                           : SizedBox(),
                       Padding(
-                        padding:
-                        const EdgeInsets.symmetric(horizontal: 12.0),
+                        padding: const EdgeInsets.symmetric(horizontal: 12.0),
                         child: ProductRowItem(
                           title: "Total Price",
                           textValue:
-                          "SAR ${(cartInfo.data?.data?.totalAfter ?? 0)}",
+                              "SAR ${(cartInfo.data?.data?.totalAfter ?? 0)}",
                           titleTextStyle: AppTheme
                               .styleWithTextBlackAdelleSansExtendedFonts16w700,
                           desTextStyle: AppTheme
@@ -457,7 +471,35 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                     width: double.infinity,
                     height: 46,
                     onPress: () {
-                      createOrder();
+                      if((cartSelectionData[orderTypeKey]).toString() == OrderTypes.receiver_order.name){
+                        createOrder(
+                          cartSelectionData.containsKey(giftBoxIdKey)
+                              ? cartSelectionData[giftBoxIdKey].toString()
+                              : null,
+                          cartSelectionData.containsKey(giftCardIdKey)
+                              ? cartSelectionData[giftCardIdKey].toString()
+                              : null,
+                          cartSelectionData.containsKey(promocodeKey)
+                              ? cartSelectionData[promocodeKey].toString()
+                              : null,
+                        );
+                      }else{
+                        createInstantOrder(
+                          serviceId: cartSelectionData.containsKey(serviceIdKey)
+                              ? cartSelectionData[serviceIdKey].toString()
+                              : null,
+                          serviceSelectedListItemsIds: cartSelectionData.containsKey(serviceSelectedListItemsIdsKey)
+                              ? cartSelectionData[serviceSelectedListItemsIdsKey].toString()
+                              : null,
+                          serviceSelectedListIds: cartSelectionData.containsKey(serviceSelectedListIdsKey)
+                              ? cartSelectionData[serviceSelectedListIdsKey].toString()
+                              : null,
+                          promocode: cartSelectionData.containsKey(promocodeKey)
+                              ? cartSelectionData[promocodeKey].toString()
+                              : null,
+                        );
+                      }
+
                     })
               ],
             ),
@@ -487,30 +529,99 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? pickedDate = await showDatePicker(
       context: context,
-      initialDate: _selectedDate ?? DateTime.now(), firstDate: DateTime.now(), lastDate: DateTime(7200),
+      initialDate: _selectedDate ?? DateTime.now(),
+      firstDate: DateTime.now(),
+      lastDate: DateTime(7200),
     );
     if (pickedDate != null && pickedDate != _selectedDate) {
       _selectedDate = pickedDate;
 
-      calenderController.text = _selectedDate.toString();
-
+      calenderController.text = _selectedDate?.convertDateToString("dd MMM yyyy") ?? "";
     }
   }
 
-  void selectLocation() async{
-    var location = await context.push(R_GoogleMapScreen,extra: {"locationSelected" : selectedLocation});
-    if(location != null){
+  void selectLocation() async {
+    var location = await context
+        .push(R_GoogleMapScreen, extra: {"locationSelected": selectedLocation});
+    if (location != null) {
       selectedLocation = location as LatLng?;
-      var address = await LocationHandler.getAddressFromLatLng(selectedLocation!);
+      var address =
+          await LocationHandler.getAddressFromLatLng(selectedLocation!);
       locationController.text = address;
     }
   }
 
-  void createOrder(){
+  void createOrder(
+    String? giftBoxId,
+    String? giftCardId,
+    String? promocode,
+  ) {
+    print("isIdentitySecret : ${_enableIsSecret == true ? "1" : "0"} "
+        "giftBoxId : $giftBoxId "
+        "giftCardId : $giftCardId "
+        "promocode: $promocode "
+        "receiverAddress : ${locationController.text} "
+        "receiverAddressDetails : ${addressDescriptionController.text} "
+        "receiverPhone : ${recipientPhoneController.text}"
+        "deliveryDate : ${_selectedDate?.convertDateToString("dd MMM yyyy")} "
+        "deliveryTime : ${selectDeliveryTimeOfSend != null
+                  ? deliveryTimeArray[selectDeliveryTimeOfSend!].item
+                  : null}" );
     if (formKey.currentState?.validate() == true) {
       ref.read(createOrderStateNotifiers.notifier).createOrder(
-        isIdentitySecret: _enableIsSecret == true ? "1" : "0"
-      );
+          isIdentitySecret: _enableIsSecret == true ? "1" : "0",
+          giftBoxId: giftBoxId,
+          giftCardId: giftCardId,
+          orderType: OrderTypes.receiver_order.name.toString(),
+          paymentMethod: "Credit Card",
+          promocode: promocode,
+          receiverName: recipientNameController.text,
+          receiverAddress: locationController.text,
+          receiverAddressDetails: addressDescriptionController.text,
+          receiverPhone: recipientPhoneController.text,
+          deliveryDate: _selectedDate?.convertDateToString("dd MMM yyyy"),
+          deliveryTime: selectDeliveryTimeOfSend != null
+              ? deliveryTimeArray[selectDeliveryTimeOfSend!].item
+              : null);
     }
   }
+
+  void createInstantOrder({
+    String? serviceId,
+    String? serviceQuantity,
+    String? serviceSelectedListIds,
+    String? serviceSelectedListItemsIds,
+    String? paymentMethod,
+    String? promocode,
+    String? receiverName,
+    String? receiverPhoneNumber,
+    String? cardMessage,
+    String? cardFrom,
+    String? cardTo,
+  }) {
+    ref.read(createOrderStateNotifiers.notifier).createInstantOrder(
+        serviceId: serviceId,
+        serviceQuantity: "1",
+        serviceSelectedListIds: serviceSelectedListIds,
+        serviceSelectedListItemsIds: serviceSelectedListItemsIds,
+        paymentMethod: paymentMethod,
+        promocode: promocode,
+        receiverPhoneNumber: recipientPhoneController.text,
+        receiverName: recipientNameController.text,
+        cardMessage: messageController.text,
+        cardFrom: cardFrom,
+        cardTo: messageToController.text
+    );
+  }
+
+  @override
+  void dispose() {
+    resetCartSelectionData();
+    super.dispose();
+  }
+
+  void resetCartSelectionData() {
+    ref.read(cartDateSelectedStateNotifiers.notifier).setCartDataSelection({});
+  }
+
 }

@@ -48,3 +48,11 @@ enum FilterScreenTypes {
 enum TypeOfMode {
   ViewMode,AuthMode
 }
+
+enum OrderTypes {
+  self_order,receiver_order
+}
+
+enum ServiceTypes {
+  soft_card,hard_card
+}
