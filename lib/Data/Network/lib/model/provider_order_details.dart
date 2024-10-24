@@ -32,6 +32,7 @@ class ProviderOrderDetails {
     this.rating,
     this.ratingComment,
     this.receiverAddress,
+    this.latLng,
     this.receiverPhoneNumber,
     this.referenceNumber,
     this.shippingFee,
@@ -150,6 +151,8 @@ class ProviderOrderDetails {
   ///
   String? receiverAddress;
 
+  String? latLng;
+
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
   /// does not include a default value (using the "default:" property), however, the generated
@@ -255,6 +258,7 @@ class ProviderOrderDetails {
      other.rating == rating &&
      other.ratingComment == ratingComment &&
      other.receiverAddress == receiverAddress &&
+     other.latLng == latLng &&
      other.receiverPhoneNumber == receiverPhoneNumber &&
      other.referenceNumber == referenceNumber &&
      other.shippingFee == shippingFee &&
@@ -290,6 +294,7 @@ class ProviderOrderDetails {
     (rating == null ? 0 : rating!.hashCode) +
     (ratingComment == null ? 0 : ratingComment!.hashCode) +
     (receiverAddress == null ? 0 : receiverAddress!.hashCode) +
+    (latLng == null ? 0 : latLng!.hashCode) +
     (receiverPhoneNumber == null ? 0 : receiverPhoneNumber!.hashCode) +
     (referenceNumber == null ? 0 : referenceNumber!.hashCode) +
     (shippingFee == null ? 0 : shippingFee!.hashCode) +
@@ -304,7 +309,7 @@ class ProviderOrderDetails {
     (giftCard == null ? 0 : giftCard!.hashCode);
 
   @override
-  String toString() => 'ProviderOrderDetails[cancellationReason=$cancellationReason, cancelledBy=$cancelledBy, createdAt=$createdAt, deliveryDate=$deliveryDate, deliveryTime=$deliveryTime, finishedAt=$finishedAt, cancelledAt=$cancelledAt, id=$id, orderFamily=$orderFamily, orderItems=$orderItems, packagingProviderId=$packagingProviderId, paymentMethod=$paymentMethod, promocode=$promocode, promocodeDiscountType=$promocodeDiscountType, promocodeDiscountValue=$promocodeDiscountValue, promocodeId=$promocodeId, rating=$rating, ratingComment=$ratingComment, receiverAddress=$receiverAddress, receiverPhoneNumber=$receiverPhoneNumber, referenceNumber=$referenceNumber, shippingFee=$shippingFee, statusId=$statusId, total=$total, totalWithShippingFee=$totalWithShippingFee, type=$type, updatedAt=$updatedAt, user=$user, userId=$userId, giftBox=$giftBox, giftCard=$giftCard]';
+  String toString() => 'ProviderOrderDetails[cancellationReason=$cancellationReason, cancelledBy=$cancelledBy, createdAt=$createdAt, deliveryDate=$deliveryDate, deliveryTime=$deliveryTime, finishedAt=$finishedAt, cancelledAt=$cancelledAt, id=$id, orderFamily=$orderFamily, orderItems=$orderItems, packagingProviderId=$packagingProviderId, paymentMethod=$paymentMethod, promocode=$promocode, promocodeDiscountType=$promocodeDiscountType, promocodeDiscountValue=$promocodeDiscountValue, promocodeId=$promocodeId, rating=$rating, ratingComment=$ratingComment, receiverAddress=$receiverAddress, latLng=$latLng, receiverPhoneNumber=$receiverPhoneNumber, referenceNumber=$referenceNumber, shippingFee=$shippingFee, statusId=$statusId, total=$total, totalWithShippingFee=$totalWithShippingFee, type=$type, updatedAt=$updatedAt, user=$user, userId=$userId, giftBox=$giftBox, giftCard=$giftCard]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -398,6 +403,11 @@ class ProviderOrderDetails {
       json[r'receiver_address'] = this.receiverAddress;
     } else {
       json[r'receiver_address'] = null;
+    }
+    if (this.latLng != null) {
+      json[r'lat_lng'] = this.latLng;
+    } else {
+      json[r'lat_lng'] = null;
     }
     if (this.receiverPhoneNumber != null) {
       json[r'receiver_phone_number'] = this.receiverPhoneNumber;
@@ -510,6 +520,7 @@ class ProviderOrderDetails {
             : num.parse(json[r'rating'].toString()),
         ratingComment: mapValueOfType<String>(json, r'rating_comment'),
         receiverAddress: mapValueOfType<String>(json, r'receiver_address'),
+        latLng: mapValueOfType<String>(json, r'lat_lng'),
         receiverPhoneNumber: mapValueOfType<String>(json, r'receiver_phone_number'),
         referenceNumber: mapValueOfType<String>(json, r'reference_number'),
         shippingFee: json[r'shipping_fee'] == null

@@ -60,9 +60,9 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
   Widget build(BuildContext context) {
     var cartInfo = ref.watch(cartCalculationStateNotifies);
     var cartSelectionData = ref.watch(cartDateSelectedStateNotifiers);
-    handleState(createOrderStateNotifiers,showLoading: true , onSuccess: (res){
-       ref.watch(fetchCardDetailsStateNotifies);
-       context.pop(true);
+    handleState(createOrderStateNotifiers, showLoading: true, onSuccess: (res) {
+      ref.watch(fetchCardDetailsStateNotifies);
+      context.pop(true);
     });
     print("${cartSelectionData.toString()}");
     return Scaffold(
@@ -193,7 +193,7 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                             label: "Recipient Phone",
                             textEditingController: recipientPhoneController,
                             validate: (value) {
-                              if (value?.isEmpty == true ) {
+                              if (value?.isEmpty == true) {
                                 return "Select type of send";
                               } else {
                                 return null;
@@ -217,7 +217,8 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                             label: "Select Location on map",
                             textEditingController: locationController,
                             validate: (value) {
-                              if (value?.isEmpty == true && (!_enable && selectTypeOfSend == 1)) {
+                              if (value?.isEmpty == true &&
+                                  (!_enable && selectTypeOfSend == 1)) {
                                 return "Select type of send";
                               } else {
                                 return null;
@@ -471,7 +472,8 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                     width: double.infinity,
                     height: 46,
                     onPress: () {
-                      if((cartSelectionData[orderTypeKey]).toString() == OrderTypes.receiver_order.name){
+                      if ((cartSelectionData[orderTypeKey]).toString() ==
+                          OrderTypes.receiver_order.name) {
                         createOrder(
                           cartSelectionData.containsKey(giftBoxIdKey)
                               ? cartSelectionData[giftBoxIdKey].toString()
@@ -481,25 +483,29 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                               : null,
                           cartSelectionData.containsKey(promocodeKey)
                               ? cartSelectionData[promocodeKey].toString()
-                              : null,
+                              : null,"${selectedLocation?.latitude}, ${selectedLocation?.longitude}"
                         );
-                      }else{
+                      } else {
                         createInstantOrder(
                           serviceId: cartSelectionData.containsKey(serviceIdKey)
                               ? cartSelectionData[serviceIdKey].toString()
                               : null,
-                          serviceSelectedListItemsIds: cartSelectionData.containsKey(serviceSelectedListItemsIdsKey)
-                              ? cartSelectionData[serviceSelectedListItemsIdsKey].toString()
+                          serviceSelectedListItemsIds: cartSelectionData
+                                  .containsKey(serviceSelectedListItemsIdsKey)
+                              ? cartSelectionData[
+                                      serviceSelectedListItemsIdsKey]
+                                  .toString()
                               : null,
-                          serviceSelectedListIds: cartSelectionData.containsKey(serviceSelectedListIdsKey)
-                              ? cartSelectionData[serviceSelectedListIdsKey].toString()
+                          serviceSelectedListIds: cartSelectionData
+                                  .containsKey(serviceSelectedListIdsKey)
+                              ? cartSelectionData[serviceSelectedListIdsKey]
+                                  .toString()
                               : null,
                           promocode: cartSelectionData.containsKey(promocodeKey)
                               ? cartSelectionData[promocodeKey].toString()
                               : null,
                         );
                       }
-
                     })
               ],
             ),
@@ -536,7 +542,8 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
     if (pickedDate != null && pickedDate != _selectedDate) {
       _selectedDate = pickedDate;
 
-      calenderController.text = _selectedDate?.convertDateToString("dd MMM yyyy") ?? "";
+      calenderController.text =
+          _selectedDate?.convertDateToString("dd MMM yyyy") ?? "";
     }
   }
 
@@ -555,6 +562,7 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
     String? giftBoxId,
     String? giftCardId,
     String? promocode,
+    String? latLng,
   ) {
     print("isIdentitySecret : ${_enableIsSecret == true ? "1" : "0"} "
         "giftBoxId : $giftBoxId "
@@ -564,9 +572,7 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
         "receiverAddressDetails : ${addressDescriptionController.text} "
         "receiverPhone : ${recipientPhoneController.text}"
         "deliveryDate : ${_selectedDate?.convertDateToString("dd MMM yyyy")} "
-        "deliveryTime : ${selectDeliveryTimeOfSend != null
-                  ? deliveryTimeArray[selectDeliveryTimeOfSend!].item
-                  : null}" );
+        "deliveryTime : ${selectDeliveryTimeOfSend != null ? deliveryTimeArray[selectDeliveryTimeOfSend!].item : null}");
     if (formKey.currentState?.validate() == true) {
       ref.read(createOrderStateNotifiers.notifier).createOrder(
           isIdentitySecret: _enableIsSecret == true ? "1" : "0",
@@ -610,8 +616,7 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
         receiverName: recipientNameController.text,
         cardMessage: messageController.text,
         cardFrom: cardFrom,
-        cardTo: messageToController.text
-    );
+        cardTo: messageToController.text);
   }
 
   @override
@@ -623,5 +628,4 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
   void resetCartSelectionData() {
     ref.read(cartDateSelectedStateNotifiers.notifier).setCartDataSelection({});
   }
-
 }

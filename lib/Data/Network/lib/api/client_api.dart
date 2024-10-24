@@ -341,12 +341,14 @@ class ClientApi {
   /// * [String] receiverAddress:
   ///   Required in case of self_order (address of client itself)
   ///
+  /// * [String] latLng:
+  ///
   /// * [String] receiverName:
   ///
   /// * [String] receiverAddressDetails:
   ///
   /// * [String] receiverPhone:
-  Future<Response> createOrderWithHttpInfo({ String? deliveryDate, String? deliveryTime, String? giftBoxId, String? giftCardId, String? isIdentitySecret, String? orderType, String? paymentMethod, String? promocode, String? receiverAddress, String? receiverName, String? receiverAddressDetails, String? receiverPhone, }) async {
+  Future<Response> createOrderWithHttpInfo({ String? deliveryDate, String? deliveryTime, String? giftBoxId, String? giftCardId, String? isIdentitySecret, String? orderType, String? paymentMethod, String? promocode, String? receiverAddress, String? latLng, String? receiverName, String? receiverAddressDetails, String? receiverPhone, }) async {
     // ignore: prefer_const_declarations
     final path = r'/client/order/create';
 
@@ -396,6 +398,10 @@ class ClientApi {
     if (receiverAddress != null) {
       hasFields = true;
       mp.fields[r'receiver_address'] = parameterToString(receiverAddress);
+    }
+    if (latLng != null) {
+      hasFields = true;
+      mp.fields[r'lat_lng'] = parameterToString(latLng);
     }
     if (receiverName != null) {
       hasFields = true;
@@ -457,13 +463,15 @@ class ClientApi {
   /// * [String] receiverAddress:
   ///   Required in case of self_order (address of client itself)
   ///
+  /// * [String] latLng:
+  ///
   /// * [String] receiverName:
   ///
   /// * [String] receiverAddressDetails:
   ///
   /// * [String] receiverPhone:
-  Future<ClientOrderDetails?> createOrder({ String? deliveryDate, String? deliveryTime, String? giftBoxId, String? giftCardId, String? isIdentitySecret, String? orderType, String? paymentMethod, String? promocode, String? receiverAddress, String? receiverName, String? receiverAddressDetails, String? receiverPhone, }) async {
-    final response = await createOrderWithHttpInfo( deliveryDate: deliveryDate, deliveryTime: deliveryTime, giftBoxId: giftBoxId, giftCardId: giftCardId, isIdentitySecret: isIdentitySecret, orderType: orderType, paymentMethod: paymentMethod, promocode: promocode, receiverAddress: receiverAddress, receiverName: receiverName, receiverAddressDetails: receiverAddressDetails, receiverPhone: receiverPhone, );
+  Future<ClientOrderDetails?> createOrder({ String? deliveryDate, String? deliveryTime, String? giftBoxId, String? giftCardId, String? isIdentitySecret, String? orderType, String? paymentMethod, String? promocode, String? receiverAddress, String? latLng, String? receiverName, String? receiverAddressDetails, String? receiverPhone, }) async {
+    final response = await createOrderWithHttpInfo( deliveryDate: deliveryDate, deliveryTime: deliveryTime, giftBoxId: giftBoxId, giftCardId: giftCardId, isIdentitySecret: isIdentitySecret, orderType: orderType, paymentMethod: paymentMethod, promocode: promocode, receiverAddress: receiverAddress, latLng: latLng, receiverName: receiverName, receiverAddressDetails: receiverAddressDetails, receiverPhone: receiverPhone, );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }

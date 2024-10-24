@@ -27,6 +27,7 @@ Name | Type | Description | Notes
 **rating** | **num** |  | [optional] 
 **ratingComment** | **String** |  | [optional] 
 **receiverAddress** | **String** |  | [optional] 
+**latLng** | **String** |  | [optional] 
 **receiverPhoneNumber** | **String** |  | [optional] 
 **referenceNumber** | **String** |  | [optional] 
 **shippingFee** | **num** |  | [optional] 

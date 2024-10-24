@@ -22,6 +22,7 @@ class CreateOrderUseCase
     String? receiverAddress,
     String? receiverAddressDetails,
     String? receiverPhone,
+    String? latLng,
   }) {
     state = StateModel.loading();
     request(() => _clientApi.createOrder(
@@ -33,6 +34,7 @@ class CreateOrderUseCase
         orderType: orderType,
         paymentMethod: paymentMethod,
         promocode: promocode,
+        latLng: latLng,
         receiverName: receiverName,
         receiverPhone: receiverPhone,
         receiverAddress: receiverAddress,

@@ -2186,6 +2186,9 @@ components:
         receiver_address:
           type: string
           example: 5th fahd street, Jeddah
+        lat_lng:
+          nullable: true
+          type: string
         receiver_phone_number:
           type: string
           example: '509295069'
@@ -2964,6 +2967,9 @@ components:
         receiver_address:
           type: string
           example: 5th fahd street, Jeddah
+        lat_lng:
+          nullable: true
+          type: string
         receiver_phone_number:
           type: string
           example: '509295069'
@@ -8780,6 +8786,8 @@ paths:
                   description: Required in case of self_order (address of client itself)
                   type: string
                   example: 5th Fahd street, Jeddah
+                lat_lng:
+                  type: string
                 receiver_name:
                   type: string
                 receiver_address_details:

@@ -233,7 +233,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **createOrder**
-> ClientOrderDetails createOrder(deliveryDate, deliveryTime, giftBoxId, giftCardId, isIdentitySecret, orderType, paymentMethod, promocode, receiverAddress, receiverName, receiverAddressDetails, receiverPhone)
+> ClientOrderDetails createOrder(deliveryDate, deliveryTime, giftBoxId, giftCardId, isIdentitySecret, orderType, paymentMethod, promocode, receiverAddress, latLng, receiverName, receiverAddressDetails, receiverPhone)
 
 Create order
 
@@ -259,12 +259,13 @@ final orderType = orderType_example; // String | self_order or receiver_order
 final paymentMethod = paymentMethod_example; // String | eg: visa, mada, applepay
 final promocode = promocode_example; // String | Optional
 final receiverAddress = receiverAddress_example; // String | Required in case of self_order (address of client itself)
+final latLng = latLng_example; // String | 
 final receiverName = receiverName_example; // String | 
 final receiverAddressDetails = receiverAddressDetails_example; // String | 
 final receiverPhone = receiverPhone_example; // String | 
 
 try {
-    final result = api_instance.createOrder(deliveryDate, deliveryTime, giftBoxId, giftCardId, isIdentitySecret, orderType, paymentMethod, promocode, receiverAddress, receiverName, receiverAddressDetails, receiverPhone);
+    final result = api_instance.createOrder(deliveryDate, deliveryTime, giftBoxId, giftCardId, isIdentitySecret, orderType, paymentMethod, promocode, receiverAddress, latLng, receiverName, receiverAddressDetails, receiverPhone);
     print(result);
 } catch (e) {
     print('Exception when calling ClientApi->createOrder: $e\n');
@@ -284,6 +285,7 @@ Name | Type | Description  | Notes
  **paymentMethod** | **String**| eg: visa, mada, applepay | [optional] 
  **promocode** | **String**| Optional | [optional] 
  **receiverAddress** | **String**| Required in case of self_order (address of client itself) | [optional] 
+ **latLng** | **String**|  | [optional] 
  **receiverName** | **String**|  | [optional] 
  **receiverAddressDetails** | **String**|  | [optional] 
  **receiverPhone** | **String**|  | [optional] 
