@@ -213,25 +213,49 @@ class _ServiceAndProductItemCardHorizontalState
                           width: context.getScreenSize.width,
                           height: 36,
                           onPress: () {
-                            if (widget.type == ItemType.Products &&
-                                widget.product?.inCart == false) {
-                              widget.onAddItemToCart
-                                  .call(widget.product?.id?.toInt() ?? 0);
-                            } else if (widget.type == ItemType.Services &&
-                                widget.service?.inCart == false) {
-                              widget.onAddItemToCart
-                                  .call(widget.service?.id?.toInt() ?? 0);
-                            }
+                            // if (widget.type == ItemType.Products &&
+                            //     widget.product?.inCart == false) {
+                            //   widget.onAddItemToCart
+                            //       .call(widget.product?.id?.toInt() ?? 0);
+                            // } else if (widget.type == ItemType.Services &&
+                            //     widget.service?.inCart == false) {
+                            //   widget.onAddItemToCart
+                            //       .call(widget.service?.id?.toInt() ?? 0);
+                            // }
+                            print("Selected Product : ${widget.type == ItemType.Products}");
+                            var categoriesIds = widget.type == ItemType.Products
+                                ? widget.product?.categories
+                                ?.map((item) => (item.id ?? 0).toInt())
+                                .toList() ??
+                                []
+                                : widget.service?.categories
+                                .map((item) => (item.id ?? 0).toInt())
+                                .toList() ??
+                                [];
+
+                            print("Selected Product Categories: ${widget.product?.categories}");
+                            print("Selected Product : $categoriesIds");
+                            widget.onItemClick.call(
+                                (widget.type == ItemType.Products
+                                    ? widget.product?.id ?? 0
+                                    : widget.service?.id ?? 0)
+                                    .toInt(),
+                                widget.type == ItemType.Products
+                                    ? widget.product?.name ?? ""
+                                    : widget.service?.name ?? "",
+                                categoriesIds);
                           },
                           child: Skeleton.ignore(
                             child: Text(
-                              widget.type == ItemType.Products
-                                  ? widget.product?.inCart == true
-                                      ? "Added"
-                                      : "Add to cart"
-                                  : widget.service?.inCart == true
-                                      ? "Added"
-                                      : "Add to cart",
+                              // widget.type == ItemType.Products
+                              //     ? widget.product?.inCart == true
+                              //         ? "Added"
+                              //         : "Add to cart"
+                              //     : widget.service?.inCart == true
+                              //         ? "Added"
+                              //         : "Add to cart"
+                              "View Details"
+                              ,
                               style: AppTheme
                                   .styleWithTextGray7AdelleSansExtendedFonts12w400
                                   .copyWith(color: Colors.white),

@@ -299,6 +299,18 @@ class SVGIcons {
     );
   }
 
+  static Widget buyIcon() {
+    return SvgPicture.asset(
+      buy,
+    );
+  }
+  
+  static Widget activeBuyIcon() {
+    return SvgPicture.asset(
+      activeBuy,
+    );
+  }
+
   static Widget deleteAccountIcIcon() {
     return SvgPicture.asset(
       deleteAccountIc,

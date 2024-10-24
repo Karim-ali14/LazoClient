@@ -99,8 +99,8 @@ class MainScreenNavHostState extends ConsumerState<MainScreenNavHost> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       currentTab == 1
-                          ? SVGIcons.homeActiveIcon()
-                          : SVGIcons.homeUnActiveIcon(),
+                          ? SVGIcons.activeBuyIcon()
+                          : SVGIcons.buyIcon(),
                       SizedBox(
                         height: 3,
                       ),
