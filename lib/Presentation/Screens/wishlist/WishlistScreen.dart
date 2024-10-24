@@ -93,41 +93,46 @@ class _WishListScreenState extends ConsumerState<WishListScreen>
 
     handleState(productToggleStateNotifier, showLoading: true,
         onSuccess: (res) {
-
-      ref
-          .read(getSellerDetailsWithProductStateNotifier.notifier)
-          .handleAddProductToWishList(
-              res.data?.data?.productId?.toInt() ?? 0,
-              res.data?.data?.categoriesIds ?? [],
-              res.data?.data?.inWishlist ?? false);
-
-      ref.read(getProductDetails.notifier).handelAddProductToWishList(
-          res.data?.data?.productId ?? 0, res.data?.data?.inWishlist ?? false);
-
-      ref.read(homeDataStateNotifiers.notifier).handleAddProductToWishList(
-          res.data?.data?.productId ?? 0, res.data?.data?.inWishlist ?? false);
-
-      ref.read(getProductsStateNotifiers.notifier).handleAddProductToWishList(
-          res.data?.data?.productId ?? 0, res.data?.data?.inWishlist ?? false);
+      print("object ${res.data?.data?.id.toString()} ${res.data?.data?.productId.toString()}");
+      ref.read(getWishListProductsStateNotifier.notifier).deleteProductItem(res.data?.data?.productId.toString() ?? "");
+      // ref
+      //     .read(getSellerDetailsWithProductStateNotifier.notifier)
+      //     .handleAddProductToWishList(
+      //         res.data?.data?.productId?.toInt() ?? 0,
+      //         res.data?.data?.categoriesIds ?? [],
+      //         res.data?.data?.inWishlist ?? false);
+      //
+      // ref.read(getProductDetails.notifier).handelAddProductToWishList(
+      //     res.data?.data?.productId ?? 0, res.data?.data?.inWishlist ?? false);
+      //
+      // ref.read(homeDataStateNotifiers.notifier).handleAddProductToWishList(
+      //     res.data?.data?.productId ?? 0, res.data?.data?.inWishlist ?? false);
+      //
+      // ref.read(getProductsStateNotifiers.notifier).handleAddProductToWishList(
+      //     res.data?.data?.productId ?? 0, res.data?.data?.inWishlist ?? false);
     });
 
     handleState(serviceToggleStateNotifier, showLoading: true,
         onSuccess: (res) {
-      ref
-          .read(getSellerDetailsWithServicesStateNotifier.notifier)
-          .handleAddServiceToWishList(
-              res.data?.data?.serviceId?.toInt() ?? 0,
-              res.data?.data?.categoriesIds ?? [],
-              res.data?.data?.inWishlist ?? false);
 
-      ref.read(getServiceDetails.notifier).handelAddServiceToWishList(
-          res.data?.data?.serviceId ?? 0, res.data?.data?.inWishlist ?? false);
-
-      ref.read(homeDataStateNotifiers.notifier).handelAddServiceToWishList(
-          res.data?.data?.serviceId ?? 0, res.data?.data?.inWishlist ?? false);
-
-      ref.read(getServicesStateNotifiers.notifier).handelAddServiceToWishlist(
-          res.data?.data?.serviceId ?? 0, res.data?.data?.inWishlist ?? false);
+      ref.read(getWishListServicesStateNotifier.notifier).deleteServiceItem(
+        res.data?.data?.serviceId.toString() ?? ""
+      );
+      // ref
+      //     .read(getSellerDetailsWithServicesStateNotifier.notifier)
+      //     .handleAddServiceToWishList(
+      //         res.data?.data?.serviceId?.toInt() ?? 0,
+      //         res.data?.data?.categoriesIds ?? [],
+      //         res.data?.data?.inWishlist ?? false);
+      //
+      // ref.read(getServiceDetails.notifier).handelAddServiceToWishList(
+      //     res.data?.data?.serviceId ?? 0, res.data?.data?.inWishlist ?? false);
+      //
+      // ref.read(homeDataStateNotifiers.notifier).handelAddServiceToWishList(
+      //     res.data?.data?.serviceId ?? 0, res.data?.data?.inWishlist ?? false);
+      //
+      // ref.read(getServicesStateNotifiers.notifier).handelAddServiceToWishlist(
+      //     res.data?.data?.serviceId ?? 0, res.data?.data?.inWishlist ?? false);
     });
 
     handleState(addServiceToCartUseCaseStateNotifier, showLoading: true,
@@ -251,10 +256,10 @@ class _WishListScreenState extends ConsumerState<WishListScreen>
                 children: [
                   productsState.state == DataState.EMPTY
                       ? /*OrderPlaceHolder(onAddOrderClick: () {})*/ EmptyDataView(
-                          icon: SVGIcons.searchGifIcon(),
-                          title: "No Data Found",
+                          icon: SVGIcons.wishlistGifIcon(),
+                          title: "No Products Found",
                           description:
-                              "Please refine your search using common words to get accurate results",
+                              "When you add any product to your whishlist, it will appear here",
                         )
                       : DataListView<ProviderProduct>(
                           dataList: productsState.data?.data?.products ??
@@ -297,9 +302,9 @@ class _WishListScreenState extends ConsumerState<WishListScreen>
                   servicesState.state == DataState.EMPTY
                       ? /*OrderPlaceHolder(onAddOrderClick: () {})*/ EmptyDataView(
                           icon: SVGIcons.searchGifIcon(),
-                          title: "No Data Found",
+                          title: "No Services Found",
                           description:
-                              "Please refine your search using common words to get accurate results",
+                              "When you add any service to your whishlist, it will appear here",
                         )
                       : DataListView<ServiceShowData>(
                           dataList: servicesState.data?.data?.services ??

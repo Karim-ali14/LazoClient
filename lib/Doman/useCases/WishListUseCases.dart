@@ -34,4 +34,45 @@ class WishListProductsUseCase extends StateNotifier<StateModel<ShowWishlistItems
       }
     });
   }
+  void deleteProductItem(String productId){
+    var products = state.data?.data?.products.toList(growable: true);
+    var index = products?.indexWhere((item) {
+
+      return item.id.toString() == productId;
+    });
+    print("asdfsdfsdaf sdf dsaf sad${products?.length} $index $productId");
+
+    if(index != -1) {
+      products?.removeAt(index!);
+    }
+    var data = state.data;
+    data?.data?.products = [...?products];
+    print("asdfsdfsdaf sdf dsaf sad${products?.length}");
+    if(products?.isEmpty == true){
+      state = StateModel.empty(data: data);
+    }else{
+      state = StateModel.success(data);
+    }
+  }
+
+  void deleteServiceItem(String serviceId){
+    var services = state.data?.data?.services.toList(growable: true);
+    var index = services?.indexWhere((item) {
+
+      return item.id.toString() == serviceId;
+    });
+    print("asdfsdfsdaf sdf dsaf sad${services?.length} $index $serviceId");
+
+    if(index != -1) {
+      services?.removeAt(index!);
+    }
+    var data = state.data;
+    data?.data?.services = [...?services];
+
+    if(serviceId.isEmpty == true){
+      state = StateModel.empty(data: data);
+    }else{
+      state = StateModel.success(data);
+    }
+  }
 }

@@ -74,4 +74,5 @@ const calendarImage = "assets/images/calendar_image.svg";
 const timeCircle = "assets/images/time_circle.svg";
 const buy = "assets/images/buy.svg";
 const activeBuy = "assets/images/active_buy.svg";
+const wishlist = "assets/images/wishlist.gif";
 

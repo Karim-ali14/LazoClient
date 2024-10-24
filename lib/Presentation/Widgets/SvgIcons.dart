@@ -203,6 +203,15 @@ class SVGIcons {
     );
   }
 
+  static Widget wishlistGifIcon() {
+    return Image.asset(
+      wishlist,
+      width: 138,
+      height: 138,
+      fit: BoxFit.fill,
+    );
+  }
+
   static Widget langIcon() {
     return SvgPicture.asset(
       langImg,
@@ -304,7 +313,7 @@ class SVGIcons {
       buy,
     );
   }
-  
+
   static Widget activeBuyIcon() {
     return SvgPicture.asset(
       activeBuy,
