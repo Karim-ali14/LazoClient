@@ -17,6 +17,8 @@ import 'package:skeletonizer/skeletonizer.dart';
 import '../../../Constants.dart';
 import '../../../Constants/Eunms.dart';
 import '../../../Localization/Keys.dart';
+import '../../BottomSheets/AuthenticateBottomSheet.dart';
+import '../../StateNotifiersViewModel/UserAuthStateNotifiers.dart';
 import '../details/componants/ProductRowItem.dart';
 import '../mainScreen/MainScreenNavHost.dart';
 import 'componants/GiftBoxListView.dart';
@@ -49,9 +51,7 @@ class _CartScreenState extends ConsumerState<CartScreen> {
       var sessionId = ref
           .read(getSessionHandlerStateNotifier.notifier)
           .checkIfSessionIdExist();
-      ref
-          .read(fetchCardDetailsStateNotifies.notifier)
-          .getCardDetails(sessionId: sessionId);
+      getCartDetails(sessionId);
     });
     super.initState();
   }
@@ -351,21 +351,26 @@ class _CartScreenState extends ConsumerState<CartScreen> {
                             width: double.infinity,
                             height: 46,
                             onPress: () {
-                              if(giftBoxSelected != null){
-                                var data = {
-                                  giftBoxIdKey : giftBoxSelected?.id.toString() ?? "",
-                                };
-                                if(giftCartSelected != null){
-                                  data[giftCardIdKey] = giftCartSelected?.id?.toString() ?? "";
+                              if (ref.read(clientStateProvider.notifier).checkIfUserExist() != null) {
+                                if(giftBoxSelected != null){
+                                  var data = {
+                                    giftBoxIdKey : giftBoxSelected?.id.toString() ?? "",
+                                  };
+                                  if(giftCartSelected != null){
+                                    data[giftCardIdKey] = giftCartSelected?.id?.toString() ?? "";
+                                  }
+                                  if(promocode?.isNotEmpty == true){
+                                    data[promocodeKey] = promocode??"";
+                                  }
+                                  ref.read(cartDateSelectedStateNotifiers.notifier).setCartDataSelection(
+                                      data
+                                  );
+                                  checkout();
                                 }
-                                if(promocode?.isNotEmpty == true){
-                                  data[promocodeKey] = promocode??"";
-                                }
-                                ref.read(cartDateSelectedStateNotifiers.notifier).setCartDataSelection(
-                                    data
-                                );
-                                checkout();
+                              }else{
+                                showAuthenticated();
                               }
+
                             })
                       ],
                     ),
@@ -375,7 +380,28 @@ class _CartScreenState extends ConsumerState<CartScreen> {
       ),
     );
   }
+  void showAuthenticated() {
+    showModalBottomSheet(
+        isScrollControlled: true,
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+                topRight: Radius.circular(10), topLeft: Radius.circular(10))),
+        context: context,
+        builder: (BuildContext context) => AuthenticateBottomSheet(
+          onLoginClicked: () {
+            navigateToLogin();
+          },
+        ));
+  }
 
+
+  void navigateToLogin() async {
+    var makeRefresh =
+    await context.push(R_LoginScreen, extra: {"type": TypeOfMode.ViewMode});
+    if (makeRefresh == true) {
+      getCartDetails(null);
+    }
+  }
   void calculateCartItems({String? cartId}) {
     print(
         "cartId :$cartId giftCardId: ${giftCartSelected?.id} giftBoxId: ${giftBoxSelected?.id}");
@@ -437,5 +463,11 @@ class _CartScreenState extends ConsumerState<CartScreen> {
   void navigateToHomeScreen(){
     (context.findAncestorStateOfType<MainScreenNavHostState>() as MainScreenNavHostState)
         .onItemTapped(0);
+  }
+
+  void getCartDetails(String? sessionId) {
+    ref
+        .read(fetchCardDetailsStateNotifies.notifier)
+        .getCardDetails(sessionId: sessionId);
   }
 }

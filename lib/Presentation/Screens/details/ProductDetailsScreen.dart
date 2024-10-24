@@ -1192,7 +1192,7 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
                     if (widget.itemType == ItemType.Products) {
                       if (widget.productDetails != null) {
                         editProductToCart(widget.cartId ?? 0);
-                      } else if (productItemState.data?.data?.id != null) {
+                      } else if (productItemState.data?.data?.id != null && productItemState.data?.data?.amount != 0) {
                         addProductToCart(int.parse(
                             productItemState.data?.data?.id!.toString() ?? ""));
                       }
@@ -1209,7 +1209,7 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
                   text: widget.itemType == ItemType.Products
                       ? widget.productDetails != null
                           ? "Edit Product"
-                          : productItemState.data?.data!.inCart == true
+                          :  productItemState.data?.data?.amount == 0 ? "Out of stock" : productItemState.data?.data!.inCart == true
                               ? "Added"
                               : "Add to cart"
                       :  widget.serviceShowData != null
@@ -1413,24 +1413,29 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
   }
 
   void makeCheckoutForSoftService(int id) {
-    String? parentItemIds;
-    String? childItemIds;
-    if (serviceSelectemItemsIds.isNotEmpty) {
-      parentItemIds =
-          serviceSelectemItemsIds.keys.map((key) => key.toString()).join(",");
-      childItemIds = serviceSelectemItemsIds.values
-          .map((value) => value.join(","))
-          .join("|");
-    }
-    ref.read(cartDateSelectedStateNotifiers.notifier).setCartDataSelection(
-      {
-        orderTypeKey : OrderTypes.self_order.name,
-        serviceIdKey : id.toString(),
-        serviceSelectedListIdsKey : parentItemIds.toString(),
-        serviceSelectedListItemsIdsKey : childItemIds.toString(),
+    if (ref.read(clientStateProvider.notifier).checkIfUserExist() != null) {
+      String? parentItemIds;
+      String? childItemIds;
+      if (serviceSelectemItemsIds.isNotEmpty) {
+        parentItemIds =
+            serviceSelectemItemsIds.keys.map((key) => key.toString()).join(",");
+        childItemIds = serviceSelectemItemsIds.values
+            .map((value) => value.join(","))
+            .join("|");
       }
-    );
+      ref.read(cartDateSelectedStateNotifiers.notifier).setCartDataSelection(
+          {
+            orderTypeKey : OrderTypes.self_order.name,
+            serviceIdKey : id.toString(),
+            serviceSelectedListIdsKey : parentItemIds.toString(),
+            serviceSelectedListItemsIdsKey : childItemIds.toString(),
+          }
+      );
 
-    context.push(R_CheckoutScreen);
+      context.push(R_CheckoutScreen);
+    }else {
+      showAuthenticated();
+    }
+
   }
 }
