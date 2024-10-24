@@ -36,6 +36,7 @@ import 'Presentation/Screens/mainScreen/MainScreen.dart';
 import 'Presentation/Screens/onbaording/OnBordingScreen.dart';
 import 'Presentation/Screens/profileScreen/EditPhoneScreen.dart';
 import 'Presentation/Screens/profileScreen/ProfileScreen.dart';
+import 'Presentation/Screens/wishlist/WishlistScreen.dart';
 
 late SharedPreferences prefs;
 
@@ -330,6 +331,11 @@ class MyApp extends ConsumerWidget {
             return GoogleMapScreen(
               locationSelected: extra["locationSelected"],
             );
+          }),
+      GoRoute(
+          path: R_WishListScreen,
+          builder: (BuildContext context, GoRouterState state) {
+            return const WishListScreen();
           }),
     ],
   );

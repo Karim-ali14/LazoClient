@@ -9401,16 +9401,14 @@ paths:
       description: Show wishlist items (with search by name)
       operationId: showWishlistItemsWithSearchByName
       parameters:
-        - name: search_by_name_en
+        - name: search_by_name
           in: query
           schema:
             type: string
-            example: serv
-        - name: search_by_name_ar
+        - name: type
           in: query
           schema:
             type: string
-            example: الخدمة
       responses:
         '200':
           description: Show wishlist items

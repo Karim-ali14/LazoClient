@@ -14,7 +14,7 @@ Method | HTTP request | Description
 
 
 # **showWishlistItemsWithSearchByName**
-> ShowWishlistItemsWithSearchByName200Response showWishlistItemsWithSearchByName(searchByNameEn, searchByNameAr)
+> ShowWishlistItemsWithSearchByName200Response showWishlistItemsWithSearchByName(searchByName, type)
 
 Show wishlist items (with search by name)
 
@@ -31,11 +31,11 @@ import 'package:lazo/api.dart';
 //defaultApiClient.getAuthentication<HttpBearerAuth>('bearerAuth').setAccessToken(yourTokenGeneratorFunction);
 
 final api_instance = WishlistApi();
-final searchByNameEn = serv; // String | 
-final searchByNameAr = الخدمة; // String | 
+final searchByName = searchByName_example; // String | 
+final type = type_example; // String | 
 
 try {
-    final result = api_instance.showWishlistItemsWithSearchByName(searchByNameEn, searchByNameAr);
+    final result = api_instance.showWishlistItemsWithSearchByName(searchByName, type);
     print(result);
 } catch (e) {
     print('Exception when calling WishlistApi->showWishlistItemsWithSearchByName: $e\n');
@@ -46,8 +46,8 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **searchByNameEn** | **String**|  | [optional] 
- **searchByNameAr** | **String**|  | [optional] 
+ **searchByName** | **String**|  | [optional] 
+ **type** | **String**|  | [optional] 
 
 ### Return type
 

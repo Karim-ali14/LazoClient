@@ -932,10 +932,10 @@ class ClientApi {
   ///
   /// Parameters:
   ///
-  /// * [String] searchByNameEn:
+  /// * [String] searchByName:
   ///
-  /// * [String] searchByNameAr:
-  Future<Response> showWishlistItemsWithSearchByNameWithHttpInfo({ String? searchByNameEn, String? searchByNameAr, }) async {
+  /// * [String] type:
+  Future<Response> showWishlistItemsWithSearchByNameWithHttpInfo({ String? searchByName, String? type, }) async {
     // ignore: prefer_const_declarations
     final path = r'/client/wishlist/show';
 
@@ -946,11 +946,11 @@ class ClientApi {
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
-    if (searchByNameEn != null) {
-      queryParams.addAll(_queryParams('', 'search_by_name_en', searchByNameEn));
+    if (searchByName != null) {
+      queryParams.addAll(_queryParams('', 'search_by_name', searchByName));
     }
-    if (searchByNameAr != null) {
-      queryParams.addAll(_queryParams('', 'search_by_name_ar', searchByNameAr));
+    if (type != null) {
+      queryParams.addAll(_queryParams('', 'type', type));
     }
 
     const contentTypes = <String>[];
@@ -973,11 +973,11 @@ class ClientApi {
   ///
   /// Parameters:
   ///
-  /// * [String] searchByNameEn:
+  /// * [String] searchByName:
   ///
-  /// * [String] searchByNameAr:
-  Future<ShowWishlistItemsWithSearchByName200Response?> showWishlistItemsWithSearchByName({ String? searchByNameEn, String? searchByNameAr, }) async {
-    final response = await showWishlistItemsWithSearchByNameWithHttpInfo( searchByNameEn: searchByNameEn, searchByNameAr: searchByNameAr, );
+  /// * [String] type:
+  Future<ShowWishlistItemsWithSearchByName200Response?> showWishlistItemsWithSearchByName({ String? searchByName, String? type, }) async {
+    final response = await showWishlistItemsWithSearchByNameWithHttpInfo( searchByName: searchByName, type: type, );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }

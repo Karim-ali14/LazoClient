@@ -4,6 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lazo_client/Presentation/Screens/cartScreen/CartScreen.dart';
 import 'package:lazo_client/Presentation/Screens/home/HomeScreen.dart';
+import 'package:lazo_client/Presentation/Screens/wishlist/WishlistScreen.dart';
 import 'package:lazo_client/Presentation/StateNotifiersViewModel/UserAuthStateNotifiers.dart';
 import 'package:lazo_client/Presentation/Theme/AppTheme.dart';
 import 'package:lazo_client/Presentation/Widgets/CustomAppBar.dart';
@@ -22,8 +23,8 @@ class MainScreenNavHost extends ConsumerStatefulWidget {
 
 class MainScreenNavHostState extends ConsumerState<MainScreenNavHost> {
   int currentTab = 0;
-  Widget currentScreen = HomeScreen();
-  final listTabsName = ["Home","Cart", "More"];
+  Widget currentScreen = const HomeScreen();
+  final listTabsName = ["Home", "Cart", "Wishlist", "More"];
 
   @override
   Widget build(BuildContext context) {
@@ -35,8 +36,8 @@ class MainScreenNavHostState extends ConsumerState<MainScreenNavHost> {
             appContext: context,
             title: currentTab == 0
                 ? client == null
-                ? "Hi There"
-                : "Hi ${client.client?.name}"
+                    ? "Hi There"
+                    : "Hi ${client.client?.name}"
                 : listTabsName[currentTab],
             isCenter: false,
             navigated: false,
@@ -63,7 +64,7 @@ class MainScreenNavHostState extends ConsumerState<MainScreenNavHost> {
                   onPressed: () {
                     setState(() {
                       currentTab = 0;
-                      currentScreen = HomeScreen();
+                      currentScreen = const HomeScreen();
                     });
                   },
                   child: Column(
@@ -79,14 +80,13 @@ class MainScreenNavHostState extends ConsumerState<MainScreenNavHost> {
                         listTabsName[0],
                         style: currentTab == 0
                             ? AppTheme
-                            .styleWithTextRedAdelleSansExtendedFonts11w500
+                                .styleWithTextRedAdelleSansExtendedFonts11w500
                             : AppTheme
-                            .styleWithTextGray7AdelleSansExtendedFonts11w500,
+                                .styleWithTextGray7AdelleSansExtendedFonts11w500,
                       )
                     ],
                   ),
                 ),
-
                 MaterialButton(
                   minWidth: 40,
                   onPressed: () {
@@ -108,36 +108,63 @@ class MainScreenNavHostState extends ConsumerState<MainScreenNavHost> {
                         listTabsName[1],
                         style: currentTab == 1
                             ? AppTheme
-                            .styleWithTextRedAdelleSansExtendedFonts11w500
+                                .styleWithTextRedAdelleSansExtendedFonts11w500
                             : AppTheme
-                            .styleWithTextGray7AdelleSansExtendedFonts11w500,
+                                .styleWithTextGray7AdelleSansExtendedFonts11w500,
                       )
                     ],
                   ),
                 ),
-
                 MaterialButton(
                   onPressed: () {
                     setState(() {
-                      currentScreen = const MoreScreen();
+                      currentScreen = const WishListScreen();
                       currentTab = 2;
                     });
                   },
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      currentTab == 2 ?
-                      SVGIcons.moreActiveIcon()
+                      currentTab == 2
+                          ? SVGIcons.moreActiveIcon()
                           : SVGIcons.moreUnActiveIcon(),
                       SizedBox(
                         height: 6,
                       ),
                       Text(
                         listTabsName[2],
-                        style: currentTab == 2 ?
-                        AppTheme.styleWithTextRedAdelleSansExtendedFonts11w500
-                            : AppTheme.styleWithTextGray7AdelleSansExtendedFonts11w500
-                        ,
+                        style: currentTab == 2
+                            ? AppTheme
+                                .styleWithTextRedAdelleSansExtendedFonts11w500
+                            : AppTheme
+                                .styleWithTextGray7AdelleSansExtendedFonts11w500,
+                      )
+                    ],
+                  ),
+                ),
+                MaterialButton(
+                  onPressed: () {
+                    setState(() {
+                      currentScreen = const MoreScreen();
+                      currentTab = 3;
+                    });
+                  },
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      currentTab == 3
+                          ? SVGIcons.moreActiveIcon()
+                          : SVGIcons.moreUnActiveIcon(),
+                      SizedBox(
+                        height: 6,
+                      ),
+                      Text(
+                        listTabsName[3],
+                        style: currentTab == 3
+                            ? AppTheme
+                                .styleWithTextRedAdelleSansExtendedFonts11w500
+                            : AppTheme
+                                .styleWithTextGray7AdelleSansExtendedFonts11w500,
                       )
                     ],
                   ),
@@ -149,19 +176,22 @@ class MainScreenNavHostState extends ConsumerState<MainScreenNavHost> {
       ),
     );
   }
-  void onItemTapped(int tabIndex){
+
+  void onItemTapped(int tabIndex) {
     setState(() {
-      switch(tabIndex){
-        case 0 :
+      switch (tabIndex) {
+        case 0:
           currentScreen = const HomeScreen();
           break;
-        case 1 :
+        case 1:
           currentScreen = const CartScreen();
           break;
-        case 2 :
+        case 2:
+          currentScreen = const WishListScreen();
+          break;
+        case 3:
           currentScreen = const MoreScreen();
           break;
-
       }
       currentTab = tabIndex;
     });
@@ -177,7 +207,7 @@ class AppBarTrailing extends StatelessWidget {
     if (currentTab == 0) {
       return Padding(
           padding:
-          const EdgeInsets.symmetric(horizontal: defaultPaddingHorizontal),
+              const EdgeInsets.symmetric(horizontal: defaultPaddingHorizontal),
           child: Row(
             children: [
               Row(

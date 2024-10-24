@@ -27,6 +27,7 @@ const R_EditPhoneScreen = '/EditPhoneScreen';
 const R_CartScreen = '/CartScreen';
 const R_CheckoutScreen = '/CheckoutScreen';
 const R_GoogleMapScreen = '/GoogleMapScreen';
+const R_WishListScreen = '/WishListScreen';
 
 const R_MoreScreen = '/more';
 const R_NotificationScreen = '/notification';

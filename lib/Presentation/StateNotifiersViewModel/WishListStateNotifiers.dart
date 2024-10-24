@@ -14,3 +14,13 @@ final serviceToggleStateNotifier = StateNotifierProvider.autoDispose<
         ToggleProductServiceInWishlistUseCase,
         StateModel<ToggleProductServiceInWishlist200Response>>(
     (ref) => ToggleProductServiceInWishlistUseCase(ref, (ref.read(clientApi))));
+
+final getWishListProductsStateNotifier = StateNotifierProvider<
+        WishListProductsUseCase,
+        StateModel<ShowWishlistItemsWithSearchByName200Response?>>(
+    (ref) => WishListProductsUseCase(ref,ref.read(clientApi)));
+
+final getWishListServicesStateNotifier = StateNotifierProvider<
+        WishListProductsUseCase,
+        StateModel<ShowWishlistItemsWithSearchByName200Response?>>(
+    (ref) => WishListProductsUseCase(ref,ref.read(clientApi)));

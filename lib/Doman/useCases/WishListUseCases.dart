@@ -20,3 +20,18 @@ class ToggleProductServiceInWishlistUseCase extends StateNotifier<
         productId: productId, serviceId: serviceId));
   }
 }
+
+class WishListProductsUseCase extends StateNotifier<StateModel<ShowWishlistItemsWithSearchByName200Response?>>{
+  final Ref _ref;
+  final ClientApi _clientApi;
+  WishListProductsUseCase(this._ref, this._clientApi):super(StateModel());
+
+  void fetchAllWishlistData({ String? searchByName, String? type, }){
+    state = StateModel.loading();
+    request(() => _clientApi.showWishlistItemsWithSearchByName(searchByName:searchByName,type: type),onComplete: (res){
+      if(res?.data?.products.isEmpty == true){
+        state = StateModel.empty();
+      }
+    });
+  }
+}
