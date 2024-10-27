@@ -568,6 +568,7 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
         "giftBoxId : $giftBoxId "
         "giftCardId : $giftCardId "
         "promocode: $promocode "
+        "latLng: $latLng "
         "receiverAddress : ${locationController.text} "
         "receiverAddressDetails : ${addressDescriptionController.text} "
         "receiverPhone : ${recipientPhoneController.text}"
@@ -581,6 +582,7 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
           orderType: OrderTypes.receiver_order.name.toString(),
           paymentMethod: "Credit Card",
           promocode: promocode,
+          latLng: latLng,
           receiverName: recipientNameController.text,
           receiverAddress: locationController.text,
           receiverAddressDetails: addressDescriptionController.text,

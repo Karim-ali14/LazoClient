@@ -380,6 +380,7 @@ class _CartScreenState extends ConsumerState<CartScreen> {
       ),
     );
   }
+
   void showAuthenticated() {
     showModalBottomSheet(
         isScrollControlled: true,

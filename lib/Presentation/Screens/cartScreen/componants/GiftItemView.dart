@@ -54,8 +54,8 @@ class GiftItemView extends StatelessWidget {
                   width: double.infinity,
                   height: 142,
                   initialImg: type == GiftItemType.Card
-                      ? giftCard?.imagePath
-                      : giftBox?.imagePath,
+                      ? "giftCard?.imagePath"
+                      : "giftBox?.imagePath,"
                 ),
               ),
               Padding(
