@@ -358,7 +358,7 @@ class _WishListScreenState extends ConsumerState<WishListScreen>
   }
 
   void fetchFavoriteProducts(int page) {
-    ref.read(getWishListProductsStateNotifier.notifier).fetchAllWishlistData(
+    ref.read(getWishListProductsStateNotifier.notifier).fetchAllProductsInWishlist(
       type: "product",
         searchByName: searchForProductData == null ||
                 searchForProductData?.isEmpty == true
@@ -367,7 +367,7 @@ class _WishListScreenState extends ConsumerState<WishListScreen>
   }
 
   void fetchFavoriteServices(int page) {
-    ref.read(getWishListServicesStateNotifier.notifier).fetchAllWishlistData(
+    ref.read(getWishListServicesStateNotifier.notifier).fetchAllServicesInWishlist(
       type: "service",
         searchByName: searchForServiceData == null ||
                 searchForServiceData?.isEmpty == true

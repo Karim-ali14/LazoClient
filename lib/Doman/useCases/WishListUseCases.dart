@@ -26,7 +26,7 @@ class WishListProductsUseCase extends StateNotifier<StateModel<ShowWishlistItems
   final ClientApi _clientApi;
   WishListProductsUseCase(this._ref, this._clientApi):super(StateModel());
 
-  void fetchAllWishlistData({ String? searchByName, String? type, }){
+  void fetchAllProductsInWishlist({ String? searchByName, String? type, }){
     state = StateModel.loading();
     request(() => _clientApi.showWishlistItemsWithSearchByName(searchByName:searchByName,type: type),onComplete: (res){
       if(res?.data?.products.isEmpty == true){
@@ -34,20 +34,27 @@ class WishListProductsUseCase extends StateNotifier<StateModel<ShowWishlistItems
       }
     });
   }
+  void fetchAllServicesInWishlist({ String? searchByName, String? type, }){
+    state = StateModel.loading();
+    request(() => _clientApi.showWishlistItemsWithSearchByName(searchByName:searchByName,type: type),onComplete: (res){
+      if(res?.data?.services.isEmpty == true){
+        state = StateModel.empty();
+      }
+    });
+  }
+  
   void deleteProductItem(String productId){
     var products = state.data?.data?.products.toList(growable: true);
     var index = products?.indexWhere((item) {
 
       return item.id.toString() == productId;
     });
-    print("asdfsdfsdaf sdf dsaf sad${products?.length} $index $productId");
 
     if(index != -1) {
       products?.removeAt(index!);
     }
     var data = state.data;
     data?.data?.products = [...?products];
-    print("asdfsdfsdaf sdf dsaf sad${products?.length}");
     if(products?.isEmpty == true){
       state = StateModel.empty(data: data);
     }else{
@@ -61,7 +68,6 @@ class WishListProductsUseCase extends StateNotifier<StateModel<ShowWishlistItems
 
       return item.id.toString() == serviceId;
     });
-    print("asdfsdfsdaf sdf dsaf sad${services?.length} $index $serviceId");
 
     if(index != -1) {
       services?.removeAt(index!);
@@ -69,7 +75,7 @@ class WishListProductsUseCase extends StateNotifier<StateModel<ShowWishlistItems
     var data = state.data;
     data?.data?.services = [...?services];
 
-    if(serviceId.isEmpty == true){
+    if(services?.isEmpty == true){
       state = StateModel.empty(data: data);
     }else{
       state = StateModel.success(data);
