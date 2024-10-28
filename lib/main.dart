@@ -14,6 +14,7 @@ import 'package:lazo_client/Presentation/Screens/cartScreen/CartScreen.dart';
 import 'package:lazo_client/Presentation/Screens/details/ProductDetailsScreen.dart';
 import 'package:lazo_client/Presentation/Screens/details/SellerDetailsScreen.dart';
 import 'package:lazo_client/Presentation/Screens/home/ShowBestProductAndServiceScreen.dart';
+import 'package:lazo_client/Presentation/Screens/orders/OrdersScreen.dart';
 import 'package:lazo_client/Presentation/Screens/profileScreen/EditProfileScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:timeago/timeago.dart' as ago;
@@ -336,6 +337,11 @@ class MyApp extends ConsumerWidget {
           path: R_WishListScreen,
           builder: (BuildContext context, GoRouterState state) {
             return const WishListScreen();
+          }),
+      GoRoute(
+          path: R_OrdersScreen,
+          builder: (BuildContext context, GoRouterState state) {
+            return const OrdersScreen();
           }),
     ],
   );

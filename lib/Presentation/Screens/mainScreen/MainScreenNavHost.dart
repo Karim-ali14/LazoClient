@@ -4,6 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lazo_client/Presentation/Screens/cartScreen/CartScreen.dart';
 import 'package:lazo_client/Presentation/Screens/home/HomeScreen.dart';
+import 'package:lazo_client/Presentation/Screens/orders/OrdersScreen.dart';
 import 'package:lazo_client/Presentation/Screens/wishlist/WishlistScreen.dart';
 import 'package:lazo_client/Presentation/StateNotifiersViewModel/UserAuthStateNotifiers.dart';
 import 'package:lazo_client/Presentation/Theme/AppTheme.dart';
@@ -24,7 +25,7 @@ class MainScreenNavHost extends ConsumerStatefulWidget {
 class MainScreenNavHostState extends ConsumerState<MainScreenNavHost> {
   int currentTab = 0;
   Widget currentScreen = const HomeScreen();
-  final listTabsName = ["Home", "Cart", "Wishlist", "More"];
+  final listTabsName = ["Home", "Orders" ,"Cart", "Wishlist", "More"];
 
   @override
   Widget build(BuildContext context) {
@@ -92,7 +93,7 @@ class MainScreenNavHostState extends ConsumerState<MainScreenNavHost> {
                   onPressed: () {
                     setState(() {
                       currentTab = 1;
-                      currentScreen = const CartScreen();
+                      currentScreen = const OrdersScreen();
                     });
                   },
                   child: Column(
@@ -116,20 +117,21 @@ class MainScreenNavHostState extends ConsumerState<MainScreenNavHost> {
                   ),
                 ),
                 MaterialButton(
+                  minWidth: 40,
                   onPressed: () {
                     setState(() {
-                      currentScreen = const WishListScreen();
                       currentTab = 2;
+                      currentScreen = const CartScreen();
                     });
                   },
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       currentTab == 2
-                          ? SVGIcons.moreActiveIcon()
-                          : SVGIcons.moreUnActiveIcon(),
+                          ? SVGIcons.activeBuyIcon()
+                          : SVGIcons.buyIcon(),
                       SizedBox(
-                        height: 6,
+                        height: 3,
                       ),
                       Text(
                         listTabsName[2],
@@ -145,7 +147,7 @@ class MainScreenNavHostState extends ConsumerState<MainScreenNavHost> {
                 MaterialButton(
                   onPressed: () {
                     setState(() {
-                      currentScreen = const MoreScreen();
+                      currentScreen = const WishListScreen();
                       currentTab = 3;
                     });
                   },
@@ -169,6 +171,33 @@ class MainScreenNavHostState extends ConsumerState<MainScreenNavHost> {
                     ],
                   ),
                 ),
+                MaterialButton(
+                  onPressed: () {
+                    setState(() {
+                      currentScreen = const MoreScreen();
+                      currentTab = 4;
+                    });
+                  },
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      currentTab == 4
+                          ? SVGIcons.moreActiveIcon()
+                          : SVGIcons.moreUnActiveIcon(),
+                      SizedBox(
+                        height: 6,
+                      ),
+                      Text(
+                        listTabsName[4],
+                        style: currentTab == 4
+                            ? AppTheme
+                                .styleWithTextRedAdelleSansExtendedFonts11w500
+                            : AppTheme
+                                .styleWithTextGray7AdelleSansExtendedFonts11w500,
+                      )
+                    ],
+                  ),
+                ),
               ],
             ),
           ),
@@ -184,6 +213,8 @@ class MainScreenNavHostState extends ConsumerState<MainScreenNavHost> {
           currentScreen = const HomeScreen();
           break;
         case 1:
+          currentScreen = const OrdersScreen();
+        case 2:
           currentScreen = const CartScreen();
           break;
         case 2:

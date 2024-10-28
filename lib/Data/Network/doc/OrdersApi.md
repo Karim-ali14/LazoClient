@@ -313,7 +313,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **showOrders**
-> ShowOrders200Response showOrders()
+> ShowOrders200Response showOrders(status, page)
 
 Show orders
 
@@ -330,9 +330,11 @@ import 'package:lazo/api.dart';
 //defaultApiClient.getAuthentication<HttpBearerAuth>('bearerAuth').setAccessToken(yourTokenGeneratorFunction);
 
 final api_instance = OrdersApi();
+final status = status_example; // String | 
+final page = 8.14; // num | 
 
 try {
-    final result = api_instance.showOrders();
+    final result = api_instance.showOrders(status, page);
     print(result);
 } catch (e) {
     print('Exception when calling OrdersApi->showOrders: $e\n');
@@ -340,7 +342,11 @@ try {
 ```
 
 ### Parameters
-This endpoint does not need any parameter.
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **status** | **String**|  | [optional] 
+ **page** | **num**|  | [optional] 
 
 ### Return type
 

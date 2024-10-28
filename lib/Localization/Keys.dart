@@ -45,3 +45,11 @@ const String receiverPhoneNumberKey = "receiverPhoneNumber";
 const String cardMessageKey = "cardMessage";
 const String cardFromKey = "cardFrom";
 const String cardToKey = "cardTo";
+
+// order keys
+const String paddingKey = "padding";
+const String waitingKey = "waiting";
+const String preparingKey = "preparing";
+const String readyToShippingKey = "readyToShipping";
+const String finishedKey = "finished";
+const String canceledKey = "canceled";

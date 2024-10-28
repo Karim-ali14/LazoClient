@@ -8428,6 +8428,15 @@ paths:
       summary: Show orders
       description: Show orders
       operationId: showOrders
+      parameters:
+        - name: status
+          in: query
+          schema:
+            type: string
+        - name: page
+          in: query
+          schema:
+            type: number
       responses:
         '200':
           description: Successfully retrieved orders

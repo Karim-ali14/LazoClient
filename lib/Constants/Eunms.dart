@@ -56,3 +56,9 @@ enum OrderTypes {
 enum ServiceTypes {
   soft_card,hard_card
 }
+enum OrderStateActionType {
+  Accepte,
+  Cancel,
+  Finish,
+  ReadyToShipping
+}

@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lazo_client/Data/Models/StateModel.dart';
 import 'package:lazo_client/Doman/CommenProviders/ApiProvider.dart';
+import '../../Constants/Eunms.dart';
 import '../../Data/Network/lib/api.dart';
 
 class CreateOrderUseCase
@@ -68,5 +69,74 @@ class CreateOrderUseCase
       cardFrom: cardFrom,
       cardTo: cardTo
     ));
+  }
+}
+
+class OrderUseCase
+    extends StateNotifier<StateModel<ShowOrders200Response?>> {
+  final Ref ref;
+  final ClientApi api;
+  final MainOrderStatus orderState;
+  OrderUseCase(this.orderState, this.ref, this.api) : super(StateModel());
+
+  void getOrders({int? page = 1}) async {
+    state = page != 1
+        ? StateModel(data: state.data, state: DataState.MORE_LOADING)
+        : StateModel.loading();
+    requestForPagination(
+            () => api.showOrders(
+            status: orderState.name.toLowerCase(),
+            page: page), onComplete: (res) {
+      print("getOrders Size for ${orderState.name} ${res?.data?.data.isEmpty}");
+      if (page != 1) {
+        List<ClientOrderDetails> data = state.data?.data?.data ?? [];
+        state.data?.data?.data = [...data, ...(res?.data?.data ?? [])];
+        state = StateModel.success(state.data);
+      } else {
+        state = StateModel.success(res);
+      }
+
+      if (state.data?.data?.data.isEmpty == true) {
+        state = StateModel.empty();
+      }
+    });
+  }
+
+  void updateList(ClientOrderDetails order) {
+    List<ClientOrderDetails> data = state.data?.data?.data ?? [];
+    state.data?.data?.data = [
+      ...data,
+      ...([order])
+    ];
+    state = StateModel.success(state.data);
+  }
+
+  void updateOrder(ClientOrderDetails order) {
+    List<ClientOrderDetails> data = state.data?.data?.data ?? [];
+    var indexWhere = data.indexWhere((item) => item.id == order.id);
+    data[indexWhere] = order;
+    state.data?.data?.data = [...data];
+    state = StateModel.success(state.data);
+  }
+
+  void deleteOrder(ProviderOrderDetails order) {
+    try {
+      List<ClientOrderDetails> data =
+      (state.data?.data?.data ?? []).toList(growable: true);
+      print(data.length);
+      var index = data.indexWhere((item) => item.id == order.id);
+      print(index);
+      data.removeAt(index);
+      print(data.length);
+
+      state.data?.data?.data = data;
+      if (data.isNotEmpty) {
+        state = StateModel.success(state.data);
+      } else {
+        state = StateModel.empty(data: null);
+      }
+    } catch (e) {
+      print(e);
+    }
   }
 }

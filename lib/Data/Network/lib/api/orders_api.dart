@@ -561,7 +561,13 @@ class OrdersApi {
   /// Show orders
   ///
   /// Note: This method returns the HTTP [Response].
-  Future<Response> showOrdersWithHttpInfo() async {
+  ///
+  /// Parameters:
+  ///
+  /// * [String] status:
+  ///
+  /// * [num] page:
+  Future<Response> showOrdersWithHttpInfo({ String? status, num? page, }) async {
     // ignore: prefer_const_declarations
     final path = r'/client/orders';
 
@@ -571,6 +577,13 @@ class OrdersApi {
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
+
+    if (status != null) {
+      queryParams.addAll(_queryParams('', 'status', status));
+    }
+    if (page != null) {
+      queryParams.addAll(_queryParams('', 'page', page));
+    }
 
     const contentTypes = <String>[];
 
@@ -589,8 +602,14 @@ class OrdersApi {
   /// Show orders
   ///
   /// Show orders
-  Future<ShowOrders200Response?> showOrders() async {
-    final response = await showOrdersWithHttpInfo();
+  ///
+  /// Parameters:
+  ///
+  /// * [String] status:
+  ///
+  /// * [num] page:
+  Future<ShowOrders200Response?> showOrders({ String? status, num? page, }) async {
+    final response = await showOrdersWithHttpInfo( status: status, page: page, );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
