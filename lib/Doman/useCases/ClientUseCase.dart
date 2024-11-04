@@ -119,7 +119,7 @@ class OrderUseCase
     state = StateModel.success(state.data);
   }
 
-  void deleteOrder(ProviderOrderDetails order) {
+  void deleteOrder(ClientOrderDetails order) {
     try {
       List<ClientOrderDetails> data =
       (state.data?.data?.data ?? []).toList(growable: true);
@@ -139,4 +139,16 @@ class OrderUseCase
       print(e);
     }
   }
+}
+
+class ManageOrderUseCase extends StateNotifier<StateModel<ClientOrderDetailsResponse?>>{
+  final Ref ref;
+  final ClientApi api;
+  ManageOrderUseCase(this.ref, this.api):super(StateModel());
+
+  void updateOrderState({ String? orderId, String? statusId, }){
+    state = StateModel.loading();
+    request(() => api.manageOrder(orderId: orderId,statusId: statusId));
+  }
+
 }

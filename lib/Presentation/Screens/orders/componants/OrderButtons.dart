@@ -20,6 +20,7 @@ class OrderButtons extends StatelessWidget {
     return Column(children: [
       if (type == ButtonsType.ViewDetails && !isOrderDetail)
         AppButton(
+          radius: BorderRadiusDirectional.circular(5),
           height: 40,
                   onPress: () {
                     onButtonClickListener?.call(ButtonsClickType.ViewDetails);

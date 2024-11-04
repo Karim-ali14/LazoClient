@@ -37,6 +37,8 @@ class ProviderOrderDetails {
     this.referenceNumber,
     this.shippingFee,
     this.statusId,
+    this.rejectedProvidersIds,
+    this.rejectedOrderItems,
     this.total,
     this.totalWithShippingFee,
     this.type,
@@ -191,6 +193,16 @@ class ProviderOrderDetails {
   /// source code must fall back to having a nullable type.
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
+  String? rejectedProvidersIds;
+
+  String? rejectedOrderItems;
+
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
   num? total;
 
   ///
@@ -263,6 +275,8 @@ class ProviderOrderDetails {
      other.referenceNumber == referenceNumber &&
      other.shippingFee == shippingFee &&
      other.statusId == statusId &&
+     other.rejectedProvidersIds == rejectedProvidersIds &&
+     other.rejectedOrderItems == rejectedOrderItems &&
      other.total == total &&
      other.totalWithShippingFee == totalWithShippingFee &&
      other.type == type &&
@@ -299,6 +313,8 @@ class ProviderOrderDetails {
     (referenceNumber == null ? 0 : referenceNumber!.hashCode) +
     (shippingFee == null ? 0 : shippingFee!.hashCode) +
     (statusId == null ? 0 : statusId!.hashCode) +
+    (rejectedProvidersIds == null ? 0 : rejectedProvidersIds!.hashCode) +
+    (rejectedOrderItems == null ? 0 : rejectedOrderItems!.hashCode) +
     (total == null ? 0 : total!.hashCode) +
     (totalWithShippingFee == null ? 0 : totalWithShippingFee!.hashCode) +
     (type == null ? 0 : type!.hashCode) +
@@ -309,7 +325,7 @@ class ProviderOrderDetails {
     (giftCard == null ? 0 : giftCard!.hashCode);
 
   @override
-  String toString() => 'ProviderOrderDetails[cancellationReason=$cancellationReason, cancelledBy=$cancelledBy, createdAt=$createdAt, deliveryDate=$deliveryDate, deliveryTime=$deliveryTime, finishedAt=$finishedAt, cancelledAt=$cancelledAt, id=$id, orderFamily=$orderFamily, orderItems=$orderItems, packagingProviderId=$packagingProviderId, paymentMethod=$paymentMethod, promocode=$promocode, promocodeDiscountType=$promocodeDiscountType, promocodeDiscountValue=$promocodeDiscountValue, promocodeId=$promocodeId, rating=$rating, ratingComment=$ratingComment, receiverAddress=$receiverAddress, latLng=$latLng, receiverPhoneNumber=$receiverPhoneNumber, referenceNumber=$referenceNumber, shippingFee=$shippingFee, statusId=$statusId, total=$total, totalWithShippingFee=$totalWithShippingFee, type=$type, updatedAt=$updatedAt, user=$user, userId=$userId, giftBox=$giftBox, giftCard=$giftCard]';
+  String toString() => 'ProviderOrderDetails[cancellationReason=$cancellationReason, cancelledBy=$cancelledBy, createdAt=$createdAt, deliveryDate=$deliveryDate, deliveryTime=$deliveryTime, finishedAt=$finishedAt, cancelledAt=$cancelledAt, id=$id, orderFamily=$orderFamily, orderItems=$orderItems, packagingProviderId=$packagingProviderId, paymentMethod=$paymentMethod, promocode=$promocode, promocodeDiscountType=$promocodeDiscountType, promocodeDiscountValue=$promocodeDiscountValue, promocodeId=$promocodeId, rating=$rating, ratingComment=$ratingComment, receiverAddress=$receiverAddress, latLng=$latLng, receiverPhoneNumber=$receiverPhoneNumber, referenceNumber=$referenceNumber, shippingFee=$shippingFee, statusId=$statusId, rejectedProvidersIds=$rejectedProvidersIds, rejectedOrderItems=$rejectedOrderItems, total=$total, totalWithShippingFee=$totalWithShippingFee, type=$type, updatedAt=$updatedAt, user=$user, userId=$userId, giftBox=$giftBox, giftCard=$giftCard]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -429,6 +445,16 @@ class ProviderOrderDetails {
     } else {
       json[r'status_id'] = null;
     }
+    if (this.rejectedProvidersIds != null) {
+      json[r'rejected_providers_ids'] = this.rejectedProvidersIds;
+    } else {
+      json[r'rejected_providers_ids'] = null;
+    }
+    if (this.rejectedOrderItems != null) {
+      json[r'rejected_order_items'] = this.rejectedOrderItems;
+    } else {
+      json[r'rejected_order_items'] = null;
+    }
     if (this.total != null) {
       json[r'total'] = this.total;
     } else {
@@ -529,6 +555,8 @@ class ProviderOrderDetails {
         statusId: json[r'status_id'] == null
             ? null
             : num.parse(json[r'status_id'].toString()),
+        rejectedProvidersIds: mapValueOfType<String>(json, r'rejected_providers_ids'),
+        rejectedOrderItems: mapValueOfType<String>(json, r'rejected_order_items'),
         total: json[r'total'] == null
             ? null
             : num.parse(json[r'total'].toString()),

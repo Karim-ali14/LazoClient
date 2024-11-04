@@ -22,6 +22,8 @@ class ClientOrderDetails {
     this.cancelledAt,
     this.id,
     this.orderFamily,
+    this.rejectedProvidersIds,
+    this.rejectedOrderItems,
     this.orderItems = const [],
     this.packagingProviderId,
     this.paymentMethod,
@@ -81,6 +83,16 @@ class ClientOrderDetails {
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
   String? orderFamily;
+
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  String? rejectedProvidersIds;
+
+  String? rejectedOrderItems;
 
   List<ClientOrderDetailsOrderItemsInner> orderItems;
 
@@ -239,6 +251,8 @@ class ClientOrderDetails {
      other.cancelledAt == cancelledAt &&
      other.id == id &&
      other.orderFamily == orderFamily &&
+     other.rejectedProvidersIds == rejectedProvidersIds &&
+     other.rejectedOrderItems == rejectedOrderItems &&
      other.orderItems == orderItems &&
      other.packagingProviderId == packagingProviderId &&
      other.paymentMethod == paymentMethod &&
@@ -274,6 +288,8 @@ class ClientOrderDetails {
     (cancelledAt == null ? 0 : cancelledAt!.hashCode) +
     (id == null ? 0 : id!.hashCode) +
     (orderFamily == null ? 0 : orderFamily!.hashCode) +
+    (rejectedProvidersIds == null ? 0 : rejectedProvidersIds!.hashCode) +
+    (rejectedOrderItems == null ? 0 : rejectedOrderItems!.hashCode) +
     (orderItems.hashCode) +
     (packagingProviderId == null ? 0 : packagingProviderId!.hashCode) +
     (paymentMethod == null ? 0 : paymentMethod!.hashCode) +
@@ -298,7 +314,7 @@ class ClientOrderDetails {
     (giftCard == null ? 0 : giftCard!.hashCode);
 
   @override
-  String toString() => 'ClientOrderDetails[cancellationReason=$cancellationReason, cancelledBy=$cancelledBy, createdAt=$createdAt, deliveryDate=$deliveryDate, deliveryTime=$deliveryTime, finishedAt=$finishedAt, cancelledAt=$cancelledAt, id=$id, orderFamily=$orderFamily, orderItems=$orderItems, packagingProviderId=$packagingProviderId, paymentMethod=$paymentMethod, promocode=$promocode, promocodeDiscountType=$promocodeDiscountType, promocodeDiscountValue=$promocodeDiscountValue, promocodeId=$promocodeId, rating=$rating, ratingComment=$ratingComment, receiverAddress=$receiverAddress, latLng=$latLng, receiverPhoneNumber=$receiverPhoneNumber, referenceNumber=$referenceNumber, shippingFee=$shippingFee, statusId=$statusId, total=$total, totalWithShippingFee=$totalWithShippingFee, type=$type, updatedAt=$updatedAt, userId=$userId, giftBox=$giftBox, giftCard=$giftCard]';
+  String toString() => 'ClientOrderDetails[cancellationReason=$cancellationReason, cancelledBy=$cancelledBy, createdAt=$createdAt, deliveryDate=$deliveryDate, deliveryTime=$deliveryTime, finishedAt=$finishedAt, cancelledAt=$cancelledAt, id=$id, orderFamily=$orderFamily, rejectedProvidersIds=$rejectedProvidersIds, rejectedOrderItems=$rejectedOrderItems, orderItems=$orderItems, packagingProviderId=$packagingProviderId, paymentMethod=$paymentMethod, promocode=$promocode, promocodeDiscountType=$promocodeDiscountType, promocodeDiscountValue=$promocodeDiscountValue, promocodeId=$promocodeId, rating=$rating, ratingComment=$ratingComment, receiverAddress=$receiverAddress, latLng=$latLng, receiverPhoneNumber=$receiverPhoneNumber, referenceNumber=$referenceNumber, shippingFee=$shippingFee, statusId=$statusId, total=$total, totalWithShippingFee=$totalWithShippingFee, type=$type, updatedAt=$updatedAt, userId=$userId, giftBox=$giftBox, giftCard=$giftCard]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -346,6 +362,16 @@ class ClientOrderDetails {
       json[r'order_family'] = this.orderFamily;
     } else {
       json[r'order_family'] = null;
+    }
+    if (this.rejectedProvidersIds != null) {
+      json[r'rejected_providers_ids'] = this.rejectedProvidersIds;
+    } else {
+      json[r'rejected_providers_ids'] = null;
+    }
+    if (this.rejectedOrderItems != null) {
+      json[r'rejected_order_items'] = this.rejectedOrderItems;
+    } else {
+      json[r'rejected_order_items'] = null;
     }
       json[r'order_items'] = this.orderItems;
     if (this.packagingProviderId != null) {
@@ -486,6 +512,8 @@ class ClientOrderDetails {
             ? null
             : num.parse(json[r'id'].toString()),
         orderFamily: mapValueOfType<String>(json, r'order_family'),
+        rejectedProvidersIds: mapValueOfType<String>(json, r'rejected_providers_ids'),
+        rejectedOrderItems: mapValueOfType<String>(json, r'rejected_order_items'),
         orderItems: ClientOrderDetailsOrderItemsInner.listFromJson(json[r'order_items']),
         packagingProviderId: json[r'packaging_provider_id'] == null
             ? null

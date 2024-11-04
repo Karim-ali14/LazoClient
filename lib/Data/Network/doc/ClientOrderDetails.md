@@ -17,6 +17,8 @@ Name | Type | Description | Notes
 **cancelledAt** | **String** |  | [optional] 
 **id** | **num** |  | [optional] 
 **orderFamily** | **String** |  | [optional] 
+**rejectedProvidersIds** | **String** |  | [optional] 
+**rejectedOrderItems** | **String** |  | [optional] 
 **orderItems** | [**List<ClientOrderDetailsOrderItemsInner>**](ClientOrderDetailsOrderItemsInner.md) |  | [optional] [default to const []]
 **packagingProviderId** | **num** |  | [optional] 
 **paymentMethod** | **String** |  | [optional] 

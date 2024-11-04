@@ -2,14 +2,11 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
-import 'package:lazo_client/Utils/OrderEx.dart';
+import 'package:lazo_client/Presentation/Screens/orders/componants/ProductOutOfStockCardView.dart';
+import 'package:lazo_client/Utils/DateUtils.dart';
 import 'package:lazo_client/Utils/OrderExExtra.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
-import '../../../../../Constants.dart';
-import '../../../../../Localization/keys.dart';
-import '../../../../Constants/Constants.dart';
 import '../../../../Constants/Eunms.dart';
 import '../../../../Data/Network/lib/api.dart';
 import '../../../Theme/AppTheme.dart';
@@ -19,7 +16,8 @@ import 'OrderButtons.dart';
 import 'OrderUserInfromationWithOrderStatus.dart';
 
 typedef OnOrderItemClick = void Function(String);
-typedef OnOrderItemActionClick = void Function(String, String, String?);
+typedef OnOrderItemActionClick = void Function(
+    String, String, String?, ButtonsClickType);
 
 class OrderCardItem extends ConsumerStatefulWidget {
   final OnOrderItemClick onOrderItemClick;
@@ -54,45 +52,62 @@ class _OrderCardItemState extends ConsumerState<OrderCardItem> {
             child: Column(
               children: [
                 OrderUserInformationWithOrderStatus(
-                  clientImage: widget.orderModel?.getStoreName(),
-                  clientName: widget.orderModel?.getStoreImage(),
+                  clientImage: widget.orderModel?.getStoreImage(),
+                  clientName: widget.orderModel?.getStoreName(),
                   stateId: widget.orderModel?.statusId.toString(),
                 ),
+                widget.orderModel?.rejectedOrderItems?.isEmpty == false
+                    ? const SizedBox(height: 24)
+                    : const SizedBox(),
+                widget.orderModel?.rejectedOrderItems?.isEmpty == false
+                    ? ProductOutOfStockCardView(
+                        backgroundColor: AppTheme.appGrey16,
+                        description:
+                            "${widget.orderModel?.getCancellationItemsNames()} out of stock. Keep other items & complete order, or cancel?",
+                        onButtonClickListener: (type) {
+                          if (ButtonsClickType.CompleteOrder == type) {
+                            handleOnButtonsClicks(
+                                ButtonsClickType.CompleteOrder);
+                          } else if (ButtonsClickType.Cancel == type) {
+                            handleOnButtonsClicks(ButtonsClickType.Cancel);
+                          }
+                        },
+                      )
+                    : const SizedBox(),
                 const SizedBox(height: 24),
                 InformationRowItem(
-                  // icon: SVGIcons.totalPriceIcon(),
+                  icon: SVGIcons.totalPriceIcon(),
                   title: "Total Price",
                   value:
-                      "${context.tr(SARKey)} ${widget.orderModel?.total ?? 0}",
+                      "${context.tr("SAR")} ${widget.orderModel?.total ?? 0}",
                 ),
                 const SizedBox(height: 16),
                 InformationRowItem(
-                  // icon: SVGIcons.documentIcon(),
+                  icon: SVGIcons.documentIcon(),
                   title: "Order ID",
                   value: "${widget.orderModel?.id}",
                 ),
                 const SizedBox(height: 16),
                 InformationRowItem(
-                  // icon: SVGIcons.numberOfItemsIcon(),
+                  icon: SVGIcons.numberOfItemsIcon(),
                   title: "No. of items",
-                  value:""
-                      // "${widget.orderModel?.orderItems.length} ${context.tr(itemsKey)}",
+                  value: ""
+                      "${widget.orderModel?.orderItems.length} ${context.tr("items")}",
                 ),
                 const SizedBox(height: 16),
                 InformationRowItem(
-                  // icon: SVGIcons.calendarIcon(),
+                  icon: SVGIcons.calendarIcon(),
                   title: "Date / Time",
-                  value:"",
-                      // "${widget.orderModel?.createdAt?.hhMm()}, ${widget.orderModel?.createdAt?.ddMmYyyy()}",
+                  value:
+                      "${widget.orderModel?.createdAt?.hhMm()}, ${widget.orderModel?.createdAt?.ddMmYyyy()}",
                   hasDivider: false,
                 ),
                 const SizedBox(
-                  height: defaultPaddingHorizontal,
+                  height: 24,
                 ),
                 Skeleton.leaf(
                     child: OrderButtons(
-                  "${widget.orderModel?.statusId}"
-                      .getOrderStatusForShowButtons(context),
+                  ButtonsType.ViewDetails,
                   (type) {
                     print("$type");
                     handleOnButtonsClicks(type ?? ButtonsClickType.ViewDetails);
@@ -117,11 +132,11 @@ class _OrderCardItemState extends ConsumerState<OrderCardItem> {
         }
       case ButtonsClickType.Accept:
         {
-          widget.onOrderItemActionClick
-              ?.call(widget.orderModel?.id.toString() ?? "",
+          widget.onOrderItemActionClick?.call(
+              widget.orderModel?.id.toString() ?? "",
               "2",
-              null
-          );
+              null,
+              ButtonsClickType.Accept);
 
           break;
         }
@@ -129,71 +144,19 @@ class _OrderCardItemState extends ConsumerState<OrderCardItem> {
         {
           widget.onOrderItemActionClick?.call(
               widget.orderModel?.id.toString() ?? "",
-              widget.orderModel?.orderFamily == "ready_made" ? "10" : "11",
-              "cancel for provider"
-          );
-
-          // ref.read(updateOrderStatusStateProvider.notifier).updateOrderStatus(
-          //     cancellationReason: null,
-          //     orderId:  widget.orderModel?.id.toString(),
-          //     statusId:  widget.orderModel?.orderFamily == "ready_made" ? "10" : "11", onSuccess:(res) {
-          //   updateData();
-          //   if(context.isThereCurrentDialogShowing()){
-          //     try{
-          //       context.pop();
-          //     }catch(e){
-          //       print("NAV cannont pop");
-          //     }
-          //   }
-          // },onLoading: (){
-          //   context.showLoadingDialog();
-          // },onFailureRequest: (){
-          //   if(context.isThereCurrentDialogShowing()){
-          //     try{
-          //       context.pop();
-          //     }catch(e){
-          //       print("NAV cannont pop");
-          //     }
-          //   }
-          // });
+              "12",
+              null,
+              ButtonsClickType.Cancel);
           break;
         }
       case ButtonsClickType.ReadyToShipping:
         {
-
           widget.onOrderItemActionClick?.call(
               widget.orderModel?.id.toString() ?? "",
               "5",
-              null
-          );
+              null,
+              ButtonsClickType.ReadyToShipping);
 
-
-          // ref.read(updateOrderStatusStateProvider.notifier).updateOrderStatus(
-          //     cancellationReason: null,
-          //     orderId: widget.orderModel?.id.toString(),
-          //     statusId: "5",
-          //     onSuccess: (res) {
-          //       updateData();
-          //       if (context.isThereCurrentDialogShowing()) {
-          //         try {
-          //           context.pop();
-          //         } catch (e) {
-          //           print("NAV cannont pop");
-          //         }
-          //       }
-          //     },
-          //     onLoading: () {
-          //       context.showLoadingDialog();
-          //     },
-          //     onFailureRequest: () {
-          //       if (context.isThereCurrentDialogShowing()) {
-          //         try {
-          //           context.pop();
-          //         } catch (e) {
-          //           print("NAV cannont pop");
-          //         }
-          //       }
-          //     });
           break;
         }
       case ButtonsClickType.Finish:
@@ -201,36 +164,17 @@ class _OrderCardItemState extends ConsumerState<OrderCardItem> {
           widget.onOrderItemActionClick?.call(
               widget.orderModel?.id.toString() ?? "",
               "5.5",
-              null
-          );
-
-          // ref.read(updateOrderStatusStateProvider.notifier).updateOrderStatus(
-          //     cancellationReason: null,
-          //     orderId: widget.orderModel?.id.toString(),
-          //     statusId: "7",
-          //     onSuccess: (res) {
-          //       updateData();
-          //       if (context.isThereCurrentDialogShowing()) {
-          //         try {
-          //           context.pop();
-          //         } catch (e) {
-          //           print("NAV cannont pop");
-          //         }
-          //       }
-          //     },
-          //     onLoading: () {
-          //       context.showLoadingDialog();
-          //     },
-          //     onFailureRequest: () {
-          //       if (context.isThereCurrentDialogShowing()) {
-          //         try {
-          //           context.pop();
-          //         } catch (e) {
-          //           print("NAV cannont pop");
-          //         }
-          //       }
-          //     });
+              null,
+              ButtonsClickType.Finish);
           break;
+        }
+      case ButtonsClickType.CompleteOrder:
+        {
+          widget.onOrderItemActionClick?.call(
+              widget.orderModel?.id.toString() ?? "",
+              "13",
+              null,
+              ButtonsClickType.CompleteOrder);
         }
     }
   }

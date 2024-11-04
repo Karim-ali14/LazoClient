@@ -72,7 +72,7 @@ class _ProductItemCardState extends State<ProductItemCard> {
                           height: 2,
                         ),
                         Text(
-                          "${context.tr(SARKey)} ${widget.item?.product != null ? widget.item?.product?.priceAfterDiscount : widget.item?.service?.priceAfterDiscount}",
+                          "${context.tr(sarKey)} ${widget.item?.product != null ? widget.item?.product?.priceAfterDiscount : widget.item?.service?.priceAfterDiscount}",
                           style: AppTheme
                               .styleWithTextRedAdelleSansExtendedFonts16w500,
                         ),
@@ -83,7 +83,7 @@ class _ProductItemCardState extends State<ProductItemCard> {
                             (widget.item?.product?.price ?? 0) >
                                 (widget.item?.product?.priceAfterDiscount ?? 0))
                           Text(
-                            "${context.tr(SARKey)} ${widget.item?.product != null ? widget.item?.product?.price : widget.item?.service?.price}",
+                            "${context.tr(sarKey)} ${widget.item?.product != null ? widget.item?.product?.price : widget.item?.service?.price}",
                             style: AppTheme
                                 .styleWithTextAppGrey7AdelleSansExtendedFonts14w400
                                 .copyWith(
@@ -94,7 +94,7 @@ class _ProductItemCardState extends State<ProductItemCard> {
                             (widget.item?.service?.price ?? 0) >
                                 (widget.item?.service?.priceAfterDiscount ?? 0))
                           Text(
-                              "${context.tr(SARKey)} ${widget.item?.product != null ? widget.item?.product?.price : widget.item?.service?.price}",
+                              "${context.tr(sarKey)} ${widget.item?.product != null ? widget.item?.product?.price : widget.item?.service?.price}",
                               style: AppTheme
                                   .styleWithTextAppGrey7AdelleSansExtendedFonts14w400
                                   .copyWith(

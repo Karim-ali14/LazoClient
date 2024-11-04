@@ -29,6 +29,7 @@ class AppTheme {
   static const Color appGrey13 = Color(0xFF667085);
   static const Color appGrey14 = Color(0x14000000); // box-shadow: 0px -6px 16px 0px #00000014;
   static const Color appGrey15  = Color(0xFFB0BAC3);
+  static const Color appGrey16  = Color(0xFFFAFAFB);
   static const Color appLightGrey = Color(0xFFe5e5e5);
   static const Color appLightGreyV2 = Color(0xFFF0F0F0);
   static const Color appDarkerGrey = Color(0xFF898989);

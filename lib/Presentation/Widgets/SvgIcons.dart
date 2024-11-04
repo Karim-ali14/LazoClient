@@ -212,6 +212,24 @@ class SVGIcons {
     );
   }
 
+  static Widget basketGifIcon() {
+    return Image.asset(
+      basketIc,
+      width: 138,
+      height: 138,
+      fit: BoxFit.fill,
+    );
+  }
+
+  static Widget wrongIcGifIcon() {
+    return Image.asset(
+      wrongIc,
+      width: 84,
+      height: 84,
+      fit: BoxFit.fill,
+    );
+  }
+
   static Widget langIcon() {
     return SvgPicture.asset(
       langImg,
@@ -409,4 +427,30 @@ class SVGIcons {
       fit: BoxFit.scaleDown,
     );
   }
+
+  static Widget calendarIcon(){
+    return SvgPicture.asset(
+      calendarImg,
+    );
+  }
+
+  static Widget documentIcon(){
+    return SvgPicture.asset(
+      documentImg,
+    );
+  }
+
+  static Widget numberOfItemsIcon(){
+    return SvgPicture.asset(
+      numberOfItemsImg,
+    );
+  }
+
+  static Widget totalPriceIcon(){
+    return SvgPicture.asset(
+      totalPriceImg,
+    );
+  }
+
 }
+

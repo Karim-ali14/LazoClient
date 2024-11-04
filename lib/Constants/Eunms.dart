@@ -22,7 +22,8 @@ enum ButtonsClickType {
   Accept,
   Cancel,
   Finish,
-  ReadyToShipping
+  ReadyToShipping,
+  CompleteOrder
 }
 
 enum ItemType {

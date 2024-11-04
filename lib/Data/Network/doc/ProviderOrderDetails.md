@@ -32,6 +32,8 @@ Name | Type | Description | Notes
 **referenceNumber** | **String** |  | [optional] 
 **shippingFee** | **num** |  | [optional] 
 **statusId** | **num** |  | [optional] 
+**rejectedProvidersIds** | **String** |  | [optional] 
+**rejectedOrderItems** | **String** |  | [optional] 
 **total** | **num** |  | [optional] 
 **totalWithShippingFee** | **num** |  | [optional] 
 **type** | **String** |  | [optional] 

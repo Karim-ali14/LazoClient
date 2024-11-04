@@ -4,12 +4,15 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lazo_client/Data/Network/lib/api.dart';
+import 'package:lazo_client/Doman/CommenProviders/ApiProvider.dart';
 import 'package:lazo_client/Presentation/StateNotifiersViewModel/UserAuthStateNotifiers.dart';
 import 'package:lazo_client/Presentation/Widgets/EmptyDataPlaceHolder.dart';
 import 'package:lazo_client/Presentation/Widgets/SvgIcons.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
+import '../../../Constants/Eunms.dart';
 import '../../../Data/Models/StateModel.dart';
+import '../../BottomSheets/CancelOrderBottomSheet.dart';
 import '../../StateNotifiersViewModel/ClientStateNotifiers.dart';
 import '../../Theme/AppTheme.dart';
 import '../../Widgets/DataListView.dart';
@@ -32,6 +35,7 @@ class _OrdersScreenState extends ConsumerState<OrdersScreen>
   var currentPageForFinishOrder = 1;
   var currentPageForCanceledOrder = 1;
 
+  ButtonsClickType? actionType;
   @override
   void initState() {
     tabController = TabController(length: 4, vsync: this);
@@ -53,37 +57,27 @@ class _OrdersScreenState extends ConsumerState<OrdersScreen>
   Widget build(BuildContext context) {
     final user = ref.read(clientStateProvider.notifier).checkIfUserExist();
 
+    final manageOrderState = ref.watch(manageOrderStateProvider);
     final newOrders = ref.watch(getNewOrderStateProvider);
     final currentOrders = ref.watch(getCurrentOrderStateProvider);
     final finishOrders = ref.watch(getFinishOrderStateProvider);
     final cancelOrders = ref.watch(getCanselOrderStateProvider);
 
-    // handleState(updateOrderStatusStateProvider,
-    //     showLoading: true, showToast: true, onSuccess: (res) {
-    //       if (actionType == OrderStateActionType.Accepte) {
-    //         ref
-    //             .read(getNewOrderStateProvider.notifier)
-    //             .updateOrder(res.data!.data!);
-    //       } else if (actionType == OrderStateActionType.Cancel) {
-    //         ref
-    //             .read(getNewOrderStateProvider.notifier)
-    //             .deleteOrder(res.data!.data!);
-    //         ref
-    //             .read(getCanselOrderStateProvider.notifier)
-    //             .updateList(res.data!.data!);
-    //       } else if (actionType == OrderStateActionType.ReadyToShipping) {
-    //         ref
-    //             .read(getCurrentOrderStateProvider.notifier)
-    //             .updateOrder(res.data!.data!);
-    //       } else if (actionType == OrderStateActionType.Finish) {
-    //         // ref
-    //         //     .read(getCurrentOrderStateProvider.notifier)
-    //         //     .deleteOrder(res.data!.data!);
-    //         ref
-    //             .read(getCurrentOrderStateProvider.notifier)
-    //             .updateOrder(res.data!.data!);
-    //       }
-    //     });
+    handleState(manageOrderStateProvider,
+        showLoading: true, showToast: true, onSuccess: (res) {
+          if (actionType == ButtonsClickType.CompleteOrder) {
+            ref
+                .read(getNewOrderStateProvider.notifier)
+                .updateOrder(res.data!.data!);
+          } else if (actionType == ButtonsClickType.Cancel) {
+            ref
+                .read(getNewOrderStateProvider.notifier)
+                .deleteOrder(res.data!.data!);
+            ref
+                .read(getCanselOrderStateProvider.notifier)
+                .updateList(res.data!.data!);
+          }
+        });
 
     return Scaffold(
       body: SafeArea(
@@ -224,72 +218,77 @@ class _OrdersScreenState extends ConsumerState<OrdersScreen>
                 child: TabBarView(
               controller: tabController,
               children: [
-                newOrders.state == DataState.EMPTY
+                user == null
                     ? EmptyDataPlaceHolder(
                         onAddOrderClick: () {},
-                        icon: SVGIcons.buyIcon(),
-                        title: 'No Orders Added',
-                        description:
-                            'When you make any order, it will appear here',
+                        icon: SVGIcons.existGifIcon(),
+                        title: 'You need you login first',
+                        description: 'You can see your orders when you login.',
                       )
-                    : DataListView<ClientOrderDetails>(
-                        dataList: newOrders.data?.data?.data ??
-                            (newOrders.state == DataState.LOADING
-                                ? [
-                                    ...List.generate(
-                                        5, (index) => ClientOrderDetails())
-                                  ]
-                                : []),
-                        paginated: true,
-                        pageLoading: currentPageForNewOrder <
-                            (newOrders.data?.data?.lastPage ?? 0),
-                        onBottomReached: () {
-                          if (currentPageForNewOrder <
-                              (newOrders.data?.data?.lastPage ?? 0)) {
-                            ref
-                                .read(getNewOrderStateProvider.notifier)
-                                .getOrders(page: ++currentPageForNewOrder);
-                          }
-                        },
-                        builder: (item) => Skeletonizer(
-                              enabled: newOrders.state == DataState.LOADING,
-                              child: OrderCardItem(
-                                onOrderItemActionClick:
-                                    (orderId, statusId, cancellationReason) {
-                                  // if (user?.provider?.status != "pending") {
-                                  //   actionType = statusId.getOrderAction();
-                                  //   print(
-                                  //       "make oder state = ${actionType?.name}");
-                                  //   if (actionType ==
-                                  //       OrderStateActionType.Accepte) {
-                                  //     ref
-                                  //         .read(updateOrderStatusStateProvider
-                                  //             .notifier)
-                                  //         .updateOrderStatus(
-                                  //             orderId: orderId,
-                                  //             statusId: statusId);
-                                  //   } else if (actionType ==
-                                  //       OrderStateActionType.Cancel) {
-                                  //     showCancellationBottomSheet(
-                                  //         orderId, statusId);
-                                  //   }
-                                  // } else {
-                                  //   AppSnackBar.showSnackBar(context,
-                                  //       isSuccess: true,
-                                  //       message:
-                                  //           "Your account is still pending");
-                                  // }
-                                },
-                                onOrderItemClick: (orderId) {
-                                  navigateToOrderDetails(orderId);
-                                },
-                                orderModel: item,
-                              ),
-                            )),
-                currentOrders.state == DataState.EMPTY
+                    : newOrders.state == DataState.EMPTY
+                        ? EmptyDataPlaceHolder(
+                            onAddOrderClick: () {},
+                            icon: SVGIcons.basketGifIcon(),
+                            title: 'No Orders Added',
+                            description:
+                                'When you make any order, it will appear here',
+                          )
+                        : DataListView<ClientOrderDetails>(
+                            dataList: newOrders.data?.data?.data ??
+                                (newOrders.state == DataState.LOADING
+                                    ? [
+                                        ...List.generate(
+                                            5, (index) => ClientOrderDetails())
+                                      ]
+                                    : []),
+                            paginated: true,
+                            pageLoading: currentPageForNewOrder <
+                                (newOrders.data?.data?.lastPage ?? 0),
+                            onBottomReached: () {
+                              if (currentPageForNewOrder <
+                                  (newOrders.data?.data?.lastPage ?? 0)) {
+                                ref
+                                    .read(getNewOrderStateProvider.notifier)
+                                    .getOrders(page: ++currentPageForNewOrder);
+                              }
+                            },
+                            builder: (item) => Skeletonizer(
+                                  enabled: newOrders.state == DataState.LOADING,
+                                  child: OrderCardItem(
+                                    onOrderItemActionClick: (orderId, statusId,
+                                        cancellationReason,type) {
+                                        if (type ==
+                                            ButtonsClickType.CompleteOrder) {
+                                          ref
+                                              .read(manageOrderStateProvider
+                                                  .notifier)
+                                              .updateOrderState(
+                                                  orderId: orderId,
+                                                  statusId: statusId);
+                                        } else if (type ==
+                                            ButtonsClickType.Cancel) {
+                                          showCancellationBottomSheet(
+                                              orderId, statusId);
+                                        }
+
+                                    },
+                                    onOrderItemClick: (orderId) {
+                                      navigateToOrderDetails(orderId);
+                                    },
+                                    orderModel: item,
+                                  ),
+                                )),
+                user == null
+                    ? EmptyDataPlaceHolder(
+                  onAddOrderClick: () {},
+                  icon: SVGIcons.existGifIcon(),
+                  title: 'You need you login first',
+                  description: 'You can see your orders when you login.',
+                )
+                    :currentOrders.state == DataState.EMPTY
                     ? EmptyDataPlaceHolder(
                         onAddOrderClick: () {},
-                        icon: SVGIcons.buyIcon(),
+                        icon: SVGIcons.basketGifIcon(),
                         title: 'No Orders Added',
                         description:
                             'When you make any order, it will appear here',
@@ -317,7 +316,7 @@ class _OrdersScreenState extends ConsumerState<OrdersScreen>
                               enabled: currentOrders.state == DataState.LOADING,
                               child: OrderCardItem(
                                 onOrderItemActionClick:
-                                    (orderId, statusId, cancellationReason) {
+                                    (orderId, statusId, cancellationReason,type) {
                                   // if (user?.provider?.status != "pending") {
                                   //   actionType = statusId.getOrderAction();
                                   //   print(
@@ -341,10 +340,17 @@ class _OrdersScreenState extends ConsumerState<OrdersScreen>
                                 orderModel: item,
                               ),
                             )),
-                finishOrders.state == DataState.EMPTY
+                user == null
+                    ? EmptyDataPlaceHolder(
+                  onAddOrderClick: () {},
+                  icon: SVGIcons.existGifIcon(),
+                  title: 'You need you login first',
+                  description: 'You can see your orders when you login.',
+                )
+                    :finishOrders.state == DataState.EMPTY
                     ? EmptyDataPlaceHolder(
                         onAddOrderClick: () {},
-                        icon: SVGIcons.buyIcon(),
+                        icon: SVGIcons.basketGifIcon(),
                         title: 'No Orders Added',
                         description:
                             'When you make any order, it will appear here',
@@ -377,10 +383,17 @@ class _OrdersScreenState extends ConsumerState<OrdersScreen>
                                 orderModel: item,
                               ),
                             )),
-                cancelOrders.state == DataState.EMPTY
+                user == null
+                    ? EmptyDataPlaceHolder(
+                  onAddOrderClick: () {},
+                  icon: SVGIcons.existGifIcon(),
+                  title: 'You need you login first',
+                  description: 'You can see your orders when you login.',
+                )
+                    :cancelOrders.state == DataState.EMPTY
                     ? EmptyDataPlaceHolder(
                         onAddOrderClick: () {},
-                        icon: SVGIcons.buyIcon(),
+                        icon: SVGIcons.basketGifIcon(),
                         title: 'No Orders Added',
                         description:
                             'When you make any order, it will appear here',
@@ -428,4 +441,26 @@ class _OrdersScreenState extends ConsumerState<OrdersScreen>
   }
 
   void navigateToOrderDetails(String orderId) {}
+
+  void showCancellationBottomSheet(String orderId, String statusId) {
+    showModalBottomSheet(
+        isScrollControlled: true,
+        context: context,
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(10), topRight: Radius.circular(10))),
+        builder: (BuildContext builder) => Padding(
+          padding: EdgeInsets.only(
+              bottom: MediaQuery.of(context).viewInsets.bottom),
+          child: CancelOrderBottomSheet(
+              onOrderCancel: () {
+                Navigator.pop(context);
+                ref
+                    .read(manageOrderStateProvider.notifier)
+                    .updateOrderState(
+                    orderId: orderId,
+                    statusId: statusId);
+              }),
+        ));
+  }
 }
