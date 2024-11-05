@@ -11,7 +11,7 @@ import '../../../Widgets/CircleImage.dart';
 typedef OnItemClick = Function(int);
 
 class ProductItemCard extends StatefulWidget {
-  final ProviderOrderDetailsOrderItemsInner? item;
+  final ClientOrderDetailsOrderItemsInner? item;
   final OnItemClick onItemClick;
   const ProductItemCard({super.key, this.item, required this.onItemClick});
 

@@ -2,13 +2,16 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:lazo_client/Presentation/Screens/orders/componants/ProductOutOfStockCardView.dart';
 import 'package:lazo_client/Utils/DateUtils.dart';
 import 'package:lazo_client/Utils/OrderExExtra.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
+import '../../../../Constants.dart';
 import '../../../../Constants/Eunms.dart';
 import '../../../../Data/Network/lib/api.dart';
+import '../../../../Localization/Keys.dart';
 import '../../../Theme/AppTheme.dart';
 import '../../../Widgets/SvgIcons.dart';
 import 'InformationRowItem.dart';
@@ -183,7 +186,7 @@ class _OrderCardItemState extends ConsumerState<OrderCardItem> {
 
   void navigateToOrderDetails(String? orderId) {
     if (orderId != null) {
-      // context.push(R_OrderDetails, extra: {orderIdKey: orderId});
+      context.push(R_OrderDetails, extra: {orderIdKey: orderId});
     }
   }
 }

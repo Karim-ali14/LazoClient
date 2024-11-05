@@ -23,6 +23,7 @@ import '../../../../../Constants.dart';
 import '../../../../../Presentation/Screens/SplashScreen.dart';
 
 import 'Constants/Eunms.dart';
+import 'Localization/Keys.dart';
 import 'Presentation//Theme/AppTheme.dart';
 import 'Presentation/Screens/Auth/Otp/OTPScreen.dart';
 import 'Presentation/Screens/More/FAQScreen.dart';
@@ -35,6 +36,7 @@ import 'Presentation/Screens/home/SearchScreen.dart';
 import 'Presentation/Screens/home/ShowTopSellers.dart';
 import 'Presentation/Screens/mainScreen/MainScreen.dart';
 import 'Presentation/Screens/onbaording/OnBordingScreen.dart';
+import 'Presentation/Screens/orders/OrderDetailsScreen.dart';
 import 'Presentation/Screens/profileScreen/EditPhoneScreen.dart';
 import 'Presentation/Screens/profileScreen/ProfileScreen.dart';
 import 'Presentation/Screens/wishlist/WishlistScreen.dart';
@@ -343,6 +345,13 @@ class MyApp extends ConsumerWidget {
           builder: (BuildContext context, GoRouterState state) {
             return const OrdersScreen();
           }),
+      GoRoute(
+          path: R_OrderDetails,
+          builder: (BuildContext context,GoRouterState state) {
+            var extra = state.extra as Map;
+            return OrderDetailsScreen(orderId: extra[orderIdKey]);
+          }
+      ),
     ],
   );
 }

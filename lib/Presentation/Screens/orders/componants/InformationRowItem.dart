@@ -10,7 +10,14 @@ class InformationRowItem extends StatelessWidget {
   final String? title;
   final String? value;
   final bool? hasDivider;
-  const InformationRowItem({super.key, this.icon, this.title, this.value, this.hasDivider = true});
+  final bool? ifSetValueInNewLine;
+  const InformationRowItem(
+      {super.key,
+      this.icon,
+      this.title,
+      this.value,
+      this.hasDivider = true,
+      this.ifSetValueInNewLine = false});
 
   @override
   Widget build(BuildContext context) {
@@ -19,22 +26,40 @@ class InformationRowItem extends StatelessWidget {
         Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Skeleton.replace(child: icon ?? SizedBox(),replacement: Icon(Icons.ac_unit, size: 20),) ,
-            const SizedBox(width: 12),
+            Skeleton.replace(
+              child: icon ?? SizedBox(),
+              replacement: Icon(Icons.ac_unit, size: 20),
+            ),
+            icon == null ? SizedBox() : const SizedBox(width: 12),
             Text(
-              title??"",
+              title ?? "",
               style: AppTheme.styleWithTextBlackAdelleSansExtendedFonts14w500,
             ),
             const Spacer(),
-            Text(
-              "$value",
-              style:
-                  AppTheme.styleWithTextAppGrey7AdelleSansExtendedFonts14w400,
-            )
+            ifSetValueInNewLine == false
+                ? Text(
+                    "$value",
+                    style: AppTheme
+                        .styleWithTextAppGrey7AdelleSansExtendedFonts14w400,textAlign: TextAlign.end,
+                  )
+                : SizedBox()
           ],
         ),
-        if (hasDivider == true) const SizedBox(height: 16) else const SizedBox(),
-        if (hasDivider == true) const Divider(color: AppTheme.appGrey8, height: 1) else const SizedBox()
+        ifSetValueInNewLine == true
+            ? Text(
+          "$value",
+          style: AppTheme
+              .styleWithTextAppGrey7AdelleSansExtendedFonts14w400,
+        )
+            : SizedBox(),
+        if (hasDivider == true)
+          const SizedBox(height: 16)
+        else
+          const SizedBox(),
+        if (hasDivider == true)
+          const Divider(color: AppTheme.appGrey8, height: 1)
+        else
+          const SizedBox()
       ]),
     );
   }

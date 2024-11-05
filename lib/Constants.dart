@@ -29,6 +29,7 @@ const R_CheckoutScreen = '/CheckoutScreen';
 const R_GoogleMapScreen = '/GoogleMapScreen';
 const R_WishListScreen = '/WishListScreen';
 const R_OrdersScreen = '/OrdersScreen';
+const R_OrderDetails = "/orderDetailsScreen";
 
 const R_MoreScreen = '/more';
 const R_NotificationScreen = '/notification';

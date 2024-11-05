@@ -63,3 +63,8 @@ enum OrderStateActionType {
   Finish,
   ReadyToShipping
 }
+
+enum OrderItemType {
+  Product,
+  Service
+}
