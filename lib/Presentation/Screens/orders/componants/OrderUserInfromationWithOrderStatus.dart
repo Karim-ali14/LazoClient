@@ -41,7 +41,7 @@ class OrderUserInformationWithOrderStatus extends StatelessWidget {
                         },
                       ),
                     )
-                  : SVGIcons.defaultUseIconSvgIcon(),),
+                  : SVGIcons.appIcon(),),
           const SizedBox(width: 8),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,

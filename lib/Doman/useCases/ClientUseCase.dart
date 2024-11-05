@@ -152,3 +152,15 @@ class ManageOrderUseCase extends StateNotifier<StateModel<ClientOrderDetailsResp
   }
 
 }
+
+class OrderDetailsUseCase extends StateNotifier<StateModel<ClientOrderDetailsResponse?>>{
+  final Ref ref;
+  final ClientApi api;
+  OrderDetailsUseCase(this.ref, this.api):super(StateModel());
+
+  void getOrderDetails({ String? orderId}){
+    state = StateModel.loading();
+    request(() => api.showOrderDetails(orderId: orderId));
+  }
+
+}

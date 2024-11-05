@@ -77,6 +77,7 @@ class _OrdersScreenState extends ConsumerState<OrdersScreen>
                 .read(getCanselOrderStateProvider.notifier)
                 .updateList(res.data!.data!);
           }
+          actionType = null;
         });
 
     return Scaffold(
@@ -257,6 +258,8 @@ class _OrdersScreenState extends ConsumerState<OrdersScreen>
                                   child: OrderCardItem(
                                     onOrderItemActionClick: (orderId, statusId,
                                         cancellationReason,type) {
+                                      print(type);
+                                      actionType = type;
                                         if (type ==
                                             ButtonsClickType.CompleteOrder) {
                                           ref
@@ -454,7 +457,6 @@ class _OrdersScreenState extends ConsumerState<OrdersScreen>
               bottom: MediaQuery.of(context).viewInsets.bottom),
           child: CancelOrderBottomSheet(
               onOrderCancel: () {
-                Navigator.pop(context);
                 ref
                     .read(manageOrderStateProvider.notifier)
                     .updateOrderState(

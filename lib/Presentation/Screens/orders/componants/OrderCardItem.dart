@@ -142,6 +142,7 @@ class _OrderCardItemState extends ConsumerState<OrderCardItem> {
         }
       case ButtonsClickType.Cancel:
         {
+          print("$type");
           widget.onOrderItemActionClick?.call(
               widget.orderModel?.id.toString() ?? "",
               "12",
@@ -170,6 +171,7 @@ class _OrderCardItemState extends ConsumerState<OrderCardItem> {
         }
       case ButtonsClickType.CompleteOrder:
         {
+          print("$type");
           widget.onOrderItemActionClick?.call(
               widget.orderModel?.id.toString() ?? "",
               "13",

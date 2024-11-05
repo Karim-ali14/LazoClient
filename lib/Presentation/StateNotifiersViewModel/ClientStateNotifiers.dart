@@ -30,8 +30,8 @@ final manageOrderStateProvider = StateNotifierProvider.autoDispose<
         (ref) => ManageOrderUseCase(ref, ref.read(clientApi)));
 
 // final getOrderDetailsStateProvider = StateNotifierProvider.autoDispose<
-//     OrderDetailsUseCase, StateModel<ProviderOrderDetailsResponse>>(
-//         (ref) => OrderDetailsUseCase(ref, ref.read(ordersApi)));
+//     OrderDetailsUseCase, StateModel<ClientOrderDetailsResponse>>(
+//         (ref) => OrderDetailsUseCase(ref, ref.read(clientApi)));
 
 // final updateOrderStatusStateProvider = StateNotifierProvider.autoDispose<
 //     UpdateOrderStatusUseCase, StateModel<ProviderOrderDetailsResponse>>(

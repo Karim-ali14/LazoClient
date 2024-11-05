@@ -332,6 +332,12 @@ class SVGIcons {
     );
   }
 
+  static Widget appIcon() {
+    return SvgPicture.asset(
+      appIconSvg,
+    );
+  }
+
   static Widget activeBuyIcon() {
     return SvgPicture.asset(
       activeBuy,
