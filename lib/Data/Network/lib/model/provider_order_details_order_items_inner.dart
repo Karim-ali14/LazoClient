@@ -19,6 +19,10 @@ class ProviderOrderDetailsOrderItemsInner {
     this.listsTotalPrice,
     this.orderId,
     this.price,
+    this.statusId,
+    this.cancelledAt,
+    this.finishedAt,
+    this.cancellationReason,
     this.rating,
     this.ratingComment,
     this.ratingDate,
@@ -84,6 +88,14 @@ class ProviderOrderDetailsOrderItemsInner {
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
   num? price;
+
+  int? statusId;
+
+  String? cancelledAt;
+
+  String? finishedAt;
+
+  String? cancellationReason;
 
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
@@ -197,6 +209,10 @@ class ProviderOrderDetailsOrderItemsInner {
      other.listsTotalPrice == listsTotalPrice &&
      other.orderId == orderId &&
      other.price == price &&
+     other.statusId == statusId &&
+     other.cancelledAt == cancelledAt &&
+     other.finishedAt == finishedAt &&
+     other.cancellationReason == cancellationReason &&
      other.rating == rating &&
      other.ratingComment == ratingComment &&
      other.ratingDate == ratingDate &&
@@ -223,6 +239,10 @@ class ProviderOrderDetailsOrderItemsInner {
     (listsTotalPrice == null ? 0 : listsTotalPrice!.hashCode) +
     (orderId == null ? 0 : orderId!.hashCode) +
     (price == null ? 0 : price!.hashCode) +
+    (statusId == null ? 0 : statusId!.hashCode) +
+    (cancelledAt == null ? 0 : cancelledAt!.hashCode) +
+    (finishedAt == null ? 0 : finishedAt!.hashCode) +
+    (cancellationReason == null ? 0 : cancellationReason!.hashCode) +
     (rating == null ? 0 : rating!.hashCode) +
     (ratingComment == null ? 0 : ratingComment!.hashCode) +
     (ratingDate == null ? 0 : ratingDate!.hashCode) +
@@ -241,7 +261,7 @@ class ProviderOrderDetailsOrderItemsInner {
     (updatedAt == null ? 0 : updatedAt!.hashCode);
 
   @override
-  String toString() => 'ProviderOrderDetailsOrderItemsInner[cardPrice=$cardPrice, createdAt=$createdAt, id=$id, listsTotalPrice=$listsTotalPrice, orderId=$orderId, price=$price, rating=$rating, ratingComment=$ratingComment, ratingDate=$ratingDate, product=$product, productSelectedListIds=$productSelectedListIds, productSelectedListItemsIds=$productSelectedListItemsIds, serviceSelectedListIds=$serviceSelectedListIds, serviceSelectedListItemsIds=$serviceSelectedListItemsIds, selectedProductsListItemsNames=$selectedProductsListItemsNames, selectedServicesListItemsNames=$selectedServicesListItemsNames, productId=$productId, providerId=$providerId, quantity=$quantity, service=$service, serviceId=$serviceId, updatedAt=$updatedAt]';
+  String toString() => 'ProviderOrderDetailsOrderItemsInner[cardPrice=$cardPrice, createdAt=$createdAt, id=$id, listsTotalPrice=$listsTotalPrice, orderId=$orderId, price=$price, statusId=$statusId, cancelledAt=$cancelledAt, finishedAt=$finishedAt, cancellationReason=$cancellationReason, rating=$rating, ratingComment=$ratingComment, ratingDate=$ratingDate, product=$product, productSelectedListIds=$productSelectedListIds, productSelectedListItemsIds=$productSelectedListItemsIds, serviceSelectedListIds=$serviceSelectedListIds, serviceSelectedListItemsIds=$serviceSelectedListItemsIds, selectedProductsListItemsNames=$selectedProductsListItemsNames, selectedServicesListItemsNames=$selectedServicesListItemsNames, productId=$productId, providerId=$providerId, quantity=$quantity, service=$service, serviceId=$serviceId, updatedAt=$updatedAt]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -274,6 +294,26 @@ class ProviderOrderDetailsOrderItemsInner {
       json[r'price'] = this.price;
     } else {
       json[r'price'] = null;
+    }
+    if (this.statusId != null) {
+      json[r'status_id'] = this.statusId;
+    } else {
+      json[r'status_id'] = null;
+    }
+    if (this.cancelledAt != null) {
+      json[r'cancelled_at'] = this.cancelledAt;
+    } else {
+      json[r'cancelled_at'] = null;
+    }
+    if (this.finishedAt != null) {
+      json[r'finished_at'] = this.finishedAt;
+    } else {
+      json[r'finished_at'] = null;
+    }
+    if (this.cancellationReason != null) {
+      json[r'cancellation_reason'] = this.cancellationReason;
+    } else {
+      json[r'cancellation_reason'] = null;
     }
     if (this.rating != null) {
       json[r'rating'] = this.rating;
@@ -385,6 +425,10 @@ class ProviderOrderDetailsOrderItemsInner {
         price: json[r'price'] == null
             ? null
             : num.parse(json[r'price'].toString()),
+        statusId: mapValueOfType<int>(json, r'status_id'),
+        cancelledAt: mapValueOfType<String>(json, r'cancelled_at'),
+        finishedAt: mapValueOfType<String>(json, r'finished_at'),
+        cancellationReason: mapValueOfType<String>(json, r'cancellation_reason'),
         rating: json[r'rating'] == null
             ? null
             : num.parse(json[r'rating'].toString()),

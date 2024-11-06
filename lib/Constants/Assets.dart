@@ -78,4 +78,8 @@ const appIconSvg = "assets/images/app_icon.svg";
 const wishlist = "assets/images/wishlist.gif";
 const wrongIc = "assets/images/wrong_ic.gif";
 const basketIc = "assets/images/basket_ic.gif";
+const heartFullSvg = "assets/images/heart_full.svg";
+const heartUnActiveSvg = "assets/images/heart_unactive.svg";
+const orderUnActivePng = "assets/images/order_anactive.svg";
+const orderFullSvg = "assets/images/order_full.svg";
 

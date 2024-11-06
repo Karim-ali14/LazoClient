@@ -34,5 +34,7 @@
   "preparing" : "Preparing",
   "readyToShipping" : "Ready to shipping",
   "finished" : "Finished",
-  "canceled" : "Canceled"
+  "canceled" : "Canceled",
+  "orderDetails" : "order Details"
+
 }

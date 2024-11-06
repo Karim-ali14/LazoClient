@@ -20,8 +20,10 @@ import '../../StateNotifiersViewModel/ClientStateNotifiers.dart';
 import '../../Theme/AppTheme.dart';
 import '../../Widgets/CustomAppBar.dart';
 import '../../Widgets/SvgIcons.dart';
+import '../details/componants/ProductRowItem.dart';
 import 'componants/InformationRowItem.dart';
 import 'componants/OrderUserInfromationWithOrderStatus.dart';
+import 'componants/ProductOutOfStockCardView.dart';
 
 class OrderDetailsScreen extends ConsumerStatefulWidget {
   final String orderId;
@@ -85,7 +87,7 @@ class _OrderDetailsScreenState extends ConsumerState<OrderDetailsScreen> {
     return Scaffold(
       appBar: CustomAppBar(
         navigated: true,
-        title: "context.tr(orderDetailsKey)",
+        title: context.tr("orderDetails"),
         appContext: context,
       ),
       body: Column(
@@ -106,6 +108,31 @@ class _OrderDetailsScreenState extends ConsumerState<OrderDetailsScreen> {
                           SizedBox(
                             height: 32,
                           ),
+                          orderDetails.data?.data?.rejectedOrderItems
+                                      ?.isEmpty ==
+                                  false
+                              ? ProductOutOfStockCardView(
+                                  backgroundColor: Colors.white,
+                                  description:
+                                      "${orderDetails.data?.data?.getCancellationItemsNames()} out of stock. Keep other items & complete order, or cancel?",
+                                  onButtonClickListener: (type) {
+                                    if (ButtonsClickType.CompleteOrder ==
+                                        type) {
+                                      handleOnButtonsClicks(
+                                          ButtonsClickType.CompleteOrder,orderDetails.data?.data);
+                                    } else if (ButtonsClickType.Cancel ==
+                                        type) {
+                                      handleOnButtonsClicks(
+                                          ButtonsClickType.Cancel,orderDetails.data?.data);
+                                    }
+                                  },
+                                )
+                              : const SizedBox(),
+                          orderDetails.data?.data?.rejectedOrderItems
+                                      ?.isEmpty ==
+                                  false
+                              ? const SizedBox(height: 24)
+                              : const SizedBox(),
                           Container(
                               decoration: BoxDecoration(
                                   color: Colors.white,
@@ -145,7 +172,7 @@ class _OrderDetailsScreenState extends ConsumerState<OrderDetailsScreen> {
                                   icon: SVGIcons.totalPriceIcon(),
                                   title: "Total Price",
                                   value:
-                                      "${context.tr("SAR")} ${orderDetails.data?.data?.total ?? 0}",
+                                      "${context.tr("SAR")} ${orderDetails.data?.data?.totalWithShippingFee ?? 0}",
                                 ),
                                 const SizedBox(height: 16),
                                 InformationRowItem(
@@ -174,8 +201,7 @@ class _OrderDetailsScreenState extends ConsumerState<OrderDetailsScreen> {
                           const SizedBox(
                             height: 32,
                           ),
-                          Text(
-                              "Recipient Info",
+                          Text("Recipient Info",
                               style: AppTheme
                                   .styleWithTextBlackAdelleSansExtendedFonts18w700),
                           const SizedBox(
@@ -195,24 +221,34 @@ class _OrderDetailsScreenState extends ConsumerState<OrderDetailsScreen> {
                                   // icon: SVGIcons.totalPriceIcon(),
                                   title: "Recipient Name",
                                   value:
-                                  "${orderDetails.data?.data?.getStoreName()}",
+                                      "${orderDetails.data?.data?.getStoreName()}",
                                 ),
                                 const SizedBox(height: 16),
                                 InformationRowItem(
                                   // icon: SVGIcons.documentIcon(),
                                   title: "Recipient Phone",
-                                  value: "${orderDetails.data?.data?.receiverPhoneNumber}",
-                                ),
-                                orderDetails.data?.data?.receiverAddress?.isNotEmpty == true ?
-                                const SizedBox(height: 16):const SizedBox(),
-                                orderDetails.data?.data?.receiverAddress?.isNotEmpty == true ?
-                                InformationRowItem(
-                                  // icon: SVGIcons.calendarIcon(),
-                                  title: "Location",
                                   value:
-                                  "${orderDetails.data?.data?.receiverAddress}",
-                                  hasDivider: false, ifSetValueInNewLine : true
-                                ): SizedBox(),
+                                      "${orderDetails.data?.data?.receiverPhoneNumber}",
+                                  hasDivider: orderDetails.data?.data
+                                          ?.receiverAddress?.isNotEmpty ==
+                                      true,
+                                ),
+                                orderDetails.data?.data?.receiverAddress
+                                            ?.isNotEmpty ==
+                                        true
+                                    ? const SizedBox(height: 16)
+                                    : const SizedBox(),
+                                orderDetails.data?.data?.receiverAddress
+                                            ?.isNotEmpty ==
+                                        true
+                                    ? InformationRowItem(
+                                        // icon: SVGIcons.calendarIcon(),
+                                        title: "Location",
+                                        value:
+                                            "${orderDetails.data?.data?.receiverAddress}",
+                                        hasDivider: false,
+                                        ifSetValueInNewLine: true)
+                                    : SizedBox(),
                               ],
                             ),
                           ),
@@ -250,7 +286,112 @@ class _OrderDetailsScreenState extends ConsumerState<OrderDetailsScreen> {
                                                 : OrderItemType.Service);
                                       },
                                     ),
-                                  )))
+                                  ))),
+                          SizedBox(
+                            height: 24,
+                          ),
+                          Text(
+                            "Payment Details",
+                            style: AppTheme
+                                .styleWithTextBlackAdelleSansExtendedFonts18w700,
+                          ),
+                          SizedBox(
+                            height: 24,
+                          ),
+                          Container(
+                            padding: EdgeInsets.symmetric(vertical: 5),
+                            clipBehavior: Clip.antiAlias,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(4),
+                              border: Border.all(color: AppTheme.appGrey8),
+                              color: Colors.white,
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 12.0),
+                                  child: ProductRowItem(
+                                    title: "Payment Method",
+                                    textValue:
+                                        "${orderDetails.data?.data?.paymentMethod}",
+                                    titleTextStyle: AppTheme
+                                        .styleWithTextBlackColorAdelleSansExtendedFonts12w500,
+                                    desTextStyle: AppTheme
+                                        .styleWithTextGray7AdelleSansExtendedFonts12w400,
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 12.0),
+                                  child: ProductRowItem(
+                                    title: "Order Price",
+                                    textValue:
+                                        "SAR ${(orderDetails.data?.data?.totalBeforeDiscount ?? 0)}",
+                                    titleTextStyle: AppTheme
+                                        .styleWithTextBlackColorAdelleSansExtendedFonts12w500,
+                                    desTextStyle: AppTheme
+                                        .styleWithTextGray7AdelleSansExtendedFonts12w400,
+                                  ),
+                                ),
+                                orderDetails.data?.data?.shippingFee != null &&
+                                        orderDetails.data?.data?.shippingFee !=
+                                            0
+                                    ? Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 12.0),
+                                        child: ProductRowItem(
+                                          title: "Shipping Fees",
+                                          textValue:
+                                              "SAR ${(orderDetails.data?.data?.shippingFee ?? 0)}",
+                                          titleTextStyle: AppTheme
+                                              .styleWithTextBlackColorAdelleSansExtendedFonts12w500,
+                                          desTextStyle: AppTheme
+                                              .styleWithTextGray7AdelleSansExtendedFonts12w400,
+                                        ),
+                                      )
+                                    : SizedBox(),
+                                orderDetails.data?.data?.discount != null &&
+                                        orderDetails.data?.data?.discount != 0
+                                    ? Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 12.0),
+                                        child: ProductRowItem(
+                                          title: "Discount",
+                                          textValue:
+                                              "SAR ${(orderDetails.data?.data?.discount ?? 0)}",
+                                          titleTextStyle: AppTheme
+                                              .styleWithTextBlackColorAdelleSansExtendedFonts12w500
+                                              .copyWith(
+                                                  color: AppTheme.mainAppColor),
+                                          desTextStyle: AppTheme
+                                              .styleWithTextGray7AdelleSansExtendedFonts12w400
+                                              .copyWith(
+                                                  color: AppTheme.mainAppColor),
+                                        ),
+                                      )
+                                    : SizedBox(),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 12.0),
+                                  child: ProductRowItem(
+                                    title: "Total Price",
+                                    textValue:
+                                        "SAR ${(orderDetails.data?.data?.totalWithShippingFee ?? 0)}",
+                                    titleTextStyle: AppTheme
+                                        .styleWithTextBlackAdelleSansExtendedFonts16w700,
+                                    desTextStyle: AppTheme
+                                        .styleWithTextBlackAdelleSansExtendedFonts16w700,
+                                    hasDivider: false,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          SizedBox(
+                            height: 25,
+                          )
                         ],
                       ),
                     ),
@@ -278,62 +419,74 @@ class _OrderDetailsScreenState extends ConsumerState<OrderDetailsScreen> {
   }
 
   void handleOnButtonsClicks(
-      ButtonsClickType type, ProviderOrderDetails? orderModel) {
-    // switch (type) {
-    //   case ButtonsClickType.Accept:
-    //     {
-    //       if (user?.provider?.status != "pending") {
-    //         actionType = OrderStateActionType.Accepte;
-    //         ref.read(updateOrderStatusStateProvider.notifier).updateOrderStatus(
-    //             orderId: orderModel?.id.toString(), statusId: "2");
-    //       } else {
-    //         AppSnackBar.showSnackBar(context,
-    //             isSuccess: true, message: "Your account is still pending");
-    //       }
-    //       break;
-    //     }
-    //   case ButtonsClickType.Cancel:
-    //     {
-    //       if (user?.provider?.status != "pending") {
-    //         actionType = OrderStateActionType.Cancel;
-    //         showCancellationBottomSheet(orderModel?.id.toString() ?? "",
-    //             orderModel?.orderFamily == "ready_made" ? "10" : "11");
-    //       } else {
-    //         AppSnackBar.showSnackBar(context,
-    //             isSuccess: true, message: "Your account is still pending");
-    //       }
-    //
-    //       break;
-    //     }
-    //   case ButtonsClickType.ReadyToShipping:
-    //     {
-    //       if (user?.provider?.status != "pending") {
-    //         actionType = OrderStateActionType.ReadyToShipping;
-    //         ref.read(updateOrderStatusStateProvider.notifier).updateOrderStatus(
-    //             orderId: orderModel?.id.toString(), statusId: "5");
-    //       } else {
-    //         AppSnackBar.showSnackBar(context,
-    //             isSuccess: true, message: "Your account is still pending");
-    //       }
-    //
-    //       break;
-    //     }
-    //   case ButtonsClickType.Finish:
-    //     {
-    //       if (user?.provider?.status != "pending") {
-    //         actionType = OrderStateActionType.Finish;
-    //         ref.read(updateOrderStatusStateProvider.notifier).updateOrderStatus(
-    //             orderId: orderModel?.id.toString(), statusId: "5.5");
-    //       } else {
-    //         AppSnackBar.showSnackBar(context,
-    //             isSuccess: true, message: "Your account is still pending");
-    //       }
-    //
-    //       break;
-    //     }
-    //   case ButtonsClickType.ViewDetails:
-    //     {}
-    // }
+      ButtonsClickType type, ClientOrderDetails? orderModel) {
+    switch (type) {
+      case ButtonsClickType.Accept:
+        {
+          // if (user?.provider?.status != "pending") {
+          //   actionType = OrderStateActionType.Accepte;
+          //   ref.read(updateOrderStatusStateProvider.notifier).updateOrderStatus(
+          //       orderId: orderModel?.id.toString(), statusId: "2");
+          // } else {
+          //   AppSnackBar.showSnackBar(context,
+          //       isSuccess: true, message: "Your account is still pending");
+          // }
+          break;
+        }
+      case ButtonsClickType.Cancel:
+        {
+          // if (user?.provider?.status != "pending") {
+          //   actionType = OrderStateActionType.Cancel;
+          //   showCancellationBottomSheet(orderModel?.id.toString() ?? "",
+          //       orderModel?.orderFamily == "ready_made" ? "10" : "11");
+          // } else {
+          //   AppSnackBar.showSnackBar(context,
+          //       isSuccess: true, message: "Your account is still pending");
+          // }
+          showCancellationBottomSheet(orderModel?.id.toString()??"", "12");
+
+          break;
+        }
+      case ButtonsClickType.ReadyToShipping:
+        {
+          // if (user?.provider?.status != "pending") {
+          //   actionType = OrderStateActionType.ReadyToShipping;
+          //   ref.read(updateOrderStatusStateProvider.notifier).updateOrderStatus(
+          //       orderId: orderModel?.id.toString(), statusId: "5");
+          // } else {
+          //   AppSnackBar.showSnackBar(context,
+          //       isSuccess: true, message: "Your account is still pending");
+          // }
+
+          break;
+        }
+      case ButtonsClickType.Finish:
+        {
+          // if (user?.provider?.status != "pending") {
+          //   actionType = OrderStateActionType.Finish;
+          //   ref.read(updateOrderStatusStateProvider.notifier).updateOrderStatus(
+          //       orderId: orderModel?.id.toString(), statusId: "5.5");
+          // } else {
+          //   AppSnackBar.showSnackBar(context,
+          //       isSuccess: true, message: "Your account is still pending");
+          // }
+
+          break;
+        }
+      case ButtonsClickType.CompleteOrder:
+        {
+          ref
+              .read(manageOrderStateProvider
+              .notifier)
+              .updateOrderState(
+              orderId: orderModel?.id.toString(),
+              statusId: "13");
+        }
+      case ButtonsClickType.ViewDetails:
+        {
+
+        }
+    }
   }
 
   void showCancellationBottomSheet(String orderId, String statusId) {
@@ -344,17 +497,14 @@ class _OrderDetailsScreenState extends ConsumerState<OrderDetailsScreen> {
             borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(10), topRight: Radius.circular(10))),
         builder: (BuildContext builder) => Padding(
-          padding: EdgeInsets.only(
-              bottom: MediaQuery.of(context).viewInsets.bottom),
-          child: CancelOrderBottomSheet(
-              onOrderCancel: () {
+              padding: EdgeInsets.only(
+                  bottom: MediaQuery.of(context).viewInsets.bottom),
+              child: CancelOrderBottomSheet(onOrderCancel: () {
                 ref
                     .read(manageOrderStateProvider.notifier)
-                    .updateOrderState(
-                    orderId: orderId,
-                    statusId: statusId);
+                    .updateOrderState(orderId: orderId, statusId: statusId);
               }),
-        ));
+            ));
   }
 
   void navigateToDetails(int itemId, OrderItemType type) {

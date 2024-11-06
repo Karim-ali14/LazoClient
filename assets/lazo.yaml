@@ -1713,6 +1713,18 @@ components:
               price:
                 type: number
                 example: 10.21
+              status_id:
+                type: integer
+                nullable: true
+              cancelled_at:
+                type: string
+                nullable: true
+              finished_at:
+                type: string
+                nullable: true
+              cancellation_reason:
+                type: string
+                nullable: true
               rating:
                 type: number
               rating_comment:
@@ -2192,6 +2204,10 @@ components:
         receiver_phone_number:
           type: string
           example: '509295069'
+        receiver_address_details:
+          type: string
+        receiver_name:
+          type: string
         reference_number:
           type: string
           example: ID3Z8R
@@ -2206,9 +2222,12 @@ components:
         rejected_order_items:
           type: string
           nullable: true
+        total_before_discount:
+          type: number
+        discount:
+          type: number
         total:
           type: number
-          example: 319.44
         total_with_shipping_fee:
           type: number
           example: 329.44
@@ -2825,6 +2844,18 @@ components:
                   service_id:
                     type: number
                     example: 12
+                  status_id:
+                    type: integer
+                    nullable: true
+                  cancelled_at:
+                    type: string
+                    nullable: true
+                  finished_at:
+                    type: string
+                    nullable: true
+                  cancellation_reason:
+                    type: string
+                    nullable: true
                   updated_at:
                     type: string
                     example: '2024-05-18T14:07:12.000000Z'
@@ -2977,6 +3008,10 @@ components:
             receiver_address:
               type: string
               example: 5th fahd street, Jeddah
+            receiver_address_details:
+              type: string
+            receiver_name:
+              type: string
             lat_lng:
               nullable: true
               type: string
@@ -2992,6 +3027,10 @@ components:
             status_id:
               type: number
               example: 8
+            total_before_discount:
+              type: number
+            discount:
+              type: number
             total:
               type: number
               example: 319.44

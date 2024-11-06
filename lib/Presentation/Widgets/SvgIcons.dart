@@ -169,6 +169,21 @@ class SVGIcons {
     return SvgPicture.asset(moreUnActiveImg);
   }
 
+  static Widget orderActiveIcon() {
+    return SvgPicture.asset(orderFullSvg);
+  }
+
+  static Widget orderUnActiveIcon() {
+    return SvgPicture.asset(orderUnActivePng);
+  }
+  static Widget hartActiveIcon() {
+    return SvgPicture.asset(heartFullSvg);
+  }
+
+  static Widget hartUnActiveIcon() {
+    return SvgPicture.asset(heartUnActiveSvg);
+  }
+
   static Widget placeholderIcon() {
     return SvgPicture.asset(
       placeHolderForCardsSvg,

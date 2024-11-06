@@ -37,7 +37,7 @@ class OrderUserInformationWithOrderStatus extends StatelessWidget {
                             Object error,
                             StackTrace? stackTrace,
                         ) {
-                          return SVGIcons.defaultUseIconSvgIcon();
+                          return SVGIcons.appIcon();
                         },
                       ),
                     )

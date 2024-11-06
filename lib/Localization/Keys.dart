@@ -28,6 +28,8 @@ const enterYourFullNameKey = "enterYourFullName";
 const dashesKey = "dashes";
 const String sarKey = "SAR";
 const String itemsKey = "items";
+const String orderDetailsKey = "orderDetails";
+
 
 
 // Params Keys

@@ -34,11 +34,15 @@ class ProviderOrderDetails {
     this.receiverAddress,
     this.latLng,
     this.receiverPhoneNumber,
+    this.receiverAddressDetails,
+    this.receiverName,
     this.referenceNumber,
     this.shippingFee,
     this.statusId,
     this.rejectedProvidersIds,
     this.rejectedOrderItems,
+    this.totalBeforeDiscount,
+    this.discount,
     this.total,
     this.totalWithShippingFee,
     this.type,
@@ -169,6 +173,22 @@ class ProviderOrderDetails {
   /// source code must fall back to having a nullable type.
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
+  String? receiverAddressDetails;
+
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  String? receiverName;
+
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
   String? referenceNumber;
 
   ///
@@ -196,6 +216,22 @@ class ProviderOrderDetails {
   String? rejectedProvidersIds;
 
   String? rejectedOrderItems;
+
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  num? totalBeforeDiscount;
+
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  num? discount;
 
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
@@ -272,11 +308,15 @@ class ProviderOrderDetails {
      other.receiverAddress == receiverAddress &&
      other.latLng == latLng &&
      other.receiverPhoneNumber == receiverPhoneNumber &&
+     other.receiverAddressDetails == receiverAddressDetails &&
+     other.receiverName == receiverName &&
      other.referenceNumber == referenceNumber &&
      other.shippingFee == shippingFee &&
      other.statusId == statusId &&
      other.rejectedProvidersIds == rejectedProvidersIds &&
      other.rejectedOrderItems == rejectedOrderItems &&
+     other.totalBeforeDiscount == totalBeforeDiscount &&
+     other.discount == discount &&
      other.total == total &&
      other.totalWithShippingFee == totalWithShippingFee &&
      other.type == type &&
@@ -310,11 +350,15 @@ class ProviderOrderDetails {
     (receiverAddress == null ? 0 : receiverAddress!.hashCode) +
     (latLng == null ? 0 : latLng!.hashCode) +
     (receiverPhoneNumber == null ? 0 : receiverPhoneNumber!.hashCode) +
+    (receiverAddressDetails == null ? 0 : receiverAddressDetails!.hashCode) +
+    (receiverName == null ? 0 : receiverName!.hashCode) +
     (referenceNumber == null ? 0 : referenceNumber!.hashCode) +
     (shippingFee == null ? 0 : shippingFee!.hashCode) +
     (statusId == null ? 0 : statusId!.hashCode) +
     (rejectedProvidersIds == null ? 0 : rejectedProvidersIds!.hashCode) +
     (rejectedOrderItems == null ? 0 : rejectedOrderItems!.hashCode) +
+    (totalBeforeDiscount == null ? 0 : totalBeforeDiscount!.hashCode) +
+    (discount == null ? 0 : discount!.hashCode) +
     (total == null ? 0 : total!.hashCode) +
     (totalWithShippingFee == null ? 0 : totalWithShippingFee!.hashCode) +
     (type == null ? 0 : type!.hashCode) +
@@ -325,7 +369,7 @@ class ProviderOrderDetails {
     (giftCard == null ? 0 : giftCard!.hashCode);
 
   @override
-  String toString() => 'ProviderOrderDetails[cancellationReason=$cancellationReason, cancelledBy=$cancelledBy, createdAt=$createdAt, deliveryDate=$deliveryDate, deliveryTime=$deliveryTime, finishedAt=$finishedAt, cancelledAt=$cancelledAt, id=$id, orderFamily=$orderFamily, orderItems=$orderItems, packagingProviderId=$packagingProviderId, paymentMethod=$paymentMethod, promocode=$promocode, promocodeDiscountType=$promocodeDiscountType, promocodeDiscountValue=$promocodeDiscountValue, promocodeId=$promocodeId, rating=$rating, ratingComment=$ratingComment, receiverAddress=$receiverAddress, latLng=$latLng, receiverPhoneNumber=$receiverPhoneNumber, referenceNumber=$referenceNumber, shippingFee=$shippingFee, statusId=$statusId, rejectedProvidersIds=$rejectedProvidersIds, rejectedOrderItems=$rejectedOrderItems, total=$total, totalWithShippingFee=$totalWithShippingFee, type=$type, updatedAt=$updatedAt, user=$user, userId=$userId, giftBox=$giftBox, giftCard=$giftCard]';
+  String toString() => 'ProviderOrderDetails[cancellationReason=$cancellationReason, cancelledBy=$cancelledBy, createdAt=$createdAt, deliveryDate=$deliveryDate, deliveryTime=$deliveryTime, finishedAt=$finishedAt, cancelledAt=$cancelledAt, id=$id, orderFamily=$orderFamily, orderItems=$orderItems, packagingProviderId=$packagingProviderId, paymentMethod=$paymentMethod, promocode=$promocode, promocodeDiscountType=$promocodeDiscountType, promocodeDiscountValue=$promocodeDiscountValue, promocodeId=$promocodeId, rating=$rating, ratingComment=$ratingComment, receiverAddress=$receiverAddress, latLng=$latLng, receiverPhoneNumber=$receiverPhoneNumber, receiverAddressDetails=$receiverAddressDetails, receiverName=$receiverName, referenceNumber=$referenceNumber, shippingFee=$shippingFee, statusId=$statusId, rejectedProvidersIds=$rejectedProvidersIds, rejectedOrderItems=$rejectedOrderItems, totalBeforeDiscount=$totalBeforeDiscount, discount=$discount, total=$total, totalWithShippingFee=$totalWithShippingFee, type=$type, updatedAt=$updatedAt, user=$user, userId=$userId, giftBox=$giftBox, giftCard=$giftCard]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -430,6 +474,16 @@ class ProviderOrderDetails {
     } else {
       json[r'receiver_phone_number'] = null;
     }
+    if (this.receiverAddressDetails != null) {
+      json[r'receiver_address_details'] = this.receiverAddressDetails;
+    } else {
+      json[r'receiver_address_details'] = null;
+    }
+    if (this.receiverName != null) {
+      json[r'receiver_name'] = this.receiverName;
+    } else {
+      json[r'receiver_name'] = null;
+    }
     if (this.referenceNumber != null) {
       json[r'reference_number'] = this.referenceNumber;
     } else {
@@ -454,6 +508,16 @@ class ProviderOrderDetails {
       json[r'rejected_order_items'] = this.rejectedOrderItems;
     } else {
       json[r'rejected_order_items'] = null;
+    }
+    if (this.totalBeforeDiscount != null) {
+      json[r'total_before_discount'] = this.totalBeforeDiscount;
+    } else {
+      json[r'total_before_discount'] = null;
+    }
+    if (this.discount != null) {
+      json[r'discount'] = this.discount;
+    } else {
+      json[r'discount'] = null;
     }
     if (this.total != null) {
       json[r'total'] = this.total;
@@ -548,6 +612,8 @@ class ProviderOrderDetails {
         receiverAddress: mapValueOfType<String>(json, r'receiver_address'),
         latLng: mapValueOfType<String>(json, r'lat_lng'),
         receiverPhoneNumber: mapValueOfType<String>(json, r'receiver_phone_number'),
+        receiverAddressDetails: mapValueOfType<String>(json, r'receiver_address_details'),
+        receiverName: mapValueOfType<String>(json, r'receiver_name'),
         referenceNumber: mapValueOfType<String>(json, r'reference_number'),
         shippingFee: json[r'shipping_fee'] == null
             ? null
@@ -557,6 +623,12 @@ class ProviderOrderDetails {
             : num.parse(json[r'status_id'].toString()),
         rejectedProvidersIds: mapValueOfType<String>(json, r'rejected_providers_ids'),
         rejectedOrderItems: mapValueOfType<String>(json, r'rejected_order_items'),
+        totalBeforeDiscount: json[r'total_before_discount'] == null
+            ? null
+            : num.parse(json[r'total_before_discount'].toString()),
+        discount: json[r'discount'] == null
+            ? null
+            : num.parse(json[r'discount'].toString()),
         total: json[r'total'] == null
             ? null
             : num.parse(json[r'total'].toString()),

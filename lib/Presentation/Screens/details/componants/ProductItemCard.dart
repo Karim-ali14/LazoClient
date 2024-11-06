@@ -62,108 +62,88 @@ class _ProductItemCardState extends State<ProductItemCard> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text(
-                          widget.item?.product != null
-                              ? widget.item?.product?.name ?? ""
-                              : widget.item?.service?.name ?? "",
-                          style: AppTheme
-                              .styleWithTextBlackAdelleSansExtendedFonts16w500,
+                        SizedBox(
+                          width: 260,
+                          child: Row(
+                            children: [
+                              Text(
+                                widget.item?.product != null
+                                    ? widget.item?.product?.name ?? ""
+                                    : widget.item?.service?.name ?? "",
+                                style: AppTheme
+                                    .styleWithTextBlackAdelleSansExtendedFonts16w500,
+                              ),
+                              const Spacer(),
+                              Text(
+                                  widget.item?.id?.toString() ?? "",
+                                  style: AppTheme
+                                      .styleWithTextAppGrey7AdelleSansExtendedFonts14w400,textAlign: TextAlign.end,
+                                ),
+
+                            ],
+                          ),
                         ),
                         const SizedBox(
                           height: 2,
                         ),
                         Text(
-                          "${context.tr(sarKey)} ${widget.item?.product != null ? widget.item?.product?.priceAfterDiscount : widget.item?.service?.priceAfterDiscount}",
+                          "${widget.item?.product != null ? widget.item?.selectedProductsListItemsNames.join(", ") : widget.item?.selectedServicesListItemsNames.join(", ")}",
                           style: AppTheme
-                              .styleWithTextRedAdelleSansExtendedFonts16w500,
+                              .styleWithTextBlackAdelleSansExtendedFonts14w500,
                         ),
-                        SizedBox(
-                          height: 6,
+                        const SizedBox(
+                          height: 2,
                         ),
-                        if (widget.item?.product != null &&
-                            (widget.item?.product?.price ?? 0) >
-                                (widget.item?.product?.priceAfterDiscount ?? 0))
-                          Text(
-                            "${context.tr(sarKey)} ${widget.item?.product != null ? widget.item?.product?.price : widget.item?.service?.price}",
-                            style: AppTheme
-                                .styleWithTextAppGrey7AdelleSansExtendedFonts14w400
-                                .copyWith(
+                        Row(
+                          children: [
+                            Text(
+                              "${context.tr(sarKey)} ${widget.item?.product != null ? widget.item?.product?.priceAfterDiscount : widget.item?.service?.priceAfterDiscount}",
+                              style: AppTheme
+                                  .styleWithTextRedAdelleSansExtendedFonts16w500,
+                            ),
+                            SizedBox(
+                              width: 6,
+                            ),
+                            if (widget.item?.product != null &&
+                                (widget.item?.product?.price ?? 0) >
+                                    (widget.item?.product?.priceAfterDiscount ?? 0))
+                              Text(
+                                "${context.tr(sarKey)} ${widget.item?.product != null ? widget.item?.product?.price : widget.item?.service?.price}",
+                                style: AppTheme
+                                    .styleWithTextAppGrey7AdelleSansExtendedFonts14w400
+                                    .copyWith(
                                     height: 1.2,
                                     decoration: TextDecoration.lineThrough),
-                          )
-                        else if (widget.item?.service != null &&
-                            (widget.item?.service?.price ?? 0) >
-                                (widget.item?.service?.priceAfterDiscount ?? 0))
-                          Text(
-                              "${context.tr(sarKey)} ${widget.item?.product != null ? widget.item?.product?.price : widget.item?.service?.price}",
-                              style: AppTheme
-                                  .styleWithTextAppGrey7AdelleSansExtendedFonts14w400
-                                  .copyWith(
+                              )
+                            else if (widget.item?.service != null &&
+                                (widget.item?.service?.price ?? 0) >
+                                    (widget.item?.service?.priceAfterDiscount ?? 0))
+                              Text(
+                                  "${context.tr(sarKey)} ${widget.item?.product != null ? widget.item?.product?.price : widget.item?.service?.price}",
+                                  style: AppTheme
+                                      .styleWithTextAppGrey7AdelleSansExtendedFonts14w400
+                                      .copyWith(
                                       height: 1.2,
                                       decoration: TextDecoration.lineThrough))
+                          ],
+                        )
+                        ,
+                        SizedBox(
+                          height: 12,
+                        ),
+                        Row(
+                          children: [
+                            Text("Sold by :",style: AppTheme.styleWithTextAppGrey7AdelleSansExtendedFonts10w700,),
+                            SizedBox(
+                              width: 5,
+                            ),
+                            Text("${widget.item?.provider?.name}",style: AppTheme.styleWithTextBlackAdelleSansExtendedFonts10w700,)
+                          ],
+                        )
                       ],
                     )
                   ],
                 ),
-                const SizedBox(
-                  height: 22,
-                ),
-                Row(
-                  children: [
-                    Text(
-                      "Size : ",
-                      style: AppTheme
-                          .styleWithTextAppGrey7AdelleSansExtendedFonts14w400,
-                    ),
-                    Text(
-                      "${widget.item?.product != null ? widget.item?.product?.sizes.first.name : context.tr(dashesKey)}",
-                      style: AppTheme
-                          .styleWithTextBlackAdelleSansExtendedFonts14w500,
-                    ),
-                    Spacer(),
-                    Text(
-                      "Color : ",
-                      style: AppTheme
-                          .styleWithTextAppGrey7AdelleSansExtendedFonts14w400,
-                    ),
-                    Text(
-                      "${widget.item?.product != null ? widget.item?.product?.colors.first.name : context.tr(dashesKey)}",
-                      style: AppTheme
-                          .styleWithTextBlackAdelleSansExtendedFonts14w500,
-                    ),
-                    Spacer(),
-                    Text(
-                      "Amount : ",
-                      style: AppTheme
-                          .styleWithTextAppGrey7AdelleSansExtendedFonts14w400,
-                    ),
-                    Text(
-                      "${widget.item?.quantity}",
-                      style: AppTheme
-                          .styleWithTextBlackAdelleSansExtendedFonts14w500,
-                    ),
-                  ],
-                ),
-                const SizedBox(
-                  height: 22,
-                ),
-                Row(
-                  children: [
-                    const Text(
-                      "Extra items :",
-                      style: AppTheme
-                          .styleWithTextAppGrey7AdelleSansExtendedFonts14w400,
-                    ),
-                    const SizedBox(
-                      width: 4,
-                    ),
-                    Text(
-                      "${widget.item?.product != null ? widget.item?.selectedProductsListItemsNames.join(", ") : widget.item?.selectedServicesListItemsNames.join(", ")}",
-                      style: AppTheme
-                          .styleWithTextBlackAdelleSansExtendedFonts14w500,
-                    )
-                  ],
-                )
               ],
             )),
       ),
