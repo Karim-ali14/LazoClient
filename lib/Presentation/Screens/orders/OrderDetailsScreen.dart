@@ -143,57 +143,61 @@ class _OrderDetailsScreenState extends ConsumerState<OrderDetailsScreen> {
                           const SizedBox(
                             height: 32,
                           ),
-                          orderDetails.data?.data?.isCanceledOrder() == true ?
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-
-                              Text("Canceled On",
-                                  style: AppTheme
-                                      .styleWithTextBlackAdelleSansExtendedFonts18w700),
-                              const SizedBox(
-                                height: 24,
-                              ),
-                              Container(
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(8),
-                                    border: Border.all(
-                                        color: AppTheme.appGrey8, width: 1),
-                                    color: Colors.white),
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 16, vertical: 24),
-                                child: Column(
+                          orderDetails.data?.data?.isCanceledOrder() == true &&
+                                  orderDetails.data?.data?.isSingleProvider() ==
+                                      true
+                              ? Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    InformationRowItem(
-                                      icon: SVGIcons.calendarIcon(),
-                                      title: "Date / Time",
-                                      value:
-                                      "${(orderDetails.data?.data?.createdAt ?? "").hhMm()}, ${(orderDetails.data?.data?.createdAt ?? "").ddMmYyyy()}",
+                                    Text("Canceled On",
+                                        style: AppTheme
+                                            .styleWithTextBlackAdelleSansExtendedFonts18w700),
+                                    const SizedBox(
+                                      height: 24,
                                     ),
-                                    const SizedBox(height: 16),
-                                    InformationRowItem(
-                                      icon: SVGIcons.redTriangleIcon(),
-                                      title: "Cancelled By",
-                                      value:
-                                      "${orderDetails.data?.data?.cancelledBy}",
+                                    Container(
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(8),
+                                          border: Border.all(
+                                              color: AppTheme.appGrey8,
+                                              width: 1),
+                                          color: Colors.white),
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 16, vertical: 24),
+                                      child: Column(
+                                        children: [
+                                          InformationRowItem(
+                                            icon: SVGIcons.calendarIcon(),
+                                            title: "Date / Time",
+                                            value:
+                                                "${(orderDetails.data?.data?.createdAt ?? "").hhMm()}, ${(orderDetails.data?.data?.createdAt ?? "").ddMmYyyy()}",
+                                          ),
+                                          const SizedBox(height: 16),
+                                          InformationRowItem(
+                                            icon: SVGIcons.redTriangleIcon(),
+                                            title: "Cancelled By",
+                                            value:
+                                                "${orderDetails.data?.data?.cancelledBy}",
+                                          ),
+                                          const SizedBox(height: 16),
+                                          InformationRowItem(
+                                            icon: SVGIcons.redTriangleIcon(),
+                                            title: "Reason for Cancellation",
+                                            hasDivider: false,
+                                            ifSetValueInNewLine: true,
+                                            value:
+                                                "${orderDetails.data?.data?.cancellationReason} ${context.tr(itemsKey)}",
+                                          ),
+                                        ],
+                                      ),
                                     ),
-                                    const SizedBox(height: 16),
-                                    InformationRowItem(
-                                      icon: SVGIcons.redTriangleIcon(),
-                                      title: "Reason for Cancellation",
-                                      hasDivider: false,
-                                      ifSetValueInNewLine: true,
-                                      value:
-                                      "${orderDetails.data?.data?.cancellationReason} ${context.tr(itemsKey)}",
+                                    const SizedBox(
+                                      height: 24,
                                     ),
                                   ],
-                                ),
-                              ),
-                              const SizedBox(
-                                height: 24,
-                              ),
-                            ],
-                          ):const SizedBox(),
+                                )
+                              : const SizedBox(),
                           Text("Order Info",
                               style: AppTheme
                                   .styleWithTextBlackAdelleSansExtendedFonts18w700),
