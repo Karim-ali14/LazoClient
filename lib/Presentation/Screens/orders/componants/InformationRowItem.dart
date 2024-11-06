@@ -45,6 +45,10 @@ class InformationRowItem extends StatelessWidget {
                 : SizedBox()
           ],
         ),
+        ifSetValueInNewLine == true ?
+        const SizedBox(
+          height: 8,
+        ):const SizedBox(),
         ifSetValueInNewLine == true
             ? Text(
           "$value",

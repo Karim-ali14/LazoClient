@@ -173,9 +173,14 @@ class SVGIcons {
     return SvgPicture.asset(orderFullSvg);
   }
 
+  static Widget redTriangleIcon() {
+    return SvgPicture.asset(redTriangleSvg);
+  }
+
   static Widget orderUnActiveIcon() {
     return SvgPicture.asset(orderUnActivePng);
   }
+
   static Widget hartActiveIcon() {
     return SvgPicture.asset(heartFullSvg);
   }
@@ -449,29 +454,27 @@ class SVGIcons {
     );
   }
 
-  static Widget calendarIcon(){
+  static Widget calendarIcon() {
     return SvgPicture.asset(
       calendarImg,
     );
   }
 
-  static Widget documentIcon(){
+  static Widget documentIcon() {
     return SvgPicture.asset(
       documentImg,
     );
   }
 
-  static Widget numberOfItemsIcon(){
+  static Widget numberOfItemsIcon() {
     return SvgPicture.asset(
       numberOfItemsImg,
     );
   }
 
-  static Widget totalPriceIcon(){
+  static Widget totalPriceIcon() {
     return SvgPicture.asset(
       totalPriceImg,
     );
   }
-
 }
-

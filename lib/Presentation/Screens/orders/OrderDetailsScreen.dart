@@ -40,9 +40,7 @@ class _OrderDetailsScreenState extends ConsumerState<OrderDetailsScreen> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      ref
-          .read(getOrderDetailsStateProvider.notifier)
-          .getOrderDetails(orderId: widget.orderId);
+      getOrderDetails();
     });
   }
 
@@ -56,33 +54,24 @@ class _OrderDetailsScreenState extends ConsumerState<OrderDetailsScreen> {
       // actionType = res.data?.data?.statusId?.toString().getOrderAction();
     });
 
-    // handleState(updateOrderStatusStateProvider,
-    //     showLoading: true, showToast: true, onSuccess: (res) {
-    //   if (actionType == OrderStateActionType.Accepte) {
-    //     ref
-    //         .read(getNewOrderStateProvider.notifier)
-    //         .updateOrder(res.data!.data!);
-    //   } else if (actionType == OrderStateActionType.Cancel) {
-    //     ref
-    //         .read(getNewOrderStateProvider.notifier)
-    //         .deleteOrder(res.data!.data!);
-    //     ref
-    //         .read(getCanselOrderStateProvider.notifier)
-    //         .updateList(res.data!.data!);
-    //   } else if (actionType == OrderStateActionType.ReadyToShipping) {
-    //     ref
-    //         .read(getCurrentOrderStateProvider.notifier)
-    //         .updateOrder(res.data!.data!);
-    //   } else if (actionType == OrderStateActionType.Finish) {
-    //     ref
-    //         .read(getCurrentOrderStateProvider.notifier)
-    //         .updateOrder(res.data!.data!);
-    //   }
-    //
-    //   // ref
-    //   //     .read(getOrderDetailsStateProvider.notifier)
-    //   //     .getOrderDetails(widget.orderId);
-    // });
+    handleState(manageOrderStateProvider, showLoading: true, showToast: true,
+        onSuccess: (res) {
+      updateOrderDetails(res.data?.data);
+
+      if (actionType == ButtonsClickType.CompleteOrder) {
+        ref
+            .read(getNewOrderStateProvider.notifier)
+            .updateOrder(res.data!.data!);
+      } else if (actionType == ButtonsClickType.Cancel) {
+        ref
+            .read(getNewOrderStateProvider.notifier)
+            .deleteOrder(res.data!.data!);
+        ref
+            .read(getCanselOrderStateProvider.notifier)
+            .updateList(res.data!.data!);
+      }
+      actionType = null;
+    });
 
     return Scaffold(
       appBar: CustomAppBar(
@@ -119,11 +108,13 @@ class _OrderDetailsScreenState extends ConsumerState<OrderDetailsScreen> {
                                     if (ButtonsClickType.CompleteOrder ==
                                         type) {
                                       handleOnButtonsClicks(
-                                          ButtonsClickType.CompleteOrder,orderDetails.data?.data);
+                                          ButtonsClickType.CompleteOrder,
+                                          orderDetails.data?.data);
                                     } else if (ButtonsClickType.Cancel ==
                                         type) {
                                       handleOnButtonsClicks(
-                                          ButtonsClickType.Cancel,orderDetails.data?.data);
+                                          ButtonsClickType.Cancel,
+                                          orderDetails.data?.data);
                                     }
                                   },
                                 )
@@ -152,6 +143,57 @@ class _OrderDetailsScreenState extends ConsumerState<OrderDetailsScreen> {
                           const SizedBox(
                             height: 32,
                           ),
+                          orderDetails.data?.data?.isCanceledOrder() == true ?
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+
+                              Text("Canceled On",
+                                  style: AppTheme
+                                      .styleWithTextBlackAdelleSansExtendedFonts18w700),
+                              const SizedBox(
+                                height: 24,
+                              ),
+                              Container(
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(8),
+                                    border: Border.all(
+                                        color: AppTheme.appGrey8, width: 1),
+                                    color: Colors.white),
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 16, vertical: 24),
+                                child: Column(
+                                  children: [
+                                    InformationRowItem(
+                                      icon: SVGIcons.calendarIcon(),
+                                      title: "Date / Time",
+                                      value:
+                                      "${(orderDetails.data?.data?.createdAt ?? "").hhMm()}, ${(orderDetails.data?.data?.createdAt ?? "").ddMmYyyy()}",
+                                    ),
+                                    const SizedBox(height: 16),
+                                    InformationRowItem(
+                                      icon: SVGIcons.redTriangleIcon(),
+                                      title: "Cancelled By",
+                                      value:
+                                      "${orderDetails.data?.data?.cancelledBy}",
+                                    ),
+                                    const SizedBox(height: 16),
+                                    InformationRowItem(
+                                      icon: SVGIcons.redTriangleIcon(),
+                                      title: "Reason for Cancellation",
+                                      hasDivider: false,
+                                      ifSetValueInNewLine: true,
+                                      value:
+                                      "${orderDetails.data?.data?.cancellationReason} ${context.tr(itemsKey)}",
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 24,
+                              ),
+                            ],
+                          ):const SizedBox(),
                           Text("Order Info",
                               style: AppTheme
                                   .styleWithTextBlackAdelleSansExtendedFonts18w700),
@@ -436,14 +478,14 @@ class _OrderDetailsScreenState extends ConsumerState<OrderDetailsScreen> {
       case ButtonsClickType.Cancel:
         {
           // if (user?.provider?.status != "pending") {
-          //   actionType = OrderStateActionType.Cancel;
+          actionType = ButtonsClickType.Cancel;
           //   showCancellationBottomSheet(orderModel?.id.toString() ?? "",
           //       orderModel?.orderFamily == "ready_made" ? "10" : "11");
           // } else {
           //   AppSnackBar.showSnackBar(context,
           //       isSuccess: true, message: "Your account is still pending");
           // }
-          showCancellationBottomSheet(orderModel?.id.toString()??"", "12");
+          showCancellationBottomSheet(orderModel?.id.toString() ?? "", "12");
 
           break;
         }
@@ -475,17 +517,12 @@ class _OrderDetailsScreenState extends ConsumerState<OrderDetailsScreen> {
         }
       case ButtonsClickType.CompleteOrder:
         {
-          ref
-              .read(manageOrderStateProvider
-              .notifier)
-              .updateOrderState(
-              orderId: orderModel?.id.toString(),
-              statusId: "13");
+          actionType = ButtonsClickType.CompleteOrder;
+          ref.read(manageOrderStateProvider.notifier).updateOrderState(
+              orderId: orderModel?.id.toString(), statusId: "13");
         }
       case ButtonsClickType.ViewDetails:
-        {
-
-        }
+        {}
     }
   }
 
@@ -510,5 +547,17 @@ class _OrderDetailsScreenState extends ConsumerState<OrderDetailsScreen> {
   void navigateToDetails(int itemId, OrderItemType type) {
     // context.push(R_ItemOrderDetails,
     //     extra: {"id": itemId.toString(), "type": type});
+  }
+
+  void getOrderDetails() {
+    ref
+        .read(getOrderDetailsStateProvider.notifier)
+        .getOrderDetails(orderId: widget.orderId);
+  }
+
+  void updateOrderDetails(ClientOrderDetails? clientOrderDetails) {
+    ref
+        .read(getOrderDetailsStateProvider.notifier)
+        .updateOrderDetails(order: clientOrderDetails);
   }
 }

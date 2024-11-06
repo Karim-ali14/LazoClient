@@ -1,15 +1,11 @@
+import 'package:lazo_client/Constants/Eunms.dart';
+
 import '../Data/Network/lib/api.dart';
 
 extension OrderExe on ClientOrderDetails{
   String getStoreName(){
-    bool isSingleProvider = orderFamily == "ready_made" ;
-    // var productId = orderItems.first.productId;
-    // for (var order in orderItems) {
-    //   if(productId != order.productId){
-    //     isSingleProvider = false;
-    //   }
-    // }
-    return isSingleProvider ? orderItems.first.provider?.name ?? "" : "More stores" ;
+
+    return isSingleProvider() ? orderItems.first.provider?.name ?? "" : "More stores" ;
   }
 
   String getCancellationItemsNames(){
@@ -20,13 +16,15 @@ extension OrderExe on ClientOrderDetails{
   }
 
   String? getStoreImage(){
-    bool isSingleProvider = orderFamily == "ready_made" ;
-    // var productId = orderItems.first.productId;
-    // for (var order in orderItems) {
-    //   if(productId != order.productId){
-    //     isSingleProvider = false;
-    //   }
-    // }
-    return isSingleProvider ? orderItems.first.provider?.imagePath : null ;
+
+    return isSingleProvider() ? orderItems.first.provider?.imagePath : null ;
+  }
+
+  bool isCanceledOrder(){
+    return statusId == 9 || statusId == 10 || statusId == 11 || statusId == 12 ;
+  }
+
+  bool isSingleProvider(){
+    return orderFamily == "ready_made" ;
   }
 }

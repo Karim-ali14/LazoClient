@@ -131,14 +131,36 @@ class _ProductItemCardState extends State<ProductItemCard> {
                         SizedBox(
                           height: 12,
                         ),
-                        Row(
-                          children: [
-                            Text("Sold by :",style: AppTheme.styleWithTextAppGrey7AdelleSansExtendedFonts10w700,),
-                            SizedBox(
-                              width: 5,
-                            ),
-                            Text("${widget.item?.provider?.name}",style: AppTheme.styleWithTextBlackAdelleSansExtendedFonts10w700,)
+                        SizedBox(
+                          width: 260,
+                          child: Row(
+                            children: [
+                              Text("Sold by :",style: AppTheme.styleWithTextAppGrey7AdelleSansExtendedFonts10w700,),
+                              SizedBox(
+                                width: 5,
+                              ),
+                              Text("${widget.item?.provider?.name}",style: AppTheme.styleWithTextBlackAdelleSansExtendedFonts10w700,),
+                              const Spacer(),
+                              widget.item?.statusId == 11 ?
+                              Row(
+                                children: [
+                                  Container(
+                                    width: 5,
+                                    height: 5,
+                                    decoration: const BoxDecoration(
+                                        color: AppTheme.mainAppColor,
+                                        shape: BoxShape.circle
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: 5,
+                                  ),
+                                  Text("Cancelled",style: AppTheme.styleWithTextMainAppColorAdelleSansExtendedFonts10w400,)
+
+                                ],
+                              ):const SizedBox()
                           ],
+                          ),
                         )
                       ],
                     )

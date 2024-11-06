@@ -162,5 +162,9 @@ class OrderDetailsUseCase extends StateNotifier<StateModel<ClientOrderDetailsRes
     state = StateModel.loading();
     request(() => api.showOrderDetails(orderId: orderId));
   }
-
+  void updateOrderDetails({ClientOrderDetails? order}){
+    var data = state.data;
+    data?.data = order;
+    state = StateModel.success(data);
+  }
 }

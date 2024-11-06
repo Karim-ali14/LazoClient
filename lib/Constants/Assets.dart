@@ -82,4 +82,5 @@ const heartFullSvg = "assets/images/heart_full.svg";
 const heartUnActiveSvg = "assets/images/heart_unactive.svg";
 const orderUnActivePng = "assets/images/order_anactive.svg";
 const orderFullSvg = "assets/images/order_full.svg";
+const redTriangleSvg = "assets/images/red_triangle.svg";
 
