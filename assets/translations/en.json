@@ -35,6 +35,6 @@
   "readyToShipping" : "Ready to shipping",
   "finished" : "Finished",
   "canceled" : "Canceled",
-  "orderDetails" : "order Details"
-
+  "orderDetails" : "order Details",
+  "selectYourCity" : "Select your city"
 }

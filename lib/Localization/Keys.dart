@@ -22,6 +22,7 @@ const yourAccountHasBlockKey = "yourAccountHasBlock";
 const pleaseContactUsToLearnMoreKey = "pleaseContactUsToLearnMore";
 const contactUsKey = "contactUs";
 const enterYourPhoneKey = "enterYourPhone";
+const selectYourCityKey = "selectYourCity";
 const thisPhoneIsNotExitsKey = "thisPhoneIsNotExits";
 const thisPhoneIsExitsKey = "thisPhoneIsExits";
 const enterYourFullNameKey = "enterYourFullName";

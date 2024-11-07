@@ -7,7 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lazo_client/Constants/Constants.dart';
 import 'package:lazo_client/Doman/CommenProviders/ApiProvider.dart';
-import 'package:lazo_client/Presentation/Dialogs/LoadingDialog.dart';
+
 import 'package:lazo_client/Presentation/StateNotifiersViewModel/PublicStateNotifiers.dart';
 import 'package:lazo_client/Presentation/Widgets/CircleImagePicker.dart';
 import 'package:lazo_client/Presentation/Widgets/SvgIcons.dart';
@@ -188,7 +188,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                     textEditingController: cityController,
                     validate: (value) {
                       if (value?.isEmpty == true) {
-                        return context.tr(enterYourPhoneKey);
+                        return context.tr(selectYourCityKey);
                       } else {
                         return null;
                       }
@@ -202,10 +202,9 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                     height: 48,
                     onPress: () {
                       // cityController.text = "sdafsd";
-                      // if (formKey.currentState?.validate() == true) {
-                      //   context.showSuccessDialog(description: "description");
-                      // }
-                      uploadFiles();
+                      if (formKey.currentState?.validate() == true) {
+                        uploadFiles();
+                      }
                     },
                     child: Text(
                       signUpKey,
