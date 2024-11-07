@@ -26,6 +26,7 @@ class MainScreenNavHostState extends ConsumerState<MainScreenNavHost> {
   int currentTab = 0;
   Widget currentScreen = const HomeScreen();
   final listTabsName = ["Home", "Orders" ,"Cart", "Wishlist", "More"];
+  final pages = [HomeScreen(), OrdersScreen() ,CartScreen(), WishListScreen(), MoreScreen()];
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +45,10 @@ class MainScreenNavHostState extends ConsumerState<MainScreenNavHost> {
             navigated: false,
             trailingWidget: AppBarTrailing(currentTab: currentTab),
           )),
-      body: currentScreen,
+      body: IndexedStack(
+        index: currentTab,
+        children: pages,
+      ),
       bottomNavigationBar: Container(
         decoration: BoxDecoration(boxShadow: [
           BoxShadow(
@@ -217,10 +221,10 @@ class MainScreenNavHostState extends ConsumerState<MainScreenNavHost> {
         case 2:
           currentScreen = const CartScreen();
           break;
-        case 2:
+        case 3:
           currentScreen = const WishListScreen();
           break;
-        case 3:
+        case 4:
           currentScreen = const MoreScreen();
           break;
       }
