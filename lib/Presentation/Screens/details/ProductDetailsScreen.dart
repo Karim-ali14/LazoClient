@@ -1,8 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lazo_client/Constants.dart';
 import 'package:lazo_client/Data/Models/ItemSelector.dart';
@@ -84,13 +82,12 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
         getRelatedProducts();
       } else {
         if (widget.serviceShowData == null) {
-          if (widget.serviceShowData == null) {
-            getDetailsForService();
-          } else {
-            ref.read(getServiceDetails.notifier).getServiceDetails(
-                serviceId: widget.id, service: widget.serviceShowData);
-          }
+          getDetailsForService();
+        } else {
+          ref.read(getServiceDetails.notifier).getServiceDetails(
+              serviceId: widget.id, service: widget.serviceShowData);
         }
+
         getRelatedServices();
       }
     });

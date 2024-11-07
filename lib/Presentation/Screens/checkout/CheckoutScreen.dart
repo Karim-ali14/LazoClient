@@ -61,10 +61,11 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
     var cartInfo = ref.watch(cartCalculationStateNotifies);
     var cartSelectionData = ref.watch(cartDateSelectedStateNotifiers);
     handleState(createOrderStateNotifiers, showLoading: true, onSuccess: (res) {
+      print(res.state);
       ref.watch(fetchCardDetailsStateNotifies);
       context.pop(true);
     });
-    print("${cartSelectionData.toString()}");
+    print("type of checkout ${cartSelectionData.toString()}");
     return Scaffold(
       appBar: CustomAppBar(
         appContext: context,
@@ -607,6 +608,11 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
     String? cardFrom,
     String? cardTo,
   }) {
+    print("serviceId : $serviceId"
+        "\n serviceSelectedListIds :$serviceSelectedListIds"
+        "\n serviceSelectedListItemsIds: $serviceSelectedListItemsIds"
+        "\n paymentMethod: $paymentMethod"
+    );
     ref.read(createOrderStateNotifiers.notifier).createInstantOrder(
         serviceId: serviceId,
         serviceQuantity: "1",

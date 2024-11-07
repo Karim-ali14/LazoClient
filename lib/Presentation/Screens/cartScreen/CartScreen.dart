@@ -355,6 +355,7 @@ class _CartScreenState extends ConsumerState<CartScreen> {
                                 if(giftBoxSelected != null){
                                   var data = {
                                     giftBoxIdKey : giftBoxSelected?.id.toString() ?? "",
+                                    orderTypeKey : OrderTypes.receiver_order.name
                                   };
                                   if(giftCartSelected != null){
                                     data[giftCardIdKey] = giftCartSelected?.id?.toString() ?? "";
