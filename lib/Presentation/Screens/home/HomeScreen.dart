@@ -69,12 +69,14 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         onSuccess: (res) {
       ref.read(homeDataStateNotifiers.notifier).handleAddProductToWishList(
           res.data?.data?.productId ?? 0, res.data?.data?.inWishlist ?? false);
+      makeRefreshForWishListProducts();
     });
 
     handleState(serviceToggleStateNotifier, showLoading: true,
         onSuccess: (res) {
       ref.read(homeDataStateNotifiers.notifier).handelAddServiceToWishList(
           res.data?.data?.serviceId ?? 0, res.data?.data?.inWishlist ?? false);
+      makeRefreshForWishListServices();
     });
 
     return Scaffold(
@@ -442,5 +444,17 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   void getHomeData() {
     ref.read(homeDataStateNotifiers.notifier).getHomeData();
+  }
+
+  void makeRefreshForWishListProducts() {
+    ref.read(
+      getWishListProductsStateNotifier.notifier
+    ).fetchAllProductsInWishlist();
+  }
+
+  void makeRefreshForWishListServices() {
+    ref.read(
+      getWishListServicesStateNotifier.notifier
+    ).fetchAllServicesInWishlist();
   }
 }

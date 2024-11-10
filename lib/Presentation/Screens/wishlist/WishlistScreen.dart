@@ -29,7 +29,6 @@ import '../../Widgets/ServiceAndProductItemCard.dart';
 import '../../Widgets/SvgIcons.dart';
 
 class WishListScreen extends ConsumerStatefulWidget {
-
   const WishListScreen({super.key});
 
   @override
@@ -40,9 +39,6 @@ class _WishListScreenState extends ConsumerState<WishListScreen>
     with SingleTickerProviderStateMixin {
   late TabController tabController;
   int activeTabIndex = 0;
-
-  var currentPageForProducts = 1;
-  var currentPageForServices = 1;
 
   String? searchForProductData = null;
   String? searchForServiceData = null;
@@ -62,8 +58,8 @@ class _WishListScreenState extends ConsumerState<WishListScreen>
       });
     });
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      fetchFavoriteProducts(currentPageForProducts);
-      fetchFavoriteServices(currentPageForServices);
+      fetchFavoriteProducts();
+      fetchFavoriteServices();
     });
     super.initState();
   }
@@ -93,46 +89,20 @@ class _WishListScreenState extends ConsumerState<WishListScreen>
 
     handleState(productToggleStateNotifier, showLoading: true,
         onSuccess: (res) {
-      print("object ${res.data?.data?.id.toString()} ${res.data?.data?.productId.toString()}");
-      ref.read(getWishListProductsStateNotifier.notifier).deleteProductItem(res.data?.data?.productId.toString() ?? "");
-      // ref
-      //     .read(getSellerDetailsWithProductStateNotifier.notifier)
-      //     .handleAddProductToWishList(
-      //         res.data?.data?.productId?.toInt() ?? 0,
-      //         res.data?.data?.categoriesIds ?? [],
-      //         res.data?.data?.inWishlist ?? false);
-      //
-      // ref.read(getProductDetails.notifier).handelAddProductToWishList(
-      //     res.data?.data?.productId ?? 0, res.data?.data?.inWishlist ?? false);
-      //
-      // ref.read(homeDataStateNotifiers.notifier).handleAddProductToWishList(
-      //     res.data?.data?.productId ?? 0, res.data?.data?.inWishlist ?? false);
-      //
-      // ref.read(getProductsStateNotifiers.notifier).handleAddProductToWishList(
-      //     res.data?.data?.productId ?? 0, res.data?.data?.inWishlist ?? false);
+      print(
+          "object ${res.data?.data?.id.toString()} ${res.data?.data?.productId.toString()}");
+      ref
+          .read(getWishListProductsStateNotifier.notifier)
+          .deleteProductItem(res.data?.data?.productId.toString() ?? "");
+      refreshHomeData();
     });
 
     handleState(serviceToggleStateNotifier, showLoading: true,
         onSuccess: (res) {
-
-      ref.read(getWishListServicesStateNotifier.notifier).deleteServiceItem(
-        res.data?.data?.serviceId.toString() ?? ""
-      );
-      // ref
-      //     .read(getSellerDetailsWithServicesStateNotifier.notifier)
-      //     .handleAddServiceToWishList(
-      //         res.data?.data?.serviceId?.toInt() ?? 0,
-      //         res.data?.data?.categoriesIds ?? [],
-      //         res.data?.data?.inWishlist ?? false);
-      //
-      // ref.read(getServiceDetails.notifier).handelAddServiceToWishList(
-      //     res.data?.data?.serviceId ?? 0, res.data?.data?.inWishlist ?? false);
-      //
-      // ref.read(homeDataStateNotifiers.notifier).handelAddServiceToWishList(
-      //     res.data?.data?.serviceId ?? 0, res.data?.data?.inWishlist ?? false);
-      //
-      // ref.read(getServicesStateNotifiers.notifier).handelAddServiceToWishlist(
-      //     res.data?.data?.serviceId ?? 0, res.data?.data?.inWishlist ?? false);
+      ref
+          .read(getWishListServicesStateNotifier.notifier)
+          .deleteServiceItem(res.data?.data?.serviceId.toString() ?? "");
+      refreshHomeData();
     });
 
     handleState(addServiceToCartUseCaseStateNotifier, showLoading: true,
@@ -158,13 +128,11 @@ class _WishListScreenState extends ConsumerState<WishListScreen>
                   delay: 1,
                   onTextChangeListener: (value) {
                     if (activeTabIndex == 0) {
-                      currentPageForProducts = 1;
                       searchForProductData = value;
-                      fetchFavoriteProducts(currentPageForProducts);
+                      fetchFavoriteProducts();
                     } else if (activeTabIndex == 1) {
-                      currentPageForServices = 1;
                       searchForServiceData = value;
-                      fetchFavoriteServices(currentPageForServices);
+                      fetchFavoriteServices();
                     }
                   },
                 ),
@@ -301,7 +269,7 @@ class _WishListScreenState extends ConsumerState<WishListScreen>
                               )),
                   servicesState.state == DataState.EMPTY
                       ? /*OrderPlaceHolder(onAddOrderClick: () {})*/ EmptyDataView(
-                          icon: SVGIcons.searchGifIcon(),
+                          icon: SVGIcons.wishlistGifIcon(),
                           title: "No Services Found",
                           description:
                               "When you add any service to your whishlist, it will appear here",
@@ -357,22 +325,26 @@ class _WishListScreenState extends ConsumerState<WishListScreen>
     );
   }
 
-  void fetchFavoriteProducts(int page) {
-    ref.read(getWishListProductsStateNotifier.notifier).fetchAllProductsInWishlist(
-      type: "product",
-        searchByName: searchForProductData == null ||
-                searchForProductData?.isEmpty == true
-            ? null
-            : searchForProductData);
+  void fetchFavoriteProducts() {
+    ref
+        .read(getWishListProductsStateNotifier.notifier)
+        .fetchAllProductsInWishlist(
+            type: "product",
+            searchByName: searchForProductData == null ||
+                    searchForProductData?.isEmpty == true
+                ? null
+                : searchForProductData);
   }
 
-  void fetchFavoriteServices(int page) {
-    ref.read(getWishListServicesStateNotifier.notifier).fetchAllServicesInWishlist(
-      type: "service",
-        searchByName: searchForServiceData == null ||
-                searchForServiceData?.isEmpty == true
-            ? null
-            : searchForServiceData);
+  void fetchFavoriteServices() {
+    ref
+        .read(getWishListServicesStateNotifier.notifier)
+        .fetchAllServicesInWishlist(
+            type: "service",
+            searchByName: searchForServiceData == null ||
+                    searchForServiceData?.isEmpty == true
+                ? null
+                : searchForServiceData);
   }
 
   void navigateToItemDetails(ItemType itemType, int itemId, String itemName,
@@ -384,10 +356,8 @@ class _WishListScreenState extends ConsumerState<WishListScreen>
       "categoryIds": categoriesIds
     }) as UpdateDataModel?;
     if (updateData != null && updateData.updateNormalData == true) {
-      currentPageForProducts = 1;
-      currentPageForServices = 1;
-      fetchFavoriteProducts(currentPageForProducts);
-      fetchFavoriteServices(currentPageForServices);
+      fetchFavoriteProducts();
+      fetchFavoriteServices();
     }
   }
 
@@ -420,10 +390,8 @@ class _WishListScreenState extends ConsumerState<WishListScreen>
         await context.push(R_LoginScreen, extra: {"type": TypeOfMode.ViewMode});
 
     if (makeRefresh == true) {
-      currentPageForProducts = 1;
-      currentPageForServices = 1;
-      fetchFavoriteProducts(currentPageForProducts);
-      fetchFavoriteServices(currentPageForServices);
+      fetchFavoriteProducts();
+      fetchFavoriteServices();
       refreshHomeData();
     }
   }

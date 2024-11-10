@@ -87,7 +87,7 @@ class OrderUseCase
             () => api.showOrders(
             status: orderState.name.toLowerCase(),
             page: page), onComplete: (res) {
-      print("getOrders Size for ${orderState.name} ${res?.data?.data.isEmpty}");
+      print("getOrders Size for $orderState ${orderState.name} ${res?.data?.data.isEmpty}");
       if (page != 1) {
         List<ClientOrderDetails> data = state.data?.data?.data ?? [];
         state.data?.data?.data = [...data, ...(res?.data?.data ?? [])];

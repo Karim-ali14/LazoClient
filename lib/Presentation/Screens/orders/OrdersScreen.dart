@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:lazo_client/Data/Network/lib/api.dart';
 import 'package:lazo_client/Doman/CommenProviders/ApiProvider.dart';
 import 'package:lazo_client/Presentation/StateNotifiersViewModel/UserAuthStateNotifiers.dart';
@@ -10,6 +11,7 @@ import 'package:lazo_client/Presentation/Widgets/EmptyDataPlaceHolder.dart';
 import 'package:lazo_client/Presentation/Widgets/SvgIcons.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
+import '../../../Constants.dart';
 import '../../../Constants/Eunms.dart';
 import '../../../Data/Models/StateModel.dart';
 import '../../BottomSheets/CancelOrderBottomSheet.dart';
@@ -221,10 +223,13 @@ class _OrdersScreenState extends ConsumerState<OrdersScreen>
               children: [
                 user == null
                     ? EmptyDataPlaceHolder(
-                        onAddOrderClick: () {},
+                        onAddOrderClick: () {
+                          navigateToLogin();
+                        },
                         icon: SVGIcons.existGifIcon(),
                         title: 'You need you login first',
                         description: 'You can see your orders when you login.',
+                        showButton: true,
                       )
                     : newOrders.state == DataState.EMPTY
                         ? EmptyDataPlaceHolder(
@@ -283,10 +288,13 @@ class _OrdersScreenState extends ConsumerState<OrdersScreen>
                                 )),
                 user == null
                     ? EmptyDataPlaceHolder(
-                  onAddOrderClick: () {},
+                  onAddOrderClick: () {
+                    navigateToLogin();
+                  },
                   icon: SVGIcons.existGifIcon(),
                   title: 'You need you login first',
                   description: 'You can see your orders when you login.',
+                  showButton: true,
                 )
                     :currentOrders.state == DataState.EMPTY
                     ? EmptyDataPlaceHolder(
@@ -345,10 +353,13 @@ class _OrdersScreenState extends ConsumerState<OrdersScreen>
                             )),
                 user == null
                     ? EmptyDataPlaceHolder(
-                  onAddOrderClick: () {},
+                  onAddOrderClick: () {
+                    navigateToLogin();
+                  },
                   icon: SVGIcons.existGifIcon(),
                   title: 'You need you login first',
                   description: 'You can see your orders when you login.',
+                  showButton: true,
                 )
                     :finishOrders.state == DataState.EMPTY
                     ? EmptyDataPlaceHolder(
@@ -388,10 +399,13 @@ class _OrdersScreenState extends ConsumerState<OrdersScreen>
                             )),
                 user == null
                     ? EmptyDataPlaceHolder(
-                  onAddOrderClick: () {},
+                  onAddOrderClick: () {
+                    navigateToLogin();
+                  },
                   icon: SVGIcons.existGifIcon(),
                   title: 'You need you login first',
                   description: 'You can see your orders when you login.',
+                  showButton: true,
                 )
                     :cancelOrders.state == DataState.EMPTY
                     ? EmptyDataPlaceHolder(
@@ -464,5 +478,8 @@ class _OrdersScreenState extends ConsumerState<OrdersScreen>
                     statusId: statusId);
               }),
         ));
+  }
+  void navigateToLogin(){
+    context.push(R_LoginScreen,extra: {"type" : TypeOfMode.ViewMode});
   }
 }

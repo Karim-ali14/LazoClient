@@ -19,7 +19,7 @@ class EmptyDataPlaceHolder extends StatelessWidget {
       required this.icon,
       required this.title,
       required this.description,
-      this.showButton = false, this.buttonName = ""});
+      this.showButton = false, this.buttonName = "Login"});
 
   @override
   Widget build(BuildContext context) {
@@ -53,14 +53,17 @@ class EmptyDataPlaceHolder extends StatelessWidget {
             height: defaultPaddingHorizontal,
           ),
           showButton == true
-              ? AppButton(
-                  width: double.infinity,
-                  height: 40,
-                  text: buttonName,
-                  onPress: () {
-                    onAddOrderClick?.call();
-                    // navigateToLogin(context);
-                  })
+              ? Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: AppButton(
+                    width: double.infinity,
+                    height: 40,
+                    text: buttonName,
+                    onPress: () {
+                      onAddOrderClick?.call();
+                      // navigateToLogin(context);
+                    }),
+              )
               : const SizedBox()
         ],
       ),
