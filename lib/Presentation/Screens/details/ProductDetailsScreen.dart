@@ -1197,6 +1197,7 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
                       }
                     } else {
                       if(serviceItemState.data?.data?.cardType == ServiceTypes.soft_card.name && serviceItemState.data?.data?.id != null){
+                        calculateSoftService(serviceItemState.data?.data?.priceAfterDiscount??0);
                         makeCheckoutForSoftService(int.parse(
                             serviceItemState.data?.data?.id!.toString() ?? ""));
                       }else if(serviceItemState.data?.data!.inCart == true){
@@ -1449,10 +1450,16 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
           }
       );
 
-      context.push(R_CheckoutScreen);
+      context.push(R_CheckoutScreen,extra: {"type" : CheckoutTypes.SoftCard});
     }else {
       showAuthenticated();
     }
 
+  }
+
+  void calculateSoftService(num price) {
+    ref.read(calculationForSoftItemStateNotifies.notifier).calculateSoftItemForCheckout(
+        totalPrice: price
+    );
   }
 }

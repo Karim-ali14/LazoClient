@@ -455,7 +455,7 @@ class _CartScreenState extends ConsumerState<CartScreen> {
   }
 
   void checkout() async{
-    var success = await context.push(R_CheckoutScreen) as bool? ?? false;
+    var success = await context.push(R_CheckoutScreen,extra: {"type":CheckoutTypes.HartCard}) as bool? ?? false;
     print(success);
     if(success == true){
       navigateToHomeScreen();

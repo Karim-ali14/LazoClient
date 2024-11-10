@@ -321,12 +321,14 @@ class MyApp extends ConsumerWidget {
           path: R_CartScreen,
           builder: (BuildContext context, GoRouterState state) =>
               const CartScreen()),
-
       GoRoute(
           path: R_CheckoutScreen,
-          builder: (BuildContext context, GoRouterState state) =>
-              const CheckoutScreen()),
-
+          builder: (BuildContext context, GoRouterState state) {
+            var extra = state.extra as Map;
+            return CheckoutScreen(
+              type: extra["type"] as CheckoutTypes,
+            );
+          }),
       GoRoute(
           path: R_GoogleMapScreen,
           builder: (BuildContext context, GoRouterState state) {
@@ -347,11 +349,10 @@ class MyApp extends ConsumerWidget {
           }),
       GoRoute(
           path: R_OrderDetails,
-          builder: (BuildContext context,GoRouterState state) {
+          builder: (BuildContext context, GoRouterState state) {
             var extra = state.extra as Map;
             return OrderDetailsScreen(orderId: extra[orderIdKey]);
-          }
-      ),
+          }),
     ],
   );
 }

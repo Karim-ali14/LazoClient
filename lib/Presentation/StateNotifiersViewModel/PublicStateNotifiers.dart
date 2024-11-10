@@ -126,6 +126,10 @@ final cartCalculationStateNotifies = StateNotifierProvider<CartCalculation,
         StateModel<CartCalculation200Response?>>(
     (ref) => CartCalculation(ref, ref.read(publicApi)));
 
+final calculationForSoftItemStateNotifies = StateNotifierProvider<CartCalculation,
+        StateModel<CartCalculation200Response?>>(
+    (ref) => CartCalculation(ref, ref.read(publicApi)));
+
 final showPromoCodeDetailsStateNotifies = StateNotifierProvider.autoDispose<
         ShowPromoCodeDetails, StateModel<ShowPromocodeDetails200Response?>>(
     (ref) => ShowPromoCodeDetails(ref, ref.read(publicApi)));

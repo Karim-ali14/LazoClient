@@ -68,3 +68,8 @@ enum OrderItemType {
   Product,
   Service
 }
+
+enum CheckoutTypes {
+  HartCard,
+  SoftCard
+}

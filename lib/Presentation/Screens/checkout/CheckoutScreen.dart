@@ -23,7 +23,8 @@ import '../cartScreen/componants/CustomSwitch.dart';
 import '../details/componants/ProductRowItem.dart';
 
 class CheckoutScreen extends ConsumerStatefulWidget {
-  const CheckoutScreen({super.key});
+  final CheckoutTypes? type;
+  const CheckoutScreen( {this.type = CheckoutTypes.HartCard,super.key});
 
   @override
   ConsumerState<CheckoutScreen> createState() => _CheckoutScreenState();
@@ -58,7 +59,7 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var cartInfo = ref.watch(cartCalculationStateNotifies);
+    var cartInfo = widget.type == CheckoutTypes.HartCard ? ref.watch(cartCalculationStateNotifies) : ref.watch(calculationForSoftItemStateNotifies);
     var cartSelectionData = ref.watch(cartDateSelectedStateNotifiers);
     handleState(createOrderStateNotifiers, showLoading: true, onSuccess: (res) {
       print(res.state);
@@ -613,18 +614,20 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
         "\n serviceSelectedListItemsIds: $serviceSelectedListItemsIds"
         "\n paymentMethod: $paymentMethod"
     );
-    ref.read(createOrderStateNotifiers.notifier).createInstantOrder(
-        serviceId: serviceId,
-        serviceQuantity: "1",
-        serviceSelectedListIds: serviceSelectedListIds,
-        serviceSelectedListItemsIds: serviceSelectedListItemsIds,
-        paymentMethod: paymentMethod,
-        promocode: promocode,
-        receiverPhoneNumber: recipientPhoneController.text,
-        receiverName: recipientNameController.text,
-        cardMessage: messageController.text,
-        cardFrom: cardFrom,
-        cardTo: messageToController.text);
+    if (formKey.currentState?.validate() == true) {
+      ref.read(createOrderStateNotifiers.notifier).createInstantOrder(
+          serviceId: serviceId,
+          serviceQuantity: "1",
+          serviceSelectedListIds: serviceSelectedListIds,
+          serviceSelectedListItemsIds: serviceSelectedListItemsIds,
+          paymentMethod: paymentMethod,
+          promocode: promocode,
+          receiverPhoneNumber: recipientPhoneController.text,
+          receiverName: recipientNameController.text,
+          cardMessage: messageController.text,
+          cardFrom: cardFrom,
+          cardTo: messageToController.text);
+    }
   }
 
   @override

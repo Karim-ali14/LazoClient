@@ -767,6 +767,23 @@ class CartCalculation
         giftBoxId: giftBoxId,
         giftCardId: giftCardId));
   }
+
+  void calculateSoftItemForCheckout({
+    num? totalPrice,
+    String? promocode,
+    String? giftBoxId,
+    String? giftCardId,
+  }) {
+    state = StateModel.success(
+        CartCalculation200Response(
+          data: CartCalculation200ResponseData(
+            totalAfter: totalPrice,
+            totalBefore: totalPrice
+          )
+        )
+    );
+  }
+
 }
 
 class ShowPromoCodeDetails
