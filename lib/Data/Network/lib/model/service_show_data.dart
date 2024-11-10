@@ -39,6 +39,8 @@ class ServiceShowData {
     this.providerId,
     this.updatedAt,
     this.inCart,
+    this.cartItemId,
+    this.cartItemQuantity,
     this.inWishlist,
     this.overallRating,
     this.ratingsCount,
@@ -224,6 +226,10 @@ class ServiceShowData {
   ///
   bool? inCart;
 
+  int? cartItemId;
+
+  int? cartItemQuantity;
+
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
   /// does not include a default value (using the "default:" property), however, the generated
@@ -286,6 +292,8 @@ class ServiceShowData {
      other.providerId == providerId &&
      other.updatedAt == updatedAt &&
      other.inCart == inCart &&
+     other.cartItemId == cartItemId &&
+     other.cartItemQuantity == cartItemQuantity &&
      other.inWishlist == inWishlist &&
      other.overallRating == overallRating &&
      other.ratingsCount == ratingsCount &&
@@ -321,6 +329,8 @@ class ServiceShowData {
     (providerId == null ? 0 : providerId!.hashCode) +
     (updatedAt == null ? 0 : updatedAt!.hashCode) +
     (inCart == null ? 0 : inCart!.hashCode) +
+    (cartItemId == null ? 0 : cartItemId!.hashCode) +
+    (cartItemQuantity == null ? 0 : cartItemQuantity!.hashCode) +
     (inWishlist == null ? 0 : inWishlist!.hashCode) +
     (overallRating == null ? 0 : overallRating!.hashCode) +
     (ratingsCount == null ? 0 : ratingsCount!.hashCode) +
@@ -328,7 +338,7 @@ class ServiceShowData {
     (provider == null ? 0 : provider!.hashCode);
 
   @override
-  String toString() => 'ServiceShowData[cardExpiration=$cardExpiration, cardPrice=$cardPrice, cardType=$cardType, categories=$categories, categoryMenu=$categoryMenu, coverImagePath=$coverImagePath, coverImage=$coverImage, createdAt=$createdAt, description=$description, descriptionAr=$descriptionAr, descriptionEn=$descriptionEn, duration=$duration, id=$id, images=$images, imagePath=$imagePath, isServiceDeliverableOutsideStore=$isServiceDeliverableOutsideStore, isVisible=$isVisible, lists=$lists, name=$name, nameAr=$nameAr, nameEn=$nameEn, price=$price, priceAfterDiscount=$priceAfterDiscount, providerId=$providerId, updatedAt=$updatedAt, inCart=$inCart, inWishlist=$inWishlist, overallRating=$overallRating, ratingsCount=$ratingsCount, ratings=$ratings, provider=$provider]';
+  String toString() => 'ServiceShowData[cardExpiration=$cardExpiration, cardPrice=$cardPrice, cardType=$cardType, categories=$categories, categoryMenu=$categoryMenu, coverImagePath=$coverImagePath, coverImage=$coverImage, createdAt=$createdAt, description=$description, descriptionAr=$descriptionAr, descriptionEn=$descriptionEn, duration=$duration, id=$id, images=$images, imagePath=$imagePath, isServiceDeliverableOutsideStore=$isServiceDeliverableOutsideStore, isVisible=$isVisible, lists=$lists, name=$name, nameAr=$nameAr, nameEn=$nameEn, price=$price, priceAfterDiscount=$priceAfterDiscount, providerId=$providerId, updatedAt=$updatedAt, inCart=$inCart, cartItemId=$cartItemId, cartItemQuantity=$cartItemQuantity, inWishlist=$inWishlist, overallRating=$overallRating, ratingsCount=$ratingsCount, ratings=$ratings, provider=$provider]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -454,6 +464,16 @@ class ServiceShowData {
     } else {
       json[r'in_cart'] = null;
     }
+    if (this.cartItemId != null) {
+      json[r'cart_item_id'] = this.cartItemId;
+    } else {
+      json[r'cart_item_id'] = null;
+    }
+    if (this.cartItemQuantity != null) {
+      json[r'cart_item_quantity'] = this.cartItemQuantity;
+    } else {
+      json[r'cart_item_quantity'] = null;
+    }
     if (this.inWishlist != null) {
       json[r'in_wishlist'] = this.inWishlist;
     } else {
@@ -541,6 +561,8 @@ class ServiceShowData {
             : num.parse(json[r'provider_id'].toString()),
         updatedAt: mapValueOfType<String>(json, r'updated_at'),
         inCart: mapValueOfType<bool>(json, r'in_cart'),
+        cartItemId: mapValueOfType<int>(json, r'cart_item_id'),
+        cartItemQuantity: mapValueOfType<int>(json, r'cart_item_quantity'),
         inWishlist: mapValueOfType<bool>(json, r'in_wishlist'),
         overallRating: json[r'overall_rating'] == null
             ? null

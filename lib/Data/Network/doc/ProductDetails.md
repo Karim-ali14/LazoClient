@@ -33,6 +33,8 @@ Name | Type | Description | Notes
 **type** | **String** |  | [optional] 
 **updatedAt** | **String** |  | [optional] 
 **inCart** | **bool** |  | [optional] 
+**cartItemId** | **int** |  | [optional] 
+**cartItemQuantity** | **int** |  | [optional] 
 **inWishlist** | **bool** |  | [optional] 
 **overallRating** | **num** |  | [optional] 
 **ratingsCount** | **num** |  | [optional] 

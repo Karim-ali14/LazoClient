@@ -114,6 +114,7 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
       var id = res.data?.data?.productId;
       print("product id : $id");
       if (id != null) {
+        ref.read(fetchCardDetailsStateNotifies.notifier).getCardDetails();
         ref.read(getProductDetails.notifier).handelAddProductToCart(id);
         ref.read(homeDataStateNotifiers.notifier).handleAddProductToCart(id);
         ref.read(getProductsStateNotifiers.notifier).handleAddProductToCart(id);
@@ -127,6 +128,7 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
         onSuccess: (res) {
       var id = res.data?.data?.serviceId;
       if (id != null) {
+        ref.read(fetchCardDetailsStateNotifies.notifier).getCardDetails();
         ref.read(getServiceDetails.notifier).handelAddServiceToCart(id);
         ref.read(homeDataStateNotifiers.notifier).handelAddServiceToCart(id);
         ref.read(getServicesStateNotifiers.notifier).handelAddServiceToCart(id);
@@ -1187,8 +1189,8 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
                 child: AppButton(
                   onPress: () {
                     if (widget.itemType == ItemType.Products) {
-                      if (widget.productDetails != null) {
-                        editProductToCart(widget.cartId ?? 0);
+                      if (widget.productDetails != null || productItemState.data?.data!.inCart == true) {
+                        editProductToCart(widget.cartId ?? productItemState.data?.data!.cartItemId ?? 0);
                       } else if (productItemState.data?.data?.id != null && productItemState.data?.data?.amount != 0) {
                         addProductToCart(int.parse(
                             productItemState.data?.data?.id!.toString() ?? ""));
@@ -1197,7 +1199,9 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
                       if(serviceItemState.data?.data?.cardType == ServiceTypes.soft_card.name && serviceItemState.data?.data?.id != null){
                         makeCheckoutForSoftService(int.parse(
                             serviceItemState.data?.data?.id!.toString() ?? ""));
-                      }else if (serviceItemState.data?.data?.id != null) {
+                      }else if(serviceItemState.data?.data!.inCart == true){
+                        editServiceCart(serviceItemState.data?.data?.cartItemId??0);
+                      } else if (serviceItemState.data?.data?.id != null) {
                         addServiceToCart(int.parse(
                             serviceItemState.data?.data?.id!.toString() ?? ""));
                       }
@@ -1207,12 +1211,12 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
                       ? widget.productDetails != null
                           ? "Edit Product"
                           :  productItemState.data?.data?.amount == 0 ? "Out of stock" : productItemState.data?.data!.inCart == true
-                              ? "Added"
+                              ? "Edit Product"
                               : "Add to cart"
                       :  widget.serviceShowData != null
                           ? "Edit Service"
                           : serviceItemState.data?.data?.cardType == ServiceTypes.soft_card.name ? "Checkout" : serviceItemState.data?.data!.inCart == true
-                              ? "Added"
+                              ? "Edit Service"
                               : "Add to cart",
                   height: 46,
                   width: double.infinity,
@@ -1324,6 +1328,22 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
           serviceSelectedListIds: parentItemIds,
           serviceSelectedListItemsIds: childItemIds);
     }
+  }
+  void editServiceCart(int id) {
+    String? parentItemIds;
+    String? childItemIds;
+    if (serviceSelectemItemsIds.isNotEmpty) {
+      parentItemIds =
+          serviceSelectemItemsIds.keys.map((key) => key.toString()).join(",");
+      childItemIds = serviceSelectemItemsIds.values
+          .map((value) => value.join(","))
+          .join("|");
+    }
+
+    ref.read(updateCartItemsStateNotifies.notifier).updateCartItems(
+        cartItemId: id.toString(),
+        serviceSelectedListIds: parentItemIds,
+        serviceSelectedListItemsIds: childItemIds);
   }
 
   void productWishlistToggle(int id) {

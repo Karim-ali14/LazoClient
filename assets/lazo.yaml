@@ -996,6 +996,12 @@ components:
           example: '2024-05-02T11:47:34.000000Z'
         in_cart:
           type: boolean
+        cart_item_id:
+          type: integer
+          nullable: true
+        cart_item_quantity:
+          type: integer
+          nullable: true
         in_wishlist:
           type: boolean
         overall_rating:
@@ -1627,6 +1633,12 @@ components:
           example: '2024-05-02T11:47:34.000000Z'
         in_cart:
           type: boolean
+        cart_item_id:
+          type: integer
+          nullable: true
+        cart_item_quantity:
+          type: integer
+          nullable: true
         in_wishlist:
           type: boolean
         overall_rating:
@@ -3327,6 +3339,12 @@ components:
           example: '2024-05-04T14:51:44.000000Z'
         in_cart:
           type: boolean
+        cart_item_id:
+          type: integer
+          nullable: true
+        cart_item_quantity:
+          type: integer
+          nullable: true
         in_wishlist:
           type: boolean
         overall_rating:

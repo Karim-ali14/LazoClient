@@ -8,7 +8,9 @@ import 'package:lazo_client/Constants.dart';
 import 'package:lazo_client/Data/Models/StateModel.dart';
 import 'package:lazo_client/Doman/CommenProviders/ApiProvider.dart';
 import 'package:lazo_client/Presentation/Dialogs/LoadingDialog.dart';
+import 'package:lazo_client/Presentation/StateNotifiersViewModel/ClientStateNotifiers.dart';
 import 'package:lazo_client/Presentation/StateNotifiersViewModel/PublicStateNotifiers.dart';
+import 'package:lazo_client/Presentation/StateNotifiersViewModel/WishListStateNotifiers.dart';
 import 'package:lazo_client/Utils/Extintions.dart';
 
 import '../../../../Constants/Constants.dart';
@@ -62,6 +64,7 @@ class _OtpScreenState extends ConsumerState<OTPScreen> {
     handleState(loginStateNotifierProvider, onSuccess: (res) {
       ref.read(getSessionHandlerStateNotifier.notifier).clearSessionId();
       if(context.isThereCurrentDialogShowing()){
+        updateMainScreen();
         try{
           if(widget.typeOfMode == TypeOfMode.AuthMode){
             context.go(R_MainScreen);
@@ -80,6 +83,7 @@ class _OtpScreenState extends ConsumerState<OTPScreen> {
       print("signUp successful");
       ref.read(getSessionHandlerStateNotifier.notifier).clearSessionId();
       if(context.isThereCurrentDialogShowing()){
+        updateMainScreen();
         try{
           if(widget.typeOfMode == TypeOfMode.AuthMode){
             context.go(R_MainScreen);
@@ -250,4 +254,16 @@ class _OtpScreenState extends ConsumerState<OTPScreen> {
         phone: widget.phone
     );
   }
+
+  void updateMainScreen(){
+    ref.read(homeDataStateNotifiers.notifier).getHomeData();
+    ref.read(getNewOrderStateProvider.notifier).getOrders();
+    ref.read(getCurrentOrderStateProvider.notifier).getOrders();
+    ref.read(getFinishOrderStateProvider.notifier).getOrders();
+    ref.read(getCanselOrderStateProvider.notifier).getOrders();
+    ref.read(fetchCardDetailsStateNotifies.notifier).getCardDetails();
+    ref.read(getWishListProductsStateNotifier.notifier).fetchAllProductsInWishlist();
+    ref.read(getWishListServicesStateNotifier.notifier).fetchAllServicesInWishlist();
+  }
+
 }

@@ -38,25 +38,52 @@ class ImageView extends StatelessWidget {
                 width: borderSize ?? 0)),
         child: isCircle == true
             ? ClipOval(
-                child: CachedNetworkImage(
-                    placeholder: (context, url) => Image.asset(
+                child: _isSvg(initialImg)
+                    ? SvgPicture.network(
+                        initialImg ?? "",
+                        placeholderBuilder: (context) => Image.asset(
+                          placeHolder ?? userPlaceholder,
+                          fit: BoxFit.cover,
+                        ),
+                        height: height,
+                        width: width,
+                        fit: BoxFit.cover,
+                      )
+                    : CachedNetworkImage(
+                        placeholder: (context, url) => Image.asset(
+                              placeHolder ?? userPlaceholder,
+                              fit: BoxFit.cover,
+                            ),
+                        imageUrl: initialImg ?? "",
+                        errorWidget: (context, err, child) => Image.asset(
+                            placeHolder ?? userPlaceholder,
+                            fit: BoxFit.cover),
+                        fit: BoxFit.cover))
+            : _isSvg(initialImg)
+                ? SvgPicture.network(
+                    initialImg ?? "",
+                    placeholderBuilder: (context) => Image.asset(
                       placeHolder ?? userPlaceholder,
                       fit: BoxFit.cover,
                     ),
+                    height: height,
+                    width: width,
+                    fit: BoxFit.cover,
+                  )
+                : CachedNetworkImage(
+                    placeholder: (context, url) => SvgPicture.asset(
+                          placeHolder ?? userPlaceholder,
+                          fit: BoxFit.cover,
+                        ),
                     imageUrl: initialImg ?? "",
                     errorWidget: (context, err, child) => Image.asset(
                         placeHolder ?? userPlaceholder,
                         fit: BoxFit.cover),
-                    fit: BoxFit.cover))
-            : CachedNetworkImage(
-                placeholder: (context, url) => SvgPicture.asset(
-                      placeHolder ?? userPlaceholder,
-                      fit: BoxFit.cover,
-                    ),
-                imageUrl: initialImg ?? "",
-                errorWidget: (context, err, child) => Image.asset(
-                    placeHolder ?? userPlaceholder,
-                    fit: BoxFit.cover),
-                fit: BoxFit.cover));
+                    fit: BoxFit.cover));
+  }
+
+  bool _isSvg(String? url) {
+    return url?.isNotEmpty == true &&
+        url?.toLowerCase().endsWith(".svg") == true;
   }
 }

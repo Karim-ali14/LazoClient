@@ -11,7 +11,10 @@ import 'package:lazo_client/Presentation/Widgets/AppButton.dart';
 import '../../../Constants.dart';
 import '../../../Constants/Constants.dart';
 import '../../../Data/Network/lib/api.dart';
+import '../../StateNotifiersViewModel/ClientStateNotifiers.dart';
+import '../../StateNotifiersViewModel/PublicStateNotifiers.dart';
 import '../../StateNotifiersViewModel/UserAuthStateNotifiers.dart';
+import '../../StateNotifiersViewModel/WishListStateNotifiers.dart';
 import '../../Theme/AppTheme.dart';
 import '../../Widgets/SvgIcons.dart';
 import '../details/AskBottomSheet.dart';
@@ -38,6 +41,7 @@ class _MoreScreenState extends ConsumerState<MoreScreen> {
 
     handleState(logoutStateProvider,showLoading: true , onSuccess: (res){
       // navigateToLogin(TypeOfMode.AuthMode);
+      updateMainScreen();
       navigateToHomeScreen();
     });
 
@@ -338,5 +342,16 @@ class _MoreScreenState extends ConsumerState<MoreScreen> {
 
   void navigateToHomeScreen() {
     context.go(R_MainScreen);
+  }
+
+  void updateMainScreen(){
+    ref.read(homeDataStateNotifiers.notifier).getHomeData();
+    ref.read(getNewOrderStateProvider.notifier).getOrders();
+    ref.read(getCurrentOrderStateProvider.notifier).getOrders();
+    ref.read(getFinishOrderStateProvider.notifier).getOrders();
+    ref.read(getCanselOrderStateProvider.notifier).getOrders();
+    ref.read(fetchCardDetailsStateNotifies.notifier).getCardDetails();
+    ref.read(getWishListProductsStateNotifier.notifier).fetchAllProductsInWishlist();
+    ref.read(getWishListServicesStateNotifier.notifier).fetchAllServicesInWishlist();
   }
 }
