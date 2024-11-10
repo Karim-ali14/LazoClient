@@ -23,6 +23,7 @@ import '../../StateNotifiersViewModel/UserAuthStateNotifiers.dart';
 import '../../StateNotifiersViewModel/WishListStateNotifiers.dart';
 import '../../Theme/AppTheme.dart';
 import '../../Widgets/DataListView.dart';
+import '../../Widgets/EmptyDataPlaceHolder.dart';
 import '../../Widgets/EmptyDataView.dart';
 import '../../Widgets/SearchWithFilter.dart';
 import '../../Widgets/ServiceAndProductItemCard.dart';
@@ -73,7 +74,7 @@ class _WishListScreenState extends ConsumerState<WishListScreen>
 
   @override
   Widget build(BuildContext context) {
-    final client = ref.watch(clientStateProvider);
+    final user = ref.read(clientStateProvider.notifier).checkIfUserExist();
 
     final productsState = ref.watch(getWishListProductsStateNotifier);
     final servicesState = ref.watch(getWishListServicesStateNotifier);
@@ -222,100 +223,131 @@ class _WishListScreenState extends ConsumerState<WishListScreen>
                   child: TabBarView(
                 controller: tabController,
                 children: [
-                  productsState.state == DataState.EMPTY
-                      ? /*OrderPlaceHolder(onAddOrderClick: () {})*/ EmptyDataView(
-                          icon: SVGIcons.wishlistGifIcon(),
-                          title: "No Products Found",
-                          description:
-                              "When you add any product to your whishlist, it will appear here",
-                        )
-                      : DataListView<ProviderProduct>(
-                          dataList: productsState.data?.data?.products ??
-                              (productsState.state == DataState.LOADING
-                                  ? [
-                                      ...List.generate(
-                                          5, (index) => ProviderProduct())
-                                    ]
-                                  : []),
-                          paginated: true,
-                          pageLoading:
-                              productsState.state == DataState.MORE_LOADING,
-                          onBottomReached: () {
-                            // fetchFavoriteProducts(++currentPageForProducts);
+                  user == null
+                      ? EmptyDataPlaceHolder(
+                          onAddOrderClick: () {
+                            navigateToLogin();
                           },
-                          builder: (item) => Skeletonizer(
-                                enabled:
-                                    productsState.state == DataState.LOADING,
-                                child: Padding(
-                                  padding: EdgeInsetsDirectional.symmetric(
-                                      horizontal: 16, vertical: 6),
-                                  child: ServiceAndProductItemCardHorizontal(
-                                    type: ItemType.Products,
-                                    product: item,
-                                    onAddItemToCart: (id) {},
-                                    onAddItemToWishList: (id) {
-                                      if (client != null) {
-                                        productWishlistToggle(id);
-                                      } else {
-                                        showAuthenticated();
-                                      }
-                                    },
-                                    onItemClick: (id, name, categoriesIds) {
-                                      navigateToItemDetails(ItemType.Products,
-                                          id, name, categoriesIds);
-                                    },
-                                  ),
-                                ),
-                              )),
-                  servicesState.state == DataState.EMPTY
-                      ? /*OrderPlaceHolder(onAddOrderClick: () {})*/ EmptyDataView(
-                          icon: SVGIcons.wishlistGifIcon(),
-                          title: "No Services Found",
+                          icon: SVGIcons.existGifIcon(),
+                          title: 'You need you login first',
                           description:
-                              "When you add any service to your whishlist, it will appear here",
+                              'You can see your wishlist when you login.',
+                          showButton: true,
                         )
-                      : DataListView<ServiceShowData>(
-                          dataList: servicesState.data?.data?.services ??
-                              (servicesState.state == DataState.LOADING
-                                  ? [
-                                      ...List.generate(
-                                          5, (index) => ServiceShowData())
-                                    ]
-                                  : []),
-                          paginated: true,
-                          pageLoading:
-                              servicesState.state == DataState.MORE_LOADING,
-                          onBottomReached: () {
-                            // if (currentPageForServices <
-                            //     (servicesState.data?.data?.services ??
-                            //         0)) {
-                            //   fetchFavoriteServices(++currentPageForServices);
-                            // }
+                      : productsState.state == DataState.EMPTY
+                          ? /*OrderPlaceHolder(onAddOrderClick: () {})*/ EmptyDataView(
+                              icon: SVGIcons.wishlistGifIcon(),
+                              title: "No Products Found",
+                              description:
+                                  "When you add any product to your whishlist, it will appear here",
+                            )
+                          : DataListView<ProviderProduct>(
+                              dataList: productsState.data?.data?.products ??
+                                  (productsState.state == DataState.LOADING
+                                      ? [
+                                          ...List.generate(
+                                              5, (index) => ProviderProduct())
+                                        ]
+                                      : []),
+                              paginated: true,
+                              pageLoading:
+                                  productsState.state == DataState.MORE_LOADING,
+                              onBottomReached: () {
+                                // fetchFavoriteProducts(++currentPageForProducts);
+                              },
+                              builder: (item) => Skeletonizer(
+                                    enabled: productsState.state ==
+                                        DataState.LOADING,
+                                    child: Padding(
+                                      padding: EdgeInsetsDirectional.symmetric(
+                                          horizontal: 16, vertical: 6),
+                                      child:
+                                          ServiceAndProductItemCardHorizontal(
+                                        type: ItemType.Products,
+                                        product: item,
+                                        onAddItemToCart: (id) {},
+                                        onAddItemToWishList: (id) {
+                                          if (user != null) {
+                                            productWishlistToggle(id);
+                                          } else {
+                                            showAuthenticated();
+                                          }
+                                        },
+                                        onItemClick: (id, name, categoriesIds) {
+                                          navigateToItemDetails(
+                                              ItemType.Products,
+                                              id,
+                                              name,
+                                              categoriesIds);
+                                        },
+                                      ),
+                                    ),
+                                  )),
+                  user == null
+                      ? EmptyDataPlaceHolder(
+                          onAddOrderClick: () {
+                            navigateToLogin();
                           },
-                          builder: (item) => Skeletonizer(
-                                enabled:
-                                    servicesState.state == DataState.LOADING,
-                                child: Padding(
-                                  padding: EdgeInsetsDirectional.symmetric(
-                                      horizontal: 16, vertical: 6),
-                                  child: ServiceAndProductItemCardHorizontal(
-                                    service: item,
-                                    type: ItemType.Services,
-                                    onAddItemToCart: (id) {},
-                                    onAddItemToWishList: (id) {
-                                      if (client != null) {
-                                        serviceWishlistToggle(id.toString());
-                                      } else {
-                                        showAuthenticated();
-                                      }
-                                    },
-                                    onItemClick: (id, name, categoriesIds) {
-                                      navigateToItemDetails(ItemType.Services,
-                                          id, name, categoriesIds);
-                                    },
-                                  ),
-                                ),
-                              )),
+                          icon: SVGIcons.existGifIcon(),
+                          title: 'You need you login first',
+                          description:
+                              'You can see your wishlist when you login.',
+                          showButton: true,
+                        )
+                      : servicesState.state == DataState.EMPTY
+                          ? /*OrderPlaceHolder(onAddOrderClick: () {})*/ EmptyDataView(
+                              icon: SVGIcons.wishlistGifIcon(),
+                              title: "No Services Found",
+                              description:
+                                  "When you add any service to your whishlist, it will appear here",
+                            )
+                          : DataListView<ServiceShowData>(
+                              dataList: servicesState.data?.data?.services ??
+                                  (servicesState.state == DataState.LOADING
+                                      ? [
+                                          ...List.generate(
+                                              5, (index) => ServiceShowData())
+                                        ]
+                                      : []),
+                              paginated: true,
+                              pageLoading:
+                                  servicesState.state == DataState.MORE_LOADING,
+                              onBottomReached: () {
+                                // if (currentPageForServices <
+                                //     (servicesState.data?.data?.services ??
+                                //         0)) {
+                                //   fetchFavoriteServices(++currentPageForServices);
+                                // }
+                              },
+                              builder: (item) => Skeletonizer(
+                                    enabled: servicesState.state ==
+                                        DataState.LOADING,
+                                    child: Padding(
+                                      padding: EdgeInsetsDirectional.symmetric(
+                                          horizontal: 16, vertical: 6),
+                                      child:
+                                          ServiceAndProductItemCardHorizontal(
+                                        service: item,
+                                        type: ItemType.Services,
+                                        onAddItemToCart: (id) {},
+                                        onAddItemToWishList: (id) {
+                                          if (user != null) {
+                                            serviceWishlistToggle(
+                                                id.toString());
+                                          } else {
+                                            showAuthenticated();
+                                          }
+                                        },
+                                        onItemClick: (id, name, categoriesIds) {
+                                          navigateToItemDetails(
+                                              ItemType.Services,
+                                              id,
+                                              name,
+                                              categoriesIds);
+                                        },
+                                      ),
+                                    ),
+                                  )),
                 ],
               ))
             ],
