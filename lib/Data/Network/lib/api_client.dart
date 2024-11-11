@@ -359,6 +359,10 @@ class ApiClient {
           return ResetPasswordRequest.fromJson(value);
         case 'ResetPasswordResponse':
           return ResetPasswordResponse.fromJson(value);
+        case 'SendPushNotification200Response':
+          return SendPushNotification200Response.fromJson(value);
+        case 'SendPushNotification200ResponseData':
+          return SendPushNotification200ResponseData.fromJson(value);
         case 'ServiceList':
           return ServiceList.fromJson(value);
         case 'ServiceListItem':

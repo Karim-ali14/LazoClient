@@ -762,6 +762,79 @@ class PublicApi {
     }
   }
 
+  /// send push notification
+  ///
+  /// send push notification
+  ///
+  /// Note: This method returns the HTTP [Response].
+  ///
+  /// Parameters:
+  ///
+  /// * [String] token:
+  ///
+  /// * [String] deviceType:
+  Future<Response> sendPushNotificationWithHttpInfo({ String? token, String? deviceType, }) async {
+    // ignore: prefer_const_declarations
+    final path = r'/push/test';
+
+    // ignore: prefer_final_locals
+    Object? postBody;
+
+    final queryParams = <QueryParam>[];
+    final headerParams = <String, String>{};
+    final formParams = <String, String>{};
+
+    const contentTypes = <String>['multipart/form-data'];
+
+    bool hasFields = false;
+    final mp = MultipartRequest('POST', Uri.parse(path));
+    if (token != null) {
+      hasFields = true;
+      mp.fields[r'token'] = parameterToString(token);
+    }
+    if (deviceType != null) {
+      hasFields = true;
+      mp.fields[r'device_type'] = parameterToString(deviceType);
+    }
+    if (hasFields) {
+      postBody = mp;
+    }
+
+    return apiClient.invokeAPI(
+      path,
+      'POST',
+      queryParams,
+      postBody,
+      headerParams,
+      formParams,
+      contentTypes.isEmpty ? null : contentTypes.first,
+    );
+  }
+
+  /// send push notification
+  ///
+  /// send push notification
+  ///
+  /// Parameters:
+  ///
+  /// * [String] token:
+  ///
+  /// * [String] deviceType:
+  Future<SendPushNotification200Response?> sendPushNotification({ String? token, String? deviceType, }) async {
+    final response = await sendPushNotificationWithHttpInfo( token: token, deviceType: deviceType, );
+    if (response.statusCode >= HttpStatus.badRequest) {
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
+    }
+    // When a remote server returns no body with a status of 204, we shall not decode it.
+    // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
+    // FormatException when trying to decode an empty string.
+    if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'SendPushNotification200Response',) as SendPushNotification200Response;
+    
+    }
+    return null;
+  }
+
   /// provider details
   ///
   /// show provider details

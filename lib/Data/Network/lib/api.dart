@@ -128,6 +128,8 @@ part 'model/reset_code_send_request.dart';
 part 'model/reset_code_send_response.dart';
 part 'model/reset_password_request.dart';
 part 'model/reset_password_response.dart';
+part 'model/send_push_notification200_response.dart';
+part 'model/send_push_notification200_response_data.dart';
 part 'model/service_list.dart';
 part 'model/service_list_item.dart';
 part 'model/service_show_data.dart';

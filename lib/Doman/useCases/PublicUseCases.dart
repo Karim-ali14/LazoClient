@@ -865,3 +865,14 @@ class SessionHandler extends StateNotifier<String?> {
     return true;
   }
 }
+
+class SendTestPushNotificationUseCase extends StateNotifier<StateModel<SendPushNotification200Response?>>{
+
+  final PublicApi publicApi;
+  SendTestPushNotificationUseCase(this.publicApi):super(StateModel());
+
+  void sendTestNotification({ String? token, String? deviceType, }){
+    request(() => publicApi.sendPushNotification(token: token,deviceType: "android"));
+  }
+
+}

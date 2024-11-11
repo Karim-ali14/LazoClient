@@ -19,6 +19,7 @@ Method | HTTP request | Description
 [**filterTopSellers**](PublicApi.md#filtertopsellers) | **POST** /top-sellers/filter | Filter top sellers
 [**getAppInfo**](PublicApi.md#getappinfo) | **GET** /app-info | get app info
 [**resetCartForClient**](PublicApi.md#resetcartforclient) | **POST** /cart/delete | Reset cart for client
+[**sendPushNotification**](PublicApi.md#sendpushnotification) | **POST** /push/test | send push notification
 [**showAProviderDetails**](PublicApi.md#showaproviderdetails) | **GET** /provider/details | provider details
 [**showAllBanners**](PublicApi.md#showallbanners) | **GET** /banners | show all banners
 [**showAllCategories**](PublicApi.md#showallcategories) | **GET** /categories | show all categories
@@ -512,6 +513,57 @@ void (empty response body)
 
  - **Content-Type**: multipart/form-data
  - **Accept**: Not defined
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **sendPushNotification**
+> SendPushNotification200Response sendPushNotification(token, deviceType)
+
+send push notification
+
+send push notification
+
+### Example
+```dart
+import 'package:lazo/api.dart';
+// TODO Configure HTTP Bearer authorization: bearerAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('bearerAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('bearerAuth').setAccessToken(yourTokenGeneratorFunction);
+
+final api_instance = PublicApi();
+final token = token_example; // String | 
+final deviceType = deviceType_example; // String | 
+
+try {
+    final result = api_instance.sendPushNotification(token, deviceType);
+    print(result);
+} catch (e) {
+    print('Exception when calling PublicApi->sendPushNotification: $e\n');
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **token** | **String**|  | [optional] 
+ **deviceType** | **String**|  | [optional] 
+
+### Return type
+
+[**SendPushNotification200Response**](SendPushNotification200Response.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: multipart/form-data
+ - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

@@ -70,26 +70,27 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((callback) {
-      print("sadfasdfas ${widget.productDetails}");
-
-      if (widget.itemType == ItemType.Products) {
-        if (widget.productDetails == null) {
-          getDetailsForProduct();
-        } else {
-          ref.read(getProductDetails.notifier).getProductDetails(
-              productId: widget.id, product: widget.productDetails);
-        }
-        getRelatedProducts();
-      } else {
-        if (widget.serviceShowData == null) {
-          getDetailsForService();
-        } else {
-          ref.read(getServiceDetails.notifier).getServiceDetails(
-              serviceId: widget.id, service: widget.serviceShowData);
-        }
-
-        getRelatedServices();
-      }
+      // print("sadfasdfas ${widget.productDetails}");
+      //
+      // if (widget.itemType == ItemType.Products) {
+      //   if (widget.productDetails == null) {
+      //     getDetailsForProduct();
+      //   } else {
+      //     ref.read(getProductDetails.notifier).getProductDetails(
+      //         productId: widget.id, product: widget.productDetails);
+      //   }
+      //   getRelatedProducts();
+      // } else {
+      //   if (widget.serviceShowData == null) {
+      //     getDetailsForService();
+      //   } else {
+      //     ref.read(getServiceDetails.notifier).getServiceDetails(
+      //         serviceId: widget.id, service: widget.serviceShowData);
+      //   }
+      //
+      //   getRelatedServices();
+        ref.read(sendTestPushNotificationStateNotifiers.notifier).sendTestNotification(token: "fHuXaQfWTEm9lV4zJMULj3:APA91bGJw6R_F16YbKibQ-DvM1UN7wAlor_8imr-DcCeQhLWbkI9TQFXgrBObCfwtdZaDCb3Q6Io6203irSlqsKElVXth0Ytf5wpgEZOuyRqbKLXlCnCu-k");
+      // }
     });
 
     super.initState();

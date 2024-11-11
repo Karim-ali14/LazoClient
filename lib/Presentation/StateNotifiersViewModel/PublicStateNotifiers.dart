@@ -145,3 +145,7 @@ final deleteItemCartStateNotifies = StateNotifierProvider.autoDispose<
 final cartDateSelectedStateNotifiers =
     StateNotifierProvider<CartSelectionInfo, Map<String, Object>>(
         (ref) => CartSelectionInfo());
+
+final sendTestPushNotificationStateNotifiers =
+    StateNotifierProvider<SendTestPushNotificationUseCase, StateModel<SendPushNotification200Response?>>(
+        (ref) => SendTestPushNotificationUseCase(ref.read(publicApi)));
