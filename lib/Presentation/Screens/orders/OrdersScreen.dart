@@ -47,10 +47,12 @@ class _OrdersScreenState extends ConsumerState<OrdersScreen>
       });
     });
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      ref.read(getNewOrderStateProvider.notifier).getOrders();
-      ref.read(getCurrentOrderStateProvider.notifier).getOrders();
-      ref.read(getFinishOrderStateProvider.notifier).getOrders();
-      ref.read(getCanselOrderStateProvider.notifier).getOrders();
+      if(ref.read(clientStateProvider.notifier).checkIfUserExist() != null) {
+        ref.read(getNewOrderStateProvider.notifier).getOrders();
+        ref.read(getCurrentOrderStateProvider.notifier).getOrders();
+        ref.read(getFinishOrderStateProvider.notifier).getOrders();
+        ref.read(getCanselOrderStateProvider.notifier).getOrders();
+      }
     });
     super.initState();
   }

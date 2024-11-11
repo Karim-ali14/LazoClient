@@ -114,7 +114,9 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
       var id = res.data?.data?.productId;
       print("product id : $id");
       if (id != null) {
-        ref.read(fetchCardDetailsStateNotifies.notifier).getCardDetails();
+        ref.read(fetchCardDetailsStateNotifies.notifier).getCardDetails(
+          sessionId: res.data?.data?.sessionId
+        );
         ref.read(getProductDetails.notifier).handelAddProductToCart(id);
         ref.read(homeDataStateNotifiers.notifier).handleAddProductToCart(id);
         ref.read(getProductsStateNotifiers.notifier).handleAddProductToCart(id);
@@ -128,7 +130,10 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
         onSuccess: (res) {
       var id = res.data?.data?.serviceId;
       if (id != null) {
-        ref.read(fetchCardDetailsStateNotifies.notifier).getCardDetails();
+        var sessionId = ref.read(getSessionHandlerStateNotifier.notifier).checkIfSessionIdExist();
+        ref.read(fetchCardDetailsStateNotifies.notifier).getCardDetails(
+          sessionId: res.data?.data?.sessionId
+        );
         ref.read(getServiceDetails.notifier).handelAddServiceToCart(id);
         ref.read(homeDataStateNotifiers.notifier).handelAddServiceToCart(id);
         ref.read(getServicesStateNotifiers.notifier).handelAddServiceToCart(id);

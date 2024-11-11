@@ -346,12 +346,13 @@ class _MoreScreenState extends ConsumerState<MoreScreen> {
 
   void updateMainScreen(){
     ref.read(homeDataStateNotifiers.notifier).getHomeData();
-    ref.read(getNewOrderStateProvider.notifier).getOrders();
-    ref.read(getCurrentOrderStateProvider.notifier).getOrders();
-    ref.read(getFinishOrderStateProvider.notifier).getOrders();
-    ref.read(getCanselOrderStateProvider.notifier).getOrders();
+
+    // ref.read(getNewOrderStateProvider.notifier).getOrders();
+    // ref.read(getCurrentOrderStateProvider.notifier).getOrders();
+    // ref.read(getFinishOrderStateProvider.notifier).getOrders();
+    // ref.read(getCanselOrderStateProvider.notifier).getOrders();
     ref.read(fetchCardDetailsStateNotifies.notifier).getCardDetails();
-    ref.read(getWishListProductsStateNotifier.notifier).fetchAllProductsInWishlist();
-    ref.read(getWishListServicesStateNotifier.notifier).fetchAllServicesInWishlist();
+    // ref.read(getWishListProductsStateNotifier.notifier).fetchAllProductsInWishlist();
+    // ref.read(getWishListServicesStateNotifier.notifier).fetchAllServicesInWishlist();
   }
 }

@@ -59,8 +59,10 @@ class _WishListScreenState extends ConsumerState<WishListScreen>
       });
     });
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      fetchFavoriteProducts();
-      fetchFavoriteServices();
+      if(ref.read(clientStateProvider.notifier).checkIfUserExist() != null) {
+        fetchFavoriteProducts();
+        fetchFavoriteServices();
+      }
     });
     super.initState();
   }
