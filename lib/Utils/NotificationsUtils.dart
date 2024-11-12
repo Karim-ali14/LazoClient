@@ -19,11 +19,11 @@ id: 169, type: order, title: this is title, clickAction: .MainActivity}
   static Future _setupNotifications() async {
     flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
     const AndroidInitializationSettings initializationSettingsAndroid = AndroidInitializationSettings('@mipmap/ic_launcher');
-    const IOSInitializationSettings initializationSettingsIOS = IOSInitializationSettings();
+    const DarwinInitializationSettings initializationSettingsIOS = DarwinInitializationSettings();
     final InitializationSettings initializationSettings = InitializationSettings(android: initializationSettingsAndroid, iOS: initializationSettingsIOS);
-    await flutterLocalNotificationsPlugin?.initialize(initializationSettings,onSelectNotification: _onSelectNotification);
+    await flutterLocalNotificationsPlugin?.initialize(initializationSettings);
 
-    androidNotificationDetails = AndroidNotificationDetails(_channelID, _channelName, _channelDescription,
+    androidNotificationDetails = AndroidNotificationDetails(_channelID, _channelName,
     importance: Importance.max,
     priority: Priority.high,
     sound: UriAndroidNotificationSound("assets/images/refree_whistle.mp3"),
