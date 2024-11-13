@@ -45,9 +45,10 @@ id: 169, type: order, title: this is title, clickAction: .MainActivity}
     if(androidNotificationDetails == null){
      await _setupNotifications();
     }
+    final Map<String, dynamic> payload = json.decode(dataJson ?? '{}');
 
     NotificationDetails notificationDetails = NotificationDetails(android: androidNotificationDetails);
-    await flutterLocalNotificationsPlugin?.show(0, title , body, notificationDetails, payload: dataJson);
+    await flutterLocalNotificationsPlugin?.show(int.tryParse(payload["id"])??0, title , body, notificationDetails, payload: dataJson);
   }
 
   static Future _onSelectNotification(NotificationResponse? response) async{
