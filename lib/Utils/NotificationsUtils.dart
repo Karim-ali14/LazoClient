@@ -1,4 +1,13 @@
+import 'dart:convert';
+
+import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:go_router/go_router.dart';
+import 'package:lazo_client/Constants.dart';
+import 'package:lazo_client/main.dart';
+
+import '../Localization/Keys.dart';
 
 const _channelName = "CounterAttackChannel";
 const _channelID = "CounterAttackChannelID";
@@ -21,7 +30,7 @@ id: 169, type: order, title: this is title, clickAction: .MainActivity}
     const AndroidInitializationSettings initializationSettingsAndroid = AndroidInitializationSettings('@mipmap/ic_launcher');
     const DarwinInitializationSettings initializationSettingsIOS = DarwinInitializationSettings();
     final InitializationSettings initializationSettings = InitializationSettings(android: initializationSettingsAndroid, iOS: initializationSettingsIOS);
-    await flutterLocalNotificationsPlugin?.initialize(initializationSettings);
+    await flutterLocalNotificationsPlugin?.initialize(initializationSettings,onDidReceiveNotificationResponse: _onSelectNotification);
 
     androidNotificationDetails = AndroidNotificationDetails(_channelID, _channelName,
     importance: Importance.max,
@@ -41,7 +50,18 @@ id: 169, type: order, title: this is title, clickAction: .MainActivity}
     await flutterLocalNotificationsPlugin?.show(0, title , body, notificationDetails, payload: dataJson);
   }
 
-  static Future _onSelectNotification(String? payload) async{
+  static Future _onSelectNotification(NotificationResponse? response) async{
+    if(navigatorKey.currentContext == null) return;
+    try{
 
+      final Map<String, dynamic> payload = json.decode(response?.payload ?? '{}');
+      if(payload["type"] == "order") {
+        GoRouter.of(navigatorKey.currentContext!).push(R_OrderDetails, extra: {orderIdKey: payload["id"]});
+      }
+
+    }catch(e){
+      print(e.toString());
+    }
   }
+
 }

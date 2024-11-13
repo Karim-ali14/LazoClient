@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:animated_theme_switcher/animated_theme_switcher.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -61,7 +63,7 @@ Future<void> _firebaseMessagingHandler(RemoteMessage message) async {
     print('Type: $type, Message: $messageText');
 
     // You could trigger a local notification or some other action
-    NotificationsUtils.showNotification(title ?? "N/A", messageText ?? "N/A");
+    NotificationsUtils.showNotification(title ?? "N/A", messageText ?? "N/A",dataJson: json.encode(message.data));
 
   }
 }
@@ -95,7 +97,7 @@ void handlingNotificationPermission() async {
   }
 }
 
-Future<void> setupInteractedMessage(BuildContext context) async {
+Future<void> setupInteractedMessage(BuildContext? context) async {
 
   RemoteMessage? initialMessage = await FirebaseMessaging.instance.getInitialMessage();
 
@@ -108,10 +110,20 @@ Future<void> setupInteractedMessage(BuildContext context) async {
   });
 }
 
-void _handleMessage(RemoteMessage message,BuildContext context) {
+void _handleMessage(RemoteMessage message,BuildContext? context) {
   print("Data Opened ${message.data}");
-  // GoRouter.of(context).push(R_Teams);
+  if(context == null) return;
+  if (message.data.isNotEmpty) {
+    String type = message.data['type'];
+    String id = message.data['id'];
+
+    if(type == "order") {
+      GoRouter.of(context).push(R_OrderDetails, extra: {orderIdKey: id});
+    }
+  }
 }
+
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -130,20 +142,24 @@ void main() async {
   //
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingHandler);
   getNotificationsOnForeground();
+  // setupInteractedMessage(navigatorKey.currentContext);
   // await FirebaseMessaging.instance.subscribeToTopic("championship");
 
 
   // Background notification handling
   FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
     print(" Background notification handling ${message.data}");
+    _handleMessage(message,navigatorKey.currentContext);
   });
 
   // Handle app launch when terminated
   FirebaseMessaging.instance.getInitialMessage().then((RemoteMessage? message) {
     if (message != null) {
       print(" Handle app launch when terminated ${message.data}");
+      _handleMessage(message,navigatorKey.currentContext);
     }
   });
+
   ago.setLocaleMessages('ar', ago.ArMessages());
   //Main App
   runApp(ProviderScope(
@@ -151,6 +167,9 @@ void main() async {
     Locale("en"),
     Locale("ar"),
   ], path: 'assets/translations', child: MyApp())));
+}
+
+void handleNotificationClicks(RemoteMessage message) {
 }
 
 class MyApp extends ConsumerWidget {
@@ -179,6 +198,7 @@ class MyApp extends ConsumerWidget {
   }
 
   final GoRouter _router = GoRouter(
+    navigatorKey: navigatorKey,
     routes: <GoRoute>[
       GoRoute(
         path: R_splashScreenRout,

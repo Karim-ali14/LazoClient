@@ -1,6 +1,7 @@
 import 'package:flutter/services.dart';
 import 'package:lazo_client/Presentation/StateNotifiersViewModel/UserAuthStateNotifiers.dart';
 import 'package:lazo_client/Utils/Extintions.dart';
+import 'package:lazo_client/Utils/NotificationsUtils.dart';
 
 import '../../../../../Data/Providers/UserProvider.dart';
 import 'package:flutter/material.dart';
