@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:lazo_client/Constants.dart';
+import 'package:lazo_client/Data/Network/lib/api.dart';
 import 'package:lazo_client/Doman/CommenProviders/ApiProvider.dart';
 import 'package:lazo_client/Localization/Keys.dart';
 import 'package:lazo_client/Presentation/BottomSheets/SelectionBottomSheet.dart';
@@ -20,11 +21,13 @@ import '../../Widgets/AppButton.dart';
 import '../../Widgets/AppTextField.dart';
 import '../../Widgets/SvgIcons.dart';
 import '../cartScreen/componants/CustomSwitch.dart';
+import '../details/componants/ProductItemCard.dart';
 import '../details/componants/ProductRowItem.dart';
 
 class CheckoutScreen extends ConsumerStatefulWidget {
   final CheckoutTypes? type;
-  const CheckoutScreen( {this.type = CheckoutTypes.HartCard,super.key});
+  final ServiceShowData? service;
+  const CheckoutScreen(  {this.type = CheckoutTypes.HartCard,this.service,super.key});
 
   @override
   ConsumerState<CheckoutScreen> createState() => _CheckoutScreenState();
@@ -83,6 +86,31 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      height: 16,
+                    ),
+                    ProductItemCard(
+                      insideWidth: 200,
+                      item: ClientOrderDetailsOrderItemsInner(
+                        service: ProviderOrderDetailsOrderItemsInnerService(
+                          coverImagePath: widget.service?.imagePath,
+                          name: widget.service?.name,
+                          price: widget.service?.price,
+                          priceAfterDiscount: widget.service?.priceAfterDiscount
+                        )
+                      ),
+                      onItemClick: (itemId) {
+                      },
+                    ),
+                    SizedBox(
+                      height: 16,
+                    ),
+                  ],
+                ),
                 AppTextField(
                   endWidget: InkWell(
                       onTap: () {

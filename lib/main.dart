@@ -368,6 +368,7 @@ class MyApp extends ConsumerWidget {
             var extra = state.extra as Map;
             return CheckoutScreen(
               type: extra["type"] as CheckoutTypes,
+              service: extra["service"] as ServiceShowData,
             );
           }),
       GoRoute(

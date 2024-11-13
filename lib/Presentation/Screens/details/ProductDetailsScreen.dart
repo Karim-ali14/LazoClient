@@ -67,30 +67,31 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
   final Map<int, List<String>> productSelectedItemsIds = {};
   final Map<int, List<String>> productSelectedMultipleItems = {};
   final Map<int, List<String>> serviceSelectemItemsIds = {};
+  final Map<int, List<String>> serviceSelectemItemsNames = {};
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((callback) {
-      // print("sadfasdfas ${widget.productDetails}");
-      //
-      // if (widget.itemType == ItemType.Products) {
-      //   if (widget.productDetails == null) {
-      //     getDetailsForProduct();
-      //   } else {
-      //     ref.read(getProductDetails.notifier).getProductDetails(
-      //         productId: widget.id, product: widget.productDetails);
-      //   }
-      //   getRelatedProducts();
-      // } else {
-      //   if (widget.serviceShowData == null) {
-      //     getDetailsForService();
-      //   } else {
-      //     ref.read(getServiceDetails.notifier).getServiceDetails(
-      //         serviceId: widget.id, service: widget.serviceShowData);
-      //   }
-      //
-      //   getRelatedServices();
+      print("sadfasdfas ${widget.productDetails}");
+
+      if (widget.itemType == ItemType.Products) {
+        if (widget.productDetails == null) {
+          getDetailsForProduct();
+        } else {
+          ref.read(getProductDetails.notifier).getProductDetails(
+              productId: widget.id, product: widget.productDetails);
+        }
+        getRelatedProducts();
+      } else {
+        if (widget.serviceShowData == null) {
+          getDetailsForService();
+        } else {
+          ref.read(getServiceDetails.notifier).getServiceDetails(
+              serviceId: widget.id, service: widget.serviceShowData);
+        }
+
+        getRelatedServices();
         ref.read(sendTestPushNotificationStateNotifiers.notifier).sendTestNotification(token: "fHuXaQfWTEm9lV4zJMULj3:APA91bGJw6R_F16YbKibQ-DvM1UN7wAlor_8imr-DcCeQhLWbkI9TQFXgrBObCfwtdZaDCb3Q6Io6203irSlqsKElVXth0Ytf5wpgEZOuyRqbKLXlCnCu-k");
-      // }
+      }
     });
 
     super.initState();
@@ -763,6 +764,7 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
                                                       .id
                                                       ?.toInt() ??
                                                   0;
+
                                               serviceSelectemItemsIds[
                                                   categoryId] = items;
                                             },
@@ -1205,7 +1207,7 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
                       if(serviceItemState.data?.data?.cardType == ServiceTypes.soft_card.name && serviceItemState.data?.data?.id != null){
                         calculateSoftService(serviceItemState.data?.data?.priceAfterDiscount??0);
                         makeCheckoutForSoftService(int.parse(
-                            serviceItemState.data?.data?.id!.toString() ?? ""));
+                            serviceItemState.data?.data?.id!.toString() ?? ""),serviceItemState.data?.data);
                       }else if(serviceItemState.data?.data!.inCart == true){
                         editServiceCart(serviceItemState.data?.data?.cartItemId??0);
                       } else if (serviceItemState.data?.data?.id != null) {
@@ -1436,7 +1438,7 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
         .getCardDetails(sessionId: sessionId);
   }
 
-  void makeCheckoutForSoftService(int id) {
+  void makeCheckoutForSoftService(int id, ServiceShowData? service) {
     if (ref.read(clientStateProvider.notifier).checkIfUserExist() != null) {
       String? parentItemIds;
       String? childItemIds;
@@ -1456,7 +1458,11 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
           }
       );
 
-      context.push(R_CheckoutScreen,extra: {"type" : CheckoutTypes.SoftCard});
+      if(childItemIds?.isNotEmpty == true){
+        var list = childItemIds?.split(",");
+        service.ite
+      }
+      // context.push(R_CheckoutScreen,extra: {"type" : CheckoutTypes.SoftCard,"service":service});
     }else {
       showAuthenticated();
     }

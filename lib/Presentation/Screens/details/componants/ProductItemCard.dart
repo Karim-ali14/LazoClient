@@ -14,7 +14,12 @@ typedef OnItemClick = Function(int);
 class ProductItemCard extends StatefulWidget {
   final ClientOrderDetailsOrderItemsInner? item;
   final OnItemClick onItemClick;
-  const ProductItemCard({super.key, this.item, required this.onItemClick});
+  final double? insideWidth;
+  const ProductItemCard(
+      {super.key,
+      this.item,
+      required this.onItemClick,
+      this.insideWidth = 260});
 
   @override
   State<ProductItemCard> createState() => _ProductItemCardState();
@@ -63,7 +68,7 @@ class _ProductItemCardState extends State<ProductItemCard> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         SizedBox(
-                          width: 260,
+                          width: widget.insideWidth,
                           child: Row(
                             children: [
                               Text(
@@ -75,11 +80,11 @@ class _ProductItemCardState extends State<ProductItemCard> {
                               ),
                               const Spacer(),
                               Text(
-                                  widget.item?.id?.toString() ?? "",
-                                  style: AppTheme
-                                      .styleWithTextAppGrey7AdelleSansExtendedFonts14w400,textAlign: TextAlign.end,
-                                ),
-
+                                widget.item?.id?.toString() ?? "",
+                                style: AppTheme
+                                    .styleWithTextAppGrey7AdelleSansExtendedFonts14w400,
+                                textAlign: TextAlign.end,
+                              ),
                             ],
                           ),
                         ),
@@ -106,60 +111,77 @@ class _ProductItemCardState extends State<ProductItemCard> {
                             ),
                             if (widget.item?.product != null &&
                                 (widget.item?.product?.price ?? 0) >
-                                    (widget.item?.product?.priceAfterDiscount ?? 0))
+                                    (widget.item?.product?.priceAfterDiscount ??
+                                        0))
                               Text(
                                 "${context.tr(sarKey)} ${widget.item?.product != null ? widget.item?.product?.price : widget.item?.service?.price}",
                                 style: AppTheme
                                     .styleWithTextAppGrey7AdelleSansExtendedFonts14w400
                                     .copyWith(
-                                    height: 1.2,
-                                    decoration: TextDecoration.lineThrough),
+                                        height: 1.2,
+                                        decoration: TextDecoration.lineThrough),
                               )
                             else if (widget.item?.service != null &&
                                 (widget.item?.service?.price ?? 0) >
-                                    (widget.item?.service?.priceAfterDiscount ?? 0))
+                                    (widget.item?.service?.priceAfterDiscount ??
+                                        0))
                               Text(
                                   "${context.tr(sarKey)} ${widget.item?.product != null ? widget.item?.product?.price : widget.item?.service?.price}",
                                   style: AppTheme
                                       .styleWithTextAppGrey7AdelleSansExtendedFonts14w400
                                       .copyWith(
-                                      height: 1.2,
-                                      decoration: TextDecoration.lineThrough))
+                                          height: 1.2,
+                                          decoration:
+                                              TextDecoration.lineThrough))
                           ],
-                        )
-                        ,
+                        ),
                         SizedBox(
                           height: 12,
                         ),
                         SizedBox(
-                          width: 260,
+                          width: widget.insideWidth,
                           child: Row(
                             children: [
-                              Text("Sold by :",style: AppTheme.styleWithTextAppGrey7AdelleSansExtendedFonts10w700,),
+                              widget.item?.provider != null
+                                  ? const Text(
+                                      "Sold by :",
+                                      style: AppTheme
+                                          .styleWithTextAppGrey7AdelleSansExtendedFonts10w700,
+                                    )
+                                  : SizedBox(),
                               SizedBox(
                                 width: 5,
                               ),
-                              Text("${widget.item?.provider?.name}",style: AppTheme.styleWithTextBlackAdelleSansExtendedFonts10w700,),
+                              widget.item?.provider != null
+                                  ? Text(
+                                      "${widget.item?.provider?.name}",
+                                      style: AppTheme
+                                          .styleWithTextBlackAdelleSansExtendedFonts10w700,
+                                    )
+                                  : const SizedBox(),
                               const Spacer(),
-                              widget.item?.statusId == 11 ?
-                              Row(
-                                children: [
-                                  Container(
-                                    width: 5,
-                                    height: 5,
-                                    decoration: const BoxDecoration(
-                                        color: AppTheme.mainAppColor,
-                                        shape: BoxShape.circle
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: 5,
-                                  ),
-                                  Text("Cancelled",style: AppTheme.styleWithTextMainAppColorAdelleSansExtendedFonts10w400,)
-
-                                ],
-                              ):const SizedBox()
-                          ],
+                              widget.item?.statusId == 11
+                                  ? Row(
+                                      children: [
+                                        Container(
+                                          width: 5,
+                                          height: 5,
+                                          decoration: const BoxDecoration(
+                                              color: AppTheme.mainAppColor,
+                                              shape: BoxShape.circle),
+                                        ),
+                                        SizedBox(
+                                          width: 5,
+                                        ),
+                                        Text(
+                                          "Cancelled",
+                                          style: AppTheme
+                                              .styleWithTextMainAppColorAdelleSansExtendedFonts10w400,
+                                        )
+                                      ],
+                                    )
+                                  : const SizedBox()
+                            ],
                           ),
                         )
                       ],
