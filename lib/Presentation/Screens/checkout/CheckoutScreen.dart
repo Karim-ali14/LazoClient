@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:lazo_client/Constants.dart';
+import 'package:lazo_client/Data/Models/StateModel.dart';
 import 'package:lazo_client/Data/Network/lib/api.dart';
 import 'package:lazo_client/Doman/CommenProviders/ApiProvider.dart';
 import 'package:lazo_client/Localization/Keys.dart';
@@ -27,7 +28,14 @@ import '../details/componants/ProductRowItem.dart';
 class CheckoutScreen extends ConsumerStatefulWidget {
   final CheckoutTypes? type;
   final ServiceShowData? service;
-  const CheckoutScreen(  {this.type = CheckoutTypes.HartCard,this.service,super.key});
+  final String? serviceSelectedListIds;
+  final String? serviceSelectedListItemsIds;
+  const CheckoutScreen(
+      {this.type = CheckoutTypes.HartCard,
+      this.service,
+      this.serviceSelectedListIds,
+      this.serviceSelectedListItemsIds,
+      super.key});
 
   @override
   ConsumerState<CheckoutScreen> createState() => _CheckoutScreenState();
@@ -45,6 +53,7 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
   final messageController = TextEditingController();
   bool _enable = false;
   bool _enableIsSecret = false;
+  String? promocode;
 
   DateTime? _selectedDate;
   int? selectTypeOfSend;
@@ -59,16 +68,44 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
     SelectionBottomSheetItem(item: "3:00 PM to 12:00 AM")
   ];
   final formKey = GlobalKey<FormState>();
+  final TextEditingController voucherTextController = TextEditingController();
+
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((callback) {
+      if (widget.type == CheckoutTypes.SoftCard) {
+        print("calculateData: serviceid : ${widget.service?.id}");
+        handleCalculateInstantOrder();
+      }
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    var cartInfo = widget.type == CheckoutTypes.HartCard ? ref.watch(cartCalculationStateNotifies) : ref.watch(calculationForSoftItemStateNotifies);
+    var calculateSoftService = ref.watch(calculateInstantOrderStateProvider);
+    var cartInfo = widget.type == CheckoutTypes.HartCard
+        ? ref.watch(cartCalculationStateNotifies)
+        : ref.watch(calculationForSoftItemStateNotifies);
     var cartSelectionData = ref.watch(cartDateSelectedStateNotifiers);
+
+    handleState(showPromoCodeDetailsStateNotifies, showLoading: true,
+        onSuccess: (res) {
+      promocode = res.data?.data?.code;
+      handleCalculateInstantOrder();
+    });
+
     handleState(createOrderStateNotifiers, showLoading: true, onSuccess: (res) {
-      print(res.state);
       ref.watch(fetchCardDetailsStateNotifies);
       context.pop(true);
     });
+
+    handleState(calculateInstantOrderStateProvider, onSuccess: (res) {
+      print("calculate Response ${res.state}");
+
+      print(res.data?.data?.orderItems);
+    });
+
     print("type of checkout ${cartSelectionData.toString()}");
     return Scaffold(
       appBar: CustomAppBar(
@@ -86,58 +123,68 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(
-                      height: 16,
-                    ),
-                    ProductItemCard(
-                      insideWidth: 200,
-                      item: ClientOrderDetailsOrderItemsInner(
-                        service: ProviderOrderDetailsOrderItemsInnerService(
-                          coverImagePath: widget.service?.imagePath,
-                          name: widget.service?.name,
-                          price: widget.service?.price,
-                          priceAfterDiscount: widget.service?.priceAfterDiscount
-                        )
-                      ),
-                      onItemClick: (itemId) {
-                      },
-                    ),
-                    SizedBox(
-                      height: 16,
-                    ),
-                  ],
-                ),
-                AppTextField(
-                  endWidget: InkWell(
-                      onTap: () {
-                        print("object");
-                        showSendTypesBottomSheet();
-                      },
-                      child: SVGIcons.bottomRedArrowIcon()),
-                  readOnly: true,
-                  textInputType: TextInputType.text,
-                  textFieldBorderColor: AppTheme.appGrey3,
-                  mode: AutovalidateMode.onUserInteraction,
-                  hint: "Send to (myself or to someone)",
-                  label: "Send to (myself or to someone)",
-                  textEditingController: sendTypeController,
-                  validate: (value) {
-                    if (value?.isEmpty == true) {
-                      return "Select type of send";
-                    } else {
-                      return null;
-                    }
-                  },
-                ),
-                const SizedBox(
-                  height: 30,
-                ),
+                widget.type == CheckoutTypes.SoftCard &&
+                        calculateSoftService.state == DataState.SUCCESS
+                    ? Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(
+                            height: 16,
+                          ),
+                          ProductItemCard(
+                            insideWidth: 260,
+                            item: calculateSoftService
+                                    .data?.data?.orderItems.first ??
+                                ClientOrderDetailsOrderItemsInner(
+                                    service:
+                                        ProviderOrderDetailsOrderItemsInnerService(
+                                            coverImagePath:
+                                                widget.service?.imagePath,
+                                            name: widget.service?.name,
+                                            price: widget.service?.price,
+                                            priceAfterDiscount: widget
+                                                .service?.priceAfterDiscount)),
+                            onItemClick: (itemId) {},
+                          ),
+                          SizedBox(
+                            height: 16,
+                          ),
+                        ],
+                      )
+                    : const SizedBox(),
+                widget.type == CheckoutTypes.HartCard
+                    ? AppTextField(
+                        endWidget: InkWell(
+                            onTap: () {
+                              print("object");
+                              showSendTypesBottomSheet();
+                            },
+                            child: SVGIcons.bottomRedArrowIcon()),
+                        readOnly: true,
+                        textInputType: TextInputType.text,
+                        textFieldBorderColor: AppTheme.appGrey3,
+                        mode: AutovalidateMode.onUserInteraction,
+                        hint: "Send to (myself or to someone)",
+                        label: "Send to (myself or to someone)",
+                        textEditingController: sendTypeController,
+                        validate: (value) {
+                          if (value?.isEmpty == true) {
+                            return "Select type of send";
+                          } else {
+                            return null;
+                          }
+                        },
+                      )
+                    : const SizedBox(),
+                widget.type == CheckoutTypes.HartCard
+                    ? const SizedBox(
+                        height: 30,
+                      )
+                    : const SizedBox(),
                 Text(
-                  selectTypeOfSend == 0 ? "Location" : "Recipient Info",
+                  selectTypeOfSend == 0 || widget.type == CheckoutTypes.HartCard
+                      ? "Location"
+                      : "Recipient Info",
                   style:
                       AppTheme.styleWithTextBlackAdelleSansExtendedFonts18w700,
                 ),
@@ -148,7 +195,7 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                     : const SizedBox(
                         height: 5,
                       ),
-                selectTypeOfSend != 0
+                selectTypeOfSend != 0 && widget.type == CheckoutTypes.HartCard
                     ? Container(
                         decoration: BoxDecoration(
                             color: AppTheme.appGrey9,
@@ -191,10 +238,13 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                         ),
                       )
                     : const SizedBox(),
-                const SizedBox(
-                  height: 24,
-                ),
-                selectTypeOfSend != null
+                widget.type == CheckoutTypes.HartCard
+                    ? const SizedBox(
+                        height: 24,
+                      )
+                    : const SizedBox(),
+                selectTypeOfSend != null ||
+                        widget.type == CheckoutTypes.SoftCard
                     ? Column(
                         children: [
                           AppTextField(
@@ -233,39 +283,46 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                           const SizedBox(
                             height: defaultPaddingHorizontal,
                           ),
-                          AppTextField(
-                            endWidget: InkWell(
-                                onTap: () {
-                                  selectLocation();
-                                },
-                                child: SVGIcons.locationIcon()),
-                            readOnly: true,
-                            textInputType: TextInputType.text,
-                            textFieldBorderColor: AppTheme.appGrey3,
-                            mode: AutovalidateMode.onUserInteraction,
-                            hint: "Select Location on map",
-                            label: "Select Location on map",
-                            textEditingController: locationController,
-                            validate: (value) {
-                              if (value?.isEmpty == true &&
-                                  (!_enable && selectTypeOfSend == 1)) {
-                                return "Select type of send";
-                              } else {
-                                return null;
-                              }
-                            },
-                          ),
-                          const SizedBox(
-                            height: defaultPaddingHorizontal,
-                          ),
-                          AppTextField(
-                            textInputType: TextInputType.text,
-                            textFieldBorderColor: AppTheme.appGrey3,
-                            mode: AutovalidateMode.onUserInteraction,
-                            hint: "Address Details (optional)",
-                            label: "Address Details (optional)",
-                            textEditingController: addressDescriptionController,
-                          ),
+                          widget.type == CheckoutTypes.HartCard
+                              ? AppTextField(
+                                  endWidget: InkWell(
+                                      onTap: () {
+                                        selectLocation();
+                                      },
+                                      child: SVGIcons.locationIcon()),
+                                  readOnly: true,
+                                  textInputType: TextInputType.text,
+                                  textFieldBorderColor: AppTheme.appGrey3,
+                                  mode: AutovalidateMode.onUserInteraction,
+                                  hint: "Select Location on map",
+                                  label: "Select Location on map",
+                                  textEditingController: locationController,
+                                  validate: (value) {
+                                    if (value?.isEmpty == true &&
+                                        (!_enable && selectTypeOfSend == 1)) {
+                                      return "Select type of send";
+                                    } else {
+                                      return null;
+                                    }
+                                  },
+                                )
+                              : const SizedBox(),
+                          widget.type == CheckoutTypes.HartCard
+                              ? const SizedBox(
+                                  height: defaultPaddingHorizontal,
+                                )
+                              : const SizedBox(),
+                          widget.type == CheckoutTypes.HartCard
+                              ? AppTextField(
+                                  textInputType: TextInputType.text,
+                                  textFieldBorderColor: AppTheme.appGrey3,
+                                  mode: AutovalidateMode.onUserInteraction,
+                                  hint: "Address Details (optional)",
+                                  label: "Address Details (optional)",
+                                  textEditingController:
+                                      addressDescriptionController,
+                                )
+                              : const SizedBox(),
                         ],
                       )
                     : const SizedBox(),
@@ -371,48 +428,89 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                 const SizedBox(
                   height: 32,
                 ),
-                Container(
-                  decoration: BoxDecoration(
-                      color: AppTheme.appGrey9,
-                      borderRadius: BorderRadius.circular(4),
-                      border: Border.all(color: AppTheme.appGrey6, width: 1)),
-                  padding: EdgeInsets.all(defaultPaddingHorizontal),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          Text(
-                            "Keep my identity secret",
-                            style: AppTheme
-                                .styleWithTextBlackAdelleSansExtendedFonts16w500,
-                          ),
-                          Spacer(),
-                          CustomSwitch(
-                            value: _enableIsSecret,
-                            onChanged: (bool val) {
-                              setState(() {
-                                _enableIsSecret = val;
-                              });
-                            },
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Text(
-                        "By checking this box, we will not share any of your personal details with the recipient even if they call to ask.",
-                        style: AppTheme
-                            .styleWithTextGray7AdelleSansExtendedFonts12w400
-                            .copyWith(height: 1.3),
+                widget.type == CheckoutTypes.HartCard
+                    ? Container(
+                        decoration: BoxDecoration(
+                            color: AppTheme.appGrey9,
+                            borderRadius: BorderRadius.circular(4),
+                            border:
+                                Border.all(color: AppTheme.appGrey6, width: 1)),
+                        padding: EdgeInsets.all(defaultPaddingHorizontal),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                Text(
+                                  "Keep my identity secret",
+                                  style: AppTheme
+                                      .styleWithTextBlackAdelleSansExtendedFonts16w500,
+                                ),
+                                Spacer(),
+                                CustomSwitch(
+                                  value: _enableIsSecret,
+                                  onChanged: (bool val) {
+                                    setState(() {
+                                      _enableIsSecret = val;
+                                    });
+                                  },
+                                ),
+                              ],
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Text(
+                              "By checking this box, we will not share any of your personal details with the recipient even if they call to ask.",
+                              style: AppTheme
+                                  .styleWithTextGray7AdelleSansExtendedFonts12w400
+                                  .copyWith(height: 1.3),
+                            )
+                          ],
+                        ),
                       )
-                    ],
-                  ),
+                    : const SizedBox(),
+                Text(
+                  "Save on your order",
+                  style:
+                  AppTheme.styleWithTextBlackAdelleSansExtendedFonts18w700,
                 ),
                 SizedBox(
                   height: 24,
                 ),
+                widget.type == CheckoutTypes.SoftCard
+                    ? AppTextField(
+                        // XGFSF35
+                        hint: "Enter Voucher code",
+                        label: "Enter Voucher code",
+                        textFieldBorderColor: AppTheme.appGrey3,
+                        textEditingController: voucherTextController,
+                        startWidget: SVGIcons.voucherIcon(),
+                        endWidget: InkWell(
+                          onTap: () {
+                            if (voucherTextController.text.isNotEmpty) {
+                              getPromoCodeDetails();
+                            }
+                          },
+                          child: SizedBox(
+                              width: 10,
+                              height: 56,
+                              child: Center(
+                                  child: Text(
+                                "submit",
+                                style: AppTheme
+                                    .styleWithTextMainAppColorAdelleSansExtendedFonts14w400
+                                    .copyWith(
+                                        decoration: TextDecoration.underline),
+                              ))),
+                        ),
+                      )
+                    : const SizedBox(),
+                widget.type == CheckoutTypes.SoftCard
+                    ? SizedBox(
+                        height: 24,
+                      )
+                    : const SizedBox(),
                 Text(
                   "Payment Summary",
                   style:
@@ -437,7 +535,7 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                         child: ProductRowItem(
                           title: "Order Price",
                           textValue:
-                              "SAR ${(cartInfo.data?.data?.totalBefore ?? 0)}",
+                              "SAR ${widget.type == CheckoutTypes.HartCard ? (cartInfo.data?.data?.totalBefore ?? 0) : calculateSoftService.data?.data?.totalBeforeDiscount ?? 0}",
                           titleTextStyle: AppTheme
                               .styleWithTextBlackColorAdelleSansExtendedFonts12w500,
                           desTextStyle: AppTheme
@@ -460,15 +558,19 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                               ),
                             )
                           : SizedBox(),
-                      cartInfo.data?.data?.discountTotal != null &&
-                              cartInfo.data?.data?.discountTotal != 0
+                      (cartInfo.data?.data?.discountTotal != null &&
+                                  cartInfo.data?.data?.discountTotal != 0) ||
+                              (calculateSoftService.data?.data?.discount !=
+                                      null &&
+                                  calculateSoftService.data?.data?.discount !=
+                                      0)
                           ? Padding(
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 12.0),
                               child: ProductRowItem(
                                 title: "Discount",
                                 textValue:
-                                    "SAR ${(cartInfo.data?.data?.discountTotal ?? 0)}",
+                                    "SAR ${widget.type == CheckoutTypes.HartCard ? (cartInfo.data?.data?.discountTotal ?? 0) : calculateSoftService.data?.data?.discount ?? 0}",
                                 titleTextStyle: AppTheme
                                     .styleWithTextBlackColorAdelleSansExtendedFonts12w500
                                     .copyWith(color: AppTheme.mainAppColor),
@@ -483,7 +585,7 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                         child: ProductRowItem(
                           title: "Total Price",
                           textValue:
-                              "SAR ${(cartInfo.data?.data?.totalAfter ?? 0)}",
+                              "SAR ${widget.type == CheckoutTypes.HartCard ? (cartInfo.data?.data?.totalAfter ?? 0) : (calculateSoftService.data?.data?.total ?? 0)}",
                           titleTextStyle: AppTheme
                               .styleWithTextBlackAdelleSansExtendedFonts16w700,
                           desTextStyle: AppTheme
@@ -505,16 +607,16 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                       if ((cartSelectionData[orderTypeKey]).toString() ==
                           OrderTypes.receiver_order.name) {
                         createOrder(
-                          cartSelectionData.containsKey(giftBoxIdKey)
-                              ? cartSelectionData[giftBoxIdKey].toString()
-                              : null,
-                          cartSelectionData.containsKey(giftCardIdKey)
-                              ? cartSelectionData[giftCardIdKey].toString()
-                              : null,
-                          cartSelectionData.containsKey(promocodeKey)
-                              ? cartSelectionData[promocodeKey].toString()
-                              : null,"${selectedLocation?.latitude}, ${selectedLocation?.longitude}"
-                        );
+                            cartSelectionData.containsKey(giftBoxIdKey)
+                                ? cartSelectionData[giftBoxIdKey].toString()
+                                : null,
+                            cartSelectionData.containsKey(giftCardIdKey)
+                                ? cartSelectionData[giftCardIdKey].toString()
+                                : null,
+                            cartSelectionData.containsKey(promocodeKey)
+                                ? cartSelectionData[promocodeKey].toString()
+                                : null,
+                            "${selectedLocation?.latitude}, ${selectedLocation?.longitude}");
                       } else {
                         createInstantOrder(
                           serviceId: cartSelectionData.containsKey(serviceIdKey)
@@ -640,8 +742,7 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
     print("serviceId : $serviceId"
         "\n serviceSelectedListIds :$serviceSelectedListIds"
         "\n serviceSelectedListItemsIds: $serviceSelectedListItemsIds"
-        "\n paymentMethod: $paymentMethod"
-    );
+        "\n paymentMethod: $paymentMethod");
     if (formKey.currentState?.validate() == true) {
       ref.read(createOrderStateNotifiers.notifier).createInstantOrder(
           serviceId: serviceId,
@@ -654,7 +755,11 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
           receiverName: recipientNameController.text,
           cardMessage: messageController.text,
           cardFrom: cardFrom,
-          cardTo: messageToController.text);
+          cardTo: messageToController.text,
+          deliveryDate: _selectedDate?.convertDateToString("dd MMM yyyy"),
+          deliveryTime: selectDeliveryTimeOfSend != null
+              ? deliveryTimeArray[selectDeliveryTimeOfSend!].item
+              : null);
     }
   }
 
@@ -664,7 +769,22 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
     super.dispose();
   }
 
+  void getPromoCodeDetails() {
+    ref
+        .read(showPromoCodeDetailsStateNotifies.notifier)
+        .showPromoCodeDetails(code: voucherTextController.text);
+  }
+
   void resetCartSelectionData() {
     ref.read(cartDateSelectedStateNotifiers.notifier).setCartDataSelection({});
+  }
+
+  void handleCalculateInstantOrder() {
+    ref.read(calculateInstantOrderStateProvider.notifier).calculateInstantOrder(
+        serviceId: (widget.service?.id ?? 0).toString(),
+        serviceQuantity: "1",
+        serviceSelectedListIds: widget.serviceSelectedListIds,
+        serviceSelectedListItemsIds: widget.serviceSelectedListItemsIds,
+        promocode: promocode);
   }
 }

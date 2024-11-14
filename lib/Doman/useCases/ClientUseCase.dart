@@ -54,26 +54,26 @@ class CreateOrderUseCase
     String? cardMessage,
     String? cardFrom,
     String? cardTo,
+    String? deliveryDate,
+    String? deliveryTime,
   }) {
     state = StateModel.loading();
     request(() => _clientApi.creatInstantOrder(
-      serviceId: serviceId,
-      serviceQuantity: serviceQuantity,
-      serviceSelectedListIds: serviceSelectedListIds,
-      serviceSelectedListItemsIds: serviceSelectedListItemsIds,
-      paymentMethod: paymentMethod,
-      promocode: promocode,
-      receiverName: receiverName,
-      receiverPhoneNumber: receiverPhoneNumber,
-      cardMessage: cardMessage,
-      cardFrom: cardFrom,
-      cardTo: cardTo
-    ));
+        serviceId: serviceId,
+        serviceQuantity: serviceQuantity,
+        serviceSelectedListIds: serviceSelectedListIds,
+        serviceSelectedListItemsIds: serviceSelectedListItemsIds,
+        paymentMethod: paymentMethod,
+        promocode: promocode,
+        receiverName: receiverName,
+        receiverPhoneNumber: receiverPhoneNumber,
+        cardMessage: cardMessage,
+        cardFrom: cardFrom,
+        cardTo: cardTo,deliveryDate: deliveryDate,deliveryTime: deliveryTime));
   }
 }
 
-class OrderUseCase
-    extends StateNotifier<StateModel<ShowOrders200Response?>> {
+class OrderUseCase extends StateNotifier<StateModel<ShowOrders200Response?>> {
   final Ref ref;
   final ClientApi api;
   final MainOrderStatus orderState;
@@ -84,10 +84,10 @@ class OrderUseCase
         ? StateModel(data: state.data, state: DataState.MORE_LOADING)
         : StateModel.loading();
     requestForPagination(
-            () => api.showOrders(
-            status: orderState.name.toLowerCase(),
-            page: page), onComplete: (res) {
-      print("getOrders Size for $orderState ${orderState.name} ${res?.data?.data.isEmpty}");
+        () => api.showOrders(status: orderState.name.toLowerCase(), page: page),
+        onComplete: (res) {
+      print(
+          "getOrders Size for $orderState ${orderState.name} ${res?.data?.data.isEmpty}");
       if (page != 1) {
         List<ClientOrderDetails> data = state.data?.data?.data ?? [];
         state.data?.data?.data = [...data, ...(res?.data?.data ?? [])];
@@ -122,7 +122,7 @@ class OrderUseCase
   void deleteOrder(ClientOrderDetails order) {
     try {
       List<ClientOrderDetails> data =
-      (state.data?.data?.data ?? []).toList(growable: true);
+          (state.data?.data?.data ?? []).toList(growable: true);
       print(data.length);
       var index = data.indexWhere((item) => item.id == order.id);
       print(index);
@@ -141,28 +141,63 @@ class OrderUseCase
   }
 }
 
-class ManageOrderUseCase extends StateNotifier<StateModel<ClientOrderDetailsResponse?>>{
+class ManageOrderUseCase
+    extends StateNotifier<StateModel<ClientOrderDetailsResponse?>> {
   final Ref ref;
   final ClientApi api;
-  ManageOrderUseCase(this.ref, this.api):super(StateModel());
+  ManageOrderUseCase(this.ref, this.api) : super(StateModel());
 
-  void updateOrderState({ String? orderId, String? statusId, }){
+  void updateOrderState({
+    String? orderId,
+    String? statusId,
+  }) {
     state = StateModel.loading();
-    request(() => api.manageOrder(orderId: orderId,statusId: statusId));
+    request(() => api.manageOrder(orderId: orderId, statusId: statusId));
   }
-
 }
 
-class OrderDetailsUseCase extends StateNotifier<StateModel<ClientOrderDetailsResponse?>>{
+class OrderDetailsUseCase
+    extends StateNotifier<StateModel<ClientOrderDetailsResponse?>> {
   final Ref ref;
   final ClientApi api;
-  OrderDetailsUseCase(this.ref, this.api):super(StateModel());
+  OrderDetailsUseCase(this.ref, this.api) : super(StateModel());
 
-  void getOrderDetails({ String? orderId}){
+  void getOrderDetails({String? orderId}) {
     state = StateModel.loading();
     request(() => api.showOrderDetails(orderId: orderId));
   }
-  void updateOrderDetails({ClientOrderDetails? order}){
+
+  void updateOrderDetails({ClientOrderDetails? order}) {
+    var data = state.data;
+    data?.data = order;
+    state = StateModel.success(data);
+  }
+}
+
+class CalculateInstantOrderUseCase
+    extends StateNotifier<StateModel<CreatInstantOrder200Response?>> {
+  final Ref ref;
+  final ClientApi api;
+  CalculateInstantOrderUseCase(this.ref, this.api) : super(StateModel());
+
+  void calculateInstantOrder({
+    String? serviceId,
+    String? serviceQuantity,
+    String? serviceSelectedListIds,
+    String? serviceSelectedListItemsIds,
+    String? promocode,
+  }) {
+    print(
+        "asdfasdfasdf serviceid: $serviceId , serviceSelectedListIds $serviceSelectedListIds serviceSelectedListItemsIds $serviceSelectedListItemsIds");
+    state = StateModel.loading();
+    request(() => api.calculateInstantOrder(
+        serviceId: serviceId,
+        serviceQuantity: serviceQuantity,
+        serviceSelectedListIds: serviceSelectedListIds,
+        serviceSelectedListItemsIds: serviceSelectedListItemsIds));
+  }
+
+  void updateOrderDetails({ClientOrderDetails? order}) {
     var data = state.data;
     data?.data = order;
     state = StateModel.success(data);

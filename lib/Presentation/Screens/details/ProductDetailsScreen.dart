@@ -90,7 +90,11 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
         }
 
         getRelatedServices();
-        ref.read(sendTestPushNotificationStateNotifiers.notifier).sendTestNotification(token: "fHuXaQfWTEm9lV4zJMULj3:APA91bGJw6R_F16YbKibQ-DvM1UN7wAlor_8imr-DcCeQhLWbkI9TQFXgrBObCfwtdZaDCb3Q6Io6203irSlqsKElVXth0Ytf5wpgEZOuyRqbKLXlCnCu-k");
+        ref
+            .read(sendTestPushNotificationStateNotifiers.notifier)
+            .sendTestNotification(
+                token:
+                    "fHuXaQfWTEm9lV4zJMULj3:APA91bGJw6R_F16YbKibQ-DvM1UN7wAlor_8imr-DcCeQhLWbkI9TQFXgrBObCfwtdZaDCb3Q6Io6203irSlqsKElVXth0Ytf5wpgEZOuyRqbKLXlCnCu-k");
       }
     });
 
@@ -116,9 +120,9 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
       var id = res.data?.data?.productId;
       print("product id : $id");
       if (id != null) {
-        ref.read(fetchCardDetailsStateNotifies.notifier).getCardDetails(
-          sessionId: res.data?.data?.sessionId
-        );
+        ref
+            .read(fetchCardDetailsStateNotifies.notifier)
+            .getCardDetails(sessionId: res.data?.data?.sessionId);
         ref.read(getProductDetails.notifier).handelAddProductToCart(id);
         ref.read(homeDataStateNotifiers.notifier).handleAddProductToCart(id);
         ref.read(getProductsStateNotifiers.notifier).handleAddProductToCart(id);
@@ -132,10 +136,12 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
         onSuccess: (res) {
       var id = res.data?.data?.serviceId;
       if (id != null) {
-        var sessionId = ref.read(getSessionHandlerStateNotifier.notifier).checkIfSessionIdExist();
-        ref.read(fetchCardDetailsStateNotifies.notifier).getCardDetails(
-          sessionId: res.data?.data?.sessionId
-        );
+        var sessionId = ref
+            .read(getSessionHandlerStateNotifier.notifier)
+            .checkIfSessionIdExist();
+        ref
+            .read(fetchCardDetailsStateNotifies.notifier)
+            .getCardDetails(sessionId: res.data?.data?.sessionId);
         ref.read(getServiceDetails.notifier).handelAddServiceToCart(id);
         ref.read(homeDataStateNotifiers.notifier).handelAddServiceToCart(id);
         ref.read(getServicesStateNotifiers.notifier).handelAddServiceToCart(id);
@@ -746,14 +752,12 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
                                             color: Colors.white,
                                           ),
                                           child: ProductMultipleSelectItems(
-                                            list: serviceItemState
-                                                    .data?.data?.lists?[index].items
-                                                    .map((item) =>
-                                                        ItemSelector(
-                                                            item.id?.toInt() ??
-                                                                0,
-                                                            item.name ?? "",
-                                                            SizedBox()))
+                                            list: serviceItemState.data?.data
+                                                    ?.lists?[index].items
+                                                    .map((item) => ItemSelector(
+                                                        item.id?.toInt() ?? 0,
+                                                        item.name ?? "",
+                                                        SizedBox()))
                                                     .toList() ??
                                                 [],
                                             onItemSelect: (items) {
@@ -1197,19 +1201,31 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
                 child: AppButton(
                   onPress: () {
                     if (widget.itemType == ItemType.Products) {
-                      if (widget.productDetails != null || productItemState.data?.data!.inCart == true) {
-                        editProductToCart(widget.cartId ?? productItemState.data?.data!.cartItemId ?? 0);
-                      } else if (productItemState.data?.data?.id != null && productItemState.data?.data?.amount != 0) {
+                      if (widget.productDetails != null ||
+                          productItemState.data?.data!.inCart == true) {
+                        editProductToCart(widget.cartId ??
+                            productItemState.data?.data!.cartItemId ??
+                            0);
+                      } else if (productItemState.data?.data?.id != null &&
+                          productItemState.data?.data?.amount != 0) {
                         addProductToCart(int.parse(
                             productItemState.data?.data?.id!.toString() ?? ""));
                       }
                     } else {
-                      if(serviceItemState.data?.data?.cardType == ServiceTypes.soft_card.name && serviceItemState.data?.data?.id != null){
-                        calculateSoftService(serviceItemState.data?.data?.priceAfterDiscount??0);
-                        makeCheckoutForSoftService(int.parse(
-                            serviceItemState.data?.data?.id!.toString() ?? ""),serviceItemState.data?.data);
-                      }else if(serviceItemState.data?.data!.inCart == true){
-                        editServiceCart(serviceItemState.data?.data?.cartItemId??0);
+                      if (serviceItemState.data?.data?.cardType ==
+                              ServiceTypes.soft_card.name &&
+                          serviceItemState.data?.data?.id != null) {
+                        calculateSoftService(
+                            serviceItemState.data?.data?.priceAfterDiscount ??
+                                0);
+                        makeCheckoutForSoftService(
+                            int.parse(
+                                serviceItemState.data?.data?.id!.toString() ??
+                                    ""),
+                            serviceItemState.data?.data);
+                      } else if (serviceItemState.data?.data!.inCart == true) {
+                        editServiceCart(
+                            serviceItemState.data?.data?.cartItemId ?? 0);
                       } else if (serviceItemState.data?.data?.id != null) {
                         addServiceToCart(int.parse(
                             serviceItemState.data?.data?.id!.toString() ?? ""));
@@ -1219,14 +1235,19 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
                   text: widget.itemType == ItemType.Products
                       ? widget.productDetails != null
                           ? "Edit Product"
-                          :  productItemState.data?.data?.amount == 0 ? "Out of stock" : productItemState.data?.data!.inCart == true
-                              ? "Edit Product"
-                              : "Add to cart"
-                      :  widget.serviceShowData != null
+                          : productItemState.data?.data?.amount == 0
+                              ? "Out of stock"
+                              : productItemState.data?.data!.inCart == true
+                                  ? "Edit Product"
+                                  : "Add to cart"
+                      : widget.serviceShowData != null
                           ? "Edit Service"
-                          : serviceItemState.data?.data?.cardType == ServiceTypes.soft_card.name ? "Checkout" : serviceItemState.data?.data!.inCart == true
-                              ? "Edit Service"
-                              : "Add to cart",
+                          : serviceItemState.data?.data?.cardType ==
+                                  ServiceTypes.soft_card.name
+                              ? "Checkout"
+                              : serviceItemState.data?.data!.inCart == true
+                                  ? "Edit Service"
+                                  : "Add to cart",
                   height: 46,
                   width: double.infinity,
                 ),
@@ -1338,6 +1359,7 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
           serviceSelectedListItemsIds: childItemIds);
     }
   }
+
   void editServiceCart(int id) {
     String? parentItemIds;
     String? childItemIds;
@@ -1449,29 +1471,27 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
             .map((value) => value.join(","))
             .join("|");
       }
-      ref.read(cartDateSelectedStateNotifiers.notifier).setCartDataSelection(
-          {
-            orderTypeKey : OrderTypes.self_order.name,
-            serviceIdKey : id.toString(),
-            serviceSelectedListIdsKey : parentItemIds.toString(),
-            serviceSelectedListItemsIdsKey : childItemIds.toString(),
-          }
-      );
+      ref.read(cartDateSelectedStateNotifiers.notifier).setCartDataSelection({
+        orderTypeKey: OrderTypes.self_order.name,
+        serviceIdKey: id.toString(),
+        serviceSelectedListIdsKey: parentItemIds.toString(),
+        serviceSelectedListItemsIdsKey: childItemIds.toString(),
+      });
 
-      if(childItemIds?.isNotEmpty == true){
-        var list = childItemIds?.split(",");
-        service.ite
-      }
-      // context.push(R_CheckoutScreen,extra: {"type" : CheckoutTypes.SoftCard,"service":service});
-    }else {
+      context.push(R_CheckoutScreen, extra: {
+        "type": CheckoutTypes.SoftCard,
+        "service": service,
+        serviceSelectedListIdsKey: parentItemIds.toString(),
+        serviceSelectedListItemsIdsKey: childItemIds.toString()
+      });
+    } else {
       showAuthenticated();
     }
-
   }
 
   void calculateSoftService(num price) {
-    ref.read(calculationForSoftItemStateNotifies.notifier).calculateSoftItemForCheckout(
-        totalPrice: price
-    );
+    ref
+        .read(calculationForSoftItemStateNotifies.notifier)
+        .calculateSoftItemForCheckout(totalPrice: price);
   }
 }

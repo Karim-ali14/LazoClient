@@ -369,6 +369,8 @@ class MyApp extends ConsumerWidget {
             return CheckoutScreen(
               type: extra["type"] as CheckoutTypes,
               service: extra["service"] as ServiceShowData,
+              serviceSelectedListIds : extra[serviceSelectedListIdsKey],
+              serviceSelectedListItemsIds : extra[serviceSelectedListItemsIdsKey]
             );
           }),
       GoRoute(

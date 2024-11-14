@@ -89,6 +89,103 @@ class ClientApi {
     }
   }
 
+  /// calculate an instant order
+  ///
+  /// calculate an instant order
+  ///
+  /// Note: This method returns the HTTP [Response].
+  ///
+  /// Parameters:
+  ///
+  /// * [String] serviceId:
+  ///
+  /// * [String] serviceQuantity:
+  ///
+  /// * [String] serviceSelectedListIds:
+  ///
+  /// * [String] serviceSelectedListItemsIds:
+  ///
+  /// * [String] promocode:
+  Future<Response> calculateInstantOrderWithHttpInfo({ String? serviceId, String? serviceQuantity, String? serviceSelectedListIds, String? serviceSelectedListItemsIds, String? promocode, }) async {
+    // ignore: prefer_const_declarations
+    final path = r'/client/instant-order/calculate';
+
+    // ignore: prefer_final_locals
+    Object? postBody;
+
+    final queryParams = <QueryParam>[];
+    final headerParams = <String, String>{};
+    final formParams = <String, String>{};
+
+    const contentTypes = <String>['multipart/form-data'];
+
+    bool hasFields = false;
+    final mp = MultipartRequest('POST', Uri.parse(path));
+    if (serviceId != null) {
+      hasFields = true;
+      mp.fields[r'service_id'] = parameterToString(serviceId);
+    }
+    if (serviceQuantity != null) {
+      hasFields = true;
+      mp.fields[r'service_quantity'] = parameterToString(serviceQuantity);
+    }
+    if (serviceSelectedListIds != null) {
+      hasFields = true;
+      mp.fields[r'service_selected_list_ids'] = parameterToString(serviceSelectedListIds);
+    }
+    if (serviceSelectedListItemsIds != null) {
+      hasFields = true;
+      mp.fields[r'service_selected_list_items_ids'] = parameterToString(serviceSelectedListItemsIds);
+    }
+    if (promocode != null) {
+      hasFields = true;
+      mp.fields[r'promocode'] = parameterToString(promocode);
+    }
+    if (hasFields) {
+      postBody = mp;
+    }
+
+    return apiClient.invokeAPI(
+      path,
+      'POST',
+      queryParams,
+      postBody,
+      headerParams,
+      formParams,
+      contentTypes.isEmpty ? null : contentTypes.first,
+    );
+  }
+
+  /// calculate an instant order
+  ///
+  /// calculate an instant order
+  ///
+  /// Parameters:
+  ///
+  /// * [String] serviceId:
+  ///
+  /// * [String] serviceQuantity:
+  ///
+  /// * [String] serviceSelectedListIds:
+  ///
+  /// * [String] serviceSelectedListItemsIds:
+  ///
+  /// * [String] promocode:
+  Future<CreatInstantOrder200Response?> calculateInstantOrder({ String? serviceId, String? serviceQuantity, String? serviceSelectedListIds, String? serviceSelectedListItemsIds, String? promocode, }) async {
+    final response = await calculateInstantOrderWithHttpInfo( serviceId: serviceId, serviceQuantity: serviceQuantity, serviceSelectedListIds: serviceSelectedListIds, serviceSelectedListItemsIds: serviceSelectedListItemsIds, promocode: promocode, );
+    if (response.statusCode >= HttpStatus.badRequest) {
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
+    }
+    // When a remote server returns no body with a status of 204, we shall not decode it.
+    // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
+    // FormatException when trying to decode an empty string.
+    if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'CreatInstantOrder200Response',) as CreatInstantOrder200Response;
+    
+    }
+    return null;
+  }
+
   /// client\\'s account deleted successfully
   ///
   /// Note: This method returns the HTTP [Response].
@@ -190,7 +287,11 @@ class ClientApi {
   /// * [String] cardFrom:
   ///
   /// * [String] cardTo:
-  Future<Response> creatInstantOrderWithHttpInfo({ String? serviceId, String? serviceQuantity, String? serviceSelectedListIds, String? serviceSelectedListItemsIds, String? paymentMethod, String? promocode, String? receiverName, String? receiverPhoneNumber, String? cardMessage, String? cardFrom, String? cardTo, }) async {
+  ///
+  /// * [String] deliveryDate:
+  ///
+  /// * [String] deliveryTime:
+  Future<Response> creatInstantOrderWithHttpInfo({ String? serviceId, String? serviceQuantity, String? serviceSelectedListIds, String? serviceSelectedListItemsIds, String? paymentMethod, String? promocode, String? receiverName, String? receiverPhoneNumber, String? cardMessage, String? cardFrom, String? cardTo, String? deliveryDate, String? deliveryTime, }) async {
     // ignore: prefer_const_declarations
     final path = r'/client/instant-order/create';
 
@@ -249,6 +350,14 @@ class ClientApi {
       hasFields = true;
       mp.fields[r'card_to'] = parameterToString(cardTo);
     }
+    if (deliveryDate != null) {
+      hasFields = true;
+      mp.fields[r'delivery_date'] = parameterToString(deliveryDate);
+    }
+    if (deliveryTime != null) {
+      hasFields = true;
+      mp.fields[r'delivery_time'] = parameterToString(deliveryTime);
+    }
     if (hasFields) {
       postBody = mp;
     }
@@ -291,8 +400,12 @@ class ClientApi {
   /// * [String] cardFrom:
   ///
   /// * [String] cardTo:
-  Future<ClientOrderDetails?> creatInstantOrder({ String? serviceId, String? serviceQuantity, String? serviceSelectedListIds, String? serviceSelectedListItemsIds, String? paymentMethod, String? promocode, String? receiverName, String? receiverPhoneNumber, String? cardMessage, String? cardFrom, String? cardTo, }) async {
-    final response = await creatInstantOrderWithHttpInfo( serviceId: serviceId, serviceQuantity: serviceQuantity, serviceSelectedListIds: serviceSelectedListIds, serviceSelectedListItemsIds: serviceSelectedListItemsIds, paymentMethod: paymentMethod, promocode: promocode, receiverName: receiverName, receiverPhoneNumber: receiverPhoneNumber, cardMessage: cardMessage, cardFrom: cardFrom, cardTo: cardTo, );
+  ///
+  /// * [String] deliveryDate:
+  ///
+  /// * [String] deliveryTime:
+  Future<CreatInstantOrder200Response?> creatInstantOrder({ String? serviceId, String? serviceQuantity, String? serviceSelectedListIds, String? serviceSelectedListItemsIds, String? paymentMethod, String? promocode, String? receiverName, String? receiverPhoneNumber, String? cardMessage, String? cardFrom, String? cardTo, String? deliveryDate, String? deliveryTime, }) async {
+    final response = await creatInstantOrderWithHttpInfo( serviceId: serviceId, serviceQuantity: serviceQuantity, serviceSelectedListIds: serviceSelectedListIds, serviceSelectedListItemsIds: serviceSelectedListItemsIds, paymentMethod: paymentMethod, promocode: promocode, receiverName: receiverName, receiverPhoneNumber: receiverPhoneNumber, cardMessage: cardMessage, cardFrom: cardFrom, cardTo: cardTo, deliveryDate: deliveryDate, deliveryTime: deliveryTime, );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -300,7 +413,7 @@ class ClientApi {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
-      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'ClientOrderDetails',) as ClientOrderDetails;
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'CreatInstantOrder200Response',) as CreatInstantOrder200Response;
     
     }
     return null;
