@@ -68,7 +68,6 @@ Future<void> _firebaseMessagingHandler(RemoteMessage message) async {
   }
 }
 
-
 void getNotificationsOnForeground(/*{WidgetRef? ref}*/){
   FirebaseMessaging.onMessage.listen((RemoteMessage message) {
     print('Got a message whilst in the foreground!');
@@ -134,9 +133,6 @@ void main() async {
   );
   //SharedPrefs
   prefs = await SharedPreferences.getInstance();
-  //FCM
-  final fcmToken = await FirebaseMessaging.instance.getToken();
-  print("Fcm Token : $fcmToken");
   // // Notifications
   handlingNotificationPermission();
   //

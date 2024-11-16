@@ -1,4 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -63,6 +64,7 @@ class _OtpScreenState extends ConsumerState<OTPScreen> {
 
     handleState(loginStateNotifierProvider, onSuccess: (res) {
       ref.read(getSessionHandlerStateNotifier.notifier).clearSessionId();
+      initFcmToken();
       if(context.isThereCurrentDialogShowing()){
         updateMainScreen();
         try{
@@ -81,6 +83,7 @@ class _OtpScreenState extends ConsumerState<OTPScreen> {
 
     handleState(signUpStateNotifierProvider, onSuccess: (res) {
       print("signUp successful");
+      initFcmToken();
       ref.read(getSessionHandlerStateNotifier.notifier).clearSessionId();
       if(context.isThereCurrentDialogShowing()){
         updateMainScreen();
@@ -213,6 +216,15 @@ class _OtpScreenState extends ConsumerState<OTPScreen> {
   void verifyPhone(String phone,String? code) async {
     print("verifyPhone $phone , $code");
     ref.read(confirmResetCodeStateProvider.notifier).confirmReset(phone, code);
+  }
+
+  void initFcmToken() async{
+    //FCM
+    final fcmToken = await FirebaseMessaging.instance.getToken();
+    ref.read(updateFcmTokenStateProvider.notifier).calculateInstantOrder(
+        fcmToken: fcmToken
+    );
+    print("Fcm Token : $fcmToken");
   }
 
   void login() async {

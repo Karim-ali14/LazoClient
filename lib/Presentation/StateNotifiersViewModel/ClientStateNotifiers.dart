@@ -37,4 +37,8 @@ final calculateInstantOrderStateProvider = StateNotifierProvider.autoDispose<
     CalculateInstantOrderUseCase, StateModel<CreatInstantOrder200Response?>>(
         (ref) => CalculateInstantOrderUseCase(ref, ref.read(clientApi)));
 
-//
+final updateFcmTokenStateProvider = StateNotifierProvider.autoDispose<
+    UpdateFcmTokenUseCase, StateModel<void>>(
+        (ref) => UpdateFcmTokenUseCase(ref, ref.read(clientApi)));
+
+

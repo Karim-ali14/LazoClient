@@ -69,7 +69,9 @@ class CreateOrderUseCase
         receiverPhoneNumber: receiverPhoneNumber,
         cardMessage: cardMessage,
         cardFrom: cardFrom,
-        cardTo: cardTo,deliveryDate: deliveryDate,deliveryTime: deliveryTime));
+        cardTo: cardTo,
+        deliveryDate: deliveryDate,
+        deliveryTime: deliveryTime));
   }
 }
 
@@ -201,5 +203,18 @@ class CalculateInstantOrderUseCase
     var data = state.data;
     data?.data = order;
     state = StateModel.success(data);
+  }
+}
+
+class UpdateFcmTokenUseCase extends StateNotifier<StateModel<void>> {
+  final Ref ref;
+  final ClientApi api;
+  UpdateFcmTokenUseCase(this.ref, this.api) : super(StateModel());
+
+  void calculateInstantOrder({
+    String? deviceType,
+    String? fcmToken,
+  }) {
+    request(() => api.updateFcmTokenAndDeviceType2(fcmToken: fcmToken,deviceType: "android"));
   }
 }

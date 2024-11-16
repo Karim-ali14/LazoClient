@@ -1,4 +1,6 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/services.dart';
+import 'package:lazo_client/Presentation/StateNotifiersViewModel/ClientStateNotifiers.dart';
 import 'package:lazo_client/Presentation/StateNotifiersViewModel/UserAuthStateNotifiers.dart';
 import 'package:lazo_client/Utils/Extintions.dart';
 import 'package:lazo_client/Utils/NotificationsUtils.dart';
@@ -48,6 +50,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
       print("client model : $client");
 
       if(client != null){
+        initFcmToken();
         context.go(R_MainScreen);
       }else {
         if(prefs.getBool(doneLandingKey) == true){
@@ -68,6 +71,14 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
     super.initState();
   }
 
+  void initFcmToken() async {
+    //FCM
+    final fcmToken = await FirebaseMessaging.instance.getToken();
+    ref.read(updateFcmTokenStateProvider.notifier).calculateInstantOrder(
+      fcmToken: fcmToken
+    );
+    print("Fcm Token : $fcmToken");
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
