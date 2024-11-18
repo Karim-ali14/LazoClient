@@ -114,7 +114,7 @@ class ClientOrderDetailsOrderItemsInner {
   ///
   String? ratingDate;
 
-  ProviderOrderDetailsOrderItemsInnerProduct? product;
+  ClientOrderDetailsOrderItemsInnerProduct? product;
 
   num? productId;
 
@@ -446,7 +446,7 @@ class ClientOrderDetailsOrderItemsInner {
             : num.parse(json[r'rating'].toString()),
         ratingComment: mapValueOfType<String>(json, r'rating_comment'),
         ratingDate: mapValueOfType<String>(json, r'rating_date'),
-        product: ProviderOrderDetailsOrderItemsInnerProduct.fromJson(json[r'product']),
+        product: ClientOrderDetailsOrderItemsInnerProduct.fromJson(json[r'product']),
         productId: json[r'product_id'] == null
             ? null
             : num.parse(json[r'product_id'].toString()),

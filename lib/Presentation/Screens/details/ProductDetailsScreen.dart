@@ -90,11 +90,7 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
         }
 
         getRelatedServices();
-        ref
-            .read(sendTestPushNotificationStateNotifiers.notifier)
-            .sendTestNotification(
-                token:
-                    "fHuXaQfWTEm9lV4zJMULj3:APA91bGJw6R_F16YbKibQ-DvM1UN7wAlor_8imr-DcCeQhLWbkI9TQFXgrBObCfwtdZaDCb3Q6Io6203irSlqsKElVXth0Ytf5wpgEZOuyRqbKLXlCnCu-k");
+
       }
     });
 
@@ -108,6 +104,17 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
     final serviceItemState = ref.watch(getServiceDetails);
     final relatedProductData = ref.watch(getRelatedProductsStateNotifiers);
     final relatedServiceData = ref.watch(getRelatedServicesStateNotifiers);
+
+    handleState(getProductDetails, showLoading: false, onSuccess: (res) {
+      res.data?.data?.lists?.forEach((item){
+        if(item.isMultiSelectable == 0){
+          productSelectedItemsIds[int.tryParse((item.id??0).toString())??0] = item.clientSelectedItemsInCart?.map((item) => item.id.toString()).toList() ?? [];
+        }else{
+          productSelectedMultipleItems[int.tryParse((item.id??0).toString())??0] = item.clientSelectedItemsInCart?.map((item) => item.id.toString()).toList() ?? [];
+        }
+      });
+      print("productSelectedItemsIds : $productSelectedItemsIds , productSelectedMultipleItems : $productSelectedMultipleItems");
+    });
 
     handleState(updateCartItemsStateNotifies, showLoading: true,
         onSuccess: (res) {
@@ -305,7 +312,7 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
                             ),
                             widget.itemType == ItemType.Products
                                 ? productItemState
-                                            .data?.data?.priceAfterDiscount ==
+                                            .data?.data?.priceAfterDiscount !=
                                         productItemState.data?.data?.price
                                     ? Text(
                                         "SAR ${productItemState.data?.data?.price ?? ""}",
@@ -317,7 +324,7 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
                                       )
                                     : SizedBox()
                                 : serviceItemState
-                                            .data?.data?.priceAfterDiscount ==
+                                            .data?.data?.priceAfterDiscount !=
                                         serviceItemState.data?.data?.price
                                     ? Text(
                                         "SAR ${serviceItemState.data?.data?.price ?? ""}",
@@ -657,18 +664,23 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
                                                       productSelectedItemsIds[
                                                           categoryId] = ["$id"];
                                                     } else {
-                                                      productSelectedItemsIds[
-                                                          categoryId] = [];
+                                                      if (productSelectedItemsIds.containsKey(categoryId)){
+                                                        productSelectedItemsIds.remove(categoryId);
+                                                      }
+                                                      // productSelectedItemsIds[
+                                                      //     categoryId] = [];
                                                     }
                                                   },
-                                                  itemSelectedId: widget
-                                                              .productDetails
+                                                  itemSelectedId: productItemState
+                                                      .data
+                                                      ?.data
                                                               ?.lists?[index]
                                                               .clientSelectedItemsInCart
                                                               ?.isNotEmpty ==
                                                           true
-                                                      ? widget
-                                                          .productDetails
+                                                      ? productItemState
+                                                      .data
+                                                      ?.data
                                                           ?.lists![index]
                                                           .clientSelectedItemsInCart
                                                           ?.first
@@ -698,17 +710,24 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
                                                   onItemSelect: (items) {
                                                     var categoryId =
                                                         productItemState
-                                                                .data
-                                                                ?.data
-                                                                ?.lists?[index]
-                                                                .id
-                                                                ?.toInt() ??
+                                                            .data
+                                                            ?.data
+                                                            ?.lists?[index]
+                                                            .id
+                                                            ?.toInt() ??
                                                             0;
-                                                    productSelectedItemsIds[
-                                                        categoryId] = items;
+                                                    if (items.isEmpty) {
+                                                      if(productSelectedItemsIds.containsKey(categoryId)){
+                                                        productSelectedItemsIds.remove(categoryId);
+                                                      }
+                                                    }else{
+                                                      productSelectedItemsIds[
+                                                      categoryId] = items;
+                                                    }
                                                   },
-                                                  itemSelect: widget
-                                                          .productDetails
+                                                  itemSelect: productItemState
+                                                      .data
+                                                      ?.data
                                                           ?.lists?[index]
                                                           .clientSelectedItemsInCart
                                                           ?.map((toElement) =>
@@ -772,8 +791,9 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
                                               serviceSelectemItemsIds[
                                                   categoryId] = items;
                                             },
-                                            itemSelect: widget
-                                                    .serviceShowData
+                                            itemSelect:serviceItemState
+                                                .data
+                                                ?.data
                                                     ?.lists?[index]
                                                     .clientSelectedItemsInCart
                                                     ?.map((toElement) =>
@@ -1203,9 +1223,10 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
                     if (widget.itemType == ItemType.Products) {
                       if (widget.productDetails != null ||
                           productItemState.data?.data!.inCart == true) {
-                        editProductToCart(widget.cartId ??
-                            productItemState.data?.data!.cartItemId ??
-                            0);
+                        // print("cartId : ${productItemState.data?.data!.cartItemId}");
+                        editProductToCart(
+                            int.parse(productItemState.data?.data!.cartItemId ??
+                                "0"));
                       } else if (productItemState.data?.data?.id != null &&
                           productItemState.data?.data?.amount != 0) {
                         addProductToCart(int.parse(
@@ -1225,7 +1246,7 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
                             serviceItemState.data?.data);
                       } else if (serviceItemState.data?.data!.inCart == true) {
                         editServiceCart(
-                            serviceItemState.data?.data?.cartItemId ?? 0);
+                            int.parse(serviceItemState.data?.data?.cartItemId ?? "0"));
                       } else if (serviceItemState.data?.data?.id != null) {
                         addServiceToCart(int.parse(
                             serviceItemState.data?.data?.id!.toString() ?? ""));
@@ -1233,13 +1254,11 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
                     }
                   },
                   text: widget.itemType == ItemType.Products
-                      ? widget.productDetails != null
+                      ? widget.productDetails != null || productItemState.data?.data!.inCart == true
                           ? "Edit Product"
                           : productItemState.data?.data?.amount == 0
                               ? "Out of stock"
-                              : productItemState.data?.data!.inCart == true
-                                  ? "Edit Product"
-                                  : "Add to cart"
+                              : "Add to cart"
                       : widget.serviceShowData != null
                           ? "Edit Service"
                           : serviceItemState.data?.data?.cardType ==
@@ -1315,6 +1334,7 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
   }
 
   void editProductToCart(int id) {
+
     String? parentItemIds;
     String? childItemIds;
     if (productSelectedItemsIds.isNotEmpty) {
@@ -1324,7 +1344,7 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
           .map((value) => value.join(","))
           .join("|");
     }
-    print("$parentItemIds  ,  $childItemIds  , $id");
+    print("editProduct info : $parentItemIds  ,  $childItemIds  , $id");
     ref.read(updateCartItemsStateNotifies.notifier).updateCartItems(
         cartItemId: id.toString(),
         productSelectedListIds: parentItemIds,

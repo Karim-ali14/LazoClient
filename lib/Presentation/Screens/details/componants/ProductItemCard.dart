@@ -28,6 +28,7 @@ class ProductItemCard extends StatefulWidget {
 class _ProductItemCardState extends State<ProductItemCard> {
   @override
   Widget build(BuildContext context) {
+    print("sdlkjflksdjfa ${widget.item?.product != null}");
     return InkWell(
       onTap: () {
         widget.onItemClick.call(widget.item?.id?.toInt() ?? 0);

@@ -711,7 +711,7 @@ class FetchCardDetailsUseCase
     });
   }
 
-  void updateItem(ShowCartDetails200ResponseDataCartItemsInner cartItem){
+  void updateItem(CartItemsInner cartItem){
     final data = state.data;
     final index = data?.data?.cartItems.indexWhere((item) => item.id == cartItem.id);
     if(index != null && index != -1) {
@@ -721,7 +721,7 @@ class FetchCardDetailsUseCase
   }
 
   void deleteItem(num cartItemId){
-    List<ShowCartDetails200ResponseDataCartItemsInner> data = (state.data?.data?.cartItems??[]).toList(growable: true);
+    List<CartItemsInner> data = (state.data?.data?.cartItems??[]).toList(growable: true);
     final index = data.indexWhere((item) => item.id == cartItemId);
 
     if(index != -1) {

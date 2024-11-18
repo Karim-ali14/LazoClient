@@ -10,9 +10,9 @@
 
 part of openapi.api;
 
-class AddProductServiceToCartCartItem200ResponseDataCartItemsInner {
-  /// Returns a new [AddProductServiceToCartCartItem200ResponseDataCartItemsInner] instance.
-  AddProductServiceToCartCartItem200ResponseDataCartItemsInner({
+class CartItemsInner {
+  /// Returns a new [CartItemsInner] instance.
+  CartItemsInner({
     this.cardPrice,
     this.cartId,
     this.createdAt,
@@ -23,12 +23,14 @@ class AddProductServiceToCartCartItem200ResponseDataCartItemsInner {
     this.productId,
     this.quantity,
     this.type,
+    this.cartItemTotalBeforeDiscount,
+    this.cartItemTotalAfterDiscount,
     this.productSelectedListIds,
     this.productSelectedListItemsIds,
     this.serviceSelectedListIds,
     this.serviceSelectedListItemsIds,
-    this.cartItemTotalBeforeDiscount,
-    this.cartItemTotalAfterDiscount,
+    this.productSelectedListItemsNames,
+    this.serviceSelectedListItemsNames,
     this.service,
     this.serviceId,
     this.updatedAt,
@@ -102,14 +104,6 @@ class AddProductServiceToCartCartItem200ResponseDataCartItemsInner {
   ///
   String? type;
 
-  String? productSelectedListIds;
-
-  String? productSelectedListItemsIds;
-
-  String? serviceSelectedListIds;
-
-  String? serviceSelectedListItemsIds;
-
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
   /// does not include a default value (using the "default:" property), however, the generated
@@ -125,6 +119,18 @@ class AddProductServiceToCartCartItem200ResponseDataCartItemsInner {
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
   num? cartItemTotalAfterDiscount;
+
+  String? productSelectedListIds;
+
+  String? productSelectedListItemsIds;
+
+  String? serviceSelectedListIds;
+
+  String? serviceSelectedListItemsIds;
+
+  String? productSelectedListItemsNames;
+
+  String? serviceSelectedListItemsNames;
 
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
@@ -145,7 +151,7 @@ class AddProductServiceToCartCartItem200ResponseDataCartItemsInner {
   String? updatedAt;
 
   @override
-  bool operator ==(Object other) => identical(this, other) || other is AddProductServiceToCartCartItem200ResponseDataCartItemsInner &&
+  bool operator ==(Object other) => identical(this, other) || other is CartItemsInner &&
      other.cardPrice == cardPrice &&
      other.cartId == cartId &&
      other.createdAt == createdAt &&
@@ -156,12 +162,14 @@ class AddProductServiceToCartCartItem200ResponseDataCartItemsInner {
      other.productId == productId &&
      other.quantity == quantity &&
      other.type == type &&
+     other.cartItemTotalBeforeDiscount == cartItemTotalBeforeDiscount &&
+     other.cartItemTotalAfterDiscount == cartItemTotalAfterDiscount &&
      other.productSelectedListIds == productSelectedListIds &&
      other.productSelectedListItemsIds == productSelectedListItemsIds &&
      other.serviceSelectedListIds == serviceSelectedListIds &&
      other.serviceSelectedListItemsIds == serviceSelectedListItemsIds &&
-     other.cartItemTotalBeforeDiscount == cartItemTotalBeforeDiscount &&
-     other.cartItemTotalAfterDiscount == cartItemTotalAfterDiscount &&
+     other.productSelectedListItemsNames == productSelectedListItemsNames &&
+     other.serviceSelectedListItemsNames == serviceSelectedListItemsNames &&
      other.service == service &&
      other.serviceId == serviceId &&
      other.updatedAt == updatedAt;
@@ -179,18 +187,20 @@ class AddProductServiceToCartCartItem200ResponseDataCartItemsInner {
     (productId == null ? 0 : productId!.hashCode) +
     (quantity == null ? 0 : quantity!.hashCode) +
     (type == null ? 0 : type!.hashCode) +
+    (cartItemTotalBeforeDiscount == null ? 0 : cartItemTotalBeforeDiscount!.hashCode) +
+    (cartItemTotalAfterDiscount == null ? 0 : cartItemTotalAfterDiscount!.hashCode) +
     (productSelectedListIds == null ? 0 : productSelectedListIds!.hashCode) +
     (productSelectedListItemsIds == null ? 0 : productSelectedListItemsIds!.hashCode) +
     (serviceSelectedListIds == null ? 0 : serviceSelectedListIds!.hashCode) +
     (serviceSelectedListItemsIds == null ? 0 : serviceSelectedListItemsIds!.hashCode) +
-    (cartItemTotalBeforeDiscount == null ? 0 : cartItemTotalBeforeDiscount!.hashCode) +
-    (cartItemTotalAfterDiscount == null ? 0 : cartItemTotalAfterDiscount!.hashCode) +
+    (productSelectedListItemsNames == null ? 0 : productSelectedListItemsNames!.hashCode) +
+    (serviceSelectedListItemsNames == null ? 0 : serviceSelectedListItemsNames!.hashCode) +
     (service == null ? 0 : service!.hashCode) +
     (serviceId == null ? 0 : serviceId!.hashCode) +
     (updatedAt == null ? 0 : updatedAt!.hashCode);
 
   @override
-  String toString() => 'AddProductServiceToCartCartItem200ResponseDataCartItemsInner[cardPrice=$cardPrice, cartId=$cartId, createdAt=$createdAt, id=$id, listsTotalPrice=$listsTotalPrice, price=$price, product=$product, productId=$productId, quantity=$quantity, type=$type, productSelectedListIds=$productSelectedListIds, productSelectedListItemsIds=$productSelectedListItemsIds, serviceSelectedListIds=$serviceSelectedListIds, serviceSelectedListItemsIds=$serviceSelectedListItemsIds, cartItemTotalBeforeDiscount=$cartItemTotalBeforeDiscount, cartItemTotalAfterDiscount=$cartItemTotalAfterDiscount, service=$service, serviceId=$serviceId, updatedAt=$updatedAt]';
+  String toString() => 'CartItemsInner[cardPrice=$cardPrice, cartId=$cartId, createdAt=$createdAt, id=$id, listsTotalPrice=$listsTotalPrice, price=$price, product=$product, productId=$productId, quantity=$quantity, type=$type, cartItemTotalBeforeDiscount=$cartItemTotalBeforeDiscount, cartItemTotalAfterDiscount=$cartItemTotalAfterDiscount, productSelectedListIds=$productSelectedListIds, productSelectedListItemsIds=$productSelectedListItemsIds, serviceSelectedListIds=$serviceSelectedListIds, serviceSelectedListItemsIds=$serviceSelectedListItemsIds, productSelectedListItemsNames=$productSelectedListItemsNames, serviceSelectedListItemsNames=$serviceSelectedListItemsNames, service=$service, serviceId=$serviceId, updatedAt=$updatedAt]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -244,6 +254,16 @@ class AddProductServiceToCartCartItem200ResponseDataCartItemsInner {
     } else {
       json[r'type'] = null;
     }
+    if (this.cartItemTotalBeforeDiscount != null) {
+      json[r'cart_item_total_before_discount'] = this.cartItemTotalBeforeDiscount;
+    } else {
+      json[r'cart_item_total_before_discount'] = null;
+    }
+    if (this.cartItemTotalAfterDiscount != null) {
+      json[r'cart_item_total_after_discount'] = this.cartItemTotalAfterDiscount;
+    } else {
+      json[r'cart_item_total_after_discount'] = null;
+    }
     if (this.productSelectedListIds != null) {
       json[r'product_selected_list_ids'] = this.productSelectedListIds;
     } else {
@@ -264,15 +284,15 @@ class AddProductServiceToCartCartItem200ResponseDataCartItemsInner {
     } else {
       json[r'service_selected_list_items_ids'] = null;
     }
-    if (this.cartItemTotalBeforeDiscount != null) {
-      json[r'cart_item_total_before_discount'] = this.cartItemTotalBeforeDiscount;
+    if (this.productSelectedListItemsNames != null) {
+      json[r'product_selected_list_items_names'] = this.productSelectedListItemsNames;
     } else {
-      json[r'cart_item_total_before_discount'] = null;
+      json[r'product_selected_list_items_names'] = null;
     }
-    if (this.cartItemTotalAfterDiscount != null) {
-      json[r'cart_item_total_after_discount'] = this.cartItemTotalAfterDiscount;
+    if (this.serviceSelectedListItemsNames != null) {
+      json[r'service_selected_list_items_names'] = this.serviceSelectedListItemsNames;
     } else {
-      json[r'cart_item_total_after_discount'] = null;
+      json[r'service_selected_list_items_names'] = null;
     }
     if (this.service != null) {
       json[r'service'] = this.service;
@@ -292,10 +312,10 @@ class AddProductServiceToCartCartItem200ResponseDataCartItemsInner {
     return json;
   }
 
-  /// Returns a new [AddProductServiceToCartCartItem200ResponseDataCartItemsInner] instance and imports its values from
+  /// Returns a new [CartItemsInner] instance and imports its values from
   /// [value] if it's a [Map], null otherwise.
   // ignore: prefer_constructors_over_static_methods
-  static AddProductServiceToCartCartItem200ResponseDataCartItemsInner? fromJson(dynamic value) {
+  static CartItemsInner? fromJson(dynamic value) {
     if (value is Map) {
       final json = value.cast<String, dynamic>();
 
@@ -304,13 +324,13 @@ class AddProductServiceToCartCartItem200ResponseDataCartItemsInner {
       // Note 2: this code is stripped in release mode!
       assert(() {
         requiredKeys.forEach((key) {
-          assert(json.containsKey(key), 'Required key "AddProductServiceToCartCartItem200ResponseDataCartItemsInner[$key]" is missing from JSON.');
-          assert(json[key] != null, 'Required key "AddProductServiceToCartCartItem200ResponseDataCartItemsInner[$key]" has a null value in JSON.');
+          assert(json.containsKey(key), 'Required key "CartItemsInner[$key]" is missing from JSON.');
+          assert(json[key] != null, 'Required key "CartItemsInner[$key]" has a null value in JSON.');
         });
         return true;
       }());
 
-      return AddProductServiceToCartCartItem200ResponseDataCartItemsInner(
+      return CartItemsInner(
         cardPrice: json[r'card_price'] == null
             ? null
             : num.parse(json[r'card_price'].toString()),
@@ -335,16 +355,18 @@ class AddProductServiceToCartCartItem200ResponseDataCartItemsInner {
             ? null
             : num.parse(json[r'quantity'].toString()),
         type: mapValueOfType<String>(json, r'type'),
-        productSelectedListIds: mapValueOfType<String>(json, r'product_selected_list_ids'),
-        productSelectedListItemsIds: mapValueOfType<String>(json, r'product_selected_list_items_ids'),
-        serviceSelectedListIds: mapValueOfType<String>(json, r'service_selected_list_ids'),
-        serviceSelectedListItemsIds: mapValueOfType<String>(json, r'service_selected_list_items_ids'),
         cartItemTotalBeforeDiscount: json[r'cart_item_total_before_discount'] == null
             ? null
             : num.parse(json[r'cart_item_total_before_discount'].toString()),
         cartItemTotalAfterDiscount: json[r'cart_item_total_after_discount'] == null
             ? null
             : num.parse(json[r'cart_item_total_after_discount'].toString()),
+        productSelectedListIds: mapValueOfType<String>(json, r'product_selected_list_ids'),
+        productSelectedListItemsIds: mapValueOfType<String>(json, r'product_selected_list_items_ids'),
+        serviceSelectedListIds: mapValueOfType<String>(json, r'service_selected_list_ids'),
+        serviceSelectedListItemsIds: mapValueOfType<String>(json, r'service_selected_list_items_ids'),
+        productSelectedListItemsNames: mapValueOfType<String>(json, r'product_selected_list_items_names'),
+        serviceSelectedListItemsNames: mapValueOfType<String>(json, r'service_selected_list_items_names'),
         service: ServiceShowData.fromJson(json[r'service']),
         serviceId: json[r'service_id'] == null
             ? null
@@ -355,11 +377,11 @@ class AddProductServiceToCartCartItem200ResponseDataCartItemsInner {
     return null;
   }
 
-  static List<AddProductServiceToCartCartItem200ResponseDataCartItemsInner> listFromJson(dynamic json, {bool growable = false,}) {
-    final result = <AddProductServiceToCartCartItem200ResponseDataCartItemsInner>[];
+  static List<CartItemsInner> listFromJson(dynamic json, {bool growable = false,}) {
+    final result = <CartItemsInner>[];
     if (json is List && json.isNotEmpty) {
       for (final row in json) {
-        final value = AddProductServiceToCartCartItem200ResponseDataCartItemsInner.fromJson(row);
+        final value = CartItemsInner.fromJson(row);
         if (value != null) {
           result.add(value);
         }
@@ -368,12 +390,12 @@ class AddProductServiceToCartCartItem200ResponseDataCartItemsInner {
     return result.toList(growable: growable);
   }
 
-  static Map<String, AddProductServiceToCartCartItem200ResponseDataCartItemsInner> mapFromJson(dynamic json) {
-    final map = <String, AddProductServiceToCartCartItem200ResponseDataCartItemsInner>{};
+  static Map<String, CartItemsInner> mapFromJson(dynamic json) {
+    final map = <String, CartItemsInner>{};
     if (json is Map && json.isNotEmpty) {
       json = json.cast<String, dynamic>(); // ignore: parameter_assignments
       for (final entry in json.entries) {
-        final value = AddProductServiceToCartCartItem200ResponseDataCartItemsInner.fromJson(entry.value);
+        final value = CartItemsInner.fromJson(entry.value);
         if (value != null) {
           map[entry.key] = value;
         }
@@ -382,14 +404,14 @@ class AddProductServiceToCartCartItem200ResponseDataCartItemsInner {
     return map;
   }
 
-  // maps a json object with a list of AddProductServiceToCartCartItem200ResponseDataCartItemsInner-objects as value to a dart map
-  static Map<String, List<AddProductServiceToCartCartItem200ResponseDataCartItemsInner>> mapListFromJson(dynamic json, {bool growable = false,}) {
-    final map = <String, List<AddProductServiceToCartCartItem200ResponseDataCartItemsInner>>{};
+  // maps a json object with a list of CartItemsInner-objects as value to a dart map
+  static Map<String, List<CartItemsInner>> mapListFromJson(dynamic json, {bool growable = false,}) {
+    final map = <String, List<CartItemsInner>>{};
     if (json is Map && json.isNotEmpty) {
       // ignore: parameter_assignments
       json = json.cast<String, dynamic>();
       for (final entry in json.entries) {
-        map[entry.key] = AddProductServiceToCartCartItem200ResponseDataCartItemsInner.listFromJson(entry.value, growable: growable,);
+        map[entry.key] = CartItemsInner.listFromJson(entry.value, growable: growable,);
       }
     }
     return map;

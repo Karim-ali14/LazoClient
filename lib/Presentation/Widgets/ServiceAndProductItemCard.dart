@@ -127,33 +127,33 @@ class _ServiceAndProductItemCardHorizontalState
                             child: Text(
                               "SAR ${widget.type == ItemType.Products ? widget.product?.priceAfterDiscount ?? "" : widget.service?.priceAfterDiscount ?? ""}",
                               style: AppTheme
-                                  .styleWithTextRedAdelleSansExtendedFonts16w500,
+                                  .styleWithTextRedAdelleSansExtendedFonts15w500,
                             ),
                           ),
                           SizedBox(
-                            width: 5,
+                            width: 4,
                           ),
                           widget.type == ItemType.Products
-                              ? widget.product?.priceAfterDiscount ==
+                              ? widget.product?.priceAfterDiscount !=
                                       widget.product?.price
                                   ? Skeleton.ignore(
                                       child: Text(
                                         "SAR ${widget.product?.price}",
                                         style: AppTheme
-                                            .styleWithTextGray7AdelleSansExtendedFonts12w400
+                                            .styleWithTextGray7AdelleSansExtendedFonts11w400
                                             .copyWith(
                                                 decoration:
                                                     TextDecoration.lineThrough),
                                       ),
                                     )
                                   : SizedBox()
-                              : widget.service?.priceAfterDiscount ==
+                              : widget.service?.priceAfterDiscount !=
                                       widget.service?.price
                                   ? Skeleton.ignore(
                                       child: Text(
                                         "SAR ${widget.service?.price}",
                                         style: AppTheme
-                                            .styleWithTextGray7AdelleSansExtendedFonts12w400
+                                            .styleWithTextGray7AdelleSansExtendedFonts11w400
                                             .copyWith(
                                                 decoration:
                                                     TextDecoration.lineThrough),

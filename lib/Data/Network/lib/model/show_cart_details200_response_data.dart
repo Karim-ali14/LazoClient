@@ -22,7 +22,7 @@ class ShowCartDetails200ResponseData {
     this.type,
   });
 
-  List<ShowCartDetails200ResponseDataCartItemsInner> cartItems;
+  List<CartItemsInner> cartItems;
 
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
@@ -151,7 +151,7 @@ class ShowCartDetails200ResponseData {
       }());
 
       return ShowCartDetails200ResponseData(
-        cartItems: ShowCartDetails200ResponseDataCartItemsInner.listFromJson(json[r'cart_items']),
+        cartItems: CartItemsInner.listFromJson(json[r'cart_items']),
         createdAt: mapValueOfType<String>(json, r'created_at'),
         id: json[r'id'] == null
             ? null

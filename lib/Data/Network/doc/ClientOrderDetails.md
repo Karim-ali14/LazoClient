@@ -19,6 +19,7 @@ Name | Type | Description | Notes
 **orderFamily** | **String** |  | [optional] 
 **rejectedProvidersIds** | **String** |  | [optional] 
 **rejectedOrderItems** | **String** |  | [optional] 
+**paymentLink** | **String** |  | [optional] 
 **orderItems** | [**List<ClientOrderDetailsOrderItemsInner>**](ClientOrderDetailsOrderItemsInner.md) |  | [optional] [default to const []]
 **packagingProviderId** | **num** |  | [optional] 
 **paymentMethod** | **String** |  | [optional] 

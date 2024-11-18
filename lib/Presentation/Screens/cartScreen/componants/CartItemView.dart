@@ -12,18 +12,25 @@ import 'package:skeletonizer/skeletonizer.dart';
 import '../../../../Constants/Eunms.dart';
 import '../../../../Data/Network/lib/api.dart';
 
-typedef OnUpdateQuantity = Function(num,num);
+typedef OnUpdateQuantity = Function(num, num);
 typedef OnDeleteItem = Function(num);
-typedef OnEditProduct = Function(ProductDetails?,int);
-typedef OnEditService = Function(ServiceShowData?,int);
+typedef OnEditProduct = Function(ProductDetails?, int);
+typedef OnEditService = Function(ServiceShowData?, int);
+
 class CartItemView extends StatefulWidget {
   final OnUpdateQuantity onUpdateQuantity;
   final OnDeleteItem onDeleteItem;
   final OnEditProduct? onEditProduct;
   final OnEditService? onEditService;
-  final ShowCartDetails200ResponseDataCartItemsInner? cartItem;
+  final CartItemsInner? cartItem;
 
-  const CartItemView({super.key, required this.cartItem, required this.onUpdateQuantity, required this.onDeleteItem, this.onEditProduct, this.onEditService});
+  const CartItemView(
+      {super.key,
+      required this.cartItem,
+      required this.onUpdateQuantity,
+      required this.onDeleteItem,
+      this.onEditProduct,
+      this.onEditService});
 
   @override
   State<CartItemView> createState() => _CartItemViewState();
@@ -37,6 +44,7 @@ class _CartItemViewState extends State<CartItemView> {
     quantity = widget.cartItem?.quantity;
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -96,7 +104,7 @@ class _CartItemViewState extends State<CartItemView> {
                           replacement: Container(
                             width: 120,
                             height: 10,
-                              color: Colors.white,
+                            color: Colors.white,
                           ),
                           child: Text(
                             (widget.cartItem?.type ?? "") ==
@@ -108,11 +116,17 @@ class _CartItemViewState extends State<CartItemView> {
                           ),
                         ),
                         SizedBox(
-                          height: 7,
+                          height: 5,
                         ),
                         SizedBox(
                           width: 240,
-                          height: 25,
+                          height: widget.cartItem?.productSelectedListItemsNames
+                                      ?.isNotEmpty ==
+                                  true || widget.cartItem?.serviceSelectedListItemsNames
+                                      ?.isNotEmpty ==
+                                  true
+                              ? 25
+                              : 10,
                           child: Skeleton.replace(
                             replacement: Container(
                               width: 120,
@@ -122,13 +136,11 @@ class _CartItemViewState extends State<CartItemView> {
                             child: Text(
                               (widget.cartItem?.type ?? "") ==
                                       CartItemType.Product.name.toLowerCase()
-                                  ? widget.cartItem?.product?.lists
-                                          ?.map((item) => item.name)
-                                          .join(", ") ??
+                                  ? widget.cartItem
+                                          ?.productSelectedListItemsNames ??
                                       ""
-                                  : widget.cartItem?.service?.lists
-                                          ?.map((item) => item.name)
-                                          .join(", ") ??
+                                  : widget.cartItem
+                                          ?.serviceSelectedListItemsNames ??
                                       "",
                               overflow: TextOverflow.ellipsis,
                               maxLines: 2,
@@ -178,8 +190,8 @@ class _CartItemViewState extends State<CartItemView> {
                                           style: AppTheme
                                               .styleWithTextGray7AdelleSansExtendedFonts12w400
                                               .copyWith(
-                                                  decoration:
-                                                      TextDecoration.lineThrough),
+                                                  decoration: TextDecoration
+                                                      .lineThrough),
                                         )
                                       ],
                                     )
@@ -204,8 +216,8 @@ class _CartItemViewState extends State<CartItemView> {
                                           style: AppTheme
                                               .styleWithTextGray7AdelleSansExtendedFonts12w400
                                               .copyWith(
-                                                  decoration:
-                                                      TextDecoration.lineThrough),
+                                                  decoration: TextDecoration
+                                                      .lineThrough),
                                         )
                                       ],
                                     )
@@ -228,10 +240,13 @@ class _CartItemViewState extends State<CartItemView> {
                           InkWell(
                               onTap: () {
                                 setState(() {
-                                  quantity = (quantity??1) + 1;
+                                  quantity = (quantity ?? 1) + 1;
                                 });
-                                delayedAction.startTimer(Duration(seconds: 2), (){
-                                  widget.onUpdateQuantity.call((widget.cartItem?.id??0),(quantity??1));
+                                delayedAction.startTimer(Duration(seconds: 2),
+                                    () {
+                                  widget.onUpdateQuantity.call(
+                                      (widget.cartItem?.id ?? 0),
+                                      (quantity ?? 1));
                                 });
                               },
                               child: SVGIcons.incrementButtonSvgIcon()),
@@ -245,12 +260,15 @@ class _CartItemViewState extends State<CartItemView> {
                           ),
                           InkWell(
                               onTap: () {
-                                if((quantity??1) > 1) {
+                                if ((quantity ?? 1) > 1) {
                                   setState(() {
                                     quantity = (quantity ?? 1) - 1;
                                   });
-                                  delayedAction.startTimer(Duration(seconds: 2), (){
-                                    widget.onUpdateQuantity.call((widget.cartItem?.id??0),(quantity??1));
+                                  delayedAction.startTimer(Duration(seconds: 2),
+                                      () {
+                                    widget.onUpdateQuantity.call(
+                                        (widget.cartItem?.id ?? 0),
+                                        (quantity ?? 1));
                                   });
                                 }
                               },
@@ -259,12 +277,14 @@ class _CartItemViewState extends State<CartItemView> {
                       ),
                       const Spacer(),
                       InkWell(
-                        onTap: (){
-                          if((widget.cartItem?.type ?? "") ==
-                              CartItemType.Product.name.toLowerCase()){
-                            widget.onEditProduct?.call(widget.cartItem?.product,(widget.cartItem?.id ?? 0).toInt());
-                          }else {
-                            widget.onEditService?.call(widget.cartItem?.service,(widget.cartItem?.id ?? 0).toInt());
+                        onTap: () {
+                          if ((widget.cartItem?.type ?? "") ==
+                              CartItemType.Product.name.toLowerCase()) {
+                            widget.onEditProduct?.call(widget.cartItem?.product,
+                                (widget.cartItem?.id ?? 0).toInt());
+                          } else {
+                            widget.onEditService?.call(widget.cartItem?.service,
+                                (widget.cartItem?.id ?? 0).toInt());
                           }
                         },
                         child: Container(
@@ -272,7 +292,8 @@ class _CartItemViewState extends State<CartItemView> {
                               color: AppTheme.mainAppColorLight2,
                               borderRadius: BorderRadius.circular(4)),
                           height: 26,
-                          padding: EdgeInsetsDirectional.symmetric(horizontal: 12),
+                          padding:
+                              EdgeInsetsDirectional.symmetric(horizontal: 12),
                           child: Row(
                             children: [
                               SVGIcons.editIcon(),

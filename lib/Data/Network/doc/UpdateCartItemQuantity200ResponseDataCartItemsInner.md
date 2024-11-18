@@ -1,4 +1,4 @@
-# lazo.model.ShowCartDetails200ResponseDataCartItemsInner
+# lazo.model.UpdateCartItemQuantity200ResponseDataCartItemsInner
 
 ## Load the model package
 ```dart
@@ -12,6 +12,10 @@ Name | Type | Description | Notes
 **cartId** | **num** |  | [optional] 
 **createdAt** | **String** |  | [optional] 
 **id** | **num** |  | [optional] 
+**serviceSelectedListIds** | **String** |  | [optional] 
+**serviceSelectedListItemsIds** | **String** |  | [optional] 
+**productSelectedListIds** | **String** |  | [optional] 
+**productSelectedListItemsIds** | **String** |  | [optional] 
 **listsTotalPrice** | **num** |  | [optional] 
 **price** | **num** |  | [optional] 
 **product** | [**ProductDetails**](ProductDetails.md) |  | [optional] 
@@ -20,10 +24,6 @@ Name | Type | Description | Notes
 **type** | **String** |  | [optional] 
 **cartItemTotalBeforeDiscount** | **num** |  | [optional] 
 **cartItemTotalAfterDiscount** | **num** |  | [optional] 
-**productSelectedListIds** | **String** |  | [optional] 
-**productSelectedListItemsIds** | **String** |  | [optional] 
-**serviceSelectedListIds** | **String** |  | [optional] 
-**serviceSelectedListItemsIds** | **String** |  | [optional] 
 **service** | [**ServiceShowData**](ServiceShowData.md) |  | [optional] 
 **serviceId** | **num** |  | [optional] 
 **updatedAt** | **String** |  | [optional] 

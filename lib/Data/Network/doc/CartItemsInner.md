@@ -1,4 +1,4 @@
-# lazo.model.ShowCartDetails200ResponseDataCartItemsInner
+# lazo.model.CartItemsInner
 
 ## Load the model package
 ```dart
@@ -24,6 +24,8 @@ Name | Type | Description | Notes
 **productSelectedListItemsIds** | **String** |  | [optional] 
 **serviceSelectedListIds** | **String** |  | [optional] 
 **serviceSelectedListItemsIds** | **String** |  | [optional] 
+**productSelectedListItemsNames** | **String** |  | [optional] 
+**serviceSelectedListItemsNames** | **String** |  | [optional] 
 **service** | [**ServiceShowData**](ServiceShowData.md) |  | [optional] 
 **serviceId** | **num** |  | [optional] 
 **updatedAt** | **String** |  | [optional] 

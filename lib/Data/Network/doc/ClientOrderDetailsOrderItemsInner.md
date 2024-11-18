@@ -17,7 +17,7 @@ Name | Type | Description | Notes
 **rating** | **num** |  | [optional] 
 **ratingComment** | **String** |  | [optional] 
 **ratingDate** | **String** |  | [optional] 
-**product** | [**ProviderOrderDetailsOrderItemsInnerProduct**](ProviderOrderDetailsOrderItemsInnerProduct.md) |  | [optional] 
+**product** | [**ClientOrderDetailsOrderItemsInnerProduct**](ClientOrderDetailsOrderItemsInnerProduct.md) |  | [optional] 
 **productId** | **num** |  | [optional] 
 **providerId** | **num** |  | [optional] 
 **provider** | [**ClientOrderDetailsOrderItemsInnerProvider**](ClientOrderDetailsOrderItemsInnerProvider.md) |  | [optional] 

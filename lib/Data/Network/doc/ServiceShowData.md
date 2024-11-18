@@ -34,7 +34,7 @@ Name | Type | Description | Notes
 **providerId** | **num** |  | [optional] 
 **updatedAt** | **String** |  | [optional] 
 **inCart** | **bool** |  | [optional] 
-**cartItemId** | **int** |  | [optional] 
+**cartItemId** | **String** |  | [optional] 
 **cartItemQuantity** | **int** |  | [optional] 
 **inWishlist** | **bool** |  | [optional] 
 **overallRating** | **num** |  | [optional] 

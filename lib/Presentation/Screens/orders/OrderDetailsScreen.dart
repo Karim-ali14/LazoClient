@@ -267,7 +267,7 @@ class _OrderDetailsScreenState extends ConsumerState<OrderDetailsScreen> {
                                   // icon: SVGIcons.totalPriceIcon(),
                                   title: "Recipient Name",
                                   value:
-                                      "${orderDetails.data?.data?.getStoreName()}",
+                                      "${orderDetails.data?.data?.receiverName}",
                                 ),
                                 const SizedBox(height: 16),
                                 InformationRowItem(
@@ -280,18 +280,30 @@ class _OrderDetailsScreenState extends ConsumerState<OrderDetailsScreen> {
                                       true,
                                 ),
                                 orderDetails.data?.data?.receiverAddress
-                                            ?.isNotEmpty ==
-                                        true
+                                                ?.isNotEmpty ==
+                                            true ||
+                                        orderDetails
+                                                .data
+                                                ?.data
+                                                ?.receiverAddressDetails
+                                                ?.isNotEmpty ==
+                                            true
                                     ? const SizedBox(height: 16)
                                     : const SizedBox(),
                                 orderDetails.data?.data?.receiverAddress
-                                            ?.isNotEmpty ==
-                                        true
+                                                ?.isNotEmpty ==
+                                            true ||
+                                        orderDetails
+                                                .data
+                                                ?.data
+                                                ?.receiverAddressDetails
+                                                ?.isNotEmpty ==
+                                            true
                                     ? InformationRowItem(
                                         // icon: SVGIcons.calendarIcon(),
                                         title: "Location",
                                         value:
-                                            "${orderDetails.data?.data?.receiverAddress}",
+                                            "${orderDetails.data?.data?.receiverAddress ?? orderDetails.data?.data?.receiverAddressDetails}",
                                         hasDivider: false,
                                         ifSetValueInNewLine: true)
                                     : SizedBox(),

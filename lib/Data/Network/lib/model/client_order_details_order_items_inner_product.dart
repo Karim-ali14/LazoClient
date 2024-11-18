@@ -10,25 +10,21 @@
 
 part of openapi.api;
 
-class ServiceShowData {
-  /// Returns a new [ServiceShowData] instance.
-  ServiceShowData({
-    this.cardExpiration,
-    this.cardPrice,
-    this.cardType,
-    this.categories = const [],
-    this.categoryMenu = const [],
+class ClientOrderDetailsOrderItemsInnerProduct {
+  /// Returns a new [ClientOrderDetailsOrderItemsInnerProduct] instance.
+  ClientOrderDetailsOrderItemsInnerProduct({
+    this.hasStock,
+    this.amount,
+    this.expectedProcessingTime,
+    this.colors = const [],
+    this.sizes = const [],
     this.coverImagePath,
     this.coverImage,
     this.createdAt,
     this.description,
     this.descriptionAr,
     this.descriptionEn,
-    this.duration,
     this.id,
-    this.images = const [],
-    this.imagePath,
-    this.isServiceDeliverableOutsideStore,
     this.isVisible,
     this.lists = const [],
     this.name,
@@ -38,14 +34,7 @@ class ServiceShowData {
     this.priceAfterDiscount,
     this.providerId,
     this.updatedAt,
-    this.inCart,
-    this.cartItemId,
-    this.cartItemQuantity,
-    this.inWishlist,
-    this.overallRating,
-    this.ratingsCount,
-    this.ratings = const [],
-    this.provider,
+    this.imagePath,
   });
 
   ///
@@ -54,7 +43,7 @@ class ServiceShowData {
   /// source code must fall back to having a nullable type.
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
-  String? cardExpiration;
+  num? hasStock;
 
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
@@ -62,7 +51,7 @@ class ServiceShowData {
   /// source code must fall back to having a nullable type.
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
-  num? cardPrice;
+  num? amount;
 
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
@@ -70,11 +59,11 @@ class ServiceShowData {
   /// source code must fall back to having a nullable type.
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
-  String? cardType;
+  String? expectedProcessingTime;
 
-  List<Category> categories;
+  List<Color> colors;
 
-  List<CategoryMenu> categoryMenu;
+  List<Size> sizes;
 
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
@@ -130,27 +119,7 @@ class ServiceShowData {
   /// source code must fall back to having a nullable type.
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
-  String? duration;
-
-  ///
-  /// Please note: This property should have been non-nullable! Since the specification file
-  /// does not include a default value (using the "default:" property), however, the generated
-  /// source code must fall back to having a nullable type.
-  /// Consider adding a "default:" property in the specification file to hide this note.
-  ///
   num? id;
-
-  List<ImageItem>? images;
-
-  String? imagePath;
-
-  ///
-  /// Please note: This property should have been non-nullable! Since the specification file
-  /// does not include a default value (using the "default:" property), however, the generated
-  /// source code must fall back to having a nullable type.
-  /// Consider adding a "default:" property in the specification file to hide this note.
-  ///
-  num? isServiceDeliverableOutsideStore;
 
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
@@ -160,7 +129,7 @@ class ServiceShowData {
   ///
   num? isVisible;
 
-  List<ServiceList>? lists;
+  List<ProviderOrderDetailsOrderItemsInnerProductListsInner> lists;
 
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
@@ -218,70 +187,22 @@ class ServiceShowData {
   ///
   String? updatedAt;
 
-  ///
-  /// Please note: This property should have been non-nullable! Since the specification file
-  /// does not include a default value (using the "default:" property), however, the generated
-  /// source code must fall back to having a nullable type.
-  /// Consider adding a "default:" property in the specification file to hide this note.
-  ///
-  bool? inCart;
-
-  String? cartItemId;
-
-  int? cartItemQuantity;
-
-  ///
-  /// Please note: This property should have been non-nullable! Since the specification file
-  /// does not include a default value (using the "default:" property), however, the generated
-  /// source code must fall back to having a nullable type.
-  /// Consider adding a "default:" property in the specification file to hide this note.
-  ///
-  bool? inWishlist;
-
-  ///
-  /// Please note: This property should have been non-nullable! Since the specification file
-  /// does not include a default value (using the "default:" property), however, the generated
-  /// source code must fall back to having a nullable type.
-  /// Consider adding a "default:" property in the specification file to hide this note.
-  ///
-  num? overallRating;
-
-  ///
-  /// Please note: This property should have been non-nullable! Since the specification file
-  /// does not include a default value (using the "default:" property), however, the generated
-  /// source code must fall back to having a nullable type.
-  /// Consider adding a "default:" property in the specification file to hide this note.
-  ///
-  num? ratingsCount;
-
-  List<ProductDetailsRatingsInner>? ratings;
-
-  ///
-  /// Please note: This property should have been non-nullable! Since the specification file
-  /// does not include a default value (using the "default:" property), however, the generated
-  /// source code must fall back to having a nullable type.
-  /// Consider adding a "default:" property in the specification file to hide this note.
-  ///
-  ProviderData? provider;
+  String? imagePath;
 
   @override
-  bool operator ==(Object other) => identical(this, other) || other is ServiceShowData &&
-     other.cardExpiration == cardExpiration &&
-     other.cardPrice == cardPrice &&
-     other.cardType == cardType &&
-     other.categories == categories &&
-     other.categoryMenu == categoryMenu &&
+  bool operator ==(Object other) => identical(this, other) || other is ClientOrderDetailsOrderItemsInnerProduct &&
+     other.hasStock == hasStock &&
+     other.amount == amount &&
+     other.expectedProcessingTime == expectedProcessingTime &&
+     other.colors == colors &&
+     other.sizes == sizes &&
      other.coverImagePath == coverImagePath &&
      other.coverImage == coverImage &&
      other.createdAt == createdAt &&
      other.description == description &&
      other.descriptionAr == descriptionAr &&
      other.descriptionEn == descriptionEn &&
-     other.duration == duration &&
      other.id == id &&
-     other.images == images &&
-     other.imagePath == imagePath &&
-     other.isServiceDeliverableOutsideStore == isServiceDeliverableOutsideStore &&
      other.isVisible == isVisible &&
      other.lists == lists &&
      other.name == name &&
@@ -291,36 +212,25 @@ class ServiceShowData {
      other.priceAfterDiscount == priceAfterDiscount &&
      other.providerId == providerId &&
      other.updatedAt == updatedAt &&
-     other.inCart == inCart &&
-     other.cartItemId == cartItemId &&
-     other.cartItemQuantity == cartItemQuantity &&
-     other.inWishlist == inWishlist &&
-     other.overallRating == overallRating &&
-     other.ratingsCount == ratingsCount &&
-     other.ratings == ratings &&
-     other.provider == provider;
+     other.imagePath == imagePath;
 
   @override
   int get hashCode =>
     // ignore: unnecessary_parenthesis
-    (cardExpiration == null ? 0 : cardExpiration!.hashCode) +
-    (cardPrice == null ? 0 : cardPrice!.hashCode) +
-    (cardType == null ? 0 : cardType!.hashCode) +
-    (categories.hashCode) +
-    (categoryMenu.hashCode) +
+    (hasStock == null ? 0 : hasStock!.hashCode) +
+    (amount == null ? 0 : amount!.hashCode) +
+    (expectedProcessingTime == null ? 0 : expectedProcessingTime!.hashCode) +
+    (colors.hashCode) +
+    (sizes.hashCode) +
     (coverImagePath == null ? 0 : coverImagePath!.hashCode) +
     (coverImage == null ? 0 : coverImage!.hashCode) +
     (createdAt == null ? 0 : createdAt!.hashCode) +
     (description == null ? 0 : description!.hashCode) +
     (descriptionAr == null ? 0 : descriptionAr!.hashCode) +
     (descriptionEn == null ? 0 : descriptionEn!.hashCode) +
-    (duration == null ? 0 : duration!.hashCode) +
     (id == null ? 0 : id!.hashCode) +
-    (images == null ? 0 : images!.hashCode) +
-    (imagePath == null ? 0 : imagePath!.hashCode) +
-    (isServiceDeliverableOutsideStore == null ? 0 : isServiceDeliverableOutsideStore!.hashCode) +
     (isVisible == null ? 0 : isVisible!.hashCode) +
-    (lists == null ? 0 : lists!.hashCode) +
+    (lists.hashCode) +
     (name == null ? 0 : name!.hashCode) +
     (nameAr == null ? 0 : nameAr!.hashCode) +
     (nameEn == null ? 0 : nameEn!.hashCode) +
@@ -328,37 +238,30 @@ class ServiceShowData {
     (priceAfterDiscount == null ? 0 : priceAfterDiscount!.hashCode) +
     (providerId == null ? 0 : providerId!.hashCode) +
     (updatedAt == null ? 0 : updatedAt!.hashCode) +
-    (inCart == null ? 0 : inCart!.hashCode) +
-    (cartItemId == null ? 0 : cartItemId!.hashCode) +
-    (cartItemQuantity == null ? 0 : cartItemQuantity!.hashCode) +
-    (inWishlist == null ? 0 : inWishlist!.hashCode) +
-    (overallRating == null ? 0 : overallRating!.hashCode) +
-    (ratingsCount == null ? 0 : ratingsCount!.hashCode) +
-    (ratings == null ? 0 : ratings!.hashCode) +
-    (provider == null ? 0 : provider!.hashCode);
+    (imagePath == null ? 0 : imagePath!.hashCode);
 
   @override
-  String toString() => 'ServiceShowData[cardExpiration=$cardExpiration, cardPrice=$cardPrice, cardType=$cardType, categories=$categories, categoryMenu=$categoryMenu, coverImagePath=$coverImagePath, coverImage=$coverImage, createdAt=$createdAt, description=$description, descriptionAr=$descriptionAr, descriptionEn=$descriptionEn, duration=$duration, id=$id, images=$images, imagePath=$imagePath, isServiceDeliverableOutsideStore=$isServiceDeliverableOutsideStore, isVisible=$isVisible, lists=$lists, name=$name, nameAr=$nameAr, nameEn=$nameEn, price=$price, priceAfterDiscount=$priceAfterDiscount, providerId=$providerId, updatedAt=$updatedAt, inCart=$inCart, cartItemId=$cartItemId, cartItemQuantity=$cartItemQuantity, inWishlist=$inWishlist, overallRating=$overallRating, ratingsCount=$ratingsCount, ratings=$ratings, provider=$provider]';
+  String toString() => 'ClientOrderDetailsOrderItemsInnerProduct[hasStock=$hasStock, amount=$amount, expectedProcessingTime=$expectedProcessingTime, colors=$colors, sizes=$sizes, coverImagePath=$coverImagePath, coverImage=$coverImage, createdAt=$createdAt, description=$description, descriptionAr=$descriptionAr, descriptionEn=$descriptionEn, id=$id, isVisible=$isVisible, lists=$lists, name=$name, nameAr=$nameAr, nameEn=$nameEn, price=$price, priceAfterDiscount=$priceAfterDiscount, providerId=$providerId, updatedAt=$updatedAt, imagePath=$imagePath]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-    if (this.cardExpiration != null) {
-      json[r'card_expiration'] = this.cardExpiration;
+    if (this.hasStock != null) {
+      json[r'has_stock'] = this.hasStock;
     } else {
-      json[r'card_expiration'] = null;
+      json[r'has_stock'] = null;
     }
-    if (this.cardPrice != null) {
-      json[r'card_price'] = this.cardPrice;
+    if (this.amount != null) {
+      json[r'amount'] = this.amount;
     } else {
-      json[r'card_price'] = null;
+      json[r'amount'] = null;
     }
-    if (this.cardType != null) {
-      json[r'card_type'] = this.cardType;
+    if (this.expectedProcessingTime != null) {
+      json[r'expected_processing_time'] = this.expectedProcessingTime;
     } else {
-      json[r'card_type'] = null;
+      json[r'expected_processing_time'] = null;
     }
-      json[r'categories'] = this.categories;
-      json[r'category_menu'] = this.categoryMenu;
+      json[r'colors'] = this.colors;
+      json[r'sizes'] = this.sizes;
     if (this.coverImagePath != null) {
       json[r'coverImagePath'] = this.coverImagePath;
     } else {
@@ -389,41 +292,17 @@ class ServiceShowData {
     } else {
       json[r'description_en'] = null;
     }
-    if (this.duration != null) {
-      json[r'duration'] = this.duration;
-    } else {
-      json[r'duration'] = null;
-    }
     if (this.id != null) {
       json[r'id'] = this.id;
     } else {
       json[r'id'] = null;
-    }
-    if (this.images != null) {
-      json[r'images'] = this.images;
-    } else {
-      json[r'images'] = null;
-    }
-    if (this.imagePath != null) {
-      json[r'imagePath'] = this.imagePath;
-    } else {
-      json[r'imagePath'] = null;
-    }
-    if (this.isServiceDeliverableOutsideStore != null) {
-      json[r'is_service_deliverable_outside_store'] = this.isServiceDeliverableOutsideStore;
-    } else {
-      json[r'is_service_deliverable_outside_store'] = null;
     }
     if (this.isVisible != null) {
       json[r'is_visible'] = this.isVisible;
     } else {
       json[r'is_visible'] = null;
     }
-    if (this.lists != null) {
       json[r'lists'] = this.lists;
-    } else {
-      json[r'lists'] = null;
-    }
     if (this.name != null) {
       json[r'name'] = this.name;
     } else {
@@ -459,53 +338,18 @@ class ServiceShowData {
     } else {
       json[r'updated_at'] = null;
     }
-    if (this.inCart != null) {
-      json[r'in_cart'] = this.inCart;
+    if (this.imagePath != null) {
+      json[r'imagePath'] = this.imagePath;
     } else {
-      json[r'in_cart'] = null;
-    }
-    if (this.cartItemId != null) {
-      json[r'cart_item_id'] = this.cartItemId;
-    } else {
-      json[r'cart_item_id'] = null;
-    }
-    if (this.cartItemQuantity != null) {
-      json[r'cart_item_quantity'] = this.cartItemQuantity;
-    } else {
-      json[r'cart_item_quantity'] = null;
-    }
-    if (this.inWishlist != null) {
-      json[r'in_wishlist'] = this.inWishlist;
-    } else {
-      json[r'in_wishlist'] = null;
-    }
-    if (this.overallRating != null) {
-      json[r'overall_rating'] = this.overallRating;
-    } else {
-      json[r'overall_rating'] = null;
-    }
-    if (this.ratingsCount != null) {
-      json[r'ratings_count'] = this.ratingsCount;
-    } else {
-      json[r'ratings_count'] = null;
-    }
-    if (this.ratings != null) {
-      json[r'ratings'] = this.ratings;
-    } else {
-      json[r'ratings'] = null;
-    }
-    if (this.provider != null) {
-      json[r'provider'] = this.provider;
-    } else {
-      json[r'provider'] = null;
+      json[r'imagePath'] = null;
     }
     return json;
   }
 
-  /// Returns a new [ServiceShowData] instance and imports its values from
+  /// Returns a new [ClientOrderDetailsOrderItemsInnerProduct] instance and imports its values from
   /// [value] if it's a [Map], null otherwise.
   // ignore: prefer_constructors_over_static_methods
-  static ServiceShowData? fromJson(dynamic value) {
+  static ClientOrderDetailsOrderItemsInnerProduct? fromJson(dynamic value) {
     if (value is Map) {
       final json = value.cast<String, dynamic>();
 
@@ -514,39 +358,35 @@ class ServiceShowData {
       // Note 2: this code is stripped in release mode!
       assert(() {
         requiredKeys.forEach((key) {
-          assert(json.containsKey(key), 'Required key "ServiceShowData[$key]" is missing from JSON.');
-          assert(json[key] != null, 'Required key "ServiceShowData[$key]" has a null value in JSON.');
+          assert(json.containsKey(key), 'Required key "ClientOrderDetailsOrderItemsInnerProduct[$key]" is missing from JSON.');
+          assert(json[key] != null, 'Required key "ClientOrderDetailsOrderItemsInnerProduct[$key]" has a null value in JSON.');
         });
         return true;
       }());
 
-      return ServiceShowData(
-        cardExpiration: mapValueOfType<String>(json, r'card_expiration'),
-        cardPrice: json[r'card_price'] == null
+      return ClientOrderDetailsOrderItemsInnerProduct(
+        hasStock: json[r'has_stock'] == null
             ? null
-            : num.parse(json[r'card_price'].toString()),
-        cardType: mapValueOfType<String>(json, r'card_type'),
-        categories: Category.listFromJson(json[r'categories']),
-        categoryMenu: CategoryMenu.listFromJson(json[r'category_menu']),
+            : num.parse(json[r'has_stock'].toString()),
+        amount: json[r'amount'] == null
+            ? null
+            : num.parse(json[r'amount'].toString()),
+        expectedProcessingTime: mapValueOfType<String>(json, r'expected_processing_time'),
+        colors: Color.listFromJson(json[r'colors']),
+        sizes: Size.listFromJson(json[r'sizes']),
         coverImagePath: mapValueOfType<String>(json, r'coverImagePath'),
         coverImage: mapValueOfType<String>(json, r'cover_image'),
         createdAt: mapValueOfType<String>(json, r'created_at'),
         description: mapValueOfType<String>(json, r'description'),
         descriptionAr: mapValueOfType<String>(json, r'description_ar'),
         descriptionEn: mapValueOfType<String>(json, r'description_en'),
-        duration: mapValueOfType<String>(json, r'duration'),
         id: json[r'id'] == null
             ? null
             : num.parse(json[r'id'].toString()),
-        images: ImageItem.listFromJson(json[r'images']),
-        imagePath: mapValueOfType<String>(json, r'imagePath'),
-        isServiceDeliverableOutsideStore: json[r'is_service_deliverable_outside_store'] == null
-            ? null
-            : num.parse(json[r'is_service_deliverable_outside_store'].toString()),
         isVisible: json[r'is_visible'] == null
             ? null
             : num.parse(json[r'is_visible'].toString()),
-        lists: ServiceList.listFromJson(json[r'lists']),
+        lists: ProviderOrderDetailsOrderItemsInnerProductListsInner.listFromJson(json[r'lists']),
         name: mapValueOfType<String>(json, r'name'),
         nameAr: mapValueOfType<String>(json, r'name_ar'),
         nameEn: mapValueOfType<String>(json, r'name_en'),
@@ -560,28 +400,17 @@ class ServiceShowData {
             ? null
             : num.parse(json[r'provider_id'].toString()),
         updatedAt: mapValueOfType<String>(json, r'updated_at'),
-        inCart: mapValueOfType<bool>(json, r'in_cart'),
-        cartItemId: mapValueOfType<String>(json, r'cart_item_id'),
-        cartItemQuantity: mapValueOfType<int>(json, r'cart_item_quantity'),
-        inWishlist: mapValueOfType<bool>(json, r'in_wishlist'),
-        overallRating: json[r'overall_rating'] == null
-            ? null
-            : num.parse(json[r'overall_rating'].toString()),
-        ratingsCount: json[r'ratings_count'] == null
-            ? null
-            : num.parse(json[r'ratings_count'].toString()),
-        ratings: ProductDetailsRatingsInner.listFromJson(json[r'ratings']),
-        provider: ProviderData.fromJson(json[r'provider']),
+        imagePath: mapValueOfType<String>(json, r'imagePath'),
       );
     }
     return null;
   }
 
-  static List<ServiceShowData> listFromJson(dynamic json, {bool growable = false,}) {
-    final result = <ServiceShowData>[];
+  static List<ClientOrderDetailsOrderItemsInnerProduct> listFromJson(dynamic json, {bool growable = false,}) {
+    final result = <ClientOrderDetailsOrderItemsInnerProduct>[];
     if (json is List && json.isNotEmpty) {
       for (final row in json) {
-        final value = ServiceShowData.fromJson(row);
+        final value = ClientOrderDetailsOrderItemsInnerProduct.fromJson(row);
         if (value != null) {
           result.add(value);
         }
@@ -590,12 +419,12 @@ class ServiceShowData {
     return result.toList(growable: growable);
   }
 
-  static Map<String, ServiceShowData> mapFromJson(dynamic json) {
-    final map = <String, ServiceShowData>{};
+  static Map<String, ClientOrderDetailsOrderItemsInnerProduct> mapFromJson(dynamic json) {
+    final map = <String, ClientOrderDetailsOrderItemsInnerProduct>{};
     if (json is Map && json.isNotEmpty) {
       json = json.cast<String, dynamic>(); // ignore: parameter_assignments
       for (final entry in json.entries) {
-        final value = ServiceShowData.fromJson(entry.value);
+        final value = ClientOrderDetailsOrderItemsInnerProduct.fromJson(entry.value);
         if (value != null) {
           map[entry.key] = value;
         }
@@ -604,14 +433,14 @@ class ServiceShowData {
     return map;
   }
 
-  // maps a json object with a list of ServiceShowData-objects as value to a dart map
-  static Map<String, List<ServiceShowData>> mapListFromJson(dynamic json, {bool growable = false,}) {
-    final map = <String, List<ServiceShowData>>{};
+  // maps a json object with a list of ClientOrderDetailsOrderItemsInnerProduct-objects as value to a dart map
+  static Map<String, List<ClientOrderDetailsOrderItemsInnerProduct>> mapListFromJson(dynamic json, {bool growable = false,}) {
+    final map = <String, List<ClientOrderDetailsOrderItemsInnerProduct>>{};
     if (json is Map && json.isNotEmpty) {
       // ignore: parameter_assignments
       json = json.cast<String, dynamic>();
       for (final entry in json.entries) {
-        map[entry.key] = ServiceShowData.listFromJson(entry.value, growable: growable,);
+        map[entry.key] = ClientOrderDetailsOrderItemsInnerProduct.listFromJson(entry.value, growable: growable,);
       }
     }
     return map;

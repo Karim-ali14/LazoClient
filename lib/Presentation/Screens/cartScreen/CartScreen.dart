@@ -39,11 +39,11 @@ class _CartScreenState extends ConsumerState<CartScreen> {
   String? deleteCartItemId;
   bool thereIsAnyData = false;
   List listItems = [
-    ShowCartDetails200ResponseDataCartItemsInner(),
-    ShowCartDetails200ResponseDataCartItemsInner(),
-    ShowCartDetails200ResponseDataCartItemsInner(),
-    ShowCartDetails200ResponseDataCartItemsInner(),
-    ShowCartDetails200ResponseDataCartItemsInner(),
+    CartItemsInner(),
+    CartItemsInner(),
+    CartItemsInner(),
+    CartItemsInner(),
+    CartItemsInner(),
   ];
   @override
   void initState() {
@@ -102,282 +102,291 @@ class _CartScreenState extends ConsumerState<CartScreen> {
                 description:
                     "When you add any product to your cart, it will appear here",
                 onAddOrderClick: () {})
-            : SingleChildScrollView(
-                child: Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: Skeletonizer(
-                    enabled: cartData.state == DataState.LOADING,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        ...(List.generate(
-                            cartData.state != DataState.LOADING ?
-                            cartData.data?.data?.cartItems.length ?? 0 : listItems.length, (index) {
-                          return Skeletonizer(
-                            enabled: cartData.state == DataState.LOADING,
-                            child: CartItemView(
-                              cartItem: cartData.state != DataState.LOADING ? cartData.data?.data?.cartItems[index] : listItems[index],
-                              onUpdateQuantity: (cartItemId, quantity) {
-                                updateItemQuantity(cartItemId, quantity);
+            : RefreshIndicator(
+          triggerMode: RefreshIndicatorTriggerMode.onEdge,
+          onRefresh: () {
+            var sessionId = ref
+                .read(getSessionHandlerStateNotifier.notifier)
+                .checkIfSessionIdExist();
+            getCartDetails(sessionId);
+            return Future.delayed(const Duration(seconds: 1));
+          },child: SingleChildScrollView(
+                  child: Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: Skeletonizer(
+                      enabled: cartData.state == DataState.LOADING,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          ...(List.generate(
+                              cartData.state != DataState.LOADING ?
+                              cartData.data?.data?.cartItems.length ?? 0 : listItems.length, (index) {
+                            return Skeletonizer(
+                              enabled: cartData.state == DataState.LOADING,
+                              child: CartItemView(
+                                cartItem: cartData.state != DataState.LOADING ? cartData.data?.data?.cartItems[index] : listItems[index],
+                                onUpdateQuantity: (cartItemId, quantity) {
+                                  updateItemQuantity(cartItemId, quantity);
+                                },
+                                onDeleteItem: (cartItemId) {
+                                  deleteCartItem(cartItemId);
+                                }, onEditProduct:(product,cartId) {
+                                  navigateToItemDetails(ItemType.Products, product, null,cartId);
+                                },onEditService: (service,cartId){
+                                navigateToItemDetails(ItemType.Services, null, service,cartId);
                               },
-                              onDeleteItem: (cartItemId) {
-                                deleteCartItem(cartItemId);
-                              }, onEditProduct:(product,cartId) {
-                                navigateToItemDetails(ItemType.Products, product, null,cartId);
-                              },onEditService: (service,cartId){
-                              navigateToItemDetails(ItemType.Services, null, service,cartId);
-                            },
+                              ),
+                            );
+                          })),
+                          SizedBox(
+                            height: 32,
+                          ),
+                          Skeleton.replace(
+                            replacement: Container(
+                              width: 120,
+                              height: 20,
+                              color: Colors.white,
                             ),
-                          );
-                        })),
-                        SizedBox(
-                          height: 32,
-                        ),
-                        Skeleton.replace(
-                          replacement: Container(
-                            width: 120,
-                            height: 20,
-                            color: Colors.white,
-                          ),
-                          child: Text(
-                            "Wrap your gift",
-                            style: AppTheme
-                                .styleWithTextBlackAdelleSansExtendedFonts18w700,
-                          ),
-                        ),
-                        SizedBox(
-                          height: 24,
-                        ),
-                        Skeleton.replace(
-                          replacement: SizedBox(),
-                          child: SizedBox(
-                            height: 208,
-                            child: GiftBoxListView((giftBox) {
-                              giftBoxSelected = giftBox;
-                              calculateCartItems(
-                                cartId: (cartData.data?.data?.id ?? 0).toString(),
-                                // giftCardId: giftCartSelected?.id.toString(),
-                                // giftBoxId: giftBoxSelected?.id.toString(),
-                                // promocode: promocode
-                              );
-                            }),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 24,
-                        ),
-                        Row(
-                          children: [
-                            Text(
-                              "Choose your gift card",
+                            child: Text(
+                              "Wrap your gift",
                               style: AppTheme
                                   .styleWithTextBlackAdelleSansExtendedFonts18w700,
                             ),
-                            Spacer(),
-                            Text(
-                              "(optional)",
-                              style: AppTheme
-                                  .styleWithTextAppGrey15AdelleSansExtendedFonts14w400,
-                            )
-                          ],
-                        ),
-                        SizedBox(
-                          height: 24,
-                        ),
-                        Skeleton.replace(
-                          replacement: SizedBox(),
-                          child: SizedBox(
-                            height: 208,
-                            child: GiftCardListView((gift) {
-                              giftCartSelected = gift;
-                              calculateCartItems(
-                                cartId: (cartData.data?.data?.id ?? 0).toString(),
-                                // giftCardId: giftCartSelected?.id.toString(),
-                                // giftBoxId: giftBoxSelected?.id.toString(),
-                                // promocode: promocode
-                              );
-                            }),
                           ),
-                        ),
-                        SizedBox(
-                          height: 24,
-                        ),
-                        Text(
-                          "Save on your order",
-                          style: AppTheme
-                              .styleWithTextBlackAdelleSansExtendedFonts18w700,
-                        ),
-                        SizedBox(
-                          height: 24,
-                        ),
-                        AppTextField(
-                          // XGFSF35
-                          hint: "Enter Voucher code",
-                          label: "Enter Voucher code",
-                          textFieldBorderColor: AppTheme.appGrey3,
-                          textEditingController: voucherTextController,
-                          startWidget: SVGIcons.voucherIcon(),
-                          endWidget: InkWell(
-                            onTap: () {
-                              if (voucherTextController.text.isNotEmpty) {
-                                getPromoCodeDetails();
-                              }
-                            },
+                          SizedBox(
+                            height: 24,
+                          ),
+                          Skeleton.replace(
+                            replacement: SizedBox(),
                             child: SizedBox(
-                                width: 10,
-                                height: 56,
-                                child: Center(
-                                    child: Text(
-                                  "submit",
-                                  style: AppTheme
-                                      .styleWithTextMainAppColorAdelleSansExtendedFonts14w400
-                                      .copyWith(
-                                          decoration: TextDecoration.underline),
-                                ))),
+                              height: 208,
+                              child: GiftBoxListView((giftBox) {
+                                giftBoxSelected = giftBox;
+                                calculateCartItems(
+                                  cartId: (cartData.data?.data?.id ?? 0).toString(),
+                                  // giftCardId: giftCartSelected?.id.toString(),
+                                  // giftBoxId: giftBoxSelected?.id.toString(),
+                                  // promocode: promocode
+                                );
+                              }),
+                            ),
                           ),
-                        ),
-                        // Container(
-                        //   padding: EdgeInsets.symmetric(horizontal: 12),
-                        //   height: 56,
-                        //   decoration: BoxDecoration(
-                        //     color: Colors.white,
-                        //     borderRadius: BorderRadius.circular(1),
-                        //   ),
-                        //   child: Row(
-                        //     children: [
-                        //       SizedBox(
-                        //         width: 10,
-                        //       ),
-                        //       SVGIcons.voucherIcon(),
-                        //       SizedBox(
-                        //         width: 10,
-                        //       ),
-                        //     ],
-                        //   ),
-                        // ),
-                        SizedBox(
-                          height: 24,
-                        ),
-                        Text(
-                          "Payment Summary",
-                          style: AppTheme
-                              .styleWithTextBlackAdelleSansExtendedFonts18w700,
-                        ),
-                        SizedBox(
-                          height: 24,
-                        ),
-                        Container(
-                          padding: EdgeInsets.symmetric(vertical: 5),
-                          clipBehavior: Clip.antiAlias,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(4),
-                            border: Border.all(color: AppTheme.appGrey8),
-                            color: Colors.white,
+                          SizedBox(
+                            height: 24,
                           ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                          Row(
                             children: [
-                              Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 12.0),
-                                child: ProductRowItem(
-                                  title: "Order Price",
-                                  textValue:
-                                      "SAR ${(cartInfo.data?.data?.totalBefore ?? 0)}",
-                                  titleTextStyle: AppTheme
-                                      .styleWithTextBlackColorAdelleSansExtendedFonts12w500,
-                                  desTextStyle: AppTheme
-                                      .styleWithTextGray7AdelleSansExtendedFonts12w400,
-                                ),
+                              Text(
+                                "Choose your gift card",
+                                style: AppTheme
+                                    .styleWithTextBlackAdelleSansExtendedFonts18w700,
                               ),
-                              cartInfo.data?.data?.shippingFee != null &&
-                                      cartInfo.data?.data?.shippingFee != 0
-                                  ? Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 12.0),
-                                      child: ProductRowItem(
-                                        title: "Shipping Fees",
-                                        textValue:
-                                            "SAR ${(cartInfo.data?.data?.shippingFee ?? 0)}",
-                                        titleTextStyle: AppTheme
-                                            .styleWithTextBlackColorAdelleSansExtendedFonts12w500,
-                                        desTextStyle: AppTheme
-                                            .styleWithTextGray7AdelleSansExtendedFonts12w400,
-                                      ),
-                                    )
-                                  : SizedBox(),
-                              cartInfo.data?.data?.discountTotal != null &&
-                                      cartInfo.data?.data?.discountTotal != 0
-                                  ? Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 12.0),
-                                      child: ProductRowItem(
-                                        title: "Discount",
-                                        textValue:
-                                            "SAR ${(cartInfo.data?.data?.discountTotal ?? 0)}",
-                                        titleTextStyle: AppTheme
-                                            .styleWithTextBlackColorAdelleSansExtendedFonts12w500
-                                            .copyWith(
-                                                color: AppTheme.mainAppColor),
-                                        desTextStyle: AppTheme
-                                            .styleWithTextGray7AdelleSansExtendedFonts12w400
-                                            .copyWith(
-                                                color: AppTheme.mainAppColor),
-                                      ),
-                                    )
-                                  : SizedBox(),
-                              Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 12.0),
-                                child: ProductRowItem(
-                                  title: "Total Price",
-                                  textValue:
-                                      "SAR ${(cartInfo.data?.data?.totalAfter ?? 0)}",
-                                  titleTextStyle: AppTheme
-                                      .styleWithTextBlackAdelleSansExtendedFonts16w700,
-                                  desTextStyle: AppTheme
-                                      .styleWithTextBlackAdelleSansExtendedFonts16w700,
-                                  hasDivider: false,
-                                ),
-                              ),
+                              Spacer(),
+                              Text(
+                                "(optional)",
+                                style: AppTheme
+                                    .styleWithTextAppGrey15AdelleSansExtendedFonts14w400,
+                              )
                             ],
                           ),
-                        ),
-                        SizedBox(
-                          height: 32,
-                        ),
-                        AppButton(
-                            text: "Check Out",
-                            width: double.infinity,
-                            height: 46,
-                            onPress: () {
-                              if (ref.read(clientStateProvider.notifier).checkIfUserExist() != null) {
-                                if(giftBoxSelected != null){
-                                  var data = {
-                                    giftBoxIdKey : giftBoxSelected?.id.toString() ?? "",
-                                    orderTypeKey : OrderTypes.receiver_order.name
-                                  };
-                                  if(giftCartSelected != null){
-                                    data[giftCardIdKey] = giftCartSelected?.id?.toString() ?? "";
-                                  }
-                                  if(promocode?.isNotEmpty == true){
-                                    data[promocodeKey] = promocode??"";
-                                  }
-                                  ref.read(cartDateSelectedStateNotifiers.notifier).setCartDataSelection(
-                                      data
-                                  );
-                                  checkout();
+                          SizedBox(
+                            height: 24,
+                          ),
+                          Skeleton.replace(
+                            replacement: SizedBox(),
+                            child: SizedBox(
+                              height: 208,
+                              child: GiftCardListView((gift) {
+                                giftCartSelected = gift;
+                                calculateCartItems(
+                                  cartId: (cartData.data?.data?.id ?? 0).toString(),
+                                  // giftCardId: giftCartSelected?.id.toString(),
+                                  // giftBoxId: giftBoxSelected?.id.toString(),
+                                  // promocode: promocode
+                                );
+                              }),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 24,
+                          ),
+                          Text(
+                            "Save on your order",
+                            style: AppTheme
+                                .styleWithTextBlackAdelleSansExtendedFonts18w700,
+                          ),
+                          SizedBox(
+                            height: 24,
+                          ),
+                          AppTextField(
+                            // XGFSF35
+                            hint: "Enter Voucher code",
+                            label: "Enter Voucher code",
+                            textFieldBorderColor: AppTheme.appGrey3,
+                            textEditingController: voucherTextController,
+                            startWidget: SVGIcons.voucherIcon(),
+                            endWidget: InkWell(
+                              onTap: () {
+                                if (voucherTextController.text.isNotEmpty) {
+                                  getPromoCodeDetails();
                                 }
-                              }else{
-                                showAuthenticated();
-                              }
+                              },
+                              child: SizedBox(
+                                  width: 10,
+                                  height: 56,
+                                  child: Center(
+                                      child: Text(
+                                    "submit",
+                                    style: AppTheme
+                                        .styleWithTextMainAppColorAdelleSansExtendedFonts14w400
+                                        .copyWith(
+                                            decoration: TextDecoration.underline),
+                                  ))),
+                            ),
+                          ),
+                          // Container(
+                          //   padding: EdgeInsets.symmetric(horizontal: 12),
+                          //   height: 56,
+                          //   decoration: BoxDecoration(
+                          //     color: Colors.white,
+                          //     borderRadius: BorderRadius.circular(1),
+                          //   ),
+                          //   child: Row(
+                          //     children: [
+                          //       SizedBox(
+                          //         width: 10,
+                          //       ),
+                          //       SVGIcons.voucherIcon(),
+                          //       SizedBox(
+                          //         width: 10,
+                          //       ),
+                          //     ],
+                          //   ),
+                          // ),
+                          SizedBox(
+                            height: 24,
+                          ),
+                          Text(
+                            "Payment Summary",
+                            style: AppTheme
+                                .styleWithTextBlackAdelleSansExtendedFonts18w700,
+                          ),
+                          SizedBox(
+                            height: 24,
+                          ),
+                          Container(
+                            padding: EdgeInsets.symmetric(vertical: 5),
+                            clipBehavior: Clip.antiAlias,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(4),
+                              border: Border.all(color: AppTheme.appGrey8),
+                              color: Colors.white,
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(horizontal: 12.0),
+                                  child: ProductRowItem(
+                                    title: "Order Price",
+                                    textValue:
+                                        "SAR ${(cartInfo.data?.data?.totalBefore ?? 0)}",
+                                    titleTextStyle: AppTheme
+                                        .styleWithTextBlackColorAdelleSansExtendedFonts12w500,
+                                    desTextStyle: AppTheme
+                                        .styleWithTextGray7AdelleSansExtendedFonts12w400,
+                                  ),
+                                ),
+                                cartInfo.data?.data?.shippingFee != null &&
+                                        cartInfo.data?.data?.shippingFee != 0
+                                    ? Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 12.0),
+                                        child: ProductRowItem(
+                                          title: "Shipping Fees",
+                                          textValue:
+                                              "SAR ${(cartInfo.data?.data?.shippingFee ?? 0)}",
+                                          titleTextStyle: AppTheme
+                                              .styleWithTextBlackColorAdelleSansExtendedFonts12w500,
+                                          desTextStyle: AppTheme
+                                              .styleWithTextGray7AdelleSansExtendedFonts12w400,
+                                        ),
+                                      )
+                                    : SizedBox(),
+                                cartInfo.data?.data?.discountTotal != null &&
+                                        cartInfo.data?.data?.discountTotal != 0
+                                    ? Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 12.0),
+                                        child: ProductRowItem(
+                                          title: "Discount",
+                                          textValue:
+                                              "SAR ${(cartInfo.data?.data?.discountTotal ?? 0)}",
+                                          titleTextStyle: AppTheme
+                                              .styleWithTextBlackColorAdelleSansExtendedFonts12w500
+                                              .copyWith(
+                                                  color: AppTheme.mainAppColor),
+                                          desTextStyle: AppTheme
+                                              .styleWithTextGray7AdelleSansExtendedFonts12w400
+                                              .copyWith(
+                                                  color: AppTheme.mainAppColor),
+                                        ),
+                                      )
+                                    : SizedBox(),
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(horizontal: 12.0),
+                                  child: ProductRowItem(
+                                    title: "Total Price",
+                                    textValue:
+                                        "SAR ${(cartInfo.data?.data?.totalAfter ?? 0)}",
+                                    titleTextStyle: AppTheme
+                                        .styleWithTextBlackAdelleSansExtendedFonts16w700,
+                                    desTextStyle: AppTheme
+                                        .styleWithTextBlackAdelleSansExtendedFonts16w700,
+                                    hasDivider: false,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          SizedBox(
+                            height: 32,
+                          ),
+                          AppButton(
+                              text: "Check Out",
+                              width: double.infinity,
+                              height: 46,
+                              onPress: () {
+                                if (ref.read(clientStateProvider.notifier).checkIfUserExist() != null) {
+                                  if(giftBoxSelected != null){
+                                    var data = {
+                                      giftBoxIdKey : giftBoxSelected?.id.toString() ?? "",
+                                      orderTypeKey : OrderTypes.receiver_order.name
+                                    };
+                                    if(giftCartSelected != null){
+                                      data[giftCardIdKey] = giftCartSelected?.id?.toString() ?? "";
+                                    }
+                                    if(promocode?.isNotEmpty == true){
+                                      data[promocodeKey] = promocode??"";
+                                    }
+                                    ref.read(cartDateSelectedStateNotifiers.notifier).setCartDataSelection(
+                                        data
+                                    );
+                                    checkout();
+                                  }
+                                }else{
+                                  showAuthenticated();
+                                }
 
-                            })
-                      ],
+                              })
+                        ],
+                      ),
                     ),
                   ),
                 ),
-              ),
+            ),
       ),
     );
   }

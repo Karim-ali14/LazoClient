@@ -25,6 +25,10 @@ class ShowCartDetails200ResponseDataCartItemsInner {
     this.type,
     this.cartItemTotalBeforeDiscount,
     this.cartItemTotalAfterDiscount,
+    this.productSelectedListIds,
+    this.productSelectedListItemsIds,
+    this.serviceSelectedListIds,
+    this.serviceSelectedListItemsIds,
     this.service,
     this.serviceId,
     this.updatedAt,
@@ -114,6 +118,14 @@ class ShowCartDetails200ResponseDataCartItemsInner {
   ///
   num? cartItemTotalAfterDiscount;
 
+  String? productSelectedListIds;
+
+  String? productSelectedListItemsIds;
+
+  String? serviceSelectedListIds;
+
+  String? serviceSelectedListItemsIds;
+
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
   /// does not include a default value (using the "default:" property), however, the generated
@@ -146,6 +158,10 @@ class ShowCartDetails200ResponseDataCartItemsInner {
      other.type == type &&
      other.cartItemTotalBeforeDiscount == cartItemTotalBeforeDiscount &&
      other.cartItemTotalAfterDiscount == cartItemTotalAfterDiscount &&
+     other.productSelectedListIds == productSelectedListIds &&
+     other.productSelectedListItemsIds == productSelectedListItemsIds &&
+     other.serviceSelectedListIds == serviceSelectedListIds &&
+     other.serviceSelectedListItemsIds == serviceSelectedListItemsIds &&
      other.service == service &&
      other.serviceId == serviceId &&
      other.updatedAt == updatedAt;
@@ -165,12 +181,16 @@ class ShowCartDetails200ResponseDataCartItemsInner {
     (type == null ? 0 : type!.hashCode) +
     (cartItemTotalBeforeDiscount == null ? 0 : cartItemTotalBeforeDiscount!.hashCode) +
     (cartItemTotalAfterDiscount == null ? 0 : cartItemTotalAfterDiscount!.hashCode) +
+    (productSelectedListIds == null ? 0 : productSelectedListIds!.hashCode) +
+    (productSelectedListItemsIds == null ? 0 : productSelectedListItemsIds!.hashCode) +
+    (serviceSelectedListIds == null ? 0 : serviceSelectedListIds!.hashCode) +
+    (serviceSelectedListItemsIds == null ? 0 : serviceSelectedListItemsIds!.hashCode) +
     (service == null ? 0 : service!.hashCode) +
     (serviceId == null ? 0 : serviceId!.hashCode) +
     (updatedAt == null ? 0 : updatedAt!.hashCode);
 
   @override
-  String toString() => 'ShowCartDetails200ResponseDataCartItemsInner[cardPrice=$cardPrice, cartId=$cartId, createdAt=$createdAt, id=$id, listsTotalPrice=$listsTotalPrice, price=$price, product=$product, productId=$productId, quantity=$quantity, type=$type, cartItemTotalBeforeDiscount=$cartItemTotalBeforeDiscount, cartItemTotalAfterDiscount=$cartItemTotalAfterDiscount, service=$service, serviceId=$serviceId, updatedAt=$updatedAt]';
+  String toString() => 'ShowCartDetails200ResponseDataCartItemsInner[cardPrice=$cardPrice, cartId=$cartId, createdAt=$createdAt, id=$id, listsTotalPrice=$listsTotalPrice, price=$price, product=$product, productId=$productId, quantity=$quantity, type=$type, cartItemTotalBeforeDiscount=$cartItemTotalBeforeDiscount, cartItemTotalAfterDiscount=$cartItemTotalAfterDiscount, productSelectedListIds=$productSelectedListIds, productSelectedListItemsIds=$productSelectedListItemsIds, serviceSelectedListIds=$serviceSelectedListIds, serviceSelectedListItemsIds=$serviceSelectedListItemsIds, service=$service, serviceId=$serviceId, updatedAt=$updatedAt]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -233,6 +253,26 @@ class ShowCartDetails200ResponseDataCartItemsInner {
       json[r'cart_item_total_after_discount'] = this.cartItemTotalAfterDiscount;
     } else {
       json[r'cart_item_total_after_discount'] = null;
+    }
+    if (this.productSelectedListIds != null) {
+      json[r'product_selected_list_ids'] = this.productSelectedListIds;
+    } else {
+      json[r'product_selected_list_ids'] = null;
+    }
+    if (this.productSelectedListItemsIds != null) {
+      json[r'product_selected_list_items_ids'] = this.productSelectedListItemsIds;
+    } else {
+      json[r'product_selected_list_items_ids'] = null;
+    }
+    if (this.serviceSelectedListIds != null) {
+      json[r'service_selected_list_ids'] = this.serviceSelectedListIds;
+    } else {
+      json[r'service_selected_list_ids'] = null;
+    }
+    if (this.serviceSelectedListItemsIds != null) {
+      json[r'service_selected_list_items_ids'] = this.serviceSelectedListItemsIds;
+    } else {
+      json[r'service_selected_list_items_ids'] = null;
     }
     if (this.service != null) {
       json[r'service'] = this.service;
@@ -301,6 +341,10 @@ class ShowCartDetails200ResponseDataCartItemsInner {
         cartItemTotalAfterDiscount: json[r'cart_item_total_after_discount'] == null
             ? null
             : num.parse(json[r'cart_item_total_after_discount'].toString()),
+        productSelectedListIds: mapValueOfType<String>(json, r'product_selected_list_ids'),
+        productSelectedListItemsIds: mapValueOfType<String>(json, r'product_selected_list_items_ids'),
+        serviceSelectedListIds: mapValueOfType<String>(json, r'service_selected_list_ids'),
+        serviceSelectedListItemsIds: mapValueOfType<String>(json, r'service_selected_list_items_ids'),
         service: ServiceShowData.fromJson(json[r'service']),
         serviceId: json[r'service_id'] == null
             ? null

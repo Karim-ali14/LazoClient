@@ -199,7 +199,7 @@ class ProductDetails {
   ///
   bool? inCart;
 
-  int? cartItemId;
+  String? cartItemId;
 
   int? cartItemQuantity;
 
@@ -510,7 +510,7 @@ class ProductDetails {
         type: mapValueOfType<String>(json, r'type'),
         updatedAt: mapValueOfType<String>(json, r'updated_at'),
         inCart: mapValueOfType<bool>(json, r'in_cart'),
-        cartItemId: mapValueOfType<int>(json, r'cart_item_id'),
+        cartItemId: mapValueOfType<String>(json, r'cart_item_id'),
         cartItemQuantity: mapValueOfType<int>(json, r'cart_item_quantity'),
         inWishlist: mapValueOfType<bool>(json, r'in_wishlist'),
         overallRating: json[r'overall_rating'] == null

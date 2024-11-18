@@ -11,6 +11,7 @@ doc/BannersResponse.md
 doc/CartApi.md
 doc/CartCalculation200Response.md
 doc/CartCalculation200ResponseData.md
+doc/CartItemsInner.md
 doc/CategoriesResponse.md
 doc/Category.md
 doc/CategoryMenu.md
@@ -22,6 +23,7 @@ doc/ClientAuthResponseData.md
 doc/ClientNotification.md
 doc/ClientOrderDetails.md
 doc/ClientOrderDetailsOrderItemsInner.md
+doc/ClientOrderDetailsOrderItemsInnerProduct.md
 doc/ClientOrderDetailsOrderItemsInnerProvider.md
 doc/ClientOrderDetailsResponse.md
 doc/CodeConfirmRequest.md
@@ -118,7 +120,6 @@ doc/ShowAllProviderSOrders200ResponseData.md
 doc/ShowAllProviderSOrders200ResponseDataLinksInner.md
 doc/ShowCartDetails200Response.md
 doc/ShowCartDetails200ResponseData.md
-doc/ShowCartDetails200ResponseDataCartItemsInner.md
 doc/ShowHome200Response.md
 doc/ShowHome200ResponseData.md
 doc/ShowNotifications1200Response.md
@@ -173,6 +174,7 @@ lib/model/banner.dart
 lib/model/banners_response.dart
 lib/model/cart_calculation200_response.dart
 lib/model/cart_calculation200_response_data.dart
+lib/model/cart_items_inner.dart
 lib/model/categories_response.dart
 lib/model/category.dart
 lib/model/category_menu.dart
@@ -183,6 +185,7 @@ lib/model/client_auth_response_data.dart
 lib/model/client_notification.dart
 lib/model/client_order_details.dart
 lib/model/client_order_details_order_items_inner.dart
+lib/model/client_order_details_order_items_inner_product.dart
 lib/model/client_order_details_order_items_inner_provider.dart
 lib/model/client_order_details_response.dart
 lib/model/code_confirm_request.dart
@@ -273,7 +276,6 @@ lib/model/show_all_provider_s_orders200_response_data.dart
 lib/model/show_all_provider_s_orders200_response_data_links_inner.dart
 lib/model/show_cart_details200_response.dart
 lib/model/show_cart_details200_response_data.dart
-lib/model/show_cart_details200_response_data_cart_items_inner.dart
 lib/model/show_home200_response.dart
 lib/model/show_home200_response_data.dart
 lib/model/show_notifications1200_response.dart

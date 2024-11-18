@@ -481,7 +481,7 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
               },
               childCount: sellerProducts.state == DataState.LOADING
                   ? 5
-                  : sellerProducts.data?.data?.categories?.length ?? 0,
+                  : sellerServices.data?.data?.categories?.length ?? 0,
             ),
           ),
         if (activeTabIndex == 2)
