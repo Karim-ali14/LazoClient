@@ -19,6 +19,7 @@ import '../../Theme/AppTheme.dart';
 import '../../Widgets/SvgIcons.dart';
 import '../details/AskBottomSheet.dart';
 import '../details/ContactUsBottomSheet.dart';
+import '../mainScreen/MainScreenNavHost.dart';
 import 'Componants/MoreItemCard.dart';
 
 class MoreScreen extends ConsumerStatefulWidget {
@@ -41,11 +42,13 @@ class _MoreScreenState extends ConsumerState<MoreScreen> {
 
     handleState(logoutStateProvider,showLoading: true , onSuccess: (res){
       // navigateToLogin(TypeOfMode.AuthMode);
+      rebuildMainScreen();
       updateMainScreen();
       navigateToHomeScreen();
     });
 
     handleState(deleteAccountStateProvider,showLoading: true , onSuccess: (res){
+      rebuildMainScreen();
       navigateToLogin(TypeOfMode.AuthMode);
     });
     return Scaffold(
@@ -354,5 +357,10 @@ class _MoreScreenState extends ConsumerState<MoreScreen> {
     ref.read(fetchCardDetailsStateNotifies.notifier).getCardDetails();
     // ref.read(getWishListProductsStateNotifier.notifier).fetchAllProductsInWishlist();
     // ref.read(getWishListServicesStateNotifier.notifier).fetchAllServicesInWishlist();
+  }
+
+  void rebuildMainScreen(){
+    (context.findAncestorStateOfType<MainScreenNavHostState>() as MainScreenNavHostState)
+        .rebuildMainScreen();
   }
 }

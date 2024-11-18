@@ -211,7 +211,7 @@ class _OrdersScreenState extends ConsumerState<OrdersScreen>
                     ),
                   ),
                 ]),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             Expanded(

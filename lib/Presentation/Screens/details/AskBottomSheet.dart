@@ -36,7 +36,7 @@ class _AskBottomSheetState extends State<AskBottomSheet> {
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(
-            "Sign Out",
+            widget.title,
             style: AppTheme.styleWithTextBlackAdelleSansExtendedFonts18w700,
           ),
           const SizedBox(

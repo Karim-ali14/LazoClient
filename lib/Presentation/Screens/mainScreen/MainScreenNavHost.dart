@@ -26,7 +26,13 @@ class MainScreenNavHostState extends ConsumerState<MainScreenNavHost> {
   int currentTab = 0;
   Widget currentScreen = const HomeScreen();
   final listTabsName = ["Home", "Orders" ,"Cart", "Wishlist", "More"];
-  final pages = [HomeScreen(), OrdersScreen() ,CartScreen(), WishListScreen(), MoreScreen()];
+  var pages = [HomeScreen(), OrdersScreen() ,CartScreen(), WishListScreen(), MoreScreen()];
+
+  void rebuildMainScreen() {
+    setState(() {
+      pages = [HomeScreen(), OrdersScreen() ,CartScreen(), WishListScreen(), MoreScreen()];
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
