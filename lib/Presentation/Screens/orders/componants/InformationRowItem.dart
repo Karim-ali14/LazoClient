@@ -50,11 +50,14 @@ class InformationRowItem extends StatelessWidget {
           height: 8,
         ):const SizedBox(),
         ifSetValueInNewLine == true
-            ? Text(
-          "$value",
-          style: AppTheme
-              .styleWithTextAppGrey7AdelleSansExtendedFonts14w400,
-        )
+            ? SizedBox(
+          width: MediaQuery.of(context).size.width,
+              child: Text(
+                        "$value",
+                        style: AppTheme
+                .styleWithTextAppGrey7AdelleSansExtendedFonts14w400,textAlign: TextAlign.start,
+                      ),
+            )
             : SizedBox(),
         if (hasDivider == true)
           const SizedBox(height: 16)

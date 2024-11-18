@@ -69,7 +69,7 @@ class _ProductItemCardState extends State<ProductItemCard> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         SizedBox(
-                          width: widget.insideWidth,
+                          width: MediaQuery.of(context).size.width - 150,
                           child: Row(
                             children: [
                               Text(
@@ -140,7 +140,7 @@ class _ProductItemCardState extends State<ProductItemCard> {
                           height: 12,
                         ),
                         SizedBox(
-                          width: widget.insideWidth,
+                          width: MediaQuery.of(context).size.width - 150,
                           child: Row(
                             children: [
                               widget.item?.provider != null

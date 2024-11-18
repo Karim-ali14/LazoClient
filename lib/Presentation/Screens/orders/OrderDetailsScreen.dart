@@ -76,6 +76,7 @@ class _OrderDetailsScreenState extends ConsumerState<OrderDetailsScreen> {
     return Scaffold(
       appBar: CustomAppBar(
         navigated: true,
+        isCenter: false,
         title: context.tr("orderDetails"),
         appContext: context,
       ),
