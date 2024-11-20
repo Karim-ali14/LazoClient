@@ -441,8 +441,21 @@ class _CartScreenState extends ConsumerState<CartScreen> {
                                             .notifier)
                                         .setCartDataSelection(data);
                                     checkout();
-                                  }else if(cartData.data?.data?.shipmentType ==
+                                  }
+                                  else if(cartData.data?.data?.shipmentType ==
                                       CartItemTypes.ready_made.name) {
+                                    var data = {
+                                      orderTypeKey:
+                                      OrderTypes.receiver_order.name
+                                    };
+
+                                    if (promocode?.isNotEmpty == true) {
+                                      data[promocodeKey] = promocode ?? "";
+                                    }
+                                    ref
+                                        .read(cartDateSelectedStateNotifiers
+                                        .notifier)
+                                        .setCartDataSelection(data);
                                     checkout();
                                   }else{
                                     ScaffoldMessenger.of(context).showSnackBar(
@@ -453,7 +466,8 @@ class _CartScreenState extends ConsumerState<CartScreen> {
                                       )
                                     );
                                   }
-                                } else {
+                                }
+                                else {
                                   showAuthenticated();
                                 }
                               })

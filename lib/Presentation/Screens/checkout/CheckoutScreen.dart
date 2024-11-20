@@ -96,9 +96,9 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
     });
 
     handleState(createOrderStateNotifiers, showLoading: true, onSuccess: (res) {
-      print("${res.data?.paymentLink}");
+      print("create order Response payment link : ${res.data?.paymentLink}");
       ref.watch(fetchCardDetailsStateNotifies);
-      navigateToPaymentScreen(res.data?.paymentLink ?? "");
+      navigateToPaymentScreen(res.data?.paymentLink ?? "https://payments-dev.urway-tech.com/URWAYPGService/direct.jsp?paymentid=2432519640188722043");
       // context.pop(true);
     });
 
@@ -790,7 +790,10 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
         promocode: promocode);
   }
 
-  void navigateToPaymentScreen(String paymentLink) {
-    context.push(R_PaymentScreen, extra: {"paymentLink" : paymentLink});
+  void navigateToPaymentScreen(String paymentLink) async{
+    var success = await context.push(R_PaymentScreen, extra: {"paymentLink" : paymentLink});
+    if(success == true){
+      context.pop(true);
+    }
   }
 }

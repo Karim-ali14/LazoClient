@@ -401,12 +401,12 @@ class MyApp extends ConsumerWidget {
             var extra = state.extra as Map;
             return RatingOrderItemsScreen(order: extra[orderKey] as ClientOrderDetails);
           }),
-      // GoRoute(
-      //     path: R_PaymentScreen,
-      //     builder: (BuildContext context, GoRouterState state) {
-      //       var extra = state.extra as Map;
-      //       return PaymentScreen(paymentLink: extra["paymentLink"]);
-      //     }),
+      GoRoute(
+          path: R_PaymentScreen,
+          builder: (BuildContext context, GoRouterState state) {
+            var extra = state.extra as Map;
+            return PaymentScreen(paymentLink: extra["paymentLink"]);
+          }),
     ],
   );
 }
