@@ -41,6 +41,7 @@ const String giftCardIdKey = "giftCardId";
 const String promocodeKey = "promocode";
 const String orderTypeKey = "orderType";
 const String orderIdKey = "orderId";
+const String orderKey = "order";
 
 const String serviceIdKey = "serviceId";
 const String serviceSelectedListIdsKey = "serviceSelectedListIds";

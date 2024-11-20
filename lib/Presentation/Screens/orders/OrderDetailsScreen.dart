@@ -4,15 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:lazo_client/Constants.dart';
 import 'package:lazo_client/Constants/Eunms.dart';
 import 'package:lazo_client/Doman/CommenProviders/ApiProvider.dart';
+import 'package:lazo_client/Localization/Keys.dart';
 import 'package:lazo_client/Presentation/Screens/details/componants/ProductItemCard.dart';
 import 'package:lazo_client/Presentation/StateNotifiersViewModel/UserAuthStateNotifiers.dart';
+import 'package:lazo_client/Presentation/Widgets/AppButton.dart';
 import 'package:lazo_client/Utils/DateUtils.dart';
 import 'package:lazo_client/Utils/OrderExExtra.dart';
 import '../../../../Data/Network/lib/api.dart';
-import '../../../../Localization/keys.dart';
-import '../../../../Utils/Snaks.dart';
 import '../../../Constants/Constants.dart';
 import '../../../Data/Models/StateModel.dart';
 import '../../BottomSheets/CancelOrderBottomSheet.dart';
@@ -133,14 +134,34 @@ class _OrderDetailsScreenState extends ConsumerState<OrderDetailsScreen> {
                                       color: AppTheme.appGrey8, width: 1)),
                               padding: const EdgeInsets.symmetric(
                                   horizontal: 16, vertical: 24),
-                              child: OrderUserInformationWithOrderStatus(
-                                clientImage:
-                                    orderDetails.data?.data?.getStoreImage(),
-                                clientName:
-                                    orderDetails.data?.data?.getStoreName(),
-                                stateId: orderDetails.data?.data?.statusId
-                                    .toString(),
-                              )),
+                              child: Column(children: [
+                                OrderUserInformationWithOrderStatus(
+                                  clientImage:
+                                      orderDetails.data?.data?.getStoreImage(),
+                                  clientName:
+                                      orderDetails.data?.data?.getStoreName(),
+                                  stateId: orderDetails.data?.data?.statusId
+                                      .toString(),
+                                ),
+                                orderDetails.data?.data?.isFinishedOrder() ==
+                                        true
+                                    ? const SizedBox(
+                                        height: 24,
+                                      )
+                                    : const SizedBox(),
+                                orderDetails.data?.data?.isFinishedOrder() ==
+                                            true &&
+                                        orderDetails.data?.data?.rating == null
+                                    ? AppButton(
+                                        width: double.infinity,
+                                        text: "Rate Products",
+                                        height: 40,
+                                        onPress: () {
+                                          navigateToRatingOrderScreen(
+                                              orderDetails.data?.data);
+                                        })
+                                    : const SizedBox()
+                              ])),
                           const SizedBox(
                             height: 32,
                           ),
@@ -576,5 +597,13 @@ class _OrderDetailsScreenState extends ConsumerState<OrderDetailsScreen> {
     ref
         .read(getOrderDetailsStateProvider.notifier)
         .updateOrderDetails(order: clientOrderDetails);
+  }
+
+  void navigateToRatingOrderScreen(ClientOrderDetails? orderDetails) async {
+    var makeRefresh =
+        await context.push(R_RatingOrder, extra: {orderKey: orderDetails});
+    if (makeRefresh == true) {
+      getOrderDetails();
+    }
   }
 }

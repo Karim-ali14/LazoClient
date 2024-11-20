@@ -177,6 +177,21 @@ class SVGIcons {
     return SvgPicture.asset(redTriangleSvg);
   }
 
+  static Widget emptyStarIcon() {
+    return SvgPicture.asset(
+        width: 24, height: 24, emptyStarSvg, fit: BoxFit.scaleDown);
+  }
+
+  static Widget halfStarIcon() {
+    return SvgPicture.asset(
+        width: 24, height: 24, halfStarSvg, fit: BoxFit.scaleDown);
+  }
+
+  static Widget fullStarIcon() {
+    return SvgPicture.asset(
+        width: 24, height: 24, fullStarSvg, fit: BoxFit.scaleDown);
+  }
+
   static Widget orderUnActiveIcon() {
     return SvgPicture.asset(orderUnActivePng);
   }

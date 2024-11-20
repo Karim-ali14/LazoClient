@@ -19,6 +19,7 @@ import 'package:lazo_client/Presentation/Screens/details/ProductDetailsScreen.da
 import 'package:lazo_client/Presentation/Screens/details/SellerDetailsScreen.dart';
 import 'package:lazo_client/Presentation/Screens/home/ShowBestProductAndServiceScreen.dart';
 import 'package:lazo_client/Presentation/Screens/orders/OrdersScreen.dart';
+import 'package:lazo_client/Presentation/Screens/orders/RatingOrderItemsScreen.dart';
 import 'package:lazo_client/Presentation/Screens/profileScreen/EditProfileScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:timeago/timeago.dart' as ago;
@@ -392,6 +393,12 @@ class MyApp extends ConsumerWidget {
           builder: (BuildContext context, GoRouterState state) {
             var extra = state.extra as Map;
             return OrderDetailsScreen(orderId: extra[orderIdKey]);
+          }),
+      GoRoute(
+          path: R_RatingOrder,
+          builder: (BuildContext context, GoRouterState state) {
+            var extra = state.extra as Map;
+            return RatingOrderItemsScreen(order: extra[orderKey] as ClientOrderDetails);
           }),
     ],
   );

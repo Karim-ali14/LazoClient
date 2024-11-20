@@ -44,11 +44,12 @@ class _ProductItemCardState extends State<ProductItemCard> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Container(
                       clipBehavior: Clip.antiAlias,
-                      height: 67,
-                      width: 67,
+                      height: 74,
+                      width: 74,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(4),
                           color: Colors.white),
@@ -69,7 +70,7 @@ class _ProductItemCardState extends State<ProductItemCard> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         SizedBox(
-                          width: MediaQuery.of(context).size.width - 150,
+                          width: MediaQuery.of(context).size.width - 160,
                           child: Row(
                             children: [
                               Text(
@@ -89,17 +90,21 @@ class _ProductItemCardState extends State<ProductItemCard> {
                             ],
                           ),
                         ),
-                        const SizedBox(
-                          height: 2,
+                        widget.item?.selectedProductsListItemsNames.isNotEmpty == true || widget.item?.selectedServicesListItemsNames.isNotEmpty == true
+                            ? const SizedBox(
+                          height: 5,
+                        ):const SizedBox(),
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width - 160,
+                          child: Text(
+                            "${widget.item?.product != null ? widget.item?.selectedProductsListItemsNames.join(", ") : widget.item?.selectedServicesListItemsNames.join(", ")}",
+                            style: AppTheme
+                                .styleWithTextAppGrey7AdelleSansExtendedFonts10w400,
+                          ),
                         ),
-                        Text(
-                          "${widget.item?.product != null ? widget.item?.selectedProductsListItemsNames.join(", ") : widget.item?.selectedServicesListItemsNames.join(", ")}",
-                          style: AppTheme
-                              .styleWithTextBlackAdelleSansExtendedFonts14w500,
-                        ),
-                        const SizedBox(
-                          height: 2,
-                        ),
+                        widget.item?.selectedProductsListItemsNames.isNotEmpty == true || widget.item?.selectedServicesListItemsNames.isNotEmpty == true ?const SizedBox(
+                          height: 5,
+                        ):const SizedBox(),
                         Row(
                           children: [
                             Text(
@@ -137,10 +142,10 @@ class _ProductItemCardState extends State<ProductItemCard> {
                           ],
                         ),
                         SizedBox(
-                          height: 12,
+                          height: 7,
                         ),
                         SizedBox(
-                          width: MediaQuery.of(context).size.width - 150,
+                          width: MediaQuery.of(context).size.width - 160,
                           child: Row(
                             children: [
                               widget.item?.provider != null

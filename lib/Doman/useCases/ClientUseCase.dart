@@ -176,6 +176,23 @@ class OrderDetailsUseCase
   }
 }
 
+class RatingOrderUseCase
+    extends StateNotifier<StateModel<ClientOrderDetailsResponse?>> {
+  final Ref ref;
+  final ClientApi api;
+  RatingOrderUseCase(this.ref, this.api) : super(StateModel());
+
+  void ratingOrder({
+    List<String>? comments,
+    List<String>? orderItemsIds,
+    List<String>? ratings,
+  }) {
+    state = StateModel.loading();
+    request(() => api.rateOrder(
+        comments: comments, orderItemsIds: orderItemsIds, ratings: ratings));
+  }
+}
+
 class CalculateInstantOrderUseCase
     extends StateNotifier<StateModel<CreatInstantOrder200Response?>> {
   final Ref ref;
@@ -215,6 +232,7 @@ class UpdateFcmTokenUseCase extends StateNotifier<StateModel<void>> {
     String? deviceType,
     String? fcmToken,
   }) {
-    request(() => api.updateFcmTokenAndDeviceType2(fcmToken: fcmToken,deviceType: "android"));
+    request(() => api.updateFcmTokenAndDeviceType2(
+        fcmToken: fcmToken, deviceType: "android"));
   }
 }

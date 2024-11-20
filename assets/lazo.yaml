@@ -8844,11 +8844,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ClientOrderDetails'
-                message:
-                  type: string
-                status:
-                  type: boolean
+                $ref: '#/components/schemas/ClientOrderDetailsResponse'
               examples:
                 show order details:
                   value:
@@ -9256,11 +9252,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ClientOrderDetails'
-                message:
-                  type: string
-                status:
-                  type: boolean
+                $ref: '#/components/schemas/ClientOrderDetailsResponse'
               examples:
                 show order details:
                   value:
@@ -10203,14 +10195,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  data:
-                    $ref: '#/components/schemas/ClientOrderDetails'
-                  message:
-                    type: string
-                  status:
-                    type: boolean
+                $ref: '#/components/schemas/ClientOrderDetailsResponse'
 
       security:
         - bearerAuth: []
