@@ -70,12 +70,14 @@ class _CartScreenState extends ConsumerState<CartScreen> {
           CartItemTypes.unready_made.name.toLowerCase()) {
         getPackagingData();
       }
-      print("object");
+
+    },onEmpty: (res){
+      print("empty data");
       if(res.data?.data?.cartItems.isEmpty == true){
         promocode = null;
         voucherTextController.clear();
       }
-    },);
+    });
 
     handleState(showPromoCodeDetailsStateNotifies, showLoading: true,
         onSuccess: (res) {
@@ -281,7 +283,7 @@ class _CartScreenState extends ConsumerState<CartScreen> {
                                 }
                               },
                               child: SizedBox(
-                                  width: 10,
+                                  width: 70,
                                   height: 56,
                                   child: Center(
                                       child: Text(

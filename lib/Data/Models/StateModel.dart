@@ -9,6 +9,7 @@ typedef OnInitial = Widget Function(StateModel);
 
 typedef OnLoading1 = Function(StateModel);
 typedef OnSuccess1<T> = Function(StateModel<T>);
+typedef OnEmpty<T> = Function(StateModel<T>);
 typedef OnFailure1 = Function(StateModel);
 typedef OnInitial1 = Function(StateModel);
 
@@ -67,12 +68,12 @@ extension StateHandel on StateModel {
     return onSuccess!(this);
   }
 
-  void handelStateWithoutWidget({OnLoading1? onLoading,OnSuccess1? onSuccess,OnFailure1? onFailure}){
+  void handelStateWithoutWidget({OnLoading1? onLoading,OnSuccess1? onSuccess,OnFailure1? onFailure,OnEmpty? onEmpty}){
     switch(state){
       case DataState.LOADING: return onLoading!(this);
       case DataState.SUCCESS: return onSuccess!(this); break;
       case DataState.ERROR: return onFailure!(this); break;
-      case DataState.EMPTY: return onFailure!(this); break;
+      case DataState.EMPTY: return onEmpty!(this); break;
       case DataState.MORE_LOADING: return onSuccess!(this); break;
       case DataState.MORE_LOADED: return onSuccess!(this); break;
       case DataState.INITIAL : return;

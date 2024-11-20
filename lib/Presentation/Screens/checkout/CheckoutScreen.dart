@@ -493,7 +493,7 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                             }
                           },
                           child: SizedBox(
-                              width: 10,
+                              width: 70,
                               height: 56,
                               child: Center(
                                   child: Text(
