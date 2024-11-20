@@ -96,8 +96,10 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
     });
 
     handleState(createOrderStateNotifiers, showLoading: true, onSuccess: (res) {
+      print("${res.data?.paymentLink}");
       ref.watch(fetchCardDetailsStateNotifies);
-      context.pop(true);
+      navigateToPaymentScreen(res.data?.paymentLink ?? "");
+      // context.pop(true);
     });
 
     handleState(calculateInstantOrderStateProvider, onSuccess: (res) {
@@ -786,5 +788,9 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
         serviceSelectedListIds: widget.serviceSelectedListIds,
         serviceSelectedListItemsIds: widget.serviceSelectedListItemsIds,
         promocode: promocode);
+  }
+
+  void navigateToPaymentScreen(String paymentLink) {
+    context.push(R_PaymentScreen, extra: {"paymentLink" : paymentLink});
   }
 }

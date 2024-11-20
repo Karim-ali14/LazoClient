@@ -238,6 +238,7 @@ Class | Method | HTTP request | Description
  - [ProviderRegisterResponse](doc//ProviderRegisterResponse.md)
  - [ProviderRegisterResponseData](doc//ProviderRegisterResponseData.md)
  - [ProviderchangePasswordRequest](doc//ProviderchangePasswordRequest.md)
+ - [RateOrderRequest](doc//RateOrderRequest.md)
  - [ReadANotification1200Response](doc//ReadANotification1200Response.md)
  - [ReadANotification1200ResponseData](doc//ReadANotification1200ResponseData.md)
  - [ReadANotification122200Response](doc//ReadANotification122200Response.md)

@@ -536,41 +536,20 @@ class OrdersApi {
   ///
   /// Parameters:
   ///
-  /// * [List<String>] comments:
-  ///
-  /// * [List<String>] orderItemsIds:
-  ///
-  /// * [List<String>] ratings:
-  Future<Response> rateOrderWithHttpInfo({ List<String>? comments, List<String>? orderItemsIds, List<String>? ratings, }) async {
+  /// * [RateOrderRequest] rateOrderRequest:
+  Future<Response> rateOrderWithHttpInfo({ RateOrderRequest? rateOrderRequest, }) async {
     // ignore: prefer_const_declarations
     final path = r'/client/order/rating';
 
     // ignore: prefer_final_locals
-    Object? postBody;
+    Object? postBody = rateOrderRequest;
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
-    const contentTypes = <String>['multipart/form-data'];
+    const contentTypes = <String>['application/json'];
 
-    bool hasFields = false;
-    final mp = MultipartRequest('POST', Uri.parse(path));
-    if (comments != null) {
-      hasFields = true;
-      mp.fields[r'comments'] = parameterToString(comments);
-    }
-    if (orderItemsIds != null) {
-      hasFields = true;
-      mp.fields[r'order_items_ids'] = parameterToString(orderItemsIds);
-    }
-    if (ratings != null) {
-      hasFields = true;
-      mp.fields[r'ratings'] = parameterToString(ratings);
-    }
-    if (hasFields) {
-      postBody = mp;
-    }
 
     return apiClient.invokeAPI(
       path,
@@ -589,13 +568,9 @@ class OrdersApi {
   ///
   /// Parameters:
   ///
-  /// * [List<String>] comments:
-  ///
-  /// * [List<String>] orderItemsIds:
-  ///
-  /// * [List<String>] ratings:
-  Future<ClientOrderDetailsResponse?> rateOrder({ List<String>? comments, List<String>? orderItemsIds, List<String>? ratings, }) async {
-    final response = await rateOrderWithHttpInfo( comments: comments, orderItemsIds: orderItemsIds, ratings: ratings, );
+  /// * [RateOrderRequest] rateOrderRequest:
+  Future<ClientOrderDetailsResponse?> rateOrder({ RateOrderRequest? rateOrderRequest, }) async {
+    final response = await rateOrderWithHttpInfo( rateOrderRequest: rateOrderRequest, );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }

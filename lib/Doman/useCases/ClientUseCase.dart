@@ -189,7 +189,11 @@ class RatingOrderUseCase
   }) {
     state = StateModel.loading();
     request(() => api.rateOrder(
-        comments: comments, orderItemsIds: orderItemsIds, ratings: ratings));
+          rateOrderRequest: RateOrderRequest(
+              comments: comments ?? [],
+              orderItemsIds: orderItemsIds ?? [],
+              ratings: ratings ?? []),
+        ));
   }
 }
 

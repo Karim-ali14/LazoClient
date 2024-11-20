@@ -94,6 +94,7 @@ doc/ProviderRegisterResponseData.md
 doc/ProviderchangePasswordRequest.md
 doc/PublicApi.md
 doc/PublicAuthApi.md
+doc/RateOrderRequest.md
 doc/ReadANotification1200Response.md
 doc/ReadANotification1200ResponseData.md
 doc/ReadANotification122200Response.md
@@ -249,6 +250,7 @@ lib/model/provider_register_request.dart
 lib/model/provider_register_response.dart
 lib/model/provider_register_response_data.dart
 lib/model/providerchange_password_request.dart
+lib/model/rate_order_request.dart
 lib/model/read_a_notification1200_response.dart
 lib/model/read_a_notification1200_response_data.dart
 lib/model/read_a_notification122200_response.dart

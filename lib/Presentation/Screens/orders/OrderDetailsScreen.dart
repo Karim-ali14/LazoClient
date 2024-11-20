@@ -144,7 +144,8 @@ class _OrderDetailsScreenState extends ConsumerState<OrderDetailsScreen> {
                                       .toString(),
                                 ),
                                 orderDetails.data?.data?.isFinishedOrder() ==
-                                        true
+                                    true &&
+                                    orderDetails.data?.data?.rating == null
                                     ? const SizedBox(
                                         height: 24,
                                       )

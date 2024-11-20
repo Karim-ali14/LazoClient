@@ -345,6 +345,8 @@ class ApiClient {
           return ProviderRegisterResponseData.fromJson(value);
         case 'ProviderchangePasswordRequest':
           return ProviderchangePasswordRequest.fromJson(value);
+        case 'RateOrderRequest':
+          return RateOrderRequest.fromJson(value);
         case 'ReadANotification1200Response':
           return ReadANotification1200Response.fromJson(value);
         case 'ReadANotification1200ResponseData':

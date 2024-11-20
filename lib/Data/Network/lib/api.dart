@@ -121,6 +121,7 @@ part 'model/provider_register_request.dart';
 part 'model/provider_register_response.dart';
 part 'model/provider_register_response_data.dart';
 part 'model/providerchange_password_request.dart';
+part 'model/rate_order_request.dart';
 part 'model/read_a_notification1200_response.dart';
 part 'model/read_a_notification1200_response_data.dart';
 part 'model/read_a_notification122200_response.dart';

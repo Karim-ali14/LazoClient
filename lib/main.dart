@@ -14,6 +14,7 @@ import 'package:lazo_client/Presentation/Screens/Auth/SignUpScreen.dart';
 import 'package:lazo_client/Presentation/Screens/GoogleMapScreen.dart';
 import 'package:lazo_client/Presentation/Screens/More/PrivacyAndPolicyScreen.dart';
 import 'package:lazo_client/Presentation/Screens/More/TermsAndConditionsScreen.dart';
+import 'package:lazo_client/Presentation/Screens/PaymentScreen.dart';
 import 'package:lazo_client/Presentation/Screens/cartScreen/CartScreen.dart';
 import 'package:lazo_client/Presentation/Screens/details/ProductDetailsScreen.dart';
 import 'package:lazo_client/Presentation/Screens/details/SellerDetailsScreen.dart';
@@ -400,6 +401,12 @@ class MyApp extends ConsumerWidget {
             var extra = state.extra as Map;
             return RatingOrderItemsScreen(order: extra[orderKey] as ClientOrderDetails);
           }),
+      // GoRoute(
+      //     path: R_PaymentScreen,
+      //     builder: (BuildContext context, GoRouterState state) {
+      //       var extra = state.extra as Map;
+      //       return PaymentScreen(paymentLink: extra["paymentLink"]);
+      //     }),
     ],
   );
 }

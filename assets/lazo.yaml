@@ -9200,30 +9200,24 @@ paths:
       operationId: rateOrder
       requestBody:
         content:
-          multipart/form-data:
+          application/json:
             schema:
               type: object
               properties:
                 comments:
                   type: array
-                  format: string
                   items:
                     type: string
-                    format: string
                     example: This is a good order
                 order_items_ids:
                   type: array
-                  format: string
                   items:
                     type: string
-                    format: string
                 ratings:
                   type: array
-                  format: string
                   items:
                     description: From 1 to 5
                     type: string
-                    format: string
                     example: '3.5'
       responses:
         '200':
