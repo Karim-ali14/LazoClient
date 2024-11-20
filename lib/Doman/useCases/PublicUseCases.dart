@@ -430,13 +430,11 @@ class GetProductDetailsUseCase
   final PublicApi publicApi;
   GetProductDetailsUseCase(this.ref, this.publicApi) : super(StateModel());
 
-  void getProductDetails({
-    String? productId,
-    ProductDetails? product
-  }) {
+  void getProductDetails({String? productId, ProductDetails? product}) {
     state = StateModel.loading();
-    request(() => publicApi.showProductDetails(productId: productId),onComplete: (res){
-      if(product != null){
+    request(() => publicApi.showProductDetails(productId: productId),
+        onComplete: (res) {
+      if (product != null) {
         print("sadkfjakdjsl${product.lists}");
         res.data?.lists = [...?product.lists];
       }
@@ -455,12 +453,9 @@ class GetProductDetailsUseCase
     state = StateModel.success(data);
   }
 
-  void productDetails(ProductDetails product){
-    ProductDetailsResponse response = ProductDetailsResponse(
-      status: true,
-      message: "",
-      data: product
-    );
+  void productDetails(ProductDetails product) {
+    ProductDetailsResponse response =
+        ProductDetailsResponse(status: true, message: "", data: product);
     state = StateModel.success(response);
   }
 }
@@ -471,13 +466,11 @@ class GetServiceDetailsUseCase
   final PublicApi publicApi;
   GetServiceDetailsUseCase(this.ref, this.publicApi) : super(StateModel());
 
-  void getServiceDetails({
-    String? serviceId,
-    ServiceShowData? service
-  }) {
+  void getServiceDetails({String? serviceId, ServiceShowData? service}) {
     state = StateModel.loading();
-    request(() => publicApi.showServiceDetails(serviceId: serviceId),onComplete: (res){
-      if(service != null){
+    request(() => publicApi.showServiceDetails(serviceId: serviceId),
+        onComplete: (res) {
+      if (service != null) {
         res.data?.lists = [...?service.lists];
       }
     });
@@ -703,49 +696,57 @@ class FetchCardDetailsUseCase
     String? sessionId,
   }) {
     state = StateModel.loading();
-    request(() => publicApi.showCartDetails(sessionId: sessionId),onComplete: (res){
+    request(() => publicApi.showCartDetails(sessionId: sessionId),
+        onComplete: (res) {
       print("asdfasdfasdfs${res?.data?.cartItems.isEmpty}");
-      if(res?.data?.cartItems.isEmpty != true){
+      if (res?.data?.cartItems.isEmpty != true) {
         state = StateModel.empty(data: res?.data);
       }
     });
   }
 
-  void updateItem(CartItemsInner cartItem){
+  void updateItem(CartItemsInner cartItem) {
     final data = state.data;
-    final index = data?.data?.cartItems.indexWhere((item) => item.id == cartItem.id);
-    if(index != null && index != -1) {
+    final index =
+        data?.data?.cartItems.indexWhere((item) => item.id == cartItem.id);
+    if (index != null && index != -1) {
       data?.data?.cartItems[index] = cartItem;
     }
     state = StateModel.success(data);
   }
 
-  void deleteItem(num cartItemId){
-    List<CartItemsInner> data = (state.data?.data?.cartItems??[]).toList(growable: true);
+  void deleteItem(num cartItemId) {
+    List<CartItemsInner> data =
+        (state.data?.data?.cartItems ?? []).toList(growable: true);
     final index = data.indexWhere((item) => item.id == cartItemId);
 
-    if(index != -1) {
+    if (index != -1) {
       data.removeAt(index);
     }
 
     state.data?.data?.cartItems = [...data];
-    if(state.data?.data?.cartItems.isNotEmpty == true){
+    state.data?.data?.shipmentType = state.data?.data?.cartItems
+                .where((item) =>
+                    item.product?.type == ProductTypes.various_gifts.name)
+                .toList()
+                .isNotEmpty ==
+            true
+        ? CartItemTypes.unready_made.name
+        : CartItemTypes.ready_made.name;
+    if (state.data?.data?.cartItems.isNotEmpty == true) {
       state = StateModel.success(state.data);
-    }else {
-      state = StateModel.empty(data:state.data);
+    } else {
+      state = StateModel.empty(data: state.data);
     }
   }
-
 }
 
-class CartSelectionInfo extends StateNotifier<Map<String,Object>>{
+class CartSelectionInfo extends StateNotifier<Map<String, Object>> {
+  CartSelectionInfo() : super({});
 
-  CartSelectionInfo():super({});
-
-  void setCartDataSelection(Map<String,Object> dateSelection){
+  void setCartDataSelection(Map<String, Object> dateSelection) {
     state = dateSelection;
   }
-
 }
 
 class CartCalculation
@@ -774,16 +775,10 @@ class CartCalculation
     String? giftBoxId,
     String? giftCardId,
   }) {
-    state = StateModel.success(
-        CartCalculation200Response(
-          data: CartCalculation200ResponseData(
-            totalAfter: totalPrice,
-            totalBefore: totalPrice
-          )
-        )
-    );
+    state = StateModel.success(CartCalculation200Response(
+        data: CartCalculation200ResponseData(
+            totalAfter: totalPrice, totalBefore: totalPrice)));
   }
-
 }
 
 class ShowPromoCodeDetails
@@ -826,16 +821,17 @@ class UpdateCartItemsUseCase
   }
 }
 
-class DeleteItemCartUseCase extends StateNotifier<StateModel<void>>{
+class DeleteItemCartUseCase extends StateNotifier<StateModel<void>> {
   final Ref ref;
   final PublicApi publicApi;
-  DeleteItemCartUseCase(this.ref, this.publicApi):super(StateModel());
+  DeleteItemCartUseCase(this.ref, this.publicApi) : super(StateModel());
 
-  void deleteItemCart({ String? cartItemId, }){
+  void deleteItemCart({
+    String? cartItemId,
+  }) {
     state = StateModel.loading();
     request(() => publicApi.deleteCartItem(cartItemId: cartItemId));
   }
-
 }
 
 class SessionHandler extends StateNotifier<String?> {
@@ -866,13 +862,16 @@ class SessionHandler extends StateNotifier<String?> {
   }
 }
 
-class SendTestPushNotificationUseCase extends StateNotifier<StateModel<SendPushNotification200Response?>>{
-
+class SendTestPushNotificationUseCase
+    extends StateNotifier<StateModel<SendPushNotification200Response?>> {
   final PublicApi publicApi;
-  SendTestPushNotificationUseCase(this.publicApi):super(StateModel());
+  SendTestPushNotificationUseCase(this.publicApi) : super(StateModel());
 
-  void sendTestNotification({ String? token, String? deviceType, }){
-    request(() => publicApi.sendPushNotification(token: token,deviceType: "android"));
+  void sendTestNotification({
+    String? token,
+    String? deviceType,
+  }) {
+    request(() =>
+        publicApi.sendPushNotification(token: token, deviceType: "android"));
   }
-
 }

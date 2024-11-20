@@ -194,7 +194,7 @@ class RatingOrderUseCase
 }
 
 class CalculateInstantOrderUseCase
-    extends StateNotifier<StateModel<CreatInstantOrder200Response?>> {
+    extends StateNotifier<StateModel<ClientOrderDetailsResponse?>> {
   final Ref ref;
   final ClientApi api;
   CalculateInstantOrderUseCase(this.ref, this.api) : super(StateModel());

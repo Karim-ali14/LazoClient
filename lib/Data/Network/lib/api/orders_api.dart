@@ -98,7 +98,7 @@ class OrdersApi {
   /// * [String] serviceSelectedListItemsIds:
   ///
   /// * [String] promocode:
-  Future<CreatInstantOrder200Response?> calculateInstantOrder({ String? serviceId, String? serviceQuantity, String? serviceSelectedListIds, String? serviceSelectedListItemsIds, String? promocode, }) async {
+  Future<ClientOrderDetailsResponse?> calculateInstantOrder({ String? serviceId, String? serviceQuantity, String? serviceSelectedListIds, String? serviceSelectedListItemsIds, String? promocode, }) async {
     final response = await calculateInstantOrderWithHttpInfo( serviceId: serviceId, serviceQuantity: serviceQuantity, serviceSelectedListIds: serviceSelectedListIds, serviceSelectedListItemsIds: serviceSelectedListItemsIds, promocode: promocode, );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
@@ -107,7 +107,7 @@ class OrdersApi {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
-      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'CreatInstantOrder200Response',) as CreatInstantOrder200Response;
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'ClientOrderDetailsResponse',) as ClientOrderDetailsResponse;
     
     }
     return null;
@@ -259,7 +259,7 @@ class OrdersApi {
   /// * [String] deliveryDate:
   ///
   /// * [String] deliveryTime:
-  Future<CreatInstantOrder200Response?> creatInstantOrder({ String? serviceId, String? serviceQuantity, String? serviceSelectedListIds, String? serviceSelectedListItemsIds, String? paymentMethod, String? promocode, String? receiverName, String? receiverPhoneNumber, String? cardMessage, String? cardFrom, String? cardTo, String? deliveryDate, String? deliveryTime, }) async {
+  Future<ClientOrderDetailsResponse?> creatInstantOrder({ String? serviceId, String? serviceQuantity, String? serviceSelectedListIds, String? serviceSelectedListItemsIds, String? paymentMethod, String? promocode, String? receiverName, String? receiverPhoneNumber, String? cardMessage, String? cardFrom, String? cardTo, String? deliveryDate, String? deliveryTime, }) async {
     final response = await creatInstantOrderWithHttpInfo( serviceId: serviceId, serviceQuantity: serviceQuantity, serviceSelectedListIds: serviceSelectedListIds, serviceSelectedListItemsIds: serviceSelectedListItemsIds, paymentMethod: paymentMethod, promocode: promocode, receiverName: receiverName, receiverPhoneNumber: receiverPhoneNumber, cardMessage: cardMessage, cardFrom: cardFrom, cardTo: cardTo, deliveryDate: deliveryDate, deliveryTime: deliveryTime, );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
@@ -268,7 +268,7 @@ class OrdersApi {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
-      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'CreatInstantOrder200Response',) as CreatInstantOrder200Response;
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'ClientOrderDetailsResponse',) as ClientOrderDetailsResponse;
     
     }
     return null;
@@ -438,7 +438,7 @@ class OrdersApi {
   /// * [String] receiverAddressDetails:
   ///
   /// * [String] receiverPhone:
-  Future<ClientOrderDetails?> createOrder({ String? deliveryDate, String? deliveryTime, String? giftBoxId, String? giftCardId, String? isIdentitySecret, String? orderType, String? paymentMethod, String? promocode, String? receiverAddress, String? latLng, String? receiverName, String? receiverAddressDetails, String? receiverPhone, }) async {
+  Future<ClientOrderDetailsResponse?> createOrder({ String? deliveryDate, String? deliveryTime, String? giftBoxId, String? giftCardId, String? isIdentitySecret, String? orderType, String? paymentMethod, String? promocode, String? receiverAddress, String? latLng, String? receiverName, String? receiverAddressDetails, String? receiverPhone, }) async {
     final response = await createOrderWithHttpInfo( deliveryDate: deliveryDate, deliveryTime: deliveryTime, giftBoxId: giftBoxId, giftCardId: giftCardId, isIdentitySecret: isIdentitySecret, orderType: orderType, paymentMethod: paymentMethod, promocode: promocode, receiverAddress: receiverAddress, latLng: latLng, receiverName: receiverName, receiverAddressDetails: receiverAddressDetails, receiverPhone: receiverPhone, );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
@@ -447,7 +447,7 @@ class OrdersApi {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
-      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'ClientOrderDetails',) as ClientOrderDetails;
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'ClientOrderDetailsResponse',) as ClientOrderDetailsResponse;
     
     }
     return null;
@@ -594,7 +594,7 @@ class OrdersApi {
   /// * [List<String>] orderItemsIds:
   ///
   /// * [List<String>] ratings:
-  Future<ClientOrderDetails?> rateOrder({ List<String>? comments, List<String>? orderItemsIds, List<String>? ratings, }) async {
+  Future<ClientOrderDetailsResponse?> rateOrder({ List<String>? comments, List<String>? orderItemsIds, List<String>? ratings, }) async {
     final response = await rateOrderWithHttpInfo( comments: comments, orderItemsIds: orderItemsIds, ratings: ratings, );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
@@ -603,7 +603,7 @@ class OrdersApi {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
-      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'ClientOrderDetails',) as ClientOrderDetails;
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'ClientOrderDetailsResponse',) as ClientOrderDetailsResponse;
     
     }
     return null;

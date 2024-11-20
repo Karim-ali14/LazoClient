@@ -38,7 +38,7 @@ final ratingOrderStateProvider = StateNotifierProvider.autoDispose<
         (ref) => RatingOrderUseCase(ref, ref.read(clientApi)));
 
 final calculateInstantOrderStateProvider = StateNotifierProvider.autoDispose<
-    CalculateInstantOrderUseCase, StateModel<CreatInstantOrder200Response?>>(
+    CalculateInstantOrderUseCase, StateModel<ClientOrderDetailsResponse?>>(
         (ref) => CalculateInstantOrderUseCase(ref, ref.read(clientApi)));
 
 final updateFcmTokenStateProvider = StateNotifierProvider.autoDispose<

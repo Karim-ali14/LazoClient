@@ -233,8 +233,6 @@ class ApiClient {
           return Color.fromJson(value);
         case 'ColorsResponse':
           return ColorsResponse.fromJson(value);
-        case 'CreatInstantOrder200Response':
-          return CreatInstantOrder200Response.fromJson(value);
         case 'FilterTopProductsServices200Response':
           return FilterTopProductsServices200Response.fromJson(value);
         case 'FilterTopProductsServices200ResponseData':

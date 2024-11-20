@@ -60,11 +60,22 @@ class _CartScreenState extends ConsumerState<CartScreen> {
   Widget build(BuildContext context) {
     var cartData = ref.watch(fetchCardDetailsStateNotifies);
     var cartInfo = ref.watch(cartCalculationStateNotifies);
-    handleState(fetchCardDetailsStateNotifies,
-        onSuccess: (res) {
+    var giftBox = ref.watch(fetchAllGiftBoxStateNotifies);
+    var giftCard = ref.watch(fetchAllGiftCardsStateNotifies);
+
+    handleState(fetchCardDetailsStateNotifies, onSuccess: (res) {
       var cartId = res.data?.data?.id;
       calculateCartItems(cartId: cartId.toString());
-    });
+      if (res.data?.data?.shipmentType ==
+          CartItemTypes.unready_made.name.toLowerCase()) {
+        getPackagingData();
+      }
+      print("object");
+      if(res.data?.data?.cartItems.isEmpty == true){
+        promocode = null;
+        voucherTextController.clear();
+      }
+    },);
 
     handleState(showPromoCodeDetailsStateNotifies, showLoading: true,
         onSuccess: (res) {
@@ -103,14 +114,16 @@ class _CartScreenState extends ConsumerState<CartScreen> {
                     "When you add any product to your cart, it will appear here",
                 onAddOrderClick: () {})
             : RefreshIndicator(
-          triggerMode: RefreshIndicatorTriggerMode.onEdge,
-          onRefresh: () {
-            var sessionId = ref
-                .read(getSessionHandlerStateNotifier.notifier)
-                .checkIfSessionIdExist();
-            getCartDetails(sessionId);
-            return Future.delayed(const Duration(seconds: 1));
-          },child: SingleChildScrollView(
+                triggerMode: RefreshIndicatorTriggerMode.onEdge,
+                onRefresh: () {
+                  var sessionId = ref
+                      .read(getSessionHandlerStateNotifier.notifier)
+                      .checkIfSessionIdExist();
+                  getCartDetails(sessionId);
+                  getPackagingData();
+                  return Future.delayed(const Duration(seconds: 1));
+                },
+                child: SingleChildScrollView(
                   child: Padding(
                     padding: const EdgeInsets.all(16),
                     child: Skeletonizer(
@@ -119,97 +132,133 @@ class _CartScreenState extends ConsumerState<CartScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           ...(List.generate(
-                              cartData.state != DataState.LOADING ?
-                              cartData.data?.data?.cartItems.length ?? 0 : listItems.length, (index) {
+                              cartData.state != DataState.LOADING
+                                  ? cartData.data?.data?.cartItems.length ?? 0
+                                  : listItems.length, (index) {
                             return Skeletonizer(
                               enabled: cartData.state == DataState.LOADING,
                               child: CartItemView(
-                                cartItem: cartData.state != DataState.LOADING ? cartData.data?.data?.cartItems[index] : listItems[index],
+                                cartItem: cartData.state != DataState.LOADING
+                                    ? cartData.data?.data?.cartItems[index]
+                                    : listItems[index],
                                 onUpdateQuantity: (cartItemId, quantity) {
                                   updateItemQuantity(cartItemId, quantity);
                                 },
                                 onDeleteItem: (cartItemId) {
                                   deleteCartItem(cartItemId);
-                                }, onEditProduct:(product,cartId) {
-                                  navigateToItemDetails(ItemType.Products, product, null,cartId);
-                                },onEditService: (service,cartId){
-                                navigateToItemDetails(ItemType.Services, null, service,cartId);
-                              },
+                                },
+                                onEditProduct: (product, cartId) {
+                                  navigateToItemDetails(
+                                      ItemType.Products, product, null, cartId);
+                                },
+                                onEditService: (service, cartId) {
+                                  navigateToItemDetails(
+                                      ItemType.Services, null, service, cartId);
+                                },
                               ),
                             );
                           })),
                           SizedBox(
                             height: 32,
                           ),
-                          Skeleton.replace(
-                            replacement: Container(
-                              width: 120,
-                              height: 20,
-                              color: Colors.white,
-                            ),
-                            child: Text(
-                              "Wrap your gift",
-                              style: AppTheme
-                                  .styleWithTextBlackAdelleSansExtendedFonts18w700,
-                            ),
-                          ),
-                          SizedBox(
-                            height: 24,
-                          ),
-                          Skeleton.replace(
-                            replacement: SizedBox(),
-                            child: SizedBox(
-                              height: 208,
-                              child: GiftBoxListView((giftBox) {
-                                giftBoxSelected = giftBox;
-                                calculateCartItems(
-                                  cartId: (cartData.data?.data?.id ?? 0).toString(),
-                                  // giftCardId: giftCartSelected?.id.toString(),
-                                  // giftBoxId: giftBoxSelected?.id.toString(),
-                                  // promocode: promocode
-                                );
-                              }),
-                            ),
-                          ),
-                          SizedBox(
-                            height: 24,
-                          ),
-                          Row(
-                            children: [
-                              Text(
-                                "Choose your gift card",
-                                style: AppTheme
-                                    .styleWithTextBlackAdelleSansExtendedFonts18w700,
-                              ),
-                              Spacer(),
-                              Text(
-                                "(optional)",
-                                style: AppTheme
-                                    .styleWithTextAppGrey15AdelleSansExtendedFonts14w400,
-                              )
-                            ],
-                          ),
-                          SizedBox(
-                            height: 24,
-                          ),
-                          Skeleton.replace(
-                            replacement: SizedBox(),
-                            child: SizedBox(
-                              height: 208,
-                              child: GiftCardListView((gift) {
-                                giftCartSelected = gift;
-                                calculateCartItems(
-                                  cartId: (cartData.data?.data?.id ?? 0).toString(),
-                                  // giftCardId: giftCartSelected?.id.toString(),
-                                  // giftBoxId: giftBoxSelected?.id.toString(),
-                                  // promocode: promocode
-                                );
-                              }),
-                            ),
-                          ),
-                          SizedBox(
-                            height: 24,
-                          ),
+                          cartData.data?.data?.shipmentType ==
+                                  CartItemTypes.unready_made.name.toLowerCase()
+                              ? Skeleton.replace(
+                                  replacement: Container(
+                                    width: 120,
+                                    height: 20,
+                                    color: Colors.white,
+                                  ),
+                                  child: Text(
+                                    "Wrap your gift",
+                                    style: AppTheme
+                                        .styleWithTextBlackAdelleSansExtendedFonts18w700,
+                                  ),
+                                )
+                              : const SizedBox(),
+                          cartData.data?.data?.shipmentType ==
+                                  CartItemTypes.unready_made.name.toLowerCase()
+                              ? SizedBox(
+                                  height: 24,
+                                )
+                              : SizedBox(),
+                          cartData.data?.data?.shipmentType ==
+                                  CartItemTypes.unready_made.name.toLowerCase()
+                              ? Skeleton.replace(
+                                  replacement: SizedBox(),
+                                  child: SizedBox(
+                                    height: 208,
+                                    child: GiftBoxListView(
+                                        data: giftBox.data?.data,
+                                        isLoading: giftBox.state ==
+                                            DataState.LOADING, (giftBox) {
+                                      giftBoxSelected = giftBox;
+                                      calculateCartItems(
+                                        cartId: (cartData.data?.data?.id ?? 0)
+                                            .toString(),
+                                        // giftCardId: giftCartSelected?.id.toString(),
+                                        // giftBoxId: giftBoxSelected?.id.toString(),
+                                        // promocode: promocode
+                                      );
+                                    }),
+                                  ),
+                                )
+                              : SizedBox(),
+                          cartData.data?.data?.shipmentType ==
+                                  CartItemTypes.unready_made.name.toLowerCase()
+                              ? SizedBox(
+                                  height: 24,
+                                )
+                              : SizedBox(),
+                          cartData.data?.data?.shipmentType ==
+                                  CartItemTypes.unready_made.name.toLowerCase()
+                              ? Row(
+                                  children: [
+                                    Text(
+                                      "Choose your gift card",
+                                      style: AppTheme
+                                          .styleWithTextBlackAdelleSansExtendedFonts18w700,
+                                    ),
+                                    Spacer(),
+                                    Text(
+                                      "(optional)",
+                                      style: AppTheme
+                                          .styleWithTextAppGrey15AdelleSansExtendedFonts14w400,
+                                    )
+                                  ],
+                                )
+                              : const SizedBox(),
+                          cartData.data?.data?.shipmentType ==
+                                  CartItemTypes.unready_made.name.toLowerCase()
+                              ? SizedBox(
+                                  height: 24,
+                                )
+                              : const SizedBox(),
+                          cartData.data?.data?.shipmentType ==
+                                  CartItemTypes.unready_made.name.toLowerCase()
+                              ? Skeleton.replace(
+                                  replacement: SizedBox(),
+                                  child: SizedBox(
+                                    height: 208,
+                                    child: GiftCardListView(
+                                        data: giftCard.data?.data ?? [],
+                                        isLoading: giftCard.state ==
+                                            DataState.LOADING, (gift) {
+                                      giftCartSelected = gift;
+                                      calculateCartItems(
+                                        cartId: (cartData.data?.data?.id ?? 0)
+                                            .toString(),
+                                      );
+                                    }),
+                                  ),
+                                )
+                              : const SizedBox(),
+                          cartData.data?.data?.shipmentType ==
+                                  CartItemTypes.unready_made.name.toLowerCase()
+                              ? SizedBox(
+                                  height: 24,
+                                )
+                              : const SizedBox(),
                           Text(
                             "Save on your order",
                             style: AppTheme
@@ -240,7 +289,8 @@ class _CartScreenState extends ConsumerState<CartScreen> {
                                     style: AppTheme
                                         .styleWithTextMainAppColorAdelleSansExtendedFonts14w400
                                         .copyWith(
-                                            decoration: TextDecoration.underline),
+                                            decoration:
+                                                TextDecoration.underline),
                                   ))),
                             ),
                           ),
@@ -286,8 +336,8 @@ class _CartScreenState extends ConsumerState<CartScreen> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(horizontal: 12.0),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 12.0),
                                   child: ProductRowItem(
                                     title: "Order Price",
                                     textValue:
@@ -335,8 +385,8 @@ class _CartScreenState extends ConsumerState<CartScreen> {
                                       )
                                     : SizedBox(),
                                 Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(horizontal: 12.0),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 12.0),
                                   child: ProductRowItem(
                                     title: "Total Price",
                                     textValue:
@@ -359,34 +409,58 @@ class _CartScreenState extends ConsumerState<CartScreen> {
                               width: double.infinity,
                               height: 46,
                               onPress: () {
-                                if (ref.read(clientStateProvider.notifier).checkIfUserExist() != null) {
-                                  if(giftBoxSelected != null){
+                                if (ref
+                                        .read(clientStateProvider.notifier)
+                                        .checkIfUserExist() !=
+                                    null) {
+                                  if (giftBoxSelected != null &&
+                                      cartData.data?.data?.shipmentType ==
+                                          CartItemTypes.unready_made.name
+                                              .toLowerCase()) {
                                     var data = {
-                                      giftBoxIdKey : giftBoxSelected?.id.toString() ?? "",
-                                      orderTypeKey : OrderTypes.receiver_order.name
+                                      giftBoxIdKey:
+                                          giftBoxSelected?.id.toString() ?? "",
+                                      orderTypeKey:
+                                          OrderTypes.receiver_order.name
                                     };
-                                    if(giftCartSelected != null){
-                                      data[giftCardIdKey] = giftCartSelected?.id?.toString() ?? "";
+                                    if (giftCartSelected != null &&
+                                        cartData.data?.data?.shipmentType ==
+                                            CartItemTypes.unready_made.name
+                                                .toLowerCase()) {
+                                      data[giftCardIdKey] =
+                                          giftCartSelected?.id?.toString() ??
+                                              "";
                                     }
-                                    if(promocode?.isNotEmpty == true){
-                                      data[promocodeKey] = promocode??"";
+                                    if (promocode?.isNotEmpty == true) {
+                                      data[promocodeKey] = promocode ?? "";
                                     }
-                                    ref.read(cartDateSelectedStateNotifiers.notifier).setCartDataSelection(
-                                        data
-                                    );
+                                    ref
+                                        .read(cartDateSelectedStateNotifiers
+                                            .notifier)
+                                        .setCartDataSelection(data);
                                     checkout();
+                                  }else if(cartData.data?.data?.shipmentType ==
+                                      CartItemTypes.ready_made.name) {
+                                    checkout();
+                                  }else{
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text(
+                                          "Please select a gift box",
+                                        ),
+                                      )
+                                    );
                                   }
-                                }else{
+                                } else {
                                   showAuthenticated();
                                 }
-
                               })
                         ],
                       ),
                     ),
                   ),
                 ),
-            ),
+              ),
       ),
     );
   }
@@ -399,20 +473,20 @@ class _CartScreenState extends ConsumerState<CartScreen> {
                 topRight: Radius.circular(10), topLeft: Radius.circular(10))),
         context: context,
         builder: (BuildContext context) => AuthenticateBottomSheet(
-          onLoginClicked: () {
-            navigateToLogin();
-          },
-        ));
+              onLoginClicked: () {
+                navigateToLogin();
+              },
+            ));
   }
-
 
   void navigateToLogin() async {
     var makeRefresh =
-    await context.push(R_LoginScreen, extra: {"type": TypeOfMode.ViewMode});
+        await context.push(R_LoginScreen, extra: {"type": TypeOfMode.ViewMode});
     if (makeRefresh == true) {
       getCartDetails(null);
     }
   }
+
   void calculateCartItems({String? cartId}) {
     print(
         "cartId :$cartId giftCardId: ${giftCartSelected?.id} giftBoxId: ${giftBoxSelected?.id}");
@@ -441,38 +515,39 @@ class _CartScreenState extends ConsumerState<CartScreen> {
         .deleteItemCart(cartItemId: cartItemId.toString());
   }
 
-  void navigateToItemDetails(
-      ItemType itemType,ProductDetails? product,ServiceShowData? service,int cartId) {
+  void navigateToItemDetails(ItemType itemType, ProductDetails? product,
+      ServiceShowData? service, int cartId) {
     var itemId = itemType == ItemType.Products ? product?.id : service?.id;
-    var itemName = itemType == ItemType.Products ? product?.name : service?.name;
+    var itemName =
+        itemType == ItemType.Products ? product?.name : service?.name;
     var categoriesIds = itemType == ItemType.Products
-        ? product?.categories.map((item) => (item.id ?? 0).toInt())
-        .toList() ??
-        []
-        : service?.categories
-        .map((item) => (item.id ?? 0).toInt())
-        .toList() ??
-        [];
+        ? product?.categories.map((item) => (item.id ?? 0).toInt()).toList() ??
+            []
+        : service?.categories.map((item) => (item.id ?? 0).toInt()).toList() ??
+            [];
     context.push("$R_ProductAndServiceDetails/${itemId.toString()}", extra: {
       "type": itemType,
       "name": itemName,
       "categoryIds": categoriesIds,
-      "product" : product,
-      "service" : service,
-      "cartId" : cartId
+      "product": product,
+      "service": service,
+      "cartId": cartId
     });
   }
 
-  void checkout() async{
-    var success = await context.push(R_CheckoutScreen,extra: {"type":CheckoutTypes.HartCard}) as bool? ?? false;
-    print(success);
-    if(success == true){
+  void checkout() async {
+    var success = await context.push(R_CheckoutScreen,
+            extra: {"type": CheckoutTypes.HartCard}) as bool? ??
+        false;
+    getCartDetails(null);
+    if (success == true) {
       navigateToHomeScreen();
     }
   }
 
-  void navigateToHomeScreen(){
-    (context.findAncestorStateOfType<MainScreenNavHostState>() as MainScreenNavHostState)
+  void navigateToHomeScreen() {
+    (context.findAncestorStateOfType<MainScreenNavHostState>()
+            as MainScreenNavHostState)
         .onItemTapped(0);
   }
 
@@ -480,5 +555,10 @@ class _CartScreenState extends ConsumerState<CartScreen> {
     ref
         .read(fetchCardDetailsStateNotifies.notifier)
         .getCardDetails(sessionId: sessionId);
+  }
+
+  void getPackagingData() {
+    ref.read(fetchAllGiftBoxStateNotifies.notifier).fetchAllGiftBox();
+    ref.read(fetchAllGiftCardsStateNotifies.notifier).fetchAllGiftCards();
   }
 }

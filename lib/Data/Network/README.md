@@ -182,7 +182,6 @@ Class | Method | HTTP request | Description
  - [CodeSendResponse](doc//CodeSendResponse.md)
  - [Color](doc//Color.md)
  - [ColorsResponse](doc//ColorsResponse.md)
- - [CreatInstantOrder200Response](doc//CreatInstantOrder200Response.md)
  - [FilterTopProductsServices200Response](doc//FilterTopProductsServices200Response.md)
  - [FilterTopProductsServices200ResponseData](doc//FilterTopProductsServices200ResponseData.md)
  - [FilterTopProductsServices200ResponseDataProducts](doc//FilterTopProductsServices200ResponseDataProducts.md)

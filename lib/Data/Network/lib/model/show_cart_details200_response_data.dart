@@ -20,6 +20,7 @@ class ShowCartDetails200ResponseData {
     this.updatedAt,
     this.userId,
     this.type,
+    this.shipmentType,
   });
 
   List<CartItemsInner> cartItems;
@@ -72,6 +73,14 @@ class ShowCartDetails200ResponseData {
   ///
   String? type;
 
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  String? shipmentType;
+
   @override
   bool operator ==(Object other) => identical(this, other) || other is ShowCartDetails200ResponseData &&
      other.cartItems == cartItems &&
@@ -80,7 +89,8 @@ class ShowCartDetails200ResponseData {
      other.total == total &&
      other.updatedAt == updatedAt &&
      other.userId == userId &&
-     other.type == type;
+     other.type == type &&
+     other.shipmentType == shipmentType;
 
   @override
   int get hashCode =>
@@ -91,10 +101,11 @@ class ShowCartDetails200ResponseData {
     (total == null ? 0 : total!.hashCode) +
     (updatedAt == null ? 0 : updatedAt!.hashCode) +
     (userId == null ? 0 : userId!.hashCode) +
-    (type == null ? 0 : type!.hashCode);
+    (type == null ? 0 : type!.hashCode) +
+    (shipmentType == null ? 0 : shipmentType!.hashCode);
 
   @override
-  String toString() => 'ShowCartDetails200ResponseData[cartItems=$cartItems, createdAt=$createdAt, id=$id, total=$total, updatedAt=$updatedAt, userId=$userId, type=$type]';
+  String toString() => 'ShowCartDetails200ResponseData[cartItems=$cartItems, createdAt=$createdAt, id=$id, total=$total, updatedAt=$updatedAt, userId=$userId, type=$type, shipmentType=$shipmentType]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -128,6 +139,11 @@ class ShowCartDetails200ResponseData {
       json[r'type'] = this.type;
     } else {
       json[r'type'] = null;
+    }
+    if (this.shipmentType != null) {
+      json[r'shipment_type'] = this.shipmentType;
+    } else {
+      json[r'shipment_type'] = null;
     }
     return json;
   }
@@ -164,6 +180,7 @@ class ShowCartDetails200ResponseData {
             ? null
             : num.parse(json[r'user_id'].toString()),
         type: mapValueOfType<String>(json, r'type'),
+        shipmentType: mapValueOfType<String>(json, r'shipment_type'),
       );
     }
     return null;

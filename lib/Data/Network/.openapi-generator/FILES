@@ -32,7 +32,6 @@ doc/CodeSendRequest.md
 doc/CodeSendResponse.md
 doc/Color.md
 doc/ColorsResponse.md
-doc/CreatInstantOrder200Response.md
 doc/FilterTopProductsServices200Response.md
 doc/FilterTopProductsServices200ResponseData.md
 doc/FilterTopProductsServices200ResponseDataProducts.md
@@ -194,7 +193,6 @@ lib/model/code_send_request.dart
 lib/model/code_send_response.dart
 lib/model/color.dart
 lib/model/colors_response.dart
-lib/model/creat_instant_order200_response.dart
 lib/model/filter_top_products_services200_response.dart
 lib/model/filter_top_products_services200_response_data.dart
 lib/model/filter_top_products_services200_response_data_products.dart

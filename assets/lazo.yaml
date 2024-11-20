@@ -8118,6 +8118,8 @@ paths:
                         example: 1
                       type:
                         type: string
+                      shipment_type:
+                        type: string
                   message:
                     type: string
                     example: cart details
@@ -8258,6 +8260,8 @@ paths:
                       session_id:
                         type: string
                         nullable: true
+                      shipment_type:
+                        type: string
                   message:
                     type: string
                     example: cart details
@@ -8365,6 +8369,8 @@ paths:
                       session_id:
                         type: string
                         nullable: true
+                      shipment_type:
+                        type: string
                   message:
                     type: string
                     example: cart details
@@ -9200,18 +9206,24 @@ paths:
               properties:
                 comments:
                   type: array
+                  format: string
                   items:
                     type: string
+                    format: string
                     example: This is a good order
                 order_items_ids:
                   type: array
+                  format: string
                   items:
                     type: string
+                    format: string
                 ratings:
                   type: array
+                  format: string
                   items:
                     description: From 1 to 5
                     type: string
+                    format: string
                     example: '3.5'
       responses:
         '200':
@@ -10266,14 +10278,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  data:
-                    $ref: '#/components/schemas/ClientOrderDetails'
-                  message:
-                    type: string
-                  status:
-                    type: boolean
+                $ref: '#/components/schemas/ClientOrderDetailsResponse'
 
       security:
         - bearerAuth: []

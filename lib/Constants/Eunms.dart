@@ -54,8 +54,15 @@ enum OrderTypes {
   self_order,receiver_order
 }
 
+enum CartItemTypes {
+  ready_made,unready_made
+}
+
 enum ServiceTypes {
   soft_card,hard_card
+}
+enum ProductTypes {
+  ready_made_gifts,various_gifts
 }
 enum OrderStateActionType {
   Accepte,

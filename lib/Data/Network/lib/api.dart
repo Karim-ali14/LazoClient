@@ -65,7 +65,6 @@ part 'model/code_send_request.dart';
 part 'model/code_send_response.dart';
 part 'model/color.dart';
 part 'model/colors_response.dart';
-part 'model/creat_instant_order200_response.dart';
 part 'model/filter_top_products_services200_response.dart';
 part 'model/filter_top_products_services200_response_data.dart';
 part 'model/filter_top_products_services200_response_data_products.dart';

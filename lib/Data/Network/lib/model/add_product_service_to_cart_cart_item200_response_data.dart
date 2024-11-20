@@ -24,6 +24,7 @@ class AddProductServiceToCartCartItem200ResponseData {
     this.updatedAt,
     this.userId,
     this.sessionId,
+    this.shipmentType,
   });
 
   List<CartItemsInner> cartItems;
@@ -84,6 +85,14 @@ class AddProductServiceToCartCartItem200ResponseData {
 
   String? sessionId;
 
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  String? shipmentType;
+
   @override
   bool operator ==(Object other) => identical(this, other) || other is AddProductServiceToCartCartItem200ResponseData &&
      other.cartItems == cartItems &&
@@ -96,7 +105,8 @@ class AddProductServiceToCartCartItem200ResponseData {
      other.type == type &&
      other.updatedAt == updatedAt &&
      other.userId == userId &&
-     other.sessionId == sessionId;
+     other.sessionId == sessionId &&
+     other.shipmentType == shipmentType;
 
   @override
   int get hashCode =>
@@ -111,10 +121,11 @@ class AddProductServiceToCartCartItem200ResponseData {
     (type == null ? 0 : type!.hashCode) +
     (updatedAt == null ? 0 : updatedAt!.hashCode) +
     (userId == null ? 0 : userId!.hashCode) +
-    (sessionId == null ? 0 : sessionId!.hashCode);
+    (sessionId == null ? 0 : sessionId!.hashCode) +
+    (shipmentType == null ? 0 : shipmentType!.hashCode);
 
   @override
-  String toString() => 'AddProductServiceToCartCartItem200ResponseData[cartItems=$cartItems, createdAt=$createdAt, id=$id, productId=$productId, serviceId=$serviceId, categoriesIds=$categoriesIds, total=$total, type=$type, updatedAt=$updatedAt, userId=$userId, sessionId=$sessionId]';
+  String toString() => 'AddProductServiceToCartCartItem200ResponseData[cartItems=$cartItems, createdAt=$createdAt, id=$id, productId=$productId, serviceId=$serviceId, categoriesIds=$categoriesIds, total=$total, type=$type, updatedAt=$updatedAt, userId=$userId, sessionId=$sessionId, shipmentType=$shipmentType]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -169,6 +180,11 @@ class AddProductServiceToCartCartItem200ResponseData {
     } else {
       json[r'session_id'] = null;
     }
+    if (this.shipmentType != null) {
+      json[r'shipment_type'] = this.shipmentType;
+    } else {
+      json[r'shipment_type'] = null;
+    }
     return json;
   }
 
@@ -210,6 +226,7 @@ class AddProductServiceToCartCartItem200ResponseData {
             ? null
             : num.parse(json[r'user_id'].toString()),
         sessionId: mapValueOfType<String>(json, r'session_id'),
+        shipmentType: mapValueOfType<String>(json, r'shipment_type'),
       );
     }
     return null;

@@ -14,7 +14,9 @@ typedef OnItemSelected = Function(GiftCard?);
 
 class GiftCardListView extends ConsumerStatefulWidget {
   final OnItemSelected onItemSelected;
-  const GiftCardListView(this.onItemSelected, {super.key});
+  final List<GiftCard>? data;
+  final bool? isLoading;
+  const GiftCardListView(this.onItemSelected, {this.data, this.isLoading,super.key});
 
   @override
   ConsumerState<GiftCardListView> createState() => _GiftBoxListViewState();
@@ -26,31 +28,30 @@ class _GiftBoxListViewState extends ConsumerState<GiftCardListView> {
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((callback) {
-      ref.read(fetchAllGiftCardsStateNotifies.notifier).fetchAllGiftCards();
+
     });
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    var giftCard = ref.watch(fetchAllGiftCardsStateNotifies);
 
     return ListView.builder(
-      itemCount: giftCard.data?.data.length ?? 0,
+      itemCount: widget.data?.length ?? 0,
       scrollDirection: Axis.horizontal,
       itemBuilder: (BuildContext context, int index) {
         return Padding(
           padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 8, 0),
           child: Skeletonizer(
-            enabled: giftCard.state == DataState.LOADING,
+            enabled: widget.isLoading ?? false,
             child: GiftItemView(
               type: GiftItemType.Card,
-              giftCard: giftCard.data?.data[index],
+              giftCard: widget.data?[index],
               isSelected: selectedIndex == index,
               onItemSelected: () {
                 setState(() {
                   if (selectedIndex != index){
-                    widget.onItemSelected.call(giftCard.data?.data[index]);
+                    widget.onItemSelected.call(widget.data?[index]);
                     selectedIndex = index; // Update selected index
                   }else {
                     widget.onItemSelected.call(null);

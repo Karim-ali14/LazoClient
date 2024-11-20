@@ -81,7 +81,7 @@ void (empty response body)
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **calculateInstantOrder**
-> CreatInstantOrder200Response calculateInstantOrder(serviceId, serviceQuantity, serviceSelectedListIds, serviceSelectedListItemsIds, promocode)
+> ClientOrderDetailsResponse calculateInstantOrder(serviceId, serviceQuantity, serviceSelectedListIds, serviceSelectedListItemsIds, promocode)
 
 calculate an instant order
 
@@ -124,7 +124,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**CreatInstantOrder200Response**](CreatInstantOrder200Response.md)
+[**ClientOrderDetailsResponse**](ClientOrderDetailsResponse.md)
 
 ### Authorization
 
@@ -222,7 +222,7 @@ void (empty response body)
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **creatInstantOrder**
-> CreatInstantOrder200Response creatInstantOrder(serviceId, serviceQuantity, serviceSelectedListIds, serviceSelectedListItemsIds, paymentMethod, promocode, receiverName, receiverPhoneNumber, cardMessage, cardFrom, cardTo, deliveryDate, deliveryTime)
+> ClientOrderDetailsResponse creatInstantOrder(serviceId, serviceQuantity, serviceSelectedListIds, serviceSelectedListItemsIds, paymentMethod, promocode, receiverName, receiverPhoneNumber, cardMessage, cardFrom, cardTo, deliveryDate, deliveryTime)
 
 create an instant order
 
@@ -281,7 +281,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**CreatInstantOrder200Response**](CreatInstantOrder200Response.md)
+[**ClientOrderDetailsResponse**](ClientOrderDetailsResponse.md)
 
 ### Authorization
 
@@ -295,7 +295,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **createOrder**
-> ClientOrderDetails createOrder(deliveryDate, deliveryTime, giftBoxId, giftCardId, isIdentitySecret, orderType, paymentMethod, promocode, receiverAddress, latLng, receiverName, receiverAddressDetails, receiverPhone)
+> ClientOrderDetailsResponse createOrder(deliveryDate, deliveryTime, giftBoxId, giftCardId, isIdentitySecret, orderType, paymentMethod, promocode, receiverAddress, latLng, receiverName, receiverAddressDetails, receiverPhone)
 
 Create order
 
@@ -354,7 +354,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**ClientOrderDetails**](ClientOrderDetails.md)
+[**ClientOrderDetailsResponse**](ClientOrderDetailsResponse.md)
 
 ### Authorization
 
@@ -419,7 +419,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **rateOrder**
-> ClientOrderDetails rateOrder(comments, orderItemsIds, ratings)
+> ClientOrderDetailsResponse rateOrder(comments, orderItemsIds, ratings)
 
 Rate order
 
@@ -458,7 +458,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**ClientOrderDetails**](ClientOrderDetails.md)
+[**ClientOrderDetailsResponse**](ClientOrderDetailsResponse.md)
 
 ### Authorization
 

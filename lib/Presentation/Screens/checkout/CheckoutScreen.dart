@@ -470,11 +470,11 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                         ),
                       )
                     : const SizedBox(),
-                Text(
+                widget.type == CheckoutTypes.SoftCard ? Text(
                   "Save on your order",
                   style:
                   AppTheme.styleWithTextBlackAdelleSansExtendedFonts18w700,
-                ),
+                ): const SizedBox(),
                 SizedBox(
                   height: 24,
                 ),
