@@ -70,13 +70,10 @@ class _CartScreenState extends ConsumerState<CartScreen> {
           CartItemTypes.unready_made.name.toLowerCase()) {
         getPackagingData();
       }
-
-    },onEmpty: (res){
-      print("empty data");
-      if(res.data?.data?.cartItems.isEmpty == true){
-        promocode = null;
-        voucherTextController.clear();
-      }
+    }, onEmpty: (res) {
+      print("empty data ${res.data?.data?.cartItems.length}");
+      promocode = null;
+      voucherTextController.clear();
     });
 
     handleState(showPromoCodeDetailsStateNotifies, showLoading: true,
@@ -441,12 +438,12 @@ class _CartScreenState extends ConsumerState<CartScreen> {
                                             .notifier)
                                         .setCartDataSelection(data);
                                     checkout();
-                                  }
-                                  else if(cartData.data?.data?.shipmentType ==
+                                  } else if (cartData
+                                          .data?.data?.shipmentType ==
                                       CartItemTypes.ready_made.name) {
                                     var data = {
                                       orderTypeKey:
-                                      OrderTypes.receiver_order.name
+                                          OrderTypes.receiver_order.name
                                     };
 
                                     if (promocode?.isNotEmpty == true) {
@@ -454,20 +451,18 @@ class _CartScreenState extends ConsumerState<CartScreen> {
                                     }
                                     ref
                                         .read(cartDateSelectedStateNotifiers
-                                        .notifier)
+                                            .notifier)
                                         .setCartDataSelection(data);
                                     checkout();
-                                  }else{
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                        content: Text(
-                                          "Please select a gift box",
-                                        ),
-                                      )
-                                    );
+                                  } else {
+                                    ScaffoldMessenger.of(context)
+                                        .showSnackBar(SnackBar(
+                                      content: Text(
+                                        "Please select a gift box",
+                                      ),
+                                    ));
                                   }
-                                }
-                                else {
+                                } else {
                                   showAuthenticated();
                                 }
                               })

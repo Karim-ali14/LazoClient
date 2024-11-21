@@ -107,10 +107,8 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
 
     handleState(getProductDetails, showLoading: false, onSuccess: (res) {
       res.data?.data?.lists?.forEach((item){
-        if(item.isMultiSelectable == 0){
+        if(item.clientSelectedItemsInCart?.isNotEmpty == true){
           productSelectedItemsIds[int.tryParse((item.id??0).toString())??0] = item.clientSelectedItemsInCart?.map((item) => item.id.toString()).toList() ?? [];
-        }else{
-          productSelectedMultipleItems[int.tryParse((item.id??0).toString())??0] = item.clientSelectedItemsInCart?.map((item) => item.id.toString()).toList() ?? [];
         }
       });
       print("productSelectedItemsIds : $productSelectedItemsIds , productSelectedMultipleItems : $productSelectedMultipleItems");
@@ -1315,6 +1313,7 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
           .join("|");
     }
 
+    print("addProduct info : $parentItemIds  ,  $childItemIds ");
     var sessionId = ref
         .read(getSessionHandlerStateNotifier.notifier)
         .checkIfSessionIdExist();
@@ -1344,7 +1343,7 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
           .map((value) => value.join(","))
           .join("|");
     }
-    print("editProduct info : $parentItemIds  ,  $childItemIds  , $id");
+    print("editProduct info : $parentItemIds  ,  $childItemIds ");
     ref.read(updateCartItemsStateNotifies.notifier).updateCartItems(
         cartItemId: id.toString(),
         productSelectedListIds: parentItemIds,

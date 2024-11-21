@@ -98,8 +98,8 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
     handleState(createOrderStateNotifiers, showLoading: true, onSuccess: (res) {
       print("create order Response payment link : ${res.data?.paymentLink}");
       ref.watch(fetchCardDetailsStateNotifies);
-      navigateToPaymentScreen(res.data?.paymentLink ?? "");
-      // context.pop(true);
+      // navigateToPaymentScreen(res.data?.paymentLink ?? "");
+      context.pop(true);
     });
 
     handleState(calculateInstantOrderStateProvider, onSuccess: (res) {

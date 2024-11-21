@@ -61,7 +61,7 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
           _currentLatLng != null ?Align(
             alignment: AlignmentDirectional.topEnd,
             child: Padding(
-              padding: const EdgeInsets.all(26.0),
+              padding: const EdgeInsets.all(35.0),
               child: InkWell(
                   onTap: () {
                     context.pop(_currentLatLng);
