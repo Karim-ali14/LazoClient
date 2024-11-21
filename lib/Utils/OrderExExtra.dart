@@ -21,10 +21,15 @@ extension OrderExe on ClientOrderDetails{
   }
 
   bool isCanceledOrder(){
-    return statusId == 9 || statusId == 10 || statusId == 11 || statusId == 12 ;
+    return statusId == 9 || statusId == 10 || statusId == 11 || statusId == 12|| statusId == 14 ;
   }
+
   bool isFinishedOrder(){
     return statusId == 8 ;
+  }
+
+  bool isUserCanCancelOrder(){
+    return statusId == 1 ;
   }
 
   bool isSingleProvider(){

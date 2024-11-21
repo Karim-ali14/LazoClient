@@ -98,7 +98,7 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
     handleState(createOrderStateNotifiers, showLoading: true, onSuccess: (res) {
       print("create order Response payment link : ${res.data?.paymentLink}");
       ref.watch(fetchCardDetailsStateNotifies);
-      navigateToPaymentScreen(res.data?.paymentLink ?? "https://payments-dev.urway-tech.com/URWAYPGService/direct.jsp?paymentid=2432519640188722043");
+      navigateToPaymentScreen(res.data?.paymentLink ?? "");
       // context.pop(true);
     });
 

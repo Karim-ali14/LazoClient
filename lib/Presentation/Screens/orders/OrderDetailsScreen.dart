@@ -80,6 +80,24 @@ class _OrderDetailsScreenState extends ConsumerState<OrderDetailsScreen> {
         isCenter: false,
         title: context.tr("orderDetails"),
         appContext: context,
+        trailingWidget: orderDetails.data?.data?.isUserCanCancelOrder() == true
+            ? InkWell(
+                onTap: () {
+                  actionType = ButtonsClickType.Cancel;
+                  showCancellationBottomSheet(orderDetails.data?.data?.id.toString() ?? "", "14");
+                },
+                child: const Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Center(
+                    child: Text(
+                      "Cancel",
+                      style: AppTheme
+                          .styleWithTextRedAdelleSansExtendedFonts16w500,
+                    ),
+                  ),
+                ),
+              )
+            : const SizedBox(),
       ),
       body: Column(
         children: [
@@ -144,8 +162,8 @@ class _OrderDetailsScreenState extends ConsumerState<OrderDetailsScreen> {
                                       .toString(),
                                 ),
                                 orderDetails.data?.data?.isFinishedOrder() ==
-                                    true &&
-                                    orderDetails.data?.data?.rating == null
+                                            true &&
+                                        orderDetails.data?.data?.rating == null
                                     ? const SizedBox(
                                         height: 24,
                                       )
