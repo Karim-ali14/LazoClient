@@ -5,7 +5,7 @@ import '../../Constants/Eunms.dart';
 import '../../Data/Network/lib/api.dart';
 
 class CreateOrderUseCase
-    extends StateNotifier<StateModel<ClientOrderDetails?>> {
+    extends StateNotifier<StateModel<ClientOrderDetailsResponse?>> {
   final Ref _ref;
   final ClientApi _clientApi;
   CreateOrderUseCase(this._ref, this._clientApi) : super(StateModel());

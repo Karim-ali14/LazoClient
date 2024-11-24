@@ -86,7 +86,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
   Future<bool> _onWillPop() async {
     // Your custom logic here
     print('Back button pressed!');
-    context.pop(true);
+    context.pop(false);
     return false; // Return true to allow the pop action, false to prevent it
   }
 

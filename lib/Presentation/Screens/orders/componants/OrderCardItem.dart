@@ -59,10 +59,11 @@ class _OrderCardItemState extends ConsumerState<OrderCardItem> {
                   clientName: widget.orderModel?.getStoreName(),
                   stateId: widget.orderModel?.statusId.toString(),
                 ),
-                widget.orderModel?.rejectedOrderItems?.isEmpty == false
+                widget.orderModel?.rejectedOrderItems?.isEmpty == false && widget.orderModel?.isUserCanCancelOrder() == true
                     ? const SizedBox(height: 24)
                     : const SizedBox(),
                 widget.orderModel?.rejectedOrderItems?.isEmpty == false
+          && widget.orderModel?.isUserCanCancelOrder() == true
                     ? ProductOutOfStockCardView(
                         backgroundColor: AppTheme.appGrey16,
                         description:
@@ -82,7 +83,7 @@ class _OrderCardItemState extends ConsumerState<OrderCardItem> {
                   icon: SVGIcons.totalPriceIcon(),
                   title: "Total Price",
                   value:
-                      "${context.tr("SAR")} ${widget.orderModel?.total ?? 0}",
+                      "${context.tr("SAR")} ${widget.orderModel?.totalWithShippingFee ?? 0}",
                 ),
                 const SizedBox(height: 16),
                 InformationRowItem(

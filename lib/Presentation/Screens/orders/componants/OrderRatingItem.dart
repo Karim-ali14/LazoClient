@@ -51,7 +51,7 @@ class _OrderRatingItemState extends State<OrderRatingItem> {
                         width: MediaQuery.of(context).size.width,
                         height: 122,
                         initialImg: widget.item?.product != null
-                            ? widget.item?.product?.coverImagePath
+                            ? widget.item?.product?.imagePath
                             : widget.item?.service?.coverImagePath,
                         placeHolder: placeholder,
                       ),

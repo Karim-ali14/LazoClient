@@ -204,8 +204,8 @@ class _OrderDetailsScreenState extends ConsumerState<OrderDetailsScreen> {
                                               color: AppTheme.appGrey8,
                                               width: 1),
                                           color: Colors.white),
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 16, vertical: 24),
+                                      padding: const EdgeInsetsDirectional.only(
+                                          start: 16,end: 16 ,  top: 20),
                                       child: Column(
                                         children: [
                                           InformationRowItem(
@@ -221,15 +221,15 @@ class _OrderDetailsScreenState extends ConsumerState<OrderDetailsScreen> {
                                             value:
                                                 "${orderDetails.data?.data?.cancelledBy}",
                                           ),
-                                          const SizedBox(height: 16),
-                                          InformationRowItem(
+                                          orderDetails.data?.data?.cancellationReason?.isNotEmpty == true? const SizedBox(height: 16):const SizedBox(),
+                                          orderDetails.data?.data?.cancellationReason?.isNotEmpty == true? InformationRowItem(
                                             icon: SVGIcons.redTriangleIcon(),
                                             title: "Reason for Cancellation",
                                             hasDivider: false,
                                             ifSetValueInNewLine: true,
                                             value:
-                                                "${orderDetails.data?.data?.cancellationReason} ${context.tr(itemsKey)}",
-                                          ),
+                                                "${orderDetails.data?.data?.cancellationReason}}",
+                                          ): const SizedBox(),
                                         ],
                                       ),
                                     ),

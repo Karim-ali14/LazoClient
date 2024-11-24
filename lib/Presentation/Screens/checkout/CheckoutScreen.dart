@@ -13,6 +13,7 @@ import 'package:lazo_client/Presentation/StateNotifiersViewModel/ClientStateNoti
 import 'package:lazo_client/Presentation/Widgets/CustomAppBar.dart';
 import 'package:lazo_client/Utils/Extintions.dart';
 import 'package:lazo_client/Utils/LocationHandler.dart';
+import 'package:lazo_client/Utils/OrderExExtra.dart';
 
 import '../../../Constants/Constants.dart';
 import '../../../Constants/Eunms.dart';
@@ -96,10 +97,13 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
     });
 
     handleState(createOrderStateNotifiers, showLoading: true, onSuccess: (res) {
-      print("create order Response payment link : ${res.data?.paymentLink}");
+      print("create order Response payment link : ${res.data?.data?.paymentLink}");
       ref.watch(fetchCardDetailsStateNotifies);
-      // navigateToPaymentScreen(res.data?.paymentLink ?? "");
-      context.pop(true);
+      if(res.data?.data?.paymentLink != null){
+        navigateToPaymentScreen(res.data?.data?.paymentLink ?? "");
+      }else{
+        context.pop(true);
+      }
     });
 
     handleState(calculateInstantOrderStateProvider, onSuccess: (res) {

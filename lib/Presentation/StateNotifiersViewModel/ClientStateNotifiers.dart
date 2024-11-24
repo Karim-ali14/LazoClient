@@ -6,7 +6,7 @@ import '../../Constants/Eunms.dart';
 import '../../Data/Network/lib/api.dart';
 
 final createOrderStateNotifiers =
-    StateNotifierProvider.autoDispose<CreateOrderUseCase, StateModel<ClientOrderDetails?>>(
+    StateNotifierProvider.autoDispose<CreateOrderUseCase, StateModel<ClientOrderDetailsResponse?>>(
         (ref) => CreateOrderUseCase(ref, ref.read(clientApi)));
 
 final getNewOrderStateProvider = StateNotifierProvider.autoDispose<OrderUseCase,

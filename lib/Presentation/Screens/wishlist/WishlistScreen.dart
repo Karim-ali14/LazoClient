@@ -97,7 +97,9 @@ class _WishListScreenState extends ConsumerState<WishListScreen>
       ref
           .read(getWishListProductsStateNotifier.notifier)
           .deleteProductItem(res.data?.data?.productId.toString() ?? "");
-      refreshHomeData();
+      ref.read(homeDataStateNotifiers.notifier).handleAddProductToWishList(
+          res.data?.data?.productId ?? 0, res.data?.data?.inWishlist ?? false);
+      // refreshHomeData();
     });
 
     handleState(serviceToggleStateNotifier, showLoading: true,
@@ -105,7 +107,9 @@ class _WishListScreenState extends ConsumerState<WishListScreen>
       ref
           .read(getWishListServicesStateNotifier.notifier)
           .deleteServiceItem(res.data?.data?.serviceId.toString() ?? "");
-      refreshHomeData();
+      ref.read(homeDataStateNotifiers.notifier).handelAddServiceToWishList(
+          res.data?.data?.serviceId ?? 0, res.data?.data?.inWishlist ?? false);
+      // refreshHomeData();
     });
 
     handleState(addServiceToCartUseCaseStateNotifier, showLoading: true,

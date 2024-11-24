@@ -1,10 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:lazo_client/Constants/Assets.dart';
 import 'package:lazo_client/Data/Models/StateModel.dart';
 import 'package:lazo_client/Doman/CommenProviders/ApiProvider.dart';
 import 'package:lazo_client/Presentation/BottomSheets/AuthenticateBottomSheet.dart';
@@ -13,11 +10,7 @@ import 'package:lazo_client/Presentation/Screens/home/Componants/HorizontalTopSe
 import 'package:lazo_client/Presentation/StateNotifiersViewModel/PublicStateNotifiers.dart';
 import 'package:lazo_client/Presentation/StateNotifiersViewModel/UserAuthStateNotifiers.dart';
 import 'package:lazo_client/Presentation/Widgets/BannerCardItems.dart';
-import 'package:lazo_client/Presentation/Widgets/CategoryItemCart.dart';
 import 'package:lazo_client/Presentation/Widgets/SearchWithFilter.dart';
-import 'package:lazo_client/Presentation/Widgets/SellerItemCard.dart';
-import 'package:lazo_client/Presentation/Widgets/ServiceAndProductItemCard.dart';
-import 'package:lazo_client/Presentation/Widgets/TitleWithSeeAll.dart';
 
 import '../../../Constants.dart';
 import '../../../Constants/Eunms.dart';
