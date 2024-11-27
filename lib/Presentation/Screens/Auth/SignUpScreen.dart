@@ -43,7 +43,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
   final formKey = GlobalKey<FormState>();
   File? imageFile = null;
   List<City> cities = [];
-  List<String> images = [];
+  List<String?> images = [];
   int? cityItemSelected;
   @override
   void initState() {
@@ -202,9 +202,12 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                     height: 48,
                     onPress: () {
                       // cityController.text = "sdafsd";
-                      if (formKey.currentState?.validate() == true) {
+                      if (formKey.currentState?.validate() == true && images.isNotEmpty) {
                         uploadFiles();
+                      }else{
+                        sendCode();
                       }
+
                     },
                     child: Text(
                       signUpKey,
@@ -223,11 +226,12 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
   }
 
   void signUp() {
+    print("alkdsjlkadsf");
     context.push(R_OTP, extra: {
       "phone": phoneController.text,
       "name": fullNameController.text,
       "email": emailController.text.isNotEmpty ? emailController.text : null,
-      "image": images.first,
+      "image": images.isNotEmpty ? images.first : null,
       "cityId": "$cityItemSelected",
       "type": OTPType.SignUp,
       "typeOfMode": widget.typeOfMode,
