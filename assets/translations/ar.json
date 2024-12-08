@@ -32,7 +32,7 @@
   "padding" : "Padding",
   "waiting" : "Waiting",
   "preparing" : "Preparing",
-  "readyToShipping" : "Ready to shipping",
+  "readyToShipping" : "shipped",
   "finished" : "Finished",
   "canceled" : "Canceled",
   "orderDetails" : "order Details",
