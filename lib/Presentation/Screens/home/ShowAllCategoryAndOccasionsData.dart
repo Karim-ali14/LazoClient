@@ -1,8 +1,10 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lazo_client/Data/Models/StateModel.dart';
+import 'package:lazo_client/Localization/Keys.dart';
 import 'package:lazo_client/Presentation/StateNotifiersViewModel/PublicStateNotifiers.dart';
 import 'package:lazo_client/Presentation/Theme/AppTheme.dart';
 import 'package:lazo_client/Presentation/Widgets/CustomAppBar.dart';
@@ -54,7 +56,8 @@ class _ShowAllCategoryAndOccasionsDataState
       appBar: CustomAppBar(
         appContext: context,
         title:
-            widget.type == CategoryType.Categories ? "Categories" : "Occasions",
+            widget.type == CategoryType.Categories ? context.tr(categoriesKey)
+                : context.tr(occasionsKey),
         navigated: true,
         isCenter: false,
       ),
@@ -88,9 +91,9 @@ class _ShowAllCategoryAndOccasionsDataState
                       occasionsState.state == DataState.EMPTY
                   ? EmptyDataView(
                       icon: SVGIcons.searchGifIcon(),
-                      title: "No Data Found",
+                      title: context.tr(noDataFoundKey),
                       description:
-                          "Please refine your search using common words to get accurate results",
+                          context.tr(pleaseRefineYourSearchUsingCommonWordsToGetAccurateResultsKey),
                     )
                   : GridView.count(
                       crossAxisCount: 2,

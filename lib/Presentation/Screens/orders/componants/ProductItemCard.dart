@@ -110,7 +110,7 @@ class _ProductItemCardState extends State<ProductItemCard> {
                 Row(
                   children: [
                     Text(
-                      "Size : ",
+                      "${context.tr(sizeKey)} : ",
                       style: AppTheme
                           .styleWithTextAppGrey7AdelleSansExtendedFonts14w400,
                     ),
@@ -121,7 +121,7 @@ class _ProductItemCardState extends State<ProductItemCard> {
                     ),
                     Spacer(),
                     Text(
-                      "Color : ",
+                      "${context.tr(colorKey)} : ",
                       style: AppTheme
                           .styleWithTextAppGrey7AdelleSansExtendedFonts14w400,
                     ),
@@ -132,7 +132,7 @@ class _ProductItemCardState extends State<ProductItemCard> {
                     ),
                     Spacer(),
                     Text(
-                      "Amount : ",
+                      "${context.tr(amountKey)} : ",
                       style: AppTheme
                           .styleWithTextAppGrey7AdelleSansExtendedFonts14w400,
                     ),
@@ -149,7 +149,7 @@ class _ProductItemCardState extends State<ProductItemCard> {
                 Row(
                   children: [
                     const Text(
-                      "Extra items :",
+                      "${context.tr(extraItemsKey)} :",
                       style: AppTheme
                           .styleWithTextAppGrey7AdelleSansExtendedFonts14w400,
                     ),

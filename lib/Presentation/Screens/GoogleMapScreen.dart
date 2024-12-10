@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator_platform_interface/src/models/position.dart';
@@ -8,6 +9,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:lazo_client/Presentation/Theme/AppTheme.dart';
 import 'package:permission_handler/permission_handler.dart';
 
+import '../../Localization/Keys.dart';
 import '../../Utils/LocationHandler.dart';
 import '../../Utils/PermissionsHandler.dart';
 
@@ -61,13 +63,13 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
           _currentLatLng != null ?Align(
             alignment: AlignmentDirectional.topEnd,
             child: Padding(
-              padding: const EdgeInsets.all(35.0),
+              padding: const EdgeInsets.all(37.0),
               child: InkWell(
                   onTap: () {
                     context.pop(_currentLatLng);
                   },
                   child: Text(
-                    "Done",
+                  context.tr(doneKey),
                     style: AppTheme
                         .styleWithTextBlackAdelleSansExtendedFonts16w500,
                   )),

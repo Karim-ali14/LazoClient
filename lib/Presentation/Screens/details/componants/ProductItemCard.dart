@@ -28,7 +28,6 @@ class ProductItemCard extends StatefulWidget {
 class _ProductItemCardState extends State<ProductItemCard> {
   @override
   Widget build(BuildContext context) {
-    print("sdlkjflksdjfa ${widget.item?.product != null}");
     return InkWell(
       onTap: () {
         widget.onItemClick.call(widget.item?.id?.toInt() ?? 0);
@@ -149,8 +148,8 @@ class _ProductItemCardState extends State<ProductItemCard> {
                           child: Row(
                             children: [
                               widget.item?.provider != null
-                                  ? const Text(
-                                      "Sold by :",
+                                  ? Text(
+                                      context.tr(soldByKey),
                                       style: AppTheme
                                           .styleWithTextAppGrey7AdelleSansExtendedFonts10w700,
                                     )
@@ -180,7 +179,7 @@ class _ProductItemCardState extends State<ProductItemCard> {
                                           width: 5,
                                         ),
                                         Text(
-                                          "Cancelled",
+                                          context.tr(cancelledKey),
                                           style: AppTheme
                                               .styleWithTextMainAppColorAdelleSansExtendedFonts10w400,
                                         )

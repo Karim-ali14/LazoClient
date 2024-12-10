@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -14,6 +15,7 @@ import 'package:skeletonizer/skeletonizer.dart';
 import '../../../Constants.dart';
 import '../../../Constants/Eunms.dart';
 import '../../../Data/Models/StateModel.dart';
+import '../../../Localization/Keys.dart';
 import '../../BottomSheets/CancelOrderBottomSheet.dart';
 import '../../StateNotifiersViewModel/ClientStateNotifiers.dart';
 import '../../Theme/AppTheme.dart';
@@ -111,7 +113,7 @@ class _OrdersScreenState extends ConsumerState<OrdersScreen>
                         ),
                         child: Center(
                           child: Text(
-                            "New Order",
+                            context.tr(newOrderKey),
                             style: activeTabIndex == 0
                                 ? AppTheme
                                     .styleWithTextWhiteAdelleSansExtendedFonts14w400
@@ -199,7 +201,7 @@ class _OrdersScreenState extends ConsumerState<OrdersScreen>
                       ),
                       child: Center(
                         child: Text(
-                          "Cancel Order",
+                          context.tr(cancelOrderKey),
                           style: activeTabIndex == 3
                               ? AppTheme
                                   .styleWithTextWhiteAdelleSansExtendedFonts14w400
@@ -228,9 +230,9 @@ class _OrdersScreenState extends ConsumerState<OrdersScreen>
                             navigateToLogin();
                           },
                           icon: SVGIcons.existGifIcon(),
-                          title: 'You need you login first',
+                          title: context.tr(youNeedYouLoginFirstKey),
                           description:
-                              'You can see your orders when you login.',
+                              context.tr(youCanSeeYourOrdersWhenYouLoginKey),
                           showButton: true,
                         )
                       : newOrders.state == DataState.EMPTY
@@ -247,9 +249,9 @@ class _OrdersScreenState extends ConsumerState<OrdersScreen>
                                   child: EmptyDataPlaceHolder(
                                     onAddOrderClick: () {},
                                     icon: SVGIcons.basketGifIcon(),
-                                    title: 'No Orders Added',
+                                    title: context.tr(noOrdersAddedKey),
                                     description:
-                                        'When you make any order, it will appear here',
+                                        context.tr(whenYouMakeAnyOrderItWillAppearHereKey),
                                   ),
                                 ),
                               ),
@@ -315,9 +317,9 @@ class _OrdersScreenState extends ConsumerState<OrdersScreen>
                             navigateToLogin();
                           },
                           icon: SVGIcons.existGifIcon(),
-                          title: 'You need you login first',
+                          title: context.tr(youNeedYouLoginFirstKey),
                           description:
-                              'You can see your orders when you login.',
+                              context.tr(youCanSeeYourOrdersWhenYouLoginKey),
                           showButton: true,
                         )
                       : currentOrders.state == DataState.EMPTY
@@ -334,9 +336,9 @@ class _OrdersScreenState extends ConsumerState<OrdersScreen>
                                   child: EmptyDataPlaceHolder(
                                     onAddOrderClick: () {},
                                     icon: SVGIcons.basketGifIcon(),
-                                    title: 'No Orders Added',
+                                    title: context.tr(noOrdersAddedKey),
                                     description:
-                                        'When you make any order, it will appear here',
+                                        context.tr(whenYouMakeAnyOrderItWillAppearHereKey),
                                   ),
                                 ),
                               ),
@@ -402,9 +404,9 @@ class _OrdersScreenState extends ConsumerState<OrdersScreen>
                             navigateToLogin();
                           },
                           icon: SVGIcons.existGifIcon(),
-                          title: 'You need you login first',
+                          title: context.tr(youNeedYouLoginFirstKey),
                           description:
-                              'You can see your orders when you login.',
+                              context.tr(youCanSeeYourOrdersWhenYouLoginKey),
                           showButton: true,
                         )
                       : finishOrders.state == DataState.EMPTY
@@ -421,9 +423,9 @@ class _OrdersScreenState extends ConsumerState<OrdersScreen>
                                   child: EmptyDataPlaceHolder(
                                     onAddOrderClick: () {},
                                     icon: SVGIcons.basketGifIcon(),
-                                    title: 'No Orders Added',
+                                    title: context.tr(noOrdersAddedKey),
                                     description:
-                                        'When you make any order, it will appear here',
+                                        context.tr(whenYouMakeAnyOrderItWillAppearHereKey),
                                   ),
                                 ),
                               ),
@@ -469,9 +471,9 @@ class _OrdersScreenState extends ConsumerState<OrdersScreen>
                             navigateToLogin();
                           },
                           icon: SVGIcons.existGifIcon(),
-                          title: 'You need you login first',
+                          title: context.tr(youNeedYouLoginFirstKey),
                           description:
-                              'You can see your orders when you login.',
+                              context.tr(youCanSeeYourOrdersWhenYouLoginKey),
                           showButton: true,
                         )
                       : cancelOrders.state == DataState.EMPTY
@@ -488,9 +490,9 @@ class _OrdersScreenState extends ConsumerState<OrdersScreen>
                                   child: EmptyDataPlaceHolder(
                                     onAddOrderClick: () {},
                                     icon: SVGIcons.basketGifIcon(),
-                                    title: 'No Orders Added',
+                                    title: context.tr(noOrdersAddedKey),
                                     description:
-                                        'When you make any order, it will appear here',
+                                        context.tr(whenYouMakeAnyOrderItWillAppearHereKey),
                                   ),
                                 ),
                               ),

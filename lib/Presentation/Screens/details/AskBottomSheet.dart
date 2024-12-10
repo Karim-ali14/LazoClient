@@ -1,10 +1,12 @@
 import 'dart:ffi';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../Constants/Constants.dart';
+import '../../../Localization/Keys.dart';
 import '../../Theme/AppTheme.dart';
 import '../../Widgets/AppButton.dart';
 
@@ -64,7 +66,7 @@ class _AskBottomSheetState extends State<AskBottomSheet> {
                 },
                 child: Center(
                     child: Text(
-                  "Yes",
+                    context.tr(yesKey),
                   style: AppTheme
                       .styleWithTextGray7AdelleSansExtendedFonts16w400
                       .copyWith(color: Colors.white),

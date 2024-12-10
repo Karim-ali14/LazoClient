@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -9,6 +10,7 @@ import 'package:lazo_client/Presentation/Screens/orders/componants/OrderRatingIt
 import 'package:lazo_client/Presentation/Widgets/AppButton.dart';
 import 'package:lazo_client/Presentation/Widgets/CustomAppBar.dart';
 import '../../../Data/Network/lib/api.dart';
+import '../../../Localization/Keys.dart';
 import '../../StateNotifiersViewModel/ClientStateNotifiers.dart';
 
 class RatingOrderItemsScreen extends ConsumerStatefulWidget {
@@ -71,7 +73,7 @@ class _RatingOrderItemsScreenState extends ConsumerState<RatingOrderItemsScreen>
 
     return Scaffold(
       appBar: CustomAppBar(
-        title: "Rating Order",
+        title: context.tr(ratingOrderKey),
         navigated: true,
         isCenter: false,
         appContext: context,
@@ -97,7 +99,7 @@ class _RatingOrderItemsScreenState extends ConsumerState<RatingOrderItemsScreen>
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: AppButton(
-                text: "Save Rating",
+                text: context.tr(saveRatingKey),
                 width: double.infinity,
                 height: 46,
                 onPress: () {
@@ -115,7 +117,7 @@ class _RatingOrderItemsScreenState extends ConsumerState<RatingOrderItemsScreen>
                   } else {
                     // If invalid, show error message
                     ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text("Please rate and comment on all order items.")),
+                      SnackBar(content: Text(context.tr(pleaseRateAndCommentOnAllOrderItemsKey))),
                     );
                   }
                 }),

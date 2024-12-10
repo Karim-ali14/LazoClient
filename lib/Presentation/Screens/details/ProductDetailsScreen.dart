@@ -57,8 +57,6 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
   var makeRefresh = false;
 
   Future<bool> _onWillPop() async {
-    // Your custom logic here
-    print('Back button pressed!');
     context.pop(UpdateDataModel(
         updateRelatedData: true, updateNormalData: makeRefresh));
     return false; // Return true to allow the pop action, false to prevent it
@@ -71,7 +69,6 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((callback) {
-      print("sadfasdfas ${widget.productDetails}");
 
       if (widget.itemType == ItemType.Products) {
         if (widget.productDetails == null) {

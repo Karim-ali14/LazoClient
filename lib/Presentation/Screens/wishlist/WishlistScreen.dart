@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -17,6 +18,7 @@ import '../../../Constants/Eunms.dart';
 import '../../../Data/Models/FilterData.dart';
 import '../../../Data/Models/StateModel.dart';
 import '../../../Data/Network/lib/api.dart';
+import '../../../Localization/Keys.dart';
 import '../../BottomSheets/AuthenticateBottomSheet.dart';
 import '../../StateNotifiersViewModel/PublicStateNotifiers.dart';
 import '../../StateNotifiersViewModel/UserAuthStateNotifiers.dart';
@@ -175,7 +177,7 @@ class _WishListScreenState extends ConsumerState<WishListScreen>
                         ),
                         child: Center(
                           child: Text(
-                            "Products",
+                            context.tr(productsKey),
                             style: activeTabIndex == 0
                                 ? AppTheme
                                     .styleWithTextWhiteAdelleSansExtendedFonts14w400
@@ -235,17 +237,17 @@ class _WishListScreenState extends ConsumerState<WishListScreen>
                             navigateToLogin();
                           },
                           icon: SVGIcons.existGifIcon(),
-                          title: 'You need you login first',
+                          title: context.tr(youNeedYouLoginFirstKey),
                           description:
-                              'You can see your wishlist when you login.',
+                              context.tr(youCanSeeYourWishlistWhenYouLoginKey),
                           showButton: true,
                         )
                       : productsState.state == DataState.EMPTY
                           ? /*OrderPlaceHolder(onAddOrderClick: () {})*/ EmptyDataView(
                               icon: SVGIcons.wishlistGifIcon(),
-                              title: "No Products Found",
+                              title: context.tr(noProductsFoundKey),
                               description:
-                                  "When you add any product to your whishlist, it will appear here",
+                                  context.tr(whenYouAddAnyProductToYourWishlistItWillAppearHereKey),
                             )
                           : DataListView<ProviderProduct>(
                               dataList: productsState.data?.data?.products ??
@@ -295,17 +297,17 @@ class _WishListScreenState extends ConsumerState<WishListScreen>
                             navigateToLogin();
                           },
                           icon: SVGIcons.existGifIcon(),
-                          title: 'You need you login first',
+                          title: context.tr(youNeedYouLoginFirstKey),
                           description:
-                              'You can see your wishlist when you login.',
+                              context.tr(youCanSeeYourWishlistWhenYouLoginKey),
                           showButton: true,
                         )
                       : servicesState.state == DataState.EMPTY
                           ? /*OrderPlaceHolder(onAddOrderClick: () {})*/ EmptyDataView(
                               icon: SVGIcons.wishlistGifIcon(),
-                              title: "No Services Found",
+                              title: context.tr(noServicesFoundKey),
                               description:
-                                  "When you add any service to your whishlist, it will appear here",
+                                  context.tr(whenYouAddAnyServiceToYourWishlistItWillAppearHereKey),
                             )
                           : DataListView<ServiceShowData>(
                               dataList: servicesState.data?.data?.services ??

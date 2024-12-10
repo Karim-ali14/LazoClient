@@ -1,7 +1,9 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
+import '../../Localization/Keys.dart';
 import '../Widgets/CustomAppBar.dart';
 
 class PaymentScreen extends StatefulWidget {
@@ -19,7 +21,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
     return Scaffold(
       appBar: CustomAppBar(
         appContext: context,
-        title: "Payment",
+        title: context.tr(paymentKey),
         navigated: true,
         isCenter: false,
       ),

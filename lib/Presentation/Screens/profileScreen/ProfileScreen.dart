@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -14,6 +15,7 @@ import 'package:lazo_client/Presentation/Widgets/AppTextField.dart';
 import 'package:lazo_client/Presentation/Widgets/CustomAppBar.dart';
 import 'package:lazo_client/Presentation/Widgets/SvgIcons.dart';
 
+import '../../../Localization/Keys.dart';
 import '../../StateNotifiersViewModel/PublicStateNotifiers.dart';
 import '../../StateNotifiersViewModel/UserAuthStateNotifiers.dart';
 import '../../Widgets/CircleImagePicker.dart';
@@ -58,7 +60,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
     return Scaffold(
       appBar: CustomAppBar(
         appContext: context,
-        title: "Profile",
+        title: context.tr(profileKey),
         isCenter: false,
         navigated: true,
         trailingWidget: Padding(
@@ -81,7 +83,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                     width: 2,
                   ),
                   Text(
-                    "Edit Profile",
+                    context.tr(editProfileKey),
                     style: AppTheme
                         .styleWithTextMainAppColorAdelleSansExtendedFonts12w400,
                   )
@@ -120,8 +122,8 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                 textInputType: TextInputType.text,
                 textFieldBorderColor: AppTheme.appGrey3,
                 mode: AutovalidateMode.onUserInteraction,
-                hint: "Full Name",
-                label: "Full Name",
+                hint: context.tr(fullNameKey),
+                label: context.tr(fullNameKey),
                 textEditingController: fullNameTextEditingController,
                 disabled: true,
                 style: AppTheme.styleWithTextGray7AdelleSansExtendedFonts16w500,
@@ -134,8 +136,8 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                 textInputType: TextInputType.phone,
                 textFieldBorderColor: AppTheme.appGrey3,
                 mode: AutovalidateMode.onUserInteraction,
-                hint: "Phone Number",
-                label: "Phone Number",
+                hint: context.tr(phoneNumberKey),
+                label: context.tr(phoneNumberKey),
                 textEditingController: phoneTextEditingController,
                 disabled: false,
                 endWidget: GestureDetector(
@@ -154,8 +156,8 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                 textInputType: TextInputType.emailAddress,
                 textFieldBorderColor: AppTheme.appGrey3,
                 mode: AutovalidateMode.onUserInteraction,
-                hint: "Email Address",
-                label: "Email Address",
+                hint: context.tr(emailAddressKey),
+                label: context.tr(emailAddressKey),
                 textEditingController: emailTextEditingController,
                 disabled: true,
                 style: AppTheme.styleWithTextGray7AdelleSansExtendedFonts16w500,
@@ -167,8 +169,8 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                 textInputType: TextInputType.text,
                 textFieldBorderColor: AppTheme.appGrey3,
                 mode: AutovalidateMode.onUserInteraction,
-                hint: "City",
-                label: "City",
+                hint: context.tr(cityKey),
+                label: context.tr(cityKey),
                 textEditingController: cityTextEditingController,
                 disabled: true,
                 style: AppTheme.styleWithTextGray7AdelleSansExtendedFonts16w500,

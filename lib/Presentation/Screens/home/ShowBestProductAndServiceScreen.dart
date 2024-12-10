@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -12,6 +13,7 @@ import '../../../Constants/Eunms.dart';
 import '../../../Data/Models/FilterData.dart';
 import '../../../Data/Models/StateModel.dart';
 import '../../../Data/Network/lib/api.dart';
+import '../../../Localization/Keys.dart';
 import '../../BottomSheets/AuthenticateBottomSheet.dart';
 import '../../StateNotifiersViewModel/PublicStateNotifiers.dart';
 import '../../StateNotifiersViewModel/UserAuthStateNotifiers.dart';
@@ -146,9 +148,9 @@ class _ShowProductAndServiceScreenState
                   ? productsState.state == DataState.EMPTY
                       ? /*OrderPlaceHolder(onAddOrderClick: () {})*/ EmptyDataView(
                           icon: SVGIcons.searchGifIcon(),
-                          title: "No Data Found",
+                          title: context.tr(noDataFoundKey),
                           description:
-                              "Please refine your search using common words to get accurate results",
+                              context.tr(pleaseRefineYourSearchUsingCommonWordsToGetAccurateResultsKey),
                         )
                       : DataListView<ProviderProduct>(
                           dataList: productsState.data?.data?.products?.data ??
@@ -197,9 +199,9 @@ class _ShowProductAndServiceScreenState
                   : servicesState.state == DataState.EMPTY
                       ? /*OrderPlaceHolder(onAddOrderClick: () {})*/ EmptyDataView(
                           icon: SVGIcons.searchGifIcon(),
-                          title: "No Data Found",
+                          title: context.tr(noDataFoundKey),
                           description:
-                              "Please refine your search using common words to get accurate results",
+                              context.tr(pleaseRefineYourSearchUsingCommonWordsToGetAccurateResultsKey),
                         )
                       : DataListView<ServiceShowData>(
                           dataList: servicesState.data?.data?.services?.data ??

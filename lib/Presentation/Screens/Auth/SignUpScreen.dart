@@ -226,7 +226,6 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
   }
 
   void signUp() {
-    print("alkdsjlkadsf");
     context.push(R_OTP, extra: {
       "phone": phoneController.text,
       "name": fullNameController.text,
@@ -263,7 +262,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
               widgetList: cities
                   .map((e) => ItemSelector(e.id ?? 0, e.name ?? "", null))
                   .toList(),
-              searchHint: "Search by",
+              searchHint: context.tr(searchByKey),
               itemSelectedId: cityItemSelected,
               isSingleSelect: true,
               onSelectMultiItemsCallback: (items) {},

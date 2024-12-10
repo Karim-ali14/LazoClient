@@ -115,7 +115,7 @@ class _OtpScreenState extends ConsumerState<OTPScreen> {
     return Scaffold(
       appBar: CustomAppBar(
           appContext: context,
-          title: "OTP",
+          title: context.tr(OTPKey),
           navigated: true,
           isCenter: false,
           trailingWidget: Padding(
@@ -138,7 +138,7 @@ class _OtpScreenState extends ConsumerState<OTPScreen> {
                 height: 25,
               ),
               Text(
-                "Please enter the verification code you",
+              context.tr(pleaseEnterTheVerificationCodeYouKey),
                 style: AppTheme.styleWithTextGray7AdelleSansExtendedFonts16w400,
               ),
               const SizedBox(
@@ -149,7 +149,7 @@ class _OtpScreenState extends ConsumerState<OTPScreen> {
                 children: [
                   RichText(
                       text: TextSpan(
-                          text: "received from ",
+                          text: context.tr(receivedFromKey),
                           style: AppTheme
                               .styleWithTextGray7AdelleSansExtendedFonts16w400,
                           children: <TextSpan>[
@@ -173,7 +173,7 @@ class _OtpScreenState extends ConsumerState<OTPScreen> {
                 if(otpFieldsKeys.currentState?.formKey.currentState?.validate() == true){
                   verifyPhone(widget.phone,otpFieldsKeys.currentState?.getCode);
                 }
-              } ,text: "Continue",height: 48,width: context.getScreenSize.width,)),
+              } ,text: context.tr(continueKey),height: 48,width: context.getScreenSize.width,)),
               Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: TimerText(key: timerKey,onTimerFinish: (){
@@ -187,7 +187,7 @@ class _OtpScreenState extends ConsumerState<OTPScreen> {
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
                 child: RichText(
                   text: TextSpan(
-                    text: "Resend verification code",
+                    text: context.tr(resendVerificationCodeKey),
                     style: TextStyle(
                       color: readyToResendOtp ? AppTheme.mainAppColor : AppTheme.appGrey3, // Set the color to green
                       fontSize: 16.0,
@@ -214,7 +214,6 @@ class _OtpScreenState extends ConsumerState<OTPScreen> {
   }
 
   void verifyPhone(String phone,String? code) async {
-    print("verifyPhone $phone , $code");
     ref.read(confirmResetCodeStateProvider.notifier).confirmReset(phone, code);
   }
 
@@ -224,7 +223,6 @@ class _OtpScreenState extends ConsumerState<OTPScreen> {
     ref.read(updateFcmTokenStateProvider.notifier).calculateInstantOrder(
         fcmToken: fcmToken
     );
-    print("Fcm Token : $fcmToken");
   }
 
   void login() async {

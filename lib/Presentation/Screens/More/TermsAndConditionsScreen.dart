@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -5,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lazo_client/Presentation/Theme/AppTheme.dart';
 
+import '../../../Localization/Keys.dart';
 import '../../StateNotifiersViewModel/PublicStateNotifiers.dart';
 import '../../Widgets/CustomAppBar.dart';
 
@@ -23,7 +25,7 @@ class _TermsAndConditionsScreenState extends ConsumerState<TermsAndConditionsScr
     return Scaffold(
       appBar: CustomAppBar(
         appContext: context,
-        title: "Terms & Conditions",
+        title: context.tr(termsAndConditionsKey),
         navigated: true,
         isCenter: false,
       ),

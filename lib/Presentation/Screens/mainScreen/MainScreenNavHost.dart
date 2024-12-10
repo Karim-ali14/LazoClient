@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -11,6 +12,7 @@ import 'package:lazo_client/Presentation/Theme/AppTheme.dart';
 import 'package:lazo_client/Presentation/Widgets/CustomAppBar.dart';
 
 import '../../../Constants/Constants.dart';
+import '../../../Localization/Keys.dart';
 import '../../Widgets/AppButton.dart';
 import '../../Widgets/SvgIcons.dart';
 import '../More/MoreScreen.dart';
@@ -44,8 +46,8 @@ class MainScreenNavHostState extends ConsumerState<MainScreenNavHost> {
             appContext: context,
             title: currentTab == 0
                 ? client == null
-                    ? "Hi There"
-                    : "Hi ${client.client?.name}"
+                    ? context.tr(hiThereKey)
+                    : "${context.tr(hiKey)} ${client.client?.name}"
                 : listTabsName[currentTab],
             isCenter: false,
             navigated: false,

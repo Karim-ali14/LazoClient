@@ -1,5 +1,6 @@
 import 'dart:ffi';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -11,6 +12,7 @@ import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../../../Constants/Eunms.dart';
 import '../../../../Data/Network/lib/api.dart';
+import '../../../../Localization/Keys.dart';
 
 typedef OnUpdateQuantity = Function(num, num);
 typedef OnDeleteItem = Function(num);
@@ -56,7 +58,7 @@ class _CartItemViewState extends State<CartItemView> {
               widget.onDeleteItem.call(widget.cartItem?.id ?? 0);
             },
             icon: Icons.delete,
-            label: "Delete",
+            label: context.tr(deleteKey),
             backgroundColor: AppTheme.mainAppColor,
           )
         ]),
@@ -165,8 +167,8 @@ class _CartItemViewState extends State<CartItemView> {
                               Text(
                                 (widget.cartItem?.type ?? "") ==
                                         CartItemType.Product.name.toLowerCase()
-                                    ? "SAR ${countItemPrice(widget.cartItem?.product?.priceAfterDiscount ?? 0, widget.cartItem?.quantity ?? 1)}"
-                                    : "SAR ${countItemPrice(widget.cartItem?.service?.priceAfterDiscount ?? 0, widget.cartItem?.quantity ?? 1)}",
+                                    ? "${context.tr(sarKey)} ${countItemPrice(widget.cartItem?.product?.priceAfterDiscount ?? 0, widget.cartItem?.quantity ?? 1)}"
+                                    : "${context.tr(sarKey)} ${countItemPrice(widget.cartItem?.service?.priceAfterDiscount ?? 0, widget.cartItem?.quantity ?? 1)}",
                                 style: AppTheme
                                     .styleWithTextRedAdelleSansExtendedFonts16w500,
                               ),
@@ -186,7 +188,7 @@ class _CartItemViewState extends State<CartItemView> {
                                           width: 6,
                                         ),
                                         Text(
-                                          "SAR ${countItemPrice(widget.cartItem?.product?.price ?? 0, widget.cartItem?.quantity ?? 1)}",
+                                          "${context.tr(sarKey)} ${countItemPrice(widget.cartItem?.product?.price ?? 0, widget.cartItem?.quantity ?? 1)}",
                                           style: AppTheme
                                               .styleWithTextGray7AdelleSansExtendedFonts12w400
                                               .copyWith(
@@ -212,7 +214,7 @@ class _CartItemViewState extends State<CartItemView> {
                                           width: 6,
                                         ),
                                         Text(
-                                          "SAR ${countItemPrice(widget.cartItem?.service?.price ?? 0, widget.cartItem?.quantity ?? 1)}",
+                                          "${context.tr(sarKey)} ${countItemPrice(widget.cartItem?.service?.price ?? 0, widget.cartItem?.quantity ?? 1)}",
                                           style: AppTheme
                                               .styleWithTextGray7AdelleSansExtendedFonts12w400
                                               .copyWith(
@@ -301,7 +303,7 @@ class _CartItemViewState extends State<CartItemView> {
                                 width: 2,
                               ),
                               Text(
-                                "Edit",
+                                context.tr(editKey),
                                 style: AppTheme
                                     .styleWithTextMainAppColorAdelleSansExtendedFonts12w400,
                               )

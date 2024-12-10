@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -5,6 +6,7 @@ import 'package:lazo_client/Presentation/Widgets/SvgIcons.dart';
 import '../../../../Constants/Assets.dart';
 import '../../../../Constants/Constants.dart';
 import '../../../../Data/Network/lib/api.dart';
+import '../../../../Localization/Keys.dart';
 import '../../../Theme/AppTheme.dart';
 import '../../../Widgets/CircleImage.dart';
 
@@ -182,7 +184,7 @@ class _OrderRatingItemState extends State<OrderRatingItem> {
                           width: 1,
                         ),
                       ),
-                      hintText: 'Enter your text here...',
+                      hintText: context.tr(enterYourTextHereKey),
                     ),
                   ),
                 )

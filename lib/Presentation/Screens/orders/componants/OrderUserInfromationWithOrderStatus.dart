@@ -47,7 +47,7 @@ class OrderUserInformationWithOrderStatus extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "Store Name",
+                context.tr(storeNameKey),
                 style: AppTheme.styleWithTextGray7AdelleSansExtendedFonts12w400,
               ),
               const SizedBox(height: 6),

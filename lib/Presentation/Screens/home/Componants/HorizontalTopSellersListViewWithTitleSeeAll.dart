@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -7,6 +8,7 @@ import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../../../Constants.dart';
 import '../../../../Data/Network/lib/api.dart';
+import '../../../../Localization/Keys.dart';
 import '../../../Widgets/TitleWithSeeAll.dart';
 import 'HorizontalCategoryListViewWithTitleSeeAll.dart';
 
@@ -35,7 +37,7 @@ class _HorizontalTopSellersListViewWithTitleSeeAllState extends State<Horizontal
         Skeletonizer(
           enabled: widget.showLoading,
           child: TitleWithSeeAll(
-            title: "Top Sellers",
+            title: context.tr(topSellersKey),
             onClickOnSeeAll: () {
               widget.onSeeAllClickListener.call(null,"");
             },

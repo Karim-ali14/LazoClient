@@ -1,7 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:lazo_client/Presentation/Screens/details/componants/ProductRowItem.dart';
-
 import '../../../../Data/Models/ItemSelector.dart';
 import '../../../Theme/AppTheme.dart';
 

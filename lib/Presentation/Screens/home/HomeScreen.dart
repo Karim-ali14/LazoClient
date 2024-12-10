@@ -1,9 +1,11 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lazo_client/Data/Models/StateModel.dart';
 import 'package:lazo_client/Doman/CommenProviders/ApiProvider.dart';
+import 'package:lazo_client/Localization/Keys.dart';
 import 'package:lazo_client/Presentation/BottomSheets/AuthenticateBottomSheet.dart';
 import 'package:lazo_client/Presentation/Screens/home/Componants/HorizontalCategoryListViewWithTitleSeeAll.dart';
 import 'package:lazo_client/Presentation/Screens/home/Componants/HorizontalTopServiceListViewWithTitleSeeAll.dart';
@@ -90,7 +92,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     onFilterClick: () {},
                     onSearchClick: () {
                       navigateToProductsAndServices(
-                          CategoryType.Search, "Search", null);
+                          CategoryType.Search, context.tr(searchKey), null);
                     }),
               ),
               const SizedBox(
@@ -178,7 +180,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                     },
                                     onSeeAllClickListener: (id, name) {
                                       navigateToSeeAllTopSeller(
-                                          "Top Sellers", CategoryType.Search);
+                                          context.tr(topSellersKey),
+                                          CategoryType.Search
+                                      );
                                     },
                                   ),
                                   SizedBox(
@@ -256,10 +260,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                     },
                                     onSeeAllClickListener: (id, name) {
                                       navigateToSeeAllBestProductAndService(
-                                          "Best Products", ItemType.Products);
+                                          context.tr(bestProductsKey), ItemType.Products);
                                     },
                                     itemWidth: 163,
-                                    title: 'Best products',
+                                    title: context.tr(bestProductsKey),
                                   ),
                                   SizedBox(
                                     height: 32,
@@ -298,10 +302,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                     },
                                     onSeeAllClickListener: (id, name) {
                                       navigateToSeeAllBestProductAndService(
-                                          "Best Services", ItemType.Services);
+                                          context.tr(bestServicesKey), ItemType.Services);
                                     },
                                     itemWidth: 163,
-                                    title: 'Best Services',
+                                    title: context.tr(bestServicesKey),
                                   ),
                                   SizedBox(
                                     height: 10,

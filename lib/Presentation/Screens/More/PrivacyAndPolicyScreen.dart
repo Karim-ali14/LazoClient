@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -5,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lazo_client/Presentation/Theme/AppTheme.dart';
 
+import '../../../Localization/Keys.dart';
 import '../../StateNotifiersViewModel/PublicStateNotifiers.dart';
 import '../../Widgets/CustomAppBar.dart';
 
@@ -22,7 +24,7 @@ class _PrivacyAndPolicyScreenState extends ConsumerState<PrivacyAndPolicyScreen>
     return Scaffold(
       appBar: CustomAppBar(
         appContext: context,
-        title: "Privacy & PolicyScreen",
+        title: context.tr(privacyAndPolicyKey),
         navigated: true,
         isCenter: false,
       ),

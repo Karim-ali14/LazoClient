@@ -78,7 +78,7 @@ class _OrderDetailsScreenState extends ConsumerState<OrderDetailsScreen> {
       appBar: CustomAppBar(
         navigated: true,
         isCenter: false,
-        title: context.tr("orderDetails"),
+        title: context.tr(orderDetailsKey),
         appContext: context,
         trailingWidget: orderDetails.data?.data?.isUserCanCancelOrder() == true
             ? InkWell(
@@ -86,11 +86,11 @@ class _OrderDetailsScreenState extends ConsumerState<OrderDetailsScreen> {
                   actionType = ButtonsClickType.Cancel;
                   showCancellationBottomSheet(orderDetails.data?.data?.id.toString() ?? "", "14");
                 },
-                child: const Padding(
+                child: Padding(
                   padding: EdgeInsets.all(8.0),
                   child: Center(
                     child: Text(
-                      "Cancel",
+                      context.tr(cancelKey),
                       style: AppTheme
                           .styleWithTextRedAdelleSansExtendedFonts16w500,
                     ),
@@ -123,7 +123,7 @@ class _OrderDetailsScreenState extends ConsumerState<OrderDetailsScreen> {
                               ? ProductOutOfStockCardView(
                                   backgroundColor: Colors.white,
                                   description:
-                                      "${orderDetails.data?.data?.getCancellationItemsNames()} out of stock. Keep other items & complete order, or cancel?",
+                                      "${orderDetails.data?.data?.getCancellationItemsNames()} ${context.tr(outOfStockKeepOtherItemsAndCompleteOrderOrCancelKey)}",
                                   onButtonClickListener: (type) {
                                     if (ButtonsClickType.CompleteOrder ==
                                         type) {
@@ -173,7 +173,7 @@ class _OrderDetailsScreenState extends ConsumerState<OrderDetailsScreen> {
                                         orderDetails.data?.data?.rating == null
                                     ? AppButton(
                                         width: double.infinity,
-                                        text: "Rate Products",
+                                        text: context.tr(rateProductsKey),
                                         height: 40,
                                         onPress: () {
                                           navigateToRatingOrderScreen(
@@ -190,7 +190,7 @@ class _OrderDetailsScreenState extends ConsumerState<OrderDetailsScreen> {
                               ? Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text("Canceled On",
+                                    Text(context.tr(canceledOnKey),
                                         style: AppTheme
                                             .styleWithTextBlackAdelleSansExtendedFonts18w700),
                                     const SizedBox(
@@ -210,21 +210,21 @@ class _OrderDetailsScreenState extends ConsumerState<OrderDetailsScreen> {
                                         children: [
                                           InformationRowItem(
                                             icon: SVGIcons.calendarIcon(),
-                                            title: "Date / Time",
+                                            title: context.tr(dateAndTimeKey),
                                             value:
                                                 "${(orderDetails.data?.data?.createdAt ?? "").hhMm()}, ${(orderDetails.data?.data?.createdAt ?? "").ddMmYyyy()}",
                                           ),
                                           const SizedBox(height: 16),
                                           InformationRowItem(
                                             icon: SVGIcons.redTriangleIcon(),
-                                            title: "Cancelled By",
+                                            title: context.tr(cancelledByKey),
                                             value:
                                                 "${orderDetails.data?.data?.cancelledBy}",
                                           ),
                                           orderDetails.data?.data?.cancellationReason?.isNotEmpty == true? const SizedBox(height: 16):const SizedBox(),
                                           orderDetails.data?.data?.cancellationReason?.isNotEmpty == true? InformationRowItem(
                                             icon: SVGIcons.redTriangleIcon(),
-                                            title: "Reason for Cancellation",
+                                            title: context.tr(reasonForCancellationKey),
                                             hasDivider: false,
                                             ifSetValueInNewLine: true,
                                             value:
@@ -239,7 +239,7 @@ class _OrderDetailsScreenState extends ConsumerState<OrderDetailsScreen> {
                                   ],
                                 )
                               : const SizedBox(),
-                          Text("Order Info",
+                          Text(context.tr(orderInfoKey),
                               style: AppTheme
                                   .styleWithTextBlackAdelleSansExtendedFonts18w700),
                           const SizedBox(
@@ -257,27 +257,27 @@ class _OrderDetailsScreenState extends ConsumerState<OrderDetailsScreen> {
                               children: [
                                 InformationRowItem(
                                   icon: SVGIcons.totalPriceIcon(),
-                                  title: "Total Price",
+                                  title: context.tr(totalPriceKey),
                                   value:
-                                      "${context.tr("SAR")} ${orderDetails.data?.data?.totalWithShippingFee ?? 0}",
+                                      "${context.tr(sarKey)} ${orderDetails.data?.data?.totalWithShippingFee ?? 0}",
                                 ),
                                 const SizedBox(height: 16),
                                 InformationRowItem(
                                   icon: SVGIcons.documentIcon(),
-                                  title: "Order ID",
+                                  title: context.tr(orderIdKey),
                                   value: "${orderDetails.data?.data?.id}",
                                 ),
                                 const SizedBox(height: 16),
                                 InformationRowItem(
                                   icon: SVGIcons.numberOfItemsIcon(),
-                                  title: "No. of items",
+                                  title: context.tr(noOfItemsKey),
                                   value:
                                       "${orderDetails.data?.data?.orderItems.length} ${context.tr(itemsKey)}",
                                 ),
                                 const SizedBox(height: 16),
                                 InformationRowItem(
                                   icon: SVGIcons.calendarIcon(),
-                                  title: "Date / Time",
+                                  title: context.tr(dateAndTimeKey),
                                   value:
                                       "${(orderDetails.data?.data?.createdAt ?? "").hhMm()}, ${(orderDetails.data?.data?.createdAt ?? "").ddMmYyyy()}",
                                   hasDivider: false,
@@ -288,7 +288,7 @@ class _OrderDetailsScreenState extends ConsumerState<OrderDetailsScreen> {
                           const SizedBox(
                             height: 32,
                           ),
-                          Text("Recipient Info",
+                          Text(context.tr(recipientInfoKey),
                               style: AppTheme
                                   .styleWithTextBlackAdelleSansExtendedFonts18w700),
                           const SizedBox(
@@ -306,14 +306,14 @@ class _OrderDetailsScreenState extends ConsumerState<OrderDetailsScreen> {
                               children: [
                                 InformationRowItem(
                                   // icon: SVGIcons.totalPriceIcon(),
-                                  title: "Recipient Name",
+                                  title: context.tr(recipientNameKey),
                                   value:
                                       "${orderDetails.data?.data?.receiverName}",
                                 ),
                                 const SizedBox(height: 16),
                                 InformationRowItem(
                                   // icon: SVGIcons.documentIcon(),
-                                  title: "Recipient Phone",
+                                  title:context.tr(phoneNumberKey),
                                   value:
                                       "${orderDetails.data?.data?.receiverPhoneNumber}",
                                   hasDivider: orderDetails.data?.data
@@ -342,7 +342,7 @@ class _OrderDetailsScreenState extends ConsumerState<OrderDetailsScreen> {
                                             true
                                     ? InformationRowItem(
                                         // icon: SVGIcons.calendarIcon(),
-                                        title: "Location",
+                                        title: context.tr(locationKey),
                                         value:
                                             "${orderDetails.data?.data?.receiverAddress ?? orderDetails.data?.data?.receiverAddressDetails}",
                                         hasDivider: false,
@@ -359,8 +359,8 @@ class _OrderDetailsScreenState extends ConsumerState<OrderDetailsScreen> {
                                   orderDetails.data?.data?.orderItems.first
                                               .product !=
                                           null
-                                      ? "Product"
-                                      : "Service",
+                                      ? context.tr(productKey)
+                                      : context.tr(serviceKey),
                                   style: AppTheme
                                       .styleWithTextBlackAdelleSansExtendedFonts18w700)
                               : const SizedBox(),
@@ -390,7 +390,7 @@ class _OrderDetailsScreenState extends ConsumerState<OrderDetailsScreen> {
                             height: 24,
                           ),
                           Text(
-                            "Payment Details",
+                            context.tr(paymentDetailsKey),
                             style: AppTheme
                                 .styleWithTextBlackAdelleSansExtendedFonts18w700,
                           ),
@@ -412,7 +412,7 @@ class _OrderDetailsScreenState extends ConsumerState<OrderDetailsScreen> {
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 12.0),
                                   child: ProductRowItem(
-                                    title: "Payment Method",
+                                    title: context.tr(paymentMethodKey),
                                     textValue:
                                         "${orderDetails.data?.data?.paymentMethod}",
                                     titleTextStyle: AppTheme
@@ -425,9 +425,9 @@ class _OrderDetailsScreenState extends ConsumerState<OrderDetailsScreen> {
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 12.0),
                                   child: ProductRowItem(
-                                    title: "Order Price",
+                                    title: context.tr(orderPriceKey),
                                     textValue:
-                                        "SAR ${(orderDetails.data?.data?.totalBeforeDiscount ?? 0)}",
+                                        "${context.tr(sarKey)} ${(orderDetails.data?.data?.totalBeforeDiscount ?? 0)}",
                                     titleTextStyle: AppTheme
                                         .styleWithTextBlackColorAdelleSansExtendedFonts12w500,
                                     desTextStyle: AppTheme
@@ -441,9 +441,9 @@ class _OrderDetailsScreenState extends ConsumerState<OrderDetailsScreen> {
                                         padding: const EdgeInsets.symmetric(
                                             horizontal: 12.0),
                                         child: ProductRowItem(
-                                          title: "Shipping Fees",
+                                          title: context.tr(shippingFeeKey),
                                           textValue:
-                                              "SAR ${(orderDetails.data?.data?.shippingFee ?? 0)}",
+                                              "${context.tr(sarKey)} ${(orderDetails.data?.data?.shippingFee ?? 0)}",
                                           titleTextStyle: AppTheme
                                               .styleWithTextBlackColorAdelleSansExtendedFonts12w500,
                                           desTextStyle: AppTheme
@@ -457,9 +457,9 @@ class _OrderDetailsScreenState extends ConsumerState<OrderDetailsScreen> {
                                         padding: const EdgeInsets.symmetric(
                                             horizontal: 12.0),
                                         child: ProductRowItem(
-                                          title: "Discount",
+                                          title: context.tr(discountKey),
                                           textValue:
-                                              "SAR ${(orderDetails.data?.data?.discount ?? 0)}",
+                                              "${context.tr(sarKey)} ${(orderDetails.data?.data?.discount ?? 0)}",
                                           titleTextStyle: AppTheme
                                               .styleWithTextBlackColorAdelleSansExtendedFonts12w500
                                               .copyWith(
@@ -475,9 +475,9 @@ class _OrderDetailsScreenState extends ConsumerState<OrderDetailsScreen> {
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 12.0),
                                   child: ProductRowItem(
-                                    title: "Total Price",
+                                    title: context.tr(totalPriceKey),
                                     textValue:
-                                        "SAR ${(orderDetails.data?.data?.totalWithShippingFee ?? 0)}",
+                                        "${context.tr(sarKey)} ${(orderDetails.data?.data?.totalWithShippingFee ?? 0)}",
                                     titleTextStyle: AppTheme
                                         .styleWithTextBlackAdelleSansExtendedFonts16w700,
                                     desTextStyle: AppTheme

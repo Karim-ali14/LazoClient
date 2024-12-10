@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import '../../../../../Constants/Eunms.dart';
+import '../../../../Localization/Keys.dart';
 import '../../../Theme/AppTheme.dart';
 import '../../../Widgets/AppButton.dart';
 
@@ -27,7 +28,7 @@ class OrderButtons extends StatelessWidget {
                   },
                   child: Center(
           child: Text(
-        "View Details",
+        context.tr(viewDetailsKey),
         style: AppTheme.styleWithTextGray7AdelleSansExtendedFonts16w400
             .copyWith(color: Colors.white),
                   )),
@@ -43,7 +44,7 @@ class OrderButtons extends StatelessWidget {
               },
               child: Center(
                   child: Text(
-                "Accept",
+                context.tr(acceptKey),
                 style: AppTheme.styleWithTextGray7AdelleSansExtendedFonts16w400
                     .copyWith(color: Colors.white),
               )),
@@ -58,7 +59,7 @@ class OrderButtons extends StatelessWidget {
               backColor: AppTheme.mainAppColorLight2,
               child: Center(
                   child: Text(
-                "Reject",
+                context.tr(rejectKey),
                 style: AppTheme.styleWithTextGray7AdelleSansExtendedFonts16w400
                     .copyWith(color: AppTheme.mainAppColor),
               )),
@@ -73,7 +74,7 @@ class OrderButtons extends StatelessWidget {
             },
             child: Center(
                 child: Text(
-                  "Finished",
+                  context.tr(finishedKey),
                   style: AppTheme.styleWithTextGray7AdelleSansExtendedFonts16w400
                       .copyWith(color: Colors.white),
                 )),

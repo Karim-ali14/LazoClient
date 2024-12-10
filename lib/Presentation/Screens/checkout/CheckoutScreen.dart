@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -116,7 +117,7 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
     return Scaffold(
       appBar: CustomAppBar(
         appContext: context,
-        title: "Check Out",
+        title: context.tr(checkoutKey),
         isCenter: false,
         navigated: true,
       ),
@@ -170,12 +171,12 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                         textInputType: TextInputType.text,
                         textFieldBorderColor: AppTheme.appGrey3,
                         mode: AutovalidateMode.onUserInteraction,
-                        hint: "Send to (myself or to someone)",
-                        label: "Send to (myself or to someone)",
+                        hint: context.tr(sendToMyselfOrToSomeoneKey),
+                        label: context.tr(sendToMyselfOrToSomeoneKey),
                         textEditingController: sendTypeController,
                         validate: (value) {
                           if (value?.isEmpty == true) {
-                            return "Select type of send";
+                            return context.tr(selectTypeOfSendKey);
                           } else {
                             return null;
                           }
@@ -189,8 +190,8 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                     : const SizedBox(),
                 Text(
                   selectTypeOfSend == 0 || widget.type == CheckoutTypes.HartCard
-                      ? "Location"
-                      : "Recipient Info",
+                      ? context.tr(locationKey)
+                      : context.tr(recipientInfoKey),
                   style:
                       AppTheme.styleWithTextBlackAdelleSansExtendedFonts18w700,
                 ),
@@ -215,7 +216,7 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                             Row(
                               children: [
                                 Text(
-                                  "Ask the recipient for the address",
+                                  context.tr(askTheRecipientForTheAddressKey),
                                   style: AppTheme
                                       .styleWithTextBlackAdelleSansExtendedFonts16w500,
                                 ),
@@ -235,7 +236,7 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                               height: 10,
                             ),
                             Text(
-                              "We will collect the address from the recipient. Delivery time may be impacted if recipient is unreachable",
+                              context.tr(weWillCollectTheAddressFromTheRecipientKey),
                               style: AppTheme
                                   .styleWithTextGray7AdelleSansExtendedFonts12w400
                                   .copyWith(height: 1.3),
@@ -257,8 +258,8 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                             textInputType: TextInputType.text,
                             textFieldBorderColor: AppTheme.appGrey3,
                             mode: AutovalidateMode.onUserInteraction,
-                            hint: "Recipient Name",
-                            label: "Recipient Name",
+                            hint: context.tr(recipientNameKey),
+                            label: context.tr(recipientNameKey),
                             textEditingController: recipientNameController,
                             validate: (value) {
                               if (value?.isEmpty == true) {
@@ -275,8 +276,8 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                             textInputType: TextInputType.phone,
                             textFieldBorderColor: AppTheme.appGrey3,
                             mode: AutovalidateMode.onUserInteraction,
-                            hint: "Recipient Phone",
-                            label: "Recipient Phone",
+                            hint: context.tr(recipientPhoneKey),
+                            label: context.tr(recipientPhoneKey),
                             textEditingController: recipientPhoneController,
                             validate: (value) {
                               if (value?.isEmpty == true) {
@@ -300,8 +301,8 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                                   textInputType: TextInputType.text,
                                   textFieldBorderColor: AppTheme.appGrey3,
                                   mode: AutovalidateMode.onUserInteraction,
-                                  hint: "Select Location on map",
-                                  label: "Select Location on map",
+                                  hint: context.tr(selectLocationOnMapKey),
+                                  label: context.tr(selectLocationOnMapKey),
                                   textEditingController: locationController,
                                   validate: (value) {
                                     if (value?.isEmpty == true &&
@@ -323,8 +324,8 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                                   textInputType: TextInputType.text,
                                   textFieldBorderColor: AppTheme.appGrey3,
                                   mode: AutovalidateMode.onUserInteraction,
-                                  hint: "Address Details (optional)",
-                                  label: "Address Details (optional)",
+                                  hint: context.tr(addressDetailsKey),
+                                  label: context.tr(addressDetailsKey),
                                   textEditingController:
                                       addressDescriptionController,
                                 )
@@ -338,13 +339,13 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                 Row(
                   children: [
                     Text(
-                      "Add your message",
+                      context.tr(addYourMessageKey),
                       style: AppTheme
                           .styleWithTextBlackAdelleSansExtendedFonts18w700,
                     ),
                     Spacer(),
                     Text(
-                      "(optional)",
+                      context.tr(optionalKey),
                       style: AppTheme
                           .styleWithTextAppGrey15AdelleSansExtendedFonts14w400,
                     )
@@ -357,8 +358,8 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                   textInputType: TextInputType.text,
                   textFieldBorderColor: AppTheme.appGrey3,
                   mode: AutovalidateMode.onUserInteraction,
-                  hint: "To: (optional)",
-                  label: "To: (optional)",
+                  hint: context.tr(toKey),
+                  label: context.tr(toKey),
                   textEditingController: messageToController,
                 ),
                 const SizedBox(
@@ -368,15 +369,15 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                   textInputType: TextInputType.text,
                   textFieldBorderColor: AppTheme.appGrey3,
                   mode: AutovalidateMode.onUserInteraction,
-                  hint: "Type your message and express your feeling",
-                  label: "Type your message and express your feeling",
+                  hint: context.tr(typeYourMessageAndExpressYourFeelingKey),
+                  label: context.tr(typeYourMessageAndExpressYourFeelingKey),
                   textEditingController: messageController,
                 ),
                 const SizedBox(
                   height: defaultPaddingHorizontal,
                 ),
                 Text(
-                  "Delivery info",
+                context.tr(deliveryInfoKey),
                   style:
                       AppTheme.styleWithTextBlackAdelleSansExtendedFonts18w700,
                 ),
@@ -387,7 +388,6 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                   // 13/5/2024
                   endWidget: InkWell(
                       onTap: () {
-                        print("object");
                         _selectDate(context);
                       },
                       child: SVGIcons.calendarImageIcon()),
@@ -395,8 +395,8 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                   textInputType: TextInputType.text,
                   textFieldBorderColor: AppTheme.appGrey3,
                   mode: AutovalidateMode.onUserInteraction,
-                  hint: "Date",
-                  label: "Date",
+                  hint: context.tr(dateKey),
+                  label: context.tr(dateKey),
                   textEditingController: calenderController,
                   validate: (value) {
                     if (value?.isEmpty == true) {
@@ -412,7 +412,6 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                 AppTextField(
                   endWidget: InkWell(
                       onTap: () {
-                        print("object");
                         showDeliveryTimeBottomSheet();
                       },
                       child: SVGIcons.timeCircleIcon()),
@@ -420,8 +419,8 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                   textInputType: TextInputType.text,
                   textFieldBorderColor: AppTheme.appGrey3,
                   mode: AutovalidateMode.onUserInteraction,
-                  hint: "Time",
-                  label: "Time",
+                  hint: context.tr(timeKey),
+                  label: context.tr(timeKey),
                   textEditingController: timeController,
                   validate: (value) {
                     if (value?.isEmpty == true) {
@@ -448,7 +447,7 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                             Row(
                               children: [
                                 Text(
-                                  "Keep my identity secret",
+                                  context.tr(keepMyIdentitySecretKey),
                                   style: AppTheme
                                       .styleWithTextBlackAdelleSansExtendedFonts16w500,
                                 ),
@@ -467,7 +466,7 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                               height: 10,
                             ),
                             Text(
-                              "By checking this box, we will not share any of your personal details with the recipient even if they call to ask.",
+                              context.tr(byCheckingThisBoxKey),
                               style: AppTheme
                                   .styleWithTextGray7AdelleSansExtendedFonts12w400
                                   .copyWith(height: 1.3),
@@ -477,7 +476,7 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                       )
                     : const SizedBox(),
                 widget.type == CheckoutTypes.SoftCard ? Text(
-                  "Save on your order",
+                  context.tr(saveOnYourOrderKey),
                   style:
                   AppTheme.styleWithTextBlackAdelleSansExtendedFonts18w700,
                 ): const SizedBox(),
@@ -487,8 +486,8 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                 widget.type == CheckoutTypes.SoftCard
                     ? AppTextField(
                         // XGFSF35
-                        hint: "Enter Voucher code",
-                        label: "Enter Voucher code",
+                        hint: context.tr(enterVoucherCodeKey),
+                        label: context.tr(enterVoucherCodeKey),
                         textFieldBorderColor: AppTheme.appGrey3,
                         textEditingController: voucherTextController,
                         startWidget: SVGIcons.voucherIcon(),
@@ -503,7 +502,7 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                               height: 56,
                               child: Center(
                                   child: Text(
-                                "submit",
+                                context.tr(submitKey),
                                 style: AppTheme
                                     .styleWithTextMainAppColorAdelleSansExtendedFonts14w400
                                     .copyWith(
@@ -518,7 +517,7 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                       )
                     : const SizedBox(),
                 Text(
-                  "Payment Summary",
+                  context.tr(paymentSummaryKey),
                   style:
                       AppTheme.styleWithTextBlackAdelleSansExtendedFonts18w700,
                 ),
@@ -539,9 +538,9 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 12.0),
                         child: ProductRowItem(
-                          title: "Order Price",
+                          title: context.tr(orderPriceKey),
                           textValue:
-                              "SAR ${widget.type == CheckoutTypes.HartCard ? (cartInfo.data?.data?.totalBefore ?? 0) : calculateSoftService.data?.data?.totalBeforeDiscount ?? 0}",
+                              "${context.tr(sarKey)} ${widget.type == CheckoutTypes.HartCard ? (cartInfo.data?.data?.totalBefore ?? 0) : calculateSoftService.data?.data?.totalBeforeDiscount ?? 0}",
                           titleTextStyle: AppTheme
                               .styleWithTextBlackColorAdelleSansExtendedFonts12w500,
                           desTextStyle: AppTheme
@@ -554,9 +553,9 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 12.0),
                               child: ProductRowItem(
-                                title: "Shipping Fees",
+                                title: context.tr(shippingFeeKey),
                                 textValue:
-                                    "SAR ${(cartInfo.data?.data?.shippingFee ?? 0)}",
+                                    "${context.tr(sarKey)} ${(cartInfo.data?.data?.shippingFee ?? 0)}",
                                 titleTextStyle: AppTheme
                                     .styleWithTextBlackColorAdelleSansExtendedFonts12w500,
                                 desTextStyle: AppTheme
@@ -574,9 +573,9 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 12.0),
                               child: ProductRowItem(
-                                title: "Discount",
+                                title: context.tr(discountKey),
                                 textValue:
-                                    "SAR ${widget.type == CheckoutTypes.HartCard ? (cartInfo.data?.data?.discountTotal ?? 0) : calculateSoftService.data?.data?.discount ?? 0}",
+                                    "${context.tr(sarKey)} ${widget.type == CheckoutTypes.HartCard ? (cartInfo.data?.data?.discountTotal ?? 0) : calculateSoftService.data?.data?.discount ?? 0}",
                                 titleTextStyle: AppTheme
                                     .styleWithTextBlackColorAdelleSansExtendedFonts12w500
                                     .copyWith(color: AppTheme.mainAppColor),
@@ -589,9 +588,9 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 12.0),
                         child: ProductRowItem(
-                          title: "Total Price",
+                          title: context.tr(totalPriceKey),
                           textValue:
-                              "SAR ${widget.type == CheckoutTypes.HartCard ? (cartInfo.data?.data?.totalAfter ?? 0) : (calculateSoftService.data?.data?.total ?? 0)}",
+                              "${context.tr(sarKey)} ${widget.type == CheckoutTypes.HartCard ? (cartInfo.data?.data?.totalAfter ?? 0) : (calculateSoftService.data?.data?.total ?? 0)}",
                           titleTextStyle: AppTheme
                               .styleWithTextBlackAdelleSansExtendedFonts16w700,
                           desTextStyle: AppTheme
@@ -606,7 +605,7 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                   height: 32,
                 ),
                 AppButton(
-                    text: "Check Out",
+                    text: context.tr(checkoutKey),
                     width: double.infinity,
                     height: 46,
                     onPress: () {
@@ -654,7 +653,7 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
   }
 
   void showSendTypesBottomSheet() {
-    showBottomSheetSelection(context, "Send to", typeSendArray, (index) {
+    showBottomSheetSelection(context, context.tr(sendToKey), typeSendArray, (index) {
       setState(() {
         selectTypeOfSend = index;
       });
@@ -663,7 +662,7 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
   }
 
   void showDeliveryTimeBottomSheet() {
-    showBottomSheetSelection(context, "Delivery time", deliveryTimeArray,
+    showBottomSheetSelection(context, context.tr(deliveryTimeKey), deliveryTimeArray,
         (index) {
       selectDeliveryTimeOfSend = index;
       timeController.text = deliveryTimeArray[index].item;

@@ -1,8 +1,10 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lazo_client/Localization/Keys.dart';
 import 'package:lazo_client/Presentation/StateNotifiersViewModel/PublicStateNotifiers.dart';
 import 'package:lazo_client/Presentation/Widgets/CustomAppBar.dart';
 import 'package:lazo_client/Utils/Extintions.dart';
@@ -43,7 +45,7 @@ class _ShowAllRatingAndReviewScreenState extends ConsumerState<ShowAllRatingAndR
     final productItemState = ref.watch(getProductReviews);
     final serviceItemState = ref.watch(getServiceReviews);
     return Scaffold(
-      appBar: CustomAppBar(appContext: context,title: "Product Rating & Reviews",isCenter: false,navigated: true,),
+      appBar: CustomAppBar(appContext: context,title: context.tr(productRatingAndReviewsKey),isCenter: false,navigated: true,),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
@@ -76,7 +78,7 @@ class _ShowAllRatingAndReviewScreenState extends ConsumerState<ShowAllRatingAndR
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Text(
-                                "Based on ${productItemState.data?.data?.ratingsCount ?? 0} ratings",
+                                "${context.tr(basedOnKey)} ${productItemState.data?.data?.ratingsCount ?? 0} ${context.tr(ratingsKey)}",
                                 style: AppTheme
                                     .styleWithTextGray7AdelleSansExtendedFonts12w400,
                               ),
@@ -153,8 +155,8 @@ class _ShowAllRatingAndReviewScreenState extends ConsumerState<ShowAllRatingAndR
                                   .styleWithTextBlackAdelleSansExtendedFonts14w500
                                   .copyWith(height: 1.5),
                               maxLength: 70,
-                              showLessText: "Read Less",
-                              showMoreText: "Read More",
+                              showLessText: context.tr(readLessKey),
+                              showMoreText: context.tr(readMoreKey),
                             )
                           ],
                         ),
@@ -217,8 +219,8 @@ class _ShowAllRatingAndReviewScreenState extends ConsumerState<ShowAllRatingAndR
                                   .styleWithTextBlackAdelleSansExtendedFonts14w500
                                   .copyWith(height: 1.5),
                               maxLength: 70,
-                              showLessText: "Read Less",
-                              showMoreText: "Read More",
+                              showLessText: context.tr(readLessKey),
+                              showMoreText: context.tr(readMoreKey),
                             )
                           ],
                         ),

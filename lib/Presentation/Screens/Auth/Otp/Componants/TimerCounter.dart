@@ -1,9 +1,11 @@
 import 'dart:async';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 
+import '../../../../../Localization/Keys.dart';
 import '../../../../Theme/AppTheme.dart';
 
 class TimerText extends StatefulWidget {
@@ -30,7 +32,7 @@ class TimerTextState extends State<TimerText> {
       builder: (context, snapshot) {
         return RichText(
           text: TextSpan(
-            text: "Verification code will be sent within ",
+            text: context.tr(verificationCodeWillBeSentWithinKey),
             style: const TextStyle(
               color: Colors.black,
               fontSize: 16.0,

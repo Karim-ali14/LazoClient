@@ -1,9 +1,11 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lazo_client/Presentation/Theme/AppTheme.dart';
 
 import '../../../../Constants/Constants.dart';
 import '../../../../Constants/Eunms.dart';
+import '../../../../Localization/Keys.dart';
 import '../../../Widgets/AppButton.dart';
 import 'OrderButtons.dart';
 
@@ -50,7 +52,7 @@ class _ProductOutOfStockCardViewState extends State<ProductOutOfStockCardView> {
                     },
                     child: Center(
                         child: Text(
-                          "Complete Order",
+                          context.tr(completeOrderKey),
                           style: AppTheme
                               .styleWithTextGray7AdelleSansExtendedFonts12w400
                               .copyWith(color: Colors.white),
@@ -67,7 +69,7 @@ class _ProductOutOfStockCardViewState extends State<ProductOutOfStockCardView> {
                     backColor: AppTheme.mainAppColorLight2,
                     child: Center(
                         child: Text(
-                          "Cancel Order",
+                          context.tr(cancelOrderKey),
                           style: AppTheme
                               .styleWithTextGray7AdelleSansExtendedFonts12w400
                               .copyWith(color: AppTheme.mainAppColor),

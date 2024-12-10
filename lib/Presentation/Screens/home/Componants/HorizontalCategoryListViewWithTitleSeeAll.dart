@@ -1,9 +1,11 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lazo_client/Presentation/Widgets/CategoryItemCart.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../../../Data/Network/lib/api.dart';
+import '../../../../Localization/Keys.dart';
 import '../../../Widgets/TitleWithSeeAll.dart';
 
 typedef OnItemClickListener = Function(Category);
@@ -32,7 +34,7 @@ class _HorizontalCategoryListViewWithTitleSeeAllState extends State<HorizontalCa
         Skeletonizer(
           enabled: widget.showLoading,
           child: TitleWithSeeAll(
-            title: "Categories",
+            title: context.tr(categoriesKey),
             onClickOnSeeAll: () {
               widget.onSeeAllClickListener.call(null,"");
             },

@@ -78,7 +78,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
     return Scaffold(
       appBar: CustomAppBar(
           appContext: context,
-          title: "Edit Profile",
+          title: context.tr(editProfileKey),
           navigated: true,
           isCenter: false,),
       body: SafeArea(

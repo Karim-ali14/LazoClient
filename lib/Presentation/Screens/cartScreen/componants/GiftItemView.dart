@@ -1,5 +1,7 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:lazo_client/Localization/Keys.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../../../Constants/Eunms.dart';
@@ -79,8 +81,8 @@ class GiftItemView extends StatelessWidget {
                     ),
                     Text(
                       type == GiftItemType.Card
-                          ? "SAR ${giftCard?.price}"
-                          : "SAR ${giftBox?.price}",
+                          ? "${context.tr(sarKey)} ${giftCard?.price}"
+                          : "${context.tr(sarKey)} ${giftBox?.price}",
                       style: AppTheme
                           .styleWithTextRedAdelleSansExtendedFonts16w500,
                     )

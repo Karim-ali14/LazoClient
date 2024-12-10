@@ -67,7 +67,7 @@ class _OrderCardItemState extends ConsumerState<OrderCardItem> {
                     ? ProductOutOfStockCardView(
                         backgroundColor: AppTheme.appGrey16,
                         description:
-                            "${widget.orderModel?.getCancellationItemsNames()} out of stock. Keep other items & complete order, or cancel?",
+                            "${widget.orderModel?.getCancellationItemsNames()} ${context.tr(outOfStockKeepOtherItemsAndCompleteOrderOrCancelKey)}",
                         onButtonClickListener: (type) {
                           if (ButtonsClickType.CompleteOrder == type) {
                             handleOnButtonsClicks(
@@ -81,27 +81,27 @@ class _OrderCardItemState extends ConsumerState<OrderCardItem> {
                 const SizedBox(height: 24),
                 InformationRowItem(
                   icon: SVGIcons.totalPriceIcon(),
-                  title: "Total Price",
+                  title: context.tr(totalPriceKey),
                   value:
-                      "${context.tr("SAR")} ${widget.orderModel?.totalWithShippingFee ?? 0}",
+                      "${context.tr(sarKey)} ${widget.orderModel?.totalWithShippingFee ?? 0}",
                 ),
                 const SizedBox(height: 16),
                 InformationRowItem(
                   icon: SVGIcons.documentIcon(),
-                  title: "Order ID",
+                  title: context.tr(orderIdKey),
                   value: "${widget.orderModel?.id}",
                 ),
                 const SizedBox(height: 16),
                 InformationRowItem(
                   icon: SVGIcons.numberOfItemsIcon(),
-                  title: "No. of items",
+                  title: context.tr(noOfItemsKey),
                   value: ""
-                      "${widget.orderModel?.orderItems.length} ${context.tr("items")}",
+                      "${widget.orderModel?.orderItems.length} ${context.tr(itemsKey)}",
                 ),
                 const SizedBox(height: 16),
                 InformationRowItem(
                   icon: SVGIcons.calendarIcon(),
-                  title: "Date / Time",
+                  title: context.tr(dateAndTimeKey),
                   value:
                       "${widget.orderModel?.createdAt?.hhMm()}, ${widget.orderModel?.createdAt?.ddMmYyyy()}",
                   hasDivider: false,

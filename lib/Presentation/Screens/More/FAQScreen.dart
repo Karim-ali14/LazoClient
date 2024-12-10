@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -5,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../Constants/Constants.dart';
+import '../../../Localization/Keys.dart';
 import '../../StateNotifiersViewModel/PublicStateNotifiers.dart';
 import '../../Widgets/CustomAppBar.dart';
 import 'Componants/FAQItemCard.dart';
@@ -24,7 +26,7 @@ class _FAQScreenState extends ConsumerState<FAQScreen> {
     return Scaffold(
       appBar: CustomAppBar(
         appContext: context,
-        title: "FAQ",
+        title: context.tr(faqKey),
         navigated: true,
         isCenter: false,
       ),

@@ -1,6 +1,7 @@
 
 import 'dart:typed_data';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -11,6 +12,7 @@ import 'package:lazo_client/Presentation/Widgets/AppButton.dart';
 import '../../../Constants.dart';
 import '../../../Constants/Constants.dart';
 import '../../../Data/Network/lib/api.dart';
+import '../../../Localization/Keys.dart';
 import '../../StateNotifiersViewModel/ClientStateNotifiers.dart';
 import '../../StateNotifiersViewModel/PublicStateNotifiers.dart';
 import '../../StateNotifiersViewModel/UserAuthStateNotifiers.dart';
@@ -79,13 +81,13 @@ class _MoreScreenState extends ConsumerState<MoreScreen> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    "Wallet Balance",
+                                    context.tr(walletBalanceKey),
                                     style: AppTheme
                                         .styleWithTextWhiteAdelleSansExtendedFonts12w400,
                                   ),
                                   Spacer(),
                                   Text(
-                                    "SAR ${client.client?.balance}",
+                                    "${context.tr(sarKey)} ${client.client?.balance}",
                                     style: AppTheme
                                         .styleWithTextWhiteAdelleSansExtendedFonts20w700,
                                   )
@@ -103,7 +105,7 @@ class _MoreScreenState extends ConsumerState<MoreScreen> {
                       children: [
                         Expanded(
                           child: AppButton(
-                            text: "Log In",
+                            text: context.tr(loginKey),
                             onPress: () {
                               navigateToLogin(TypeOfMode.ViewMode);
                             },
@@ -117,7 +119,7 @@ class _MoreScreenState extends ConsumerState<MoreScreen> {
                           child: AppButton(
                             backColor: AppTheme.mainAppColor,
                             outlined: true,
-                            text: "Sign Up",
+                            text: context.tr(signUpKey),
                             onPress: () {
                               navigateToSignUp();
                             },
@@ -140,7 +142,7 @@ class _MoreScreenState extends ConsumerState<MoreScreen> {
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: MoreItemCard(
                   startIcon: SVGIcons.langIcon(),
-                  text: "Profile",
+                  text: context.tr(profileKey),
                   endIcon: SVGIcons.rightArrowWithBackgroundIcon(),
                 ),
               ),
@@ -152,7 +154,7 @@ class _MoreScreenState extends ConsumerState<MoreScreen> {
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: MoreItemCard(
                 startIcon: SVGIcons.langIcon(),
-                text: "Language",
+                text: context.tr(languageKey),
                 endIcon: Text(
                   "English",
                   style: AppTheme.styleWithTextRedAdelleSansExtendedFonts16w500,
@@ -168,7 +170,7 @@ class _MoreScreenState extends ConsumerState<MoreScreen> {
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: MoreItemCard(
                   startIcon: SVGIcons.contactUsIcon(),
-                  text: "Contact Us",
+                  text: context.tr(contactUsKey),
                   endIcon: SVGIcons.rightArrowWithBackgroundIcon(),
                 ),
               ),
@@ -184,7 +186,7 @@ class _MoreScreenState extends ConsumerState<MoreScreen> {
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: MoreItemCard(
                   startIcon: SVGIcons.faqIcon(),
-                  text: "FAQ",
+                  text: context.tr(faqKey),
                   endIcon: SVGIcons.rightArrowWithBackgroundIcon(),
                 ),
               ),
@@ -196,7 +198,7 @@ class _MoreScreenState extends ConsumerState<MoreScreen> {
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: MoreItemCard(
                 startIcon: SVGIcons.shareImgIcon(),
-                text: "Share The App",
+                text: context.tr(shareTheAppKey),
                 endIcon: SVGIcons.rightArrowWithBackgroundIcon(),
               ),
             ),
@@ -211,7 +213,7 @@ class _MoreScreenState extends ConsumerState<MoreScreen> {
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: MoreItemCard(
                   startIcon: SVGIcons.termsConditionsImgIcon(),
-                  text: "Terms & Conditions",
+                  text: context.tr(termsAndConditionsKey),
                   endIcon: SVGIcons.rightArrowWithBackgroundIcon(),
                 ),
               ),
@@ -227,7 +229,7 @@ class _MoreScreenState extends ConsumerState<MoreScreen> {
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: MoreItemCard(
                   startIcon: SVGIcons.langIcon(),
-                  text: "Privacy & Policy",
+                  text: context.tr(privacyAndPolicyKey),
                   endIcon: SVGIcons.rightArrowWithBackgroundIcon(),
                 ),
               ),
@@ -242,7 +244,7 @@ class _MoreScreenState extends ConsumerState<MoreScreen> {
                 child: MoreItemCard(
                   startIcon: SVGIcons.signOutIcon(),
                   textWidget: Text(
-                    "Sign out",
+                    context.tr(signOutKey),
                     style:
                         AppTheme.styleWithTextRedAdelleSansExtendedFonts16w500,
                   ),
@@ -260,7 +262,7 @@ class _MoreScreenState extends ConsumerState<MoreScreen> {
                 child: MoreItemCard(
                   startIcon: SVGIcons.deleteAccountIcon(),
                   textWidget: Text(
-                    "Delete Account",
+                    context.tr(deleteAccountKey),
                     style:
                         AppTheme.styleWithTextRedAdelleSansExtendedFonts16w500,
                   ),
@@ -294,8 +296,8 @@ class _MoreScreenState extends ConsumerState<MoreScreen> {
             borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(10), topRight: Radius.circular(10))),
         builder: (builder) => AskBottomSheet(
-              title: "Sign Out",
-              description: "Are you sure you want to sign out?",
+              title: context.tr(signOutKey),
+              description: context.tr(areYouSureYouWantToSignOutKey),
               icon: SVGIcons.sadFaceIcon(),
               onPositiveButtonClick: () {
                 ref.read(logoutStateProvider.notifier).logout();
@@ -310,8 +312,8 @@ class _MoreScreenState extends ConsumerState<MoreScreen> {
             borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(10), topRight: Radius.circular(10))),
         builder: (builder) => AskBottomSheet(
-              title: "Delete Account",
-              description: "Are you sure you want to delete account?",
+              title: context.tr(deleteAccountKey),
+              description: context.tr(areYouSureYouWantToDeleteAccountKey),
               icon: SVGIcons.deleteAccountIcIcon(),
               onPositiveButtonClick: () {
                 ref.read(deleteAccountStateProvider.notifier).deleteAccount();

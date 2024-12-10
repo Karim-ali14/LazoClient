@@ -60,7 +60,7 @@ class _EditPhoneScreenState extends ConsumerState<EditPhoneScreen> {
 
     return Scaffold(
       appBar: CustomAppBar(
-        title: "Edit Phone Number",
+        title: context.tr(editPhoneNumberKey),
         navigated: true,
         isCenter: false, appContext: context,
       ),
@@ -78,8 +78,8 @@ class _EditPhoneScreenState extends ConsumerState<EditPhoneScreen> {
                 textInputType: TextInputType.phone,
                 textFieldBorderColor: AppTheme.appGrey3,
                 mode: AutovalidateMode.onUserInteraction,
-                hint: "Phone Number",
-                label: "Phone Number",
+                hint: context.tr(phoneNumberKey),
+                label: context.tr(phoneNumberKey),
                 textEditingController: phoneTextEditingController,
                 style: AppTheme.styleWithTextGray7AdelleSansExtendedFonts16w500.copyWith(color: Colors.black),
                 validate: (value) {
@@ -102,7 +102,7 @@ class _EditPhoneScreenState extends ConsumerState<EditPhoneScreen> {
                   }
                 },
                 child: Text(
-                  "Save",
+                  context.tr(saveKey),
                   style: AppTheme
                       .styleWithTextBlackAdelleSansExtendedFonts16w400
                       .copyWith(color: Colors.white),

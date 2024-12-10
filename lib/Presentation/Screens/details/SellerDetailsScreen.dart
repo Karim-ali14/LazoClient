@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -15,6 +16,7 @@ import 'package:lazo_client/Presentation/Widgets/SeeMoreAndLessTextView.dart';
 import 'package:lazo_client/Utils/Extintions.dart';
 
 import '../../../Constants.dart';
+import '../../../Localization/Keys.dart';
 import '../../BottomSheets/AuthenticateBottomSheet.dart';
 import '../../StateNotifiersViewModel/PublicStateNotifiers.dart';
 import '../../StateNotifiersViewModel/UserAuthStateNotifiers.dart';
@@ -154,7 +156,7 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
                       ),
                       Text(
                         sellerProducts.data?.data?.name?.ellipsize(20) ??
-                            "Store Name",
+                            context.tr(storeNameKey),
                         style: AppTheme
                             .styleWithTextBlackAdelleSansExtendedFonts18w700,
                       ),
@@ -293,7 +295,7 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
                       ),
                       child: Center(
                         child: Text(
-                          "Products",
+                          context.tr(productsKey),
                           style: activeTabIndex == 0
                               ? AppTheme
                                   .styleWithTextWhiteAdelleSansExtendedFonts14w400
@@ -325,7 +327,7 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
                       ),
                       child: Center(
                         child: Text(
-                          "Services",
+                          context.tr(servicesKey),
                           style: activeTabIndex == 1
                               ? AppTheme
                                   .styleWithTextWhiteAdelleSansExtendedFonts14w400
@@ -357,7 +359,7 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
                       ),
                       child: Center(
                         child: Text(
-                          "Reviews",
+                          context.tr(reviewsKey),
                           style: activeTabIndex == 2
                               ? AppTheme
                                   .styleWithTextWhiteAdelleSansExtendedFonts14w400
@@ -513,7 +515,7 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Text(
-                              "Based on ${sellerReview.data?.data?.ratingsCount ?? 0} ratings",
+                              "${context.tr(basedOnKey)} ${sellerReview.data?.data?.ratingsCount ?? 0} ${context.tr(ratingsKey)}",
                               style: AppTheme
                                   .styleWithTextGray7AdelleSansExtendedFonts12w400,
                             ),
@@ -585,8 +587,8 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
                             .styleWithTextBlackAdelleSansExtendedFonts14w500
                             .copyWith(height: 1.5),
                         maxLength: 70,
-                        showLessText: "Read Less",
-                        showMoreText: "Read More",
+                        showLessText: context.tr(readLessKey),
+                        showMoreText: context.tr(readMoreKey),
                       )
                     ],
                   ),

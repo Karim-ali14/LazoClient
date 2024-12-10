@@ -7,6 +7,7 @@ import 'package:lazo_client/Constants/Eunms.dart';
 import 'package:lazo_client/Data/Models/FilterData.dart';
 import 'package:lazo_client/Data/Models/StateModel.dart';
 import 'package:lazo_client/Data/Network/lib/api.dart';
+import 'package:lazo_client/Localization/Keys.dart';
 import 'package:lazo_client/Presentation/BottomSheets/SelectPriceBottomSheet.dart';
 import 'package:lazo_client/Presentation/Widgets/AppButton.dart';
 import 'package:lazo_client/Presentation/Widgets/AppTextField.dart';
@@ -129,7 +130,7 @@ class _FilterScreenState extends ConsumerState<FilterScreen> {
       appBar: CustomAppBar(
         appContext: context,
         isCenter: false,
-        title: "Filter",
+        title: context.tr(filterKey),
         navigated: true,
         trailingWidget: InkWell(
           onTap: () {
@@ -140,7 +141,7 @@ class _FilterScreenState extends ConsumerState<FilterScreen> {
             });
           },
           child: enabled
-              ? const Padding(
+              ?  Padding(
                   padding: EdgeInsets.symmetric(
                       horizontal: defaultPaddingHorizontal),
                   child: Row(
@@ -150,7 +151,7 @@ class _FilterScreenState extends ConsumerState<FilterScreen> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            "Reset",
+                            context.tr(resetKey),
                             style: AppTheme
                                 .styleWithTextAppMainAppColor15AdelleSansExtendedFonts14w400,
                           )
@@ -181,11 +182,11 @@ class _FilterScreenState extends ConsumerState<FilterScreen> {
                     child: AppTextField(
                       readOnly: true,
                       disabled: true,
-                      hint: "Price",
+                      hint: context.tr(priceKey),
                       style: AppTheme
                           .styleWithTextBlackAdelleSansExtendedFonts16w500,
                       textFieldBorderColor: AppTheme.appGrey8,
-                      label: "Price",
+                      label: context.tr(priceKey),
                       labelStyle: AppTheme
                           .styleWithTextBlackAdelleSansExtendedFonts16w500,
                       textEditingController: priceTextController,
@@ -199,11 +200,11 @@ class _FilterScreenState extends ConsumerState<FilterScreen> {
                     child: AppTextField(
                       readOnly: true,
                       disabled: true,
-                      hint: "Promotion",
+                      hint: context.tr(promotionKey),
                       style: AppTheme
                           .styleWithTextBlackAdelleSansExtendedFonts16w500,
                       textFieldBorderColor: AppTheme.appGrey8,
-                      label: "Promoted",
+                      label: context.tr(promotedKey),
                       labelStyle: AppTheme
                           .styleWithTextBlackAdelleSansExtendedFonts16w500,
                       textEditingController: promotionTextController,
@@ -228,11 +229,11 @@ class _FilterScreenState extends ConsumerState<FilterScreen> {
               child: AppTextField(
                 readOnly: true,
                 disabled: true,
-                hint: "Categories",
+                hint: context.tr(categoriesKey),
                 maxLines: 1,
                 style: AppTheme.styleWithTextBlackAdelleSansExtendedFonts16w500,
                 textFieldBorderColor: AppTheme.appGrey8,
-                label: "Categories",
+                label: context.tr(categoriesKey),
                 labelStyle:
                     AppTheme.styleWithTextBlackAdelleSansExtendedFonts16w500,
                 textEditingController: categoryTextController,
@@ -258,11 +259,11 @@ class _FilterScreenState extends ConsumerState<FilterScreen> {
                     child: AppTextField(
                       readOnly: true,
                       disabled: true,
-                      hint: "Occasions",
+                      hint: context.tr(occasionsKey),
                       style: AppTheme
                           .styleWithTextBlackAdelleSansExtendedFonts16w500,
                       textFieldBorderColor: AppTheme.appGrey8,
-                      label: "Occasions",
+                      label: context.tr(occasionsKey),
                       labelStyle: AppTheme
                           .styleWithTextBlackAdelleSansExtendedFonts16w500,
                       textEditingController: occasionTextController,
@@ -288,10 +289,10 @@ class _FilterScreenState extends ConsumerState<FilterScreen> {
               child: AppTextField(
                 readOnly: true,
                 disabled: true,
-                hint: "Rating",
+                hint: context.tr(ratingKey),
                 style: AppTheme.styleWithTextBlackAdelleSansExtendedFonts16w500,
                 textFieldBorderColor: AppTheme.appGrey8,
-                label: "Rating",
+                label: context.tr(ratingKey),
                 labelStyle:
                     AppTheme.styleWithTextBlackAdelleSansExtendedFonts16w500,
                 textEditingController: ratingsTextController,
@@ -362,7 +363,7 @@ class _FilterScreenState extends ConsumerState<FilterScreen> {
                       break;
                   }
                 },
-                text: "Apply")
+                text: context.tr(applyKey))
           ],
         ),
       )),
@@ -380,21 +381,21 @@ class _FilterScreenState extends ConsumerState<FilterScreen> {
         builder: (BuildContext context) {
           return CustomSelectorBottomSheet(
               context: context,
-              btuName: "Choose",
+              btuName: context.tr(chooseKey),
               enableSearch: false,
-              title: "Choose Promotion",
+              title: context.tr(choosePromotionKey),
               widgetList: [
-                ItemSelector(1, "Promoted", null),
-                ItemSelector(0, "Not Promoted", null)
+                ItemSelector(1, context.tr(promotedKey), null),
+                ItemSelector(0, context.tr(notPromotedKey), null)
               ].toList(),
-              searchHint: "Search by",
+              searchHint: context.tr(searchByKey),
               itemSelectedId: promotionSelected,
               isSingleSelect: true,
               onSelectMultiItemsCallback: (items) {},
               onSelectItemCallback: (itemid) {
                 promotionSelected = itemid;
                 promotionTextController.text =
-                    promotionSelected == 1 ? "Promoted" : "Not Promoted";
+                    promotionSelected == 1 ? context.tr(promotedKey) : context.tr(notPromotedKey);
                 setState(() {});
                 Navigator.pop(context);
               });
@@ -416,7 +417,7 @@ class _FilterScreenState extends ConsumerState<FilterScreen> {
                 bottom: MediaQuery.of(context).viewInsets.bottom),
             child: SelectPriceBottomSheet(
                 context: context,
-                title: "Choose Price",
+                title: context.tr(choosePriceKey),
                 priceFrom: priceFrom ?? "",
                 priceTo: priceTo ?? "",
                 applyBtu: (from, to) {
@@ -436,11 +437,11 @@ class _FilterScreenState extends ConsumerState<FilterScreen> {
         builder: (BuildContext context) {
           return CustomSelectorBottomSheet(
               context: context,
-              btuName: "Choose",
+              btuName: context.tr(chooseKey),
               enableSearch: false,
-              title: "Choose Categories",
+              title: context.tr(chooseCategoriesKey),
               widgetList: list,
-              searchHint: "Search by",
+              searchHint: context.tr(searchByKey),
               itemSelectedIds: categoriesSelected,
               isSingleSelect: false,
               onSelectMultiItemsCallback: (items) {
@@ -463,11 +464,11 @@ class _FilterScreenState extends ConsumerState<FilterScreen> {
         builder: (BuildContext context) {
           return CustomSelectorBottomSheet(
               context: context,
-              btuName: "Choose",
+              btuName: context.tr(chooseKey),
               enableSearch: false,
-              title: "Choose Occasions",
+              title: context.tr(chooseOccasionsKey),
               widgetList: list,
-              searchHint: "Search by",
+              searchHint: context.tr(searchByKey),
               itemSelectedIds: occasionsSelected,
               isSingleSelect: false,
               onSelectMultiItemsCallback: (items) {
@@ -490,11 +491,11 @@ class _FilterScreenState extends ConsumerState<FilterScreen> {
         builder: (BuildContext context) {
           return CustomSelectorBottomSheet(
               context: context,
-              btuName: "Choose",
+              btuName: context.tr(chooseKey),
               enableSearch: false,
-              title: "Choose Ratings",
+              title: context.tr(chooseRatingsKey),
               widgetList: list,
-              searchHint: "Search by",
+              searchHint: context.tr(searchByKey),
               itemSelectedIds: ratingSelected,
               isSingleSelect: false,
               onSelectMultiItemsCallback: (items) {
@@ -571,8 +572,8 @@ class _FilterScreenState extends ConsumerState<FilterScreen> {
   void setDefaultData() {
     promotionTextController.text = promotionSelected != null
         ? promotionSelected == 0
-            ? "Not Promoted"
-            : "Promoted"
+            ? context.tr(notPromotedKey)
+            : context.tr(promotedKey)
         : "";
     setDefaultCategoriesText(
         ref.watch(getCategoriesDataStateNotifiers).data?.data ?? [],
@@ -591,11 +592,11 @@ class _FilterScreenState extends ConsumerState<FilterScreen> {
   void setDefaultPrice(String? priceFrom, String? priceTo) {
     if (priceFrom != null && priceTo != null) {
       priceTextController.text =
-          "SAR ${priceFrom ?? ""} - SAR ${priceTo ?? ""}";
+          "${context.tr(sarKey)} ${priceFrom ?? ""} - ${context.tr(sarKey)} ${priceTo ?? ""}";
     } else if (priceFrom != null && priceTo == null) {
-      priceTextController.text = "SAR $priceFrom";
+      priceTextController.text = "${context.tr(sarKey)} $priceFrom";
     } else if (priceFrom == null && priceTo != null) {
-      priceTextController.text = "SAR ${priceFrom ?? 0} - SAR ${priceTo}";
+      priceTextController.text = "${context.tr(sarKey)} ${priceFrom ?? 0} - ${context.tr(sarKey)} ${priceTo}";
     } else {
       priceTextController.text = "";
     }

@@ -1,8 +1,10 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../Constants/Constants.dart';
+import '../../../Localization/Keys.dart';
 import '../../Theme/AppTheme.dart';
 import '../../Widgets/AppButton.dart';
 import '../../Widgets/SvgIcons.dart';
@@ -37,7 +39,7 @@ class _ContactUsBottomSheetState extends State<ContactUsBottomSheet> {
             height: 24,
           ),
           Text(
-            "Contact Us",
+            context.tr(contactUsKey),
             style: AppTheme.styleWithTextBlackAdelleSansExtendedFonts18w700,
           ),
           SizedBox(
@@ -48,7 +50,7 @@ class _ContactUsBottomSheetState extends State<ContactUsBottomSheet> {
                 horizontal: defaultPaddingHorizontal),
             child: MoreItemCard(
               startIcon: SVGIcons.callingIcon(),
-              text: "Communicate by calling",
+              text: context.tr(communicateByCallingKey),
               endIcon: SVGIcons.rightArrowWithBackgroundIcon(),
             ),
           ),
@@ -60,9 +62,9 @@ class _ContactUsBottomSheetState extends State<ContactUsBottomSheet> {
                 horizontal: defaultPaddingHorizontal),
             child: MoreItemCard(
               startIcon: SVGIcons.whatsAppImgIcon(),
-              text: "WhatsApp",
+              text: context.tr(whatsAppKey),
               description:
-                  "Start a conversation with a customer service representative",
+                  context.tr(startAConversationWithACustomerServiceRepresentativeKey),
               endIcon: SVGIcons.rightArrowWithBackgroundIcon(),
             ),
           ),
@@ -74,8 +76,8 @@ class _ContactUsBottomSheetState extends State<ContactUsBottomSheet> {
                 horizontal: defaultPaddingHorizontal),
             child: MoreItemCard(
               startIcon: SVGIcons.messageIcon(),
-              text: "Email",
-              description: "Contact us via email",
+              text: context.tr(emailKey),
+              description: context.tr(contactUsViaEmailKey),
               endIcon: SVGIcons.rightArrowWithBackgroundIcon(),
             ),
           ),
@@ -87,8 +89,8 @@ class _ContactUsBottomSheetState extends State<ContactUsBottomSheet> {
                 horizontal: defaultPaddingHorizontal),
             child: MoreItemCard(
               startIcon: SVGIcons.redFaqIcon(),
-              text: "FAQ",
-              description: "Read the most frequently asked questions",
+              text: context.tr(faqKey),
+              description: context.tr(readTheMostFrequentlyAskedQuestionsKey),
               endIcon: SVGIcons.rightArrowWithBackgroundIcon(),
             ),
           ),
@@ -102,7 +104,7 @@ class _ContactUsBottomSheetState extends State<ContactUsBottomSheet> {
                 onPress: () {
                   context.pop();
                 },
-                text: "Ok",
+                text: context.tr(okKey),
                 width: double.infinity,
                 height: 46,
               )),

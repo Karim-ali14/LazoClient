@@ -59,7 +59,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                       child: PageView.builder(
                         itemCount: 3,
                         controller: pageController,
-                        itemBuilder:(context,index) => Column(
+                        itemBuilder: (context, index) => Column(
                           children: [
                             images[index],
                             const SizedBox(
@@ -68,37 +68,51 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                             Center(
                               child: Padding(
                                 padding: EdgeInsets.symmetric(horizontal: 20),
-                                child: index == 0 ?RichText(text: TextSpan(
-                                    style: AppTheme.styleWithTextBlackAdelleSansExtendedFonts20w700,
-                                    children: [
-                                      TextSpan(
-                                        style: AppTheme.styleWithTextBlackAdelleSansExtendedFonts20w700,
-                                        text: "Welcome to"
+                                child: index == 0
+                                    ? RichText(
+                                        text: TextSpan(
+                                            style: AppTheme
+                                                .styleWithTextBlackAdelleSansExtendedFonts20w700,
+                                            children: [
+                                            TextSpan(
+                                              style: AppTheme
+                                                  .styleWithTextBlackAdelleSansExtendedFonts20w700,
+                                              text: context.tr(welcomeToKey),
+                                            ),
+                                            TextSpan(
+                                              style: AppTheme
+                                                  .styleWithTextBlackAdelleSansExtendedFonts20w700
+                                                  .copyWith(
+                                                      color:
+                                                          AppTheme.appSwatch),
+                                              text:
+                                                  " ${context.tr(appNameKey)}",
+                                            ),
+                                            TextSpan(
+                                                style: AppTheme
+                                                    .styleWithTextBlackAdelleSansExtendedFonts20w700,
+                                                text: "!"),
+                                          ]))
+                                    : Text(
+                                        ConstantsMethods.getOnBoardingTitleList(
+                                            context)[index],
+                                        textAlign: TextAlign.center,
+                                        style: AppTheme
+                                            .styleWithTextBlackAdelleSansExtendedFonts20w700,
                                       ),
-                                      TextSpan(
-                                        style: AppTheme.styleWithTextBlackAdelleSansExtendedFonts20w700.copyWith(color: AppTheme.appSwatch),
-                                        text: " LAZO"
-                                      ),
-                                      TextSpan(
-                                        style: AppTheme.styleWithTextBlackAdelleSansExtendedFonts20w700,
-                                        text: "!"
-                                      ),
-                                    ]
-                                ))
-                                : Text(ConstantsMethods.getOnBoardingTitleList(context)[index],
-                                  textAlign: TextAlign.center,
-                                  style: AppTheme.styleWithTextBlackAdelleSansExtendedFonts20w700,),
                               ),
                             ),
                             Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 20,vertical: 10),
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 20, vertical: 10),
                               child: Text(
                                   textAlign: TextAlign.center,
                                   ConstantsMethods.getOnBoardingContentList(
                                       context)[index],
-                                  style: AppTheme.styleWithTextGray7AdelleSansExtendedFonts16w400.copyWith(height: 1.5)),
+                                  style: AppTheme
+                                      .styleWithTextGray7AdelleSansExtendedFonts16w400
+                                      .copyWith(height: 1.5)),
                             ),
-
                             const SizedBox(
                               height: 24,
                             ),
@@ -134,23 +148,30 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
             ),
             isLastPage
                 ? Align(
-              alignment: AlignmentDirectional.bottomCenter,
-                  child: Padding(
-                    padding: const EdgeInsets.only(bottom: 16),
-                    child: AppButton(
-                                  text: "Let’s Start",
-                                  onPress: getStarted,
-                                  width: context.getScreenSize.width * .95,
-                                  height: 56,
-                                ),
-                  ),
-                )
+                    alignment: AlignmentDirectional.bottomCenter,
+                    child: Padding(
+                      padding: const EdgeInsets.only(bottom: 16),
+                      child: AppButton(
+                        text: context.tr(letsStartKey),
+                        onPress: getStarted,
+                        width: context.getScreenSize.width * .95,
+                        height: 56,
+                      ),
+                    ),
+                  )
                 : const SizedBox(),
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10.0,horizontal: 8),
+              padding:
+                  const EdgeInsets.symmetric(vertical: 10.0, horizontal: 8),
               child: Align(
                 alignment: AlignmentDirectional.topEnd,
-                child: Align(alignment:AlignmentDirectional.topEnd,child: FlatAppButton(onPress:getStarted,text: "Skip",txtColor: AppTheme.appSwatch,)),
+                child: Align(
+                    alignment: AlignmentDirectional.topEnd,
+                    child: FlatAppButton(
+                      onPress: getStarted,
+                      text: context.tr(skipKey),
+                      txtColor: AppTheme.appSwatch,
+                    )),
               ),
             )
           ],
@@ -159,9 +180,8 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
     );
   }
 
-  void getStarted(){
+  void getStarted() {
     context.push(R_MainScreen);
     prefs.setBool(doneLandingKey, true);
   }
-
 }
