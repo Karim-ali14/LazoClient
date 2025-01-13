@@ -101,9 +101,11 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
           trailingWidget: Padding(
             padding: const EdgeInsets.symmetric(
                 horizontal: defaultPaddingHorizontal),
-            child: Text(
-              context.tr(arabicKey),
-              style: AppTheme.styleWithTextBlackAdelleSansExtendedFonts16w400,
+            child: Center(
+              child: Text(
+                context.tr(arabicKey),
+                style: AppTheme.styleWithTextBlackAdelleSansExtendedFonts16w400,
+              ),
             ),
           )),
       body: SafeArea(

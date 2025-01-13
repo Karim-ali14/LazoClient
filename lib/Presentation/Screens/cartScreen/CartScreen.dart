@@ -76,8 +76,8 @@ class _CartScreenState extends ConsumerState<CartScreen> {
       voucherTextController.clear();
     });
 
-    handleState(showPromoCodeDetailsStateNotifies, showLoading: true,
-        onSuccess: (res) {
+    handleState(showPromoCodeDetailsStateNotifies,
+        showLoading: true, showToast: true, onSuccess: (res) {
       var cartId = cartData.data?.data?.id;
       promocode = res.data?.data?.code;
       calculateCartItems(cartId: cartId.toString());

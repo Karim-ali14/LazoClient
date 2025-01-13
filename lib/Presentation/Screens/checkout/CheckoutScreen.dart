@@ -91,18 +91,19 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
         : ref.watch(calculationForSoftItemStateNotifies);
     var cartSelectionData = ref.watch(cartDateSelectedStateNotifiers);
 
-    handleState(showPromoCodeDetailsStateNotifies, showLoading: true,
-        onSuccess: (res) {
+    handleState(showPromoCodeDetailsStateNotifies,
+        showLoading: true, showToast: true, onSuccess: (res) {
       promocode = res.data?.data?.code;
       handleCalculateInstantOrder();
     });
 
-    handleState(createOrderStateNotifiers, showLoading: true, onSuccess: (res) {
-      print("create order Response payment link : ${res.data?.data?.paymentLink}");
+    handleState(createOrderStateNotifiers, showLoading: true,showToast: true, onSuccess: (res) {
+      print(
+          "create order Response payment link : ${res.data?.data?.paymentLink}");
       ref.watch(fetchCardDetailsStateNotifies);
-      if(res.data?.data?.paymentLink != null){
+      if (res.data?.data?.paymentLink != null) {
         navigateToPaymentScreen(res.data?.data?.paymentLink ?? "");
-      }else{
+      } else {
         context.pop(true);
       }
     });
@@ -236,7 +237,8 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                               height: 10,
                             ),
                             Text(
-                              context.tr(weWillCollectTheAddressFromTheRecipientKey),
+                              context.tr(
+                                  weWillCollectTheAddressFromTheRecipientKey),
                               style: AppTheme
                                   .styleWithTextGray7AdelleSansExtendedFonts12w400
                                   .copyWith(height: 1.3),
@@ -377,7 +379,7 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                   height: defaultPaddingHorizontal,
                 ),
                 Text(
-                context.tr(deliveryInfoKey),
+                  context.tr(deliveryInfoKey),
                   style:
                       AppTheme.styleWithTextBlackAdelleSansExtendedFonts18w700,
                 ),
@@ -475,11 +477,13 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                         ),
                       )
                     : const SizedBox(),
-                widget.type == CheckoutTypes.SoftCard ? Text(
-                  context.tr(saveOnYourOrderKey),
-                  style:
-                  AppTheme.styleWithTextBlackAdelleSansExtendedFonts18w700,
-                ): const SizedBox(),
+                widget.type == CheckoutTypes.SoftCard
+                    ? Text(
+                        context.tr(saveOnYourOrderKey),
+                        style: AppTheme
+                            .styleWithTextBlackAdelleSansExtendedFonts18w700,
+                      )
+                    : const SizedBox(),
                 SizedBox(
                   height: 24,
                 ),
@@ -653,7 +657,8 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
   }
 
   void showSendTypesBottomSheet() {
-    showBottomSheetSelection(context, context.tr(sendToKey), typeSendArray, (index) {
+    showBottomSheetSelection(context, context.tr(sendToKey), typeSendArray,
+        (index) {
       setState(() {
         selectTypeOfSend = index;
       });
@@ -662,8 +667,8 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
   }
 
   void showDeliveryTimeBottomSheet() {
-    showBottomSheetSelection(context, context.tr(deliveryTimeKey), deliveryTimeArray,
-        (index) {
+    showBottomSheetSelection(
+        context, context.tr(deliveryTimeKey), deliveryTimeArray, (index) {
       selectDeliveryTimeOfSend = index;
       timeController.text = deliveryTimeArray[index].item;
     }, initialValue: selectDeliveryTimeOfSend);
@@ -793,9 +798,10 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
         promocode: promocode);
   }
 
-  void navigateToPaymentScreen(String paymentLink) async{
-    var success = await context.push(R_PaymentScreen, extra: {"paymentLink" : paymentLink});
-    if(success == true){
+  void navigateToPaymentScreen(String paymentLink) async {
+    var success = await context
+        .push(R_PaymentScreen, extra: {"paymentLink": paymentLink});
+    if (success == true) {
       context.pop(true);
     }
   }
