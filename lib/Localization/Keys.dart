@@ -169,6 +169,7 @@ const String applyKey = "apply";
 const String chooseKey = "choose";
 const String choosePromotionKey = "choosePromotion";
 const String promotedKey = "promoted";
+const String shipmentTypeKey = "shipmentType";
 const String notPromotedKey = "notPromoted";
 const String choosePriceKey = "choosePrice";
 const String chooseCategoriesKey = "chooseCategories";

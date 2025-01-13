@@ -237,6 +237,7 @@ class GetProductsUseCase
     String? type,
     String? productId,
     num? providerId,
+    String? shipmentType
   }) async {
     String? priceFromValue = priceFrom;
     if (priceTo != null && priceFrom == null) {
@@ -262,7 +263,7 @@ class GetProductsUseCase
                       priceTo: num.tryParse(priceTo ?? ""),
                       ratings: ratings,
                       type: type ?? ItemType.Products.name.toLowerCase(),
-                      providerId: providerId),
+                      providerId: providerId,shipmentType: shipmentType),
             ), onComplete: (res) {
       if (page != 1) {
         List<ProviderProduct> list = state.data?.data?.products?.data ?? [];
@@ -405,6 +406,7 @@ class FilterDataUseCase extends StateNotifier<FilterData> {
 
   void applyDataFilter(
       {int? promotionSelected,
+      int? shipmentTypeSelected,
       String? priceFromSelected,
       String? priceToSelected,
       List<int>? categoriesIdsSelected,
@@ -412,6 +414,7 @@ class FilterDataUseCase extends StateNotifier<FilterData> {
       List<int>? ratingValueSelected}) {
     state = FilterData(
         promotionSelected: promotionSelected,
+        shipmentTypeSelected: shipmentTypeSelected,
         categoriesIdsSelected: categoriesIdsSelected,
         occasionsIdsSelected: occasionsIdsSelected,
         ratingValueSelected: ratingValueSelected,

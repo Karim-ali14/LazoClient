@@ -39,6 +39,10 @@ class FilterScreen extends ConsumerStatefulWidget {
 
 class _FilterScreenState extends ConsumerState<FilterScreen> {
   List<ItemSelector> categoriesList = [];
+  List<ItemSelector> shipmentTypesList = [
+    ItemSelector(0, "Ready made", null),
+    ItemSelector(1, "Unready made", null),
+  ];
   List<ItemSelector> occasionsList = [];
   List<int> mainRatingList = [1, 2, 3, 4, 5];
   List<ItemSelector> ratingsList = [1, 2, 3, 4, 5]
@@ -48,10 +52,12 @@ class _FilterScreenState extends ConsumerState<FilterScreen> {
       .toList();
   final TextEditingController priceTextController = TextEditingController();
   final TextEditingController promotionTextController = TextEditingController();
+  final TextEditingController shipmentTypeTextController = TextEditingController();
   final TextEditingController categoryTextController = TextEditingController();
   final TextEditingController occasionTextController = TextEditingController();
   final TextEditingController ratingsTextController = TextEditingController();
   int? promotionSelected = null;
+  int? shipmentTypeSelected = null;
   List<int>? categoriesSelected = null;
   List<int>? occasionsSelected = null;
   List<int>? ratingSelected = null;
@@ -69,7 +75,7 @@ class _FilterScreenState extends ConsumerState<FilterScreen> {
         filterData = ref.watch(filterForSellerStateNotifiers);
       }
       promotionSelected = filterData?.promotionSelected;
-
+      shipmentTypeSelected = filterData?.shipmentTypeSelected;
       categoriesSelected = widget.categoryId != null
           ? [(widget.categoryId ?? 0).toInt()]
           : filterData?.categoriesIdsSelected;
@@ -91,6 +97,7 @@ class _FilterScreenState extends ConsumerState<FilterScreen> {
   @override
   Widget build(BuildContext context) {
     var enabled = promotionSelected != null ||
+        shipmentTypeSelected != null ||
         priceFrom != null ||
         priceTo != null ||
         (widget.categoryId != null
@@ -211,6 +218,26 @@ class _FilterScreenState extends ConsumerState<FilterScreen> {
                       endWidget: SVGIcons.rightIcon(),
                     ),
                   ),
+
+            widget.type == FilterScreenTypes.Products
+                ? InkWell(
+                    onTap: () {
+                      showShipmentTypeBottomSheet(context);
+                    },
+                    child: AppTextField(
+                      readOnly: true,
+                      disabled: true,
+                      hint: context.tr(promotionKey),
+                      style: AppTheme
+                          .styleWithTextBlackAdelleSansExtendedFonts16w500,
+                      textFieldBorderColor: AppTheme.appGrey8,
+                      label: context.tr(shipmentTypeKey),
+                      labelStyle: AppTheme
+                          .styleWithTextBlackAdelleSansExtendedFonts16w500,
+                      textEditingController: shipmentTypeTextController,
+                      endWidget: SVGIcons.rightIcon(),
+                    ),
+                  ):SizedBox(),
             SizedBox(
               height: 16,
             ),
@@ -311,13 +338,15 @@ class _FilterScreenState extends ConsumerState<FilterScreen> {
                         ref
                             .read(filterForProductStateNotifiers.notifier)
                             .applyDataFilter(
+                                shipmentTypeSelected: shipmentTypeSelected,
                                 priceFromSelected: priceFrom,
                                 priceToSelected: priceTo,
                                 categoriesIdsSelected: categoriesSelected,
                                 occasionsIdsSelected: occasionsSelected,
-                                ratingValueSelected: ratingSelected);
+                                ratingValueSelected: ratingSelected,);
                         // fetchProducts(1);
                         context.pop(FilterData(
+                          shipmentTypeSelected: shipmentTypeSelected,
                             priceFromSelected: priceFrom,
                             priceToSelected: priceTo,
                             categoriesIdsSelected: categoriesSelected,
@@ -396,6 +425,34 @@ class _FilterScreenState extends ConsumerState<FilterScreen> {
                 promotionSelected = itemid;
                 promotionTextController.text =
                     promotionSelected == 1 ? context.tr(promotedKey) : context.tr(notPromotedKey);
+                setState(() {});
+                Navigator.pop(context);
+              });
+        });
+  }
+  void showShipmentTypeBottomSheet(BuildContext context) {
+    print("filterForSellerStateNotifiers : ${promotionSelected}");
+
+    showModalBottomSheet(
+        context: context,
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(10), topRight: Radius.circular(10))),
+        builder: (BuildContext context) {
+          return CustomSelectorBottomSheet(
+              context: context,
+              btuName: context.tr(chooseKey),
+              enableSearch: false,
+              title: context.tr(choosePromotionKey),
+              widgetList: shipmentTypesList,
+              searchHint: context.tr(searchByKey),
+              itemSelectedId: shipmentTypeSelected,
+              isSingleSelect: true,
+              onSelectMultiItemsCallback: (items) {},
+              onSelectItemCallback: (itemid) {
+                shipmentTypeSelected = itemid;
+                shipmentTypeTextController.text =
+                    shipmentTypeSelected == 1 ? "Unready made" : "Ready made" ;
                 setState(() {});
                 Navigator.pop(context);
               });
@@ -575,6 +632,10 @@ class _FilterScreenState extends ConsumerState<FilterScreen> {
             ? context.tr(notPromotedKey)
             : context.tr(promotedKey)
         : "";
+    shipmentTypeTextController.text = shipmentTypeSelected != null
+        ? shipmentTypeSelected == 0
+            ? "Ready made" : "Unready made"
+        : "";
     setDefaultCategoriesText(
         ref.watch(getCategoriesDataStateNotifiers).data?.data ?? [],
         categoriesSelected ?? []);
@@ -604,6 +665,7 @@ class _FilterScreenState extends ConsumerState<FilterScreen> {
 
   void resetAllData(Function action) {
     promotionSelected = null;
+    shipmentTypeSelected = null;
     priceTo = null;
     priceFrom = null;
     categoriesSelected =

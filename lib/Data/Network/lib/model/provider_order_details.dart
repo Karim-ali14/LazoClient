@@ -18,6 +18,7 @@ class ProviderOrderDetails {
     this.createdAt,
     this.deliveryDate,
     this.deliveryTime,
+    this.isMultiProviders,
     this.finishedAt,
     this.cancelledAt,
     this.id,
@@ -68,6 +69,8 @@ class ProviderOrderDetails {
   String? deliveryDate;
 
   String? deliveryTime;
+
+  bool? isMultiProviders;
 
   String? finishedAt;
 
@@ -292,6 +295,7 @@ class ProviderOrderDetails {
      other.createdAt == createdAt &&
      other.deliveryDate == deliveryDate &&
      other.deliveryTime == deliveryTime &&
+     other.isMultiProviders == isMultiProviders &&
      other.finishedAt == finishedAt &&
      other.cancelledAt == cancelledAt &&
      other.id == id &&
@@ -334,6 +338,7 @@ class ProviderOrderDetails {
     (createdAt == null ? 0 : createdAt!.hashCode) +
     (deliveryDate == null ? 0 : deliveryDate!.hashCode) +
     (deliveryTime == null ? 0 : deliveryTime!.hashCode) +
+    (isMultiProviders == null ? 0 : isMultiProviders!.hashCode) +
     (finishedAt == null ? 0 : finishedAt!.hashCode) +
     (cancelledAt == null ? 0 : cancelledAt!.hashCode) +
     (id == null ? 0 : id!.hashCode) +
@@ -369,7 +374,7 @@ class ProviderOrderDetails {
     (giftCard == null ? 0 : giftCard!.hashCode);
 
   @override
-  String toString() => 'ProviderOrderDetails[cancellationReason=$cancellationReason, cancelledBy=$cancelledBy, createdAt=$createdAt, deliveryDate=$deliveryDate, deliveryTime=$deliveryTime, finishedAt=$finishedAt, cancelledAt=$cancelledAt, id=$id, orderFamily=$orderFamily, orderItems=$orderItems, packagingProviderId=$packagingProviderId, paymentMethod=$paymentMethod, promocode=$promocode, promocodeDiscountType=$promocodeDiscountType, promocodeDiscountValue=$promocodeDiscountValue, promocodeId=$promocodeId, rating=$rating, ratingComment=$ratingComment, receiverAddress=$receiverAddress, latLng=$latLng, receiverPhoneNumber=$receiverPhoneNumber, receiverAddressDetails=$receiverAddressDetails, receiverName=$receiverName, referenceNumber=$referenceNumber, shippingFee=$shippingFee, statusId=$statusId, rejectedProvidersIds=$rejectedProvidersIds, rejectedOrderItems=$rejectedOrderItems, totalBeforeDiscount=$totalBeforeDiscount, discount=$discount, total=$total, totalWithShippingFee=$totalWithShippingFee, type=$type, updatedAt=$updatedAt, user=$user, userId=$userId, giftBox=$giftBox, giftCard=$giftCard]';
+  String toString() => 'ProviderOrderDetails[cancellationReason=$cancellationReason, cancelledBy=$cancelledBy, createdAt=$createdAt, deliveryDate=$deliveryDate, deliveryTime=$deliveryTime, isMultiProviders=$isMultiProviders, finishedAt=$finishedAt, cancelledAt=$cancelledAt, id=$id, orderFamily=$orderFamily, orderItems=$orderItems, packagingProviderId=$packagingProviderId, paymentMethod=$paymentMethod, promocode=$promocode, promocodeDiscountType=$promocodeDiscountType, promocodeDiscountValue=$promocodeDiscountValue, promocodeId=$promocodeId, rating=$rating, ratingComment=$ratingComment, receiverAddress=$receiverAddress, latLng=$latLng, receiverPhoneNumber=$receiverPhoneNumber, receiverAddressDetails=$receiverAddressDetails, receiverName=$receiverName, referenceNumber=$referenceNumber, shippingFee=$shippingFee, statusId=$statusId, rejectedProvidersIds=$rejectedProvidersIds, rejectedOrderItems=$rejectedOrderItems, totalBeforeDiscount=$totalBeforeDiscount, discount=$discount, total=$total, totalWithShippingFee=$totalWithShippingFee, type=$type, updatedAt=$updatedAt, user=$user, userId=$userId, giftBox=$giftBox, giftCard=$giftCard]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -397,6 +402,11 @@ class ProviderOrderDetails {
       json[r'delivery_time'] = this.deliveryTime;
     } else {
       json[r'delivery_time'] = null;
+    }
+    if (this.isMultiProviders != null) {
+      json[r'is_multi_providers'] = this.isMultiProviders;
+    } else {
+      json[r'is_multi_providers'] = null;
     }
     if (this.finishedAt != null) {
       json[r'finished_at'] = this.finishedAt;
@@ -586,6 +596,7 @@ class ProviderOrderDetails {
         createdAt: mapValueOfType<String>(json, r'created_at'),
         deliveryDate: mapValueOfType<String>(json, r'delivery_date'),
         deliveryTime: mapValueOfType<String>(json, r'delivery_time'),
+        isMultiProviders: mapValueOfType<bool>(json, r'is_multi_providers'),
         finishedAt: mapValueOfType<String>(json, r'finished_at'),
         cancelledAt: mapValueOfType<String>(json, r'cancelled_at'),
         id: json[r'id'] == null

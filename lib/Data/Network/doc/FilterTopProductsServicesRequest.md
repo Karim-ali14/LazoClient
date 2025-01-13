@@ -15,6 +15,7 @@ Name | Type | Description | Notes
 **occasionsIds** | **List<num>** |  | [optional] [default to const []]
 **priceFrom** | **num** |  | [optional] 
 **priceTo** | **num** |  | [optional] 
+**shipmentType** | **String** |  | [optional] 
 **ratings** | **List<String>** |  | [optional] [default to const []]
 **type** | **String** | products or services | [optional] 
 

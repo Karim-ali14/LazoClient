@@ -20,6 +20,7 @@ class FilterTopProductsServicesRequest {
     this.occasionsIds = const [],
     this.priceFrom,
     this.priceTo,
+    this.shipmentType,
     this.ratings = const [],
     this.type,
   });
@@ -37,6 +38,8 @@ class FilterTopProductsServicesRequest {
   num? priceFrom;
 
   num? priceTo;
+
+  String? shipmentType;
 
   List<String>? ratings;
 
@@ -58,6 +61,7 @@ class FilterTopProductsServicesRequest {
      other.occasionsIds == occasionsIds &&
      other.priceFrom == priceFrom &&
      other.priceTo == priceTo &&
+     other.shipmentType == shipmentType &&
      other.ratings == ratings &&
      other.type == type;
 
@@ -71,11 +75,12 @@ class FilterTopProductsServicesRequest {
     (occasionsIds == null ? 0 : occasionsIds!.hashCode) +
     (priceFrom == null ? 0 : priceFrom!.hashCode) +
     (priceTo == null ? 0 : priceTo!.hashCode) +
+    (shipmentType == null ? 0 : shipmentType!.hashCode) +
     (ratings == null ? 0 : ratings!.hashCode) +
     (type == null ? 0 : type!.hashCode);
 
   @override
-  String toString() => 'FilterTopProductsServicesRequest[page=$page, searchByName=$searchByName, providerId=$providerId, categoriesIds=$categoriesIds, occasionsIds=$occasionsIds, priceFrom=$priceFrom, priceTo=$priceTo, ratings=$ratings, type=$type]';
+  String toString() => 'FilterTopProductsServicesRequest[page=$page, searchByName=$searchByName, providerId=$providerId, categoriesIds=$categoriesIds, occasionsIds=$occasionsIds, priceFrom=$priceFrom, priceTo=$priceTo, shipmentType=$shipmentType, ratings=$ratings, type=$type]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -113,6 +118,11 @@ class FilterTopProductsServicesRequest {
       json[r'price_to'] = this.priceTo;
     } else {
       json[r'price_to'] = null;
+    }
+    if (this.shipmentType != null) {
+      json[r'shipment_type'] = this.shipmentType;
+    } else {
+      json[r'shipment_type'] = null;
     }
     if (this.ratings != null) {
       json[r'ratings'] = this.ratings;
@@ -165,6 +175,7 @@ class FilterTopProductsServicesRequest {
         priceTo: json[r'price_to'] == null
             ? null
             : num.parse(json[r'price_to'].toString()),
+        shipmentType: mapValueOfType<String>(json, r'shipment_type'),
         ratings: json[r'ratings'] is List
             ? (json[r'ratings'] as List).cast<String>()
             : const [],

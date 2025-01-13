@@ -20,6 +20,7 @@ Name | Type | Description | Notes
 **rejectedProvidersIds** | **String** |  | [optional] 
 **rejectedOrderItems** | **String** |  | [optional] 
 **paymentLink** | **String** |  | [optional] 
+**isMultiProviders** | **bool** |  | [optional] 
 **orderItems** | [**List<ClientOrderDetailsOrderItemsInner>**](ClientOrderDetailsOrderItemsInner.md) |  | [optional] [default to const []]
 **packagingProviderId** | **num** |  | [optional] 
 **paymentMethod** | **String** |  | [optional] 

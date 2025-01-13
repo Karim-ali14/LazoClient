@@ -13,6 +13,7 @@ Name | Type | Description | Notes
 **createdAt** | **String** |  | [optional] 
 **deliveryDate** | **String** |  | [optional] 
 **deliveryTime** | **String** |  | [optional] 
+**isMultiProviders** | **bool** |  | [optional] 
 **finishedAt** | **String** |  | [optional] 
 **cancelledAt** | **String** |  | [optional] 
 **id** | **num** |  | [optional] 

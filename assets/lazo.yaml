@@ -1688,6 +1688,9 @@ components:
           type: string
           nullable: true
           example: null
+        is_multi_providers:
+          type: boolean
+          nullable: true
         finished_at:
           type: string
           nullable: true
@@ -2389,6 +2392,9 @@ components:
           nullable: true
         payment_link:
           type: string
+          nullable: true
+        is_multi_providers:
+          type: boolean
           nullable: true
         order_items:
           type: array
@@ -3644,6 +3650,37 @@ components:
           updated_at:
             type: string
             example: '2024-05-15T17:59:26.000000Z'
+
+    TransactionDetails:
+      type: object
+      properties:
+        id:
+          type: number
+        provider_id:
+          type: string
+        number:
+          type: string
+        amount:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+          example: '2024-04-24T22:50:51.000000Z'
+        updated_at:
+          type: string
+          format: date-time
+          example: '2024-04-24T22:50:51.000000Z'
+        order_id:
+          type: string
+        receipt:
+          type: string
+        date_time:
+          type: string
+        status:
+          type: string
+        sender:
+          type: string
+
 
 tags:
   - name: public
@@ -5478,6 +5515,9 @@ paths:
                 price_to:
                   nullable: true
                   type: number
+                shipment_type:
+                  nullable: true
+                  type: string
                 ratings:
                   nullable: true
                   type: array
@@ -7576,6 +7616,145 @@ paths:
           description: Unauthorized
         '500':
           description: Internal server error
+      security:
+        - bearerAuth: []
+
+  /provider/transactions:
+    get:
+      tags:
+        - provider
+        - transactions
+      summary: show transactions
+      description: show transactions
+      operationId: showtransactions
+      parameters:
+        - name: date_from
+          in: query
+          schema:
+            type: string
+        - name: date_to
+          in: query
+          schema:
+            type: string
+        - name: page
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: show notifications
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+            Cache-Control:
+              schema:
+                type: string
+                example: no-cache, private
+            Connection:
+              schema:
+                type: string
+                example: close
+            Date:
+              schema:
+                type: string
+                example: Sun, 19 May 2024 15:09:21 GMT
+            Host:
+              schema:
+                type: string
+                example: localhost:8000
+            X-Powered-By:
+              schema:
+                type: string
+                example: PHP/8.2.3
+            X-RateLimit-Limit:
+              schema:
+                type: string
+                example: '60'
+            X-RateLimit-Remaining:
+              schema:
+                type: string
+                example: '57'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      current_balance:
+                        type: string
+                      transactions:
+                        properties:
+                          current_page:
+                            type: number
+                            example: 1
+                          data:
+                            type: array
+                            items:
+                              $ref: '#/components/schemas/TransactionDetails'
+                          first_page_url:
+                            type: string
+                            example: http://localhost:8000/api/client/orders?page=1
+                          from:
+                            type: number
+                            example: 1
+                          last_page:
+                            type: number
+                            example: 1
+                          last_page_url:
+                            type: string
+                            example: http://localhost:8000/api/client/orders?page=1
+                          links:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                active:
+                                  type: boolean
+                                  example: false
+                                label:
+                                  type: string
+                                  example: '&laquo; Previous'
+                                url:
+                                  type: string
+                                  nullable: true
+                                  example: null
+                            example:
+                              - active: false
+                                label: '&laquo; Previous'
+                                url: null
+                              - active: true
+                                label: '1'
+                                url: http://localhost:8000/api/client/orders?page=1
+                              - active: false
+                                label: Next &raquo;
+                                url: null
+                          next_page_url:
+                            nullable: true
+                            example: null
+                          path:
+                            type: string
+                            example: http://localhost:8000/api/client/orders
+                          per_page:
+                            type: number
+                            example: 5
+                          prev_page_url:
+                            nullable: true
+                            example: null
+                          to:
+                            type: number
+                            example: 1
+                          total:
+                            type: number
+                            example: 1
+
+                  message:
+                    type: string
+                  status:
+                    type: boolean
       security:
         - bearerAuth: []
 

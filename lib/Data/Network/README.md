@@ -111,6 +111,7 @@ Class | Method | HTTP request | Description
 *ProviderApi* | [**showAllProviderSOrders**](doc//ProviderApi.md#showallprovidersorders) | **GET** /provider/orders | show all provider's orders
 *ProviderApi* | [**showNotifications1**](doc//ProviderApi.md#shownotifications1) | **GET** /provider/notifications | show notifications
 *ProviderApi* | [**showOrderDetails2**](doc//ProviderApi.md#showorderdetails2) | **GET** /provider/order/show | show order details
+*ProviderApi* | [**showtransactions**](doc//ProviderApi.md#showtransactions) | **GET** /provider/transactions | show transactions
 *ProviderApi* | [**updateFcmTokenAndDeviceType1**](doc//ProviderApi.md#updatefcmtokenanddevicetype1) | **POST** /provider/update/device-data | update fcm_token and device_type
 *PublicApi* | [**addProductServiceToCartCartItem**](doc//PublicApi.md#addproductservicetocartcartitem) | **POST** /cart/create | Add product/service to cart (cart-item)
 *PublicApi* | [**cartCalculation**](doc//PublicApi.md#cartcalculation) | **POST** /cart/calculate | cart calculation
@@ -150,6 +151,7 @@ Class | Method | HTTP request | Description
 *PublicAuthApi* | [**resetCodeConfirmPost**](doc//PublicAuthApi.md#resetcodeconfirmpost) | **POST** /reset-code/confirm | confirm reset code
 *PublicAuthApi* | [**resetCodeSendPost**](doc//PublicAuthApi.md#resetcodesendpost) | **POST** /reset-code/send | send reset code
 *PublicAuthApi* | [**resetPasswordPost**](doc//PublicAuthApi.md#resetpasswordpost) | **POST** /reset-password | reset password
+*TransactionsApi* | [**showtransactions**](doc//TransactionsApi.md#showtransactions) | **GET** /provider/transactions | show transactions
 *WishlistApi* | [**showWishlistItemsWithSearchByName**](doc//WishlistApi.md#showwishlistitemswithsearchbyname) | **GET** /client/wishlist/show | Show wishlist items (with search by name)
 *WishlistApi* | [**toggleProductServiceInWishlist**](doc//WishlistApi.md#toggleproductserviceinwishlist) | **POST** /client/wishlist/toggle | Toggle product/service in wishlist
 
@@ -280,12 +282,16 @@ Class | Method | HTTP request | Description
  - [ShowPromocodeDetails200ResponseData](doc//ShowPromocodeDetails200ResponseData.md)
  - [ShowWishlistItemsWithSearchByName200Response](doc//ShowWishlistItemsWithSearchByName200Response.md)
  - [ShowWishlistItemsWithSearchByName200ResponseData](doc//ShowWishlistItemsWithSearchByName200ResponseData.md)
+ - [Showtransactions200Response](doc//Showtransactions200Response.md)
+ - [Showtransactions200ResponseData](doc//Showtransactions200ResponseData.md)
+ - [Showtransactions200ResponseDataTransactions](doc//Showtransactions200ResponseDataTransactions.md)
  - [Size](doc//Size.md)
  - [SizesResponse](doc//SizesResponse.md)
  - [Tag](doc//Tag.md)
  - [TagsResponse](doc//TagsResponse.md)
  - [ToggleProductServiceInWishlist200Response](doc//ToggleProductServiceInWishlist200Response.md)
  - [ToggleProductServiceInWishlist200ResponseData](doc//ToggleProductServiceInWishlist200ResponseData.md)
+ - [TransactionDetails](doc//TransactionDetails.md)
  - [UpdateCartItemQuantity200Response](doc//UpdateCartItemQuantity200Response.md)
  - [UpdateCartItemQuantity200ResponseData](doc//UpdateCartItemQuantity200ResponseData.md)
  - [UploadFiles](doc//UploadFiles.md)

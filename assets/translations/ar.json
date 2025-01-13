@@ -178,5 +178,6 @@
   "chooseOccasions" : "Choose Occasions",
   "chooseRatings" : "Choose Ratings",
   "done" : "Done",
-  "payment" : "Payment"
+  "payment" : "Payment",
+  "shipmentType" : "Shipment Type"
 }

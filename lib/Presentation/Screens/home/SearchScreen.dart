@@ -461,6 +461,8 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
   void fetchProducts(int page) {
     ref.read(getProductsStateNotifiers.notifier).getProductsData(
         page: page,
+        shipmentType: filterForProductData?.shipmentTypeSelected != null ?
+        filterForProductData?.shipmentTypeSelected == 1 ? "various_gifts" : "ready_made_gifts" : null,
         categoriesIds: widget.type == CategoryType.Categories
             ? [widget.id ?? 0]
             : filterForProductData?.categoriesIdsSelected,
