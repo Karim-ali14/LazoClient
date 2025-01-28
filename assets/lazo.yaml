@@ -3636,6 +3636,11 @@ components:
           product_selected_list_items_names:
             type: string
             nullable: true
+          client_selected_items_in_cart:
+            nullable: true
+            type: array
+            items:
+              $ref: '#/components/schemas/ProductListItemDetail'
           service_selected_list_items_names:
             type: string
             nullable: true

@@ -30,6 +30,7 @@ class CartItemsInner {
     this.serviceSelectedListIds,
     this.serviceSelectedListItemsIds,
     this.productSelectedListItemsNames,
+    this.clientSelectedItemsInCart = const [],
     this.serviceSelectedListItemsNames,
     this.service,
     this.serviceId,
@@ -130,6 +131,8 @@ class CartItemsInner {
 
   String? productSelectedListItemsNames;
 
+  List<ProductListItemDetail>? clientSelectedItemsInCart;
+
   String? serviceSelectedListItemsNames;
 
   ///
@@ -169,6 +172,7 @@ class CartItemsInner {
      other.serviceSelectedListIds == serviceSelectedListIds &&
      other.serviceSelectedListItemsIds == serviceSelectedListItemsIds &&
      other.productSelectedListItemsNames == productSelectedListItemsNames &&
+     other.clientSelectedItemsInCart == clientSelectedItemsInCart &&
      other.serviceSelectedListItemsNames == serviceSelectedListItemsNames &&
      other.service == service &&
      other.serviceId == serviceId &&
@@ -194,13 +198,14 @@ class CartItemsInner {
     (serviceSelectedListIds == null ? 0 : serviceSelectedListIds!.hashCode) +
     (serviceSelectedListItemsIds == null ? 0 : serviceSelectedListItemsIds!.hashCode) +
     (productSelectedListItemsNames == null ? 0 : productSelectedListItemsNames!.hashCode) +
+    (clientSelectedItemsInCart == null ? 0 : clientSelectedItemsInCart!.hashCode) +
     (serviceSelectedListItemsNames == null ? 0 : serviceSelectedListItemsNames!.hashCode) +
     (service == null ? 0 : service!.hashCode) +
     (serviceId == null ? 0 : serviceId!.hashCode) +
     (updatedAt == null ? 0 : updatedAt!.hashCode);
 
   @override
-  String toString() => 'CartItemsInner[cardPrice=$cardPrice, cartId=$cartId, createdAt=$createdAt, id=$id, listsTotalPrice=$listsTotalPrice, price=$price, product=$product, productId=$productId, quantity=$quantity, type=$type, cartItemTotalBeforeDiscount=$cartItemTotalBeforeDiscount, cartItemTotalAfterDiscount=$cartItemTotalAfterDiscount, productSelectedListIds=$productSelectedListIds, productSelectedListItemsIds=$productSelectedListItemsIds, serviceSelectedListIds=$serviceSelectedListIds, serviceSelectedListItemsIds=$serviceSelectedListItemsIds, productSelectedListItemsNames=$productSelectedListItemsNames, serviceSelectedListItemsNames=$serviceSelectedListItemsNames, service=$service, serviceId=$serviceId, updatedAt=$updatedAt]';
+  String toString() => 'CartItemsInner[cardPrice=$cardPrice, cartId=$cartId, createdAt=$createdAt, id=$id, listsTotalPrice=$listsTotalPrice, price=$price, product=$product, productId=$productId, quantity=$quantity, type=$type, cartItemTotalBeforeDiscount=$cartItemTotalBeforeDiscount, cartItemTotalAfterDiscount=$cartItemTotalAfterDiscount, productSelectedListIds=$productSelectedListIds, productSelectedListItemsIds=$productSelectedListItemsIds, serviceSelectedListIds=$serviceSelectedListIds, serviceSelectedListItemsIds=$serviceSelectedListItemsIds, productSelectedListItemsNames=$productSelectedListItemsNames, clientSelectedItemsInCart=$clientSelectedItemsInCart, serviceSelectedListItemsNames=$serviceSelectedListItemsNames, service=$service, serviceId=$serviceId, updatedAt=$updatedAt]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -289,6 +294,11 @@ class CartItemsInner {
     } else {
       json[r'product_selected_list_items_names'] = null;
     }
+    if (this.clientSelectedItemsInCart != null) {
+      json[r'client_selected_items_in_cart'] = this.clientSelectedItemsInCart;
+    } else {
+      json[r'client_selected_items_in_cart'] = null;
+    }
     if (this.serviceSelectedListItemsNames != null) {
       json[r'service_selected_list_items_names'] = this.serviceSelectedListItemsNames;
     } else {
@@ -366,6 +376,7 @@ class CartItemsInner {
         serviceSelectedListIds: mapValueOfType<String>(json, r'service_selected_list_ids'),
         serviceSelectedListItemsIds: mapValueOfType<String>(json, r'service_selected_list_items_ids'),
         productSelectedListItemsNames: mapValueOfType<String>(json, r'product_selected_list_items_names'),
+        clientSelectedItemsInCart: ProductListItemDetail.listFromJson(json[r'client_selected_items_in_cart']),
         serviceSelectedListItemsNames: mapValueOfType<String>(json, r'service_selected_list_items_names'),
         service: ServiceShowData.fromJson(json[r'service']),
         serviceId: json[r'service_id'] == null

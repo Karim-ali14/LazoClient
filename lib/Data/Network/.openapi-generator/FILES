@@ -313,8 +313,3 @@ lib/model/update_cart_item_quantity200_response_data.dart
 lib/model/upload_files.dart
 lib/model/upload_files_response.dart
 pubspec.yaml
-test/showtransactions200_response_data_test.dart
-test/showtransactions200_response_data_transactions_test.dart
-test/showtransactions200_response_test.dart
-test/transaction_details_test.dart
-test/transactions_api_test.dart

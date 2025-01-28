@@ -25,6 +25,7 @@ Name | Type | Description | Notes
 **serviceSelectedListIds** | **String** |  | [optional] 
 **serviceSelectedListItemsIds** | **String** |  | [optional] 
 **productSelectedListItemsNames** | **String** |  | [optional] 
+**clientSelectedItemsInCart** | [**List<ProductListItemDetail>**](ProductListItemDetail.md) |  | [optional] [default to const []]
 **serviceSelectedListItemsNames** | **String** |  | [optional] 
 **service** | [**ServiceShowData**](ServiceShowData.md) |  | [optional] 
 **serviceId** | **num** |  | [optional] 
