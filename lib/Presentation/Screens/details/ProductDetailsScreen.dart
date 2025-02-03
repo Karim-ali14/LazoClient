@@ -69,7 +69,6 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((callback) {
-
       if (widget.itemType == ItemType.Products) {
         if (widget.productDetails == null) {
           getDetailsForProduct();
@@ -87,7 +86,6 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
         }
 
         getRelatedServices();
-
       }
     });
 
@@ -103,12 +101,17 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
     final relatedServiceData = ref.watch(getRelatedServicesStateNotifiers);
 
     handleState(getProductDetails, showLoading: false, onSuccess: (res) {
-      res.data?.data?.lists?.forEach((item){
-        if(item.clientSelectedItemsInCart?.isNotEmpty == true){
-          productSelectedItemsIds[int.tryParse((item.id??0).toString())??0] = item.clientSelectedItemsInCart?.map((item) => item.id.toString()).toList() ?? [];
+      res.data?.data?.lists?.forEach((item) {
+        if (item.clientSelectedItemsInCart?.isNotEmpty == true) {
+          productSelectedItemsIds[int.tryParse((item.id ?? 0).toString()) ??
+              0] = item.clientSelectedItemsInCart
+                  ?.map((item) => item.id.toString())
+                  .toList() ??
+              [];
         }
       });
-      print("productSelectedItemsIds : $productSelectedItemsIds , productSelectedMultipleItems : $productSelectedMultipleItems");
+      print(
+          "productSelectedItemsIds : $productSelectedItemsIds , productSelectedMultipleItems : $productSelectedMultipleItems");
     });
 
     handleState(updateCartItemsStateNotifies, showLoading: true,
@@ -659,23 +662,26 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
                                                       productSelectedItemsIds[
                                                           categoryId] = ["$id"];
                                                     } else {
-                                                      if (productSelectedItemsIds.containsKey(categoryId)){
-                                                        productSelectedItemsIds.remove(categoryId);
+                                                      if (productSelectedItemsIds
+                                                          .containsKey(
+                                                              categoryId)) {
+                                                        productSelectedItemsIds
+                                                            .remove(categoryId);
                                                       }
                                                       // productSelectedItemsIds[
                                                       //     categoryId] = [];
                                                     }
                                                   },
                                                   itemSelectedId: productItemState
-                                                      .data
-                                                      ?.data
+                                                              .data
+                                                              ?.data
                                                               ?.lists?[index]
                                                               .clientSelectedItemsInCart
                                                               ?.isNotEmpty ==
                                                           true
                                                       ? productItemState
-                                                      .data
-                                                      ?.data
+                                                          .data
+                                                          ?.data
                                                           ?.lists![index]
                                                           .clientSelectedItemsInCart
                                                           ?.first
@@ -705,24 +711,27 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
                                                   onItemSelect: (items) {
                                                     var categoryId =
                                                         productItemState
-                                                            .data
-                                                            ?.data
-                                                            ?.lists?[index]
-                                                            .id
-                                                            ?.toInt() ??
+                                                                .data
+                                                                ?.data
+                                                                ?.lists?[index]
+                                                                .id
+                                                                ?.toInt() ??
                                                             0;
                                                     if (items.isEmpty) {
-                                                      if(productSelectedItemsIds.containsKey(categoryId)){
-                                                        productSelectedItemsIds.remove(categoryId);
+                                                      if (productSelectedItemsIds
+                                                          .containsKey(
+                                                              categoryId)) {
+                                                        productSelectedItemsIds
+                                                            .remove(categoryId);
                                                       }
-                                                    }else{
+                                                    } else {
                                                       productSelectedItemsIds[
-                                                      categoryId] = items;
+                                                          categoryId] = items;
                                                     }
                                                   },
                                                   itemSelect: productItemState
-                                                      .data
-                                                      ?.data
+                                                          .data
+                                                          ?.data
                                                           ?.lists?[index]
                                                           .clientSelectedItemsInCart
                                                           ?.map((toElement) =>
@@ -771,7 +780,11 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
                                                     .map((item) => ItemSelector(
                                                         item.id?.toInt() ?? 0,
                                                         item.name ?? "",
-                                                        SizedBox()))
+                                                        Text(
+                                                          "SAR ${item.price}",
+                                                          style: AppTheme
+                                                              .styleWithTextAppGrey7AdelleSansExtendedFonts14w400,
+                                                        )))
                                                     .toList() ??
                                                 [],
                                             onItemSelect: (items) {
@@ -786,9 +799,9 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
                                               serviceSelectemItemsIds[
                                                   categoryId] = items;
                                             },
-                                            itemSelect:serviceItemState
-                                                .data
-                                                ?.data
+                                            itemSelect: serviceItemState
+                                                    .data
+                                                    ?.data
                                                     ?.lists?[index]
                                                     .clientSelectedItemsInCart
                                                     ?.map((toElement) =>
@@ -1219,9 +1232,8 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
                       if (widget.productDetails != null ||
                           productItemState.data?.data!.inCart == true) {
                         // print("cartId : ${productItemState.data?.data!.cartItemId}");
-                        editProductToCart(
-                            int.parse(productItemState.data?.data!.cartItemId ??
-                                "0"));
+                        editProductToCart(int.parse(
+                            productItemState.data?.data!.cartItemId ?? "0"));
                       } else if (productItemState.data?.data?.id != null &&
                           productItemState.data?.data?.amount != 0) {
                         addProductToCart(int.parse(
@@ -1240,8 +1252,8 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
                                     ""),
                             serviceItemState.data?.data);
                       } else if (serviceItemState.data?.data!.inCart == true) {
-                        editServiceCart(
-                            int.parse(serviceItemState.data?.data?.cartItemId ?? "0"));
+                        editServiceCart(int.parse(
+                            serviceItemState.data?.data?.cartItemId ?? "0"));
                       } else if (serviceItemState.data?.data?.id != null) {
                         addServiceToCart(int.parse(
                             serviceItemState.data?.data?.id!.toString() ?? ""));
@@ -1249,7 +1261,8 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
                     }
                   },
                   text: widget.itemType == ItemType.Products
-                      ? widget.productDetails != null || productItemState.data?.data!.inCart == true
+                      ? widget.productDetails != null ||
+                              productItemState.data?.data!.inCart == true
                           ? "Edit Product"
                           : productItemState.data?.data?.amount == 0
                               ? "Out of stock"
@@ -1330,7 +1343,6 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
   }
 
   void editProductToCart(int id) {
-
     String? parentItemIds;
     String? childItemIds;
     if (productSelectedItemsIds.isNotEmpty) {
