@@ -9,6 +9,7 @@ import 'package:lazo_client/Data/Network/lib/api.dart';
 import 'package:lazo_client/Doman/CommenProviders/ApiProvider.dart';
 import 'package:lazo_client/Presentation/Widgets/CustomAppBar.dart';
 import 'package:lazo_client/Utils/Extintions.dart';
+import 'package:lazo_client/Utils/ValidationEx.dart';
 
 import '../../../Constants.dart';
 import '../../../Constants/Constants.dart';
@@ -85,6 +86,8 @@ class _EditPhoneScreenState extends ConsumerState<EditPhoneScreen> {
                 validate: (value) {
                   if (value?.isEmpty == true) {
                     return context.tr(enterYourPhoneKey);
+                  }else if (value?.isPhoneValidate == false) {
+                    return "Must start with 5 and be 9 digits long";
                   } else {
                     return null;
                   }

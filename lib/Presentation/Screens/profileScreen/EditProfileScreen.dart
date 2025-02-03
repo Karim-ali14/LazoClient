@@ -14,6 +14,7 @@ import 'package:lazo_client/Presentation/Widgets/AppTextField.dart';
 import 'package:lazo_client/Presentation/Widgets/CustomAppBar.dart';
 import 'package:lazo_client/Presentation/Widgets/SvgIcons.dart';
 import 'package:lazo_client/Utils/Extintions.dart';
+import 'package:lazo_client/Utils/ValidationEx.dart';
 import 'package:lazo_client/main.dart';
 
 import '../../../Constants/Constants.dart';
@@ -127,6 +128,13 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                     hint: context.tr(emailAddressOptionalKey),
                     label: context.tr(emailAddressOptionalKey),
                     textEditingController: emailController,
+                    validate: (value){
+                      if(value?.isNotEmpty == true && value?.isEmailValid == false) {
+                        return 'Enter a valid email';
+                      }else {
+                        return null;
+                      }
+                    },
                   ),
                   const SizedBox(
                     height: defaultPaddingHorizontal,

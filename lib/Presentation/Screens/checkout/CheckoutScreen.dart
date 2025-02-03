@@ -15,6 +15,7 @@ import 'package:lazo_client/Presentation/Widgets/CustomAppBar.dart';
 import 'package:lazo_client/Utils/Extintions.dart';
 import 'package:lazo_client/Utils/LocationHandler.dart';
 import 'package:lazo_client/Utils/OrderExExtra.dart';
+import 'package:lazo_client/Utils/ValidationEx.dart';
 
 import '../../../Constants/Constants.dart';
 import '../../../Constants/Eunms.dart';
@@ -97,7 +98,8 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
       handleCalculateInstantOrder();
     });
 
-    handleState(createOrderStateNotifiers, showLoading: true,showToast: true, onSuccess: (res) {
+    handleState(createOrderStateNotifiers, showLoading: true, showToast: true,
+        onSuccess: (res) {
       print(
           "create order Response payment link : ${res.data?.data?.paymentLink}");
       ref.watch(fetchCardDetailsStateNotifies);
@@ -283,7 +285,9 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                             textEditingController: recipientPhoneController,
                             validate: (value) {
                               if (value?.isEmpty == true) {
-                                return "Select type of send";
+                                return context.tr(enterYourPhoneKey);
+                              } else if (value?.isPhoneValidate == false) {
+                                return "Must start with 5 and be 9 digits long";
                               } else {
                                 return null;
                               }

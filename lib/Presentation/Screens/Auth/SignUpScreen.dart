@@ -12,6 +12,7 @@ import 'package:lazo_client/Presentation/StateNotifiersViewModel/PublicStateNoti
 import 'package:lazo_client/Presentation/Widgets/CircleImagePicker.dart';
 import 'package:lazo_client/Presentation/Widgets/SvgIcons.dart';
 import 'package:lazo_client/Utils/Extintions.dart';
+import 'package:lazo_client/Utils/ValidationEx.dart';
 
 import '../../../Constants.dart';
 import '../../../Constants/Eunms.dart';
@@ -156,6 +157,8 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                     validate: (value) {
                       if (value?.isEmpty == true) {
                         return context.tr(enterYourPhoneKey);
+                      }else if (value?.isPhoneValidate == false) {
+                        return "Must start with 5 and be 9 digits long";
                       } else {
                         return null;
                       }
@@ -171,6 +174,13 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                     hint: context.tr(emailAddressOptionalKey),
                     label: context.tr(emailAddressOptionalKey),
                     textEditingController: emailController,
+                    validate: (value){
+                      if(value?.isNotEmpty == true && value?.isEmailValid == false) {
+                        return 'Enter a valid email';
+                      }else {
+                        return null;
+                      }
+                    },
                   ),
                   const SizedBox(
                     height: defaultPaddingHorizontal,
@@ -206,7 +216,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                       // cityController.text = "sdafsd";
                       if (formKey.currentState?.validate() == true && images.isNotEmpty) {
                         uploadFiles();
-                      }else{
+                      }else if(formKey.currentState?.validate() == true){
                         sendCode();
                       }
 

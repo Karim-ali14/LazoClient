@@ -6,8 +6,6 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'package:flutter/material.dart';
-
-import '../Constants.dart';
 import '../Localization/AppLocalizations.dart';
 const imagePickOptions = ["Open Camera","Pick From Gallery"];
 
