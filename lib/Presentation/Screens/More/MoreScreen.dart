@@ -8,11 +8,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lazo_client/Constants/Eunms.dart';
 import 'package:lazo_client/Doman/CommenProviders/ApiProvider.dart';
+import 'package:lazo_client/Presentation/Dialogs/LoadingDialog.dart';
 import 'package:lazo_client/Presentation/Widgets/AppButton.dart';
 import '../../../Constants.dart';
 import '../../../Constants/Constants.dart';
 import '../../../Data/Network/lib/api.dart';
 import '../../../Localization/Keys.dart';
+import '../../../Localization/LanguageProvider.dart';
+import '../../../Localization/LanguageType.dart';
 import '../../StateNotifiersViewModel/ClientStateNotifiers.dart';
 import '../../StateNotifiersViewModel/PublicStateNotifiers.dart';
 import '../../StateNotifiersViewModel/UserAuthStateNotifiers.dart';
@@ -41,6 +44,7 @@ class _MoreScreenState extends ConsumerState<MoreScreen> {
   @override
   Widget build(BuildContext context) {
      final client = ref.watch(clientStateProvider);
+     final isEnglishLang = ref.watch(langProvider.notifier).isEnglish;
 
     handleState(logoutStateProvider,showLoading: true , onSuccess: (res){
       // navigateToLogin(TypeOfMode.AuthMode);
@@ -150,14 +154,21 @@ class _MoreScreenState extends ConsumerState<MoreScreen> {
             SizedBox(
               height: defaultPaddingHorizontal,
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: MoreItemCard(
-                startIcon: SVGIcons.langIcon(),
-                text: context.tr(languageKey),
-                endIcon: Text(
-                  "English",
-                  style: AppTheme.styleWithTextRedAdelleSansExtendedFonts16w500,
+            InkWell(
+              onTap: (){
+                context.showSelectionActionSheet(["ar" , "en"], (lang){
+                  changeLang(lang == 1 ? LanguageType.en : LanguageType.ar);
+                }, header: "Select language");
+              },
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: MoreItemCard(
+                  startIcon: SVGIcons.langIcon(),
+                  text: context.tr(languageKey),
+                  endIcon: Text(
+                    isEnglishLang ? context.tr(englishKey) : context.tr(arabicKey),
+                    style: AppTheme.styleWithTextRedAdelleSansExtendedFonts16w500,
+                  ),
                 ),
               ),
             ),
@@ -364,5 +375,8 @@ class _MoreScreenState extends ConsumerState<MoreScreen> {
   void rebuildMainScreen(){
     (context.findAncestorStateOfType<MainScreenNavHostState>() as MainScreenNavHostState)
         .rebuildMainScreen();
+  }
+  void changeLang(String lang) {
+    ref.read(langProvider.notifier).fetchLocale(lang);
   }
 }

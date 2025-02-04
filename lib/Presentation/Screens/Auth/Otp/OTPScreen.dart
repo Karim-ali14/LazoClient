@@ -21,6 +21,7 @@ import '../../../StateNotifiersViewModel/UserAuthStateNotifiers.dart';
 import '../../../Theme/AppTheme.dart';
 import '../../../Widgets/AppButton.dart';
 import '../../../Widgets/CustomAppBar.dart';
+import '../../../Widgets/LanguageText.dart';
 import '../../../Widgets/SvgIcons.dart';
 import 'Componants/OTPFields.dart';
 import 'Componants/TimerCounter.dart';
@@ -125,10 +126,7 @@ class _OtpScreenState extends ConsumerState<OTPScreen> {
           trailingWidget: Padding(
             padding: const EdgeInsets.symmetric(
                 horizontal: defaultPaddingHorizontal),
-            child: Text(
-              context.tr(arabicKey),
-              style: AppTheme.styleWithTextBlackAdelleSansExtendedFonts16w400,
-            ),
+            child: LanguageText(),
           )),
       body: SafeArea(
         child: SingleChildScrollView(

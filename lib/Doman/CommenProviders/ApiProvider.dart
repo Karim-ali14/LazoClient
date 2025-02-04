@@ -201,8 +201,7 @@ extension RequestHandle<T> on ConsumerState {
       print("User Request Here $next");
       next.handelStateWithoutWidget(
           onSuccess: (state) {
-
-            if (showLoading == true && context.isThereCurrentDialogShowing()) {
+         if (showLoading == true && context.isThereCurrentDialogShowing()) {
           try {
             context.pop();
           } catch (e) {

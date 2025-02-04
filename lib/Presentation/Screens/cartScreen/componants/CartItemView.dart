@@ -13,6 +13,7 @@ import 'package:skeletonizer/skeletonizer.dart';
 import '../../../../Constants/Eunms.dart';
 import '../../../../Data/Network/lib/api.dart';
 import '../../../../Localization/Keys.dart';
+import '../../../../Utils/Snaks.dart';
 
 typedef OnUpdateQuantity = Function(num, num);
 typedef OnDeleteItem = Function(num);
@@ -241,15 +242,24 @@ class _CartItemViewState extends State<CartItemView> {
                         children: <Widget>[
                           InkWell(
                               onTap: () {
-                                setState(() {
-                                  quantity = (quantity ?? 1) + 1;
-                                });
-                                delayedAction.startTimer(Duration(seconds: 2),
-                                    () {
-                                  widget.onUpdateQuantity.call(
-                                      (widget.cartItem?.id ?? 0),
-                                      (quantity ?? 1));
-                                });
+                                var amount = widget.cartItem?.product?.amount ?? 0;
+
+                                print("sdff $amount $quantity");
+                                if((quantity??0) < amount) {
+                                  setState(() {
+                                    quantity = (quantity ?? 1) + 1;
+                                  });
+                                  delayedAction.startTimer(Duration(seconds: 2),
+                                          () {
+                                        widget.onUpdateQuantity.call(
+                                            (widget.cartItem?.id ?? 0),
+                                            (quantity ?? 1));
+                                      });
+                                }
+                                else{
+                                  AppSnackBar.showSnackBar(context,
+                                      isSuccess: false, message: "amount is $amount");
+                                }
                               },
                               child: SVGIcons.incrementButtonSvgIcon()),
                           Padding(

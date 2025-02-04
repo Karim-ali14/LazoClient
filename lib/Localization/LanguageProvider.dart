@@ -1,25 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../main.dart';
 import 'LanguageType.dart';
+
 
 class LanguageProvider extends StateNotifier<Locale> {
 
   final Ref ref;
-  LanguageProvider(this.ref) : super( Locale(LanguageType.ar));
+  LanguageProvider(this.ref) : super( Locale(prefs.getString("lang") ?? LanguageType.ar));
 
-  Locale _appLocale =  Locale(LanguageType.ar);
-  bool isEnLanguage = false ;
+  Locale _appLocale =  Locale(prefs.getString("lang") ?? LanguageType.ar);
+  bool isEnLanguage = prefs.getString("lang") == LanguageType.en;
 
 
   Locale get appLocal => _appLocale;
   bool get isEnglish => isEnLanguage;
 
   fetchLocale(String? userLang) async {
+    print(userLang);
+    prefs.setString("lang", userLang??LanguageType.ar);
+    print(prefs.getString("lang"));
+
     if(userLang != null){
       _appLocale = Locale(userLang);
     }else{
       _appLocale =  Locale(LanguageType.ar);
     }
+    isEnLanguage = _appLocale ==  Locale(LanguageType.en) ? true : false;
     print(_appLocale);
     state = _appLocale;
   }
@@ -32,5 +39,4 @@ class LanguageProvider extends StateNotifier<Locale> {
     return _appLocale.languageCode;
   }
 }
-
 final langProvider = StateNotifierProvider<LanguageProvider,Locale>((ref) => LanguageProvider(ref));

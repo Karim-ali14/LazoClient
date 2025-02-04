@@ -111,7 +111,7 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
     });
 
     handleState(calculateInstantOrderStateProvider, onSuccess: (res) {
-      print("calculate Response ${res.state}");
+      print("calculate Response ${res.data?.data?.discount}");
 
       print(res.data?.data?.orderItems);
     });

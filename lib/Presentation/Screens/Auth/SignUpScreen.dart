@@ -25,6 +25,7 @@ import '../../Theme/AppTheme.dart';
 import '../../Widgets/AppButton.dart';
 import '../../Widgets/AppTextField.dart';
 import '../../Widgets/CustomAppBar.dart';
+import '../../Widgets/LanguageText.dart';
 import 'Componants/CustomSelectorBottomSheet.dart';
 
 class SignUpScreen extends ConsumerStatefulWidget {
@@ -103,10 +104,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
             padding: const EdgeInsets.symmetric(
                 horizontal: defaultPaddingHorizontal),
             child: Center(
-              child: Text(
-                context.tr(arabicKey),
-                style: AppTheme.styleWithTextBlackAdelleSansExtendedFonts16w400,
-              ),
+              child: LanguageText(),
             ),
           )),
       body: SafeArea(

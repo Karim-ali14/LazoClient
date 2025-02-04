@@ -16,6 +16,7 @@ import 'package:lazo_client/Utils/Extintions.dart';
 
 import '../../../Localization/Keys.dart';
 import '../../../Utils/Snaks.dart';
+import '../../Widgets/LanguageText.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
   final TypeOfMode? type;
@@ -77,11 +78,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                           .styleWithTextBlackAdelleSansExtendedFonts20w700,
                     ),
                     Spacer(),
-                    Text(
-                      context.tr(arabicKey),
-                      style: AppTheme
-                          .styleWithTextBlackAdelleSansExtendedFonts16w400,
-                    )
+                    LanguageText()
                   ],
                 ),
                 const SizedBox(

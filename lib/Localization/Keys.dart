@@ -8,6 +8,7 @@ const onBoardingTitleThreeKey = "onBoardingTitleThree";
 
 const loginKey = "login";
 const arabicKey = "arabic";
+const String englishKey = "english";
 const phoneNumberKey = "phoneNumber";
 const OTPKey = "OTP";
 const dontHaveAnAccountKey = "dontHaveAnAccount";

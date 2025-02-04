@@ -30,6 +30,7 @@ import '../../../../../Presentation/Screens/SplashScreen.dart';
 
 import 'Constants/Eunms.dart';
 import 'Localization/Keys.dart';
+import 'Localization/LanguageProvider.dart';
 import 'Presentation//Theme/AppTheme.dart';
 import 'Presentation/Screens/Auth/Otp/OTPScreen.dart';
 import 'Presentation/Screens/More/FAQScreen.dart';
@@ -188,7 +189,7 @@ class MyApp extends ConsumerWidget {
         darkTheme: AppTheme.darkTheme,
         localizationsDelegates: context.localizationDelegates,
         supportedLocales: context.supportedLocales,
-        locale: context.locale,
+        locale: ref.watch(langProvider),
         routerDelegate: _router.routerDelegate,
         routeInformationProvider: _router.routeInformationProvider,
         routeInformationParser: _router.routeInformationParser,
