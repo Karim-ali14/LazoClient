@@ -68,7 +68,7 @@ extension StateHandel on StateModel {
     return onSuccess!(this);
   }
 
-  void handelStateWithoutWidget({OnLoading1? onLoading,OnSuccess1? onSuccess,OnFailure1? onFailure,OnEmpty? onEmpty}){
+  void handelStateWithoutWidget<T>({OnLoading1? onLoading,OnSuccess1? onSuccess,OnFailure1? onFailure,OnEmpty? onEmpty}){
     switch(state){
       case DataState.LOADING: return onLoading!(this);
       case DataState.SUCCESS: return onSuccess!(this); break;

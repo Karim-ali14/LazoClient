@@ -16,7 +16,26 @@ Future<DateTime> selectDate(BuildContext context,
   if (picked != null && picked != DateTime.now()) return picked;
   return DateTime.now();
 }
+extension DateExtension on DateTime {
+  String yMD([Locale? locale]) {
+    DateFormat formatter = DateFormat.yMd(locale?.languageCode ?? 'en');
+    return formatter.format(this);
+  }
 
+  String ddMmYyyy([Locale? locale]) {
+    DateFormat format2 = DateFormat("dd/MM/yyyy", "en");
+    return format2.format(this);
+  }
+}
+
+extension StringToDate on String {
+  String stringToDate({String format = "dd/MM/yyyy", String locale = "en"}) {
+    DateFormat format1 = DateFormat("yyyy-MM-dd'T'HH:mm:ss", locale);
+    DateTime date = format1.parse(this);
+    DateFormat format2 = DateFormat(format, locale);
+    return format2.format(date);
+  }
+}
 
 DateTime _setCurrentDate(int? interval,DateTime? maxDate){
   if(interval != null){

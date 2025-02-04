@@ -199,7 +199,7 @@ const String cardFromKey = "cardFrom";
 const String cardToKey = "cardTo";
 
 // order keys
-const String paddingKey = "padding";
+const String pendingKey = "pending";
 const String waitingKey = "waiting";
 const String preparingKey = "preparing";
 const String readyToShippingKey = "readyToShipping";

@@ -155,6 +155,7 @@ class _SellerItemCardState extends State<SellerItemCard> {
           child: ImageView(
             isCircle: true,
             initialImg: widget.providerData?.imagePath,
+            placeHolder: defaultUseIconSvg,
           ),
         ),
       )

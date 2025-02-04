@@ -201,7 +201,7 @@ class _OrdersScreenState extends ConsumerState<OrdersScreen>
                       ),
                       child: Center(
                         child: Text(
-                          context.tr(cancelOrderKey),
+                          "Cancelled Order",
                           style: activeTabIndex == 3
                               ? AppTheme
                                   .styleWithTextWhiteAdelleSansExtendedFonts14w400

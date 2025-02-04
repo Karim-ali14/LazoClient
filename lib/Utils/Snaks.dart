@@ -42,7 +42,7 @@ class AppSnackBar {
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
                   message,
-                  style: AppTheme.appTextTheme.titleLarge?.copyWith(fontWeight: FontWeight.w500),
+                  style: AppTheme.appTextTheme.titleLarge?.copyWith(fontWeight: FontWeight.w500,color: Colors.black),
                 ),
               ),
             ),

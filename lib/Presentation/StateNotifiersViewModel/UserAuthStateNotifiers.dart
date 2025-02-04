@@ -22,7 +22,7 @@ final sendOtpForSignUpStateProvider = StateNotifierProvider.autoDispose<SendOtpU
     (ref) => SendOtpUseCase(ref, ref.read(publicAuthApi)));
 
 final confirmResetCodeStateProvider = StateNotifierProvider.autoDispose<
-        ConfirmResetCodeUseCase, StateModel<Object>>(
+        ConfirmResetCodeUseCase, StateModel<CodeConfirmResponse?>>(
     (ref) => ConfirmResetCodeUseCase(ref, ref.read(publicAuthApi)));
 
 final clientStateProvider =

@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:lazo_client/Presentation/Screens/cartScreen/CartScreen.dart';
 import 'package:lazo_client/Presentation/Screens/home/HomeScreen.dart';
 import 'package:lazo_client/Presentation/Screens/orders/OrdersScreen.dart';
@@ -11,6 +12,7 @@ import 'package:lazo_client/Presentation/StateNotifiersViewModel/UserAuthStateNo
 import 'package:lazo_client/Presentation/Theme/AppTheme.dart';
 import 'package:lazo_client/Presentation/Widgets/CustomAppBar.dart';
 
+import '../../../Constants.dart';
 import '../../../Constants/Constants.dart';
 import '../../../Localization/Keys.dart';
 import '../../Widgets/AppButton.dart';
@@ -276,17 +278,21 @@ class AppBarTrailing extends StatelessWidget {
                 child: Stack(children: [
                   Align(
                       alignment: AlignmentDirectional.center,
-                      child: SVGIcons.notificationSvgIcon()),
-                  Positioned(
-                    right: 4,
-                    top: 1,
-                    child: Container(
-                      height: 6,
-                      width: 6,
-                      decoration: BoxDecoration(
-                          shape: BoxShape.circle, color: AppTheme.mainAppColor),
-                    ),
-                  )
+                      child: InkWell(
+                          onTap: (){
+                            context.push(R_NotificationScreen);
+                          },
+                          child: SVGIcons.notificationSvgIcon())),
+                  // Positioned(
+                  //   right: 4,
+                  //   top: 1,
+                  //   child: Container(
+                  //     height: 6,
+                  //     width: 6,
+                  //     decoration: BoxDecoration(
+                  //         shape: BoxShape.circle, color: AppTheme.mainAppColor),
+                  //   ),
+                  // )
                 ]),
               )
             ],
@@ -294,4 +300,5 @@ class AppBarTrailing extends StatelessWidget {
     }
     return const SizedBox();
   }
+
 }

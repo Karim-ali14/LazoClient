@@ -51,6 +51,8 @@ class _OtpScreenState extends ConsumerState<OTPScreen> {
     });
 
     handleState(confirmResetCodeStateProvider,showToast: true,onSuccess: (state){
+      print("object $state");
+      print("object ${state.data?.message}");
       if(widget.otpType == OTPType.Login) {
         login();
       }else if(widget.otpType == OTPType.SignUp){
@@ -60,6 +62,8 @@ class _OtpScreenState extends ConsumerState<OTPScreen> {
       }
     },onLoading: (res){
       context.showLoadingDialog();
+    },onFail: (res){
+
     });
 
     handleState(loginStateNotifierProvider, onSuccess: (res) {

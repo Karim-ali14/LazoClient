@@ -29,7 +29,7 @@
   "SAR" : "SAR",
   "dashes" : "----",
   "items" : "Items",
-  "padding" : "Padding",
+  "pending" : "Pending",
   "waiting" : "Waiting",
   "preparing" : "Preparing",
   "readyToShipping" : "shipped",

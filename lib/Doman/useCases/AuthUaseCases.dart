@@ -92,14 +92,16 @@ class UpdateProfileUseCase extends StateNotifier<StateModel<ClientAuthResponse>>
   }
 }
 
-class ConfirmResetCodeUseCase extends StateNotifier<StateModel<Object>>{
+class ConfirmResetCodeUseCase extends StateNotifier<StateModel<CodeConfirmResponse?>>{
   final Ref ref;
   final PublicAuthApi authApi;
   ConfirmResetCodeUseCase( this.ref, this.authApi):super(StateModel());
 
   void confirmReset(String? emailOrPhone,String? code) async {
     state = StateModel.loading();
-    request(() => authApi.codeConfirmPost(emailOrPhone: emailOrPhone,confirmCode: code ,accountType : accountType));
+    request(() => authApi.codeConfirmPost(emailOrPhone: emailOrPhone,confirmCode: code ,accountType : accountType),onComplete: (res){
+      print("File Response ${res?.message}");
+    });
   }
 }
 

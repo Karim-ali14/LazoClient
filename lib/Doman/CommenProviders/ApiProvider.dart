@@ -33,6 +33,8 @@ final clientAuthApi = Provider((ref) => AuthApi(ref.read(apiClient)));
 final publicAuthApi = Provider((ref) => PublicAuthApi(ref.read(apiClient)));
 final publicApi = Provider((ref) => PublicApi(ref.read(apiClient)));
 final clientApi = Provider((ref) => ClientApi(ref.read(apiClient)));
+final notificationApi = Provider((ref) => NotificationsApi(ref.read(apiClient)));
+
 
 // final userAuthApi = Provider((ref) => PublicAuthenticationApi(ref.read(apiClient)));
 //
@@ -56,7 +58,7 @@ extension GenericRequest<T> on StateNotifier<StateModel<T>> {
       state = StateModel(
           state: DataState.SUCCESS,
           data: response is T ? response : null,
-          message: /*response?.message*/ "");
+          message: response?.message ?? "");
       onComplete?.call(response);
     } on ApiException catch (e) {
       print("Error Response $e");
@@ -199,7 +201,8 @@ extension RequestHandle<T> on ConsumerState {
       print("User Request Here $next");
       next.handelStateWithoutWidget(
           onSuccess: (state) {
-        if (showLoading == true && context.isThereCurrentDialogShowing()) {
+
+            if (showLoading == true && context.isThereCurrentDialogShowing()) {
           try {
             context.pop();
           } catch (e) {

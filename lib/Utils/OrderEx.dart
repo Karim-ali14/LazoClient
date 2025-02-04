@@ -13,7 +13,7 @@ extension OrderEx on String {
       case "3":
       case "2":
         {
-          orderStatus = context.tr(paddingKey);
+          orderStatus = context.tr(pendingKey);
           break;
         }
         // {

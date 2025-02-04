@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../Constants.dart';
+import '../../Constants/Assets.dart';
 
 class ImageView extends StatelessWidget {
   final String? initialImg;
@@ -41,8 +42,8 @@ class ImageView extends StatelessWidget {
                 child: _isSvg(initialImg)
                     ? SvgPicture.network(
                         initialImg ?? "",
-                        placeholderBuilder: (context) => Image.asset(
-                          placeHolder ?? userPlaceholder,
+                        placeholderBuilder: (context) => SvgPicture.asset(
+                          placeHolder ?? defaultUseIconSvg,
                           fit: BoxFit.cover,
                         ),
                         height: height,
@@ -50,20 +51,20 @@ class ImageView extends StatelessWidget {
                         fit: BoxFit.cover,
                       )
                     : CachedNetworkImage(
-                        placeholder: (context, url) => Image.asset(
-                              placeHolder ?? userPlaceholder,
+                        placeholder: (context, url) => SvgPicture.asset(
+                              placeHolder ?? placeHolderForCardsSvg,
                               fit: BoxFit.cover,
                             ),
                         imageUrl: initialImg ?? "",
-                        errorWidget: (context, err, child) => Image.asset(
-                            placeHolder ?? userPlaceholder,
+                        errorWidget: (context, err, child) => SvgPicture.asset(
+                            placeHolder ?? placeHolderForCardsSvg,
                             fit: BoxFit.cover),
                         fit: BoxFit.cover))
             : _isSvg(initialImg)
                 ? SvgPicture.network(
                     initialImg ?? "",
-                    placeholderBuilder: (context) => Image.asset(
-                      placeHolder ?? userPlaceholder,
+                    placeholderBuilder: (context) => SvgPicture.asset(
+                      placeHolder ?? placeHolderForCardsSvg,
                       fit: BoxFit.cover,
                     ),
                     height: height,
@@ -72,12 +73,12 @@ class ImageView extends StatelessWidget {
                   )
                 : CachedNetworkImage(
                     placeholder: (context, url) => SvgPicture.asset(
-                          placeHolder ?? userPlaceholder,
+                          placeHolder ?? placeHolderForCardsSvg,
                           fit: BoxFit.cover,
                         ),
                     imageUrl: initialImg ?? "",
-                    errorWidget: (context, err, child) => Image.asset(
-                        placeHolder ?? userPlaceholder,
+                    errorWidget: (context, err, child) => SvgPicture.asset(
+                        placeHolder ?? placeHolderForCardsSvg,
                         fit: BoxFit.cover),
                     fit: BoxFit.cover));
   }

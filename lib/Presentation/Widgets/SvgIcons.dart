@@ -13,7 +13,13 @@ class SVGIcons {
       height: 40,
     );
   }
-
+  static Widget defaultUserIcon(){
+    return SvgPicture.asset(
+      defaultUserImg,
+      width: 43,
+      height: 43,
+    );
+  }
   static Widget itemsIcon() {
     return SvgPicture.asset(
       itemsIconSvg,

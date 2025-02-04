@@ -16,6 +16,7 @@ import 'package:lazo_client/Presentation/Widgets/SeeMoreAndLessTextView.dart';
 import 'package:lazo_client/Utils/Extintions.dart';
 
 import '../../../Constants.dart';
+import '../../../Constants/Assets.dart';
 import '../../../Localization/Keys.dart';
 import '../../BottomSheets/AuthenticateBottomSheet.dart';
 import '../../StateNotifiersViewModel/PublicStateNotifiers.dart';
@@ -167,9 +168,8 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
               children: [
                 Positioned(
                   child: SizedBox(
-                    child: Image.network(
-                      sellerProducts.data?.data?.coverImagePath ?? "",
-                      fit: BoxFit.cover,
+                    child: ImageView(
+                      initialImg: sellerProducts.data?.data?.coverImagePath ?? "",
                     ),
                     width: double.infinity,
                     height: 206,
@@ -189,7 +189,8 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
                                 ImageView(
                                     isCircle: true,
                                     initialImg:
-                                        sellerProducts.data?.data?.imagePath),
+                                        sellerProducts.data?.data?.imagePath,
+                                placeHolder: defaultUseIconSvg,),
                                 SizedBox(
                                   width: 8,
                                 ),

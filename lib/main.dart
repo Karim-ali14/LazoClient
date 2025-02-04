@@ -34,6 +34,7 @@ import 'Presentation//Theme/AppTheme.dart';
 import 'Presentation/Screens/Auth/Otp/OTPScreen.dart';
 import 'Presentation/Screens/More/FAQScreen.dart';
 import 'Presentation/Screens/More/MoreScreen.dart';
+import 'Presentation/Screens/Notification/NotificationScreen.dart';
 import 'Presentation/Screens/checkout/CheckoutScreen.dart';
 import 'Presentation/Screens/details/ShowAllRatingAndReviewScreen.dart';
 import 'Presentation/Screens/home/HomeScreen.dart';
@@ -331,7 +332,7 @@ class MyApp extends ConsumerWidget {
       GoRoute(
           path: R_NotificationScreen,
           builder: (BuildContext context, GoRouterState state) =>
-              const SizedBox()),
+              const NotificationScreen()),
       GoRoute(
           path: R_FAQScreen,
           builder: (BuildContext context, GoRouterState state) =>

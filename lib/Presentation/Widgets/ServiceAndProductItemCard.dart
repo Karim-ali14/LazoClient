@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:lazo_client/Presentation/Widgets/SvgIcons.dart';
 import 'package:lazo_client/Utils/Extintions.dart';
 import 'package:skeletonizer/skeletonizer.dart';
+import '../../Constants/Assets.dart';
 import '../../Constants/Eunms.dart';
 import '../../Data/Network/lib/api.dart';
 import '../Theme/AppTheme.dart';
@@ -89,6 +90,7 @@ class _ServiceAndProductItemCardHorizontalState
                             ? widget.product?.images?.first.imagePath
                             : ""
                         : widget.service?.imagePath,
+                    placeHolder: placeHolderForCardsSvg,
                   ),
                 ),
                 Padding(
