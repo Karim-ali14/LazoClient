@@ -794,7 +794,7 @@ class ShowPromoCodeDetails
     String? code,
   }) {
     state = StateModel.loading();
-    request(() =>
+    requestWithHandleMessage(() =>
         publicApi.showPromocodeDetails(code: code, promocodeId: promocodeId));
   }
 }

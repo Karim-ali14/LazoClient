@@ -18,7 +18,7 @@ class GetNotificationStateNotifiers extends StateNotifier<StateModel<ShowNotific
 
   void getNotification() async {
     state = StateModel.loading();
-    request(() => notifications1api.showNotifications2(),onComplete: (res){
+    requestWithHandleMessage(() => notifications1api.showNotifications2(),onComplete: (res){
       print("notification size :${res.data.length}");
       notificationList.clear();
       notificationList.addAll(
@@ -74,6 +74,6 @@ class MakeNotificationRead extends StateNotifier<StateModel<ReadANotification122
 
   void readANotification(String notificationId) async{
     state = StateModel.loading();
-    request(() => notifications1api.readANotification122(notificationId: notificationId));
+    requestWithHandleMessage(() => notifications1api.readANotification122(notificationId: notificationId));
   }
 }

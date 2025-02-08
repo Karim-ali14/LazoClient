@@ -26,7 +26,7 @@ class CreateOrderUseCase
     String? latLng,
   }) {
     state = StateModel.loading();
-    request(() => _clientApi.createOrder(
+    requestWithHandleMessage(() => _clientApi.createOrder(
         deliveryDate: deliveryDate,
         deliveryTime: deliveryTime,
         giftBoxId: giftBoxId,
@@ -154,7 +154,7 @@ class ManageOrderUseCase
     String? statusId,
   }) {
     state = StateModel.loading();
-    request(() => api.manageOrder(orderId: orderId, statusId: statusId));
+    requestWithHandleMessage(() => api.manageOrder(orderId: orderId, statusId: statusId));
   }
 }
 
@@ -188,7 +188,7 @@ class RatingOrderUseCase
     List<String>? ratings,
   }) {
     state = StateModel.loading();
-    request(() => api.rateOrder(
+    requestWithHandleMessage(() => api.rateOrder(
           rateOrderRequest: RateOrderRequest(
               comments: comments ?? [],
               orderItemsIds: orderItemsIds ?? [],

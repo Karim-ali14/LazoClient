@@ -92,7 +92,7 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
         : ref.watch(calculationForSoftItemStateNotifies);
     var cartSelectionData = ref.watch(cartDateSelectedStateNotifiers);
 
-    handleState(showPromoCodeDetailsStateNotifies,
+    handleState(showPromoCodeDetailsForSoftServiceStateNotifies,
         showLoading: true, showToast: true, onSuccess: (res) {
       promocode = res.data?.data?.code;
       handleCalculateInstantOrder();
@@ -725,7 +725,7 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
           isIdentitySecret: _enableIsSecret == true ? "1" : "0",
           giftBoxId: giftBoxId,
           giftCardId: giftCardId,
-          orderType: OrderTypes.receiver_order.name.toString(),
+          orderType:selectTypeOfSend == 0 ?OrderTypes.self_order.name.toString() :OrderTypes.receiver_order.name.toString(),
           paymentMethod: "Credit Card",
           promocode: promocode,
           latLng: latLng,
@@ -785,7 +785,7 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
 
   void getPromoCodeDetails() {
     ref
-        .read(showPromoCodeDetailsStateNotifies.notifier)
+        .read(showPromoCodeDetailsForSoftServiceStateNotifies.notifier)
         .showPromoCodeDetails(code: voucherTextController.text);
   }
 

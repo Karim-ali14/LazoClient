@@ -20,7 +20,7 @@ class LoginUseCase extends StateNotifier<StateModel<ClientAuthResponse>> {
 
   void login(String phone,{String? sessionId}) async {
     state = StateModel.loading();
-    request(() => authApi.clientLogin(phone: phone,sessionId: sessionId), onComplete:(res) {
+    requestWithHandleMessage(() => authApi.clientLogin(phone: phone,sessionId: sessionId), onComplete:(res) {
       ref.read(clientStateProvider.notifier).setUser(res.data);
     });
   }
@@ -33,7 +33,7 @@ class SignUpUseCase extends StateNotifier<StateModel<ClientAuthResponse>> {
 
   void signUp({ String? cityId, String? email, String? image, String? name, String? phone, String? sessionId}) async {
     state = StateModel.loading();
-    request(() => authApi.clientSignup(cityId: cityId,email: email,image: image,name: name,phone: phone,sessionId: sessionId), onComplete:(res) {
+    requestWithHandleMessage(() => authApi.clientSignup(cityId: cityId,email: email,image: image,name: name,phone: phone,sessionId: sessionId), onComplete:(res) {
       ref.read(clientStateProvider.notifier).setUser(res.data);
     });
   }
@@ -77,7 +77,7 @@ class SendOtpUseCase extends StateNotifier<StateModel<CodeSendResponse>>{
 
   void sendOtp(String? phone) async {
     state = StateModel.loading();
-    request(() => authApi.codeSendPost(emailOrPhone: phone,accountType : accountType));
+    requestWithHandleMessage(() => authApi.codeSendPost(emailOrPhone: phone,accountType : accountType));
   }
 }
 
@@ -88,7 +88,7 @@ class UpdateProfileUseCase extends StateNotifier<StateModel<ClientAuthResponse>>
 
   void updateProfile({ String? cityId, String? email, String? image, String? name, String? phone, }) async {
     state = StateModel.loading();
-    request(() => clientApi.updateProfile(cityId: cityId,email: email,image: image,name: name,phone: phone));
+    requestWithHandleMessage(() => clientApi.updateProfile(cityId: cityId,email: email,image: image,name: name,phone: phone));
   }
 }
 
@@ -99,7 +99,7 @@ class ConfirmResetCodeUseCase extends StateNotifier<StateModel<CodeConfirmRespon
 
   void confirmReset(String? emailOrPhone,String? code) async {
     state = StateModel.loading();
-    request(() => authApi.codeConfirmPost(emailOrPhone: emailOrPhone,confirmCode: code ,accountType : accountType),onComplete: (res){
+    requestWithHandleMessage(() => authApi.codeConfirmPost(emailOrPhone: emailOrPhone,confirmCode: code ,accountType : accountType),onComplete: (res){
       print("File Response ${res?.message}");
     });
   }
@@ -113,7 +113,7 @@ class UploadFilesUseCase extends StateNotifier<StateModel<UploadFilesResponse>>{
   void uploadFilesPost(List<File> files) async {
     state = StateModel.loading();
     var list = await filesToMultipart(files);
-    request(() => publicApi.uploadFilesPost(files: list),onComplete: (resp){
+    requestWithHandleMessage(() => publicApi.uploadFilesPost(files: list),onComplete: (resp){
       // print("File Response ${resp.data}");
       // ref.
     });

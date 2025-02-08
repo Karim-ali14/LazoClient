@@ -76,7 +76,7 @@ class _CartScreenState extends ConsumerState<CartScreen> {
       voucherTextController.clear();
     });
 
-    handleState(showPromoCodeDetailsStateNotifies,
+    handleState(showPromoCodeDetailsForHardServiceStateNotifies,
         showLoading: true, showToast: true, onSuccess: (res) {
       var cartId = cartData.data?.data?.id;
       promocode = res.data?.data?.code;
@@ -510,7 +510,7 @@ class _CartScreenState extends ConsumerState<CartScreen> {
 
   void getPromoCodeDetails() {
     ref
-        .read(showPromoCodeDetailsStateNotifies.notifier)
+        .read(showPromoCodeDetailsForHardServiceStateNotifies.notifier)
         .showPromoCodeDetails(code: voucherTextController.text);
   }
 
