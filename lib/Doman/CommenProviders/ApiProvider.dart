@@ -105,6 +105,7 @@ extension GenericRequest<T> on StateNotifier<StateModel<T>> {
       var message = error?.containsKey("errors") == true
           ? (error!["errors"] as List).first
           : "Something wrong happen please try again later";
+      print("Error Response $message $e");
       if (e.code == 401 || e.code == 403) {
         print("Not Authed Here");
         Future.delayed(const Duration(milliseconds: 20), () {

@@ -75,13 +75,13 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
     final sellerReview = ref.watch(getSellerDetailsWithReviewsStateNotifier);
 
     handleState(addProductToCartUseCaseStateNotifier , showLoading: true ,onSuccess: (res){
-      var id = res.data?.data?.productId;
-      print("product id : $id");
-      if(id != null){
-        ref.read(getProductDetails.notifier).handelAddProductToCart(id);
-        ref.read(getSellerDetailsWithProductStateNotifier.notifier).handleAddProductToCart(id,res.data?.data?.categoriesIds ?? []);
-        ref.read(homeDataStateNotifiers.notifier).handleAddProductToCart(id);
-        ref.read(getProductsStateNotifiers.notifier).handleAddProductToCart(id);
+      var productId = res.data?.data?.productId;
+      print("product id : $productId");
+      if(productId != null){
+        ref.read(getProductDetails.notifier).handelAddProductToCart(productId);
+        ref.read(getSellerDetailsWithProductStateNotifier.notifier).handleAddProductToCart(productId,res.data?.data?.categoriesIds ?? []);
+        ref.read(homeDataStateNotifiers.notifier).handleAddProductToCart(productId);
+        ref.read(getProductsStateNotifiers.notifier).handleAddProductToCart(productId);
       }
     });
 

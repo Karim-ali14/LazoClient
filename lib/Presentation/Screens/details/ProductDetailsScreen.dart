@@ -64,8 +64,8 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
 
   final Map<int, List<String>> productSelectedItemsIds = {};
   final Map<int, List<String>> productSelectedMultipleItems = {};
-  final Map<int, List<String>> serviceSelectemItemsIds = {};
-  final Map<int, List<String>> serviceSelectemItemsNames = {};
+  final Map<int, List<String>> serviceSelectedItemsIds = {};
+  final Map<int, List<String>> serviceSelectedItemsNames = {};
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((callback) {
@@ -120,8 +120,8 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
       context.pop();
     });
 
-    handleState(addProductToCartUseCaseStateNotifier, showLoading: true,
-        onSuccess: (res) {
+    handleState(addProductToCartUseCaseStateNotifier,
+        showLoading: true, showToast: true, onSuccess: (res) {
       var id = res.data?.data?.productId;
       print("product id : $id");
       if (id != null) {
@@ -137,8 +137,8 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
       }
     });
 
-    handleState(addServiceToCartUseCaseStateNotifier, showLoading: true,
-        onSuccess: (res) {
+    handleState(addServiceToCartUseCaseStateNotifier,
+        showLoading: true, showToast: true, onSuccess: (res) {
       var id = res.data?.data?.serviceId;
       if (id != null) {
         var sessionId = ref
@@ -796,7 +796,7 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
                                                       ?.toInt() ??
                                                   0;
 
-                                              serviceSelectemItemsIds[
+                                              serviceSelectedItemsIds[
                                                   categoryId] = items;
                                             },
                                             itemSelect: serviceItemState
@@ -1228,18 +1228,24 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: AppButton(
                   onPress: () {
+                    print("${productItemState.data?.data!.inCart}");
                     if (widget.itemType == ItemType.Products) {
                       if (widget.productDetails != null ||
-                          productItemState.data?.data!.inCart == true) {
-                        // print("cartId : ${productItemState.data?.data!.cartItemId}");
+                          (productItemState.data?.data!.inCart == true
+                              && productItemState.data?.data!.cartItemId != null)) {
+                        print("cartId : ${productItemState.data?.data!.cartItemId}");
+
                         editProductToCart(int.parse(
                             productItemState.data?.data!.cartItemId ?? "0"));
-                      } else if (productItemState.data?.data?.id != null &&
-                          productItemState.data?.data?.amount != 0) {
+                      }
+                      else if (productItemState.data?.data?.id != null &&
+                          productItemState.data?.data?.amount != 0 &&
+                          productItemState.data?.data!.inCart == false) {
                         addProductToCart(int.parse(
                             productItemState.data?.data?.id!.toString() ?? ""));
                       }
-                    } else {
+                    }
+                    else {
                       if (serviceItemState.data?.data?.cardType ==
                               ServiceTypes.soft_card.name &&
                           serviceItemState.data?.data?.id != null) {
@@ -1251,29 +1257,37 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
                                 serviceItemState.data?.data?.id!.toString() ??
                                     ""),
                             serviceItemState.data?.data);
-                      } else if (serviceItemState.data?.data!.inCart == true) {
+                      }
+                      else if (serviceItemState.data?.data!.inCart == true
+                          && serviceItemState.data?.data!.cartItemId != null) {
+                        print("cartId : ${serviceItemState.data?.data!.cartItemId}");
+
                         editServiceCart(int.parse(
                             serviceItemState.data?.data?.cartItemId ?? "0"));
-                      } else if (serviceItemState.data?.data?.id != null) {
+                      }
+                      else if (serviceItemState.data?.data?.id != null &&
+                          serviceItemState.data?.data!.inCart != true) {
                         addServiceToCart(int.parse(
                             serviceItemState.data?.data?.id!.toString() ?? ""));
                       }
                     }
                   },
                   text: widget.itemType == ItemType.Products
-                      ? widget.productDetails != null ||
-                              productItemState.data?.data!.inCart == true
+                      ? widget.productDetails != null
+                          // || productItemState.data?.data!.inCart == true
                           ? "Edit Product"
-                          : productItemState.data?.data?.amount == 0
-                              ? "Out of stock"
-                              : "Add to cart"
+                          : productItemState.data?.data!.inCart == true
+                              ? "Added"
+                              : productItemState.data?.data?.amount == 0
+                                  ? "Out of stock"
+                                  : "Add to cart"
                       : widget.serviceShowData != null
                           ? "Edit Service"
                           : serviceItemState.data?.data?.cardType ==
                                   ServiceTypes.soft_card.name
                               ? "Checkout"
                               : serviceItemState.data?.data!.inCart == true
-                                  ? "Edit Service"
+                                  ? "Added"
                                   : "Add to cart",
                   height: 46,
                   width: double.infinity,
@@ -1362,10 +1376,10 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
   void addServiceToCart(int id) {
     String? parentItemIds;
     String? childItemIds;
-    if (serviceSelectemItemsIds.isNotEmpty) {
+    if (serviceSelectedItemsIds.isNotEmpty) {
       parentItemIds =
-          serviceSelectemItemsIds.keys.map((key) => key.toString()).join(",");
-      childItemIds = serviceSelectemItemsIds.values
+          serviceSelectedItemsIds.keys.map((key) => key.toString()).join(",");
+      childItemIds = serviceSelectedItemsIds.values
           .map((value) => value.join(","))
           .join("|");
     }
@@ -1391,10 +1405,10 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
   void editServiceCart(int id) {
     String? parentItemIds;
     String? childItemIds;
-    if (serviceSelectemItemsIds.isNotEmpty) {
+    if (serviceSelectedItemsIds.isNotEmpty) {
       parentItemIds =
-          serviceSelectemItemsIds.keys.map((key) => key.toString()).join(",");
-      childItemIds = serviceSelectemItemsIds.values
+          serviceSelectedItemsIds.keys.map((key) => key.toString()).join(",");
+      childItemIds = serviceSelectedItemsIds.values
           .map((value) => value.join(","))
           .join("|");
     }
@@ -1492,10 +1506,10 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
     if (ref.read(clientStateProvider.notifier).checkIfUserExist() != null) {
       String? parentItemIds;
       String? childItemIds;
-      if (serviceSelectemItemsIds.isNotEmpty) {
+      if (serviceSelectedItemsIds.isNotEmpty) {
         parentItemIds =
-            serviceSelectemItemsIds.keys.map((key) => key.toString()).join(",");
-        childItemIds = serviceSelectemItemsIds.values
+            serviceSelectedItemsIds.keys.map((key) => key.toString()).join(",");
+        childItemIds = serviceSelectedItemsIds.values
             .map((value) => value.join(","))
             .join("|");
       }

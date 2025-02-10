@@ -214,10 +214,13 @@ class CalculateInstantOrderUseCase
         "asdfasdfasdf serviceid: $serviceId , serviceSelectedListIds $serviceSelectedListIds serviceSelectedListItemsIds $serviceSelectedListItemsIds");
     state = StateModel.loading();
     request(() => api.calculateInstantOrder(
+        promocode: promocode,
         serviceId: serviceId,
         serviceQuantity: serviceQuantity,
         serviceSelectedListIds: serviceSelectedListIds,
-        serviceSelectedListItemsIds: serviceSelectedListItemsIds));
+        serviceSelectedListItemsIds: serviceSelectedListItemsIds),onComplete: (res){
+      print("res body ${res}");
+    });
   }
 
   void updateOrderDetails({ClientOrderDetails? order}) {
