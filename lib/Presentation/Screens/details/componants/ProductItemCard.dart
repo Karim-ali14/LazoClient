@@ -107,37 +107,36 @@ class _ProductItemCardState extends State<ProductItemCard> {
                         Row(
                           children: [
                             Text(
-                              "${context.tr(sarKey)} ${widget.item?.product != null ? widget.item?.product?.priceAfterDiscount : widget.item?.service?.priceAfterDiscount}",
+                              "${context.tr(sarKey)} ${(widget.item?.totalPriceAfterDiscount??0) * (widget.item?.quantity ?? 1)}",
                               style: AppTheme
                                   .styleWithTextRedAdelleSansExtendedFonts16w500,
                             ),
                             SizedBox(
                               width: 6,
                             ),
-                            if (widget.item?.product != null &&
-                                (widget.item?.product?.price ?? 0) >
-                                    (widget.item?.product?.priceAfterDiscount ??
+                            if ((widget.item?.totalPriceBeforeDiscount?? 0) >
+                                    (widget.item?.totalPriceAfterDiscount ??
                                         0))
                               Text(
-                                "${context.tr(sarKey)} ${widget.item?.product != null ? widget.item?.product?.price : widget.item?.service?.price}",
+                                "${context.tr(sarKey)} ${( widget.item?.totalPriceBeforeDiscount ?? 0) * (widget.item?.quantity ?? 1)}",
                                 style: AppTheme
                                     .styleWithTextAppGrey7AdelleSansExtendedFonts14w400
                                     .copyWith(
                                         height: 1.2,
                                         decoration: TextDecoration.lineThrough),
                               )
-                            else if (widget.item?.service != null &&
-                                (widget.item?.service?.price ?? 0) >
-                                    (widget.item?.service?.priceAfterDiscount ??
-                                        0))
-                              Text(
-                                  "${context.tr(sarKey)} ${widget.item?.product != null ? widget.item?.product?.price : widget.item?.service?.price}",
-                                  style: AppTheme
-                                      .styleWithTextAppGrey7AdelleSansExtendedFonts14w400
-                                      .copyWith(
-                                          height: 1.2,
-                                          decoration:
-                                              TextDecoration.lineThrough))
+                            // else if (widget.item?.service != null &&
+                            //     (widget.item?.service?.price ?? 0) >
+                            //         (widget.item?.service?.priceAfterDiscount ??
+                            //             0))
+                            //   Text(
+                            //       "${context.tr(sarKey)} ${widget.item?.product != null ? widget.item?.product?.price : widget.item?.service?.price}",
+                            //       style: AppTheme
+                            //           .styleWithTextAppGrey7AdelleSansExtendedFonts14w400
+                            //           .copyWith(
+                            //               height: 1.2,
+                            //               decoration:
+                            //                   TextDecoration.lineThrough))
                           ],
                         ),
                         SizedBox(

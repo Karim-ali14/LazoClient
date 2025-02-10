@@ -12,6 +12,8 @@ Name | Type | Description | Notes
 **createdAt** | **String** |  | [optional] 
 **id** | **num** |  | [optional] 
 **listsTotalPrice** | **num** |  | [optional] 
+**totalPriceBeforeDiscount** | **num** |  | [optional] 
+**totalPriceAfterDiscount** | **num** |  | [optional] 
 **orderId** | **num** |  | [optional] 
 **price** | **num** |  | [optional] 
 **statusId** | **int** |  | [optional] 

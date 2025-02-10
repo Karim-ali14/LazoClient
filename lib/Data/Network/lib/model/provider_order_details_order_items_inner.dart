@@ -17,6 +17,8 @@ class ProviderOrderDetailsOrderItemsInner {
     this.createdAt,
     this.id,
     this.listsTotalPrice,
+    this.totalPriceBeforeDiscount,
+    this.totalPriceAfterDiscount,
     this.orderId,
     this.price,
     this.statusId,
@@ -72,6 +74,22 @@ class ProviderOrderDetailsOrderItemsInner {
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
   num? listsTotalPrice;
+
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  num? totalPriceBeforeDiscount;
+
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  num? totalPriceAfterDiscount;
 
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
@@ -207,6 +225,8 @@ class ProviderOrderDetailsOrderItemsInner {
      other.createdAt == createdAt &&
      other.id == id &&
      other.listsTotalPrice == listsTotalPrice &&
+     other.totalPriceBeforeDiscount == totalPriceBeforeDiscount &&
+     other.totalPriceAfterDiscount == totalPriceAfterDiscount &&
      other.orderId == orderId &&
      other.price == price &&
      other.statusId == statusId &&
@@ -237,6 +257,8 @@ class ProviderOrderDetailsOrderItemsInner {
     (createdAt == null ? 0 : createdAt!.hashCode) +
     (id == null ? 0 : id!.hashCode) +
     (listsTotalPrice == null ? 0 : listsTotalPrice!.hashCode) +
+    (totalPriceBeforeDiscount == null ? 0 : totalPriceBeforeDiscount!.hashCode) +
+    (totalPriceAfterDiscount == null ? 0 : totalPriceAfterDiscount!.hashCode) +
     (orderId == null ? 0 : orderId!.hashCode) +
     (price == null ? 0 : price!.hashCode) +
     (statusId == null ? 0 : statusId!.hashCode) +
@@ -261,7 +283,7 @@ class ProviderOrderDetailsOrderItemsInner {
     (updatedAt == null ? 0 : updatedAt!.hashCode);
 
   @override
-  String toString() => 'ProviderOrderDetailsOrderItemsInner[cardPrice=$cardPrice, createdAt=$createdAt, id=$id, listsTotalPrice=$listsTotalPrice, orderId=$orderId, price=$price, statusId=$statusId, cancelledAt=$cancelledAt, finishedAt=$finishedAt, cancellationReason=$cancellationReason, rating=$rating, ratingComment=$ratingComment, ratingDate=$ratingDate, product=$product, productSelectedListIds=$productSelectedListIds, productSelectedListItemsIds=$productSelectedListItemsIds, serviceSelectedListIds=$serviceSelectedListIds, serviceSelectedListItemsIds=$serviceSelectedListItemsIds, selectedProductsListItemsNames=$selectedProductsListItemsNames, selectedServicesListItemsNames=$selectedServicesListItemsNames, productId=$productId, providerId=$providerId, quantity=$quantity, service=$service, serviceId=$serviceId, updatedAt=$updatedAt]';
+  String toString() => 'ProviderOrderDetailsOrderItemsInner[cardPrice=$cardPrice, createdAt=$createdAt, id=$id, listsTotalPrice=$listsTotalPrice, totalPriceBeforeDiscount=$totalPriceBeforeDiscount, totalPriceAfterDiscount=$totalPriceAfterDiscount, orderId=$orderId, price=$price, statusId=$statusId, cancelledAt=$cancelledAt, finishedAt=$finishedAt, cancellationReason=$cancellationReason, rating=$rating, ratingComment=$ratingComment, ratingDate=$ratingDate, product=$product, productSelectedListIds=$productSelectedListIds, productSelectedListItemsIds=$productSelectedListItemsIds, serviceSelectedListIds=$serviceSelectedListIds, serviceSelectedListItemsIds=$serviceSelectedListItemsIds, selectedProductsListItemsNames=$selectedProductsListItemsNames, selectedServicesListItemsNames=$selectedServicesListItemsNames, productId=$productId, providerId=$providerId, quantity=$quantity, service=$service, serviceId=$serviceId, updatedAt=$updatedAt]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -284,6 +306,16 @@ class ProviderOrderDetailsOrderItemsInner {
       json[r'lists_total_price'] = this.listsTotalPrice;
     } else {
       json[r'lists_total_price'] = null;
+    }
+    if (this.totalPriceBeforeDiscount != null) {
+      json[r'total_price_before_discount'] = this.totalPriceBeforeDiscount;
+    } else {
+      json[r'total_price_before_discount'] = null;
+    }
+    if (this.totalPriceAfterDiscount != null) {
+      json[r'total_price_after_discount'] = this.totalPriceAfterDiscount;
+    } else {
+      json[r'total_price_after_discount'] = null;
     }
     if (this.orderId != null) {
       json[r'order_id'] = this.orderId;
@@ -419,6 +451,12 @@ class ProviderOrderDetailsOrderItemsInner {
         listsTotalPrice: json[r'lists_total_price'] == null
             ? null
             : num.parse(json[r'lists_total_price'].toString()),
+        totalPriceBeforeDiscount: json[r'total_price_before_discount'] == null
+            ? null
+            : num.parse(json[r'total_price_before_discount'].toString()),
+        totalPriceAfterDiscount: json[r'total_price_after_discount'] == null
+            ? null
+            : num.parse(json[r'total_price_after_discount'].toString()),
         orderId: json[r'order_id'] == null
             ? null
             : num.parse(json[r'order_id'].toString()),

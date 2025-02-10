@@ -1722,6 +1722,10 @@ components:
               lists_total_price:
                 type: number
                 example: 64.21
+              total_price_before_discount:
+                type: number
+              total_price_after_discount:
+                type: number
               order_id:
                 type: number
                 example: 10
@@ -2413,6 +2417,10 @@ components:
               lists_total_price:
                 type: number
                 example: 64.21
+              total_price_before_discount:
+                type: number
+              total_price_after_discount:
+                type: number
               order_id:
                 type: number
                 example: 10
