@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -17,14 +15,14 @@ import '../../../../Utils/Snaks.dart';
 
 typedef OnUpdateQuantity = Function(num, num);
 typedef OnDeleteItem = Function(num);
-typedef OnEditProduct = Function(ProductDetails?, int);
-typedef OnEditService = Function(ServiceShowData?, int);
+typedef OnProductClickListener = Function(ProductDetails?, int?);
+typedef OnServiceClickListener = Function(ServiceShowData?, int?);
 
 class CartItemView extends StatefulWidget {
   final OnUpdateQuantity onUpdateQuantity;
   final OnDeleteItem onDeleteItem;
-  final OnEditProduct? onEditProduct;
-  final OnEditService? onEditService;
+  final OnProductClickListener? onProductClickListener;
+  final OnServiceClickListener? onServiceClickListener;
   final CartItemsInner? cartItem;
 
   const CartItemView(
@@ -32,8 +30,8 @@ class CartItemView extends StatefulWidget {
       required this.cartItem,
       required this.onUpdateQuantity,
       required this.onDeleteItem,
-      this.onEditProduct,
-      this.onEditService});
+      this.onProductClickListener,
+      this.onServiceClickListener});
 
   @override
   State<CartItemView> createState() => _CartItemViewState();
@@ -87,13 +85,18 @@ class _CartItemViewState extends State<CartItemView> {
                           height: 74,
                           color: Colors.white,
                         ),
-                        child: ImageView(
-                          width: 74,
-                          height: 74,
-                          initialImg: (widget.cartItem?.type ?? "") ==
-                                  CartItemType.Product.name.toLowerCase()
-                              ? widget.cartItem?.product?.imagePath ?? ""
-                              : widget.cartItem?.service?.imagePath ?? "",
+                        child: InkWell(
+                          onTap: (){
+                            onItemClick(false);
+                          },
+                          child: ImageView(
+                            width: 74,
+                            height: 74,
+                            initialImg: (widget.cartItem?.type ?? "") ==
+                                    CartItemType.Product.name.toLowerCase()
+                                ? widget.cartItem?.product?.imagePath ?? ""
+                                : widget.cartItem?.service?.imagePath ?? "",
+                          ),
                         ),
                       ),
                     ),
@@ -109,13 +112,18 @@ class _CartItemViewState extends State<CartItemView> {
                             height: 10,
                             color: Colors.white,
                           ),
-                          child: Text(
-                            (widget.cartItem?.type ?? "") ==
-                                    CartItemType.Product.name.toLowerCase()
-                                ? widget.cartItem?.product?.name ?? ""
-                                : widget.cartItem?.service?.name ?? "",
-                            style: AppTheme
-                                .styleWithTextBlackAdelleSansExtendedFonts16w500,
+                          child: InkWell(
+                            onTap: (){
+                              onItemClick(false);
+                            },
+                            child: Text(
+                              (widget.cartItem?.type ?? "") ==
+                                      CartItemType.Product.name.toLowerCase()
+                                  ? widget.cartItem?.product?.name ?? ""
+                                  : widget.cartItem?.service?.name ?? "",
+                              style: AppTheme
+                                  .styleWithTextBlackAdelleSansExtendedFonts16w500,
+                            ),
                           ),
                         ),
                         SizedBox(
@@ -290,14 +298,7 @@ class _CartItemViewState extends State<CartItemView> {
                       const Spacer(),
                       InkWell(
                         onTap: () {
-                          if ((widget.cartItem?.type ?? "") ==
-                              CartItemType.Product.name.toLowerCase()) {
-                            widget.onEditProduct?.call(widget.cartItem?.product,
-                                (widget.cartItem?.id ?? 0).toInt());
-                          } else {
-                            widget.onEditService?.call(widget.cartItem?.service,
-                                (widget.cartItem?.id ?? 0).toInt());
-                          }
+                          onItemClick(true);
                         },
                         child: Container(
                           decoration: BoxDecoration(
@@ -346,5 +347,16 @@ class _CartItemViewState extends State<CartItemView> {
     setState(() {
       (widget.cartItem?.quantity?.toInt() ?? 0) - 1;
     });
+  }
+
+  void onItemClick(bool editable) {
+    if ((widget.cartItem?.type ?? "") ==
+        CartItemType.Product.name.toLowerCase()) {
+      widget.onProductClickListener?.call(widget.cartItem?.product,
+          editable ? (widget.cartItem?.id ?? 0).toInt() : null);
+    } else {
+      widget.onServiceClickListener?.call(widget.cartItem?.service,
+          editable ? (widget.cartItem?.id ?? 0).toInt() : null);
+    }
   }
 }
