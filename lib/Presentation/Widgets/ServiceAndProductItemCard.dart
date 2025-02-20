@@ -23,13 +23,13 @@ class ServiceAndProductItemCardHorizontal extends StatefulWidget {
   final double? width;
   const ServiceAndProductItemCardHorizontal(
       {required this.type,
-      super.key,
-      this.product,
-      this.service,
-      required this.onAddItemToCart,
-      required this.onAddItemToWishList,
-      required this.onItemClick,
-      this.width});
+        super.key,
+        this.product,
+        this.service,
+        required this.onAddItemToCart,
+        required this.onAddItemToWishList,
+        required this.onItemClick,
+        this.width});
 
   @override
   State<ServiceAndProductItemCardHorizontal> createState() =>
@@ -48,20 +48,20 @@ class _ServiceAndProductItemCardHorizontalState
             print("Selected Product : ${widget.type == ItemType.Products}");
             var categoriesIds = widget.type == ItemType.Products
                 ? widget.product?.categories
-                        ?.map((item) => (item.id ?? 0).toInt())
-                        .toList() ??
-                    []
+                ?.map((item) => (item.id ?? 0).toInt())
+                .toList() ??
+                []
                 : widget.service?.categories
-                        .map((item) => (item.id ?? 0).toInt())
-                        .toList() ??
-                    [];
+                .map((item) => (item.id ?? 0).toInt())
+                .toList() ??
+                [];
 
             print("Selected Product Categories: ${widget.product?.categories}");
             print("Selected Product : $categoriesIds");
             widget.onItemClick.call(
                 (widget.type == ItemType.Products
-                        ? widget.product?.id ?? 0
-                        : widget.service?.id ?? 0)
+                    ? widget.product?.id ?? 0
+                    : widget.service?.id ?? 0)
                     .toInt(),
                 widget.type == ItemType.Products
                     ? widget.product?.name ?? ""
@@ -87,8 +87,8 @@ class _ServiceAndProductItemCardHorizontalState
                     height: 121,
                     initialImg: widget.type == ItemType.Products
                         ? widget.product?.images?.isNotEmpty == true
-                            ? widget.product?.images?.first.imagePath
-                            : ""
+                        ? widget.product?.images?.first.imagePath
+                        : ""
                         : widget.service?.imagePath,
                     placeHolder: placeHolderForCardsSvg,
                   ),
@@ -137,31 +137,31 @@ class _ServiceAndProductItemCardHorizontalState
                           ),
                           widget.type == ItemType.Products
                               ? widget.product?.priceAfterDiscount !=
-                                      widget.product?.price
-                                  ? Skeleton.ignore(
-                                      child: Text(
-                                        "SAR ${widget.product?.price}",
-                                        style: AppTheme
-                                            .styleWithTextGray7AdelleSansExtendedFonts11w400
-                                            .copyWith(
-                                                decoration:
-                                                    TextDecoration.lineThrough),
-                                      ),
-                                    )
-                                  : SizedBox()
+                              widget.product?.price
+                              ? Skeleton.ignore(
+                            child: Text(
+                              "SAR ${widget.product?.price}",
+                              style: AppTheme
+                                  .styleWithTextGray7AdelleSansExtendedFonts11w400
+                                  .copyWith(
+                                  decoration:
+                                  TextDecoration.lineThrough),
+                            ),
+                          )
+                              : SizedBox()
                               : widget.service?.priceAfterDiscount !=
-                                      widget.service?.price
-                                  ? Skeleton.ignore(
-                                      child: Text(
-                                        "SAR ${widget.service?.price}",
-                                        style: AppTheme
-                                            .styleWithTextGray7AdelleSansExtendedFonts11w400
-                                            .copyWith(
-                                                decoration:
-                                                    TextDecoration.lineThrough),
-                                      ),
-                                    )
-                                  : SizedBox(),
+                              widget.service?.price
+                              ? Skeleton.ignore(
+                            child: Text(
+                              "SAR ${widget.service?.price}",
+                              style: AppTheme
+                                  .styleWithTextGray7AdelleSansExtendedFonts11w400
+                                  .copyWith(
+                                  decoration:
+                                  TextDecoration.lineThrough),
+                            ),
+                          )
+                              : SizedBox(),
                         ],
                       ),
                       SizedBox(
@@ -237,26 +237,26 @@ class _ServiceAndProductItemCardHorizontalState
 
                             print("Selected Product Categories: ${widget.product?.categories}");
                             print("Selected Product : $categoriesIds");
-                            widget.onItemClick.call(
-                                (widget.type == ItemType.Products
-                                    ? widget.product?.id ?? 0
-                                    : widget.service?.id ?? 0)
-                                    .toInt(),
-                                widget.type == ItemType.Products
-                                    ? widget.product?.name ?? ""
-                                    : widget.service?.name ?? "",
-                                categoriesIds);
+                            if(!(widget.type == ItemType.Products && widget.product?.amount == 0)){
+                              widget.onItemClick.call(
+                                  (widget.type == ItemType.Products
+                                      ? widget.product?.id ?? 0
+                                      : widget.service?.id ?? 0)
+                                      .toInt(),
+                                  widget.type == ItemType.Products
+                                      ? widget.product?.name ?? ""
+                                      : widget.service?.name ?? "",
+                                  categoriesIds);
+                            }
                           },
                           child: Skeleton.ignore(
                             child: Text(
-                              // widget.type == ItemType.Products
-                              //     ? widget.product?.inCart == true
-                              //         ? "Added"
-                              //         : "Add to cart"
-                              //     : widget.service?.inCart == true
-                              //         ? "Added"
-                              //         : "Add to cart"
-                              "View Details"
+                              widget.type == ItemType.Products
+                                  ? widget.product?.amount == 0
+                                  ? "Out of stock"
+                                  : "View Details"
+                                  : "View Details"
+
                               ,
                               style: AppTheme
                                   .styleWithTextGray7AdelleSansExtendedFonts12w400
@@ -285,11 +285,11 @@ class _ServiceAndProductItemCardHorizontalState
                 child: Skeleton.ignore(
                     child: widget.type == ItemType.Products
                         ? widget.product?.inWishlist == true
-                            ? SVGIcons.activeFavoriteIcon()
-                            : SVGIcons.unFavoriteIcon()
+                        ? SVGIcons.activeFavoriteIcon()
+                        : SVGIcons.unFavoriteIcon()
                         : widget.service?.inWishlist == true
-                            ? SVGIcons.activeFavoriteIcon()
-                            : SVGIcons.unFavoriteIcon())),
+                        ? SVGIcons.activeFavoriteIcon()
+                        : SVGIcons.unFavoriteIcon())),
           ),
         )
       ]),
