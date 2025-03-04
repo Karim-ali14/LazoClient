@@ -20,6 +20,7 @@ class ClientOrderDetailsOrderItemsInner {
     this.totalPriceBeforeDiscount,
     this.totalPriceAfterDiscount,
     this.orderId,
+    this.isChecked,
     this.price,
     this.rating,
     this.ratingComment,
@@ -99,6 +100,8 @@ class ClientOrderDetailsOrderItemsInner {
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
   num? orderId;
+
+  String? isChecked;
 
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
@@ -237,6 +240,7 @@ class ClientOrderDetailsOrderItemsInner {
      other.totalPriceBeforeDiscount == totalPriceBeforeDiscount &&
      other.totalPriceAfterDiscount == totalPriceAfterDiscount &&
      other.orderId == orderId &&
+     other.isChecked == isChecked &&
      other.price == price &&
      other.rating == rating &&
      other.ratingComment == ratingComment &&
@@ -270,6 +274,7 @@ class ClientOrderDetailsOrderItemsInner {
     (totalPriceBeforeDiscount == null ? 0 : totalPriceBeforeDiscount!.hashCode) +
     (totalPriceAfterDiscount == null ? 0 : totalPriceAfterDiscount!.hashCode) +
     (orderId == null ? 0 : orderId!.hashCode) +
+    (isChecked == null ? 0 : isChecked!.hashCode) +
     (price == null ? 0 : price!.hashCode) +
     (rating == null ? 0 : rating!.hashCode) +
     (ratingComment == null ? 0 : ratingComment!.hashCode) +
@@ -294,7 +299,7 @@ class ClientOrderDetailsOrderItemsInner {
     (selectedServicesListItemsNames.hashCode);
 
   @override
-  String toString() => 'ClientOrderDetailsOrderItemsInner[cardPrice=$cardPrice, createdAt=$createdAt, id=$id, listsTotalPrice=$listsTotalPrice, totalPriceBeforeDiscount=$totalPriceBeforeDiscount, totalPriceAfterDiscount=$totalPriceAfterDiscount, orderId=$orderId, price=$price, rating=$rating, ratingComment=$ratingComment, ratingDate=$ratingDate, product=$product, productId=$productId, providerId=$providerId, provider=$provider, quantity=$quantity, service=$service, serviceId=$serviceId, statusId=$statusId, cancelledAt=$cancelledAt, finishedAt=$finishedAt, cancellationReason=$cancellationReason, updatedAt=$updatedAt, productSelectedListIds=$productSelectedListIds, productSelectedListItemsIds=$productSelectedListItemsIds, serviceSelectedListIds=$serviceSelectedListIds, serviceSelectedListItemsIds=$serviceSelectedListItemsIds, selectedProductsListItemsNames=$selectedProductsListItemsNames, selectedServicesListItemsNames=$selectedServicesListItemsNames]';
+  String toString() => 'ClientOrderDetailsOrderItemsInner[cardPrice=$cardPrice, createdAt=$createdAt, id=$id, listsTotalPrice=$listsTotalPrice, totalPriceBeforeDiscount=$totalPriceBeforeDiscount, totalPriceAfterDiscount=$totalPriceAfterDiscount, orderId=$orderId, isChecked=$isChecked, price=$price, rating=$rating, ratingComment=$ratingComment, ratingDate=$ratingDate, product=$product, productId=$productId, providerId=$providerId, provider=$provider, quantity=$quantity, service=$service, serviceId=$serviceId, statusId=$statusId, cancelledAt=$cancelledAt, finishedAt=$finishedAt, cancellationReason=$cancellationReason, updatedAt=$updatedAt, productSelectedListIds=$productSelectedListIds, productSelectedListItemsIds=$productSelectedListItemsIds, serviceSelectedListIds=$serviceSelectedListIds, serviceSelectedListItemsIds=$serviceSelectedListItemsIds, selectedProductsListItemsNames=$selectedProductsListItemsNames, selectedServicesListItemsNames=$selectedServicesListItemsNames]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -332,6 +337,11 @@ class ClientOrderDetailsOrderItemsInner {
       json[r'order_id'] = this.orderId;
     } else {
       json[r'order_id'] = null;
+    }
+    if (this.isChecked != null) {
+      json[r'is_checked'] = this.isChecked;
+    } else {
+      json[r'is_checked'] = null;
     }
     if (this.price != null) {
       json[r'price'] = this.price;
@@ -476,6 +486,7 @@ class ClientOrderDetailsOrderItemsInner {
         orderId: json[r'order_id'] == null
             ? null
             : num.parse(json[r'order_id'].toString()),
+        isChecked: mapValueOfType<String>(json, r'is_checked'),
         price: json[r'price'] == null
             ? null
             : num.parse(json[r'price'].toString()),

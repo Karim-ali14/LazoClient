@@ -15,6 +15,7 @@ Name | Type | Description | Notes
 **totalPriceBeforeDiscount** | **num** |  | [optional] 
 **totalPriceAfterDiscount** | **num** |  | [optional] 
 **orderId** | **num** |  | [optional] 
+**isChecked** | **String** |  | [optional] 
 **price** | **num** |  | [optional] 
 **rating** | **num** |  | [optional] 
 **ratingComment** | **String** |  | [optional] 

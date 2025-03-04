@@ -25,6 +25,7 @@ class ProviderOrderDetailsOrderItemsInner {
     this.cancelledAt,
     this.finishedAt,
     this.cancellationReason,
+    this.isChecked,
     this.rating,
     this.ratingComment,
     this.ratingDate,
@@ -114,6 +115,8 @@ class ProviderOrderDetailsOrderItemsInner {
   String? finishedAt;
 
   String? cancellationReason;
+
+  String? isChecked;
 
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
@@ -233,6 +236,7 @@ class ProviderOrderDetailsOrderItemsInner {
      other.cancelledAt == cancelledAt &&
      other.finishedAt == finishedAt &&
      other.cancellationReason == cancellationReason &&
+     other.isChecked == isChecked &&
      other.rating == rating &&
      other.ratingComment == ratingComment &&
      other.ratingDate == ratingDate &&
@@ -265,6 +269,7 @@ class ProviderOrderDetailsOrderItemsInner {
     (cancelledAt == null ? 0 : cancelledAt!.hashCode) +
     (finishedAt == null ? 0 : finishedAt!.hashCode) +
     (cancellationReason == null ? 0 : cancellationReason!.hashCode) +
+    (isChecked == null ? 0 : isChecked!.hashCode) +
     (rating == null ? 0 : rating!.hashCode) +
     (ratingComment == null ? 0 : ratingComment!.hashCode) +
     (ratingDate == null ? 0 : ratingDate!.hashCode) +
@@ -283,7 +288,7 @@ class ProviderOrderDetailsOrderItemsInner {
     (updatedAt == null ? 0 : updatedAt!.hashCode);
 
   @override
-  String toString() => 'ProviderOrderDetailsOrderItemsInner[cardPrice=$cardPrice, createdAt=$createdAt, id=$id, listsTotalPrice=$listsTotalPrice, totalPriceBeforeDiscount=$totalPriceBeforeDiscount, totalPriceAfterDiscount=$totalPriceAfterDiscount, orderId=$orderId, price=$price, statusId=$statusId, cancelledAt=$cancelledAt, finishedAt=$finishedAt, cancellationReason=$cancellationReason, rating=$rating, ratingComment=$ratingComment, ratingDate=$ratingDate, product=$product, productSelectedListIds=$productSelectedListIds, productSelectedListItemsIds=$productSelectedListItemsIds, serviceSelectedListIds=$serviceSelectedListIds, serviceSelectedListItemsIds=$serviceSelectedListItemsIds, selectedProductsListItemsNames=$selectedProductsListItemsNames, selectedServicesListItemsNames=$selectedServicesListItemsNames, productId=$productId, providerId=$providerId, quantity=$quantity, service=$service, serviceId=$serviceId, updatedAt=$updatedAt]';
+  String toString() => 'ProviderOrderDetailsOrderItemsInner[cardPrice=$cardPrice, createdAt=$createdAt, id=$id, listsTotalPrice=$listsTotalPrice, totalPriceBeforeDiscount=$totalPriceBeforeDiscount, totalPriceAfterDiscount=$totalPriceAfterDiscount, orderId=$orderId, price=$price, statusId=$statusId, cancelledAt=$cancelledAt, finishedAt=$finishedAt, cancellationReason=$cancellationReason, isChecked=$isChecked, rating=$rating, ratingComment=$ratingComment, ratingDate=$ratingDate, product=$product, productSelectedListIds=$productSelectedListIds, productSelectedListItemsIds=$productSelectedListItemsIds, serviceSelectedListIds=$serviceSelectedListIds, serviceSelectedListItemsIds=$serviceSelectedListItemsIds, selectedProductsListItemsNames=$selectedProductsListItemsNames, selectedServicesListItemsNames=$selectedServicesListItemsNames, productId=$productId, providerId=$providerId, quantity=$quantity, service=$service, serviceId=$serviceId, updatedAt=$updatedAt]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -346,6 +351,11 @@ class ProviderOrderDetailsOrderItemsInner {
       json[r'cancellation_reason'] = this.cancellationReason;
     } else {
       json[r'cancellation_reason'] = null;
+    }
+    if (this.isChecked != null) {
+      json[r'is_checked'] = this.isChecked;
+    } else {
+      json[r'is_checked'] = null;
     }
     if (this.rating != null) {
       json[r'rating'] = this.rating;
@@ -467,6 +477,7 @@ class ProviderOrderDetailsOrderItemsInner {
         cancelledAt: mapValueOfType<String>(json, r'cancelled_at'),
         finishedAt: mapValueOfType<String>(json, r'finished_at'),
         cancellationReason: mapValueOfType<String>(json, r'cancellation_reason'),
+        isChecked: mapValueOfType<String>(json, r'is_checked'),
         rating: json[r'rating'] == null
             ? null
             : num.parse(json[r'rating'].toString()),

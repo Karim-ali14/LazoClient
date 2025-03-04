@@ -20,6 +20,7 @@ Name | Type | Description | Notes
 **cancelledAt** | **String** |  | [optional] 
 **finishedAt** | **String** |  | [optional] 
 **cancellationReason** | **String** |  | [optional] 
+**isChecked** | **String** |  | [optional] 
 **rating** | **num** |  | [optional] 
 **ratingComment** | **String** |  | [optional] 
 **ratingDate** | **String** |  | [optional] 

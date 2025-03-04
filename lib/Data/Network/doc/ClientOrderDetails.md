@@ -37,6 +37,7 @@ Name | Type | Description | Notes
 **receiverPhoneNumber** | **String** |  | [optional] 
 **referenceNumber** | **String** |  | [optional] 
 **shippingFee** | **num** |  | [optional] 
+**packagingFee** | **num** |  | [optional] 
 **statusId** | **num** |  | [optional] 
 **totalBeforeDiscount** | **num** |  | [optional] 
 **discount** | **num** |  | [optional] 

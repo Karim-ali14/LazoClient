@@ -558,7 +558,7 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 12.0),
                                   child: ProductRowItem(
-                                    title: "Card Expiration",
+                                    title: "Card Duration",
                                     textValue:
                                         "${serviceItemState.data?.data?.cardExpiration}"
                                             .ellipsize(28),
