@@ -8,12 +8,14 @@ import 'package:lazo_client/Presentation/Screens/cartScreen/CartScreen.dart';
 import 'package:lazo_client/Presentation/Screens/home/HomeScreen.dart';
 import 'package:lazo_client/Presentation/Screens/orders/OrdersScreen.dart';
 import 'package:lazo_client/Presentation/Screens/wishlist/WishlistScreen.dart';
+import 'package:lazo_client/Presentation/StateNotifiersViewModel/PublicStateNotifiers.dart';
 import 'package:lazo_client/Presentation/StateNotifiersViewModel/UserAuthStateNotifiers.dart';
 import 'package:lazo_client/Presentation/Theme/AppTheme.dart';
 import 'package:lazo_client/Presentation/Widgets/CustomAppBar.dart';
 
 import '../../../Constants.dart';
 import '../../../Constants/Constants.dart';
+import '../../../Data/Models/StateModel.dart';
 import '../../../Localization/Keys.dart';
 import '../../Widgets/AppButton.dart';
 import '../../Widgets/SvgIcons.dart';
@@ -41,6 +43,7 @@ class MainScreenNavHostState extends ConsumerState<MainScreenNavHost> {
   @override
   Widget build(BuildContext context) {
     final client = ref.watch(clientStateProvider);
+    final cartData = ref.watch(fetchCardDetailsStateNotifies);
     return Scaffold(
       appBar: PreferredSize(
           preferredSize: const Size.fromHeight(60),
@@ -141,20 +144,54 @@ class MainScreenNavHostState extends ConsumerState<MainScreenNavHost> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      currentTab == 2
-                          ? SVGIcons.activeBuyIcon()
-                          : SVGIcons.buyIcon(),
                       SizedBox(
-                        height: 3,
+                        height: 60,
+                        child: Stack(
+                          children: [
+                            Align(
+                              alignment: Alignment.bottomCenter,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  currentTab == 2
+                                      ? SVGIcons.activeBuyIcon()
+                                      : SVGIcons.buyIcon(),
+                                  SizedBox(
+                                    height: 4,
+                                  ),
+                                  Text(
+                                    listTabsName[2],
+                                    style: currentTab == 2
+                                        ? AppTheme
+                                        .styleWithTextRedAdelleSansExtendedFonts11w500
+                                        : AppTheme
+                                        .styleWithTextGray7AdelleSansExtendedFonts11w500,
+                                  )
+                                ],
+                              ),
+                            ),
+                            cartData.state == DataState.SUCCESS && cartData.data?.data?.cartItems.length != 0 ?
+                            Align(
+                              alignment: AlignmentDirectional.topCenter,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: Colors.red,
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(4.3),
+                                  child: Text(
+                                    cartData.data?.data?.cartItems.length.toString() ?? ""
+                                  ,style: AppTheme.styleWithTextWhiteAdelleSansExtendedFonts12w400,
+                                  ),
+                                ),
+                              ),
+                            ) : SizedBox(),
+                          ],
+                        ),
                       ),
-                      Text(
-                        listTabsName[2],
-                        style: currentTab == 2
-                            ? AppTheme
-                                .styleWithTextRedAdelleSansExtendedFonts11w500
-                            : AppTheme
-                                .styleWithTextGray7AdelleSansExtendedFonts11w500,
-                      )
+
                     ],
                   ),
                 ),
