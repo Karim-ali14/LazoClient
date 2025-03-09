@@ -1722,6 +1722,10 @@ components:
               lists_total_price:
                 type: number
                 example: 64.21
+              total_price_before_discount:
+                type: number
+              total_price_after_discount:
+                type: number
               order_id:
                 type: number
                 example: 10
@@ -1738,6 +1742,9 @@ components:
                 type: string
                 nullable: true
               cancellation_reason:
+                type: string
+                nullable: true
+              is_checked:
                 type: string
                 nullable: true
               rating:
@@ -2229,6 +2236,9 @@ components:
         shipping_fee:
           type: number
           example: 10
+        packaging_fee:
+          type: number
+          nullable: true
         status_id:
           type: number
           example: 8
@@ -2413,9 +2423,16 @@ components:
               lists_total_price:
                 type: number
                 example: 64.21
+              total_price_before_discount:
+                type: number
+              total_price_after_discount:
+                type: number
               order_id:
                 type: number
                 example: 10
+              is_checked:
+                type: string
+                nullable: true
               price:
                 type: number
                 example: 10.21
@@ -3048,6 +3065,9 @@ components:
         shipping_fee:
           type: number
           example: 10
+        packaging_fee:
+          type: number
+          nullable: true
         status_id:
           type: number
           example: 8
@@ -8304,6 +8324,8 @@ paths:
                         type: string
                       shipment_type:
                         type: string
+                      expected_processing_time:
+                        type: string
                   message:
                     type: string
                     example: cart details
@@ -8446,6 +8468,8 @@ paths:
                         nullable: true
                       shipment_type:
                         type: string
+                      expected_processing_time:
+                        type: string
                   message:
                     type: string
                     example: cart details
@@ -8555,6 +8579,9 @@ paths:
                         nullable: true
                       shipment_type:
                         type: string
+                      expected_processing_time:
+                        type: string
+
                   message:
                     type: string
                     example: cart details
@@ -10286,6 +10313,9 @@ paths:
                         type: number
                       shipping_fee:
                         type: number
+                      packaging_fee:
+                        type: number
+                        nullable: true
                       total_after:
                         type: number
                   message:

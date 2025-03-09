@@ -363,6 +363,22 @@ class _CartScreenState extends ConsumerState<CartScreen> {
                                         ),
                                       )
                                     : SizedBox(),
+                                cartInfo.data?.data?.packagingFee != null &&
+                                        cartInfo.data?.data?.packagingFee != 0
+                                    ? Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 12.0),
+                                        child: ProductRowItem(
+                                          title: "Package Fees",
+                                          textValue:
+                                              "SAR ${(cartInfo.data?.data?.packagingFee ?? 0)}",
+                                          titleTextStyle: AppTheme
+                                              .styleWithTextBlackColorAdelleSansExtendedFonts12w500,
+                                          desTextStyle: AppTheme
+                                              .styleWithTextGray7AdelleSansExtendedFonts12w400,
+                                        ),
+                                      )
+                                    : SizedBox(),
                                 cartInfo.data?.data?.discountTotal != null &&
                                         cartInfo.data?.data?.discountTotal != 0
                                     ? Padding(

@@ -439,6 +439,7 @@ class GetProductDetailsUseCase
         onComplete: (res) {
       if (product != null) {
         print("sadkfjakdjsl${product.lists}");
+        res.data?.inCart = true;
         res.data?.lists = [...?product.lists];
       }
     });
@@ -474,6 +475,7 @@ class GetServiceDetailsUseCase
     request(() => publicApi.showServiceDetails(serviceId: serviceId),
         onComplete: (res) {
       if (service != null) {
+        res.data?.inCart = true;
         res.data?.lists = [...?service.lists];
       }
     });
@@ -640,7 +642,7 @@ class AddToCartUseCase extends StateNotifier<
     String? serviceSelectedListItemsIds,
   }) {
     state = StateModel.loading();
-    request(
+    requestWithHandleMessage(
         () => publicApi.addProductServiceToCartCartItem(
             sessionId: sessionId,
             productId: productId,

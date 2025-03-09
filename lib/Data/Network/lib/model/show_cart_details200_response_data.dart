@@ -21,6 +21,7 @@ class ShowCartDetails200ResponseData {
     this.userId,
     this.type,
     this.shipmentType,
+    this.expectedProcessingTime,
   });
 
   List<CartItemsInner> cartItems;
@@ -81,6 +82,14 @@ class ShowCartDetails200ResponseData {
   ///
   String? shipmentType;
 
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  String? expectedProcessingTime;
+
   @override
   bool operator ==(Object other) => identical(this, other) || other is ShowCartDetails200ResponseData &&
      other.cartItems == cartItems &&
@@ -90,7 +99,8 @@ class ShowCartDetails200ResponseData {
      other.updatedAt == updatedAt &&
      other.userId == userId &&
      other.type == type &&
-     other.shipmentType == shipmentType;
+     other.shipmentType == shipmentType &&
+     other.expectedProcessingTime == expectedProcessingTime;
 
   @override
   int get hashCode =>
@@ -102,10 +112,11 @@ class ShowCartDetails200ResponseData {
     (updatedAt == null ? 0 : updatedAt!.hashCode) +
     (userId == null ? 0 : userId!.hashCode) +
     (type == null ? 0 : type!.hashCode) +
-    (shipmentType == null ? 0 : shipmentType!.hashCode);
+    (shipmentType == null ? 0 : shipmentType!.hashCode) +
+    (expectedProcessingTime == null ? 0 : expectedProcessingTime!.hashCode);
 
   @override
-  String toString() => 'ShowCartDetails200ResponseData[cartItems=$cartItems, createdAt=$createdAt, id=$id, total=$total, updatedAt=$updatedAt, userId=$userId, type=$type, shipmentType=$shipmentType]';
+  String toString() => 'ShowCartDetails200ResponseData[cartItems=$cartItems, createdAt=$createdAt, id=$id, total=$total, updatedAt=$updatedAt, userId=$userId, type=$type, shipmentType=$shipmentType, expectedProcessingTime=$expectedProcessingTime]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -145,6 +156,11 @@ class ShowCartDetails200ResponseData {
     } else {
       json[r'shipment_type'] = null;
     }
+    if (this.expectedProcessingTime != null) {
+      json[r'expected_processing_time'] = this.expectedProcessingTime;
+    } else {
+      json[r'expected_processing_time'] = null;
+    }
     return json;
   }
 
@@ -181,6 +197,7 @@ class ShowCartDetails200ResponseData {
             : num.parse(json[r'user_id'].toString()),
         type: mapValueOfType<String>(json, r'type'),
         shipmentType: mapValueOfType<String>(json, r'shipment_type'),
+        expectedProcessingTime: mapValueOfType<String>(json, r'expected_processing_time'),
       );
     }
     return null;

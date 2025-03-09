@@ -16,6 +16,7 @@ class CartCalculation200ResponseData {
     this.totalBefore,
     this.discountTotal,
     this.shippingFee,
+    this.packagingFee,
     this.totalAfter,
   });
 
@@ -43,6 +44,8 @@ class CartCalculation200ResponseData {
   ///
   num? shippingFee;
 
+  num? packagingFee;
+
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
   /// does not include a default value (using the "default:" property), however, the generated
@@ -56,6 +59,7 @@ class CartCalculation200ResponseData {
      other.totalBefore == totalBefore &&
      other.discountTotal == discountTotal &&
      other.shippingFee == shippingFee &&
+     other.packagingFee == packagingFee &&
      other.totalAfter == totalAfter;
 
   @override
@@ -64,10 +68,11 @@ class CartCalculation200ResponseData {
     (totalBefore == null ? 0 : totalBefore!.hashCode) +
     (discountTotal == null ? 0 : discountTotal!.hashCode) +
     (shippingFee == null ? 0 : shippingFee!.hashCode) +
+    (packagingFee == null ? 0 : packagingFee!.hashCode) +
     (totalAfter == null ? 0 : totalAfter!.hashCode);
 
   @override
-  String toString() => 'CartCalculation200ResponseData[totalBefore=$totalBefore, discountTotal=$discountTotal, shippingFee=$shippingFee, totalAfter=$totalAfter]';
+  String toString() => 'CartCalculation200ResponseData[totalBefore=$totalBefore, discountTotal=$discountTotal, shippingFee=$shippingFee, packagingFee=$packagingFee, totalAfter=$totalAfter]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -85,6 +90,11 @@ class CartCalculation200ResponseData {
       json[r'shipping_fee'] = this.shippingFee;
     } else {
       json[r'shipping_fee'] = null;
+    }
+    if (this.packagingFee != null) {
+      json[r'packaging_fee'] = this.packagingFee;
+    } else {
+      json[r'packaging_fee'] = null;
     }
     if (this.totalAfter != null) {
       json[r'total_after'] = this.totalAfter;
@@ -122,6 +132,9 @@ class CartCalculation200ResponseData {
         shippingFee: json[r'shipping_fee'] == null
             ? null
             : num.parse(json[r'shipping_fee'].toString()),
+        packagingFee: json[r'packaging_fee'] == null
+            ? null
+            : num.parse(json[r'packaging_fee'].toString()),
         totalAfter: json[r'total_after'] == null
             ? null
             : num.parse(json[r'total_after'].toString()),

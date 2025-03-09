@@ -34,6 +34,7 @@ Name | Type | Description | Notes
 **receiverName** | **String** |  | [optional] 
 **referenceNumber** | **String** |  | [optional] 
 **shippingFee** | **num** |  | [optional] 
+**packagingFee** | **num** |  | [optional] 
 **statusId** | **num** |  | [optional] 
 **rejectedProvidersIds** | **String** |  | [optional] 
 **rejectedOrderItems** | **String** |  | [optional] 
