@@ -46,17 +46,14 @@ class MainScreenNavHostState extends ConsumerState<MainScreenNavHost> {
     final cartData = ref.watch(fetchCardDetailsStateNotifies);
     return Scaffold(
       appBar: PreferredSize(
-          preferredSize: const Size.fromHeight(60),
+          preferredSize: Size.fromHeight(currentTab == 0 ? 0 : 60),
           child: CustomAppBar(
             appContext: context,
             title: currentTab == 0
-                ? client == null
-                    ? context.tr(hiThereKey)
-                    : "${context.tr(hiKey)} ${client.client?.name}"
+                ? ""
                 : listTabsName[currentTab],
             isCenter: false,
             navigated: false,
-            trailingWidget: AppBarTrailing(currentTab: currentTab),
           )),
       body: IndexedStack(
         index: currentTab,
@@ -296,7 +293,7 @@ class AppBarTrailing extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  SVGIcons.smallLocationIcon(),
+                  Text("Delivery To",style: AppTheme.styleWithTextAppGrey17AdelleSansFonts14w350,),
                   SizedBox(
                     width: 4,
                   ),

@@ -71,14 +71,14 @@ class _BannerCardItemsState extends State<BannerCardItems> {
                 count: widget.list.length,
                 effect: CustomizableEffect(
                     dotDecoration: DotDecoration(
-                      width: 20,
-                      height: 3,
+                      width: 6,
+                      height: 6,
                       borderRadius: BorderRadius.circular(11),
                       color: Colors.white,
                     ),
                     activeDotDecoration: DotDecoration(
-                      width: 20,
-                      height: 3,
+                      width: 6,
+                      height: 6,
                       borderRadius: BorderRadius.circular(11),
                       color: AppTheme.mainAppColor,
                     )),

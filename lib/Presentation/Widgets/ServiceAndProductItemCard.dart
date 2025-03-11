@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:lazo_client/Localization/Keys.dart';
 import 'package:lazo_client/Presentation/Widgets/SvgIcons.dart';
 import 'package:lazo_client/Utils/Extintions.dart';
 import 'package:skeletonizer/skeletonizer.dart';
@@ -23,13 +24,13 @@ class ServiceAndProductItemCardHorizontal extends StatefulWidget {
   final double? width;
   const ServiceAndProductItemCardHorizontal(
       {required this.type,
-        super.key,
-        this.product,
-        this.service,
-        required this.onAddItemToCart,
-        required this.onAddItemToWishList,
-        required this.onItemClick,
-        this.width});
+      super.key,
+      this.product,
+      this.service,
+      required this.onAddItemToCart,
+      required this.onAddItemToWishList,
+      required this.onItemClick,
+      this.width});
 
   @override
   State<ServiceAndProductItemCardHorizontal> createState() =>
@@ -48,20 +49,20 @@ class _ServiceAndProductItemCardHorizontalState
             print("Selected Product : ${widget.type == ItemType.Products}");
             var categoriesIds = widget.type == ItemType.Products
                 ? widget.product?.categories
-                ?.map((item) => (item.id ?? 0).toInt())
-                .toList() ??
-                []
+                        ?.map((item) => (item.id ?? 0).toInt())
+                        .toList() ??
+                    []
                 : widget.service?.categories
-                .map((item) => (item.id ?? 0).toInt())
-                .toList() ??
-                [];
+                        .map((item) => (item.id ?? 0).toInt())
+                        .toList() ??
+                    [];
 
             print("Selected Product Categories: ${widget.product?.categories}");
             print("Selected Product : $categoriesIds");
             widget.onItemClick.call(
                 (widget.type == ItemType.Products
-                    ? widget.product?.id ?? 0
-                    : widget.service?.id ?? 0)
+                        ? widget.product?.id ?? 0
+                        : widget.service?.id ?? 0)
                     .toInt(),
                 widget.type == ItemType.Products
                     ? widget.product?.name ?? ""
@@ -72,29 +73,73 @@ class _ServiceAndProductItemCardHorizontalState
             clipBehavior: Clip.antiAlias,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(8),
-              border: Border.all(color: AppTheme.appGrey6),
             ),
             child: Column(
               children: [
                 Skeleton.replace(
                   replacement: Container(
                     width: double.infinity,
-                    height: 121,
+                    height: widget.width?.toDouble(),
                     color: Colors.white,
                   ),
-                  child: ImageView(
+                  child: Container(
                     width: double.infinity,
-                    height: 121,
-                    initialImg: widget.type == ItemType.Products
-                        ? widget.product?.images?.isNotEmpty == true
-                        ? widget.product?.images?.first.imagePath
-                        : ""
-                        : widget.service?.imagePath,
-                    placeHolder: placeHolderForCardsSvg,
+                    height: widget.width?.toDouble(),
+                    clipBehavior: Clip.antiAlias,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Stack(children: [
+                      ImageView(
+                        width: double.infinity,
+                        height: widget.width?.toDouble(),
+                        initialImg: widget.type == ItemType.Products
+                            ? widget.product?.images?.isNotEmpty == true
+                                ? widget.product?.images?.first.imagePath
+                                : ""
+                            : widget.service?.imagePath,
+                        placeHolder: placeHolderForCardsSvg,
+                      ),
+                      Align(
+                        alignment: AlignmentDirectional.bottomStart,
+                        child: Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Container(
+                            padding: const EdgeInsetsDirectional.symmetric(
+                                horizontal: 5, vertical: 2),
+                            decoration: BoxDecoration(
+                                borderRadius:
+                                    const BorderRadius.all(Radius.circular(10)),
+                                color: Colors.black.withOpacity(.4)),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Text(
+                                  widget.type == ItemType.Products
+                                      ? "${widget.product?.overallRating}"
+                                      : "${widget.service?.overallRating}",
+                                  style: AppTheme
+                                      .styleWithTextWhiteAdelleSansExtendedFonts12w400,
+                                ),
+                                SizedBox(
+                                  width: 4,
+                                ),
+                                SVGIcons.smallStarIcon(size: 12),
+                                Text(
+                                  " (${"${widget.type == ItemType.Products ? "${widget.product?.ratingsCount}" : "${widget.service?.ratingsCount}"}"})",
+                                  style: AppTheme
+                                      .styleWithTextWhiteAdelleSansExtendedFonts12w400,
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                      )
+                    ]),
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.symmetric(vertical: 12, horizontal: 8),
+                  padding: EdgeInsets.symmetric(vertical: 12),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -109,13 +154,43 @@ class _ServiceAndProductItemCardHorizontalState
                               ? widget.product?.name ?? ""
                               : widget.service?.name ?? "",
                           style: AppTheme
-                              .styleWithTextBlackAdelleSansExtendedFonts14w500,
+                              .styleWithTextBlackColor2AdelleSansExtendedFonts14w400,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                         ),
                       ),
                       SizedBox(
-                        height: 12,
+                        height: widget.type == ItemType.Products
+                            ? widget.product?.provider?.name?.isNotEmpty == true
+                                ? 4
+                                : 0
+                            : widget.service?.provider?.name?.isNotEmpty == true
+                                ? 4
+                                : 0,
+                      ),
+                      Skeleton.ignore(
+                        child: widget.type == ItemType.Products
+                            ? widget.product?.provider?.name?.isNotEmpty == true
+                                ? Text(
+                                    "By ${widget.product?.provider?.name}",
+                                    style: AppTheme
+                                        .styleWithTextAppGrey18ColorAdelleSansExtendedFonts12w400,
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                  )
+                                : const SizedBox()
+                            : widget.service?.provider?.name?.isNotEmpty == true
+                                ? Text(
+                                    "By ${widget.service?.provider?.name ?? ""}",
+                                    style: AppTheme
+                                        .styleWithTextAppGrey18ColorAdelleSansExtendedFonts12w400,
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                  )
+                                : const SizedBox(),
+                      ),
+                      SizedBox(
+                        height: 4,
                       ),
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -129,7 +204,7 @@ class _ServiceAndProductItemCardHorizontalState
                             child: Text(
                               "SAR ${widget.type == ItemType.Products ? widget.product?.priceAfterDiscount ?? "" : widget.service?.priceAfterDiscount ?? ""}",
                               style: AppTheme
-                                  .styleWithTextRedAdelleSansExtendedFonts15w500,
+                                  .styleWithTextAppRedColorAdelleSansExtendedFonts14w400,
                             ),
                           ),
                           SizedBox(
@@ -137,134 +212,33 @@ class _ServiceAndProductItemCardHorizontalState
                           ),
                           widget.type == ItemType.Products
                               ? widget.product?.priceAfterDiscount !=
-                              widget.product?.price
-                              ? Skeleton.ignore(
-                            child: Text(
-                              "SAR ${widget.product?.price}",
-                              style: AppTheme
-                                  .styleWithTextGray7AdelleSansExtendedFonts11w400
-                                  .copyWith(
-                                  decoration:
-                                  TextDecoration.lineThrough),
-                            ),
-                          )
-                              : SizedBox()
+                                      widget.product?.price
+                                  ? Skeleton.ignore(
+                                      child: Text(
+                                        "SAR ${widget.product?.price}",
+                                        style: AppTheme
+                                            .styleWithTextAppGrey18AdelleSansExtendedFonts14w400
+                                            .copyWith(
+                                                decoration:
+                                                    TextDecoration.lineThrough),
+                                      ),
+                                    )
+                                  : SizedBox()
                               : widget.service?.priceAfterDiscount !=
-                              widget.service?.price
-                              ? Skeleton.ignore(
-                            child: Text(
-                              "SAR ${widget.service?.price}",
-                              style: AppTheme
-                                  .styleWithTextGray7AdelleSansExtendedFonts11w400
-                                  .copyWith(
-                                  decoration:
-                                  TextDecoration.lineThrough),
-                            ),
-                          )
-                              : SizedBox(),
+                                      widget.service?.price
+                                  ? Skeleton.ignore(
+                                      child: Text(
+                                        "SAR ${widget.service?.price}",
+                                        style: AppTheme
+                                            .styleWithTextGray7AdelleSansExtendedFonts11w400
+                                            .copyWith(
+                                                decoration:
+                                                    TextDecoration.lineThrough),
+                                      ),
+                                    )
+                                  : SizedBox(),
                         ],
-                      ),
-                      SizedBox(
-                        height: 8,
-                      ),
-                      Row(
-                        children: [
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Skeleton.ignore(child: SVGIcons.smallStarIcon()),
-                              SizedBox(
-                                width: 3,
-                              ),
-                              Skeleton.replace(
-                                replacement: Container(
-                                  width: 30,
-                                  height: 15,
-                                  color: Colors.white,
-                                ),
-                                child: Text(
-                                  widget.type == ItemType.Products
-                                      ? "${widget.product?.overallRating}"
-                                      : "${widget.service?.overallRating}",
-                                  style: AppTheme
-                                      .styleWithTextGray7AdelleSansExtendedFonts12w400,
-                                ),
-                              ),
-                            ],
-                          ),
-                          Spacer(),
-                          Skeleton.replace(
-                            replacement: Container(
-                              width: 10,
-                              height: 15,
-                              color: Colors.white,
-                            ),
-                            child: Text(
-                              "(${"${widget.type == ItemType.Products ? "${widget.product?.ratingsCount}" : "${widget.service?.ratingsCount}"}"})",
-                              style: AppTheme
-                                  .styleWithTextGray7AdelleSansExtendedFonts12w400,
-                            ),
-                          )
-                        ],
-                      ),
-                      SizedBox(
-                        height: 11,
-                      ),
-                      Skeleton.leaf(
-                        child: AppButton(
-                          width: context.getScreenSize.width,
-                          height: 36,
-                          onPress: () {
-                            // if (widget.type == ItemType.Products &&
-                            //     widget.product?.inCart == false) {
-                            //   widget.onAddItemToCart
-                            //       .call(widget.product?.id?.toInt() ?? 0);
-                            // } else if (widget.type == ItemType.Services &&
-                            //     widget.service?.inCart == false) {
-                            //   widget.onAddItemToCart
-                            //       .call(widget.service?.id?.toInt() ?? 0);
-                            // }
-                            print("Selected Product : ${widget.type == ItemType.Products}");
-                            var categoriesIds = widget.type == ItemType.Products
-                                ? widget.product?.categories
-                                ?.map((item) => (item.id ?? 0).toInt())
-                                .toList() ??
-                                []
-                                : widget.service?.categories
-                                .map((item) => (item.id ?? 0).toInt())
-                                .toList() ??
-                                [];
-
-                            print("Selected Product Categories: ${widget.product?.categories}");
-                            print("Selected Product : $categoriesIds");
-                            if(!(widget.type == ItemType.Products && widget.product?.amount == 0)){
-                              widget.onItemClick.call(
-                                  (widget.type == ItemType.Products
-                                      ? widget.product?.id ?? 0
-                                      : widget.service?.id ?? 0)
-                                      .toInt(),
-                                  widget.type == ItemType.Products
-                                      ? widget.product?.name ?? ""
-                                      : widget.service?.name ?? "",
-                                  categoriesIds);
-                            }
-                          },
-                          child: Skeleton.ignore(
-                            child: Text(
-                              widget.type == ItemType.Products
-                                  ? widget.product?.amount == 0
-                                  ? "Out of stock"
-                                  : "View Details"
-                                  : "View Details"
-
-                              ,
-                              style: AppTheme
-                                  .styleWithTextGray7AdelleSansExtendedFonts12w400
-                                  .copyWith(color: Colors.white),
-                            ),
-                          ),
-                        ),
-                      ),
+                      )
                     ],
                   ),
                 )
@@ -275,7 +249,7 @@ class _ServiceAndProductItemCardHorizontalState
         Padding(
           padding: const EdgeInsets.all(10.0),
           child: Align(
-            alignment: AlignmentDirectional.topEnd,
+            alignment: AlignmentDirectional.topCenter,
             child: InkWell(
                 onTap: () {
                   widget.onAddItemToWishList(widget.type == ItemType.Products
@@ -283,13 +257,43 @@ class _ServiceAndProductItemCardHorizontalState
                       : widget.service?.id?.toInt() ?? 0);
                 },
                 child: Skeleton.ignore(
-                    child: widget.type == ItemType.Products
-                        ? widget.product?.inWishlist == true
-                        ? SVGIcons.activeFavoriteIcon()
-                        : SVGIcons.unFavoriteIcon()
-                        : widget.service?.inWishlist == true
-                        ? SVGIcons.activeFavoriteIcon()
-                        : SVGIcons.unFavoriteIcon())),
+                    child: Row(children: [
+                  widget.type == ItemType.Products &&
+                          widget.product?.type ==
+                              ProductTypes.various_gifts.name
+                      ? Container(
+                          padding: const EdgeInsetsDirectional.symmetric(
+                              horizontal: 6, vertical: 3),
+                          decoration: BoxDecoration(
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(10)),
+                              color: Colors.black.withOpacity(.3)),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              SVGIcons.localSVG(giftBoxIcon,
+                                  width: 11, height: 11),
+                              SizedBox(
+                                width: 4,
+                              ),
+                              Text(
+                                "Ready Gift",
+                                style: AppTheme
+                                    .styleWithTextWhiteAdelleSansExtendedFonts12w400,
+                              )
+                            ],
+                          ),
+                        )
+                      : const SizedBox(),
+                  const Spacer(),
+                  widget.type == ItemType.Products
+                      ? widget.product?.inWishlist == true
+                          ? SVGIcons.activeFavoriteIcon()
+                          : SVGIcons.unFavoriteIcon()
+                      : widget.service?.inWishlist == true
+                          ? SVGIcons.activeFavoriteIcon()
+                          : SVGIcons.unFavoriteIcon(),
+                ]))),
           ),
         )
       ]),

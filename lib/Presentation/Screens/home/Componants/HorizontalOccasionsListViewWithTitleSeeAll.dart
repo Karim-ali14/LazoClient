@@ -44,7 +44,7 @@ class _HorizontalOccasionsListViewWithTitleSeeAllState extends State<HorizontalO
           height: 16,
         ),
         SizedBox(
-          height: 95,
+          height: 78,
           child: ListView.separated(
               scrollDirection: Axis.horizontal,
               itemBuilder: (context, index) {
@@ -57,8 +57,8 @@ class _HorizontalOccasionsListViewWithTitleSeeAllState extends State<HorizontalO
                     child: CategoryItemCart(
                       image: widget.showLoading ? "" : widget.list[index].imagePath ?? "",
                       title: widget.showLoading ? "" :  widget.list[index].name ?? "",
-                      width: 133,
-                      height: 95,
+                      width: 127,
+                      height: 78,
                     ),
                   ),
                 );

@@ -3,6 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:lazo_client/Constants/Assets.dart';
+import 'package:lazo_client/Constants/Constants.dart';
 import 'package:lazo_client/Data/Models/StateModel.dart';
 import 'package:lazo_client/Doman/CommenProviders/ApiProvider.dart';
 import 'package:lazo_client/Localization/Keys.dart';
@@ -13,11 +15,13 @@ import 'package:lazo_client/Presentation/StateNotifiersViewModel/PublicStateNoti
 import 'package:lazo_client/Presentation/StateNotifiersViewModel/UserAuthStateNotifiers.dart';
 import 'package:lazo_client/Presentation/Widgets/BannerCardItems.dart';
 import 'package:lazo_client/Presentation/Widgets/SearchWithFilter.dart';
+import 'package:lazo_client/Presentation/Widgets/SvgIcons.dart';
 
 import '../../../Constants.dart';
 import '../../../Constants/Eunms.dart';
 import '../../../Data/Network/lib/api.dart';
 import '../../StateNotifiersViewModel/WishListStateNotifiers.dart';
+import '../../Theme/AppTheme.dart';
 import 'Componants/HorizontalOccasionsListViewWithTitleSeeAll.dart';
 import 'Componants/HorizontalTopProductListViewWithTitleSeeAll.dart';
 import 'Componants/HorizontalTopSellersListViewWithTitleSeeAll.dart';
@@ -30,6 +34,7 @@ class HomeScreen extends ConsumerStatefulWidget {
 }
 
 class _HomeScreenState extends ConsumerState<HomeScreen> {
+  double _opacity = 0.8;
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
@@ -82,22 +87,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             getHomeData();
             return Future.delayed(const Duration(seconds: 1));
           },
-          child: Column(
+          child: Stack(
             children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                child: AppSearchBarWithFilter(
-                    enableSearch: false,
-                    hasFilter: false,
-                    onFilterClick: () {},
-                    onSearchClick: () {
-                      navigateToProductsAndServices(
-                          CategoryType.Search, context.tr(searchKey), null);
-                    }),
-              ),
-              const SizedBox(
-                height: 24,
-              ),
               Expanded(
                 child: SingleChildScrollView(
                   child: Padding(
@@ -105,215 +96,267 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        const SizedBox(
+                          height: 125,
+                        ),
                         (homeDataState.state == DataState.SUCCESS &&
-                                homeDataState.data?.data?.banners.isEmpty == true)
+                            homeDataState.data?.data?.banners.isEmpty == true)
                             ? const SizedBox()
                             : Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  BannerCardItems(
-                                    list: homeDataState.state != DataState.LOADING
-                                        ? homeDataState.data?.data?.banners
-                                                .map((item) =>
-                                                    item.imagePath ?? "")
-                                                .toList() ??
-                                            []
-                                        : [""],
-                                    height: 149,
-                                    width: MediaQuery.of(context).size.width,
-                                    showLoading:
-                                        homeDataState.state == DataState.LOADING,
-                                    showIndicator:
-                                        homeDataState.state != DataState.LOADING,
-                                  ),
-                                  SizedBox(
-                                    height: 32,
-                                  )
-                                ],
-                              ),
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            BannerCardItems(
+                              list: homeDataState.state != DataState.LOADING
+                                  ? homeDataState.data?.data?.banners
+                                  .map((item) =>
+                              item.imagePath ?? "")
+                                  .toList() ??
+                                  []
+                                  : [""],
+                              height: 156,
+                              width: MediaQuery.of(context).size.width,
+                              showLoading:
+                              homeDataState.state == DataState.LOADING,
+                              showIndicator:
+                              homeDataState.state != DataState.LOADING,
+                            ),
+                            SizedBox(
+                              height: defaultPaddingHorizontal,
+                            )
+                          ],
+                        ),
                         (homeDataState.state == DataState.SUCCESS &&
-                                homeDataState.data?.data?.categories.isEmpty ==
-                                    true)
+                            homeDataState.data?.data?.occasions.isEmpty ==
+                                true)
                             ? SizedBox()
                             : Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  HorizontalCategoryListViewWithTitleSeeAll(
-                                    list: homeDataState.state != DataState.LOADING ?
-                                    homeDataState.data?.data?.categories
-                                            .toList() ??
-                                        []:[Category(),Category(),Category(),Category()],
-                                    showLoading:
-                                        homeDataState.state == DataState.LOADING,
-                                    itemClick: (item) {
-                                      navigateToSeeAllTopSeller(
-                                          "${item.name}", CategoryType.Categories,
-                                          categoryId: item.id?.toInt() ?? 0);
-                                    },
-                                    onSeeAllClickListener: (id, name) {
-                                      navigateToSeeAllCategories();
-                                    },
-                                  ),
-                                  SizedBox(
-                                    height: 32,
-                                  )
-                                ],
-                              ),
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            HorizontalOccasionsListViewWithTitleSeeAll(
+                              list: homeDataState.state != DataState.LOADING ?
+                              homeDataState.data?.data?.occasions
+                                  .toList() ??
+                                  []:[Occasion(),Occasion(),Occasion(),Occasion()],
+                              showLoading:
+                              homeDataState.state == DataState.LOADING,
+                              itemClick: (occasionItem) {
+                                navigateToSeeAllBestProductAndService(
+                                    occasionItem.name ?? "",
+                                    ItemType.Products,
+                                    occasionId: occasionItem.id?.toInt());
+                                // navigateToProductsAndServices(
+                                //     CategoryType.Occasions,
+                                //     occasionItem.name ?? "",
+                                //     int.parse(
+                                //         (occasionItem.id ?? 0).toString()));
+                              },
+                              onSeeAllClickListener: (id, name) {
+                                navigateToSeeAllOccasions();
+                              },
+                            ),
+                            SizedBox(
+                              height: defaultPaddingHorizontal,
+                            ),
+                          ],
+                        ),
                         (homeDataState.state == DataState.SUCCESS &&
-                                homeDataState
-                                        .data?.data?.topRatedProviders.isEmpty ==
-                                    true)
+                            homeDataState
+                                .data?.data?.topRatedProviders.isEmpty ==
+                                true)
                             ? SizedBox()
                             : Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  HorizontalTopSellersListViewWithTitleSeeAll(
-                                    list: homeDataState.state != DataState.LOADING ? homeDataState
-                                            .data?.data?.topRatedProviders
-                                            .toList() ??
-                                        []:[ProviderData(),ProviderData(),ProviderData(),ProviderData()],
-                                    showLoading:
-                                        homeDataState.state == DataState.LOADING,
-                                    itemClick: (itemId) {
-                                      print("seller $itemId");
-                                      navigateToSellerDetails(itemId);
-                                    },
-                                    onSeeAllClickListener: (id, name) {
-                                      navigateToSeeAllTopSeller(
-                                          context.tr(topSellersKey),
-                                          CategoryType.Search
-                                      );
-                                    },
-                                  ),
-                                  SizedBox(
-                                    height: 32,
-                                  ),
-                                ],
-                              ),
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            HorizontalTopSellersListViewWithTitleSeeAll(
+                              list: homeDataState.state != DataState.LOADING ? homeDataState
+                                  .data?.data?.topRatedProviders
+                                  .toList() ??
+                                  []:[ProviderData(),ProviderData(),ProviderData(),ProviderData()],
+                              showLoading:
+                              homeDataState.state == DataState.LOADING,
+                              itemClick: (itemId) {
+                                print("seller $itemId");
+                                navigateToSellerDetails(itemId);
+                              },
+                              onSeeAllClickListener: (id, name) {
+                                navigateToSeeAllTopSeller(
+                                    context.tr(topSellersKey),
+                                    CategoryType.Search
+                                );
+                              },
+                            ),
+                            SizedBox(
+                              height: defaultPaddingHorizontal,
+                            ),
+                          ],
+                        ),
                         (homeDataState.state == DataState.SUCCESS &&
-                                homeDataState.data?.data?.occasions.isEmpty ==
-                                    true)
+                            homeDataState.data?.data?.categories.isEmpty ==
+                                true)
                             ? SizedBox()
                             : Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  HorizontalOccasionsListViewWithTitleSeeAll(
-                                    list: homeDataState.state != DataState.LOADING ?
-                                    homeDataState.data?.data?.occasions
-                                            .toList() ??
-                                        []:[Occasion(),Occasion(),Occasion(),Occasion()],
-                                    showLoading:
-                                        homeDataState.state == DataState.LOADING,
-                                    itemClick: (occasionItem) {
-                                      navigateToSeeAllBestProductAndService(
-                                          occasionItem.name ?? "",
-                                          ItemType.Products,
-                                          occasionId: occasionItem.id?.toInt());
-                                      // navigateToProductsAndServices(
-                                      //     CategoryType.Occasions,
-                                      //     occasionItem.name ?? "",
-                                      //     int.parse(
-                                      //         (occasionItem.id ?? 0).toString()));
-                                    },
-                                    onSeeAllClickListener: (id, name) {
-                                      navigateToSeeAllOccasions();
-                                    },
-                                  ),
-                                  SizedBox(
-                                    height: 32,
-                                  ),
-                                ],
-                              ),
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            HorizontalCategoryListViewWithTitleSeeAll(
+                              list: homeDataState.state != DataState.LOADING ?
+                              homeDataState.data?.data?.categories
+                                  .toList() ??
+                                  []:[Category(),Category(),Category(),Category()],
+                              showLoading:
+                              homeDataState.state == DataState.LOADING,
+                              itemClick: (item) {
+                                navigateToSeeAllTopSeller(
+                                    "${item.name}", CategoryType.Categories,
+                                    categoryId: item.id?.toInt() ?? 0);
+                              },
+                              onSeeAllClickListener: (id, name) {
+                                navigateToSeeAllCategories();
+                              },
+                            ),
+                            SizedBox(
+                              height: defaultPaddingHorizontal,
+                            )
+                          ],
+                        ),
                         (homeDataState.state == DataState.SUCCESS &&
-                                homeDataState
-                                        .data?.data?.topRatedProducts.isEmpty ==
-                                    true)
+                            homeDataState
+                                .data?.data?.topRatedProducts.isEmpty ==
+                                true)
                             ? SizedBox()
                             : Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  HorizontalTopProductListViewWithTitleSeeAll(
-                                    list: homeDataState.state != DataState.LOADING ?
-                                    homeDataState
-                                            .data?.data?.topRatedProducts
-                                            .toList() ??
-                                        [] : [ProviderProduct(),ProviderProduct(),ProviderProduct(),ProviderProduct(),],
-                                    showLoading:
-                                        homeDataState.state == DataState.LOADING,
-                                    itemClick: (itemId, itemName, categoryIds) {
-                                      print("homeCategories ${categoryIds}");
-                                      navigateToItemDetails(ItemType.Products,
-                                          itemId, itemName, categoryIds);
-                                    },
-                                    onAddItemToCart: (id) {
-                                      print("homeCategories onAddItemToCart");
-                                      addProductToCart(id);
-                                    },
-                                    onAddItemToWishList: (id) {
-                                      print("homeCategories onAddItemToWishList");
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            HorizontalTopProductListViewWithTitleSeeAll(
+                              list: homeDataState.state != DataState.LOADING ?
+                              homeDataState
+                                  .data?.data?.topRatedProducts
+                                  .toList() ??
+                                  [] : [ProviderProduct(),ProviderProduct(),ProviderProduct(),ProviderProduct(),],
+                              showLoading:
+                              homeDataState.state == DataState.LOADING,
+                              itemClick: (itemId, itemName, categoryIds) {
+                                print("homeCategories ${categoryIds}");
+                                navigateToItemDetails(ItemType.Products,
+                                    itemId, itemName, categoryIds);
+                              },
+                              onAddItemToCart: (id) {
+                                print("homeCategories onAddItemToCart");
+                                addProductToCart(id);
+                              },
+                              onAddItemToWishList: (id) {
+                                print("homeCategories onAddItemToWishList");
 
-                                      if (client != null) {
-                                        productWishlistToggle(id);
-                                      } else {
-                                        showAuthenticated();
-                                      }
-                                    },
-                                    onSeeAllClickListener: (id, name) {
-                                      navigateToSeeAllBestProductAndService(
-                                          context.tr(bestProductsKey), ItemType.Products);
-                                    },
-                                    itemWidth: 163,
-                                    title: context.tr(bestProductsKey),
-                                  ),
-                                  SizedBox(
-                                    height: 32,
-                                  )
-                                ],
-                              ),
+                                if (client != null) {
+                                  productWishlistToggle(id);
+                                } else {
+                                  showAuthenticated();
+                                }
+                              },
+                              onSeeAllClickListener: (id, name) {
+                                navigateToSeeAllBestProductAndService(
+                                    context.tr(bestProductsKey), ItemType.Products);
+                              },
+                              itemWidth: 160,
+                              title: context.tr(bestProductsKey),
+                            ),
+                            SizedBox(
+                              height: defaultPaddingHorizontal,
+                            )
+                          ],
+                        ),
                         (homeDataState.state == DataState.SUCCESS &&
-                                homeDataState
-                                        .data?.data?.topRatedServices.isEmpty ==
-                                    true)
+                            homeDataState
+                                .data?.data?.topRatedServices.isEmpty ==
+                                true)
                             ? SizedBox()
                             : Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  HorizontalTopServiceListViewWithTitleSeeAll(
-                                    list: homeDataState.state != DataState.LOADING ? homeDataState
-                                            .data?.data?.topRatedServices
-                                            .toList() ?? []
-                                        :[ServiceShowData(),ServiceShowData(),ServiceShowData(),ServiceShowData(),ServiceShowData()],
-                                    showLoading:
-                                        homeDataState.state == DataState.LOADING,
-                                    itemClick: (itemId, itemName, categoryIds) {
-                                      navigateToItemDetails(ItemType.Services,
-                                          itemId, itemName, categoryIds);
-                                    },
-                                    onAddItemToCart: (id) {
-                                      addServiceToCart(id);
-                                    },
-                                    onAddItemToWishList: (id) {
-                                      print("object");
-                                      if (client != null) {
-                                        serviceWishlistToggle(id.toString());
-                                      } else {
-                                        showAuthenticated();
-                                      }
-                                    },
-                                    onSeeAllClickListener: (id, name) {
-                                      navigateToSeeAllBestProductAndService(
-                                          context.tr(bestServicesKey), ItemType.Services);
-                                    },
-                                    itemWidth: 163,
-                                    title: context.tr(bestServicesKey),
-                                  ),
-                                  SizedBox(
-                                    height: 10,
-                                  )
-                                ],
-                              ),
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            HorizontalTopServiceListViewWithTitleSeeAll(
+                              list: homeDataState.state != DataState.LOADING ? homeDataState
+                                  .data?.data?.topRatedServices
+                                  .toList() ?? []
+                                  :[ServiceShowData(),ServiceShowData(),ServiceShowData(),ServiceShowData(),ServiceShowData()],
+                              showLoading:
+                              homeDataState.state == DataState.LOADING,
+                              itemClick: (itemId, itemName, categoryIds) {
+                                navigateToItemDetails(ItemType.Services,
+                                    itemId, itemName, categoryIds);
+                              },
+                              onAddItemToCart: (id) {
+                                addServiceToCart(id);
+                              },
+                              onAddItemToWishList: (id) {
+                                print("object");
+                                if (client != null) {
+                                  serviceWishlistToggle(id.toString());
+                                } else {
+                                  showAuthenticated();
+                                }
+                              },
+                              onSeeAllClickListener: (id, name) {
+                                navigateToSeeAllBestProductAndService(
+                                    context.tr(bestServicesKey), ItemType.Services);
+                              },
+                              itemWidth: 160,
+                              title: context.tr(bestServicesKey),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            )
+                          ],
+                        ),
                       ],
                     ),
+                  ),
+                ),
+              ),
+              IntrinsicHeight(
+                child: Container  (
+                  color: Colors.white.withOpacity(_opacity),
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0,vertical: 20),
+                  child: Column(
+                    children: [
+                      Row(
+                        children:[
+                          SVGIcons.localSVG(lazoLogoSvg,width: 27,height: 30),
+                          const SizedBox(width: 6,),
+                          SVGIcons.localSVG(lazoKeywordSvg,width: 64,height: 18),
+                          const Spacer(),
+                          InkWell(
+                              onTap: (){
+                                navigateToProductsAndServices(
+                                    CategoryType.Search, context.tr(searchKey), null);
+                              },
+                              child: SVGIcons.localSVG(searchIconWithPinkBackgroundSvg)),
+                          const SizedBox(width: 6,),
+                          SVGIcons.localSVG(notificationIconWithPinkBackgroundSvg),
+                        ] ,
+                      ),
+                      const SizedBox(height: defaultPaddingHorizontal,),
+                      Row(
+                        children: [
+                          Text("Delivery To",style: AppTheme.styleWithTextAppGrey17AdelleSansFonts14w350,),
+                          SizedBox(
+                            width: 4,
+                          ),
+                          Text(
+                            "Riyadh",
+                            style: AppTheme
+                                .styleWithTextBlackColor2AdelleSansExtendedFonts14w500,
+                          ),
+                          SizedBox(
+                            width: 5,
+                          ),
+                          SVGIcons.localSVG(
+                            downArrowImg,
+                            color: AppTheme.blackColor2,
+                            width: 16,
+                            height: 16
+                          )
+                        ],
+                      )
+                    ],
                   ),
                 ),
               ),

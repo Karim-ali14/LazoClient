@@ -21,41 +21,59 @@ class CategoryItemCart extends StatelessWidget {
   Widget build(BuildContext context) {
     return Skeleton.replace(
       replacement: Container(
-        width: width, // Adjust dimensions as needed
+        width: width ?? MediaQuery.of(context).size.width, // Adjust dimensions as needed
         height: height,
         color: AppTheme.appGrey9,
       ),
       child: Container(
+        clipBehavior: Clip.antiAlias,
         width: width ?? MediaQuery.of(context).size.width,
         height: height,
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(4),
+          borderRadius: BorderRadius.circular(8),
           border: Border.all(color: AppTheme.appGrey8),
           color: AppTheme.appGrey9,
         ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
+        child: Stack(
           children: [
-            SizedBox(
-              width: 32,
-              height: 32,
-              child: ImageView(
-                width: 32,
-                height: 32,
-                initialImg: image,
+            ImageView(
+              width: width ?? MediaQuery.of(context).size.width,
+              height: height,
+              initialImg: image,
+            ),
+
+            Container(
+              width: width,
+              height: height,
+              foregroundDecoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8),
+                gradient: LinearGradient(
+                  begin: Alignment.bottomCenter,
+                  end: Alignment.topCenter,
+                  colors: [
+                    Colors.black.withOpacity(0.8), // Dark shadow at the bottom
+                    Colors.transparent,            // Fades to transparent at the top
+                  ],
+                ),
               ),
             ),
-            const SizedBox(
-              height: 8,
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 5),
-              child: Text(title,
-                  style: AppTheme.styleWithTextBlackAdelleSansExtendedFonts14w400
-                      .copyWith(overflow: TextOverflow.ellipsis),
-                  maxLines: 1,
-                  textAlign: TextAlign.center),
+
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 5),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(title,
+                        style: AppTheme.styleWithTextWhiteColor15PoppinsFonts14w500
+                            .copyWith(overflow: TextOverflow.ellipsis),
+                        maxLines: 1,
+                        textAlign: TextAlign.center),
+                    const SizedBox(height: 8,)
+                  ],
+                ),
+              ),
             )
           ],
         ),

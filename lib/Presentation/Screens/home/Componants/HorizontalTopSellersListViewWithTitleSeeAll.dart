@@ -47,14 +47,14 @@ class _HorizontalTopSellersListViewWithTitleSeeAllState extends State<Horizontal
           height: 16,
         ),
         SizedBox(
-          height: widget.showLoading ? 270 : 280,
+          height:200,
           child: ListView.separated(
               scrollDirection: Axis.horizontal,
               itemBuilder: (context, index) {
                 return Skeletonizer(
                   enabled: widget.showLoading ,
                   child: SellerItemCard(
-                    width: 307,
+                    width: 160,
                     providerData: widget.showLoading ? null : widget.list[index], onSellerClickListener: (sellerId ) {
                       navigateToSellerDetails(sellerId);
                   },

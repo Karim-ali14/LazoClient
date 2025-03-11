@@ -13,6 +13,15 @@ class SVGIcons {
       height: 40,
     );
   }
+  static Widget localSVG(String assetPath, {double width = 50, double height = 50 , Color? color}) {
+    return SvgPicture.asset(
+      assetPath,
+      width: width,
+      height: height,
+      color: color,
+    );
+  }
+
   static Widget defaultUserIcon(){
     return SvgPicture.asset(
       defaultUserImg,
@@ -433,12 +442,18 @@ class SVGIcons {
   static Widget activeFavoriteIcon() {
     return SvgPicture.asset(
       activeFavoriteIconSvg,
+      width: 28,
+      height: 28,
+      fit: BoxFit.fill
     );
   }
 
   static Widget unFavoriteIconWithLightRedIcon() {
     return SvgPicture.asset(
       unFavoriteIconWithLightRedSvg,
+      width: 28,
+      height: 28,
+      fit: BoxFit.fill,
     );
   }
 
