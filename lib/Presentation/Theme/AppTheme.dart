@@ -32,6 +32,7 @@ class AppTheme {
   static const Color appGrey16  = Color(0xFFFAFAFB);
   static const Color appGrey17  = Color(0xFF525252);
   static const Color appGrey18  = Color(0xFF8E8E8E);
+  static const Color appGrey19  = Color(0xFFD4D4D4);
   static const Color appLightGrey = Color(0xFFe5e5e5);
   static const Color appLightGreyV2 = Color(0xFFF0F0F0);
   static const Color appDarkerGrey = Color(0xFF898989);
@@ -185,6 +186,9 @@ class AppTheme {
 
   static const TextStyle styleWithTextWhiteAdelleSansExtendedFonts12w400 = TextStyle(
       color: Colors.white , fontSize: 12, fontWeight: FontWeight.w400);
+
+  static const TextStyle styleWithTextWhiteAdelleSansExtendedFonts10w400 = TextStyle(
+      color: Colors.white , fontSize: 10, fontWeight: FontWeight.w400);
 
   static const TextStyle styleWithTextAppGrey17AdelleSansFonts14w350 = TextStyle(
       color: appGrey17 , fontSize: 14, fontWeight: FontWeight.w300);

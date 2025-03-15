@@ -90,7 +90,7 @@ class SVGIcons {
 
   static Widget filterIcon() {
     return SvgPicture.asset(filterIconSvg,
-        width: 24, height: 24, fit: BoxFit.scaleDown);
+        width: 18, height: 14, fit: BoxFit.scaleDown);
   }
 
   static Widget smallStarIcon({double size = 13}) {
@@ -415,6 +415,9 @@ class SVGIcons {
   static Widget backArrowIcon() {
     return SvgPicture.asset(
       backArrowImg,
+      width: 24,
+      height: 24,
+      fit: BoxFit.scaleDown,
     );
   }
 

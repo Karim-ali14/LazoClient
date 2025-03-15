@@ -1,0 +1,549 @@
+import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:lazo_client/Constants/Assets.dart';
+import 'package:lazo_client/Data/Models/UpdateDataModel.dart';
+import 'package:lazo_client/Doman/CommenProviders/ApiProvider.dart';
+import 'package:lazo_client/Presentation/Screens/search/ProductSearchScreen.dart';
+import 'package:lazo_client/Presentation/Widgets/CustomAppBar.dart';
+import 'package:lazo_client/Presentation/Widgets/SellerItemCard.dart';
+import 'package:skeletonizer/skeletonizer.dart';
+
+import '../../../Constants.dart';
+import '../../../Constants/Eunms.dart';
+import '../../../Data/Models/FilterData.dart';
+import '../../../Data/Models/StateModel.dart';
+import '../../../Data/Network/lib/api.dart';
+import '../../../Localization/Keys.dart';
+import '../../BottomSheets/AuthenticateBottomSheet.dart';
+import '../../StateNotifiersViewModel/PublicStateNotifiers.dart';
+import '../../StateNotifiersViewModel/UserAuthStateNotifiers.dart';
+import '../../StateNotifiersViewModel/WishListStateNotifiers.dart';
+import '../../Theme/AppTheme.dart';
+import '../../Widgets/DataListView.dart';
+import '../../Widgets/EmptyDataView.dart';
+import '../../Widgets/SearchWithFilter.dart';
+import '../../Widgets/ServiceAndProductItemCard.dart';
+import '../../Widgets/SvgIcons.dart';
+
+class SearchScreen extends ConsumerStatefulWidget {
+  final String title;
+  final CategoryType type;
+  final int? id;
+  const SearchScreen(
+      {required this.title, required this.type, required this.id, super.key});
+
+  @override
+  ConsumerState<SearchScreen> createState() => _SearchScreenState();
+}
+
+class _SearchScreenState extends ConsumerState<SearchScreen>
+    with SingleTickerProviderStateMixin {
+  late TabController tabController;
+  int activeTabIndex = 0;
+
+  var currentPageForProducts = 1;
+  var currentPageForServices = 1;
+  var currentPageForSellers = 1;
+
+  FilterData? filterForProductData = null;
+  FilterData? filterForServicesData = null;
+  FilterData? filterForSellersData = null;
+
+  String? searchForProductData = null;
+  String? searchForServiceData = null;
+  String? searchForSellersData = null;
+
+  final TextEditingController controller = TextEditingController();
+  @override
+  void initState() {
+    tabController = TabController(
+        length: widget.type == CategoryType.Search ? 3 : 2, vsync: this);
+    tabController.addListener(() {
+      setState(() {
+        activeTabIndex = tabController.index;
+        if (activeTabIndex == 0) {
+          controller.text = searchForProductData ?? "";
+        } else if (activeTabIndex == 1) {
+          controller.text = searchForServiceData ?? "";
+        } else if (activeTabIndex == 2) {
+          controller.text = searchForSellersData ?? "";
+        }
+      });
+    });
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      // fetchProducts(currentPageForProducts);
+      // fetchServices(currentPageForServices);
+      // if (widget.type == CategoryType.Search) {
+      //   fetchSellers(currentPageForSellers);
+      // }
+    });
+    super.initState();
+  }
+
+  Future<bool> _onWillPop() async {
+    // Your custom logic here
+    print('Back button pressed!');
+    context.pop(false);
+    return false; // Return true to allow the pop action, false to prevent it
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final client = ref.watch(clientStateProvider);
+
+
+    filterForServicesData = ref.watch(filterForServiceStateNotifiers);
+
+    filterForSellersData = ref.watch(filterForSellerStateNotifiers);
+    print(
+        "filter data ->${filterForProductData?.categoriesIdsSelected} ${filterForProductData?.occasionsIdsSelected} , ${filterForProductData?.ratingValueSelected} ${filterForProductData?.priceToSelected}");
+
+    final servicesState = ref.watch(getServicesStateNotifiers);
+    final sellersState = ref.watch(getTopSellersDataStateNotifiers);
+
+
+    handleState(serviceToggleStateNotifier, showLoading: true,
+        onSuccess: (res) {
+      ref
+          .read(getSellerDetailsWithServicesStateNotifier.notifier)
+          .handleAddServiceToWishList(
+              res.data?.data?.serviceId?.toInt() ?? 0,
+              res.data?.data?.categoriesIds ?? [],
+              res.data?.data?.inWishlist ?? false);
+
+      ref.read(getServiceDetails.notifier).handelAddServiceToWishList(
+          res.data?.data?.serviceId ?? 0, res.data?.data?.inWishlist ?? false);
+
+      ref.read(homeDataStateNotifiers.notifier).handelAddServiceToWishList(
+          res.data?.data?.serviceId ?? 0, res.data?.data?.inWishlist ?? false);
+
+      ref.read(getServicesStateNotifiers.notifier).handelAddServiceToWishlist(
+          res.data?.data?.serviceId ?? 0, res.data?.data?.inWishlist ?? false);
+    });
+
+    handleState(addServiceToCartUseCaseStateNotifier, showLoading: true,
+        onSuccess: (res) {
+      var id = res.data?.data?.serviceId;
+      if (id != null) {
+        ref.read(getServicesStateNotifiers.notifier).handelAddServiceToCart(id);
+      }
+    });
+
+    return WillPopScope(
+      onWillPop: _onWillPop,
+      child: Scaffold(
+        body: SafeArea(
+          child: Column(
+            children: [
+              AppSearchBarWithFilter(
+                controller: controller,
+                prefixIcon: InkWell(
+                    onTap: () {
+                      context.pop();
+                    },
+                    child: SVGIcons.backArrowIcon()),
+                hasFilter: true,
+                onFilterClick: () {
+                  openFilterScreen(activeTabIndex);
+                },
+                delay: 1,
+                onTextChangeListener: (value) {
+                  if (activeTabIndex == 0) {
+                    currentPageForProducts = 1;
+                    searchForProductData = value;
+                    fetchProducts(currentPageForProducts);
+                  } else if (activeTabIndex == 1) {
+                    currentPageForServices = 1;
+                    searchForServiceData = value;
+                    fetchServices(currentPageForServices);
+                  } else if (activeTabIndex == 2) {
+                    currentPageForSellers = 1;
+                    searchForSellersData = value;
+                    fetchSellers(currentPageForSellers);
+                  }
+                },
+              ),
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  boxShadow: [
+                    BoxShadow(
+                      color: AppTheme.appGrey8.withOpacity(0.6), // Shadow color
+                      blurRadius: .5, // Blur effect
+                      spreadRadius: .1, // Spread effect
+                      offset: const Offset(0, .5), // Shadow position
+                    ),
+                  ]
+                ),
+                child: TabBar(
+                  labelColor: Colors.white,
+                  unselectedLabelColor: Colors.white,
+                  indicatorPadding: EdgeInsets.zero,
+                  indicatorColor: AppTheme.appRedColor,
+                  tabs: [
+                    Tab(
+                        child: Text("Products",
+                            style: activeTabIndex == 0
+                                ? AppTheme
+                                    .styleWithTextBlackColor2AdelleSansExtendedFonts14w400
+                                : AppTheme
+                                    .styleWithTextAppGrey7AdelleSansExtendedFonts14w400)),
+                    Tab(
+                      child: Text("Services",
+                          style: activeTabIndex == 1
+                              ? AppTheme
+                                  .styleWithTextBlackColor2AdelleSansExtendedFonts14w400
+                              : AppTheme
+                                  .styleWithTextAppGrey7AdelleSansExtendedFonts14w400),
+                    ),
+                    if (widget.type == CategoryType.Search)
+                      Tab(
+                        child: Text("Sellers",
+                            style: activeTabIndex == 2
+                                ? AppTheme
+                                    .styleWithTextBlackColor2AdelleSansExtendedFonts14w400
+                                : AppTheme
+                                    .styleWithTextAppGrey7AdelleSansExtendedFonts14w400),
+                      ),
+                  ],
+                  controller: tabController,
+                ),
+              ),
+              Expanded(
+                  child: TabBarView(
+                controller: tabController,
+                children: [
+                  ProductSearchScreen(
+                      type: CategoryType.Search,
+                      controller: controller,
+                      id: widget.id,
+                      showAuthenticated: showAuthenticated,
+                      navigateToItemDetails: navigateToItemDetails),
+                  servicesState.state == DataState.EMPTY
+                      ? /*OrderPlaceHolder(onAddOrderClick: () {})*/ EmptyDataView(
+                          icon: SVGIcons.localSVG(searchIconNoDataSvg,
+                              width: 114, height: 97),
+                          btuName: "View our best services Items",
+                          description:
+                              "Oops! Use different keywords to see more results.",
+                    btuAction: (){
+                      navigateToSeeAllBestProductAndService(
+                          context.tr(bestServicesKey), ItemType.Services);
+                    },
+                        )
+                      : DataListView<ServiceShowData>(
+                          dataList: servicesState.data?.data?.services?.data ??
+                              (servicesState.state == DataState.LOADING
+                                  ? [
+                                      ...List.generate(
+                                          8, (index) => ServiceShowData())
+                                    ]
+                                  : []),
+                          paginated: true,
+                          gridView: true,
+                          childAspectRatio: .79,
+                          heightPresent: 0.81,
+                          loadingHeightPresent: 0.73,
+                          pageLoading:
+                              servicesState.state == DataState.MORE_LOADING,
+                          onBottomReached: () {
+                            if (currentPageForServices <
+                                (servicesState.data?.data?.services?.lastPage ??
+                                    0)) {
+                              fetchServices(++currentPageForServices);
+                            }
+                          },
+                          builder: (item) => Skeletonizer(
+                                enabled:
+                                    servicesState.state == DataState.LOADING,
+                                child: Padding(
+                                  padding: EdgeInsetsDirectional.symmetric(
+                                      horizontal: 16, vertical: 6),
+                                  child: ServiceAndProductItemCardHorizontal(
+                                    service: item,
+                                    width: 165,
+                                    type: ItemType.Services,
+                                    onAddItemToCart: (id) {
+                                      addServiceToCart(id);
+                                    },
+                                    onAddItemToWishList: (id) {
+                                      if (client != null) {
+                                        serviceWishlistToggle(id.toString());
+                                      } else {
+                                        showAuthenticated();
+                                      }
+                                    },
+                                    onItemClick: (id, name, categoriesIds) {
+                                      navigateToItemDetails(ItemType.Services,
+                                          id, name, categoriesIds);
+                                    },
+                                  ),
+                                ),
+                              )),
+                  if (widget.type == CategoryType.Search)
+                    sellersState.state == DataState.EMPTY
+                        ? /*OrderPlaceHolder(onAddOrderClick: () {})*/ EmptyDataView(
+                            icon: SVGIcons.localSVG(searchIconNoDataSvg,
+                                width: 114, height: 97),
+                            description:
+                                "Oops! Use different keywords to see more results.",
+                            btuName: "View our best sellers items",
+                      btuAction: (){
+                        navigateToSeeAllTopSeller(
+                            context.tr(topSellersKey),
+                            CategoryType.Search
+                        );
+                      },
+                          )
+                        : DataListView<ProviderData>(
+                            dataList: sellersState.data?.data?.data ??
+                                (sellersState.state == DataState.LOADING
+                                    ? [
+                                        ...List.generate(
+                                            8, (index) => ProviderData())
+                                      ]
+                                    : []),
+                            paginated: true,
+                            gridView: true,
+                            childAspectRatio: .86,
+                            heightPresent: 0.81,
+                            loadingHeightPresent: 0.73,
+                            pageLoading:
+                                sellersState.state == DataState.MORE_LOADING,
+                            onBottomReached: () {
+                              if (currentPageForSellers <
+                                  (sellersState.data?.data?.lastPage ?? 0)) {
+                                fetchSellers(++currentPageForSellers);
+                              }
+                            },
+                            builder: (item) => Skeletonizer(
+                                  enabled:
+                                      sellersState.state == DataState.LOADING,
+                                  child: Padding(
+                                    padding: EdgeInsetsDirectional.symmetric(
+                                        horizontal: 16, vertical: 6),
+                                    child: SellerItemCard(
+                                      width: 165,
+                                      providerData: item,
+                                      onSellerClickListener: (sellerId) {
+                                        navigateToSellerDetails(sellerId);
+                                      },
+                                    ),
+                                  ),
+                                )),
+                ],
+              ))
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  void fetchProducts(int page) {
+    ref.read(getProductsStateNotifiers.notifier).getProductsData(
+        page: page,
+        shipmentType: filterForProductData?.shipmentTypeSelected != null
+            ? filterForProductData?.shipmentTypeSelected == 1
+                ? "various_gifts"
+                : "ready_made_gifts"
+            : null,
+        categoriesIds: widget.type == CategoryType.Categories
+            ? [widget.id ?? 0]
+            : filterForProductData?.categoriesIdsSelected,
+        occasionsIds: widget.type == CategoryType.Occasions
+            ? [widget.id ?? 0]
+            : filterForProductData?.occasionsIdsSelected,
+        ratings: filterForProductData?.ratingValueSelected
+            ?.map((item) => item.toString())
+            .toList(),
+        type: ItemType.Products.name.toLowerCase(),
+        priceTo: filterForProductData?.priceToSelected,
+        priceFrom: filterForProductData?.priceFromSelected,
+        searchByName: searchForProductData == null ||
+                searchForProductData?.isEmpty == true
+            ? null
+            : searchForProductData);
+  }
+
+  void fetchServices(int page) {
+    ref.read(getServicesStateNotifiers.notifier).getServicesData(
+        page: page,
+        categoriesIds: widget.type == CategoryType.Categories ||
+                widget.type == CategoryType.Search
+            ? widget.type == CategoryType.Categories
+                ? [widget.id ?? 0]
+                : filterForServicesData?.categoriesIdsSelected
+            : null,
+        occasionsIds: widget.type == CategoryType.Occasions ||
+                widget.type == CategoryType.Search
+            ? widget.type == CategoryType.Occasions
+                ? [widget.id ?? 0]
+                : filterForServicesData?.occasionsIdsSelected
+            : null,
+        ratings: filterForServicesData?.ratingValueSelected
+            ?.map((item) => item.toString())
+            .toList(),
+        priceTo: filterForServicesData?.priceToSelected.toString(),
+        priceFrom: filterForServicesData?.priceFromSelected.toString(),
+        type: ItemType.Services.name.toLowerCase(),
+        searchByName: searchForServiceData == null ||
+                searchForServiceData?.isEmpty == true
+            ? null
+            : searchForServiceData);
+  }
+
+  void fetchSellers(int page) {
+    print(filterForSellersData?.occasionsIdsSelected);
+    ref.read(getTopSellersDataStateNotifiers.notifier).getTopSellersData(
+        page: page,
+        isPromoted: filterForSellersData?.promotionSelected,
+        categoriesIds: widget.type == CategoryType.Categories ||
+                widget.type == CategoryType.Search
+            ? filterForSellersData?.categoriesIdsSelected
+            : null,
+        occasionsIds: widget.type == CategoryType.Occasions ||
+                widget.type == CategoryType.Search
+            ? filterForSellersData?.occasionsIdsSelected
+            : null,
+        ratings: filterForSellersData?.ratingValueSelected
+            ?.map((item) => item.toString())
+            .toList(),
+        searchByName: searchForSellersData == null ||
+                searchForSellersData?.isEmpty == true
+            ? null
+            : searchForSellersData);
+  }
+
+  void openFilterScreen(int activeTabIndex) async {
+    switch (activeTabIndex) {
+      case 0:
+        {
+          var filterData = await context.push(R_FilterScreen, extra: {
+            "type": FilterScreenTypes.Products,
+            "searchValue": controller.text,
+            "occasionId": widget.id
+          });
+          currentPageForProducts = 1;
+          filterForProductData = filterData as FilterData;
+          fetchProducts(currentPageForServices);
+        }
+        break;
+      case 1:
+        {
+          var filterData = await context.push(R_FilterScreen,
+              extra: {"type": FilterScreenTypes.Services});
+          currentPageForServices = 1;
+          filterForServicesData = filterData as FilterData;
+          fetchServices(currentPageForServices);
+        }
+        break;
+      case 2:
+        {
+          var filterData = await context
+              .push(R_FilterScreen, extra: {"type": FilterScreenTypes.Sellers});
+          currentPageForSellers = 1;
+          filterForSellersData = filterData as FilterData;
+          fetchSellers(currentPageForSellers);
+        }
+        break;
+    }
+  }
+
+  void navigateToItemDetails(ItemType itemType, int itemId, String itemName,
+      List<int> categoriesIds) async {
+    var updateData = await context
+        .push("$R_ProductAndServiceDetails/${itemId.toString()}", extra: {
+      "type": itemType,
+      "name": itemName,
+      "categoryIds": categoriesIds
+    }) as UpdateDataModel?;
+    if (updateData != null && updateData.updateNormalData == true) {
+      currentPageForProducts = 1;
+      currentPageForServices = 1;
+      fetchProducts(currentPageForProducts);
+      fetchServices(currentPageForServices);
+    }
+  }
+
+  void navigateToSellerDetails(
+    int sellerId,
+  ) {
+    context.push(R_SellerDetails, extra: {"sellerId": sellerId});
+  }
+
+  void addServiceToCart(int id) {
+    var sessionId = ref
+        .read(getSessionHandlerStateNotifier.notifier)
+        .checkIfSessionIdExist();
+    if (ref.read(clientStateProvider.notifier).checkIfUserExist() == null &&
+        sessionId?.isNotEmpty == true) {
+      ref
+          .read(addServiceToCartUseCaseStateNotifier.notifier)
+          .addToCart(serviceId: id.toString(), sessionId: sessionId);
+    } else {
+      ref
+          .read(addServiceToCartUseCaseStateNotifier.notifier)
+          .addToCart(serviceId: id.toString());
+    }
+  }
+
+  void serviceWishlistToggle(String serviceId) {
+    ref.read(serviceToggleStateNotifier.notifier).toggle(serviceId: serviceId);
+  }
+
+  void showAuthenticated() {
+    showModalBottomSheet(
+        isScrollControlled: true,
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+                topRight: Radius.circular(10), topLeft: Radius.circular(10))),
+        context: context,
+        builder: (BuildContext context) => AuthenticateBottomSheet(
+              onLoginClicked: () {
+                navigateToLogin();
+              },
+            ));
+  }
+
+  void navigateToLogin() async {
+    var makeRefresh =
+        await context.push(R_LoginScreen, extra: {"type": TypeOfMode.ViewMode});
+
+    if (makeRefresh == true) {
+      currentPageForProducts = 1;
+      currentPageForServices = 1;
+      fetchProducts(currentPageForProducts);
+      fetchServices(currentPageForServices);
+      refreshHomeData();
+    }
+  }
+
+  void refreshHomeData() {
+    ref.read(homeDataStateNotifiers.notifier).getHomeData();
+  }
+
+  void navigateToSeeAllBestProductAndService(String title, ItemType type,
+      {int? occasionId}) async {
+    await context.push(R_ShowBestProductOrService,
+        extra: {"type": type, "title": title, "occasionId": occasionId});
+
+    ref.read(filterForProductStateNotifiers.notifier).resetDataFilter();
+    ref.read(filterForServiceStateNotifiers.notifier).resetDataFilter();
+  }
+
+  void navigateToSeeAllTopSeller(String title, CategoryType type,
+      {int? categoryId}) async {
+    await context.push(R_SeeAllSeller,
+        extra: {"type": type, "title": title, "categoryId": categoryId});
+
+    ref.read(filterForSellerStateNotifiers.notifier).resetDataFilter();
+  }
+}

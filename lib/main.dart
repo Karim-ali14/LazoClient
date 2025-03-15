@@ -40,7 +40,7 @@ import 'Presentation/Screens/checkout/CheckoutScreen.dart';
 import 'Presentation/Screens/details/ShowAllRatingAndReviewScreen.dart';
 import 'Presentation/Screens/home/HomeScreen.dart';
 import 'Presentation/Screens/home/ShowAllCategoryAndOccasionsData.dart';
-import 'Presentation/Screens/home/SearchScreen.dart';
+import 'Presentation/Screens/search/SearchScreen.dart';
 import 'Presentation/Screens/home/ShowTopSellers.dart';
 import 'Presentation/Screens/mainScreen/MainScreen.dart';
 import 'Presentation/Screens/onbaording/OnBordingScreen.dart';

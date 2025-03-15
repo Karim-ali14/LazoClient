@@ -22,12 +22,13 @@ class AppSearchBarWithFilter extends StatefulWidget {
   final OnTextChangeListener? onTextChangeListener;
   final TextEditingController? controller;
   final bool? enableSearch;
+  final Widget? prefixIcon;
   const AppSearchBarWithFilter(
       {super.key,
       required this.hasFilter,
       required this.onFilterClick,
       this.onTextChangeListener,
-      this.delay, this.enableSearch = true, this.onSearchClick, this.controller });
+      this.delay, this.enableSearch = true, this.onSearchClick, this.controller, this.prefixIcon });
 
   @override
   State<AppSearchBarWithFilter> createState() => _AppSearchBarWithFilterState();
@@ -53,86 +54,100 @@ class _AppSearchBarWithFilterState extends State<AppSearchBarWithFilter> {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Expanded(
-          child: widget.enableSearch == false ? InkWell(
-            onTap: (){
-              widget.onSearchClick?.call();
-            },
-            child: TextField(
-              controller: widget.controller,
-              readOnly: widget.enableSearch == false,
-              enabled: widget.enableSearch,
-              style: AppTheme.styleWithTextBlackAdelleSansExtendedFonts14w400,
-              decoration: InputDecoration(
-                  contentPadding: EdgeInsets.symmetric(horizontal: 12),
-                  labelText: "Search",
-                  labelStyle: AppTheme
-                      .styleWithTextAppGrey15AdelleSansExtendedFonts14w400,
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(4),
-                      borderSide: BorderSide(color: AppTheme.appGrey6)),
-                  enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(4),
-                      borderSide: BorderSide(color: AppTheme.appGrey6)),
-                  focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(4),
-                      borderSide: BorderSide(color: AppTheme.appGrey6)),
-                  prefixIcon: SVGIcons.searchIcon()),
-              onChanged: (value) {
-                executeAfterDelay(value);
-              },
-            ),
-          ) : TextField(
-            controller: widget.controller,
-            readOnly: widget.enableSearch == false,
-            enabled: widget.enableSearch,
-            style: AppTheme.styleWithTextBlackAdelleSansExtendedFonts14w400,
-            decoration: InputDecoration(
-                contentPadding: EdgeInsets.symmetric(horizontal: 12),
-                labelText: "Search",
-                labelStyle: AppTheme
-                    .styleWithTextAppGrey15AdelleSansExtendedFonts14w400,
-                border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(4),
-                    borderSide: BorderSide(color: AppTheme.appGrey6)),
-                enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(4),
-                    borderSide: BorderSide(color: AppTheme.appGrey6)),
-                focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(4),
-                    borderSide: BorderSide(color: AppTheme.appGrey6)),
-                prefixIcon: SVGIcons.searchIcon()),
-            onChanged: (value) {
-              executeAfterDelay(value);
-            },
-          ),
-        ),
-        widget.hasFilter
-            ? SizedBox(
-                width: 8,
-              )
-            : SizedBox(),
-        widget.hasFilter
-            ? InkWell(
-                onTap: () {
-                  widget.onFilterClick.call();
-                },
-                child: Container(
-                  height: 50,
-                  width: 50,
-                  decoration: BoxDecoration(
-                    color: AppTheme.mainAppColorLight2,
-                    borderRadius: BorderRadius.circular(4),
+    return Container(
+      color: Colors.white,
+      child: Column(
+        children: [
+          Row(
+            children: [
+              Expanded(
+                child: widget.enableSearch == false ? InkWell(
+                  onTap: (){
+                    widget.onSearchClick?.call();
+                  },
+                  child: TextField(
+                    controller: widget.controller,
+                    readOnly: widget.enableSearch == false,
+                    enabled: widget.enableSearch,
+                    style: AppTheme.styleWithTextBlackAdelleSansExtendedFonts14w400,
+                    decoration: InputDecoration(
+                      fillColor: Colors.white,
+                        filled: true,
+                        contentPadding: EdgeInsets.symmetric(horizontal: 16),
+                        labelText: "Search",
+                        labelStyle: AppTheme
+                            .styleWithTextAppGrey15AdelleSansExtendedFonts14w400,
+                        border: InputBorder.none,
+                        prefixIcon: widget.prefixIcon ?? SVGIcons.searchIcon()),
+                    onChanged: (value) {
+                      executeAfterDelay(value);
+                    },
                   ),
-                  child: Center(
-                    child: SVGIcons.filterIcon(),
+                ) : TextField(
+                  controller: widget.controller,
+                  readOnly: widget.enableSearch == false,
+                  enabled: widget.enableSearch,
+                  style: AppTheme.styleWithTextBlackAdelleSansExtendedFonts14w400,
+                  decoration: InputDecoration(
+                      fillColor: Colors.white,
+                      filled: true,
+                      contentPadding: EdgeInsets.symmetric(horizontal: 16),
+                      labelText: "Search",
+                      labelStyle: AppTheme
+                          .styleWithTextAppGrey15AdelleSansExtendedFonts14w400,
+                      border: InputBorder.none,
+                      prefixIcon: widget.prefixIcon ?? SVGIcons.searchIcon(),
+                      suffixIcon: widget.hasFilter ? InkWell(
+                          onTap: (){
+                            widget.onFilterClick.call();
+                          },
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              SVGIcons.filterIcon(),
+                              Container(
+                                decoration: const BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: AppTheme.appRedColor,
+                                ),
+                                child: const Padding(
+                                  padding: EdgeInsets.all(5.5),
+                                  child: Text(
+                                    "3", style: AppTheme.styleWithTextWhiteAdelleSansExtendedFonts10w400,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          )) : SizedBox()
                   ),
+                  onChanged: (value) {
+                    executeAfterDelay(value);
+                  },
                 ),
-              )
-            : SizedBox()
-      ],
+              ),
+              widget.hasFilter
+                  ? SizedBox(
+                      width: 8,
+                    )
+                  : SizedBox(),
+            ],
+          ),
+          Container( // Height of the divider
+            decoration: BoxDecoration(
+              color: Colors.white, // Background color
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.6), // Shadow color
+                  blurRadius: .5, // Blur effect
+                  spreadRadius: .1, // Spread effect
+                  offset: const Offset(0, .5), // Shadow position
+                ),
+              ],
+            ),
+          )
+
+        ],
+      ),
     );
   }
 }

@@ -46,7 +46,7 @@ class _ServiceAndProductItemCardHorizontalState
       child: Stack(children: [
         InkWell(
           onTap: () {
-            print("Selected Product : ${widget.type == ItemType.Products}");
+
             var categoriesIds = widget.type == ItemType.Products
                 ? widget.product?.categories
                         ?.map((item) => (item.id ?? 0).toInt())

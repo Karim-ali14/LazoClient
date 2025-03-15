@@ -25,7 +25,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget  {
         toolbarHeight: leadingHeightCount(),
         automaticallyImplyLeading: false,
         elevation: 0,
-        backgroundColor: appBarColor??AppTheme.mainBackgroundLightColor,
+        backgroundColor: appBarColor?? Colors.white,
         centerTitle: isCenter,
         actions: trailingWidget != null ? [trailingWidget!] : [],
         leadingWidth: leadingWithCount(),

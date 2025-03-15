@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-// ignore: must_be_immutable
 typedef ItemBuilder<T> = Widget Function(T item);
 typedef OnRefreshScreen = Function();
 
@@ -13,147 +12,151 @@ class DataListView<T> extends StatelessWidget {
   final ScrollController _paginatedListController = ScrollController();
   final bool? reversed;
   final EdgeInsets? padding;
-  final pageLoading;
+  final bool? pageLoading;
   final Widget? loadingWidget;
   final bool? withDivider;
   final ScrollPhysics? scrollPhysics;
   final OnRefreshScreen? onRefreshScreen;
   final bool? enableSwipe;
-  DataListView(
-      {Key? key,
-      required this.dataList,
-      required this.paginated,
-      required this.builder,
-      this.onBottomReached,
-      this.onItemSelected,
-      this.padding,
-      this.pageLoading,
-      this.scrollPhysics,
-      this.reversed,
-      this.loadingWidget,
-      this.withDivider,
-      this.onRefreshScreen,
-      this.enableSwipe})
-      : super(key: key);
+  final bool? gridView;
+  final int crossAxisCount;
+  final double childAspectRatio;
+  final double heightPresent;
+  final double loadingHeightPresent;
+
+  DataListView({
+    Key? key,
+    required this.dataList,
+    required this.paginated,
+    required this.builder,
+    this.onBottomReached,
+    this.onItemSelected,
+    this.padding,
+    this.pageLoading,
+    this.scrollPhysics,
+    this.reversed,
+    this.loadingWidget,
+    this.withDivider,
+    this.onRefreshScreen,
+    this.enableSwipe,
+    this.gridView = false,
+    this.crossAxisCount = 2,
+    this.childAspectRatio = 1,
+    this.heightPresent = 0.75,
+    this.loadingHeightPresent = 0.7,
+  }) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    return NotificationListener<ScrollEndNotification>(
-      child: dataList.isNotEmpty
-          ? (withDivider == true
-              ? ListView.separated(
-                  physics: scrollPhysics ?? const BouncingScrollPhysics(),
-                  shrinkWrap: true,
-                  padding: padding ??
-                      const EdgeInsets.only(left: 0, right: 0, bottom: 50),
-                  itemCount: paginated ? dataList.length + 1 : dataList.length,
-                  controller: _paginatedListController,
-                  reverse: reversed ?? false,
-                  separatorBuilder: (context, index) => Divider(
-                    indent: 10,
-                    endIndent: 10,
-                    color: Colors.black.withOpacity(0.4),
-                  ),
-                  itemBuilder: (context, index) =>
-                      (paginated && index == dataList.length)
-                          ? Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Center(
-                                child: Visibility(
-                                  visible: paginated,
-                                  child: pageLoading == true
-                                      ? (loadingWidget ??
-                                          const CircularProgressIndicator())
-                                      : const SizedBox(),
-                                ),
-                              ),
-                            )
-                          : builder(
-                              dataList[index],
-                            ),
-                )
-              : enableSwipe == true
-                  ? RefreshIndicator(
-                      triggerMode: RefreshIndicatorTriggerMode.onEdge,
-                      onRefresh: () {
-                        onRefreshScreen?.call();
-                        return Future.delayed(const Duration(seconds: 1));
-                      },
-                      child: ListView.builder(
-                        physics: scrollPhysics ?? const BouncingScrollPhysics(),
-                        shrinkWrap: true,
-                        padding: padding ??
-                            const EdgeInsets.only(
-                                left: 0, right: 0, bottom: 50),
-                        itemCount:
-                            paginated ? dataList.length + 1 : dataList.length,
-                        controller: _paginatedListController,
-                        reverse: reversed ?? false,
-                        itemBuilder: (context, index) =>
-                            (paginated && index == dataList.length)
-                                ? Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Center(
-                                      child: Visibility(
-                                        visible: paginated,
-                                        child: pageLoading == true
-                                            ? (loadingWidget ??
-                                                const CircularProgressIndicator())
-                                            : const SizedBox(),
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          NotificationListener<ScrollEndNotification>(
+            child: dataList.isNotEmpty
+                ? gridView == true
+                    ? SizedBox(
+                        height: MediaQuery.of(context).size.height *
+                            (paginated && pageLoading == true
+                                ? loadingHeightPresent
+                                : heightPresent),
+                        child: GridView.builder(
+                          physics: scrollPhysics ?? const BouncingScrollPhysics(),
+                          padding: padding ?? const EdgeInsets.all(8.0),
+                          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: crossAxisCount,
+                            crossAxisSpacing: 17,
+                            mainAxisSpacing: 0,
+                            childAspectRatio: childAspectRatio,
+                          ),
+                          itemCount: dataList.length,
+                          controller: _paginatedListController,
+                          itemBuilder: (context, index) =>
+                              (paginated && index == dataList.length)
+                                  ? Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Center(
+                                        child: Visibility(
+                                          visible: paginated,
+                                          child: pageLoading == true
+                                              ? (loadingWidget ??
+                                                  const SizedBox(
+                                                    height: 30,
+                                                  ))
+                                              : const SizedBox(),
+                                        ),
                                       ),
+                                    )
+                                  : builder(
+                                      dataList[index],
                                     ),
-                                  )
-                                : builder(
-                                    dataList[index],
-                                  ),
-                      ),
-                    )
-                  : ListView.builder(
-                      physics: scrollPhysics ?? const BouncingScrollPhysics(),
-                      shrinkWrap: true,
-                      padding: padding ??
-                          const EdgeInsets.only(left: 0, right: 0, bottom: 50),
-                      itemCount:
-                          paginated ? dataList.length + 1 : dataList.length,
+                        ),
+                      )
+                    : SizedBox(
+                        height: MediaQuery.of(context).size.height *
+                            (paginated && pageLoading == true
+                                ? loadingHeightPresent
+                                : heightPresent),
+                        child: ListView.builder(
+                          physics: scrollPhysics ?? const BouncingScrollPhysics(),
+                          shrinkWrap: true,
+                          padding: padding ??
+                              const EdgeInsets.only(
+                                  left: 0, right: 0, bottom: 50),
+                          itemCount:
+                              paginated ? dataList.length + 1 : dataList.length,
+                          controller: _paginatedListController,
+                          reverse: reversed ?? false,
+                          itemBuilder: (context, index) =>
+                              (paginated && index == dataList.length)
+                                  ? Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Center(
+                                        child: Visibility(
+                                          visible: paginated,
+                                          child: pageLoading == true
+                                              ? (loadingWidget ??
+                                                  const SizedBox(
+                                                    height: 30,
+                                                  ))
+                                              : const SizedBox(),
+                                        ),
+                                      ),
+                                    )
+                                  : builder(
+                                      dataList[index],
+                                    ),
+                        ),
+                      )
+                : Center(
+                    child: SingleChildScrollView(
                       controller: _paginatedListController,
-                      reverse: reversed ?? false,
-                      itemBuilder: (context, index) =>
-                          (paginated && index == dataList.length)
-                              ? Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Center(
-                                    child: Visibility(
-                                      visible: paginated,
-                                      child: pageLoading == true
-                                          ? (loadingWidget ??
-                                              const CircularProgressIndicator())
-                                          : const SizedBox(),
-                                    ),
-                                  ),
-                                )
-                              : builder(
-                                  dataList[index],
-                                ),
-                    ))
-          : Center(
-              child: SingleChildScrollView(
-              controller: _paginatedListController,
-              physics: const AlwaysScrollableScrollPhysics(
-                  parent: BouncingScrollPhysics()),
-              child: Text(
-                "",
-                style: Theme.of(context).textTheme.bodyMedium,
+                      physics: const AlwaysScrollableScrollPhysics(
+                          parent: BouncingScrollPhysics()),
+                      child: Text(
+                        "No data available",
+                        style: Theme.of(context).textTheme.bodyMedium,
+                      ),
+                    ),
+                  ),
+            onNotification: (scrollEnded) {
+              if (_paginatedListController.position.pixels >= 0 &&
+                  _paginatedListController.position.pixels ==
+                      _paginatedListController.position.maxScrollExtent) {
+                onBottomReached?.call();
+              }
+              return true;
+            },
+          ),
+          if (paginated && pageLoading == true)
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: loadingWidget ?? const CircularProgressIndicator(),
               ),
-            )),
-      onNotification: (scrollEnded) {
-        if (_paginatedListController!.position.pixels >= 0 &&
-            _paginatedListController!.position.pixels ==
-                _paginatedListController!.position.maxScrollExtent) {
-          onBottomReached != null
-              ? onBottomReached!()
-              : print("Reached bottom");
-        }
-        return true;
-      },
+            ),
+        ],
+      ),
     );
   }
 }

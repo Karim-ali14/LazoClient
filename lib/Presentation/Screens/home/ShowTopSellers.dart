@@ -82,6 +82,8 @@ class _ShowTopSellersState extends ConsumerState<ShowTopSellers> {
                                   ]
                                 : []),
                         paginated: true,
+                        gridView: true,
+                        childAspectRatio: .86,
                         pageLoading:
                             topSellerState.state == DataState.MORE_LOADING,
                         onBottomReached: () {
@@ -96,7 +98,9 @@ class _ShowTopSellersState extends ConsumerState<ShowTopSellers> {
                               child: Skeletonizer(
                                   enabled:
                                       topSellerState.state == DataState.LOADING,
-                                  child: SellerItemCard(providerData: item, onSellerClickListener: (sellerId) {
+                                  child: SellerItemCard(
+                                    width: 165,
+                                    providerData: item, onSellerClickListener: (sellerId) {
                                     navigateToSellerDetails(sellerId);
                                   },)),
                             )),
