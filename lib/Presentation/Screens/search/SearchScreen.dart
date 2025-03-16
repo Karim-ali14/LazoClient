@@ -14,6 +14,8 @@ import 'package:lazo_client/Presentation/Screens/search/ProductSearchScreen.dart
 import 'package:lazo_client/Presentation/Screens/search/SellerSearchScreen.dart';
 import 'package:lazo_client/Presentation/Widgets/CustomAppBar.dart';
 import 'package:lazo_client/Presentation/Widgets/SellerItemCard.dart';
+import 'package:lazo_client/Utils/SearchStorage.dart';
+import 'package:lazo_client/main.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../../Constants.dart';
@@ -24,6 +26,7 @@ import '../../../Data/Network/lib/api.dart';
 import '../../../Localization/Keys.dart';
 import '../../BottomSheets/AuthenticateBottomSheet.dart';
 import '../../StateNotifiersViewModel/PublicStateNotifiers.dart';
+import '../../StateNotifiersViewModel/SearchLocalStoragStateNotifiers.dart';
 import '../../StateNotifiersViewModel/UserAuthStateNotifiers.dart';
 import '../../StateNotifiersViewModel/WishListStateNotifiers.dart';
 import '../../Theme/AppTheme.dart';
@@ -120,15 +123,45 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
                   if (activeTabIndex == 0) {
                     currentPageForProducts = 1;
                     searchForProductData = value;
-                    fetchProducts(currentPageForProducts);
+                    if(value.isNotEmpty) {
+                      SearchStorage.saveSearch(
+                          key: SearchStorage.product_key,
+                          query: value
+                      );
+                      fetchProducts(currentPageForProducts);
+                    }else{
+                      ref.read(productSearchLocalStorageStateNotifier.notifier).updateList(
+                          prefs.getStringList(SearchStorage.product_key) ?? []
+                      );
+                    }
                   } else if (activeTabIndex == 1) {
                     currentPageForServices = 1;
                     searchForServiceData = value;
-                    fetchServices(currentPageForServices);
+                    if(value.isNotEmpty) {
+                      SearchStorage.saveSearch(
+                          key: SearchStorage.service_key,
+                          query: value
+                      );
+                      fetchServices(currentPageForServices);
+                    }else{
+                      ref.read(serviceSearchLocalStorageStateNotifier.notifier).updateList(
+                          prefs.getStringList(SearchStorage.service_key) ?? []
+                      );
+                    }
                   } else if (activeTabIndex == 2) {
                     currentPageForSellers = 1;
                     searchForSellersData = value;
-                    fetchSellers(currentPageForSellers);
+                    if(value.isNotEmpty) {
+                      SearchStorage.saveSearch(
+                          key: SearchStorage.seller_key,
+                          query: value
+                      );
+                      fetchSellers(currentPageForSellers);
+                    }else{
+                      ref.read(sellerSearchLocalStorageStateNotifier.notifier).updateList(
+                          prefs.getStringList(SearchStorage.seller_key) ?? []
+                      );
+                    }
                   }
                 },
               ),

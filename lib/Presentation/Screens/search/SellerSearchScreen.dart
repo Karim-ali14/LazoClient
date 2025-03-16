@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:lazo_client/Presentation/StateNotifiersViewModel/SearchLocalStoragStateNotifiers.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../../Constants.dart';
@@ -12,11 +13,14 @@ import '../../../Data/Models/FilterData.dart';
 import '../../../Data/Models/StateModel.dart';
 import '../../../Data/Network/lib/api.dart';
 import '../../../Localization/Keys.dart';
+import '../../../Utils/SearchStorage.dart';
+import '../../../main.dart';
 import '../../StateNotifiersViewModel/PublicStateNotifiers.dart';
 import '../../StateNotifiersViewModel/UserAuthStateNotifiers.dart';
 import '../../Theme/AppTheme.dart';
 import '../../Widgets/DataListView.dart';
 import '../../Widgets/EmptyDataView.dart';
+import '../../Widgets/RecentScreen.dart';
 import '../../Widgets/SellerItemCard.dart';
 import '../../Widgets/SvgIcons.dart';
 
@@ -42,14 +46,33 @@ class _SellerSearchScreenState extends ConsumerState<SellerSearchScreen> {
   var currentPageForSellers = 1;
 
   @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _loadRecentSearches();
+    });
+    super.initState();
+  }
+
+  Future<void> _loadRecentSearches() async {
+    ref
+        .read(sellerSearchLocalStorageStateNotifier.notifier)
+        .updateList(prefs.getStringList(SearchStorage.seller_key) ?? []);
+  }
+
+  @override
   Widget build(BuildContext context) {
     final client = ref.watch(clientStateProvider);
-
+    final recentSearches = ref.watch(sellerSearchLocalStorageStateNotifier);
     filterForSellersData = ref.watch(filterForSellerStateNotifiers);
+
 
     final sellersState = ref.watch(getTopSellersDataStateNotifiers);
 
-    return sellersState.state == DataState.EMPTY
+    currentPageForSellers =
+        sellersState.data?.data?.currentPage?.toInt() ?? 1;
+
+    return  widget.controller?.text.toString().isNotEmpty == true
+        ? sellersState.state == DataState.EMPTY
         ? EmptyDataView(
             icon:
                 SVGIcons.localSVG(searchIconNoDataSvg, width: 114, height: 97),
@@ -98,7 +121,18 @@ class _SellerSearchScreenState extends ConsumerState<SellerSearchScreen> {
                         ),
                       ),
                     )),
-          );
+          ): RecentScreen(
+      recentSearches: recentSearches,
+      itemSearchClick: (result) {
+        widget.controller?.text = result;
+        SearchStorage.saveSearch(
+            key: SearchStorage.seller_key, query: result);
+        widget.controller?.text = result;
+        fetchSellers(1);
+      }, onClearBtuClick: (){
+      ref.read(sellerSearchLocalStorageStateNotifier.notifier).clearData();
+    },
+    );
   }
 
   void fetchSellers(int page) {

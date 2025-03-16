@@ -8,12 +8,16 @@ import '../../../Constants/Eunms.dart';
 import '../../../Data/Models/FilterData.dart';
 import '../../../Data/Models/StateModel.dart';
 import '../../../Data/Network/lib/api.dart';
+import '../../../Utils/SearchStorage.dart';
+import '../../../main.dart';
 import '../../StateNotifiersViewModel/PublicStateNotifiers.dart';
+import '../../StateNotifiersViewModel/SearchLocalStoragStateNotifiers.dart';
 import '../../StateNotifiersViewModel/UserAuthStateNotifiers.dart';
 import '../../StateNotifiersViewModel/WishListStateNotifiers.dart';
 import '../../Theme/AppTheme.dart';
 import '../../Widgets/DataListView.dart';
 import '../../Widgets/EmptyDataView.dart';
+import '../../Widgets/RecentScreen.dart';
 import '../../Widgets/ServiceAndProductItemCard.dart';
 import '../../Widgets/SvgIcons.dart';
 
@@ -42,9 +46,25 @@ class ProductSearchScreen extends ConsumerStatefulWidget {
 class _ProductSearchScreenState extends ConsumerState<ProductSearchScreen> {
   FilterData? filterForProductData;
   var currentPageForProducts = 1;
+
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _loadRecentSearches();
+    });
+    super.initState();
+  }
+
+  Future<void> _loadRecentSearches() async {
+    ref
+        .read(productSearchLocalStorageStateNotifier.notifier)
+        .updateList(prefs.getStringList(SearchStorage.product_key) ?? []);
+  }
+
   @override
   Widget build(BuildContext context) {
     final productsState = ref.watch(getProductsStateNotifiers);
+    final recentSearches = ref.watch(productSearchLocalStorageStateNotifier);
     filterForProductData = ref.watch(filterForProductStateNotifiers);
     final client = ref.watch(clientStateProvider);
 
@@ -79,61 +99,78 @@ class _ProductSearchScreenState extends ConsumerState<ProductSearchScreen> {
           res.data?.data?.productId ?? 0, res.data?.data?.inWishlist ?? false);
     });
 
-    return productsState.state == DataState.EMPTY
-        ? EmptyDataView(
-            icon:
-                SVGIcons.localSVG(searchIconNoDataSvg, width: 114, height: 97),
-            btuName: "View our best products items",
-            description: "Oops! Use different keywords to see more results.",
-            btuAction: () {},
-          )
-        : Container(
-            padding: const EdgeInsets.symmetric(vertical: 4),
-            decoration: const BoxDecoration(
-              color: Colors.white,
-              border:
-                  Border(top: BorderSide(color: AppTheme.appGrey12, width: 1)),
-            ),
-            child: DataListView<ProviderProduct>(
-                dataList: productsState.data?.data?.products?.data ??
-                    (productsState.state == DataState.LOADING
-                        ? [...List.generate(8, (index) => ProviderProduct())]
-                        : []),
-                paginated: true,
-                gridView: true,
-                childAspectRatio: .79,
-                heightPresent: 0.81,
-                loadingHeightPresent: 0.73,
-                pageLoading: productsState.state == DataState.MORE_LOADING,
-                onBottomReached: () {
-                  fetchProducts(++currentPageForProducts);
-                },
-                builder: (item) => Skeletonizer(
-                      enabled: productsState.state == DataState.LOADING,
-                      child: Padding(
-                        padding: EdgeInsetsDirectional.symmetric(
-                            horizontal: 16, vertical: 6),
-                        child: ServiceAndProductItemCardHorizontal(
-                          type: ItemType.Products,
-                          product: item,
-                          width: 165,
-                          onAddItemToCart: (id) {
-                            addProductToCart(id);
-                          },
-                          onAddItemToWishList: (id) {
-                            if (client != null) {
-                              productWishlistToggle(id);
-                            } else {
-                              widget.showAuthenticated?.call();
-                            }
-                          },
-                          onItemClick: (id, name, categoriesIds) {
-                            widget.navigateToItemDetails?.call(
-                                ItemType.Products, id, name, categoriesIds);
-                          },
-                        ),
-                      ),
-                    )),
+    return widget.controller?.text.toString().isNotEmpty == true
+        ? productsState.state == DataState.EMPTY
+            ? EmptyDataView(
+                icon: SVGIcons.localSVG(searchIconNoDataSvg,
+                    width: 114, height: 97),
+                btuName: "View our best products items",
+                description:
+                    "Oops! Use different keywords to see more results.",
+                btuAction: () {},
+              )
+            : Container(
+                padding: const EdgeInsets.symmetric(vertical: 4),
+                decoration: const BoxDecoration(
+                  color: Colors.white,
+                  border: Border(
+                      top: BorderSide(color: AppTheme.appGrey12, width: 1)),
+                ),
+                child: DataListView<ProviderProduct>(
+                    dataList: productsState.data?.data?.products?.data ??
+                        (productsState.state == DataState.LOADING
+                            ? [
+                                ...List.generate(
+                                    8, (index) => ProviderProduct())
+                              ]
+                            : []),
+                    paginated: true,
+                    gridView: true,
+                    childAspectRatio: .79,
+                    heightPresent: 0.81,
+                    loadingHeightPresent: 0.73,
+                    pageLoading: productsState.state == DataState.MORE_LOADING,
+                    onBottomReached: () {
+                      fetchProducts(++currentPageForProducts);
+                    },
+                    builder: (item) => Skeletonizer(
+                          enabled: productsState.state == DataState.LOADING,
+                          child: Padding(
+                            padding: const EdgeInsetsDirectional.symmetric(
+                                horizontal: 16, vertical: 6),
+                            child: ServiceAndProductItemCardHorizontal(
+                              type: ItemType.Products,
+                              product: item,
+                              width: 165,
+                              onAddItemToCart: (id) {
+                                addProductToCart(id);
+                              },
+                              onAddItemToWishList: (id) {
+                                if (client != null) {
+                                  productWishlistToggle(id);
+                                } else {
+                                  widget.showAuthenticated?.call();
+                                }
+                              },
+                              onItemClick: (id, name, categoriesIds) {
+                                widget.navigateToItemDetails?.call(
+                                    ItemType.Products, id, name, categoriesIds);
+                              },
+                            ),
+                          ),
+                        )),
+              )
+        : RecentScreen(
+            recentSearches: recentSearches,
+            itemSearchClick: (result) {
+              widget.controller?.text = result;
+              SearchStorage.saveSearch(
+                  key: SearchStorage.service_key, query: result);
+              widget.controller?.text = result;
+              fetchProducts(1);
+            }, onClearBtuClick: (){
+              ref.read(productSearchLocalStorageStateNotifier.notifier).clearData();
+              },
           );
   }
 

@@ -14,11 +14,15 @@ import '../../../Data/Models/FilterData.dart';
 import '../../../Data/Models/StateModel.dart';
 import '../../../Data/Network/lib/api.dart';
 import '../../../Localization/Keys.dart';
+import '../../../Utils/SearchStorage.dart';
+import '../../../main.dart';
 import '../../StateNotifiersViewModel/PublicStateNotifiers.dart';
+import '../../StateNotifiersViewModel/SearchLocalStoragStateNotifiers.dart';
 import '../../StateNotifiersViewModel/UserAuthStateNotifiers.dart';
 import '../../StateNotifiersViewModel/WishListStateNotifiers.dart';
 import '../../Widgets/DataListView.dart';
 import '../../Widgets/EmptyDataView.dart';
+import '../../Widgets/RecentScreen.dart';
 import '../../Widgets/ServiceAndProductItemCard.dart';
 import '../../Widgets/SvgIcons.dart';
 import 'ProductSearchScreen.dart';
@@ -46,11 +50,24 @@ class ServiceSearchScreen extends ConsumerStatefulWidget {
 class _ServiceSearchScreenState extends ConsumerState<ServiceSearchScreen> {
   FilterData? filterForServicesData;
   var currentPageForServices = 1;
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _loadRecentSearches();
+    });
+    super.initState();
+  }
+
+  Future<void> _loadRecentSearches() async {
+    ref
+        .read(serviceSearchLocalStorageStateNotifier.notifier)
+        .updateList(prefs.getStringList(SearchStorage.service_key) ?? []);
+  }
 
   @override
   Widget build(BuildContext context) {
     final client = ref.watch(clientStateProvider);
-
+    final recentSearches = ref.watch(serviceSearchLocalStorageStateNotifier);
     filterForServicesData = ref.watch(filterForServiceStateNotifiers);
 
     handleState(serviceToggleStateNotifier, showLoading: true,
@@ -81,67 +98,91 @@ class _ServiceSearchScreenState extends ConsumerState<ServiceSearchScreen> {
     });
 
     final servicesState = ref.watch(getServicesStateNotifiers);
-    return servicesState.state == DataState.EMPTY
-        ? EmptyDataView(
-            icon:
-                SVGIcons.localSVG(searchIconNoDataSvg, width: 114, height: 97),
-            btuName: "View our best services Items",
-            description: "Oops! Use different keywords to see more results.",
-            btuAction: () {
-              navigateToSeeAllBestProductAndService(
-                  context.tr(bestServicesKey), ItemType.Services);
-            },
-          )
-        : Container(
-            padding: const EdgeInsets.symmetric(vertical: 4),
-            decoration: const BoxDecoration(
-              color: Colors.white,
-              border:
-                  Border(top: BorderSide(color: AppTheme.appGrey12, width: 1)),
-            ),
-            child: DataListView<ServiceShowData>(
-                dataList: servicesState.data?.data?.services?.data ??
-                    (servicesState.state == DataState.LOADING
-                        ? [...List.generate(8, (index) => ServiceShowData())]
-                        : []),
-                paginated: true,
-                gridView: true,
-                childAspectRatio: .79,
-                heightPresent: 0.81,
-                loadingHeightPresent: 0.73,
-                pageLoading: servicesState.state == DataState.MORE_LOADING,
-                onBottomReached: () {
-                  if (currentPageForServices <
-                      (servicesState.data?.data?.services?.lastPage ?? 0)) {
-                    fetchServices(++currentPageForServices);
-                  }
+
+    currentPageForServices =
+        servicesState.data?.data?.services?.currentPage?.toInt() ?? 1;
+
+    return widget.controller?.text.toString().isNotEmpty == true
+        ? servicesState.state == DataState.EMPTY
+            ? EmptyDataView(
+                icon: SVGIcons.localSVG(searchIconNoDataSvg,
+                    width: 114, height: 97),
+                btuName: "View our best services Items",
+                description:
+                    "Oops! Use different keywords to see more results.",
+                btuAction: () {
+                  navigateToSeeAllBestProductAndService(
+                      context.tr(bestServicesKey), ItemType.Services);
                 },
-                builder: (item) => Skeletonizer(
-                      enabled: servicesState.state == DataState.LOADING,
-                      child: Padding(
-                        padding: EdgeInsetsDirectional.symmetric(
-                            horizontal: 16, vertical: 6),
-                        child: ServiceAndProductItemCardHorizontal(
-                          service: item,
-                          width: 165,
-                          type: ItemType.Services,
-                          onAddItemToCart: (id) {
-                            addServiceToCart(id);
-                          },
-                          onAddItemToWishList: (id) {
-                            if (client != null) {
-                              serviceWishlistToggle(id.toString());
-                            } else {
-                              widget.showAuthenticated?.call();
-                            }
-                          },
-                          onItemClick: (id, name, categoriesIds) {
-                            widget.navigateToItemDetails?.call(
-                                ItemType.Services, id, name, categoriesIds);
-                          },
-                        ),
-                      ),
-                    )),
+              )
+            : Container(
+                padding: const EdgeInsets.symmetric(vertical: 4),
+                decoration: const BoxDecoration(
+                  color: Colors.white,
+                  border: Border(
+                      top: BorderSide(color: AppTheme.appGrey12, width: 1)),
+                ),
+                child: DataListView<ServiceShowData>(
+                    dataList: servicesState.data?.data?.services?.data ??
+                        (servicesState.state == DataState.LOADING
+                            ? [
+                                ...List.generate(
+                                    8, (index) => ServiceShowData())
+                              ]
+                            : []),
+                    paginated: true,
+                    gridView: true,
+                    childAspectRatio: .79,
+                    heightPresent: 0.81,
+                    loadingHeightPresent: 0.73,
+                    pageLoading: servicesState.state == DataState.MORE_LOADING,
+                    onBottomReached: () {
+                      if (currentPageForServices <
+                          (servicesState.data?.data?.services?.lastPage ?? 0)) {
+                        fetchServices(++currentPageForServices);
+                      }
+                    },
+                    builder: (item) => Skeletonizer(
+                          enabled: servicesState.state == DataState.LOADING,
+                          child: Padding(
+                            padding: EdgeInsetsDirectional.symmetric(
+                                horizontal: 16, vertical: 6),
+                            child: ServiceAndProductItemCardHorizontal(
+                              service: item,
+                              width: 165,
+                              type: ItemType.Services,
+                              onAddItemToCart: (id) {
+                                addServiceToCart(id);
+                              },
+                              onAddItemToWishList: (id) {
+                                if (client != null) {
+                                  serviceWishlistToggle(id.toString());
+                                } else {
+                                  widget.showAuthenticated?.call();
+                                }
+                              },
+                              onItemClick: (id, name, categoriesIds) {
+                                widget.navigateToItemDetails?.call(
+                                    ItemType.Services, id, name, categoriesIds);
+                              },
+                            ),
+                          ),
+                        )),
+              )
+        : RecentScreen(
+            recentSearches: recentSearches,
+            itemSearchClick: (result) {
+              widget.controller?.text = result;
+              SearchStorage.saveSearch(
+                  key: SearchStorage.service_key, query: result);
+              widget.controller?.text = result;
+              fetchServices(1);
+            },
+            onClearBtuClick: () {
+              ref
+                  .read(serviceSearchLocalStorageStateNotifier.notifier)
+                  .clearData();
+            },
           );
   }
 
