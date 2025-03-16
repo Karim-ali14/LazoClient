@@ -11,6 +11,7 @@ import 'package:lazo_client/Constants/Assets.dart';
 import 'package:lazo_client/Data/Models/UpdateDataModel.dart';
 import 'package:lazo_client/Doman/CommenProviders/ApiProvider.dart';
 import 'package:lazo_client/Presentation/Screens/search/ProductSearchScreen.dart';
+import 'package:lazo_client/Presentation/Screens/search/SellerSearchScreen.dart';
 import 'package:lazo_client/Presentation/Widgets/CustomAppBar.dart';
 import 'package:lazo_client/Presentation/Widgets/SellerItemCard.dart';
 import 'package:skeletonizer/skeletonizer.dart';
@@ -31,6 +32,7 @@ import '../../Widgets/EmptyDataView.dart';
 import '../../Widgets/SearchWithFilter.dart';
 import '../../Widgets/ServiceAndProductItemCard.dart';
 import '../../Widgets/SvgIcons.dart';
+import 'ServiceSearchScreen.dart';
 
 class SearchScreen extends ConsumerStatefulWidget {
   final String title;
@@ -96,46 +98,6 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
 
   @override
   Widget build(BuildContext context) {
-    final client = ref.watch(clientStateProvider);
-
-
-    filterForServicesData = ref.watch(filterForServiceStateNotifiers);
-
-    filterForSellersData = ref.watch(filterForSellerStateNotifiers);
-    print(
-        "filter data ->${filterForProductData?.categoriesIdsSelected} ${filterForProductData?.occasionsIdsSelected} , ${filterForProductData?.ratingValueSelected} ${filterForProductData?.priceToSelected}");
-
-    final servicesState = ref.watch(getServicesStateNotifiers);
-    final sellersState = ref.watch(getTopSellersDataStateNotifiers);
-
-
-    handleState(serviceToggleStateNotifier, showLoading: true,
-        onSuccess: (res) {
-      ref
-          .read(getSellerDetailsWithServicesStateNotifier.notifier)
-          .handleAddServiceToWishList(
-              res.data?.data?.serviceId?.toInt() ?? 0,
-              res.data?.data?.categoriesIds ?? [],
-              res.data?.data?.inWishlist ?? false);
-
-      ref.read(getServiceDetails.notifier).handelAddServiceToWishList(
-          res.data?.data?.serviceId ?? 0, res.data?.data?.inWishlist ?? false);
-
-      ref.read(homeDataStateNotifiers.notifier).handelAddServiceToWishList(
-          res.data?.data?.serviceId ?? 0, res.data?.data?.inWishlist ?? false);
-
-      ref.read(getServicesStateNotifiers.notifier).handelAddServiceToWishlist(
-          res.data?.data?.serviceId ?? 0, res.data?.data?.inWishlist ?? false);
-    });
-
-    handleState(addServiceToCartUseCaseStateNotifier, showLoading: true,
-        onSuccess: (res) {
-      var id = res.data?.data?.serviceId;
-      if (id != null) {
-        ref.read(getServicesStateNotifiers.notifier).handelAddServiceToCart(id);
-      }
-    });
-
     return WillPopScope(
       onWillPop: _onWillPop,
       child: Scaffold(
@@ -171,17 +133,14 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
                 },
               ),
               Container(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  boxShadow: [
-                    BoxShadow(
-                      color: AppTheme.appGrey8.withOpacity(0.6), // Shadow color
-                      blurRadius: .5, // Blur effect
-                      spreadRadius: .1, // Spread effect
-                      offset: const Offset(0, .5), // Shadow position
-                    ),
-                  ]
-                ),
+                decoration: BoxDecoration(color: Colors.white, boxShadow: [
+                  BoxShadow(
+                    color: AppTheme.appGrey8.withOpacity(0.6), // Shadow color
+                    blurRadius: .5, // Blur effect
+                    spreadRadius: .1, // Spread effect
+                    offset: const Offset(0, .5), // Shadow position
+                  ),
+                ]),
                 child: TabBar(
                   labelColor: Colors.white,
                   unselectedLabelColor: Colors.white,
@@ -217,128 +176,33 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
                 ),
               ),
               Expanded(
-                  child: TabBarView(
-                controller: tabController,
-                children: [
-                  ProductSearchScreen(
-                      type: CategoryType.Search,
-                      controller: controller,
-                      id: widget.id,
-                      showAuthenticated: showAuthenticated,
-                      navigateToItemDetails: navigateToItemDetails),
-                  servicesState.state == DataState.EMPTY
-                      ? /*OrderPlaceHolder(onAddOrderClick: () {})*/ EmptyDataView(
-                          icon: SVGIcons.localSVG(searchIconNoDataSvg,
-                              width: 114, height: 97),
-                          btuName: "View our best services Items",
-                          description:
-                              "Oops! Use different keywords to see more results.",
-                    btuAction: (){
-                      navigateToSeeAllBestProductAndService(
-                          context.tr(bestServicesKey), ItemType.Services);
-                    },
-                        )
-                      : DataListView<ServiceShowData>(
-                          dataList: servicesState.data?.data?.services?.data ??
-                              (servicesState.state == DataState.LOADING
-                                  ? [
-                                      ...List.generate(
-                                          8, (index) => ServiceShowData())
-                                    ]
-                                  : []),
-                          paginated: true,
-                          gridView: true,
-                          childAspectRatio: .79,
-                          heightPresent: 0.81,
-                          loadingHeightPresent: 0.73,
-                          pageLoading:
-                              servicesState.state == DataState.MORE_LOADING,
-                          onBottomReached: () {
-                            if (currentPageForServices <
-                                (servicesState.data?.data?.services?.lastPage ??
-                                    0)) {
-                              fetchServices(++currentPageForServices);
-                            }
-                          },
-                          builder: (item) => Skeletonizer(
-                                enabled:
-                                    servicesState.state == DataState.LOADING,
-                                child: Padding(
-                                  padding: EdgeInsetsDirectional.symmetric(
-                                      horizontal: 16, vertical: 6),
-                                  child: ServiceAndProductItemCardHorizontal(
-                                    service: item,
-                                    width: 165,
-                                    type: ItemType.Services,
-                                    onAddItemToCart: (id) {
-                                      addServiceToCart(id);
-                                    },
-                                    onAddItemToWishList: (id) {
-                                      if (client != null) {
-                                        serviceWishlistToggle(id.toString());
-                                      } else {
-                                        showAuthenticated();
-                                      }
-                                    },
-                                    onItemClick: (id, name, categoriesIds) {
-                                      navigateToItemDetails(ItemType.Services,
-                                          id, name, categoriesIds);
-                                    },
-                                  ),
-                                ),
-                              )),
-                  if (widget.type == CategoryType.Search)
-                    sellersState.state == DataState.EMPTY
-                        ? /*OrderPlaceHolder(onAddOrderClick: () {})*/ EmptyDataView(
-                            icon: SVGIcons.localSVG(searchIconNoDataSvg,
-                                width: 114, height: 97),
-                            description:
-                                "Oops! Use different keywords to see more results.",
-                            btuName: "View our best sellers items",
-                      btuAction: (){
-                        navigateToSeeAllTopSeller(
-                            context.tr(topSellersKey),
-                            CategoryType.Search
-                        );
-                      },
-                          )
-                        : DataListView<ProviderData>(
-                            dataList: sellersState.data?.data?.data ??
-                                (sellersState.state == DataState.LOADING
-                                    ? [
-                                        ...List.generate(
-                                            8, (index) => ProviderData())
-                                      ]
-                                    : []),
-                            paginated: true,
-                            gridView: true,
-                            childAspectRatio: .86,
-                            heightPresent: 0.81,
-                            loadingHeightPresent: 0.73,
-                            pageLoading:
-                                sellersState.state == DataState.MORE_LOADING,
-                            onBottomReached: () {
-                              if (currentPageForSellers <
-                                  (sellersState.data?.data?.lastPage ?? 0)) {
-                                fetchSellers(++currentPageForSellers);
-                              }
-                            },
-                            builder: (item) => Skeletonizer(
-                                  enabled:
-                                      sellersState.state == DataState.LOADING,
-                                  child: Padding(
-                                    padding: EdgeInsetsDirectional.symmetric(
-                                        horizontal: 16, vertical: 6),
-                                    child: SellerItemCard(
-                                      width: 165,
-                                      providerData: item,
-                                      onSellerClickListener: (sellerId) {
-                                        navigateToSellerDetails(sellerId);
-                                      },
-                                    ),
-                                  ),
-                                )),
-                ],
+                  child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 16),
+                child: TabBarView(
+                  controller: tabController,
+                  children: [
+                    ProductSearchScreen(
+                        type: CategoryType.Search,
+                        controller: controller,
+                        id: widget.id,
+                        showAuthenticated: showAuthenticated,
+                        navigateToItemDetails: navigateToItemDetails),
+                    ServiceSearchScreen(
+                        type: CategoryType.Search,
+                        controller: controller,
+                        id: widget.id,
+                        showAuthenticated: showAuthenticated,
+                        navigateToItemDetails: navigateToItemDetails
+                    ),
+                    if (widget.type == CategoryType.Search)
+                      SellerSearchScreen(
+                        type: CategoryType.Search,
+                        controller: controller,
+                        id: widget.id,
+                        showAuthenticated: showAuthenticated,
+                      ),
+                  ],
+                ),
               ))
             ],
           ),
@@ -479,30 +343,10 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
     context.push(R_SellerDetails, extra: {"sellerId": sellerId});
   }
 
-  void addServiceToCart(int id) {
-    var sessionId = ref
-        .read(getSessionHandlerStateNotifier.notifier)
-        .checkIfSessionIdExist();
-    if (ref.read(clientStateProvider.notifier).checkIfUserExist() == null &&
-        sessionId?.isNotEmpty == true) {
-      ref
-          .read(addServiceToCartUseCaseStateNotifier.notifier)
-          .addToCart(serviceId: id.toString(), sessionId: sessionId);
-    } else {
-      ref
-          .read(addServiceToCartUseCaseStateNotifier.notifier)
-          .addToCart(serviceId: id.toString());
-    }
-  }
-
-  void serviceWishlistToggle(String serviceId) {
-    ref.read(serviceToggleStateNotifier.notifier).toggle(serviceId: serviceId);
-  }
-
   void showAuthenticated() {
     showModalBottomSheet(
         isScrollControlled: true,
-        shape: RoundedRectangleBorder(
+        shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.only(
                 topRight: Radius.circular(10), topLeft: Radius.circular(10))),
         context: context,
@@ -528,15 +372,6 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
 
   void refreshHomeData() {
     ref.read(homeDataStateNotifiers.notifier).getHomeData();
-  }
-
-  void navigateToSeeAllBestProductAndService(String title, ItemType type,
-      {int? occasionId}) async {
-    await context.push(R_ShowBestProductOrService,
-        extra: {"type": type, "title": title, "occasionId": occasionId});
-
-    ref.read(filterForProductStateNotifiers.notifier).resetDataFilter();
-    ref.read(filterForServiceStateNotifiers.notifier).resetDataFilter();
   }
 
   void navigateToSeeAllTopSeller(String title, CategoryType type,

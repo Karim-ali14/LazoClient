@@ -133,7 +133,7 @@ class DataListView<T> extends StatelessWidget {
                       physics: const AlwaysScrollableScrollPhysics(
                           parent: BouncingScrollPhysics()),
                       child: Text(
-                        "No data available",
+                        "",
                         style: Theme.of(context).textTheme.bodyMedium,
                       ),
                     ),
