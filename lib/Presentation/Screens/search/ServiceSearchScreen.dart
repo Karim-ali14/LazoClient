@@ -14,6 +14,7 @@ import '../../../Data/Models/FilterData.dart';
 import '../../../Data/Models/StateModel.dart';
 import '../../../Data/Network/lib/api.dart';
 import '../../../Localization/Keys.dart';
+import '../../../Utils/FilterUtils.dart';
 import '../../../Utils/SearchStorage.dart';
 import '../../../main.dart';
 import '../../StateNotifiersViewModel/PublicStateNotifiers.dart';
@@ -102,7 +103,7 @@ class _ServiceSearchScreenState extends ConsumerState<ServiceSearchScreen> {
     currentPageForServices =
         servicesState.data?.data?.services?.currentPage?.toInt() ?? 1;
 
-    return widget.controller?.text.toString().isNotEmpty == true
+    return widget.controller?.text.toString().isNotEmpty == true || getNumberOfFilterItems(filterForServicesData) > 0
         ? servicesState.state == DataState.EMPTY
             ? EmptyDataView(
                 icon: SVGIcons.localSVG(searchIconNoDataSvg,

@@ -113,7 +113,8 @@ class _CustomSelectorBottomSheetState
                                   widget.itemSelectedId = list[index].id;
                                 });
                               },
-                              child: Row(
+                              child:
+                              Row(
                                 children: [
                                   Transform.scale(
                                     scale: 1.2,

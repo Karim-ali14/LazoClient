@@ -430,6 +430,7 @@ class _FilterScreenState extends ConsumerState<FilterScreen> {
               });
         });
   }
+
   void showShipmentTypeBottomSheet(BuildContext context) {
     print("filterForSellerStateNotifiers : ${promotionSelected}");
 
@@ -567,7 +568,8 @@ class _FilterScreenState extends ConsumerState<FilterScreen> {
   }
 
   void setDefaultCategoriesText(
-      List<Category> mainCategoriesList, List<int> items) {
+      List<Category> mainCategoriesList, List<int> items)
+  {
     var text = mainCategoriesList
             .where((item) =>
                 items.any((id) {
@@ -586,7 +588,8 @@ class _FilterScreenState extends ConsumerState<FilterScreen> {
   }
 
   void setDefaultOccasionsText(
-      List<Occasion> mainCategoriesList, List<int> items) {
+      List<Occasion> mainCategoriesList, List<int> items)
+  {
     var text = mainCategoriesList
             .where((item) =>
                 items.any((id) {

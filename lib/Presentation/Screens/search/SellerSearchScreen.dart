@@ -13,6 +13,7 @@ import '../../../Data/Models/FilterData.dart';
 import '../../../Data/Models/StateModel.dart';
 import '../../../Data/Network/lib/api.dart';
 import '../../../Localization/Keys.dart';
+import '../../../Utils/FilterUtils.dart';
 import '../../../Utils/SearchStorage.dart';
 import '../../../main.dart';
 import '../../StateNotifiersViewModel/PublicStateNotifiers.dart';
@@ -71,7 +72,7 @@ class _SellerSearchScreenState extends ConsumerState<SellerSearchScreen> {
     currentPageForSellers =
         sellersState.data?.data?.currentPage?.toInt() ?? 1;
 
-    return  widget.controller?.text.toString().isNotEmpty == true
+    return  widget.controller?.text.toString().isNotEmpty == true || getNumberOfFilterItems(filterForSellersData) > 0
         ? sellersState.state == DataState.EMPTY
         ? EmptyDataView(
             icon:

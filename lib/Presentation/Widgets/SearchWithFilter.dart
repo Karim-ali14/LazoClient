@@ -23,12 +23,13 @@ class AppSearchBarWithFilter extends StatefulWidget {
   final TextEditingController? controller;
   final bool? enableSearch;
   final Widget? prefixIcon;
+  final int? numberOfFilterItems;
   const AppSearchBarWithFilter(
       {super.key,
       required this.hasFilter,
       required this.onFilterClick,
       this.onTextChangeListener,
-      this.delay, this.enableSearch = true, this.onSearchClick, this.controller, this.prefixIcon });
+      this.delay, this.enableSearch = true, this.onSearchClick, this.controller, this.prefixIcon, this.numberOfFilterItems });
 
   @override
   State<AppSearchBarWithFilter> createState() => _AppSearchBarWithFilterState();
@@ -105,18 +106,20 @@ class _AppSearchBarWithFilterState extends State<AppSearchBarWithFilter> {
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               SVGIcons.filterIcon(),
+                              (widget.numberOfFilterItems??0) > 0 ?
                               Container(
                                 decoration: const BoxDecoration(
                                   shape: BoxShape.circle,
                                   color: AppTheme.appRedColor,
                                 ),
-                                child: const Padding(
-                                  padding: EdgeInsets.all(5.5),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(5.5),
                                   child: Text(
-                                    "3", style: AppTheme.styleWithTextWhiteAdelleSansExtendedFonts10w400,
+                                    "${widget.numberOfFilterItems}",
+                                    style: AppTheme.styleWithTextWhiteAdelleSansExtendedFonts10w400,
                                   ),
                                 ),
-                              ),
+                              ):SizedBox(),
                             ],
                           )) : SizedBox()
                   ),

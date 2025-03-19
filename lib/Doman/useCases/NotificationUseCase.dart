@@ -66,7 +66,6 @@ class GetNotificationStateNotifiers extends StateNotifier<StateModel<ShowNotific
 
 }
 
-
 class MakeNotificationRead extends StateNotifier<StateModel<ReadANotification122200Response>>{
   final Ref ref;
   final NotificationsApi notifications1api;

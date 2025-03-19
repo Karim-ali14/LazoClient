@@ -10,6 +10,7 @@ import 'package:go_router/go_router.dart';
 import 'package:lazo_client/Constants/Assets.dart';
 import 'package:lazo_client/Data/Models/UpdateDataModel.dart';
 import 'package:lazo_client/Doman/CommenProviders/ApiProvider.dart';
+import 'package:lazo_client/Presentation/BottomSheets/FilterBottomSheet.dart';
 import 'package:lazo_client/Presentation/Screens/search/ProductSearchScreen.dart';
 import 'package:lazo_client/Presentation/Screens/search/SellerSearchScreen.dart';
 import 'package:lazo_client/Presentation/Widgets/CustomAppBar.dart';
@@ -75,10 +76,22 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
         activeTabIndex = tabController.index;
         if (activeTabIndex == 0) {
           controller.text = searchForProductData ?? "";
+          ref.read(filterNumberCountStateNotifiers.notifier)
+          .updateNumber(
+            number: getNumberOfFilterItems(filterForProductData)
+          );
         } else if (activeTabIndex == 1) {
           controller.text = searchForServiceData ?? "";
+          ref.read(filterNumberCountStateNotifiers.notifier)
+              .updateNumber(
+              number: getNumberOfFilterItems(filterForServicesData)
+          );
         } else if (activeTabIndex == 2) {
           controller.text = searchForSellersData ?? "";
+          ref.read(filterNumberCountStateNotifiers.notifier)
+              .updateNumber(
+              number: getNumberOfFilterItems(filterForSellersData)
+          );
         }
       });
     });
@@ -92,9 +105,18 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
     super.initState();
   }
 
+  void clearFilterData(){
+    ref.read(filterNumberCountStateNotifiers.notifier).updateNumber(number: 0);
+    ref.read(filterForProductStateNotifiers.notifier).resetDataFilter();
+    ref.read(filterForServiceStateNotifiers.notifier).resetDataFilter();
+    ref.read(filterForSellerStateNotifiers.notifier).resetDataFilter();
+  }
+
   Future<bool> _onWillPop() async {
     // Your custom logic here
-    print('Back button pressed!');
+    print('Back button pressed! ${ref.watch(filterNumberCountStateNotifiers)}');
+    clearFilterData();
+    print('Back button pressed! ${ref.watch(filterNumberCountStateNotifiers)}');
     context.pop(false);
     return false; // Return true to allow the pop action, false to prevent it
   }
@@ -111,56 +133,67 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
                 controller: controller,
                 prefixIcon: InkWell(
                     onTap: () {
+                      clearFilterData();
                       context.pop();
                     },
                     child: SVGIcons.backArrowIcon()),
                 hasFilter: true,
+                numberOfFilterItems: ref.watch(filterNumberCountStateNotifiers),
                 onFilterClick: () {
-                  openFilterScreen(activeTabIndex);
+                  openFilterBottomSheet();
                 },
                 delay: 1,
                 onTextChangeListener: (value) {
                   if (activeTabIndex == 0) {
                     currentPageForProducts = 1;
                     searchForProductData = value;
-                    if(value.isNotEmpty) {
-                      SearchStorage.saveSearch(
-                          key: SearchStorage.product_key,
-                          query: value
-                      );
+                    if(value.isNotEmpty || getNumberOfFilterItems(filterForProductData) > 0) {
                       fetchProducts(currentPageForProducts);
-                    }else{
-                      ref.read(productSearchLocalStorageStateNotifier.notifier).updateList(
-                          prefs.getStringList(SearchStorage.product_key) ?? []
-                      );
                     }
-                  } else if (activeTabIndex == 1) {
+                    if (value.isNotEmpty) {
+                      SearchStorage.saveSearch(
+                          key: SearchStorage.product_key, query: value);
+                    }
+                    else {
+                      ref
+                          .read(productSearchLocalStorageStateNotifier.notifier)
+                          .updateList(
+                              prefs.getStringList(SearchStorage.product_key) ??
+                                  []);
+                    }
+                  }
+                  else if (activeTabIndex == 1) {
                     currentPageForServices = 1;
                     searchForServiceData = value;
-                    if(value.isNotEmpty) {
-                      SearchStorage.saveSearch(
-                          key: SearchStorage.service_key,
-                          query: value
-                      );
+                    if(value.isNotEmpty || getNumberOfFilterItems(filterForServicesData) > 0) {
                       fetchServices(currentPageForServices);
-                    }else{
-                      ref.read(serviceSearchLocalStorageStateNotifier.notifier).updateList(
-                          prefs.getStringList(SearchStorage.service_key) ?? []
-                      );
                     }
-                  } else if (activeTabIndex == 2) {
+                    if (value.isNotEmpty) {
+                      SearchStorage.saveSearch(
+                          key: SearchStorage.service_key, query: value);
+                    } else {
+                      ref
+                          .read(serviceSearchLocalStorageStateNotifier.notifier)
+                          .updateList(
+                              prefs.getStringList(SearchStorage.service_key) ??
+                                  []);
+                    }
+                  }
+                  else if (activeTabIndex == 2) {
                     currentPageForSellers = 1;
                     searchForSellersData = value;
-                    if(value.isNotEmpty) {
-                      SearchStorage.saveSearch(
-                          key: SearchStorage.seller_key,
-                          query: value
-                      );
+                    if(value.isNotEmpty || getNumberOfFilterItems(filterForSellersData) > 0) {
                       fetchSellers(currentPageForSellers);
-                    }else{
-                      ref.read(sellerSearchLocalStorageStateNotifier.notifier).updateList(
-                          prefs.getStringList(SearchStorage.seller_key) ?? []
-                      );
+                    }
+                    if (value.isNotEmpty) {
+                      SearchStorage.saveSearch(
+                          key: SearchStorage.seller_key, query: value);
+                    } else {
+                      ref
+                          .read(sellerSearchLocalStorageStateNotifier.notifier)
+                          .updateList(
+                              prefs.getStringList(SearchStorage.seller_key) ??
+                                  []);
                     }
                   }
                 },
@@ -216,6 +249,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
                   children: [
                     ProductSearchScreen(
                         type: CategoryType.Search,
+                        showData: controller.text.isNotEmpty,
                         controller: controller,
                         id: widget.id,
                         showAuthenticated: showAuthenticated,
@@ -225,8 +259,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
                         controller: controller,
                         id: widget.id,
                         showAuthenticated: showAuthenticated,
-                        navigateToItemDetails: navigateToItemDetails
-                    ),
+                        navigateToItemDetails: navigateToItemDetails),
                     if (widget.type == CategoryType.Search)
                       SellerSearchScreen(
                         type: CategoryType.Search,
@@ -354,6 +387,89 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
     }
   }
 
+  void openFilterBottomSheet() {
+    FilterData? filterData;
+    FilterScreenTypes type;
+    final currentIndex  = activeTabIndex;
+    if (currentIndex == 0) {
+      filterData = filterForProductData;
+      type = FilterScreenTypes.Products;
+    }
+    else if (currentIndex == 1) {
+      filterData = filterForServicesData;
+      type = FilterScreenTypes.Services;
+    }
+    else {
+      filterData = filterForSellersData;
+      type = FilterScreenTypes.Sellers;
+    }
+
+    showModalBottomSheet(
+        isScrollControlled: true,
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+                topRight: Radius.circular(10), topLeft: Radius.circular(10))),
+        context: context,
+        builder: (BuildContext context) {
+          double height =
+              MediaQuery.of(context).size.height * 0.9; // 60% height
+
+          return FilterBottomSheet(
+            height: height,
+            type: type,
+            searchValue: searchForProductData,
+            dataSelected: filterData,
+            onFilterApply: (filterData){
+              final currentIndex  = activeTabIndex;
+              if (currentIndex == 0) {
+                filterForProductData = filterData;
+                ref.read(filterForProductStateNotifiers.notifier).applyDataFilter(
+                    priceFromSelected: filterData.priceFromSelected,
+                    priceToSelected: filterData.priceToSelected,
+                    categoriesIdsSelected: filterData.categoriesIdsSelected,
+                    occasionsIdsSelected: filterData.occasionsIdsSelected,
+                    ratingValueSelected: filterData.ratingValueSelected,
+                    shipmentTypeSelected: filterData.shipmentTypeSelected
+                );
+                ref.read(filterNumberCountStateNotifiers.notifier)
+                    .updateNumber(
+                    number: getNumberOfFilterItems(filterData)
+                );
+                fetchProducts(1);
+              }
+              else if (currentIndex == 1) {
+                filterForServicesData = filterData;
+                ref.read(filterForServiceStateNotifiers.notifier).applyDataFilter(
+                    priceFromSelected: filterData.priceFromSelected,
+                    priceToSelected: filterData.priceToSelected,
+                    categoriesIdsSelected: filterData.categoriesIdsSelected,
+                    occasionsIdsSelected: filterData.occasionsIdsSelected,
+                    ratingValueSelected: filterData.ratingValueSelected,
+                );
+                ref.read(filterNumberCountStateNotifiers.notifier)
+                    .updateNumber(
+                    number: getNumberOfFilterItems(filterData)
+                );
+                fetchServices(1);
+              }
+              else {
+                filterForSellersData = filterData;
+                ref.read(filterForSellerStateNotifiers.notifier).applyDataFilter(
+                  categoriesIdsSelected: filterData.categoriesIdsSelected,
+                  occasionsIdsSelected: filterData.occasionsIdsSelected,
+                  ratingValueSelected: filterData.ratingValueSelected,
+                );
+                ref.read(filterNumberCountStateNotifiers.notifier)
+                    .updateNumber(
+                    number: getNumberOfFilterItems(filterData)
+                );
+                fetchSellers(1);
+              }
+            },
+          );
+        });
+  }
+
   void navigateToItemDetails(ItemType itemType, int itemId, String itemName,
       List<int> categoriesIds) async {
     var updateData = await context
@@ -414,4 +530,36 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
 
     ref.read(filterForSellerStateNotifiers.notifier).resetDataFilter();
   }
+  int getNumberOfFilterItems(FilterData? filterData) {
+    if (filterData == null) {
+      print("FilterData is null");
+      return 0;
+    }
+
+    bool shipmentSelected = filterData.shipmentTypeSelected != null;
+    bool priceRangeSelected = filterData.priceToSelected != null && filterData.priceFromSelected != null;
+    bool categoriesSelected = filterData.categoriesIdsSelected?.isNotEmpty == true;
+    bool occasionsSelected = filterData.occasionsIdsSelected?.isNotEmpty == true;
+    bool ratingSelected = filterData.ratingValueSelected?.isNotEmpty == true;
+
+    // طباعة كل القيم للتحقق من حالة الفلاتر
+    print("Shipment Selected: ${filterData.shipmentTypeSelected}");
+    print("Price Range Selected: $priceRangeSelected");
+    print("Categories Selected: $categoriesSelected");
+    print("Occasions Selected: $occasionsSelected");
+    print("Rating Selected: $ratingSelected");
+
+    int count = [
+      shipmentSelected,
+      priceRangeSelected,
+      categoriesSelected,
+      occasionsSelected,
+      ratingSelected,
+    ].where((element) => element).length;
+
+    print("Total Selected Filters: $count");
+    return count;
+  }
+
+
 }

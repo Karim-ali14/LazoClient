@@ -426,6 +426,16 @@ class FilterDataUseCase extends StateNotifier<FilterData> {
     state = FilterData();
   }
 }
+class FilterNumberCountUseCase extends StateNotifier<int> {
+  final Ref ref;
+  FilterNumberCountUseCase(this.ref) : super(0);
+
+  void updateNumber(
+      {int? number}) {
+    print("number : $number");
+    state = number??0;
+  }
+}
 
 class GetProductDetailsUseCase
     extends StateNotifier<StateModel<ProductDetailsResponse>> {

@@ -8,6 +8,7 @@ import '../../../Constants/Eunms.dart';
 import '../../../Data/Models/FilterData.dart';
 import '../../../Data/Models/StateModel.dart';
 import '../../../Data/Network/lib/api.dart';
+import '../../../Utils/FilterUtils.dart';
 import '../../../Utils/SearchStorage.dart';
 import '../../../main.dart';
 import '../../StateNotifiersViewModel/PublicStateNotifiers.dart';
@@ -27,15 +28,16 @@ class ProductSearchScreen extends ConsumerStatefulWidget {
   final CategoryType? type;
   final int? id;
   final TextEditingController? controller;
+  final bool? showData;
   final VoidCallback? showAuthenticated;
   final NavigateToItemDetails? navigateToItemDetails;
-  const ProductSearchScreen({
+  const ProductSearchScreen( {
     super.key,
     this.type,
     this.id,
     this.controller,
     this.showAuthenticated,
-    this.navigateToItemDetails,
+    this.navigateToItemDetails,this.showData,
   });
 
   @override
@@ -99,7 +101,7 @@ class _ProductSearchScreenState extends ConsumerState<ProductSearchScreen> {
           res.data?.data?.productId ?? 0, res.data?.data?.inWishlist ?? false);
     });
 
-    return widget.controller?.text.toString().isNotEmpty == true
+    return widget.controller?.text.toString().isNotEmpty == true || getNumberOfFilterItems(filterForProductData) > 0
         ? productsState.state == DataState.EMPTY
             ? EmptyDataView(
                 icon: SVGIcons.localSVG(searchIconNoDataSvg,
@@ -220,4 +222,5 @@ class _ProductSearchScreenState extends ConsumerState<ProductSearchScreen> {
         .read(productToggleStateNotifier.notifier)
         .toggle(productId: id.toString());
   }
+
 }

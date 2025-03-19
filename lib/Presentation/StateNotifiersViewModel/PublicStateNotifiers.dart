@@ -51,6 +51,10 @@ final filterForProductStateNotifiers =
     StateNotifierProvider<FilterDataUseCase, FilterData>(
         (ref) => FilterDataUseCase(ref));
 
+final filterNumberCountStateNotifiers =
+    StateNotifierProvider.autoDispose<FilterNumberCountUseCase, int>(
+        (ref) => FilterNumberCountUseCase(ref));
+
 final filterForServiceStateNotifiers =
     StateNotifierProvider<FilterDataUseCase, FilterData>(
         (ref) => FilterDataUseCase(ref));
