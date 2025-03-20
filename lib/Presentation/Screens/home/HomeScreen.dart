@@ -198,6 +198,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             HorizontalCategoryListViewWithTitleSeeAll(
+                              isGrid: true,
                               list: homeDataState.state != DataState.LOADING ?
                               homeDataState.data?.data?.categories
                                   .toList() ??

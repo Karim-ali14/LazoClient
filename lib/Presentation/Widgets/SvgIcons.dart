@@ -176,12 +176,12 @@ class SVGIcons {
     return SvgPicture.asset(notificationUnActiveImg);
   }
 
-  static Widget moreActiveIcon() {
-    return SvgPicture.asset(moreActiveImg);
+  static Widget profileActiveIcon() {
+    return SvgPicture.asset(profileActiveImg);
   }
 
-  static Widget moreUnActiveIcon() {
-    return SvgPicture.asset(moreUnActiveImg);
+  static Widget profileUnActiveIcon() {
+    return SvgPicture.asset(profileUnActiveImg);
   }
 
   static Widget orderActiveIcon() {

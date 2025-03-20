@@ -11,6 +11,7 @@ import 'package:lazo_client/Presentation/StateNotifiersViewModel/PublicStateNoti
 import 'package:lazo_client/Presentation/Theme/AppTheme.dart';
 import 'package:lazo_client/Presentation/Widgets/AppButton.dart';
 import 'package:lazo_client/Presentation/Widgets/AppTextField.dart';
+import 'package:lazo_client/Presentation/Widgets/CustomAppBar.dart';
 import 'package:lazo_client/Presentation/Widgets/EmptyDataPlaceHolder.dart';
 import 'package:lazo_client/Presentation/Widgets/SvgIcons.dart';
 import 'package:skeletonizer/skeletonizer.dart';
@@ -103,6 +104,10 @@ class _CartScreenState extends ConsumerState<CartScreen> {
     });
 
     return Scaffold(
+      appBar: CustomAppBar(
+        appContext: context,
+        navigated: true,
+      ),
       body: SafeArea(
         child: cartData.state == DataState.EMPTY ||
                 cartData.state == DataState.ERROR

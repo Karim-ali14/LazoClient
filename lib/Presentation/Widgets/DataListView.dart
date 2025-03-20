@@ -21,6 +21,7 @@ class DataListView<T> extends StatelessWidget {
   final bool? gridView;
   final int crossAxisCount;
   final double childAspectRatio;
+  final double crossAxisSpacing;
   final double heightPresent;
   final double loadingHeightPresent;
 
@@ -43,7 +44,7 @@ class DataListView<T> extends StatelessWidget {
     this.crossAxisCount = 2,
     this.childAspectRatio = 1,
     this.heightPresent = 0.75,
-    this.loadingHeightPresent = 0.7,
+    this.loadingHeightPresent = 0.7, this.crossAxisSpacing = 17,
   }) : super(key: key);
 
   @override
@@ -64,7 +65,7 @@ class DataListView<T> extends StatelessWidget {
                           padding: padding ?? const EdgeInsets.all(8.0),
                           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: crossAxisCount,
-                            crossAxisSpacing: 17,
+                            crossAxisSpacing: crossAxisSpacing,
                             mainAxisSpacing: 0,
                             childAspectRatio: childAspectRatio,
                           ),

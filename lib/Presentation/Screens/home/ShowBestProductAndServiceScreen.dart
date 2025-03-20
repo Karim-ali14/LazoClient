@@ -125,6 +125,7 @@ class _ShowProductAndServiceScreenState
             AppSearchBarWithFilter(
               controller: controller,
               hasFilter: true,
+              numberOfFilterItems: ref.watch(filterNumberCountStateNotifiers),
               onFilterClick: () {
                 openFilterBottomSheet();
               },

@@ -15,6 +15,8 @@ import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../../Constants/Eunms.dart';
 import '../../../Data/Models/FilterData.dart';
+import '../../../Utils/FilterUtils.dart';
+import '../../BottomSheets/FilterBottomSheet.dart';
 import '../../StateNotifiersViewModel/PublicStateNotifiers.dart';
 import '../../Widgets/EmptyDataView.dart';
 import '../../Widgets/SearchWithFilter.dart';
@@ -54,20 +56,21 @@ class _ShowTopSellersState extends ConsumerState<ShowTopSellers> {
       body: SafeArea(
         child: Column(
           children: [
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: AppSearchBarWithFilter(
-                hasFilter: true,
-                onFilterClick: () {
-                  openFilter();
-                },
-                delay: 1,
-                onTextChangeListener: (value) {
-                  currentPage = 1;
-                  searchValue = value;
-                  fetchSellers(currentPage);
-                },
-              ),
+            AppSearchBarWithFilter(
+              hasFilter: true,
+              numberOfFilterItems: ref.watch(filterNumberCountStateNotifiers),
+              onFilterClick: () {
+                openFilterBottomSheet();
+              },
+              delay: 1,
+              onTextChangeListener: (value) {
+                currentPage = 1;
+                searchValue = value;
+                fetchSellers(currentPage);
+              },
+            ),
+            SizedBox(
+              height: 16,
             ),
             topSellerState.state == DataState.LOADING ||
                     topSellerState.state == DataState.MORE_LOADING ||
@@ -84,6 +87,9 @@ class _ShowTopSellersState extends ConsumerState<ShowTopSellers> {
                         paginated: true,
                         gridView: true,
                         childAspectRatio: .86,
+                        heightPresent: 0.81,
+                        loadingHeightPresent: 0.73,
+                        crossAxisSpacing: 0,
                         pageLoading:
                             topSellerState.state == DataState.MORE_LOADING,
                         onBottomReached: () {
@@ -93,13 +99,12 @@ class _ShowTopSellersState extends ConsumerState<ShowTopSellers> {
                           }
                         },
                         builder: (item) => Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 16, vertical: 8),
+                              padding: const EdgeInsetsDirectional.only(start: 8),
                               child: Skeletonizer(
                                   enabled:
                                       topSellerState.state == DataState.LOADING,
                                   child: SellerItemCard(
-                                    width: 165,
+                                    width: 175,
                                     providerData: item, onSellerClickListener: (sellerId) {
                                     navigateToSellerDetails(sellerId);
                                   },)),
@@ -125,6 +130,49 @@ class _ShowTopSellersState extends ConsumerState<ShowTopSellers> {
     currentPage = 1;
     sellerFilterData = filterData as FilterData;
     fetchSellers(currentPage);
+  }
+
+  void openFilterBottomSheet() {
+    FilterData? filterData;
+    FilterScreenTypes type;
+
+    filterData = sellerFilterData;
+    type = FilterScreenTypes.Sellers;
+
+
+    showModalBottomSheet(
+        isScrollControlled: true,
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+                topRight: Radius.circular(10), topLeft: Radius.circular(10))),
+        context: context,
+        builder: (BuildContext context) {
+          double height =
+              MediaQuery.of(context).size.height * 0.9; // 60% height
+
+          return FilterBottomSheet(
+            height: height,
+            type: type,
+            searchValue: searchValue,
+            dataSelected: filterData,
+            onFilterApply: (filterData){
+
+                sellerFilterData = filterData;
+                ref.read(filterForSellerStateNotifiers.notifier).applyDataFilter(
+                  categoriesIdsSelected: filterData.categoriesIdsSelected,
+                  occasionsIdsSelected: filterData.occasionsIdsSelected,
+                  ratingValueSelected: filterData.ratingValueSelected,
+                );
+                ref.read(filterNumberCountStateNotifiers.notifier)
+                    .updateNumber(
+                    number: getNumberOfFilterItems(filterData)
+                );
+                currentPage = 1;
+                fetchSellers(currentPage);
+
+            },
+          );
+        });
   }
 
   void fetchSellers(int page) {

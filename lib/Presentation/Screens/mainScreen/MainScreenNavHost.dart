@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +16,7 @@ import 'package:lazo_client/Presentation/Theme/AppTheme.dart';
 import 'package:lazo_client/Presentation/Widgets/CustomAppBar.dart';
 
 import '../../../Constants.dart';
+import '../../../Constants/Assets.dart';
 import '../../../Constants/Constants.dart';
 import '../../../Data/Models/StateModel.dart';
 import '../../../Localization/Keys.dart';
@@ -29,14 +32,15 @@ class MainScreenNavHost extends ConsumerStatefulWidget {
 }
 
 class MainScreenNavHostState extends ConsumerState<MainScreenNavHost> {
+  double _opacity = 0.8;
   int currentTab = 0;
   Widget currentScreen = const HomeScreen();
-  final listTabsName = ["Home", "Orders" ,"Cart", "Wishlist", "More"];
-  var pages = [HomeScreen(), OrdersScreen() ,CartScreen(), WishListScreen(), MoreScreen()];
+  final listTabsName = ["Home", "Orders", "Wishlist", "More"];
+  var pages = [HomeScreen(), OrdersScreen(), WishListScreen(), MoreScreen()];
 
   void rebuildMainScreen() {
     setState(() {
-      pages = [HomeScreen(), OrdersScreen() ,CartScreen(), WishListScreen(), MoreScreen()];
+      pages = [HomeScreen(), OrdersScreen(), WishListScreen(), MoreScreen()];
     });
   }
 
@@ -49,9 +53,7 @@ class MainScreenNavHostState extends ConsumerState<MainScreenNavHost> {
           preferredSize: Size.fromHeight(currentTab == 0 ? 0 : 60),
           child: CustomAppBar(
             appContext: context,
-            title: currentTab == 0
-                ? ""
-                : listTabsName[currentTab],
+            title: currentTab == 0 ? "" : listTabsName[currentTab],
             isCenter: false,
             navigated: false,
           )),
@@ -75,7 +77,6 @@ class MainScreenNavHostState extends ConsumerState<MainScreenNavHost> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 MaterialButton(
-                  minWidth: 40,
                   onPressed: () {
                     setState(() {
                       currentTab = 0;
@@ -88,9 +89,7 @@ class MainScreenNavHostState extends ConsumerState<MainScreenNavHost> {
                       currentTab == 0
                           ? SVGIcons.homeActiveIcon()
                           : SVGIcons.homeUnActiveIcon(),
-                      SizedBox(
-                        height: 3,
-                      ),
+                      const SizedBox(height: 3),
                       Text(
                         listTabsName[0],
                         style: currentTab == 0
@@ -103,7 +102,6 @@ class MainScreenNavHostState extends ConsumerState<MainScreenNavHost> {
                   ),
                 ),
                 MaterialButton(
-                  minWidth: 40,
                   onPressed: () {
                     setState(() {
                       currentTab = 1;
@@ -116,9 +114,7 @@ class MainScreenNavHostState extends ConsumerState<MainScreenNavHost> {
                       currentTab == 1
                           ? SVGIcons.orderActiveIcon()
                           : SVGIcons.orderUnActiveIcon(),
-                      SizedBox(
-                        height: 3,
-                      ),
+                      const SizedBox(height: 3),
                       Text(
                         listTabsName[1],
                         style: currentTab == 1
@@ -131,86 +127,22 @@ class MainScreenNavHostState extends ConsumerState<MainScreenNavHost> {
                   ),
                 ),
                 MaterialButton(
-                  minWidth: 40,
-                  onPressed: () {
-                    setState(() {
-                      currentTab = 2;
-                      currentScreen = const CartScreen();
-                    });
-                  },
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SizedBox(
-                        height: 60,
-                        child: Stack(
-                          children: [
-                            Align(
-                              alignment: Alignment.bottomCenter,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  currentTab == 2
-                                      ? SVGIcons.activeBuyIcon()
-                                      : SVGIcons.buyIcon(),
-                                  SizedBox(
-                                    height: 4,
-                                  ),
-                                  Text(
-                                    listTabsName[2],
-                                    style: currentTab == 2
-                                        ? AppTheme
-                                        .styleWithTextRedAdelleSansExtendedFonts11w500
-                                        : AppTheme
-                                        .styleWithTextGray7AdelleSansExtendedFonts11w500,
-                                  )
-                                ],
-                              ),
-                            ),
-                            cartData.state == DataState.SUCCESS && cartData.data?.data?.cartItems.length != 0 ?
-                            Align(
-                              alignment: AlignmentDirectional.topCenter,
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: Colors.red,
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(4.3),
-                                  child: Text(
-                                    cartData.data?.data?.cartItems.length.toString() ?? ""
-                                  ,style: AppTheme.styleWithTextWhiteAdelleSansExtendedFonts12w400,
-                                  ),
-                                ),
-                              ),
-                            ) : SizedBox(),
-                          ],
-                        ),
-                      ),
-
-                    ],
-                  ),
-                ),
-                MaterialButton(
                   onPressed: () {
                     setState(() {
                       currentScreen = const WishListScreen();
-                      currentTab = 3;
+                      currentTab = 2;
                     });
                   },
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      currentTab == 3
+                      currentTab == 2
                           ? SVGIcons.hartActiveIcon()
                           : SVGIcons.hartUnActiveIcon(),
-                      SizedBox(
-                        height: 6,
-                      ),
+                      const SizedBox(height: 6),
                       Text(
-                        listTabsName[3],
-                        style: currentTab == 3
+                        listTabsName[2],
+                        style: currentTab == 2
                             ? AppTheme
                                 .styleWithTextRedAdelleSansExtendedFonts11w500
                             : AppTheme
@@ -223,21 +155,19 @@ class MainScreenNavHostState extends ConsumerState<MainScreenNavHost> {
                   onPressed: () {
                     setState(() {
                       currentScreen = const MoreScreen();
-                      currentTab = 4;
+                      currentTab = 3;
                     });
                   },
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      currentTab == 4
-                          ? SVGIcons.moreActiveIcon()
-                          : SVGIcons.moreUnActiveIcon(),
-                      SizedBox(
-                        height: 6,
-                      ),
+                      currentTab == 3
+                          ? SVGIcons.profileActiveIcon()
+                          : SVGIcons.profileUnActiveIcon(),
+                      const SizedBox(height: 6),
                       Text(
-                        listTabsName[4],
-                        style: currentTab == 4
+                        listTabsName[3],
+                        style: currentTab == 3
                             ? AppTheme
                                 .styleWithTextRedAdelleSansExtendedFonts11w500
                             : AppTheme
@@ -251,6 +181,36 @@ class MainScreenNavHostState extends ConsumerState<MainScreenNavHost> {
           ),
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          context.push(R_CartScreen);
+        },
+        backgroundColor: AppTheme.appRedColor,
+        child: Stack(
+          children: [
+            Align(
+                alignment: Alignment.center,
+                child: SVGIcons.localSVG(cartIconSvg,width: 27,height: 26)),
+            (cartData.data?.data?.cartItems.length??0) > 0 ?PositionedDirectional(
+              top: 9,
+              start: 33,
+              child: Container(
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Colors.white,
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(3),
+                  child: Text(
+                    cartData.data?.data?.cartItems.length.toString() ?? ""
+                    ,style: AppTheme.styleWithTextAppRedColorAdelleSansExtendedFonts8w700,
+                  ),
+                ),
+              ),
+            ) : const SizedBox()
+          ],
+        ),
+      ),
     );
   }
 
@@ -262,8 +222,6 @@ class MainScreenNavHostState extends ConsumerState<MainScreenNavHost> {
           break;
         case 1:
           currentScreen = const OrdersScreen();
-        case 2:
-          currentScreen = const CartScreen();
           break;
         case 3:
           currentScreen = const WishListScreen();
@@ -293,7 +251,10 @@ class AppBarTrailing extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text("Delivery To",style: AppTheme.styleWithTextAppGrey17AdelleSansFonts14w350,),
+                  Text(
+                    "Delivery To",
+                    style: AppTheme.styleWithTextAppGrey17AdelleSansFonts14w350,
+                  ),
                   SizedBox(
                     width: 4,
                   ),
@@ -313,7 +274,7 @@ class AppBarTrailing extends StatelessWidget {
                   Align(
                       alignment: AlignmentDirectional.center,
                       child: InkWell(
-                          onTap: (){
+                          onTap: () {
                             context.push(R_NotificationScreen);
                           },
                           child: SVGIcons.notificationSvgIcon())),
@@ -334,5 +295,4 @@ class AppBarTrailing extends StatelessWidget {
     }
     return const SizedBox();
   }
-
 }

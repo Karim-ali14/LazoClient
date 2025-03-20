@@ -262,7 +262,7 @@ class _FilterBottomSheetState extends ConsumerState<FilterBottomSheet> {
           Padding(
             padding: const EdgeInsets.all(defaultPaddingHorizontal),
             child: AppButton(
-                text: "Show 1523 Products",
+                text: "Show Result",
                 height: 50,
                 width: double.infinity,
                 onPress: () {
