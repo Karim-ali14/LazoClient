@@ -26,7 +26,6 @@ typedef OnFilterApply = Function(FilterData);
 
 class FilterBottomSheet extends ConsumerStatefulWidget {
   final FilterScreenTypes? type;
-  final String? searchValue;
   final int? categoryId;
   final int? occasionId;
   final double? height;
@@ -36,7 +35,6 @@ class FilterBottomSheet extends ConsumerStatefulWidget {
     super.key,
     this.height,
     this.type,
-    this.searchValue,
     this.categoryId,
     this.occasionId,
     this.onFilterApply,
@@ -151,7 +149,9 @@ class _FilterBottomSheetState extends ConsumerState<FilterBottomSheet> {
                 const Spacer(),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 10),
-                  child: SVGIcons.localSVG(closeIconSvg, width: 32, height: 32),
+                  child: InkWell(onTap: (){
+                    context.pop();
+                  }, child: SVGIcons.localSVG(closeIconSvg, width: 32, height: 32)),
                 )
               ],
             ),
@@ -203,7 +203,7 @@ class _FilterBottomSheetState extends ConsumerState<FilterBottomSheet> {
                         ),
                       ),
                     ),
-                    Padding(
+                    widget.occasionId == null ?Padding(
                       padding: const EdgeInsets.only(
                           bottom: defaultPaddingHorizontal),
                       child: ExpandedItemCard(
@@ -218,7 +218,7 @@ class _FilterBottomSheetState extends ConsumerState<FilterBottomSheet> {
                           onSelectItemCallback: (item) {},
                         ),
                       ),
-                    ),
+                    ):SizedBox(),
                     widget.type == FilterScreenTypes.Products ||
                             widget.type == FilterScreenTypes.Services
                         ? Padding(

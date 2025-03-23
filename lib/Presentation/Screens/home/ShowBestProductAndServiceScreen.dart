@@ -453,7 +453,6 @@ class _ShowProductAndServiceScreenState
           return FilterBottomSheet(
             height: height,
             type: type,
-            searchValue: searchForProductData,
             dataSelected: filterData,
             onFilterApply: (filterData){
               final currentIndex  = activeTabIndex;

@@ -43,11 +43,27 @@ final getProductsStateNotifiers = StateNotifierProvider<GetProductsUseCase,
         StateModel<FilterTopProductsServices200Response>>(
     (ref) => GetProductsUseCase(ref, ref.read(publicApi)));
 
+final getReadyGiftsProductsStateNotifiers = StateNotifierProvider<GetProductsUseCase,
+        StateModel<FilterTopProductsServices200Response>>(
+    (ref) => GetProductsUseCase(ref, ref.read(publicApi)));
+
+final getUnreadyProductsStateNotifiers = StateNotifierProvider<GetProductsUseCase,
+        StateModel<FilterTopProductsServices200Response>>(
+    (ref) => GetProductsUseCase(ref, ref.read(publicApi)));
+
 final getServicesStateNotifiers = StateNotifierProvider<GetServicesUseCase,
         StateModel<FilterTopProductsServices200Response>>(
     (ref) => GetServicesUseCase(ref, ref.read(publicApi)));
 
 final filterForProductStateNotifiers =
+    StateNotifierProvider<FilterDataUseCase, FilterData>(
+        (ref) => FilterDataUseCase(ref));
+
+final filterForUnReadyGiftProductStateNotifiers =
+    StateNotifierProvider<FilterDataUseCase, FilterData>(
+        (ref) => FilterDataUseCase(ref));
+
+final filterForReadyGiftProductStateNotifiers =
     StateNotifierProvider<FilterDataUseCase, FilterData>(
         (ref) => FilterDataUseCase(ref));
 

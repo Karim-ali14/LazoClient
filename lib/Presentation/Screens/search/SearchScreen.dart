@@ -418,7 +418,6 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
           return FilterBottomSheet(
             height: height,
             type: type,
-            searchValue: searchForProductData,
             dataSelected: filterData,
             onFilterApply: (filterData){
               final currentIndex  = activeTabIndex;

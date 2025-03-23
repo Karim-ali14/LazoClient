@@ -153,7 +153,6 @@ class _ShowTopSellersState extends ConsumerState<ShowTopSellers> {
           return FilterBottomSheet(
             height: height,
             type: type,
-            searchValue: searchValue,
             dataSelected: filterData,
             onFilterApply: (filterData){
 

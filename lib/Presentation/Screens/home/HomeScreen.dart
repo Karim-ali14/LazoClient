@@ -140,15 +140,14 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                               showLoading:
                               homeDataState.state == DataState.LOADING,
                               itemClick: (occasionItem) {
-                                navigateToSeeAllBestProductAndService(
-                                    occasionItem.name ?? "",
-                                    ItemType.Products,
-                                    occasionId: occasionItem.id?.toInt());
-                                // navigateToProductsAndServices(
-                                //     CategoryType.Occasions,
+                                // navigateToSeeAllBestProductAndService(
                                 //     occasionItem.name ?? "",
-                                //     int.parse(
-                                //         (occasionItem.id ?? 0).toString()));
+                                //     ItemType.Products,
+                                //     occasionId: occasionItem.id?.toInt());
+                                navigateToOccasion(
+                                  occasionItem.id,
+                                  occasionItem.name
+                                );
                               },
                               onSeeAllClickListener: (id, name) {
                                 navigateToSeeAllOccasions();
@@ -504,5 +503,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     ref.read(
       getWishListServicesStateNotifier.notifier
     ).fetchAllServicesInWishlist();
+  }
+
+  void navigateToOccasion(num? id, String? name) {
+    context.push(R_OccasionResultScreen,extra: {"occasionId":id,"title":name});
   }
 }

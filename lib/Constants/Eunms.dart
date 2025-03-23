@@ -42,6 +42,14 @@ enum CategoryType {
   Categories,Occasions,Search
 }
 
+enum ProductOccasionType {
+  All,Ready,UnReady
+}
+
+enum ProductType {
+  ready_made_gifts,various_gifts
+}
+
 enum FilterScreenTypes {
   Services,Products,Sellers
 }

@@ -47,6 +47,7 @@ import 'Presentation/Screens/onbaording/OnBordingScreen.dart';
 import 'Presentation/Screens/orders/OrderDetailsScreen.dart';
 import 'Presentation/Screens/profileScreen/EditPhoneScreen.dart';
 import 'Presentation/Screens/profileScreen/ProfileScreen.dart';
+import 'Presentation/Screens/showOccasionsResult/OccasionResultScreen.dart';
 import 'Presentation/Screens/wishlist/WishlistScreen.dart';
 import 'Utils/NotificationsUtils.dart';
 
@@ -408,6 +409,12 @@ class MyApp extends ConsumerWidget {
           builder: (BuildContext context, GoRouterState state) {
             var extra = state.extra as Map;
             return PaymentScreen(paymentLink: extra["paymentLink"]);
+          }),
+      GoRoute(
+          path: R_OccasionResultScreen,
+          builder: (BuildContext context, GoRouterState state) {
+            var extra = state.extra as Map;
+            return OccasionResultScreen(occasionId: extra["occasionId"],title: extra["title"],);
           }),
     ],
   );
