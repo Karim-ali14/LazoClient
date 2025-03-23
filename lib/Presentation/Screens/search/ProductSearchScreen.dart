@@ -1,13 +1,17 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:lazo_client/Doman/CommenProviders/ApiProvider.dart';
 import 'package:skeletonizer/skeletonizer.dart';
+import '../../../Constants.dart';
 import '../../../Constants/Assets.dart';
 import '../../../Constants/Eunms.dart';
 import '../../../Data/Models/FilterData.dart';
 import '../../../Data/Models/StateModel.dart';
 import '../../../Data/Network/lib/api.dart';
+import '../../../Localization/Keys.dart';
 import '../../../Utils/FilterUtils.dart';
 import '../../../Utils/SearchStorage.dart';
 import '../../../main.dart';
@@ -109,7 +113,10 @@ class _ProductSearchScreenState extends ConsumerState<ProductSearchScreen> {
                 btuName: "View our best products items",
                 description:
                     "Oops! Use different keywords to see more results.",
-                btuAction: () {},
+                btuAction: () {
+                  navigateToSeeAllBestProductAndService(
+                      context.tr(bestProductsKey), ItemType.Products);
+                },
               )
             : Container(
                 padding: const EdgeInsets.symmetric(vertical: 4),
@@ -221,6 +228,14 @@ class _ProductSearchScreenState extends ConsumerState<ProductSearchScreen> {
     ref
         .read(productToggleStateNotifier.notifier)
         .toggle(productId: id.toString());
+  }
+  void navigateToSeeAllBestProductAndService(String title, ItemType type,
+      {int? occasionId}) async {
+    await context.push(R_ShowBestProductOrService,
+        extra: {"type": type, "title": title, "occasionId": occasionId});
+
+    ref.read(filterForProductStateNotifiers.notifier).resetDataFilter();
+    ref.read(filterForServiceStateNotifiers.notifier).resetDataFilter();
   }
 
 }
