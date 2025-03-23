@@ -83,14 +83,14 @@ class SVGIcons {
         width: 24, height: 24, fit: BoxFit.scaleDown);
   }
 
-  static Widget searchIcon() {
+  static Widget searchIcon({Color? color}) {
     return SvgPicture.asset(searchIconSvg,
-        width: 24, height: 24, fit: BoxFit.scaleDown);
+        width: 24, height: 24, fit: BoxFit.scaleDown,color: color,);
   }
 
-  static Widget filterIcon() {
+  static Widget filterIcon(Color? color) {
     return SvgPicture.asset(filterIconSvg,
-        width: 18, height: 14, fit: BoxFit.scaleDown);
+        width: 18, height: 14, fit: BoxFit.scaleDown,color: color,);
   }
 
   static Widget smallStarIcon({double size = 13}) {

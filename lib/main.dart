@@ -68,12 +68,12 @@ Future<void> _firebaseMessagingHandler(RemoteMessage message) async {
     print('Type: $type, Message: $messageText');
 
     // You could trigger a local notification or some other action
-    NotificationsUtils.showNotification(title ?? "N/A", messageText ?? "N/A",dataJson: json.encode(message.data));
-
+    NotificationsUtils.showNotification(title ?? "N/A", messageText ?? "N/A",
+        dataJson: json.encode(message.data));
   }
 }
 
-void getNotificationsOnForeground(/*{WidgetRef? ref}*/){
+void getNotificationsOnForeground(/*{WidgetRef? ref}*/) {
   FirebaseMessaging.onMessage.listen((RemoteMessage message) {
     print('Got a message whilst in the foreground!');
     print('Message data: ${message.data}');
@@ -82,10 +82,9 @@ void getNotificationsOnForeground(/*{WidgetRef? ref}*/){
 }
 
 void handlingNotificationPermission() async {
-
-
-  try{
-    NotificationSettings settings = await FirebaseMessaging.instance.requestPermission(
+  try {
+    NotificationSettings settings =
+        await FirebaseMessaging.instance.requestPermission(
       alert: true,
       announcement: false,
       badge: true,
@@ -96,32 +95,30 @@ void handlingNotificationPermission() async {
     );
 
     print('User granted permission: ${settings.authorizationStatus}');
-  }catch(e){
-
-  }
+  } catch (e) {}
 }
 
 Future<void> setupInteractedMessage(BuildContext? context) async {
-
-  RemoteMessage? initialMessage = await FirebaseMessaging.instance.getInitialMessage();
+  RemoteMessage? initialMessage =
+      await FirebaseMessaging.instance.getInitialMessage();
 
   if (initialMessage != null) {
-    _handleMessage(initialMessage,context);
+    _handleMessage(initialMessage, context);
   }
 
-  FirebaseMessaging.onMessageOpenedApp.listen((message){
-    _handleMessage(message,context);
+  FirebaseMessaging.onMessageOpenedApp.listen((message) {
+    _handleMessage(message, context);
   });
 }
 
-void _handleMessage(RemoteMessage message,BuildContext? context) {
+void _handleMessage(RemoteMessage message, BuildContext? context) {
   print("Data Opened ${message.data}");
-  if(context == null) return;
+  if (context == null) return;
   if (message.data.isNotEmpty) {
     String type = message.data['type'];
     String id = message.data['id'];
 
-    if(type == "order") {
+    if (type == "order") {
       GoRouter.of(context).push(R_OrderDetails, extra: {orderIdKey: id});
     }
   }
@@ -134,8 +131,8 @@ void main() async {
   await EasyLocalization.ensureInitialized();
 
   await Firebase.initializeApp(
-    // options: DefaultFirebaseOptions.currentPlatform,
-  );
+      // options: DefaultFirebaseOptions.currentPlatform,
+      );
   //SharedPrefs
   prefs = await SharedPreferences.getInstance();
   // // Notifications
@@ -146,18 +143,17 @@ void main() async {
   // setupInteractedMessage(navigatorKey.currentContext);
   // await FirebaseMessaging.instance.subscribeToTopic("championship");
 
-
   // Background notification handling
   FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
     print(" Background notification handling ${message.data}");
-    _handleMessage(message,navigatorKey.currentContext);
+    _handleMessage(message, navigatorKey.currentContext);
   });
 
   // Handle app launch when terminated
   FirebaseMessaging.instance.getInitialMessage().then((RemoteMessage? message) {
     if (message != null) {
       print(" Handle app launch when terminated ${message.data}");
-      _handleMessage(message,navigatorKey.currentContext);
+      _handleMessage(message, navigatorKey.currentContext);
     }
   });
 
@@ -170,8 +166,7 @@ void main() async {
   ], path: 'assets/translations', child: MyApp())));
 }
 
-void handleNotificationClicks(RemoteMessage message) {
-}
+void handleNotificationClicks(RemoteMessage message) {}
 
 class MyApp extends ConsumerWidget {
   final appLang;
@@ -368,11 +363,11 @@ class MyApp extends ConsumerWidget {
           builder: (BuildContext context, GoRouterState state) {
             var extra = state.extra as Map;
             return CheckoutScreen(
-              type: extra["type"] as CheckoutTypes,
-              service: extra["service"] as ServiceShowData?,
-              serviceSelectedListIds : extra[serviceSelectedListIdsKey],
-              serviceSelectedListItemsIds : extra[serviceSelectedListItemsIdsKey]
-            );
+                type: extra["type"] as CheckoutTypes,
+                service: extra["service"] as ServiceShowData?,
+                serviceSelectedListIds: extra[serviceSelectedListIdsKey],
+                serviceSelectedListItemsIds:
+                    extra[serviceSelectedListItemsIdsKey]);
           }),
       GoRoute(
           path: R_GoogleMapScreen,
@@ -402,7 +397,8 @@ class MyApp extends ConsumerWidget {
           path: R_RatingOrder,
           builder: (BuildContext context, GoRouterState state) {
             var extra = state.extra as Map;
-            return RatingOrderItemsScreen(order: extra[orderKey] as ClientOrderDetails);
+            return RatingOrderItemsScreen(
+                order: extra[orderKey] as ClientOrderDetails);
           }),
       GoRoute(
           path: R_PaymentScreen,
@@ -414,7 +410,11 @@ class MyApp extends ConsumerWidget {
           path: R_OccasionResultScreen,
           builder: (BuildContext context, GoRouterState state) {
             var extra = state.extra as Map;
-            return OccasionResultScreen(occasionId: extra["occasionId"],title: extra["title"],);
+            return OccasionResultScreen(
+              occasionId: extra["occasionId"],
+              title: extra["title"],
+              image: extra["image"],
+            );
           }),
     ],
   );

@@ -102,7 +102,7 @@ class _ProductSearchScreenState
         ? EmptyDataView(
             icon:
                 SVGIcons.localSVG(searchIconNoDataSvg, width: 114, height: 97),
-            btuName: "View our best products items",
+            btuName: null,
             description: "Oops! Use different keywords to see more results.",
             btuAction: () {},
           )

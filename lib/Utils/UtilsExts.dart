@@ -6,7 +6,7 @@ import 'package:intl/intl.dart';
 class UtilsExts {
 
     static void handleStatusBarColorWithIcon(
-        {Color? statusBarColor = Colors.white, Brightness? statusBarIcons = Brightness.dark}) {
+        {Color? statusBarColor = Colors.transparent, Brightness? statusBarIcons = Brightness.dark}) {
         SystemChrome.setSystemUIOverlayStyle(
             SystemUiOverlayStyle(
                 statusBarColor: statusBarColor ,statusBarIconBrightness: statusBarIcons

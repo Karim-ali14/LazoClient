@@ -3,8 +3,7 @@ import 'package:go_router/go_router.dart';
 
 import '../Theme/AppTheme.dart';
 
-
-class CustomAppBar extends StatelessWidget implements PreferredSizeWidget  {
+class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final double appBarHeight = 90.0;
   final String? title;
   final bool navigated;
@@ -13,9 +12,21 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget  {
   final bool isCenter;
   final VoidCallback? customCallBack;
   final Color? appBarColor;
+  final Color? contentColor;
   final Widget? leadingWidget;
   final bool isHomeScreen;
-  const CustomAppBar({Key? key, this.trailingWidget,this.title , this.navigated = false,required this.appContext, this.customCallBack, this.isCenter = true, this.appBarColor,this.leadingWidget, this.isHomeScreen = false}) : super(key: key);
+  const CustomAppBar(
+      {Key? key,
+      this.trailingWidget,
+      this.title,
+      this.navigated = false,
+      required this.appContext,
+      this.customCallBack,
+      this.isCenter = true,
+      this.appBarColor,
+      this.leadingWidget,
+      this.isHomeScreen = false, this.contentColor = Colors.black})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -25,41 +36,55 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget  {
         toolbarHeight: leadingHeightCount(),
         automaticallyImplyLeading: false,
         elevation: 0,
-        backgroundColor: appBarColor?? Colors.white,
+        backgroundColor: appBarColor ?? Colors.white,
         centerTitle: isCenter,
         actions: trailingWidget != null ? [trailingWidget!] : [],
         leadingWidth: leadingWithCount(),
-        leading: leadingWidget ?? (navigated ? IconButton(onPressed: (){
+        leading: leadingWidget ??
+            (navigated
+                ? IconButton(
+                    onPressed: () {
+                      if (customCallBack != null) {
+                        customCallBack?.call();
+                        return;
+                      }
 
-          if(customCallBack != null) {
-            customCallBack?.call();
-            return;
-          }
-
-          try{
-            GoRouter.of(appContext).pop(appContext);
-          }catch(e){
-            Navigator.pop(context);
-          }
-
-        }, icon: Icon(Icons.arrow_back,color: themeData.textTheme.bodyLarge!.color,),) : const SizedBox()),
-        title: Text(title??"",textAlign: TextAlign.center,style: themeData.textTheme.displayLarge?.copyWith(fontSize: 22),overflow: TextOverflow.ellipsis,),
+                      try {
+                        GoRouter.of(appContext).pop(appContext);
+                      } catch (e) {
+                        Navigator.pop(context);
+                      }
+                    },
+                    icon: Icon(
+                      Icons.arrow_back,
+                      color: contentColor ?? themeData.textTheme.bodyLarge!.color,
+                    ),
+                  )
+                : const SizedBox()),
+        title: Text(
+          title ?? "",
+          textAlign: TextAlign.center,
+          style: themeData.textTheme.displayLarge
+              ?.copyWith(fontSize: 22, color: contentColor ?? Colors.black),
+          overflow: TextOverflow.ellipsis,
+        ),
       ),
     );
   }
-  double? leadingWithCount(){
-    if(!navigated && leadingWidget == null){
+
+  double? leadingWithCount() {
+    if (!navigated && leadingWidget == null) {
       return 0;
-    }
-    else if(navigated) {
+    } else if (navigated) {
       return 25;
-    } else if(isHomeScreen) {
+    } else if (isHomeScreen) {
       return 120;
     }
     return null;
   }
-  double? leadingHeightCount(){
-    if(isHomeScreen){
+
+  double? leadingHeightCount() {
+    if (isHomeScreen) {
       return 100;
     }
     return null;
@@ -67,5 +92,4 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget  {
 
   @override
   Size get preferredSize => const Size.fromHeight(90);
-
 }

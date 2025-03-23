@@ -9,10 +9,12 @@ import '../../../Constants/Eunms.dart';
 import '../../../Data/Models/FilterData.dart';
 import '../../../Data/Models/UpdateDataModel.dart';
 import '../../../Utils/FilterUtils.dart';
+import '../../../Utils/UtilsExts.dart';
 import '../../BottomSheets/AuthenticateBottomSheet.dart';
 import '../../BottomSheets/FilterBottomSheet.dart';
 import '../../StateNotifiersViewModel/PublicStateNotifiers.dart';
 import '../../Theme/AppTheme.dart';
+import '../../Widgets/CircleImage.dart';
 import '../../Widgets/CustomAppBar.dart';
 import '../../Widgets/SearchWithFilter.dart';
 import '../../Widgets/SvgIcons.dart';
@@ -21,15 +23,17 @@ import '../search/ProductSearchScreen.dart';
 class OccasionResultScreen extends ConsumerStatefulWidget {
   final String title;
   final int? occasionId;
-  const OccasionResultScreen({super.key, required this.title, this.occasionId});
+  final String? image;
+  const OccasionResultScreen(
+      {super.key, this.image, required this.title, this.occasionId});
 
   @override
-  ConsumerState<OccasionResultScreen> createState() => _OccasionResultScreenState();
+  ConsumerState<OccasionResultScreen> createState() =>
+      _OccasionResultScreenState();
 }
 
 class _OccasionResultScreenState extends ConsumerState<OccasionResultScreen>
-    with SingleTickerProviderStateMixin{
-
+    with SingleTickerProviderStateMixin {
   late TabController tabController;
   int activeTabIndex = 0;
 
@@ -50,29 +54,22 @@ class _OccasionResultScreenState extends ConsumerState<OccasionResultScreen>
 
   @override
   void initState() {
-    tabController = TabController(
-        length:3 , vsync: this);
+    tabController = TabController(length: 3, vsync: this);
     tabController.addListener(() {
       setState(() {
         activeTabIndex = tabController.index;
         if (activeTabIndex == 0) {
           controller.text = searchForAllProductData ?? "";
-          ref.read(filterNumberCountStateNotifiers.notifier)
-              .updateNumber(
-              number: getNumberOfFilterItems(filterForAllProductData)
-          );
+          ref.read(filterNumberCountStateNotifiers.notifier).updateNumber(
+              number: getNumberOfFilterItems(filterForAllProductData));
         } else if (activeTabIndex == 1) {
           controller.text = searchForReadyGiftsProductData ?? "";
-          ref.read(filterNumberCountStateNotifiers.notifier)
-              .updateNumber(
-              number: getNumberOfFilterItems(filterForReadyGiftsProductData)
-          );
+          ref.read(filterNumberCountStateNotifiers.notifier).updateNumber(
+              number: getNumberOfFilterItems(filterForReadyGiftsProductData));
         } else if (activeTabIndex == 2) {
           controller.text = searchForUnreadyProductData ?? "";
-          ref.read(filterNumberCountStateNotifiers.notifier)
-              .updateNumber(
-              number: getNumberOfFilterItems(filterForUnreadyProductData)
-          );
+          ref.read(filterNumberCountStateNotifiers.notifier).updateNumber(
+              number: getNumberOfFilterItems(filterForUnreadyProductData));
         }
       });
     });
@@ -95,123 +92,159 @@ class _OccasionResultScreenState extends ConsumerState<OccasionResultScreen>
     return false; // Return true to allow the pop action, false to prevent it
   }
 
+  final headerHeightPresent = 0.22;
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: _onWillPop,
       child: Scaffold(
-        appBar: CustomAppBar(
-          appContext: context,
-          title: widget.title,
-          navigated: true,
-          isCenter: false,
-        ),
         body: SafeArea(
           child: Column(
             children: [
-              AppSearchBarWithFilter(
-                controller: controller,
-                hasFilter: true,
-                numberOfFilterItems: ref.watch(filterNumberCountStateNotifiers) - 1,
-                onFilterClick: () {
-                  openFilterBottomSheet();
-                },
-                delay: 1,
-                onTextChangeListener: (value) {
-                  if (activeTabIndex == 0) {
-                    currentPageForAllProducts = 1;
-                    searchForAllProductData = value;
-                    fetchProducts(currentPageForAllProducts);
-                  }
-                  else if (activeTabIndex == 1) {
-                    currentPageForReadyGiftsProducts = 1;
-                    searchForReadyGiftsProductData = value;
-                    fetchReadyGiftsProducts(currentPageForReadyGiftsProducts);
-                  }
-                  else if (activeTabIndex == 2) {
-                    currentPageUnreadyForProducts = 1;
-                    searchForUnreadyProductData = value;
-                    if(value.isNotEmpty || getNumberOfFilterItems(filterForUnreadyProductData) > 0) {
-                      fetchUnreadyProducts(currentPageUnreadyForProducts);
-                    }
-                  }
-                },
-              ),
               Container(
-                decoration: BoxDecoration(color: Colors.white, boxShadow: [
-                  BoxShadow(
-                    color: AppTheme.appGrey8.withOpacity(0.6), // Shadow color
-                    blurRadius: .5, // Blur effect
-                    spreadRadius: .1, // Spread effect
-                    offset: const Offset(0, .5), // Shadow position
-                  ),
-                ]),
-                child: TabBar(
-                  labelColor: Colors.white,
-                  unselectedLabelColor: Colors.white,
-                  indicatorPadding: EdgeInsets.zero,
-                  indicatorColor: AppTheme.appRedColor,
-                  tabs: [
-                    Tab(
-                        child: Text("All",
-                            style: activeTabIndex == 0
-                                ? AppTheme
-                                .styleWithTextBlackColor2AdelleSansExtendedFonts14w400
-                                : AppTheme
-                                .styleWithTextAppGrey7AdelleSansExtendedFonts14w400)),
-                    Tab(
-                      child: Text("Ready Gifts",
-                          style: activeTabIndex == 1
-                              ? AppTheme
-                              .styleWithTextBlackColor2AdelleSansExtendedFonts14w400
-                              : AppTheme
-                              .styleWithTextAppGrey7AdelleSansExtendedFonts14w400),
+                height: MediaQuery.of(context).size.height * headerHeightPresent, // ارتفاع الهيدر
+                child: Stack(
+                  children: [
+                    Container(
+                      height: MediaQuery.of(context).size.height * headerHeightPresent, // ارتفاع الهيدر
+                      width: double.infinity,
+                      child: ImageView(
+                        width: MediaQuery.of(context).size.width,
+                        height: MediaQuery.of(context).size.height * headerHeightPresent,
+                        initialImg: widget.image,
+                      ),
                     ),
-                    Tab(
-                      child: Text("Unready Gifts",
-                          style: activeTabIndex == 2
-                              ? AppTheme
-                              .styleWithTextBlackColor2AdelleSansExtendedFonts14w400
-                              : AppTheme
-                              .styleWithTextAppGrey7AdelleSansExtendedFonts14w400),
+                    Container(
+                      height: 200, // ارتفاع الهيدر
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        color: Colors.black.withOpacity(0.5),
+                      ),
+                    ),
+                    Column(
+                      children: [
+                        SizedBox(
+                          height: 20,
+                        ),
+                        CustomAppBar(
+                          appBarColor: Colors.transparent,
+                          appContext: context,
+                          title: widget.title,
+                          navigated: true,
+                          isCenter: false,
+                          contentColor: Colors.white,
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        AppSearchBarWithFilter(
+                          controller: controller,
+                          hasFilter: true,
+                          background: Colors.transparent,
+                          shadowColor: Colors.white,
+                          contentColor: Colors.white,
+                          blurRadius: 0,
+                          numberOfFilterItems:
+                          ref.watch(filterNumberCountStateNotifiers) - 1,
+                          onFilterClick: () {
+                            openFilterBottomSheet();
+                          },
+                          delay: 1,
+                          onTextChangeListener: (value) {
+                            if (activeTabIndex == 0) {
+                              currentPageForAllProducts = 1;
+                              searchForAllProductData = value;
+                              fetchProducts(currentPageForAllProducts);
+                            } else if (activeTabIndex == 1) {
+                              currentPageForReadyGiftsProducts = 1;
+                              searchForReadyGiftsProductData = value;
+                              fetchReadyGiftsProducts(currentPageForReadyGiftsProducts);
+                            } else if (activeTabIndex == 2) {
+                              currentPageUnreadyForProducts = 1;
+                              searchForUnreadyProductData = value;
+                              if (value.isNotEmpty ||
+                                  getNumberOfFilterItems(filterForUnreadyProductData) >
+                                      0) {
+                                fetchUnreadyProducts(currentPageUnreadyForProducts);
+                              }
+                            }
+                          },
+                        ),
+
+                      ],
+                    ),
+                    Align(
+                      alignment: Alignment.bottomCenter,
+                      child: TabBar(
+                        indicatorWeight: 5,
+                        labelColor: Colors.transparent,
+                        unselectedLabelColor: Colors.transparent,
+                        indicatorPadding: EdgeInsets.zero,
+                        indicatorColor: AppTheme.appRedColor,
+                        tabs: [
+                          Tab(
+                              child: Text("All",
+                                  style: activeTabIndex == 0
+                                      ? AppTheme
+                                      .styleWithTextBlackColor2AdelleSansExtendedFonts14w400.copyWith(color: Colors.white)
+                                      : AppTheme
+                                      .styleWithTextAppGrey7AdelleSansExtendedFonts14w400.copyWith(color: AppTheme.appGrey19))),
+                          Tab(
+                            child: Text("Ready Gifts",
+                                style: activeTabIndex == 1
+                                    ? AppTheme
+                                    .styleWithTextBlackColor2AdelleSansExtendedFonts14w400.copyWith(color: Colors.white)
+                                    : AppTheme
+                                    .styleWithTextAppGrey7AdelleSansExtendedFonts14w400.copyWith(color: AppTheme.appGrey19)),
+                          ),
+                          Tab(
+                            child: Text("Unready Gifts",
+                                style: activeTabIndex == 2
+                                    ? AppTheme
+                                    .styleWithTextBlackColor2AdelleSansExtendedFonts14w400.copyWith(color: Colors.white)
+                                    : AppTheme
+                                    .styleWithTextAppGrey7AdelleSansExtendedFonts14w400.copyWith(color: AppTheme.appGrey19)),
+                          ),
+                        ],
+                        controller: tabController,
+                      ),
                     ),
                   ],
-                  controller: tabController,
                 ),
               ),
               Expanded(
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 16),
-                    child: TabBarView(
-                      controller: tabController,
-                      children: [
-                        ProductOccasionSearchScreen(
-                            type: CategoryType.Search,
-                            productType: ProductOccasionType.All,
-                            showData: controller.text.isNotEmpty,
-                            controller: controller,
-                            id: null,
-                            showAuthenticated: showAuthenticated,
-                            navigateToItemDetails: navigateToItemDetails),
-                        ProductOccasionSearchScreen(
-                            type: CategoryType.Search,
-                            productType: ProductOccasionType.Ready,
-                            showData: controller.text.isNotEmpty,
-                            controller: controller,
-                            id: null,
-                            showAuthenticated: showAuthenticated,
-                            navigateToItemDetails: navigateToItemDetails),
-                        ProductOccasionSearchScreen(
-                            type: CategoryType.Search,
-                            productType: ProductOccasionType.UnReady,
-                            showData: controller.text.isNotEmpty,
-                            controller: controller,
-                            id: null,
-                            showAuthenticated: showAuthenticated,
-                            navigateToItemDetails: navigateToItemDetails),
-                      ],
-                    ),
-                  ))
+                padding: const EdgeInsets.symmetric(vertical: 16),
+                child: TabBarView(
+                  controller: tabController,
+                  children: [
+                    ProductOccasionSearchScreen(
+                        type: CategoryType.Search,
+                        productType: ProductOccasionType.All,
+                        showData: controller.text.isNotEmpty,
+                        controller: controller,
+                        id: null,
+                        showAuthenticated: showAuthenticated,
+                        navigateToItemDetails: navigateToItemDetails),
+                    ProductOccasionSearchScreen(
+                        type: CategoryType.Search,
+                        productType: ProductOccasionType.Ready,
+                        showData: controller.text.isNotEmpty,
+                        controller: controller,
+                        id: null,
+                        showAuthenticated: showAuthenticated,
+                        navigateToItemDetails: navigateToItemDetails),
+                    ProductOccasionSearchScreen(
+                        type: CategoryType.Search,
+                        productType: ProductOccasionType.UnReady,
+                        showData: controller.text.isNotEmpty,
+                        controller: controller,
+                        id: null,
+                        showAuthenticated: showAuthenticated,
+                        navigateToItemDetails: navigateToItemDetails),
+                  ],
+                ),
+              ))
             ],
           ),
         ),
@@ -236,6 +269,7 @@ class _OccasionResultScreenState extends ConsumerState<OccasionResultScreen>
             ? searchForAllProductData
             : null);
   }
+
   void fetchReadyGiftsProducts(int page) {
     ref.read(getReadyGiftsProductsStateNotifiers.notifier).getProductsData(
         page: page,
@@ -254,6 +288,7 @@ class _OccasionResultScreenState extends ConsumerState<OccasionResultScreen>
             ? searchForReadyGiftsProductData
             : null);
   }
+
   void fetchUnreadyProducts(int page) {
     ref.read(getUnreadyProductsStateNotifiers.notifier).getProductsData(
         page: page,
@@ -276,16 +311,14 @@ class _OccasionResultScreenState extends ConsumerState<OccasionResultScreen>
   void openFilterBottomSheet() {
     FilterData? filterData;
     FilterScreenTypes type;
-    final currentIndex  = activeTabIndex;
+    final currentIndex = activeTabIndex;
     if (currentIndex == 0) {
       filterData = filterForAllProductData;
       type = FilterScreenTypes.Services;
-    }
-    else if (currentIndex == 1) {
+    } else if (currentIndex == 1) {
       filterData = filterForReadyGiftsProductData;
       type = FilterScreenTypes.Services;
-    }
-    else /*if (currentIndex == 2)*/{
+    } else /*if (currentIndex == 2)*/ {
       filterData = filterForUnreadyProductData;
       type = FilterScreenTypes.Services;
     }
@@ -305,50 +338,50 @@ class _OccasionResultScreenState extends ConsumerState<OccasionResultScreen>
             type: type,
             dataSelected: filterData,
             occasionId: widget.occasionId,
-            onFilterApply: (filterData){
-              final currentIndex  = activeTabIndex;
+            onFilterApply: (filterData) {
+              final currentIndex = activeTabIndex;
               if (currentIndex == 0) {
                 filterForAllProductData = filterData;
-                ref.read(filterForProductStateNotifiers.notifier).applyDataFilter(
-                    priceFromSelected: filterData.priceFromSelected,
-                    priceToSelected: filterData.priceToSelected,
-                    categoriesIdsSelected: filterData.categoriesIdsSelected,
-                    occasionsIdsSelected: filterData.occasionsIdsSelected,
-                    ratingValueSelected: filterData.ratingValueSelected,
-                    shipmentTypeSelected: filterData.shipmentTypeSelected
-                );
-                ref.read(filterNumberCountStateNotifiers.notifier)
-                    .updateNumber(
-                    number: getNumberOfFilterItems(filterData)
-                );
+                ref
+                    .read(filterForProductStateNotifiers.notifier)
+                    .applyDataFilter(
+                        priceFromSelected: filterData.priceFromSelected,
+                        priceToSelected: filterData.priceToSelected,
+                        categoriesIdsSelected: filterData.categoriesIdsSelected,
+                        occasionsIdsSelected: filterData.occasionsIdsSelected,
+                        ratingValueSelected: filterData.ratingValueSelected,
+                        shipmentTypeSelected: filterData.shipmentTypeSelected);
+                ref
+                    .read(filterNumberCountStateNotifiers.notifier)
+                    .updateNumber(number: getNumberOfFilterItems(filterData));
                 fetchProducts(1);
-              }
-              else if (currentIndex == 1) {
+              } else if (currentIndex == 1) {
                 filterForReadyGiftsProductData = filterData;
-                ref.read(filterForServiceStateNotifiers.notifier).applyDataFilter(
-                  priceFromSelected: filterData.priceFromSelected,
-                  priceToSelected: filterData.priceToSelected,
-                  categoriesIdsSelected: filterData.categoriesIdsSelected,
-                  occasionsIdsSelected: filterData.occasionsIdsSelected,
-                  ratingValueSelected: filterData.ratingValueSelected,
-                );
-                ref.read(filterNumberCountStateNotifiers.notifier)
-                    .updateNumber(
-                    number: getNumberOfFilterItems(filterData)
-                );
+                ref
+                    .read(filterForServiceStateNotifiers.notifier)
+                    .applyDataFilter(
+                      priceFromSelected: filterData.priceFromSelected,
+                      priceToSelected: filterData.priceToSelected,
+                      categoriesIdsSelected: filterData.categoriesIdsSelected,
+                      occasionsIdsSelected: filterData.occasionsIdsSelected,
+                      ratingValueSelected: filterData.ratingValueSelected,
+                    );
+                ref
+                    .read(filterNumberCountStateNotifiers.notifier)
+                    .updateNumber(number: getNumberOfFilterItems(filterData));
                 fetchReadyGiftsProducts(1);
-              }
-              else {
+              } else {
                 filterForUnreadyProductData = filterData;
-                ref.read(filterForSellerStateNotifiers.notifier).applyDataFilter(
-                  categoriesIdsSelected: filterData.categoriesIdsSelected,
-                  occasionsIdsSelected: filterData.occasionsIdsSelected,
-                  ratingValueSelected: filterData.ratingValueSelected,
-                );
-                ref.read(filterNumberCountStateNotifiers.notifier)
-                    .updateNumber(
-                    number: getNumberOfFilterItems(filterData)
-                );
+                ref
+                    .read(filterForSellerStateNotifiers.notifier)
+                    .applyDataFilter(
+                      categoriesIdsSelected: filterData.categoriesIdsSelected,
+                      occasionsIdsSelected: filterData.occasionsIdsSelected,
+                      ratingValueSelected: filterData.ratingValueSelected,
+                    );
+                ref
+                    .read(filterNumberCountStateNotifiers.notifier)
+                    .updateNumber(number: getNumberOfFilterItems(filterData));
                 fetchUnreadyProducts(1);
               }
             },
@@ -382,15 +415,15 @@ class _OccasionResultScreenState extends ConsumerState<OccasionResultScreen>
                 topRight: Radius.circular(10), topLeft: Radius.circular(10))),
         context: context,
         builder: (BuildContext context) => AuthenticateBottomSheet(
-          onLoginClicked: () {
-            navigateToLogin();
-          },
-        ));
+              onLoginClicked: () {
+                navigateToLogin();
+              },
+            ));
   }
 
   void navigateToLogin() async {
     var makeRefresh =
-    await context.push(R_LoginScreen, extra: {"type": TypeOfMode.ViewMode});
+        await context.push(R_LoginScreen, extra: {"type": TypeOfMode.ViewMode});
 
     if (makeRefresh == true) {
       currentPageForAllProducts = 1;

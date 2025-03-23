@@ -146,7 +146,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                 //     occasionId: occasionItem.id?.toInt());
                                 navigateToOccasion(
                                   occasionItem.id,
-                                  occasionItem.name
+                                  occasionItem.name,
+                                  occasionItem.imagePath
                                 );
                               },
                               onSeeAllClickListener: (id, name) {
@@ -505,7 +506,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     ).fetchAllServicesInWishlist();
   }
 
-  void navigateToOccasion(num? id, String? name) {
-    context.push(R_OccasionResultScreen,extra: {"occasionId":id,"title":name});
+  void navigateToOccasion(num? id, String? name,String? image) {
+    context.push(R_OccasionResultScreen,extra: {"occasionId":id,"title":name,"image":image});
   }
 }
