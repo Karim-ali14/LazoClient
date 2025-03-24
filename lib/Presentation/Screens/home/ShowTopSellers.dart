@@ -42,6 +42,12 @@ class _ShowTopSellersState extends ConsumerState<ShowTopSellers> {
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((callback) {
+      if(widget.type == CategoryType.Categories) {
+        categoriesSelected?.add(Category(
+          id: widget.categoryId,
+          name: widget.title
+        ));
+      }
       fetchSellers(currentPage);
     });
     super.initState();
@@ -92,7 +98,7 @@ class _ShowTopSellersState extends ConsumerState<ShowTopSellers> {
                     padding: const EdgeInsetsDirectional.only(
                         top: 16, bottom: 16, start: 16),
                     child: SizedBox(
-                      height: 44,
+                      height: 45,
                       child: ListView.separated(
                           scrollDirection: Axis.horizontal,
                           itemBuilder: (context, index) {
@@ -100,7 +106,7 @@ class _ShowTopSellersState extends ConsumerState<ShowTopSellers> {
                               enabled: categoryState.state == DataState.LOADING,
                               child: CategoryFilterItemCard(
                                 initSelected: widget.categoryId == categoryState.data?.data[index].id,
-                                height: 44,
+                                height: 45,
                                 width: 127,
                                 title: categoryState.data?.data[index].name ??
                                     "",
@@ -111,7 +117,7 @@ class _ShowTopSellersState extends ConsumerState<ShowTopSellers> {
                                   if(selected){
                                     categoriesSelected?.add(categoryState.data!.data[index]);
                                   }else{
-                                    categoriesSelected?.remove(categoryState.data!.data[index]);
+                                    categoriesSelected?.removeWhere((item) => categoryState.data!.data[index].id == item.id);
                                   }
                                   currentPage = 1;
                                   fetchSellers(currentPage);
@@ -140,7 +146,7 @@ class _ShowTopSellersState extends ConsumerState<ShowTopSellers> {
                             (topSellerState.state == DataState.LOADING
                                 ? [
                                     ...List.generate(
-                                        5, (index) => ProviderData())
+                                        6, (index) => ProviderData())
                                   ]
                                 : []),
                         paginated: true,
