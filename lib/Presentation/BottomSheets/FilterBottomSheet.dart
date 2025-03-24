@@ -31,14 +31,15 @@ class FilterBottomSheet extends ConsumerStatefulWidget {
   final double? height;
   final OnFilterApply? onFilterApply;
   final FilterData? dataSelected;
-  const FilterBottomSheet({
+  final bool? showCategory;
+  const FilterBottomSheet( {
     super.key,
     this.height,
     this.type,
     this.categoryId,
     this.occasionId,
     this.onFilterApply,
-    this.dataSelected,
+    this.dataSelected,this.showCategory = true,
   });
 
   @override
@@ -187,7 +188,7 @@ class _FilterBottomSheetState extends ConsumerState<FilterBottomSheet> {
                             ),
                           )
                         : const SizedBox(),
-                    Padding(
+                    widget.showCategory == true ? Padding(
                       padding: const EdgeInsets.only(
                           bottom: defaultPaddingHorizontal),
                       child: ExpandedItemCard(
@@ -202,7 +203,7 @@ class _FilterBottomSheetState extends ConsumerState<FilterBottomSheet> {
                           onSelectItemCallback: (item) {},
                         ),
                       ),
-                    ),
+                    ):const SizedBox(),
                     widget.occasionId == null ?Padding(
                       padding: const EdgeInsets.only(
                           bottom: defaultPaddingHorizontal),

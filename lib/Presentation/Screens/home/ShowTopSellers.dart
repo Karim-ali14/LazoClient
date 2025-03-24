@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -6,6 +7,8 @@ import 'package:go_router/go_router.dart';
 import 'package:lazo_client/Constants.dart';
 import 'package:lazo_client/Data/Models/StateModel.dart';
 import 'package:lazo_client/Data/Network/lib/api.dart';
+import 'package:lazo_client/Localization/Keys.dart';
+import 'package:lazo_client/Presentation/Screens/home/Componants/CategoryFilterItemCard.dart';
 import 'package:lazo_client/Presentation/Theme/AppTheme.dart';
 import 'package:lazo_client/Presentation/Widgets/CustomAppBar.dart';
 import 'package:lazo_client/Presentation/Widgets/DataListView.dart';
@@ -35,6 +38,7 @@ class _ShowTopSellersState extends ConsumerState<ShowTopSellers> {
   var currentPage = 1;
   String? searchValue = null;
   FilterData? sellerFilterData = null;
+  final List<Category>? categoriesSelected = [];
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((callback) {
@@ -46,10 +50,13 @@ class _ShowTopSellersState extends ConsumerState<ShowTopSellers> {
   @override
   Widget build(BuildContext context) {
     final topSellerState = ref.watch(getTopSellersDataStateNotifiers);
+    final categoryState = ref.watch(getCategoriesDataStateNotifiers);
     return Scaffold(
       appBar: CustomAppBar(
         appContext: context,
-        title: widget.title,
+        title: widget.type == CategoryType.Categories
+            ? context.tr(categoriesKey)
+            : widget.title,
         isCenter: false,
         navigated: true,
       ),
@@ -69,6 +76,58 @@ class _ShowTopSellersState extends ConsumerState<ShowTopSellers> {
                 fetchSellers(currentPage);
               },
             ),
+            widget.type == CategoryType.Categories
+                ? Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white, // Background color
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(.2), // Shadow color
+                          blurRadius: .8, // Blur effect
+                          spreadRadius: .1, // Spread effect
+                          offset: const Offset(0, .5), // Shadow position
+                        ),
+                      ],
+                    ),
+                    padding: const EdgeInsetsDirectional.only(
+                        top: 16, bottom: 16, start: 16),
+                    child: SizedBox(
+                      height: 44,
+                      child: ListView.separated(
+                          scrollDirection: Axis.horizontal,
+                          itemBuilder: (context, index) {
+                            return Skeletonizer(
+                              enabled: categoryState.state == DataState.LOADING,
+                              child: CategoryFilterItemCard(
+                                initSelected: widget.categoryId == categoryState.data?.data[index].id,
+                                height: 44,
+                                width: 127,
+                                title: categoryState.data?.data[index].name ??
+                                    "",
+                                image: categoryState
+                                        .data?.data[index].imagePath ??
+                                    "",
+                                onSelectCategory: (selected) {
+                                  if(selected){
+                                    categoriesSelected?.add(categoryState.data!.data[index]);
+                                  }else{
+                                    categoriesSelected?.remove(categoryState.data!.data[index]);
+                                  }
+                                  currentPage = 1;
+                                  fetchSellers(currentPage);
+                                },
+                              ),
+                            );
+                          },
+                          separatorBuilder: (context, index) => const SizedBox(
+                                width: 12,
+                              ),
+                          itemCount: categoryState.state == DataState.LOADING
+                              ? 5
+                              : categoryState.data?.data.length ?? 0),
+                    ),
+                  )
+                : SizedBox(),
             SizedBox(
               height: 16,
             ),
@@ -99,15 +158,18 @@ class _ShowTopSellersState extends ConsumerState<ShowTopSellers> {
                           }
                         },
                         builder: (item) => Padding(
-                              padding: const EdgeInsetsDirectional.only(start: 8),
+                              padding:
+                                  const EdgeInsetsDirectional.only(start: 8),
                               child: Skeletonizer(
                                   enabled:
                                       topSellerState.state == DataState.LOADING,
                                   child: SellerItemCard(
                                     width: 175,
-                                    providerData: item, onSellerClickListener: (sellerId) {
-                                    navigateToSellerDetails(sellerId);
-                                  },)),
+                                    providerData: item,
+                                    onSellerClickListener: (sellerId) {
+                                      navigateToSellerDetails(sellerId);
+                                    },
+                                  )),
                             )),
                   )
                 : EmptyDataView(
@@ -139,7 +201,6 @@ class _ShowTopSellersState extends ConsumerState<ShowTopSellers> {
     filterData = sellerFilterData;
     type = FilterScreenTypes.Sellers;
 
-
     showModalBottomSheet(
         isScrollControlled: true,
         shape: RoundedRectangleBorder(
@@ -154,21 +215,18 @@ class _ShowTopSellersState extends ConsumerState<ShowTopSellers> {
             height: height,
             type: type,
             dataSelected: filterData,
-            onFilterApply: (filterData){
-
-                sellerFilterData = filterData;
-                ref.read(filterForSellerStateNotifiers.notifier).applyDataFilter(
-                  categoriesIdsSelected: filterData.categoriesIdsSelected,
-                  occasionsIdsSelected: filterData.occasionsIdsSelected,
-                  ratingValueSelected: filterData.ratingValueSelected,
-                );
-                ref.read(filterNumberCountStateNotifiers.notifier)
-                    .updateNumber(
-                    number: getNumberOfFilterItems(filterData)
-                );
-                currentPage = 1;
-                fetchSellers(currentPage);
-
+            onFilterApply: (filterData) {
+              sellerFilterData = filterData;
+              ref.read(filterForSellerStateNotifiers.notifier).applyDataFilter(
+                    categoriesIdsSelected: filterData.categoriesIdsSelected,
+                    occasionsIdsSelected: filterData.occasionsIdsSelected,
+                    ratingValueSelected: filterData.ratingValueSelected,
+                  );
+              ref
+                  .read(filterNumberCountStateNotifiers.notifier)
+                  .updateNumber(number: getNumberOfFilterItems(filterData));
+              currentPage = 1;
+              fetchSellers(currentPage);
             },
           );
         });
@@ -186,9 +244,20 @@ class _ShowTopSellersState extends ConsumerState<ShowTopSellers> {
                 ?.map((item) => item.toString())
                 .toList(),
           );
-    } else {
+    } else if(widget.type == CategoryType.Categories){
+      var list = categoriesSelected?.map((item) => (item.id??0).toInt()).toList();
       ref.read(getTopSellersDataStateNotifiers.notifier).getTopSellersData(
-          categoriesIds: [widget.categoryId??0],
+          categoriesIds: list?.isNotEmpty == true ? list : null,
+          isPromoted: sellerFilterData?.promotionSelected,
+          occasionsIds: sellerFilterData?.occasionsIdsSelected,
+          ratings: sellerFilterData?.ratingValueSelected
+              ?.map((item) => item.toString())
+              .toList(),
+          page: page,
+          searchByName: searchValue?.isNotEmpty == true ? searchValue : null);
+    }else {
+      ref.read(getTopSellersDataStateNotifiers.notifier).getTopSellersData(
+          categoriesIds: [widget.categoryId ?? 0],
           isPromoted: sellerFilterData?.promotionSelected,
           occasionsIds: sellerFilterData?.occasionsIdsSelected,
           ratings: sellerFilterData?.ratingValueSelected
@@ -199,7 +268,9 @@ class _ShowTopSellersState extends ConsumerState<ShowTopSellers> {
     }
   }
 
-  void navigateToSellerDetails(int sellerId,) {
-    context.push(R_SellerDetails , extra: {"sellerId" : sellerId});
+  void navigateToSellerDetails(
+    int sellerId,
+  ) {
+    context.push(R_SellerDetails, extra: {"sellerId": sellerId});
   }
 }
