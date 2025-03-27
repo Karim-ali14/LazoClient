@@ -6,6 +6,7 @@ import 'package:lazo_client/Doman/CommenProviders/ApiProvider.dart';
 import 'package:lazo_client/Doman/useCases/PublicUseCases.dart';
 import '../../Data/Network/lib/api.dart';
 import '../../Doman/useCases/AuthUaseCases.dart';
+import '../../Doman/useCases/UpdateListOFCategoryUseCase.dart';
 
 final getCities = StateNotifierProvider.autoDispose<CitiesUseCases,
         StateModel<CitiesResponse?>>(
@@ -18,6 +19,10 @@ final uploadFilesStateNotifiers = StateNotifierProvider.autoDispose<
 final homeDataStateNotifiers =
     StateNotifierProvider<HomeDataUseCase, StateModel<ShowHome200Response>>(
         (ref) => HomeDataUseCase(ref, ref.read(publicApi)));
+
+final updateListOfCategoryStateNotifiers =
+    StateNotifierProvider<UpdateListOfCategoryUseCase, List<Category>>(
+        (ref) => UpdateListOfCategoryUseCase());
 
 final getCategoriesDataStateNotifiers =
     StateNotifierProvider<GetCategoriesUseCase, StateModel<CategoriesResponse>>(

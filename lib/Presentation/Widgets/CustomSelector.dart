@@ -63,10 +63,8 @@ class _CustomSelectorBottomSheetState
   }
 
   double calculateListHeight(List<ItemSelector> list) {
-    // if (itemHeight == 0) return 0; // في البداية قبل القياس
-    int rows = list.length; // كل عنصر في صف مستقل
+    int rows = list.length;
     double totalHeight = (rows * 64);
-    print("sdfasfsdf $totalHeight");
     return totalHeight;
   }
   @override

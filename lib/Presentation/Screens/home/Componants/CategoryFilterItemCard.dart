@@ -1,106 +1,63 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:lazo_client/Constants/Assets.dart';
+import 'package:lazo_client/Data/Network/lib/api.dart';
+import 'package:lazo_client/Presentation/Widgets/SvgIcons.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import '../../../Theme/AppTheme.dart';
 import '../../../Widgets/CircleImage.dart';
 
-typedef OnSelectCategory = Function(bool);
+typedef OnSelectCategory = Function(Category?);
+
 class CategoryFilterItemCard extends StatefulWidget {
-  final String image;
-  final String title;
-  final double? width;
+  final Category? category;
   final double height;
-  final bool? initSelected;
   final OnSelectCategory onSelectCategory;
   const CategoryFilterItemCard(
       {super.key,
-      required this.image,
-      required this.title,
-      this.width,
       required this.height,
-      this.initSelected = false, required this.onSelectCategory});
+      required this.onSelectCategory,
+      this.category});
 
   @override
   State<CategoryFilterItemCard> createState() => _CategoryFilterItemCardState();
 }
 
 class _CategoryFilterItemCardState extends State<CategoryFilterItemCard> {
-  bool isSelected = false;
-  @override
-  void initState() {
-    isSelected = widget.initSelected ?? false;
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Skeleton.replace(
-      replacement: Container(
-        width: widget.width ??
-            MediaQuery.of(context).size.width, // Adjust dimensions as needed
+      replacement: Container( // Adjust dimensions as needed
         height: widget.height,
         color: AppTheme.appGrey9,
       ),
-      child: InkWell(
-        onTap: () {
-          setState(() {
-            isSelected = !isSelected;
-            widget.onSelectCategory.call(isSelected);
-          });
-        },
-        child: Container(
-          clipBehavior: Clip.antiAlias,
-          width: widget.width ?? MediaQuery.of(context).size.width,
-          height: widget.height,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(8),
-            border: Border.all(
-                color: AppTheme.appRedColor,
-                width: isSelected == true ? 2 : 0),
-          ),
-          child: Stack(
+      child: Container(
+        clipBehavior: Clip.antiAlias,
+        height: widget.height,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(color: AppTheme.appGrey8, width: 1),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 15),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              ImageView(
-                width: widget.width ?? MediaQuery.of(context).size.width,
-                height: widget.height,
-                initialImg: widget.image,
+              Text(widget.category?.name ?? "",
+                  style: AppTheme.styleWithTextBlackColor2AdelleSansExtendedFonts13w400
+                      .copyWith(overflow: TextOverflow.ellipsis),
+                  maxLines: 1,
+                  textAlign: TextAlign.center),
+              SizedBox(
+                width: 5,
               ),
-              Container(
-                width: widget.width,
-                height: widget.height,
-                foregroundDecoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8),
-                  gradient: LinearGradient(
-                    begin: Alignment.bottomCenter,
-                    end: Alignment.topCenter,
-                    colors: [
-                      Colors.black
-                          .withOpacity(0.8), // Dark shadow at the bottom
-                      Colors.transparent, // Fades to transparent at the top
-                    ],
-                  ),
-                ),
-              ),
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 5),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(widget.title,
-                          style: AppTheme
-                              .styleWithTextWhiteColor15PoppinsFonts14w500
-                              .copyWith(overflow: TextOverflow.ellipsis),
-                          maxLines: 1,
-                          textAlign: TextAlign.center),
-                      const SizedBox(
-                        height: 8,
-                      )
-                    ],
-                  ),
-                ),
-              )
+              InkWell(
+                  onTap: () {
+                    widget.onSelectCategory.call(widget.category);
+                  },
+                  child: SVGIcons.localSVG(deleteImg,width: 20,height: 20))
             ],
           ),
         ),

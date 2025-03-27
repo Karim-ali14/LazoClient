@@ -14,6 +14,7 @@ const numberOfItemsImg = "assets/images/number_of_items_img.svg";
 const totalPriceImg = "assets/images/total_price_img.svg";
 const langImg = "assets/images/lang_ic.svg";
 const deleteAccountImg = "assets/images/delete_account_img.svg";
+const deleteImg = "assets/images/delete_icon.svg";
 const signOutImg = "assets/images/sign_out_img.svg";
 const privacyPolicyImg = "assets/images/privacy_policy_img.svg";
 const termsConditionsImg = "assets/images/terms_conditions_img.svg";

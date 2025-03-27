@@ -27,9 +27,10 @@ class _ExpandedItemCardState extends State<ExpandedItemCard> {
       },
       child: Container(
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(4),
-            border: Border.all(color: AppTheme.appGrey8),
-            color: Colors.white),
+          borderRadius: BorderRadius.circular(4),
+          border: Border.all(color: AppTheme.appGrey8),
+          color: Colors.white,
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -43,8 +44,7 @@ class _ExpandedItemCardState extends State<ExpandedItemCard> {
                       width: 295,
                       child: Text(
                         widget.title,
-                        style: AppTheme
-                            .styleWithTextAppBlackAdelleSansExtendedFonts14w700,
+                        style: AppTheme.styleWithTextAppBlackAdelleSansExtendedFonts14w700,
                       ),
                     ),
                     const Spacer(),

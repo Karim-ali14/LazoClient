@@ -180,9 +180,9 @@ class _FilterBottomSheetState extends ConsumerState<FilterBottomSheet> {
                                 itemSelectedId: shipmentTypeSelected,
                                 onSelectMultiItemsCallback: (items) {},
                                 onSelectItemCallback: (item) {
-                                  shipmentTypeSelected = item;
-                                  print(
-                                      "shipmentTypeSelected $shipmentTypeSelected");
+                                  setState(() {
+                                    shipmentTypeSelected = item;
+                                  });
                                 },
                               ),
                             ),
@@ -198,7 +198,9 @@ class _FilterBottomSheetState extends ConsumerState<FilterBottomSheet> {
                           itemSelectedIds: categoriesSelected,
                           isSingleSelect: false,
                           onSelectMultiItemsCallback: (items) {
-                            categoriesSelected = items;
+                            setState(() {
+                              categoriesSelected = items;
+                            });
                           },
                           onSelectItemCallback: (item) {},
                         ),
@@ -214,7 +216,9 @@ class _FilterBottomSheetState extends ConsumerState<FilterBottomSheet> {
                           itemSelectedIds: occasionsSelected,
                           isSingleSelect: false,
                           onSelectMultiItemsCallback: (items) {
-                            occasionsSelected = items;
+                            setState(() {
+                              occasionsSelected = items;
+                            });
                           },
                           onSelectItemCallback: (item) {},
                         ),
@@ -231,8 +235,10 @@ class _FilterBottomSheetState extends ConsumerState<FilterBottomSheet> {
                                   priceFrom: priceFrom,
                                   priceTo: priceTo,
                                   onPriceChanges: (from, to) {
-                                priceFrom = from;
-                                priceTo = to;
+                                    setState(() {
+                                      priceFrom = from;
+                                      priceTo = to;
+                                    });
                               }),
                             ),
                           )
@@ -247,8 +253,9 @@ class _FilterBottomSheetState extends ConsumerState<FilterBottomSheet> {
                           itemSelectedIds: ratingSelected,
                           isSingleSelect: false,
                           onSelectMultiItemsCallback: (items) {
-                            print(items);
-                            ratingSelected = items;
+                            setState(() {
+                              ratingSelected = items;
+                            });
                           },
                           onSelectItemCallback: (item) {},
                         ),

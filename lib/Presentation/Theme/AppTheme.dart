@@ -263,6 +263,9 @@ class AppTheme {
    static const TextStyle styleWithTextBlackColor2AdelleSansExtendedFonts14w400 = TextStyle(
       color: blackColor2 , fontSize: 14, fontWeight: FontWeight.w400);
 
+   static const TextStyle styleWithTextBlackColor2AdelleSansExtendedFonts13w400 = TextStyle(
+      color: blackColor2 , fontSize: 13, fontWeight: FontWeight.w400);
+
   static const TextStyle styleWithTextWhiteAdelleSansExtendedFonts14w400 = TextStyle(
       color: Colors.white , fontSize: 14, fontWeight: FontWeight.w400);
 
