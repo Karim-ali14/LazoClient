@@ -202,7 +202,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                               list: homeDataState.state != DataState.LOADING ?
                               homeDataState.data?.data?.categories
                                   .toList() ??
-                                  []:[Category(),Category(),Category(),Category()],
+                                  []:[Category(),Category(),Category(),Category(),Category(),Category()],
                               showLoading:
                               homeDataState.state == DataState.LOADING,
                               itemClick: (item) {

@@ -96,35 +96,37 @@ class _FilterBottomSheetState extends ConsumerState<FilterBottomSheet> {
       priceTo = filterData?.priceToSelected;
 
       setDefaultData();
+
+      final categoryState = ref.watch(getCategoriesDataStateNotifiers);
+      final occasionsState = ref.watch(getOccasionsDataStateNotifiers);
+
+      if (categoryState.state == DataState.SUCCESS) {
+        categoriesList = categoryState.data?.data
+            .map((item) => ItemSelector(
+            item.id?.toInt() ?? 0, item.name ?? "", null,
+            isChecked: item.isChecked ?? false))
+            .toList() ??
+            [];
+      } else {
+        categoriesList = [];
+      }
+
+      if (occasionsState.state == DataState.SUCCESS) {
+        occasionsList = occasionsState.data?.data
+            .map((item) => ItemSelector(
+            item.id?.toInt() ?? 0, item.name ?? "", null,
+            isChecked: item.isChecked ?? false))
+            .toList() ??
+            [];
+      } else {
+        occasionsList = [];
+      }
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    final categoryState = ref.watch(getCategoriesDataStateNotifiers);
-    final occasionsState = ref.watch(getOccasionsDataStateNotifiers);
 
-    if (categoryState.state == DataState.SUCCESS) {
-      categoriesList = categoryState.data?.data
-              .map((item) => ItemSelector(
-                  item.id?.toInt() ?? 0, item.name ?? "", null,
-                  isChecked: item.isChecked ?? false))
-              .toList() ??
-          [];
-    } else {
-      categoriesList = [];
-    }
-
-    if (occasionsState.state == DataState.SUCCESS) {
-      occasionsList = occasionsState.data?.data
-              .map((item) => ItemSelector(
-                  item.id?.toInt() ?? 0, item.name ?? "", null,
-                  isChecked: item.isChecked ?? false))
-              .toList() ??
-          [];
-    } else {
-      occasionsList = [];
-    }
     return SizedBox(
       height: widget.height,
       child: Column(
@@ -219,6 +221,7 @@ class _FilterBottomSheetState extends ConsumerState<FilterBottomSheet> {
                             setState(() {
                               occasionsSelected = items;
                             });
+                            print("occasionsSelected : ${occasionsSelected}");
                           },
                           onSelectItemCallback: (item) {},
                         ),

@@ -181,7 +181,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
   }
 
   void getStarted() {
-    context.push(R_MainScreen);
+    context.go(R_MainScreen);
     prefs.setBool(doneLandingKey, true);
   }
 }

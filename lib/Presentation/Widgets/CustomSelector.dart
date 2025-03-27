@@ -79,10 +79,10 @@ class _CustomSelectorBottomSheetState
             ...(List.generate(widget.widgetList.length, (index) =>
                 GestureDetector(
                   onTap: () {
-                    setState(() {
+                    // setState(() {
                     widget.itemSelectedId = widget.widgetList[index].id;
                     widget.onSelectItemCallback.call(widget.widgetList[index].id);
-                    });
+                    // });
                   },
                   child:
                   Column(
