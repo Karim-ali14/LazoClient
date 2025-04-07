@@ -148,7 +148,6 @@ class _ProductSearchScreenState extends ConsumerState<ProductSearchScreen> {
                     child: InkWell(
                         onTap: () {
                           clearFilterData();
-                          clearFilterCategorySelected();
                           filterForProductData = null;
                           updateFilterData(filterForProductData);
                           updateNumberOfSelectedItems(filterForProductData);

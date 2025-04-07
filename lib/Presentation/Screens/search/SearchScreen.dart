@@ -685,7 +685,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
     else if(type == FilterScreenTypes.Services){
       ref
           .read(
-          updateProductListOfFilterSelectedStateNotifiers
+          updateServiceListOfFilterSelectedStateNotifiers
               .notifier)
           .clearAll();
     }else {

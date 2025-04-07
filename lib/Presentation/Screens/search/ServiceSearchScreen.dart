@@ -26,6 +26,7 @@ import '../../Widgets/EmptyDataView.dart';
 import '../../Widgets/RecentScreen.dart';
 import '../../Widgets/ServiceAndProductItemCard.dart';
 import '../../Widgets/SvgIcons.dart';
+import '../home/Componants/CategoryFilterItemCard.dart';
 import 'ProductSearchScreen.dart';
 
 class ServiceSearchScreen extends ConsumerStatefulWidget {
@@ -103,89 +104,205 @@ class _ServiceSearchScreenState extends ConsumerState<ServiceSearchScreen> {
     currentPageForServices =
         servicesState.data?.data?.services?.currentPage?.toInt() ?? 1;
 
-    return widget.controller?.text.toString().isNotEmpty == true || getNumberOfFilterItems(filterForServicesData) > 0
-        ? servicesState.state == DataState.EMPTY
-            ? EmptyDataView(
-                icon: SVGIcons.localSVG(searchIconNoDataSvg,
-                    width: 114, height: 97),
-                btuName: "View our best services Items",
-                description:
-                    "Oops! Use different keywords to see more results.",
-                btuAction: () {
-                  navigateToSeeAllBestProductAndService(
-                      context.tr(bestServicesKey), ItemType.Services);
-                },
-              )
-            : Container(
-                padding: const EdgeInsets.symmetric(vertical: 4,horizontal: 5),
-                decoration: const BoxDecoration(
-                  color: Colors.white,
-                  border: Border(
-                      top: BorderSide(color: AppTheme.appGrey12, width: 1)),
+    return Column(
+      children: [
+        Consumer(builder: (context, ref, child) {
+          final categorySelectedState = ref
+              .watch(updateServiceListOfFilterSelectedStateNotifiers)
+              .toList();
+          print("dfsdfsd ${categorySelectedState.length.toString()}");
+          return categorySelectedState.isNotEmpty == true
+              ? Container(
+            margin: EdgeInsetsDirectional.only(top: 10),
+            decoration: BoxDecoration(
+              color: Colors.white, // Background color
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black
+                      .withOpacity(.2), // Shadow color
+                  blurRadius: .9, // Blur effect
+                  spreadRadius: .1, // Spread effect
+                  offset:
+                  const Offset(0, .5), // Shadow position
                 ),
-                child: DataListView<ServiceShowData>(
-                    dataList: servicesState.data?.data?.services?.data ??
-                        (servicesState.state == DataState.LOADING
-                            ? [
-                                ...List.generate(
-                                    8, (index) => ServiceShowData())
-                              ]
-                            : []),
-                    paginated: true,
-                    gridView: true,
-                    childAspectRatio: .78,
-                    heightPresent: 0.81,
-                    loadingHeightPresent: 0.73,
-                    crossAxisSpacing: 12,
-                    pageLoading: servicesState.state == DataState.MORE_LOADING,
-                    onBottomReached: () {
-                      if (currentPageForServices <
-                          (servicesState.data?.data?.services?.lastPage ?? 0)) {
-                        fetchServices(++currentPageForServices);
+              ],
+            ),
+            padding: const EdgeInsetsDirectional.only(
+                top: 8, bottom: 8, start: 16),
+            child: SizedBox(
+              height: 35,
+              child: Row(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 15),
+                    clipBehavior: Clip.antiAlias,
+                    height: 32,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      border: Border.all(
+                          color: AppTheme.appGrey8, width: 1),
+                    ),
+                    child: InkWell(
+                        onTap: () {
+                          clearFilterData();
+                          filterForServicesData = null;
+                          updateFilterData(filterForServicesData);
+                          updateNumberOfSelectedItems(filterForServicesData);
+                          currentPageForServices = 1;
+                          fetchServices(currentPageForServices);
+                        },
+                        child: const Center(
+                            child: Text("Clear All",
+                                style: AppTheme
+                                    .styleWithTextBlackColor2AdelleSansExtendedFonts13w400))),
+                  ),
+                  const VerticalDivider(
+                    color: AppTheme.appGrey20,
+                    thickness: 1,
+                  ),
+                  SizedBox(
+                    height: 35,
+                    width:
+                    MediaQuery.of(context).size.width * .7,
+                    child: ListView.separated(
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (context, index) {
+                          return CategoryFilterItemCard(
+                            height: 32,
+                            item: categorySelectedState[index],
+                            onSelectCategory: (item) {
+                              if(item?.type == FilterTypes.Categories){
+                                filterForServicesData?.categoriesIdsSelected?.remove(item?.id);
+                                updateNumberOfSelectedItems(filterForServicesData);
+                              } else if(item?.type == FilterTypes.Occasions){
+                                filterForServicesData?.occasionsIdsSelected?.remove(item?.id);
+                                updateNumberOfSelectedItems(filterForServicesData);
+                              } else if(item?.type == FilterTypes.Rating){
+                                filterForServicesData?.ratingValueSelected?.remove(item?.id);
+                                updateNumberOfSelectedItems(filterForServicesData);
+                              } else if(item?.type == FilterTypes.Pice){
+                                filterForServicesData?.priceFromSelected = null;
+                                filterForServicesData?.priceToSelected = null;
+                                updateNumberOfSelectedItems(filterForServicesData);
+                              } else if(item?.type == FilterTypes.ProductType){
+                                filterForServicesData?.shipmentTypeSelected = null;
+                                updateNumberOfSelectedItems(filterForServicesData);
+                              }
+
+                              ref
+                                  .read(
+                                  updateProductListOfFilterSelectedStateNotifiers
+                                      .notifier)
+                                  .removeItem(item);
+                              updateFilterData(filterForServicesData);
+                              //
+                              currentPageForServices = 1;
+                              fetchServices(currentPageForServices);
+                            },
+                          );
+                        },
+                        separatorBuilder: (context, index) =>
+                        const SizedBox(
+                          width: 12,
+                        ),
+                        itemCount:
+                        categorySelectedState.length),
+                  ),
+                ],
+              ),
+            ),
+          )
+              : const SizedBox();
+        }),
+        widget.controller?.text.toString().isNotEmpty == true || getNumberOfFilterItems(filterForServicesData) > 0
+            ? servicesState.state == DataState.EMPTY
+            ? EmptyDataView(
+          icon: SVGIcons.localSVG(searchIconNoDataSvg,
+              width: 114, height: 97),
+          btuName: "View our best services Items",
+          description:
+          "Oops! Use different keywords to see more results.",
+          btuAction: () {
+            navigateToSeeAllBestProductAndService(
+                context.tr(bestServicesKey), ItemType.Services);
+          },
+        )
+            : Container(
+          padding: const EdgeInsets.symmetric(vertical: 4,horizontal: 5),
+          decoration: const BoxDecoration(
+            color: Colors.white,
+            border: Border(
+                top: BorderSide(color: AppTheme.appGrey12, width: 1)),
+          ),
+          child: DataListView<ServiceShowData>(
+              dataList: servicesState.data?.data?.services?.data ??
+                  (servicesState.state == DataState.LOADING
+                      ? [
+                    ...List.generate(
+                        8, (index) => ServiceShowData())
+                  ]
+                      : []),
+              paginated: true,
+              gridView: true,
+              childAspectRatio: .78,
+              heightPresent:  ref
+                  .watch(updateServiceListOfFilterSelectedStateNotifiers)
+                  .isNotEmpty == true ? 0.75 : .82,
+              loadingHeightPresent: 0.73,
+              crossAxisSpacing: 12,
+              pageLoading: servicesState.state == DataState.MORE_LOADING,
+              onBottomReached: () {
+                if (currentPageForServices <
+                    (servicesState.data?.data?.services?.lastPage ?? 0)) {
+                  fetchServices(++currentPageForServices);
+                }
+              },
+              builder: (item) => Skeletonizer(
+                enabled: servicesState.state == DataState.LOADING,
+                child: Padding(
+                  padding: EdgeInsetsDirectional.symmetric(
+                      horizontal: 0, vertical: 0),
+                  child: ServiceAndProductItemCardHorizontal(
+                    service: item,
+                    height: 160,
+                    type: ItemType.Services,
+                    onAddItemToCart: (id) {
+                      addServiceToCart(id);
+                    },
+                    onAddItemToWishList: (id) {
+                      if (client != null) {
+                        serviceWishlistToggle(id.toString());
+                      } else {
+                        widget.showAuthenticated?.call();
                       }
                     },
-                    builder: (item) => Skeletonizer(
-                          enabled: servicesState.state == DataState.LOADING,
-                          child: Padding(
-                            padding: EdgeInsetsDirectional.symmetric(
-                                horizontal: 0, vertical: 0),
-                            child: ServiceAndProductItemCardHorizontal(
-                              service: item,
-                              height: 160,
-                              type: ItemType.Services,
-                              onAddItemToCart: (id) {
-                                addServiceToCart(id);
-                              },
-                              onAddItemToWishList: (id) {
-                                if (client != null) {
-                                  serviceWishlistToggle(id.toString());
-                                } else {
-                                  widget.showAuthenticated?.call();
-                                }
-                              },
-                              onItemClick: (id, name, categoriesIds) {
-                                widget.navigateToItemDetails?.call(
-                                    ItemType.Services, id, name, categoriesIds);
-                              },
-                            ),
-                          ),
-                        )),
-              )
-        : RecentScreen(
-            recentSearches: recentSearches,
-            itemSearchClick: (result) {
-              widget.controller?.text = result;
-              SearchStorage.saveSearch(
-                  key: SearchStorage.service_key, query: result);
-              widget.controller?.text = result;
-              fetchServices(1);
-            },
-            onClearBtuClick: () {
-              ref
-                  .read(serviceSearchLocalStorageStateNotifier.notifier)
-                  .clearData();
-            },
-          );
+                    onItemClick: (id, name, categoriesIds) {
+                      widget.navigateToItemDetails?.call(
+                          ItemType.Services, id, name, categoriesIds);
+                    },
+                  ),
+                ),
+              )),
+        )
+            : RecentScreen(
+          recentSearches: recentSearches,
+          itemSearchClick: (result) {
+            widget.controller?.text = result;
+            SearchStorage.saveSearch(
+                key: SearchStorage.service_key, query: result);
+            widget.controller?.text = result;
+            fetchServices(1);
+          },
+          onClearBtuClick: () {
+            ref
+                .read(serviceSearchLocalStorageStateNotifier.notifier)
+                .clearData();
+          },
+        )
+      ],
+    )
+      ;
   }
 
   void fetchServices(int page) {
@@ -241,5 +358,28 @@ class _ServiceSearchScreenState extends ConsumerState<ServiceSearchScreen> {
 
     ref.read(filterForProductStateNotifiers.notifier).resetDataFilter();
     ref.read(filterForServiceStateNotifiers.notifier).resetDataFilter();
+  }
+
+  void updateNumberOfSelectedItems(FilterData? filterData) {
+    ref
+        .read(filterNumberCountStateNotifiers.notifier)
+        .updateNumber(number: getNumberOfFilterItems(filterData));
+  }
+
+
+  void clearFilterData() {
+    ref
+        .read(updateServiceListOfFilterSelectedStateNotifiers.notifier).clearAll();
+  }
+
+  void updateFilterData(FilterData? filterForServicesData) {
+    ref.read(filterForServiceStateNotifiers.notifier).applyDataFilter(
+        categoriesIdsSelected: filterForServicesData?.categoriesIdsSelected,
+        occasionsIdsSelected: filterForServicesData?.occasionsIdsSelected,
+        shipmentTypeSelected: filterForServicesData?.shipmentTypeSelected,
+        priceToSelected: filterForServicesData?.priceToSelected,
+        priceFromSelected: filterForServicesData?.priceFromSelected,
+        ratingValueSelected: filterForServicesData?.ratingValueSelected
+    );
   }
 }
