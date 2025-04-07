@@ -124,150 +124,155 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
       onWillPop: _onWillPop,
       child: Scaffold(
         body: SafeArea(
-          child: Column(
-            children: [
-              AppSearchBarWithFilter(
-                controller: controller,
-                prefixIcon: InkWell(
-                    onTap: () {
-                      clearFilterData();
-                      context.pop();
+          child: SingleChildScrollView(
+            child: SizedBox(
+              height: MediaQuery.of(context).size.height,
+              child: Column(
+                children: [
+                  AppSearchBarWithFilter(
+                    controller: controller,
+                    prefixIcon: InkWell(
+                        onTap: () {
+                          clearFilterData();
+                          context.pop();
+                        },
+                        child: SVGIcons.backArrowIcon()),
+                    hasFilter: true,
+                    numberOfFilterItems: ref.watch(filterNumberCountStateNotifiers),
+                    onFilterClick: () {
+                      openFilterBottomSheet();
                     },
-                    child: SVGIcons.backArrowIcon()),
-                hasFilter: true,
-                numberOfFilterItems: ref.watch(filterNumberCountStateNotifiers),
-                onFilterClick: () {
-                  openFilterBottomSheet();
-                },
-                delay: 1,
-                onTextChangeListener: (value) {
-                  if (activeTabIndex == 0) {
-                    currentPageForProducts = 1;
-                    searchForProductData = value;
-                    if(value.isNotEmpty || getNumberOfFilterItems(filterForProductData) > 0) {
-                      fetchProducts(currentPageForProducts);
-                    }
-                    if (value.isNotEmpty) {
-                      SearchStorage.saveSearch(
-                          key: SearchStorage.product_key, query: value);
-                    }
-                    else {
-                      ref
-                          .read(productSearchLocalStorageStateNotifier.notifier)
-                          .updateList(
-                              prefs.getStringList(SearchStorage.product_key) ??
-                                  []);
-                    }
-                  }
-                  else if (activeTabIndex == 1) {
-                    currentPageForServices = 1;
-                    searchForServiceData = value;
-                    if(value.isNotEmpty || getNumberOfFilterItems(filterForServicesData) > 0) {
-                      fetchServices(currentPageForServices);
-                    }
-                    if (value.isNotEmpty) {
-                      SearchStorage.saveSearch(
-                          key: SearchStorage.service_key, query: value);
-                    } else {
-                      ref
-                          .read(serviceSearchLocalStorageStateNotifier.notifier)
-                          .updateList(
-                              prefs.getStringList(SearchStorage.service_key) ??
-                                  []);
-                    }
-                  }
-                  else if (activeTabIndex == 2) {
-                    currentPageForSellers = 1;
-                    searchForSellersData = value;
-                    if(value.isNotEmpty || getNumberOfFilterItems(filterForSellersData) > 0) {
-                      fetchSellers(currentPageForSellers);
-                    }
-                    if (value.isNotEmpty) {
-                      SearchStorage.saveSearch(
-                          key: SearchStorage.seller_key, query: value);
-                    } else {
-                      ref
-                          .read(sellerSearchLocalStorageStateNotifier.notifier)
-                          .updateList(
-                              prefs.getStringList(SearchStorage.seller_key) ??
-                                  []);
-                    }
-                  }
-                },
-              ),
-              Container(
-                decoration: BoxDecoration(color: Colors.white, boxShadow: [
-                  BoxShadow(
-                    color: AppTheme.appGrey8.withOpacity(0.6), // Shadow color
-                    blurRadius: .5, // Blur effect
-                    spreadRadius: .1, // Spread effect
-                    offset: const Offset(0, .5), // Shadow position
+                    delay: 1,
+                    onTextChangeListener: (value) {
+                      if (activeTabIndex == 0) {
+                        currentPageForProducts = 1;
+                        searchForProductData = value;
+                        if(value.isNotEmpty || getNumberOfFilterItems(filterForProductData) > 0) {
+                          fetchProducts(currentPageForProducts);
+                        }
+                        if (value.isNotEmpty) {
+                          SearchStorage.saveSearch(
+                              key: SearchStorage.product_key, query: value);
+                        }
+                        else {
+                          ref
+                              .read(productSearchLocalStorageStateNotifier.notifier)
+                              .updateList(
+                                  prefs.getStringList(SearchStorage.product_key) ??
+                                      []);
+                        }
+                      }
+                      else if (activeTabIndex == 1) {
+                        currentPageForServices = 1;
+                        searchForServiceData = value;
+                        if(value.isNotEmpty || getNumberOfFilterItems(filterForServicesData) > 0) {
+                          fetchServices(currentPageForServices);
+                        }
+                        if (value.isNotEmpty) {
+                          SearchStorage.saveSearch(
+                              key: SearchStorage.service_key, query: value);
+                        } else {
+                          ref
+                              .read(serviceSearchLocalStorageStateNotifier.notifier)
+                              .updateList(
+                                  prefs.getStringList(SearchStorage.service_key) ??
+                                      []);
+                        }
+                      }
+                      else if (activeTabIndex == 2) {
+                        currentPageForSellers = 1;
+                        searchForSellersData = value;
+                        if(value.isNotEmpty || getNumberOfFilterItems(filterForSellersData) > 0) {
+                          fetchSellers(currentPageForSellers);
+                        }
+                        if (value.isNotEmpty) {
+                          SearchStorage.saveSearch(
+                              key: SearchStorage.seller_key, query: value);
+                        } else {
+                          ref
+                              .read(sellerSearchLocalStorageStateNotifier.notifier)
+                              .updateList(
+                                  prefs.getStringList(SearchStorage.seller_key) ??
+                                      []);
+                        }
+                      }
+                    },
                   ),
-                ]),
-                child: TabBar(
-                  labelColor: Colors.white,
-                  unselectedLabelColor: Colors.white,
-                  indicatorPadding: EdgeInsets.zero,
-                  indicatorColor: AppTheme.appRedColor,
-                  tabs: [
-                    Tab(
-                        child: Text("Products",
-                            style: activeTabIndex == 0
-                                ? AppTheme
-                                    .styleWithTextBlackColor2AdelleSansExtendedFonts14w400
-                                : AppTheme
-                                    .styleWithTextAppGrey7AdelleSansExtendedFonts14w400)),
-                    Tab(
-                      child: Text("Services",
-                          style: activeTabIndex == 1
-                              ? AppTheme
-                                  .styleWithTextBlackColor2AdelleSansExtendedFonts14w400
-                              : AppTheme
-                                  .styleWithTextAppGrey7AdelleSansExtendedFonts14w400),
+                  Container(
+                    decoration: BoxDecoration(color: Colors.white, boxShadow: [
+                      BoxShadow(
+                        color: AppTheme.appGrey8.withOpacity(0.6), // Shadow color
+                        blurRadius: .5, // Blur effect
+                        spreadRadius: .1, // Spread effect
+                        offset: const Offset(0, .5), // Shadow position
+                      ),
+                    ]),
+                    child: TabBar(
+                      labelColor: Colors.white,
+                      unselectedLabelColor: Colors.white,
+                      indicatorPadding: EdgeInsets.zero,
+                      indicatorColor: AppTheme.appRedColor,
+                      tabs: [
+                        Tab(
+                            child: Text("Products",
+                                style: activeTabIndex == 0
+                                    ? AppTheme
+                                        .styleWithTextBlackColor2AdelleSansExtendedFonts14w400
+                                    : AppTheme
+                                        .styleWithTextAppGrey7AdelleSansExtendedFonts14w400)),
+                        Tab(
+                          child: Text("Services",
+                              style: activeTabIndex == 1
+                                  ? AppTheme
+                                      .styleWithTextBlackColor2AdelleSansExtendedFonts14w400
+                                  : AppTheme
+                                      .styleWithTextAppGrey7AdelleSansExtendedFonts14w400),
+                        ),
+                        if (widget.type == CategoryType.Search)
+                          Tab(
+                            child: Text("Sellers",
+                                style: activeTabIndex == 2
+                                    ? AppTheme
+                                        .styleWithTextBlackColor2AdelleSansExtendedFonts14w400
+                                    : AppTheme
+                                        .styleWithTextAppGrey7AdelleSansExtendedFonts14w400),
+                          ),
+                      ],
+                      controller: tabController,
                     ),
-                    if (widget.type == CategoryType.Search)
-                      Tab(
-                        child: Text("Sellers",
-                            style: activeTabIndex == 2
-                                ? AppTheme
-                                    .styleWithTextBlackColor2AdelleSansExtendedFonts14w400
-                                : AppTheme
-                                    .styleWithTextAppGrey7AdelleSansExtendedFonts14w400),
-                      ),
-                  ],
-                  controller: tabController,
-                ),
+                  ),
+                  Expanded(
+                      child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 5),
+                    child: TabBarView(
+                      controller: tabController,
+                      children: [
+                        ProductSearchScreen(
+                            type: CategoryType.Search,
+                            showData: controller.text.isNotEmpty,
+                            controller: controller,
+                            id: widget.id,
+                            showAuthenticated: showAuthenticated,
+                            navigateToItemDetails: navigateToItemDetails),
+                        ServiceSearchScreen(
+                            type: CategoryType.Search,
+                            controller: controller,
+                            id: widget.id,
+                            showAuthenticated: showAuthenticated,
+                            navigateToItemDetails: navigateToItemDetails),
+                        if (widget.type == CategoryType.Search)
+                          SellerSearchScreen(
+                            type: CategoryType.Search,
+                            controller: controller,
+                            id: widget.id,
+                            showAuthenticated: showAuthenticated,
+                          ),
+                      ],
+                    ),
+                  ))
+                ],
               ),
-              Expanded(
-                  child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 5),
-                child: TabBarView(
-                  controller: tabController,
-                  children: [
-                    ProductSearchScreen(
-                        type: CategoryType.Search,
-                        showData: controller.text.isNotEmpty,
-                        controller: controller,
-                        id: widget.id,
-                        showAuthenticated: showAuthenticated,
-                        navigateToItemDetails: navigateToItemDetails),
-                    ServiceSearchScreen(
-                        type: CategoryType.Search,
-                        controller: controller,
-                        id: widget.id,
-                        showAuthenticated: showAuthenticated,
-                        navigateToItemDetails: navigateToItemDetails),
-                    if (widget.type == CategoryType.Search)
-                      SellerSearchScreen(
-                        type: CategoryType.Search,
-                        controller: controller,
-                        id: widget.id,
-                        showAuthenticated: showAuthenticated,
-                      ),
-                  ],
-                ),
-              ))
-            ],
+            ),
           ),
         ),
       ),

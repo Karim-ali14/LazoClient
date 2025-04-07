@@ -151,7 +151,7 @@ class _ServiceSearchScreenState extends ConsumerState<ServiceSearchScreen> {
                                 horizontal: 0, vertical: 0),
                             child: ServiceAndProductItemCardHorizontal(
                               service: item,
-                              width: 165,
+                              height: 160,
                               type: ItemType.Services,
                               onAddItemToCart: (id) {
                                 addServiceToCart(id);

@@ -251,7 +251,7 @@ class _ProductSearchScreenState extends ConsumerState<ProductSearchScreen> {
               childAspectRatio: .75,
               heightPresent: ref
                   .watch(updateProductListOfFilterSelectedStateNotifiers)
-                  .isNotEmpty == true ? 0.71 : .82,
+                  .isNotEmpty == true ? 0.75 : .82,
               loadingHeightPresent: 0.73,
               crossAxisSpacing: 15,
               pageLoading: productsState.state == DataState.MORE_LOADING,
