@@ -24,6 +24,7 @@ import '../../Widgets/EmptyDataView.dart';
 import '../../Widgets/RecentScreen.dart';
 import '../../Widgets/SellerItemCard.dart';
 import '../../Widgets/SvgIcons.dart';
+import '../home/Componants/CategoryFilterItemCard.dart';
 
 class SellerSearchScreen extends ConsumerStatefulWidget {
   final CategoryType? type;
@@ -72,68 +73,183 @@ class _SellerSearchScreenState extends ConsumerState<SellerSearchScreen> {
     currentPageForSellers =
         sellersState.data?.data?.currentPage?.toInt() ?? 1;
 
-    return  widget.controller?.text.toString().isNotEmpty == true || getNumberOfFilterItems(filterForSellersData) > 0
-        ? sellersState.state == DataState.EMPTY
-        ? EmptyDataView(
-            icon:
-                SVGIcons.localSVG(searchIconNoDataSvg, width: 114, height: 97),
-            description: "Oops! Use different keywords to see more results.",
-            btuName: "View our best sellers items",
-            btuAction: () {
-              navigateToSeeAllTopSeller(
-                  context.tr(topSellersKey), CategoryType.Search);
-            },
-          )
-        : Container(
-            padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 5),
-            decoration: const BoxDecoration(
-              color: Colors.white,
-              border:
-                  Border(top: BorderSide(color: AppTheme.appGrey12, width: 1)),
+    return  Column(
+      children: [
+        Consumer(builder: (context, ref, child) {
+          final categorySelectedState = ref
+              .watch(updateSellerListOfFilterSelectedStateNotifiers)
+              .toList();
+          print("dfsdfsd ${categorySelectedState.length.toString()}");
+          return categorySelectedState.isNotEmpty == true
+              ? Container(
+            margin: EdgeInsetsDirectional.only(top: 10),
+            decoration: BoxDecoration(
+              color: Colors.white, // Background color
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black
+                      .withOpacity(.2), // Shadow color
+                  blurRadius: .9, // Blur effect
+                  spreadRadius: .1, // Spread effect
+                  offset:
+                  const Offset(0, .5), // Shadow position
+                ),
+              ],
             ),
-            child: DataListView<ProviderData>(
-                dataList: sellersState.data?.data?.data ??
-                    (sellersState.state == DataState.LOADING
-                        ? [...List.generate(8, (index) => ProviderData())]
-                        : []),
-                paginated: true,
-                gridView: true,
-                childAspectRatio: .85,
-                heightPresent: 0.81,
-                loadingHeightPresent: 0.73,
-                crossAxisSpacing: 12,
-                pageLoading: sellersState.state == DataState.MORE_LOADING,
-                onBottomReached: () {
-                  if (currentPageForSellers <
-                      (sellersState.data?.data?.lastPage ?? 0)) {
-                    fetchSellers(++currentPageForSellers);
-                  }
-                },
-                builder: (item) => Skeletonizer(
-                      enabled: sellersState.state == DataState.LOADING,
-                      child: Padding(
-                        padding: const EdgeInsetsDirectional.symmetric(
-                            horizontal: 0, vertical: 0),
-                        child: SellerItemCard(
-                          height: 160,
-                          providerData: item,
-                          onSellerClickListener: (sellerId) {
-                            navigateToSellerDetails(sellerId);
-                          },
+            padding: const EdgeInsetsDirectional.only(
+                top: 8, bottom: 8, start: 16),
+            child: SizedBox(
+              height: 35,
+              child: Row(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 15),
+                    clipBehavior: Clip.antiAlias,
+                    height: 32,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      border: Border.all(
+                          color: AppTheme.appGrey8, width: 1),
+                    ),
+                    child: InkWell(
+                        onTap: () {
+                          clearFilterData();
+                          filterForSellersData = null;
+                          updateFilterData(filterForSellersData);
+                          updateNumberOfSelectedItems(filterForSellersData);
+                          currentPageForSellers = 1;
+                          fetchSellers(currentPageForSellers);
+                        },
+                        child: const Center(
+                            child: Text("Clear All",
+                                style: AppTheme
+                                    .styleWithTextBlackColor2AdelleSansExtendedFonts13w400))),
+                  ),
+                  const VerticalDivider(
+                    color: AppTheme.appGrey20,
+                    thickness: 1,
+                  ),
+                  SizedBox(
+                    height: 35,
+                    width:
+                    MediaQuery.of(context).size.width * .7,
+                    child: ListView.separated(
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (context, index) {
+                          return CategoryFilterItemCard(
+                            height: 32,
+                            item: categorySelectedState[index],
+                            onSelectCategory: (item) {
+                              if(item?.type == FilterTypes.Categories){
+                                filterForSellersData?.categoriesIdsSelected?.remove(item?.id);
+                                updateNumberOfSelectedItems(filterForSellersData);
+                              } else if(item?.type == FilterTypes.Occasions){
+                                filterForSellersData?.occasionsIdsSelected?.remove(item?.id);
+                                updateNumberOfSelectedItems(filterForSellersData);
+                              } else if(item?.type == FilterTypes.Rating){
+                                filterForSellersData?.ratingValueSelected?.remove(item?.id);
+                                updateNumberOfSelectedItems(filterForSellersData);
+                              } else if(item?.type == FilterTypes.Pice){
+                                filterForSellersData?.priceFromSelected = null;
+                                filterForSellersData?.priceToSelected = null;
+                                updateNumberOfSelectedItems(filterForSellersData);
+                              } else if(item?.type == FilterTypes.ProductType){
+                                filterForSellersData?.shipmentTypeSelected = null;
+                                updateNumberOfSelectedItems(filterForSellersData);
+                              }
+
+                              ref
+                                  .read(
+                                  updateProductListOfFilterSelectedStateNotifiers
+                                      .notifier)
+                                  .removeItem(item);
+                              updateFilterData(filterForSellersData);
+                              //
+                              currentPageForSellers = 1;
+                              fetchSellers(currentPageForSellers);
+                            },
+                          );
+                        },
+                        separatorBuilder: (context, index) =>
+                        const SizedBox(
+                          width: 12,
                         ),
-                      ),
-                    )),
-          ): RecentScreen(
-      recentSearches: recentSearches,
-      itemSearchClick: (result) {
-        widget.controller?.text = result;
-        SearchStorage.saveSearch(
-            key: SearchStorage.seller_key, query: result);
-        widget.controller?.text = result;
-        fetchSellers(1);
-      }, onClearBtuClick: (){
-      ref.read(sellerSearchLocalStorageStateNotifier.notifier).clearData();
-    },
+                        itemCount:
+                        categorySelectedState.length),
+                  ),
+                ],
+              ),
+            ),
+          )
+              : const SizedBox();
+        }),
+        widget.controller?.text.toString().isNotEmpty == true || getNumberOfFilterItems(filterForSellersData) > 0
+            ? sellersState.state == DataState.EMPTY
+            ? EmptyDataView(
+          icon:
+          SVGIcons.localSVG(searchIconNoDataSvg, width: 114, height: 97),
+          description: "Oops! Use different keywords to see more results.",
+          btuName: "View our best sellers items",
+          btuAction: () {
+            navigateToSeeAllTopSeller(
+                context.tr(topSellersKey), CategoryType.Search);
+          },
+        )
+            : Container(
+          padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 5),
+          decoration: const BoxDecoration(
+            color: Colors.white,
+            border:
+            Border(top: BorderSide(color: AppTheme.appGrey12, width: 1)),
+          ),
+          child: DataListView<ProviderData>(
+              dataList: sellersState.data?.data?.data ??
+                  (sellersState.state == DataState.LOADING
+                      ? [...List.generate(8, (index) => ProviderData())]
+                      : []),
+              paginated: true,
+              gridView: true,
+              childAspectRatio: .85,
+              heightPresent:  ref
+                  .watch(updateSellerListOfFilterSelectedStateNotifiers)
+                  .isNotEmpty == true ? 0.75 : .82,
+              loadingHeightPresent: 0.73,
+              crossAxisSpacing: 12,
+              pageLoading: sellersState.state == DataState.MORE_LOADING,
+              onBottomReached: () {
+                if (currentPageForSellers <
+                    (sellersState.data?.data?.lastPage ?? 0)) {
+                  fetchSellers(++currentPageForSellers);
+                }
+              },
+              builder: (item) => Skeletonizer(
+                enabled: sellersState.state == DataState.LOADING,
+                child: Padding(
+                  padding: const EdgeInsetsDirectional.symmetric(
+                      horizontal: 0, vertical: 0),
+                  child: SellerItemCard(
+                    height: 160,
+                    providerData: item,
+                    onSellerClickListener: (sellerId) {
+                      navigateToSellerDetails(sellerId);
+                    },
+                  ),
+                ),
+              )),
+        ): RecentScreen(
+          recentSearches: recentSearches,
+          itemSearchClick: (result) {
+            widget.controller?.text = result;
+            SearchStorage.saveSearch(
+                key: SearchStorage.seller_key, query: result);
+            widget.controller?.text = result;
+            fetchSellers(1);
+          }, onClearBtuClick: (){
+          ref.read(sellerSearchLocalStorageStateNotifier.notifier).clearData();
+        },
+        )
+      ],
     );
   }
 
@@ -170,5 +286,28 @@ class _SellerSearchScreenState extends ConsumerState<SellerSearchScreen> {
         extra: {"type": type, "title": title, "categoryId": categoryId});
 
     ref.read(filterForSellerStateNotifiers.notifier).resetDataFilter();
+  }
+
+  void updateNumberOfSelectedItems(FilterData? filterData) {
+    ref
+        .read(filterNumberCountStateNotifiers.notifier)
+        .updateNumber(number: getNumberOfFilterItems(filterData));
+  }
+
+
+  void clearFilterData() {
+    ref
+        .read(updateSellerListOfFilterSelectedStateNotifiers.notifier).clearAll();
+  }
+
+  void updateFilterData(FilterData? filterForSellersData) {
+    ref.read(filterForSellerStateNotifiers.notifier).applyDataFilter(
+        categoriesIdsSelected: filterForSellersData?.categoriesIdsSelected,
+        occasionsIdsSelected: filterForSellersData?.occasionsIdsSelected,
+        shipmentTypeSelected: filterForSellersData?.shipmentTypeSelected,
+        priceToSelected: filterForSellersData?.priceToSelected,
+        priceFromSelected: filterForSellersData?.priceFromSelected,
+        ratingValueSelected: filterForSellersData?.ratingValueSelected
+    );
   }
 }
