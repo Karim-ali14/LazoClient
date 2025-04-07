@@ -30,6 +30,18 @@ final updateListOfFilterSelectedStateNotifiers =
     StateNotifierProvider<UpdateListOfFilterSelectedUseCase, List<ItemSelected?>>(
         (ref) => UpdateListOfFilterSelectedUseCase());
 
+final updateProductListOfFilterSelectedStateNotifiers =
+    StateNotifierProvider<UpdateListOfFilterSelectedUseCase, List<ItemSelected?>>(
+        (ref) => UpdateListOfFilterSelectedUseCase());
+
+final updateServiceListOfFilterSelectedStateNotifiers =
+    StateNotifierProvider<UpdateListOfFilterSelectedUseCase, List<ItemSelected?>>(
+        (ref) => UpdateListOfFilterSelectedUseCase());
+
+final updateSellerListOfFilterSelectedStateNotifiers =
+    StateNotifierProvider<UpdateListOfFilterSelectedUseCase, List<ItemSelected?>>(
+        (ref) => UpdateListOfFilterSelectedUseCase());
+
 final getCategoriesDataStateNotifiers =
     StateNotifierProvider<GetCategoriesUseCase, StateModel<CategoriesResponse>>(
         (ref) => GetCategoriesUseCase(ref, ref.read(publicApi)));

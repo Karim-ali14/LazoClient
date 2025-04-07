@@ -2,9 +2,9 @@ import '../../Constants/Eunms.dart';
 
 class FilterData {
   final int? promotionSelected;
-  final int? shipmentTypeSelected;
-  final String? priceFromSelected;
-  final String? priceToSelected;
+  int? shipmentTypeSelected;
+  String? priceFromSelected;
+  String? priceToSelected;
   final List<int>? categoriesIdsSelected;
   final List<int>? occasionsIdsSelected;
   final List<int>? ratingValueSelected;

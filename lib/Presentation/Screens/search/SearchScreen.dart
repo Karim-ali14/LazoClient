@@ -20,8 +20,10 @@ import 'package:lazo_client/main.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../../Constants.dart';
+import '../../../Constants/Constants.dart';
 import '../../../Constants/Eunms.dart';
 import '../../../Data/Models/FilterData.dart';
+import '../../../Data/Models/ItemSelector.dart';
 import '../../../Data/Models/StateModel.dart';
 import '../../../Data/Network/lib/api.dart';
 import '../../../Localization/Keys.dart';
@@ -77,22 +79,13 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
         activeTabIndex = tabController.index;
         if (activeTabIndex == 0) {
           controller.text = searchForProductData ?? "";
-          ref.read(filterNumberCountStateNotifiers.notifier)
-          .updateNumber(
-            number: getNumberOfFilterItems(filterForProductData)
-          );
+         updateNumberOfSelectedItems(filterForProductData);
         } else if (activeTabIndex == 1) {
           controller.text = searchForServiceData ?? "";
-          ref.read(filterNumberCountStateNotifiers.notifier)
-              .updateNumber(
-              number: getNumberOfFilterItems(filterForServicesData)
-          );
+          updateNumberOfSelectedItems(filterForServicesData);
         } else if (activeTabIndex == 2) {
           controller.text = searchForSellersData ?? "";
-          ref.read(filterNumberCountStateNotifiers.notifier)
-              .updateNumber(
-              number: getNumberOfFilterItems(filterForSellersData)
-          );
+          updateNumberOfSelectedItems(filterForSellersData);
         }
       });
     });
@@ -124,6 +117,9 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
 
   @override
   Widget build(BuildContext context) {
+    filterForProductData = ref.watch(filterForProductStateNotifiers);
+    filterForServicesData = ref.watch(filterForServiceStateNotifiers);
+    filterForSellersData = ref.watch(filterForSellerStateNotifiers);
     return WillPopScope(
       onWillPop: _onWillPop,
       child: Scaffold(
@@ -244,7 +240,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
               ),
               Expanded(
                   child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 16),
+                padding: const EdgeInsets.symmetric(vertical: 5),
                 child: TabBarView(
                   controller: tabController,
                   children: [
@@ -422,6 +418,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
             onFilterApply: (filterData){
               final currentIndex  = activeTabIndex;
               if (currentIndex == 0) {
+                clearFilterCategorySelected(FilterScreenTypes.Products);
                 filterForProductData = filterData;
                 ref.read(filterForProductStateNotifiers.notifier).applyDataFilter(
                     priceFromSelected: filterData.priceFromSelected,
@@ -438,6 +435,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
                 fetchProducts(1);
               }
               else if (currentIndex == 1) {
+                clearFilterCategorySelected(FilterScreenTypes.Services);
                 filterForServicesData = filterData;
                 ref.read(filterForServiceStateNotifiers.notifier).applyDataFilter(
                     priceFromSelected: filterData.priceFromSelected,
@@ -453,6 +451,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
                 fetchServices(1);
               }
               else {
+                clearFilterCategorySelected(FilterScreenTypes.Sellers);
                 filterForSellersData = filterData;
                 ref.read(filterForSellerStateNotifiers.notifier).applyDataFilter(
                   categoriesIdsSelected: filterData.categoriesIdsSelected,
@@ -465,9 +464,143 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
                 );
                 fetchSellers(1);
               }
+              setFilterData(filterData, type);
             },
           );
         });
+  }
+
+  void setFilterData(FilterData filterData,FilterScreenTypes type) {
+    if (filterData.shipmentTypeSelected != null) {
+      ref
+          .read(updateProductListOfFilterSelectedStateNotifiers.notifier)
+          .addItem(ItemSelected(
+          id: ConstantsMethods.getShipmentTypesList(context)[filterData.shipmentTypeSelected??0].id,
+          text: ConstantsMethods.getShipmentTypesList(context)[filterData.shipmentTypeSelected??0].text,
+          type: FilterTypes.ProductType));
+    }
+
+    if (filterData.categoriesIdsSelected != null) {
+      ref
+          .watch(getCategoriesDataStateNotifiers)
+          .data
+          ?.data
+          .where((item) =>
+      filterData.categoriesIdsSelected?.contains(item.id) ==
+          true)
+          .forEach((item) {
+            if(type == FilterScreenTypes.Products) {
+              ref
+                  .read(updateProductListOfFilterSelectedStateNotifiers.notifier)
+                  .addItem(ItemSelected(
+                  id: item.id?.toInt(),
+                  text: item.name,
+                  type: FilterTypes.Categories));
+            }
+            else if(type == FilterScreenTypes.Services) {
+              ref
+                  .read(updateServiceListOfFilterSelectedStateNotifiers.notifier)
+                  .addItem(ItemSelected(
+                  id: item.id?.toInt(),
+                  text: item.name,
+                  type: FilterTypes.Categories));
+            }
+            else {
+              ref
+                  .read(updateSellerListOfFilterSelectedStateNotifiers.notifier)
+                  .addItem(ItemSelected(
+                  id: item.id?.toInt(),
+                  text: item.name,
+                  type: FilterTypes.Categories));
+            }
+
+            });
+    }
+    if (filterData.occasionsIdsSelected != null) {
+      ref
+          .watch(getOccasionsDataStateNotifiers)
+          .data
+          ?.data
+          .where((item) =>
+      filterData.occasionsIdsSelected?.contains(item.id) ==
+          true)
+          .forEach((item) {
+        if(type == FilterScreenTypes.Products) {
+          ref
+              .read(updateProductListOfFilterSelectedStateNotifiers.notifier)
+              .addItem(ItemSelected(
+              id: item.id?.toInt(),
+              text: item.name,
+              type: FilterTypes.Occasions));
+        }
+        else if(type == FilterScreenTypes.Services) {
+          ref
+              .read(updateServiceListOfFilterSelectedStateNotifiers.notifier)
+              .addItem(ItemSelected(
+              id: item.id?.toInt(),
+              text: item.name,
+              type: FilterTypes.Occasions));
+        }
+        else {
+          ref
+              .read(updateSellerListOfFilterSelectedStateNotifiers.notifier)
+              .addItem(ItemSelected(
+              id: item.id?.toInt(),
+              text: item.name,
+              type: FilterTypes.Occasions));
+        }
+
+      });
+    }
+    if (filterData.priceToSelected != null && filterData.priceFromSelected != null) {
+      if(type == FilterScreenTypes.Products) {
+        ref
+            .read(updateProductListOfFilterSelectedStateNotifiers.notifier)
+            .addItem(ItemSelected(
+            id: 0,
+            text: "${filterData.priceToSelected} - ${filterData.priceFromSelected}",
+            type: FilterTypes.Pice));
+      }else{
+        ref
+            .read(updateServiceListOfFilterSelectedStateNotifiers.notifier)
+            .addItem(ItemSelected(
+            id: 0,
+            text: "${filterData.priceToSelected} - ${filterData.priceFromSelected}",
+            type: FilterTypes.Pice));
+      }
+
+    }
+    if (filterData.ratingValueSelected != null) {
+      ConstantsMethods.getRatingsList(context)
+          .where((item) =>
+      filterData.ratingValueSelected?.contains(item.id) ==
+          true)
+          .forEach((item) {
+        if(type == FilterScreenTypes.Products) {
+          ref
+              .read(updateProductListOfFilterSelectedStateNotifiers.notifier)
+              .addItem(ItemSelected(
+              id: item.id.toInt(),
+              text: item.text,
+              type: FilterTypes.Rating));
+        }else if(type == FilterScreenTypes.Services) {
+          ref
+              .read(updateServiceListOfFilterSelectedStateNotifiers.notifier)
+              .addItem(ItemSelected(
+              id: item.id.toInt(),
+              text: item.text,
+              type: FilterTypes.Rating));
+        }else  {
+          ref
+              .read(updateSellerListOfFilterSelectedStateNotifiers.notifier)
+              .addItem(ItemSelected(
+              id: item.id.toInt(),
+              text: item.text,
+              type: FilterTypes.Rating));
+        }
+
+      });
+    }
   }
 
   void navigateToItemDetails(ItemType itemType, int itemId, String itemName,
@@ -531,5 +664,32 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
     ref.read(filterForSellerStateNotifiers.notifier).resetDataFilter();
   }
 
+  void updateNumberOfSelectedItems(FilterData? filterData) {
+    ref
+        .read(filterNumberCountStateNotifiers.notifier)
+        .updateNumber(number: getNumberOfFilterItems(filterData));
+  }
+  void clearFilterCategorySelected(FilterScreenTypes type) {
+    if(type == FilterScreenTypes.Products){
+      ref
+          .read(
+          updateProductListOfFilterSelectedStateNotifiers
+              .notifier)
+          .clearAll();
+    }
+    else if(type == FilterScreenTypes.Services){
+      ref
+          .read(
+          updateProductListOfFilterSelectedStateNotifiers
+              .notifier)
+          .clearAll();
+    }else {
+      ref
+          .read(
+          updateSellerListOfFilterSelectedStateNotifiers
+              .notifier)
+          .clearAll();
+    }
+  }
 
 }

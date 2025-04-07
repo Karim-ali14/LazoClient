@@ -394,9 +394,7 @@ class _ShowTopSellersState extends ConsumerState<ShowTopSellers> {
             showCategory: widget.type != CategoryType.Categories,
             onFilterApply: (filterData) {
 
-              print("filter apply type of : ${widget.type}");
               if(widget.type == CategoryType.Categories){
-                print("filter apply type of : ${widget.type} ${sellerFilterData?.categoriesIdsSelected}");
                 sellerFilterData = FilterData(
                   categoriesIdsSelected: sellerFilterData?.categoriesIdsSelected,
                   occasionsIdsSelected: filterData.occasionsIdsSelected,

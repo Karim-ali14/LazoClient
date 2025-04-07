@@ -14,6 +14,7 @@ class UpdateListOfFilterSelectedUseCase extends StateNotifier<List<ItemSelected?
 
   void removeItem(ItemSelected? itemSelected) {
     var list = state;
+    print("asdfsadf ${state.length.toString()}");
     list.removeWhere((item) => itemSelected?.id == item?.id && itemSelected?.type == item?.type);
     print("asdfsadf ${state.length.toString()}");
     state = [...list];
