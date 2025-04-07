@@ -45,7 +45,7 @@ class _FilterPriceViewState extends State<FilterPriceView> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 AppTextField(
-                  width: 170,
+                  width: 160,
                   hint: "From",
                   style:
                       AppTheme.styleWithTextBlackAdelleSansExtendedFonts16w500,
@@ -82,7 +82,7 @@ class _FilterPriceViewState extends State<FilterPriceView> {
                   width: 5,
                 ),
                 AppTextField(
-                  width: 170,
+                  width: 160,
                   hint: "To",
                   style:
                       AppTheme.styleWithTextBlackAdelleSansExtendedFonts16w500,
