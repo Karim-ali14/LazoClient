@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lazo_client/Constants.dart';
+import 'package:lazo_client/Data/Models/ItemSelector.dart';
 import 'package:lazo_client/Data/Models/StateModel.dart';
 import 'package:lazo_client/Data/Network/lib/api.dart';
 import 'package:lazo_client/Localization/Keys.dart';
@@ -15,8 +16,10 @@ import 'package:lazo_client/Presentation/Widgets/CustomAppBar.dart';
 import 'package:lazo_client/Presentation/Widgets/DataListView.dart';
 import 'package:lazo_client/Presentation/Widgets/SellerItemCard.dart';
 import 'package:lazo_client/Presentation/Widgets/SvgIcons.dart';
+import 'package:lazo_client/Utils/CategoryUtils.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
+import '../../../Constants/Constants.dart';
 import '../../../Constants/Eunms.dart';
 import '../../../Data/Models/FilterData.dart';
 import '../../../Utils/FilterUtils.dart';
@@ -47,6 +50,19 @@ class _ShowTopSellersState extends ConsumerState<ShowTopSellers> {
         categoriesSelected
             ?.add(Category(id: widget.categoryId, name: widget.title));
 
+        var itemSelected =
+            (ref.watch(getCategoriesDataStateNotifiers).data?.data ?? [])
+                .map((item) {
+                  return item.id == widget.categoryId
+                      ? ItemSelected(
+                          id: item.id?.toInt(),
+                          text: item.name,
+                          type: FilterTypes.Categories)
+                      : null;
+                })
+                .where((item) => item != null)
+                .toList();
+
         ref.read(updateListOfCategoryStateNotifiers.notifier).updateState(
               (ref.watch(getCategoriesDataStateNotifiers).data?.data ?? [])
                   .map((item) {
@@ -56,9 +72,13 @@ class _ShowTopSellersState extends ConsumerState<ShowTopSellers> {
                         name: item.name,
                         imagePath: item.imagePath,
                         isChecked: true)
-                    : item;
+                    : item.copyWith(isChecked: false);
               }).toList(),
             );
+
+        ref
+            .read(updateListOfFilterSelectedStateNotifiers.notifier)
+            .updateState(itemSelected);
       }
       fetchSellers(currentPage);
     });
@@ -124,6 +144,26 @@ class _ShowTopSellersState extends ConsumerState<ShowTopSellers> {
                                         .notifier)
                                     .toggleSelection(
                                         item?.id, item?.isChecked ?? false);
+                                if (item?.isChecked == true) {
+                                  ref
+                                      .read(
+                                          updateListOfFilterSelectedStateNotifiers
+                                              .notifier)
+                                      .addItem(ItemSelected(
+                                          id: item?.id?.toInt(),
+                                          text: item?.name,
+                                          type: FilterTypes.Categories));
+                                } else {
+                                  ref
+                                      .read(
+                                          updateListOfFilterSelectedStateNotifiers
+                                              .notifier)
+                                      .removeItem(ItemSelected(
+                                          id: item?.id?.toInt(),
+                                          text: item?.name,
+                                          type: FilterTypes.Categories));
+                                }
+
                                 currentPage = 1;
                                 fetchSellers(currentPage);
                               },
@@ -139,12 +179,12 @@ class _ShowTopSellersState extends ConsumerState<ShowTopSellers> {
             widget.type == CategoryType.Categories
                 ? Consumer(builder: (context, ref, child) {
                     final categorySelectedState = ref
-                        .watch(updateListOfCategoryStateNotifiers)
-                        .where((item) => item.isChecked == true)
+                        .watch(updateListOfFilterSelectedStateNotifiers)
                         .toList();
+                    print(categorySelectedState.length.toString());
                     return categorySelectedState.isNotEmpty == true
                         ? Container(
-                      margin: EdgeInsetsDirectional.only(top: 10),
+                            margin: EdgeInsetsDirectional.only(top: 10),
                             decoration: BoxDecoration(
                               color: Colors.white, // Background color
                               boxShadow: [
@@ -165,21 +205,36 @@ class _ShowTopSellersState extends ConsumerState<ShowTopSellers> {
                               child: Row(
                                 children: [
                                   Container(
-                                    padding: const EdgeInsets.symmetric(horizontal: 15),
-
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 15),
                                     clipBehavior: Clip.antiAlias,
-                                  height: 32,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(20),
-                                    border: Border.all(color: AppTheme.appGrey8, width: 1),
-                                  ),
+                                    height: 32,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(20),
+                                      border: Border.all(
+                                          color: AppTheme.appGrey8, width: 1),
+                                    ),
                                     child: InkWell(
-                                        onTap: (){
-                                          ref.read(updateListOfCategoryStateNotifiers.notifier).clearAll();
+                                        onTap: () {
+                                          ref
+                                              .read(
+                                                  updateListOfCategoryStateNotifiers
+                                                      .notifier)
+                                              .clearAll();
+                                          ref
+                                              .read(
+                                                  updateListOfFilterSelectedStateNotifiers
+                                                      .notifier)
+                                              .clearAll();
+                                          sellerFilterData = null;
+                                          updateNumberOfSelectedItems(sellerFilterData);
                                           currentPage = 1;
                                           fetchSellers(currentPage);
                                         },
-                                        child: const Center(child: Text("Clear All",style: AppTheme.styleWithTextBlackColor2AdelleSansExtendedFonts13w400 ))),
+                                        child: const Center(
+                                            child: Text("Clear All",
+                                                style: AppTheme
+                                                    .styleWithTextBlackColor2AdelleSansExtendedFonts13w400))),
                                   ),
                                   const VerticalDivider(
                                     color: AppTheme.appGrey20,
@@ -194,14 +249,28 @@ class _ShowTopSellersState extends ConsumerState<ShowTopSellers> {
                                         itemBuilder: (context, index) {
                                           return CategoryFilterItemCard(
                                             height: 32,
-                                            category:
-                                                categorySelectedState[index],
+                                            item: categorySelectedState[index],
                                             onSelectCategory: (item) {
+                                              if(item?.type == FilterTypes.Categories){
+                                                ref
+                                                    .read(
+                                                    updateListOfCategoryStateNotifiers
+                                                        .notifier)
+                                                    .removeSelected(item?.id);
+                                              } else if(item?.type == FilterTypes.Occasions){
+                                                sellerFilterData?.occasionsIdsSelected?.remove(item?.id);
+                                                updateNumberOfSelectedItems(sellerFilterData);
+                                              } else if(item?.type == FilterTypes.Rating){
+                                                sellerFilterData?.ratingValueSelected?.remove(item?.id);
+                                                updateNumberOfSelectedItems(sellerFilterData);
+                                              }
+
                                               ref
                                                   .read(
-                                                      updateListOfCategoryStateNotifiers
+                                                      updateListOfFilterSelectedStateNotifiers
                                                           .notifier)
-                                                  .removeSelected(item?.id);
+                                                  .removeItem(item);
+
                                               currentPage = 1;
                                               fetchSellers(currentPage);
                                             },
@@ -228,42 +297,41 @@ class _ShowTopSellersState extends ConsumerState<ShowTopSellers> {
                     topSellerState.state == DataState.MORE_LOADING ||
                     topSellerState.state == DataState.SUCCESS
                 ? Expanded(
-                    child: DataListView<ProviderData>(
-                        dataList: topSellerState.data?.data?.data ??
-                            (topSellerState.state == DataState.LOADING
-                                ? [
-                                    ...List.generate(
-                                        6, (index) => ProviderData())
-                                  ]
-                                : []),
-                        paginated: true,
-                        gridView: true,
-                        childAspectRatio: .86,
-                        heightPresent: 0.81,
-                        loadingHeightPresent: 0.73,
-                        crossAxisSpacing: 0,
-                        pageLoading:
-                            topSellerState.state == DataState.MORE_LOADING,
-                        onBottomReached: () {
-                          if (currentPage <
-                              (topSellerState.data?.data?.lastPage ?? 0)) {
-                            fetchSellers(++currentPage);
-                          }
-                        },
-                        builder: (item) => Padding(
-                              padding:
-                                  const EdgeInsetsDirectional.only(start: 8),
-                              child: Skeletonizer(
-                                  enabled:
-                                      topSellerState.state == DataState.LOADING,
-                                  child: SellerItemCard(
-                                    width: 175,
-                                    providerData: item,
-                                    onSellerClickListener: (sellerId) {
-                                      navigateToSellerDetails(sellerId);
-                                    },
-                                  )),
-                            )),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                      child: DataListView<ProviderData>(
+                          dataList: topSellerState.data?.data?.data ??
+                              (topSellerState.state == DataState.LOADING
+                                  ? [
+                                      ...List.generate(
+                                          6, (index) => ProviderData())
+                                    ]
+                                  : []),
+                          paginated: true,
+                          gridView: true,
+                          childAspectRatio: .86,
+                          heightPresent: 0.81,
+                          loadingHeightPresent: 0.73,
+                          crossAxisSpacing: 12,
+                          pageLoading:
+                              topSellerState.state == DataState.MORE_LOADING,
+                          onBottomReached: () {
+                            if (currentPage <
+                                (topSellerState.data?.data?.lastPage ?? 0)) {
+                              fetchSellers(++currentPage);
+                            }
+                          },
+                          builder: (item) => Skeletonizer(
+                              enabled:
+                                  topSellerState.state == DataState.LOADING,
+                              child: SellerItemCard(
+                                height: 160,
+                                providerData: item,
+                                onSellerClickListener: (sellerId) {
+                                  navigateToSellerDetails(sellerId);
+                                },
+                              ))),
+                    ),
                   )
                 : EmptyDataView(
                     icon: SVGIcons.searchGifIcon(),
@@ -316,9 +384,39 @@ class _ShowTopSellersState extends ConsumerState<ShowTopSellers> {
                     occasionsIdsSelected: filterData.occasionsIdsSelected,
                     ratingValueSelected: filterData.ratingValueSelected,
                   );
-              ref
-                  .read(filterNumberCountStateNotifiers.notifier)
-                  .updateNumber(number: getNumberOfFilterItems(filterData));
+              updateNumberOfSelectedItems(filterData);
+              if (filterData.occasionsIdsSelected != null) {
+                ref
+                    .watch(getOccasionsDataStateNotifiers)
+                    .data
+                    ?.data
+                    .where((item) =>
+                        filterData.occasionsIdsSelected?.contains(item.id) ==
+                        true)
+                    .forEach((item) {
+                  ref
+                      .read(updateListOfFilterSelectedStateNotifiers.notifier)
+                      .addItem(ItemSelected(
+                          id: item.id?.toInt(),
+                          text: item.name,
+                          type: FilterTypes.Occasions));
+                });
+              }
+              if (filterData.ratingValueSelected != null) {
+                ConstantsMethods.getRatingsList(context)
+                    .where((item) =>
+                        filterData.ratingValueSelected?.contains(item.id) ==
+                        true)
+                    .forEach((item) {
+                  ref
+                      .read(updateListOfFilterSelectedStateNotifiers.notifier)
+                      .addItem(ItemSelected(
+                          id: item.id.toInt(),
+                          text: item.text,
+                          type: FilterTypes.Rating));
+                });
+              }
+
               currentPage = 1;
               fetchSellers(currentPage);
             },
@@ -370,5 +468,11 @@ class _ShowTopSellersState extends ConsumerState<ShowTopSellers> {
     int sellerId,
   ) {
     context.push(R_SellerDetails, extra: {"sellerId": sellerId});
+  }
+
+  void updateNumberOfSelectedItems(FilterData? filterData) {
+    ref
+        .read(filterNumberCountStateNotifiers.notifier)
+        .updateNumber(number: getNumberOfFilterItems(filterData));
   }
 }

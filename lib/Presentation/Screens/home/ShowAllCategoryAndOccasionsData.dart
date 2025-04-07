@@ -6,7 +6,6 @@ import 'package:go_router/go_router.dart';
 import 'package:lazo_client/Data/Models/StateModel.dart';
 import 'package:lazo_client/Localization/Keys.dart';
 import 'package:lazo_client/Presentation/StateNotifiersViewModel/PublicStateNotifiers.dart';
-import 'package:lazo_client/Presentation/Theme/AppTheme.dart';
 import 'package:lazo_client/Presentation/Widgets/CustomAppBar.dart';
 import 'package:lazo_client/Presentation/Widgets/EmptyDataView.dart';
 import 'package:lazo_client/Presentation/Widgets/SvgIcons.dart';

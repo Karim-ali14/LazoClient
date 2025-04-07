@@ -47,10 +47,7 @@ class FilterBottomSheet extends ConsumerStatefulWidget {
 }
 
 class _FilterBottomSheetState extends ConsumerState<FilterBottomSheet> {
-  List<ItemSelector> shipmentTypesList = [
-    ItemSelector(0, "Ready made", null),
-    ItemSelector(1, "Unready made", null),
-  ];
+
   List<ItemSelector> categoriesList = [];
   List<ItemSelector> occasionsList = [];
   List<int> mainRatingList = [1, 2, 3, 4, 5];
@@ -177,7 +174,7 @@ class _FilterBottomSheetState extends ConsumerState<FilterBottomSheet> {
                             child: ExpandedItemCard(
                               title: "Product Type",
                               body: CustomSelector(
-                                widgetList: shipmentTypesList,
+                                widgetList: ConstantsMethods.getShipmentTypesList(context),
                                 isSingleSelect: true,
                                 itemSelectedId: shipmentTypeSelected,
                                 onSelectMultiItemsCallback: (items) {},

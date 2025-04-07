@@ -88,3 +88,7 @@ enum CheckoutTypes {
   HartCard,
   SoftCard
 }
+
+enum FilterTypes {
+  ProductType,Categories,Occasions,Pice,Rating
+}

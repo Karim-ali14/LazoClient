@@ -22,6 +22,7 @@ class ServiceAndProductItemCardHorizontal extends StatefulWidget {
   final OnAddItemClick onAddItemToWishList;
   final OnItemClick onItemClick;
   final double? width;
+  final double? height;
   const ServiceAndProductItemCardHorizontal(
       {required this.type,
       super.key,
@@ -30,7 +31,7 @@ class ServiceAndProductItemCardHorizontal extends StatefulWidget {
       required this.onAddItemToCart,
       required this.onAddItemToWishList,
       required this.onItemClick,
-      this.width});
+      this.width, this.height});
 
   @override
   State<ServiceAndProductItemCardHorizontal> createState() =>
@@ -78,21 +79,21 @@ class _ServiceAndProductItemCardHorizontalState
               children: [
                 Skeleton.replace(
                   replacement: Container(
-                    width: double.infinity,
-                    height: widget.width?.toDouble(),
+                    width: widget.width ?? double.infinity,
+                    height: widget.height?.toDouble(),
                     color: Colors.white,
                   ),
                   child: Container(
-                    width: double.infinity,
-                    height: widget.width?.toDouble(),
+                    width: widget.width ?? double.infinity,
+                    height: widget.height?.toDouble(),
                     clipBehavior: Clip.antiAlias,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: Stack(children: [
                       ImageView(
-                        width: double.infinity,
-                        height: widget.width?.toDouble(),
+                        width: widget.width ?? double.infinity,
+                        height: widget.height?.toDouble(),
                         initialImg: widget.type == ItemType.Products
                             ? widget.product?.images?.isNotEmpty == true
                                 ? widget.product?.images?.first.imagePath

@@ -85,7 +85,7 @@ class _SellerSearchScreenState extends ConsumerState<SellerSearchScreen> {
             },
           )
         : Container(
-            padding: const EdgeInsets.symmetric(vertical: 4),
+            padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 5),
             decoration: const BoxDecoration(
               color: Colors.white,
               border:
@@ -98,9 +98,10 @@ class _SellerSearchScreenState extends ConsumerState<SellerSearchScreen> {
                         : []),
                 paginated: true,
                 gridView: true,
-                childAspectRatio: .86,
+                childAspectRatio: .85,
                 heightPresent: 0.81,
                 loadingHeightPresent: 0.73,
+                crossAxisSpacing: 12,
                 pageLoading: sellersState.state == DataState.MORE_LOADING,
                 onBottomReached: () {
                   if (currentPageForSellers <
@@ -112,9 +113,9 @@ class _SellerSearchScreenState extends ConsumerState<SellerSearchScreen> {
                       enabled: sellersState.state == DataState.LOADING,
                       child: Padding(
                         padding: const EdgeInsetsDirectional.symmetric(
-                            horizontal: 16, vertical: 6),
+                            horizontal: 0, vertical: 0),
                         child: SellerItemCard(
-                          width: 165,
+                          height: 160,
                           providerData: item,
                           onSellerClickListener: (sellerId) {
                             navigateToSellerDetails(sellerId);

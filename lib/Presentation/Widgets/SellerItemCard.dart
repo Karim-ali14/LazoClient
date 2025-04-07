@@ -16,12 +16,13 @@ typedef OnSellerClickListener = Function(int);
 class SellerItemCard extends StatefulWidget {
   final ProviderData? providerData;
   final int? width;
+  final int? height;
   final OnSellerClickListener onSellerClickListener;
   const SellerItemCard(
       {super.key,
       required this.providerData,
       this.width,
-      required this.onSellerClickListener});
+      required this.onSellerClickListener, this.height});
 
   @override
   State<SellerItemCard> createState() => _SellerItemCardState();
@@ -43,21 +44,21 @@ class _SellerItemCardState extends State<SellerItemCard> {
             children: [
               Skeleton.replace(
                 replacement: Container(
-                  width: widget.width?.toDouble(),
-                  height: widget.width?.toDouble(),
+                  width: widget.width?.toDouble() ?? double.infinity,
+                  height: widget.height?.toDouble(),
                   color: Colors.white,
                 ),
                 child: Container(
-                  width: widget.width?.toDouble(),
-                  height: widget.width?.toDouble(),
+                  width: widget.width?.toDouble() ?? double.infinity,
+                  height: widget.height?.toDouble(),
                   clipBehavior: Clip.antiAlias,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Stack(children: [
                     ImageView(
-                      width: widget.width?.toDouble(),
-                      height: widget.width?.toDouble(),
+                      width: widget.width?.toDouble() ?? double.infinity,
+                      height: widget.height?.toDouble(),
                       initialImg: widget.providerData?.imagePath,
                       placeHolder: placeHolderForCardsSvg,
                     ),

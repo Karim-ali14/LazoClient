@@ -167,9 +167,10 @@ class _ShowProductAndServiceScreenState
                                       : []),
                               paginated: true,
                               gridView: true,
-                              childAspectRatio: .79,
+                              childAspectRatio: .75,
                               heightPresent: 0.79,
                               loadingHeightPresent: 0.725,
+                              crossAxisSpacing: 15,
                               pageLoading:
                                   productsState.state == DataState.MORE_LOADING,
                               onBottomReached: () {
@@ -184,7 +185,7 @@ class _ShowProductAndServiceScreenState
                                     enabled: productsState.state ==
                                         DataState.LOADING,
                                     child: ServiceAndProductItemCardHorizontal(
-                                      width: 165,
+                                      height: 160,
                                       type: ItemType.Products,
                                       product: item,
                                       onAddItemToCart: (id) {
@@ -226,9 +227,10 @@ class _ShowProductAndServiceScreenState
                                       : []),
                               paginated: true,
                               gridView: true,
-                              childAspectRatio: .79,
+                              childAspectRatio: .75,
                               heightPresent: 0.79,
                               loadingHeightPresent: 0.725,
+                              crossAxisSpacing: 15,
                               pageLoading:
                                   servicesState.state == DataState.MORE_LOADING,
                               onBottomReached: () {
@@ -244,7 +246,7 @@ class _ShowProductAndServiceScreenState
                                         DataState.LOADING,
                                     child: ServiceAndProductItemCardHorizontal(
                                       service: item,
-                                      width: 168,
+                                      height: 160,
                                       type: ItemType.Services,
                                       onAddItemToCart: (id) {
                                         addServiceToCart(id);

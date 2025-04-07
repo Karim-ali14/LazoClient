@@ -56,6 +56,7 @@ class _HorizontalTopProductListViewWithTitleSeeAll extends State<HorizontalTopPr
                 return Skeletonizer(
                   enabled: widget.showLoading ,
                   child: ServiceAndProductItemCardHorizontal(
+                    height: widget.itemWidth,
                     width: widget.itemWidth,
                     product: widget.list[index],
                     type: ItemType.Products, onAddItemToCart: (id ) {

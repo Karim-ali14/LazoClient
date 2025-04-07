@@ -117,7 +117,7 @@ class _ServiceSearchScreenState extends ConsumerState<ServiceSearchScreen> {
                 },
               )
             : Container(
-                padding: const EdgeInsets.symmetric(vertical: 4),
+                padding: const EdgeInsets.symmetric(vertical: 4,horizontal: 5),
                 decoration: const BoxDecoration(
                   color: Colors.white,
                   border: Border(
@@ -133,9 +133,10 @@ class _ServiceSearchScreenState extends ConsumerState<ServiceSearchScreen> {
                             : []),
                     paginated: true,
                     gridView: true,
-                    childAspectRatio: .79,
+                    childAspectRatio: .78,
                     heightPresent: 0.81,
                     loadingHeightPresent: 0.73,
+                    crossAxisSpacing: 12,
                     pageLoading: servicesState.state == DataState.MORE_LOADING,
                     onBottomReached: () {
                       if (currentPageForServices <
@@ -147,7 +148,7 @@ class _ServiceSearchScreenState extends ConsumerState<ServiceSearchScreen> {
                           enabled: servicesState.state == DataState.LOADING,
                           child: Padding(
                             padding: EdgeInsetsDirectional.symmetric(
-                                horizontal: 16, vertical: 6),
+                                horizontal: 0, vertical: 0),
                             child: ServiceAndProductItemCardHorizontal(
                               service: item,
                               width: 165,

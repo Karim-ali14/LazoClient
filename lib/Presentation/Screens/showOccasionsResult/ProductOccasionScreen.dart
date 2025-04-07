@@ -8,17 +8,12 @@ import '../../../Constants/Eunms.dart';
 import '../../../Data/Models/FilterData.dart';
 import '../../../Data/Models/StateModel.dart';
 import '../../../Data/Network/lib/api.dart';
-import '../../../Utils/FilterUtils.dart';
-import '../../../Utils/SearchStorage.dart';
-import '../../../main.dart';
 import '../../StateNotifiersViewModel/PublicStateNotifiers.dart';
-import '../../StateNotifiersViewModel/SearchLocalStoragStateNotifiers.dart';
 import '../../StateNotifiersViewModel/UserAuthStateNotifiers.dart';
 import '../../StateNotifiersViewModel/WishListStateNotifiers.dart';
 import '../../Theme/AppTheme.dart';
 import '../../Widgets/DataListView.dart';
 import '../../Widgets/EmptyDataView.dart';
-import '../../Widgets/RecentScreen.dart';
 import '../../Widgets/ServiceAndProductItemCard.dart';
 import '../../Widgets/SvgIcons.dart';
 
@@ -107,7 +102,7 @@ class _ProductSearchScreenState
             btuAction: () {},
           )
         : Container(
-            padding: const EdgeInsets.symmetric(vertical: 4),
+            padding: const EdgeInsets.symmetric(vertical: 4,horizontal: 8),
             decoration: const BoxDecoration(
               color: Colors.white,
               border:
@@ -121,8 +116,9 @@ class _ProductSearchScreenState
                 paginated: true,
                 gridView: true,
                 childAspectRatio: .79,
-                heightPresent: 0.81,
-                loadingHeightPresent: 0.68,
+                heightPresent: 0.79,
+                loadingHeightPresent: 0.725,
+                crossAxisSpacing: 18,
                 pageLoading: productsState.state == DataState.MORE_LOADING,
                 onBottomReached: () {
                   fetchProducts(++currentPageForProducts);
@@ -131,11 +127,11 @@ class _ProductSearchScreenState
                       enabled: productsState.state == DataState.LOADING,
                       child: Padding(
                         padding: const EdgeInsetsDirectional.symmetric(
-                            horizontal: 16, vertical: 6),
+                            horizontal: 0, vertical: 0),
                         child: ServiceAndProductItemCardHorizontal(
                           type: ItemType.Products,
                           product: item,
-                          width: 165,
+                          height: 156,
                           onAddItemToCart: (id) {
                             addProductToCart(id);
                           },

@@ -119,7 +119,7 @@ class _ProductSearchScreenState extends ConsumerState<ProductSearchScreen> {
                 },
               )
             : Container(
-                padding: const EdgeInsets.symmetric(vertical: 4),
+                padding: const EdgeInsets.symmetric(vertical: 4,horizontal: 7),
                 decoration: const BoxDecoration(
                   color: Colors.white,
                   border: Border(
@@ -135,9 +135,10 @@ class _ProductSearchScreenState extends ConsumerState<ProductSearchScreen> {
                             : []),
                     paginated: true,
                     gridView: true,
-                    childAspectRatio: .79,
+                    childAspectRatio: .75,
                     heightPresent: 0.81,
                     loadingHeightPresent: 0.73,
+                    crossAxisSpacing: 15,
                     pageLoading: productsState.state == DataState.MORE_LOADING,
                     onBottomReached: () {
                       fetchProducts(++currentPageForProducts);
@@ -146,11 +147,11 @@ class _ProductSearchScreenState extends ConsumerState<ProductSearchScreen> {
                           enabled: productsState.state == DataState.LOADING,
                           child: Padding(
                             padding: const EdgeInsetsDirectional.symmetric(
-                                horizontal: 16, vertical: 6),
+                                horizontal: 0, vertical: 0),
                             child: ServiceAndProductItemCardHorizontal(
                               type: ItemType.Products,
                               product: item,
-                              width: 165,
+                              height: 160,
                               onAddItemToCart: (id) {
                                 addProductToCart(id);
                               },

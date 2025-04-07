@@ -1,11 +1,13 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lazo_client/Constants/Eunms.dart';
 import 'package:lazo_client/Data/Models/FilterData.dart';
+import 'package:lazo_client/Data/Models/ItemSelector.dart';
 import 'package:lazo_client/Data/Models/StateModel.dart';
 import 'package:lazo_client/Doman/CommenProviders/ApiProvider.dart';
 import 'package:lazo_client/Doman/useCases/PublicUseCases.dart';
 import '../../Data/Network/lib/api.dart';
 import '../../Doman/useCases/AuthUaseCases.dart';
+import '../../Doman/useCases/UpdateFilterUseCase.dart';
 import '../../Doman/useCases/UpdateListOFCategoryUseCase.dart';
 
 final getCities = StateNotifierProvider.autoDispose<CitiesUseCases,
@@ -23,6 +25,10 @@ final homeDataStateNotifiers =
 final updateListOfCategoryStateNotifiers =
     StateNotifierProvider<UpdateListOfCategoryUseCase, List<Category>>(
         (ref) => UpdateListOfCategoryUseCase());
+
+final updateListOfFilterSelectedStateNotifiers =
+    StateNotifierProvider<UpdateListOfFilterSelectedUseCase, List<ItemSelected?>>(
+        (ref) => UpdateListOfFilterSelectedUseCase());
 
 final getCategoriesDataStateNotifiers =
     StateNotifierProvider<GetCategoriesUseCase, StateModel<CategoriesResponse>>(
