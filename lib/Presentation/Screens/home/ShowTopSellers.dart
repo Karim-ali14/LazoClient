@@ -41,7 +41,7 @@ class ShowTopSellers extends ConsumerStatefulWidget {
 class _ShowTopSellersState extends ConsumerState<ShowTopSellers> {
   var currentPage = 1;
   String? searchValue = null;
-  FilterData? sellerFilterData = null;
+  FilterData? sellerFilterData;
   final List<Category>? categoriesSelected = [];
   @override
   void initState() {
@@ -50,6 +50,14 @@ class _ShowTopSellersState extends ConsumerState<ShowTopSellers> {
         categoriesSelected
             ?.add(Category(id: widget.categoryId, name: widget.title));
 
+        if(widget.categoryId != null) {
+          sellerFilterData = FilterData(
+              categoriesIdsSelected: [
+                widget.categoryId?.toInt() ?? 0
+              ]
+          );
+        }
+        updateNumberOfSelectedItems(sellerFilterData);
         var itemSelected =
             (ref.watch(getCategoriesDataStateNotifiers).data?.data ?? [])
                 .map((item) {
@@ -144,7 +152,16 @@ class _ShowTopSellersState extends ConsumerState<ShowTopSellers> {
                                         .notifier)
                                     .toggleSelection(
                                         item?.id, item?.isChecked ?? false);
+
                                 if (item?.isChecked == true) {
+                                  if(sellerFilterData?.categoriesIdsSelected == null){
+                                    sellerFilterData = FilterData(
+                                      categoriesIdsSelected: [],
+                                      occasionsIdsSelected: sellerFilterData?.occasionsIdsSelected,
+                                      ratingValueSelected: sellerFilterData?.ratingValueSelected
+                                    );
+                                  }
+                                  sellerFilterData?.categoriesIdsSelected?.add(item?.id?.toInt()??0);
                                   ref
                                       .read(
                                           updateListOfFilterSelectedStateNotifiers
@@ -154,6 +171,7 @@ class _ShowTopSellersState extends ConsumerState<ShowTopSellers> {
                                           text: item?.name,
                                           type: FilterTypes.Categories));
                                 } else {
+                                  sellerFilterData?.categoriesIdsSelected?.remove(item?.id?.toInt()??0);
                                   ref
                                       .read(
                                           updateListOfFilterSelectedStateNotifiers
@@ -163,7 +181,7 @@ class _ShowTopSellersState extends ConsumerState<ShowTopSellers> {
                                           text: item?.name,
                                           type: FilterTypes.Categories));
                                 }
-
+                                updateNumberOfSelectedItems(sellerFilterData);
                                 currentPage = 1;
                                 fetchSellers(currentPage);
                               },
@@ -176,8 +194,8 @@ class _ShowTopSellersState extends ConsumerState<ShowTopSellers> {
                     ),
                   )
                 : SizedBox(),
-            widget.type == CategoryType.Categories
-                ? Consumer(builder: (context, ref, child) {
+            // widget.type == CategoryType.Categories
+                 Consumer(builder: (context, ref, child) {
                     final categorySelectedState = ref
                         .watch(updateListOfFilterSelectedStateNotifiers)
                         .toList();
@@ -216,16 +234,8 @@ class _ShowTopSellersState extends ConsumerState<ShowTopSellers> {
                                     ),
                                     child: InkWell(
                                         onTap: () {
-                                          ref
-                                              .read(
-                                                  updateListOfCategoryStateNotifiers
-                                                      .notifier)
-                                              .clearAll();
-                                          ref
-                                              .read(
-                                                  updateListOfFilterSelectedStateNotifiers
-                                                      .notifier)
-                                              .clearAll();
+                                          clearFilterData();
+                                          clearFilterCategorySelected();
                                           sellerFilterData = null;
                                           updateNumberOfSelectedItems(sellerFilterData);
                                           currentPage = 1;
@@ -252,11 +262,15 @@ class _ShowTopSellersState extends ConsumerState<ShowTopSellers> {
                                             item: categorySelectedState[index],
                                             onSelectCategory: (item) {
                                               if(item?.type == FilterTypes.Categories){
+                                                print("sdfasdfasdfasdfsdf ${sellerFilterData?.categoriesIdsSelected}");
+                                                sellerFilterData?.categoriesIdsSelected?.remove(item?.id);
+                                                print("sdfasdfasdfasdfsdf ${sellerFilterData?.categoriesIdsSelected}");
                                                 ref
                                                     .read(
                                                     updateListOfCategoryStateNotifiers
                                                         .notifier)
                                                     .removeSelected(item?.id);
+                                                updateNumberOfSelectedItems(sellerFilterData);
                                               } else if(item?.type == FilterTypes.Occasions){
                                                 sellerFilterData?.occasionsIdsSelected?.remove(item?.id);
                                                 updateNumberOfSelectedItems(sellerFilterData);
@@ -270,7 +284,7 @@ class _ShowTopSellersState extends ConsumerState<ShowTopSellers> {
                                                       updateListOfFilterSelectedStateNotifiers
                                                           .notifier)
                                                   .removeItem(item);
-
+                                              //
                                               currentPage = 1;
                                               fetchSellers(currentPage);
                                             },
@@ -289,7 +303,8 @@ class _ShowTopSellersState extends ConsumerState<ShowTopSellers> {
                           )
                         : const SizedBox();
                   })
-                : const SizedBox(),
+                // : const SizedBox()
+            ,
             SizedBox(
               height: 16,
             ),
@@ -378,44 +393,29 @@ class _ShowTopSellersState extends ConsumerState<ShowTopSellers> {
             dataSelected: filterData,
             showCategory: widget.type != CategoryType.Categories,
             onFilterApply: (filterData) {
-              sellerFilterData = filterData;
+
+              print("filter apply type of : ${widget.type}");
+              if(widget.type == CategoryType.Categories){
+                print("filter apply type of : ${widget.type} ${sellerFilterData?.categoriesIdsSelected}");
+                sellerFilterData = FilterData(
+                  categoriesIdsSelected: sellerFilterData?.categoriesIdsSelected,
+                  occasionsIdsSelected: filterData.occasionsIdsSelected,
+                  ratingValueSelected: filterData.ratingValueSelected
+                );
+              }else{
+                sellerFilterData = filterData;
+              }
+              clearFilterData();
+
               ref.read(filterForSellerStateNotifiers.notifier).applyDataFilter(
-                    categoriesIdsSelected: filterData.categoriesIdsSelected,
-                    occasionsIdsSelected: filterData.occasionsIdsSelected,
-                    ratingValueSelected: filterData.ratingValueSelected,
+                    categoriesIdsSelected: sellerFilterData?.categoriesIdsSelected,
+                    occasionsIdsSelected: sellerFilterData?.occasionsIdsSelected,
+                    ratingValueSelected: sellerFilterData?.ratingValueSelected,
                   );
-              updateNumberOfSelectedItems(filterData);
-              if (filterData.occasionsIdsSelected != null) {
-                ref
-                    .watch(getOccasionsDataStateNotifiers)
-                    .data
-                    ?.data
-                    .where((item) =>
-                        filterData.occasionsIdsSelected?.contains(item.id) ==
-                        true)
-                    .forEach((item) {
-                  ref
-                      .read(updateListOfFilterSelectedStateNotifiers.notifier)
-                      .addItem(ItemSelected(
-                          id: item.id?.toInt(),
-                          text: item.name,
-                          type: FilterTypes.Occasions));
-                });
-              }
-              if (filterData.ratingValueSelected != null) {
-                ConstantsMethods.getRatingsList(context)
-                    .where((item) =>
-                        filterData.ratingValueSelected?.contains(item.id) ==
-                        true)
-                    .forEach((item) {
-                  ref
-                      .read(updateListOfFilterSelectedStateNotifiers.notifier)
-                      .addItem(ItemSelected(
-                          id: item.id.toInt(),
-                          text: item.text,
-                          type: FilterTypes.Rating));
-                });
-              }
+
+              updateNumberOfSelectedItems(sellerFilterData);
+
+              setFilterData(sellerFilterData??FilterData());
 
               currentPage = 1;
               fetchSellers(currentPage);
@@ -430,22 +430,18 @@ class _ShowTopSellersState extends ConsumerState<ShowTopSellers> {
             page: page,
             searchByName: searchValue?.isNotEmpty == true ? searchValue : null,
             isPromoted: sellerFilterData?.promotionSelected,
-            categoriesIds: sellerFilterData?.categoriesIdsSelected,
-            occasionsIds: sellerFilterData?.occasionsIdsSelected,
+            categoriesIds: sellerFilterData?.categoriesIdsSelected?.isNotEmpty == true ? sellerFilterData?.categoriesIdsSelected : null,
+            occasionsIds: sellerFilterData?.occasionsIdsSelected?.isNotEmpty == true ? sellerFilterData?.occasionsIdsSelected : null,
             ratings: sellerFilterData?.ratingValueSelected
                 ?.map((item) => item.toString())
                 .toList(),
           );
     } else if (widget.type == CategoryType.Categories) {
-      var list = ref
-          .read(updateListOfCategoryStateNotifiers)
-          .where((item) => item.isChecked == true)
-          .map((item) => (item.id ?? 0).toInt())
-          .toList();
+
       ref.read(getTopSellersDataStateNotifiers.notifier).getTopSellersData(
-          categoriesIds: list?.isNotEmpty == true ? list : null,
           isPromoted: sellerFilterData?.promotionSelected,
-          occasionsIds: sellerFilterData?.occasionsIdsSelected,
+          categoriesIds: sellerFilterData?.categoriesIdsSelected?.isNotEmpty == true ? sellerFilterData?.categoriesIdsSelected : null,
+          occasionsIds: sellerFilterData?.occasionsIdsSelected?.isNotEmpty == true ? sellerFilterData?.occasionsIdsSelected : null,
           ratings: sellerFilterData?.ratingValueSelected
               ?.map((item) => item.toString())
               .toList(),
@@ -455,7 +451,7 @@ class _ShowTopSellersState extends ConsumerState<ShowTopSellers> {
       ref.read(getTopSellersDataStateNotifiers.notifier).getTopSellersData(
           categoriesIds: [widget.categoryId ?? 0],
           isPromoted: sellerFilterData?.promotionSelected,
-          occasionsIds: sellerFilterData?.occasionsIdsSelected,
+          occasionsIds: sellerFilterData?.occasionsIdsSelected?.isNotEmpty == true ? sellerFilterData?.occasionsIdsSelected : null,
           ratings: sellerFilterData?.ratingValueSelected
               ?.map((item) => item.toString())
               .toList(),
@@ -475,4 +471,69 @@ class _ShowTopSellersState extends ConsumerState<ShowTopSellers> {
         .read(filterNumberCountStateNotifiers.notifier)
         .updateNumber(number: getNumberOfFilterItems(filterData));
   }
+
+  void clearFilterCategorySelected() {
+    ref
+        .read(
+        updateListOfCategoryStateNotifiers
+            .notifier)
+        .clearAll();
+  }
+
+  void clearFilterData() {
+    ref
+        .read(updateListOfFilterSelectedStateNotifiers.notifier).clearAll();
+  }
+
+  void setFilterData(FilterData filterData) {
+    if (filterData.categoriesIdsSelected != null) {
+      ref
+          .watch(getCategoriesDataStateNotifiers)
+          .data
+          ?.data
+          .where((item) =>
+      filterData.categoriesIdsSelected?.contains(item.id) ==
+          true)
+          .forEach((item) {
+        ref
+            .read(updateListOfFilterSelectedStateNotifiers.notifier)
+            .addItem(ItemSelected(
+            id: item.id?.toInt(),
+            text: item.name,
+            type: FilterTypes.Categories));
+      });
+    }
+    if (filterData.occasionsIdsSelected != null) {
+      ref
+          .watch(getOccasionsDataStateNotifiers)
+          .data
+          ?.data
+          .where((item) =>
+      filterData.occasionsIdsSelected?.contains(item.id) ==
+          true)
+          .forEach((item) {
+        ref
+            .read(updateListOfFilterSelectedStateNotifiers.notifier)
+            .addItem(ItemSelected(
+            id: item.id?.toInt(),
+            text: item.name,
+            type: FilterTypes.Occasions));
+      });
+    }
+    if (filterData.ratingValueSelected != null) {
+      ConstantsMethods.getRatingsList(context)
+          .where((item) =>
+      filterData.ratingValueSelected?.contains(item.id) ==
+          true)
+          .forEach((item) {
+        ref
+            .read(updateListOfFilterSelectedStateNotifiers.notifier)
+            .addItem(ItemSelected(
+            id: item.id.toInt(),
+            text: item.text,
+            type: FilterTypes.Rating));
+      });
+    }
+  }
+
 }
