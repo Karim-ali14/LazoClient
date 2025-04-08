@@ -36,13 +36,14 @@ class ProductSearchScreen extends ConsumerStatefulWidget {
   final bool? showData;
   final VoidCallback? showAuthenticated;
   final NavigateToItemDetails? navigateToItemDetails;
-  const ProductSearchScreen( {
+  final Function(String)? onSelectFromResentSearch;
+  const ProductSearchScreen(  {
     super.key,
     this.type,
     this.id,
     this.controller,
     this.showAuthenticated,
-    this.navigateToItemDetails,this.showData,
+    this.navigateToItemDetails,this.showData,this.onSelectFromResentSearch,
   });
 
   @override
@@ -289,6 +290,7 @@ class _ProductSearchScreenState extends ConsumerState<ProductSearchScreen> {
           recentSearches: recentSearches,
           itemSearchClick: (result) {
             widget.controller?.text = result;
+            widget.onSelectFromResentSearch?.call(result);
             SearchStorage.saveSearch(
                 key: SearchStorage.product_key, query: result);
             widget.controller?.text = result;

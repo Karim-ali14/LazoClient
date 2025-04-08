@@ -121,7 +121,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
     filterForProductData = ref.watch(filterForProductStateNotifiers);
     filterForServicesData = ref.watch(filterForServiceStateNotifiers);
     filterForSellersData = ref.watch(filterForSellerStateNotifiers);
-    print(" sadfsadfa ${filterForServicesData?.ratingValueSelected}");
+
     return WillPopScope(
       onWillPop: _onWillPop,
       child: Scaffold(
@@ -255,19 +255,25 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
                             controller: controller,
                             id: widget.id,
                             showAuthenticated: showAuthenticated,
-                            navigateToItemDetails: navigateToItemDetails),
+                            navigateToItemDetails: navigateToItemDetails,onSelectFromResentSearch: (value){
+                              searchForProductData = value;
+                        },),
                         ServiceSearchScreen(
                             type: CategoryType.Search,
                             controller: controller,
                             id: widget.id,
                             showAuthenticated: showAuthenticated,
-                            navigateToItemDetails: navigateToItemDetails),
+                            navigateToItemDetails: navigateToItemDetails,onSelectFromResentSearch: (value){
+                              searchForServiceData = value;
+                            }),
                         if (widget.type == CategoryType.Search)
                           SellerSearchScreen(
                             type: CategoryType.Search,
                             controller: controller,
                             id: widget.id,
-                            showAuthenticated: showAuthenticated,
+                            showAuthenticated: showAuthenticated,onSelectFromResentSearch: (value){
+                              searchForSellersData = value;
+                            },
                           ),
                       ],
                     ),

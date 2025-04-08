@@ -31,12 +31,13 @@ class SellerSearchScreen extends ConsumerStatefulWidget {
   final int? id;
   final TextEditingController? controller;
   final VoidCallback? showAuthenticated;
+  final Function(String)? onSelectFromResentSearch;
   const SellerSearchScreen({
     super.key,
     this.type,
     this.id,
     this.controller,
-    this.showAuthenticated,
+    this.showAuthenticated,this.onSelectFromResentSearch,
   });
 
   @override
@@ -242,6 +243,7 @@ class _SellerSearchScreenState extends ConsumerState<SellerSearchScreen> {
           recentSearches: recentSearches,
           itemSearchClick: (result) {
             widget.controller?.text = result;
+            widget.onSelectFromResentSearch?.call(result);
             SearchStorage.saveSearch(
                 key: SearchStorage.seller_key, query: result);
             widget.controller?.text = result;

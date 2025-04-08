@@ -35,13 +35,14 @@ class ServiceSearchScreen extends ConsumerStatefulWidget {
   final TextEditingController? controller;
   final VoidCallback? showAuthenticated;
   final NavigateToItemDetails? navigateToItemDetails;
-  const ServiceSearchScreen({
+  final Function(String)? onSelectFromResentSearch;
+  const ServiceSearchScreen( {
     super.key,
     this.type,
     this.id,
     this.controller,
     this.showAuthenticated,
-    this.navigateToItemDetails,
+    this.navigateToItemDetails,this.onSelectFromResentSearch,
   });
 
   @override
@@ -290,6 +291,7 @@ class _ServiceSearchScreenState extends ConsumerState<ServiceSearchScreen> {
           recentSearches: recentSearches,
           itemSearchClick: (result) {
             widget.controller?.text = result;
+            widget.onSelectFromResentSearch?.call(result);
             SearchStorage.saveSearch(
                 key: SearchStorage.service_key, query: result);
             widget.controller?.text = result;
@@ -356,7 +358,7 @@ class _ServiceSearchScreenState extends ConsumerState<ServiceSearchScreen> {
       {int? occasionId}) async {
     await context.push(R_ShowBestProductOrService,
         extra: {"type": type, "title": title, "occasionId": occasionId});
-    
+
   }
 
   void updateNumberOfSelectedItems(FilterData? filterData) {
