@@ -250,6 +250,7 @@ class _ShowAllCategoryAndOccasionsDataState
     ref.read(filterForProductStateNotifiers.notifier).resetDataFilter();
     ref.read(filterForReadyGiftProductStateNotifiers.notifier).resetDataFilter();
     ref.read(filterForUnReadyGiftProductStateNotifiers.notifier).resetDataFilter();
+    ref.read(filterForServiceStateNotifiers.notifier).resetDataFilter();
     context.push(R_OccasionResultScreen,extra: {"occasionId":id,"title":name,"image":image});
   }
 }

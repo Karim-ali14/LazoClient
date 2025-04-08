@@ -286,7 +286,6 @@ class _SellerSearchScreenState extends ConsumerState<SellerSearchScreen> {
     await context.push(R_SeeAllSeller,
         extra: {"type": type, "title": title, "categoryId": categoryId});
 
-    ref.read(filterForSellerStateNotifiers.notifier).resetDataFilter();
   }
 
   void updateNumberOfSelectedItems(FilterData? filterData) {

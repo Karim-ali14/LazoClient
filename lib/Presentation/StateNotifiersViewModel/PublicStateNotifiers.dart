@@ -34,6 +34,14 @@ final updateProductListOfFilterSelectedStateNotifiers =
     StateNotifierProvider<UpdateListOfFilterSelectedUseCase, List<ItemSelected?>>(
         (ref) => UpdateListOfFilterSelectedUseCase());
 
+final updateBestProductListOfFilterSelectedStateNotifiers =
+    StateNotifierProvider<UpdateListOfFilterSelectedUseCase, List<ItemSelected?>>(
+        (ref) => UpdateListOfFilterSelectedUseCase());
+
+final updateBestServiceListOfFilterSelectedStateNotifiers =
+    StateNotifierProvider<UpdateListOfFilterSelectedUseCase, List<ItemSelected?>>(
+        (ref) => UpdateListOfFilterSelectedUseCase());
+
 final updateOccasionAllProductListOfFilterSelectedStateNotifiers =
     StateNotifierProvider<UpdateListOfFilterSelectedUseCase, List<ItemSelected?>>(
         (ref) => UpdateListOfFilterSelectedUseCase());
@@ -70,6 +78,10 @@ final getTopSellersDataStateNotifiers = StateNotifierProvider<
         GetTopSellersUseCase, StateModel<FilterTopSellers200Response>>(
     (ref) => GetTopSellersUseCase(ref, ref.read(publicApi)));
 
+final getTopBestSellersDataStateNotifiers = StateNotifierProvider<
+        GetTopSellersUseCase, StateModel<FilterTopSellers200Response>>(
+    (ref) => GetTopSellersUseCase(ref, ref.read(publicApi)));
+
 final getRelatedProductsStateNotifiers = StateNotifierProvider.autoDispose<
         GetProductsUseCase, StateModel<FilterTopProductsServices200Response>>(
     (ref) => GetProductsUseCase(ref, ref.read(publicApi)));
@@ -79,6 +91,10 @@ final getRelatedServicesStateNotifiers = StateNotifierProvider.autoDispose<
     (ref) => GetServicesUseCase(ref, ref.read(publicApi)));
 
 final getProductsStateNotifiers = StateNotifierProvider<GetProductsUseCase,
+        StateModel<FilterTopProductsServices200Response>>(
+    (ref) => GetProductsUseCase(ref, ref.read(publicApi)));
+
+final getBestProductsStateNotifiers = StateNotifierProvider<GetProductsUseCase,
         StateModel<FilterTopProductsServices200Response>>(
     (ref) => GetProductsUseCase(ref, ref.read(publicApi)));
 
@@ -94,7 +110,15 @@ final getServicesStateNotifiers = StateNotifierProvider<GetServicesUseCase,
         StateModel<FilterTopProductsServices200Response>>(
     (ref) => GetServicesUseCase(ref, ref.read(publicApi)));
 
+final getBestServicesStateNotifiers = StateNotifierProvider<GetServicesUseCase,
+        StateModel<FilterTopProductsServices200Response>>(
+    (ref) => GetServicesUseCase(ref, ref.read(publicApi)));
+
 final filterForProductStateNotifiers =
+    StateNotifierProvider<FilterDataUseCase, FilterData>(
+        (ref) => FilterDataUseCase(ref));
+
+final filterForBestProductStateNotifiers =
     StateNotifierProvider<FilterDataUseCase, FilterData>(
         (ref) => FilterDataUseCase(ref));
 
@@ -110,7 +134,15 @@ final filterNumberCountStateNotifiers =
     StateNotifierProvider.autoDispose<FilterNumberCountUseCase, int>(
         (ref) => FilterNumberCountUseCase(ref));
 
+final filterNumberCountForBestItemStateNotifiers =
+    StateNotifierProvider.autoDispose<FilterNumberCountUseCase, int>(
+        (ref) => FilterNumberCountUseCase(ref));
+
 final filterForServiceStateNotifiers =
+    StateNotifierProvider<FilterDataUseCase, FilterData>(
+        (ref) => FilterDataUseCase(ref));
+
+final filterForBestServiceStateNotifiers =
     StateNotifierProvider<FilterDataUseCase, FilterData>(
         (ref) => FilterDataUseCase(ref));
 

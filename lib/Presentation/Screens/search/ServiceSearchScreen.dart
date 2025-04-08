@@ -356,9 +356,7 @@ class _ServiceSearchScreenState extends ConsumerState<ServiceSearchScreen> {
       {int? occasionId}) async {
     await context.push(R_ShowBestProductOrService,
         extra: {"type": type, "title": title, "occasionId": occasionId});
-
-    ref.read(filterForProductStateNotifiers.notifier).resetDataFilter();
-    ref.read(filterForServiceStateNotifiers.notifier).resetDataFilter();
+    
   }
 
   void updateNumberOfSelectedItems(FilterData? filterData) {

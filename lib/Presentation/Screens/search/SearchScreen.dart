@@ -121,6 +121,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
     filterForProductData = ref.watch(filterForProductStateNotifiers);
     filterForServicesData = ref.watch(filterForServiceStateNotifiers);
     filterForSellersData = ref.watch(filterForSellerStateNotifiers);
+    print(" sadfsadfa ${filterForServicesData?.ratingValueSelected}");
     return WillPopScope(
       onWillPop: _onWillPop,
       child: Scaffold(
@@ -281,6 +282,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
   }
 
   void fetchProducts(int page) {
+    print(searchForProductData);
     ref.read(getProductsStateNotifiers.notifier).getProductsData(
         page: page,
         shipmentType: filterForProductData?.shipmentTypeSelected != null

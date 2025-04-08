@@ -353,8 +353,6 @@ class _ProductSearchScreenState extends ConsumerState<ProductSearchScreen> {
     await context.push(R_ShowBestProductOrService,
         extra: {"type": type, "title": title, "occasionId": occasionId});
 
-    ref.read(filterForProductStateNotifiers.notifier).resetDataFilter();
-    ref.read(filterForServiceStateNotifiers.notifier).resetDataFilter();
   }
 
   void updateNumberOfSelectedItems(FilterData? filterData) {
