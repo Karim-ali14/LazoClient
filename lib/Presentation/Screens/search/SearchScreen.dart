@@ -90,6 +90,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
       });
     });
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      clearAllFilterCategorySelected();
       // fetchProducts(currentPageForProducts);
       // fetchServices(currentPageForServices);
       // if (widget.type == CategoryType.Search) {
@@ -695,6 +696,26 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
               .notifier)
           .clearAll();
     }
+  }
+
+  void clearAllFilterCategorySelected() {
+      ref
+          .read(
+          updateProductListOfFilterSelectedStateNotifiers
+              .notifier)
+          .clearAll();
+
+      ref
+          .read(
+          updateServiceListOfFilterSelectedStateNotifiers
+              .notifier)
+          .clearAll();
+      ref
+          .read(
+          updateSellerListOfFilterSelectedStateNotifiers
+              .notifier)
+          .clearAll();
+
   }
 
 }
