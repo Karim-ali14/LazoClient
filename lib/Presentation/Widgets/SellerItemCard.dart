@@ -85,6 +85,15 @@ class _SellerItemCardState extends State<SellerItemCard> {
                                 width: 4,
                               ),
                               SVGIcons.smallStarIcon(size: 12),
+                              SizedBox(width:
+                              widget.providerData?.ratingsCount != null && widget.providerData?.ratingsCount != 0 ?5:0,),
+                              widget.providerData?.ratingsCount != null && widget.providerData?.ratingsCount != 0 ?
+                              Text(
+                                "(${widget.providerData?.ratingsCount?.toString()})" ??
+                                    "",
+                                style: AppTheme
+                                    .styleWithTextWhiteAdelleSansExtendedFonts12w400,
+                              ):const SizedBox(),
                             ],
                           ),
                         ),

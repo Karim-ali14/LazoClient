@@ -35,7 +35,7 @@ class MainScreenNavHostState extends ConsumerState<MainScreenNavHost> {
   double _opacity = 0.8;
   int currentTab = 0;
   Widget currentScreen = const HomeScreen();
-  final listTabsName = ["Home", "Orders", "Wishlist", "More"];
+  final listTabsName = ["Home", "Orders", "Wishlist", "Profile"];
   var pages = [HomeScreen(), OrdersScreen(), WishListScreen(), MoreScreen()];
 
   void rebuildMainScreen() {

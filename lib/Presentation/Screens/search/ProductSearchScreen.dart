@@ -285,11 +285,12 @@ class _ProductSearchScreenState extends ConsumerState<ProductSearchScreen> {
               )),
         )
             : RecentScreen(
+          type: FilterScreenTypes.Products,
           recentSearches: recentSearches,
           itemSearchClick: (result) {
             widget.controller?.text = result;
             SearchStorage.saveSearch(
-                key: SearchStorage.service_key, query: result);
+                key: SearchStorage.product_key, query: result);
             widget.controller?.text = result;
             fetchProducts(1);
           }, onClearBtuClick: (){

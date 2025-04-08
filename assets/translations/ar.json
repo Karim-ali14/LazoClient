@@ -180,5 +180,6 @@
   "chooseRatings" : "Choose Ratings",
   "done" : "Done",
   "payment" : "Payment",
-  "shipmentType" : "Shipment Type"
+  "shipmentType" : "Shipment Type",
+  "viewAll" : "View All",
 }

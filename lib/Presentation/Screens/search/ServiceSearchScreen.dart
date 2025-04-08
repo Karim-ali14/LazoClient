@@ -286,6 +286,7 @@ class _ServiceSearchScreenState extends ConsumerState<ServiceSearchScreen> {
               )),
         )
             : RecentScreen(
+          type: FilterScreenTypes.Services,
           recentSearches: recentSearches,
           itemSearchClick: (result) {
             widget.controller?.text = result;

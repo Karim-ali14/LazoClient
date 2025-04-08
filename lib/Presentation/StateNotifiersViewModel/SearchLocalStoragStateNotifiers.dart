@@ -11,14 +11,14 @@ class SearchLocalStorage extends StateNotifier<List<String>>{
   }
 }
 
-final productSearchLocalStorageStateNotifier = StateNotifierProvider<SearchLocalStorage,List<String>>(
+final productSearchLocalStorageStateNotifier = StateNotifierProvider.autoDispose<SearchLocalStorage,List<String>>(
     (ref) => SearchLocalStorage([])
 );
 
-final serviceSearchLocalStorageStateNotifier = StateNotifierProvider<SearchLocalStorage,List<String>>(
+final serviceSearchLocalStorageStateNotifier = StateNotifierProvider.autoDispose<SearchLocalStorage,List<String>>(
     (ref) => SearchLocalStorage([])
 );
 
-final sellerSearchLocalStorageStateNotifier = StateNotifierProvider<SearchLocalStorage,List<String>>(
+final sellerSearchLocalStorageStateNotifier = StateNotifierProvider.autoDispose<SearchLocalStorage,List<String>>(
     (ref) => SearchLocalStorage([])
 );

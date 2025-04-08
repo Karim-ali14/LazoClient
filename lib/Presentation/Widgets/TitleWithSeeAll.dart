@@ -1,7 +1,10 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lazo_client/Presentation/Theme/AppTheme.dart';
 import 'package:skeletonizer/skeletonizer.dart';
+
+import '../../Localization/Keys.dart';
 
 class TitleWithSeeAll extends StatelessWidget {
   final String title;
@@ -28,7 +31,7 @@ class TitleWithSeeAll extends StatelessWidget {
           child: InkWell(
             onTap: onClickOnSeeAll,
             child: Text(
-              "See all",
+              context.tr(viewAllKey),
               style:
                   AppTheme.styleWithTextMainAppColorAdelleSansExtendedFonts14w400,
             ),

@@ -179,6 +179,7 @@ const String chooseRatingsKey = "chooseRatings";
 const String promotionKey = "promotion";
 const String doneKey = "done";
 const String paymentKey = "payment";
+const String viewAllKey = "viewAll";
 
 // Params Keys
 const String doneLandingKey = "doneLanding";

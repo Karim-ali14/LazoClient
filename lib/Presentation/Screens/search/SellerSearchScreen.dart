@@ -238,6 +238,7 @@ class _SellerSearchScreenState extends ConsumerState<SellerSearchScreen> {
                 ),
               )),
         ): RecentScreen(
+          type: FilterScreenTypes.Sellers,
           recentSearches: recentSearches,
           itemSearchClick: (result) {
             widget.controller?.text = result;
