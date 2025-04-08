@@ -50,6 +50,10 @@ final updateServiceListOfFilterSelectedStateNotifiers =
     StateNotifierProvider<UpdateListOfFilterSelectedUseCase, List<ItemSelected?>>(
         (ref) => UpdateListOfFilterSelectedUseCase());
 
+final updateOccasionServiceListOfFilterSelectedStateNotifiers =
+    StateNotifierProvider<UpdateListOfFilterSelectedUseCase, List<ItemSelected?>>(
+        (ref) => UpdateListOfFilterSelectedUseCase());
+
 final updateSellerListOfFilterSelectedStateNotifiers =
     StateNotifierProvider<UpdateListOfFilterSelectedUseCase, List<ItemSelected?>>(
         (ref) => UpdateListOfFilterSelectedUseCase());

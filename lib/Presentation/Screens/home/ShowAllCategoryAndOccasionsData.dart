@@ -161,22 +161,22 @@ class _ShowAllCategoryAndOccasionsDataState
                                         );
                                       }).toList()
                                 : occasionsState.state == DataState.SUCCESS
-                                    ? occasionsState.data?.data.map((Occasion value) {
+                                    ? occasionsState.data?.data.map((Occasion occasionItem) {
                                           return InkWell(
                                             onTap: () {
-                                              navigateToProductsAndServices(
-                                                  CategoryType.Occasions,
-                                                  value.name ?? "",
-                                                  int.parse(
-                                                      (value.id ?? 0).toString()));
+                                              navigateToOccasion(
+                                                  occasionItem.id,
+                                                  occasionItem.name,
+                                                  occasionItem.imagePath
+                                              );
                                             },
                                             child: Padding(
                                               padding: const EdgeInsetsDirectional
                                                   .symmetric(
                                                   horizontal: 6, vertical: 6),
                                               child: CategoryItemCart(
-                                                image: value.imagePath ?? "",
-                                                title: value.name ?? "",
+                                                image: occasionItem.imagePath ?? "",
+                                                title: occasionItem.name ?? "",
                                                 height: 156,
                                               ),
                                             ),
@@ -233,17 +233,23 @@ class _ShowAllCategoryAndOccasionsDataState
         extra: {"type": type, "title": title, "categoryId": categoryId});
   }
 
-  void navigateToProductsAndServices(
-      CategoryType type, String title, int? id) async {
-    print("occasionId : $id");
-    await context.push(R_SeeAllProductOrService,
-        extra: {"type": type, "title": title, "id": id});
-
+  // void navigateToProductsAndServices(
+  //     CategoryType type, String title, int? id) async {
+  //   print("occasionId : $id");
+  //   await context.push(R_SeeAllProductOrService,
+  //       extra: {"type": type, "title": title, "id": id});
+  //
+  //   ref.read(filterForProductStateNotifiers.notifier).resetDataFilter();
+  //   ref.read(filterForServiceStateNotifiers.notifier).resetDataFilter();
+  //   ref.read(filterForSellerStateNotifiers.notifier).resetDataFilter();
+  //
+  //   print(
+  //       "filter data -> ${ref.watch(filterForProductStateNotifiers).priceToSelected}");
+  // }
+  void navigateToOccasion(num? id, String? name,String? image) {
     ref.read(filterForProductStateNotifiers.notifier).resetDataFilter();
-    ref.read(filterForServiceStateNotifiers.notifier).resetDataFilter();
-    ref.read(filterForSellerStateNotifiers.notifier).resetDataFilter();
-
-    print(
-        "filter data -> ${ref.watch(filterForProductStateNotifiers).priceToSelected}");
+    ref.read(filterForReadyGiftProductStateNotifiers.notifier).resetDataFilter();
+    ref.read(filterForUnReadyGiftProductStateNotifiers.notifier).resetDataFilter();
+    context.push(R_OccasionResultScreen,extra: {"occasionId":id,"title":name,"image":image});
   }
 }

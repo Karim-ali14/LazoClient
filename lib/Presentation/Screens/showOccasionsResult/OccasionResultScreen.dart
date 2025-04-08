@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lazo_client/Presentation/Screens/showOccasionsResult/ProductOccasionScreen.dart';
+import 'package:lazo_client/Presentation/Screens/showOccasionsResult/ServiceOccasionsScreen.dart';
 
 import '../../../Constants.dart';
 import '../../../Constants/Constants.dart';
@@ -54,20 +55,23 @@ class _OccasionResultScreenState extends ConsumerState<OccasionResultScreen>
 
   @override
   void initState() {
-    tabController = TabController(length: 3, vsync: this);
+    tabController = TabController(length: 4, vsync: this);
     tabController.addListener(() {
       // setState(() {
-        activeTabIndex = tabController.index;
-        if (activeTabIndex == 0) {
-          controller.text = searchForAllProductData ?? "";
-          updateNumberOfSelectedItems(filterForAllProductData);
-        } else if (activeTabIndex == 1) {
-          controller.text = searchForReadyGiftsProductData ?? "";
-          updateNumberOfSelectedItems(filterForReadyGiftsProductData);
-        } else if (activeTabIndex == 2) {
-          controller.text = searchForUnreadyProductData ?? "";
-          updateNumberOfSelectedItems(filterForUnreadyProductData);
-        }
+      activeTabIndex = tabController.index;
+      if (activeTabIndex == 0) {
+        controller.text = searchForAllProductData ?? "";
+        updateNumberOfSelectedItems(filterForAllProductData);
+      } else if (activeTabIndex == 1) {
+        controller.text = searchForReadyGiftsProductData ?? "";
+        updateNumberOfSelectedItems(filterForReadyGiftsProductData);
+      } else if (activeTabIndex == 2) {
+        controller.text = searchForUnreadyProductData ?? "";
+        updateNumberOfSelectedItems(filterForUnreadyProductData);
+      } else if (activeTabIndex == 3) {
+        controller.text = searchForServiceData ?? "";
+        updateNumberOfSelectedItems(filterForServicesData);
+      }
       // });
     });
 
@@ -75,6 +79,7 @@ class _OccasionResultScreenState extends ConsumerState<OccasionResultScreen>
       fetchProducts(currentPageForAllProducts);
       fetchReadyGiftsProducts(currentPageForReadyGiftsProducts);
       fetchUnreadyProducts(currentPageUnreadyForProducts);
+      fetchServices(currentPageForServices);
     });
     super.initState();
   }
@@ -89,10 +94,11 @@ class _OccasionResultScreenState extends ConsumerState<OccasionResultScreen>
   final headerHeightPresent = 0.22;
   @override
   Widget build(BuildContext context) {
-
     filterForAllProductData = ref.watch(filterForProductStateNotifiers);
-    filterForReadyGiftsProductData = ref.watch(filterForReadyGiftProductStateNotifiers);
-    filterForUnreadyProductData = ref.watch(filterForUnReadyGiftProductStateNotifiers);
+    filterForReadyGiftsProductData =
+        ref.watch(filterForReadyGiftProductStateNotifiers);
+    filterForUnreadyProductData =
+        ref.watch(filterForUnReadyGiftProductStateNotifiers);
     return WillPopScope(
       onWillPop: _onWillPop,
       child: Scaffold(
@@ -137,7 +143,7 @@ class _OccasionResultScreenState extends ConsumerState<OccasionResultScreen>
                               navigated: true,
                               isCenter: false,
                               contentColor: Colors.white,
-                              customCallBack: (){
+                              customCallBack: () {
                                 resetFilterData();
                                 context.pop(false);
                               },
@@ -153,7 +159,8 @@ class _OccasionResultScreenState extends ConsumerState<OccasionResultScreen>
                               contentColor: Colors.white,
                               blurRadius: 0,
                               numberOfFilterItems:
-                                  ref.watch(filterNumberCountStateNotifiers) - 1,
+                                  ref.watch(filterNumberCountStateNotifiers) -
+                                      1,
                               onFilterClick: () {
                                 openFilterBottomSheet();
                               },
@@ -177,6 +184,15 @@ class _OccasionResultScreenState extends ConsumerState<OccasionResultScreen>
                                           0) {
                                     fetchUnreadyProducts(
                                         currentPageUnreadyForProducts);
+                                  }
+                                } else if (activeTabIndex == 3) {
+                                  currentPageForServices = 1;
+                                  searchForServiceData = value;
+                                  if (value.isNotEmpty ||
+                                      getNumberOfFilterItems(
+                                              filterForServicesData) >
+                                          0) {
+                                    fetchServices(currentPageForServices);
                                   }
                                 }
                               },
@@ -210,7 +226,8 @@ class _OccasionResultScreenState extends ConsumerState<OccasionResultScreen>
                                             .copyWith(color: Colors.white)
                                         : AppTheme
                                             .styleWithTextAppGrey7AdelleSansExtendedFonts14w400
-                                            .copyWith(color: AppTheme.appGrey19)),
+                                            .copyWith(
+                                                color: AppTheme.appGrey19)),
                               ),
                               Tab(
                                 child: Text("Unready Gifts",
@@ -220,7 +237,19 @@ class _OccasionResultScreenState extends ConsumerState<OccasionResultScreen>
                                             .copyWith(color: Colors.white)
                                         : AppTheme
                                             .styleWithTextAppGrey7AdelleSansExtendedFonts14w400
-                                            .copyWith(color: AppTheme.appGrey19)),
+                                            .copyWith(
+                                                color: AppTheme.appGrey19)),
+                              ),
+                              Tab(
+                                child: Text("Service",
+                                    style: activeTabIndex == 3
+                                        ? AppTheme
+                                            .styleWithTextBlackColor2AdelleSansExtendedFonts14w400
+                                            .copyWith(color: Colors.white)
+                                        : AppTheme
+                                            .styleWithTextAppGrey7AdelleSansExtendedFonts14w400
+                                            .copyWith(
+                                                color: AppTheme.appGrey19)),
                               ),
                             ],
                             controller: tabController,
@@ -231,34 +260,40 @@ class _OccasionResultScreenState extends ConsumerState<OccasionResultScreen>
                   ),
                   Expanded(
                       child: TabBarView(
-                        controller: tabController,
-                        children: [
-                          ProductOccasionSearchScreen(
-                              type: CategoryType.Search,
-                              productType: ProductOccasionType.All,
-                              showData: controller.text.isNotEmpty,
-                              controller: controller,
-                              id: null,
-                              showAuthenticated: showAuthenticated,
-                              navigateToItemDetails: navigateToItemDetails),
-                          ProductOccasionSearchScreen(
-                              type: CategoryType.Search,
-                              productType: ProductOccasionType.Ready,
-                              showData: controller.text.isNotEmpty,
-                              controller: controller,
-                              id: null,
-                              showAuthenticated: showAuthenticated,
-                              navigateToItemDetails: navigateToItemDetails),
-                          ProductOccasionSearchScreen(
-                              type: CategoryType.Search,
-                              productType: ProductOccasionType.UnReady,
-                              showData: controller.text.isNotEmpty,
-                              controller: controller,
-                              id: null,
-                              showAuthenticated: showAuthenticated,
-                              navigateToItemDetails: navigateToItemDetails),
-                        ],
-                      ))
+                    controller: tabController,
+                    children: [
+                      ProductOccasionSearchScreen(
+                          type: CategoryType.Search,
+                          productType: ProductOccasionType.All,
+                          showData: controller.text.isNotEmpty,
+                          controller: controller,
+                          id: null,
+                          showAuthenticated: showAuthenticated,
+                          navigateToItemDetails: navigateToItemDetails),
+                      ProductOccasionSearchScreen(
+                          type: CategoryType.Search,
+                          productType: ProductOccasionType.Ready,
+                          showData: controller.text.isNotEmpty,
+                          controller: controller,
+                          id: null,
+                          showAuthenticated: showAuthenticated,
+                          navigateToItemDetails: navigateToItemDetails),
+                      ProductOccasionSearchScreen(
+                          type: CategoryType.Search,
+                          productType: ProductOccasionType.UnReady,
+                          showData: controller.text.isNotEmpty,
+                          controller: controller,
+                          id: null,
+                          showAuthenticated: showAuthenticated,
+                          navigateToItemDetails: navigateToItemDetails),
+                      ServiceOccasionScreen(
+                          type: CategoryType.Search,
+                          controller: controller,
+                          id: null,
+                          showAuthenticated: showAuthenticated,
+                          navigateToItemDetails: navigateToItemDetails),
+                    ],
+                  ))
                 ],
               ),
             ),
@@ -305,6 +340,24 @@ class _OccasionResultScreenState extends ConsumerState<OccasionResultScreen>
             : null);
   }
 
+  void fetchServices(int page) {
+    ref.read(getServicesStateNotifiers.notifier).getServicesData(
+        page: page,
+        categoriesIds: filterForServicesData?.categoriesIdsSelected,
+        occasionsIds: widget.occasionId != null
+            ? [num.parse((widget.occasionId ?? 0).toString())]
+            : filterForReadyGiftsProductData?.occasionsIdsSelected,
+        ratings: filterForServicesData?.ratingValueSelected
+            ?.map((item) => item.toString())
+            .toList(),
+        priceTo: filterForServicesData?.priceToSelected.toString(),
+        priceFrom: filterForServicesData?.priceFromSelected.toString(),
+        type: ItemType.Services.name.toLowerCase(),
+        searchByName: searchForServiceData?.isNotEmpty == true
+            ? searchForServiceData
+            : null);
+  }
+
   void fetchUnreadyProducts(int page) {
     ref.read(getUnreadyProductsStateNotifiers.notifier).getProductsData(
         page: page,
@@ -334,8 +387,11 @@ class _OccasionResultScreenState extends ConsumerState<OccasionResultScreen>
     } else if (currentIndex == 1) {
       filterData = filterForReadyGiftsProductData;
       type = FilterScreenTypes.Services;
-    } else /*if (currentIndex == 2)*/ {
+    } else if (currentIndex == 2) {
       filterData = filterForUnreadyProductData;
+      type = FilterScreenTypes.Services;
+    } else /*if (currentIndex == 3)*/ {
+      filterData = filterForServicesData;
       type = FilterScreenTypes.Services;
     }
 
@@ -372,9 +428,9 @@ class _OccasionResultScreenState extends ConsumerState<OccasionResultScreen>
                 ref
                     .read(filterNumberCountStateNotifiers.notifier)
                     .updateNumber(number: getNumberOfFilterItems(filterData));
+                currentPageForAllProducts = 1;
                 fetchProducts(1);
-              }
-              else if (currentIndex == 1) {
+              } else if (currentIndex == 1) {
                 filterForReadyGiftsProductData = filterData;
                 clearFilterCategorySelected(ProductOccasionType.Ready);
                 setFilterData(filterData, ProductOccasionType.Ready);
@@ -390,9 +446,9 @@ class _OccasionResultScreenState extends ConsumerState<OccasionResultScreen>
                 ref
                     .read(filterNumberCountStateNotifiers.notifier)
                     .updateNumber(number: getNumberOfFilterItems(filterData));
+                currentPageForReadyGiftsProducts = 1;
                 fetchReadyGiftsProducts(1);
-              }
-              else {
+              } else if (currentIndex == 2) {
                 filterForUnreadyProductData = filterData;
                 clearFilterCategorySelected(ProductOccasionType.UnReady);
                 setFilterData(filterData, ProductOccasionType.UnReady);
@@ -406,7 +462,24 @@ class _OccasionResultScreenState extends ConsumerState<OccasionResultScreen>
                 ref
                     .read(filterNumberCountStateNotifiers.notifier)
                     .updateNumber(number: getNumberOfFilterItems(filterData));
+                currentPageUnreadyForProducts = 1;
                 fetchUnreadyProducts(1);
+              } else if (currentIndex == 3) {
+                filterForServicesData = filterData;
+                clearFilterCategoryForServiceSelected();
+                setFilterForServiceData(filterData);
+                ref
+                    .read(filterForServiceStateNotifiers.notifier)
+                    .applyDataFilter(
+                      categoriesIdsSelected: filterData.categoriesIdsSelected,
+                      occasionsIdsSelected: filterData.occasionsIdsSelected,
+                      ratingValueSelected: filterData.ratingValueSelected,
+                    );
+                ref
+                    .read(filterNumberCountStateNotifiers.notifier)
+                    .updateNumber(number: getNumberOfFilterItems(filterData));
+                currentPageForServices = 1;
+                fetchServices(1);
               }
             },
           );
@@ -469,14 +542,20 @@ class _OccasionResultScreenState extends ConsumerState<OccasionResultScreen>
   void clearFilterCategorySelected(ProductOccasionType type) {
     ref
         .read(type == ProductOccasionType.All
-        ? updateOccasionAllProductListOfFilterSelectedStateNotifiers
-        .notifier
-        : type == ProductOccasionType.Ready
-        ? updateOccasionReadyProductListOfFilterSelectedStateNotifiers
-        .notifier
-        : updateOccasionUnReadyProductListOfFilterSelectedStateNotifiers
-        .notifier).clearAll();
+            ? updateOccasionAllProductListOfFilterSelectedStateNotifiers
+                .notifier
+            : type == ProductOccasionType.Ready
+                ? updateOccasionReadyProductListOfFilterSelectedStateNotifiers
+                    .notifier
+                : updateOccasionUnReadyProductListOfFilterSelectedStateNotifiers
+                    .notifier)
+        .clearAll();
+  }
 
+  void clearFilterCategoryForServiceSelected() {
+    ref
+        .read(updateOccasionServiceListOfFilterSelectedStateNotifiers.notifier)
+        .clearAll();
   }
 
   void setFilterData(FilterData filterData, ProductOccasionType type) {
@@ -583,24 +662,99 @@ class _OccasionResultScreenState extends ConsumerState<OccasionResultScreen>
       });
     }
   }
+  void setFilterForServiceData(FilterData filterData) {
+    if (filterData.categoriesIdsSelected != null) {
+      ref
+          .watch(getCategoriesDataStateNotifiers)
+          .data
+          ?.data
+          .where((item) =>
+              filterData.categoriesIdsSelected?.contains(item.id) == true)
+          .forEach((item) {
+        ref
+            .read(updateOccasionServiceListOfFilterSelectedStateNotifiers.notifier)
+            .addItem(ItemSelected(
+                id: item.id?.toInt(),
+                text: item.name,
+                type: FilterTypes.Categories));
+      });
+    }
+    /*if (filterData.occasionsIdsSelected != null) {
+      ref
+          .watch(getOccasionsDataStateNotifiers)
+          .data
+          ?.data
+          .where((item) =>
+              filterData.occasionsIdsSelected?.contains(item.id) == true)
+          .forEach((item) {
+        ref
+            .read(type == ProductOccasionType.All
+                ? updateOccasionAllProductListOfFilterSelectedStateNotifiers
+                    .notifier
+                : type == ProductOccasionType.Ready
+                    ? updateOccasionReadyProductListOfFilterSelectedStateNotifiers
+                        .notifier
+                    : updateOccasionUnReadyProductListOfFilterSelectedStateNotifiers
+                        .notifier)
+            .addItem(ItemSelected(
+                id: item.id?.toInt(),
+                text: item.name,
+                type: FilterTypes.Occasions));
+      });
+    }*/
+    if (filterData.priceToSelected != null &&
+        filterData.priceFromSelected != null) {
+      ref
+          .read(updateOccasionServiceListOfFilterSelectedStateNotifiers.notifier)
+          .addItem(ItemSelected(
+              id: 0,
+              text:
+                  "${filterData.priceToSelected} - ${filterData.priceFromSelected}",
+              type: FilterTypes.Pice));
+    }
+    if (filterData.ratingValueSelected != null) {
+      ConstantsMethods.getRatingsList(context)
+          .where((item) =>
+              filterData.ratingValueSelected?.contains(item.id) == true)
+          .forEach((item) {
+        ref
+            .read(updateOccasionServiceListOfFilterSelectedStateNotifiers.notifier)
+            .addItem(ItemSelected(
+                id: item.id.toInt(),
+                text: item.text,
+                type: FilterTypes.Rating));
+      });
+    }
+  }
 
   void resetFilterData() {
-    ref.read(updateOccasionAllProductListOfFilterSelectedStateNotifiers.notifier).clearAll();
-    ref.read(updateOccasionReadyProductListOfFilterSelectedStateNotifiers.notifier).clearAll();
-    ref.read(updateOccasionUnReadyProductListOfFilterSelectedStateNotifiers.notifier).clearAll();
+    ref
+        .read(
+            updateOccasionAllProductListOfFilterSelectedStateNotifiers.notifier)
+        .clearAll();
+    ref
+        .read(updateOccasionReadyProductListOfFilterSelectedStateNotifiers
+            .notifier)
+        .clearAll();
+    ref
+        .read(updateOccasionUnReadyProductListOfFilterSelectedStateNotifiers
+            .notifier)
+        .clearAll();
     clearFilterData();
   }
 
   void clearFilterData() {
     ref
-        .read(updateOccasionAllProductListOfFilterSelectedStateNotifiers
-        .notifier).clearAll();
+        .read(
+            updateOccasionAllProductListOfFilterSelectedStateNotifiers.notifier)
+        .clearAll();
     ref
         .read(updateOccasionReadyProductListOfFilterSelectedStateNotifiers
-        .notifier).clearAll();
+            .notifier)
+        .clearAll();
     ref
         .read(updateOccasionUnReadyProductListOfFilterSelectedStateNotifiers
-        .notifier).clearAll();
-
+            .notifier)
+        .clearAll();
   }
 }

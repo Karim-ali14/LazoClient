@@ -438,6 +438,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
                     .updateNumber(
                     number: getNumberOfFilterItems(filterData)
                 );
+                currentPageForProducts = 1;
                 fetchProducts(1);
               }
               else if (currentIndex == 1) {
@@ -454,6 +455,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
                     .updateNumber(
                     number: getNumberOfFilterItems(filterData)
                 );
+                currentPageForServices = 1;
                 fetchServices(1);
               }
               else {
@@ -468,6 +470,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
                     .updateNumber(
                     number: getNumberOfFilterItems(filterData)
                 );
+                currentPageForSellers = 1;
                 fetchSellers(1);
               }
               setFilterData(filterData, type);
