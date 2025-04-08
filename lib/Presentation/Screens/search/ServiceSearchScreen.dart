@@ -192,7 +192,7 @@ class _ServiceSearchScreenState extends ConsumerState<ServiceSearchScreen> {
 
                               ref
                                   .read(
-                                  updateProductListOfFilterSelectedStateNotifiers
+                                  updateServiceListOfFilterSelectedStateNotifiers
                                       .notifier)
                                   .removeItem(item);
                               updateFilterData(filterForServicesData);

@@ -362,14 +362,6 @@ class _ProductSearchScreenState extends ConsumerState<ProductSearchScreen> {
         .updateNumber(number: getNumberOfFilterItems(filterData));
   }
 
-  void clearFilterCategorySelected() {
-    ref
-        .read(
-        updateListOfCategoryStateNotifiers
-            .notifier)
-        .clearAll();
-  }
-
   void clearFilterData() {
     ref
         .read(updateProductListOfFilterSelectedStateNotifiers.notifier).clearAll();

@@ -507,6 +507,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   }
 
   void navigateToOccasion(num? id, String? name,String? image) {
+    ref.read(filterForProductStateNotifiers.notifier).resetDataFilter();
+    ref.read(filterForReadyGiftProductStateNotifiers.notifier).resetDataFilter();
+    ref.read(filterForUnReadyGiftProductStateNotifiers.notifier).resetDataFilter();
     context.push(R_OccasionResultScreen,extra: {"occasionId":id,"title":name,"image":image});
   }
 }

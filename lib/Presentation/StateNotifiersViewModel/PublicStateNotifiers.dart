@@ -34,6 +34,18 @@ final updateProductListOfFilterSelectedStateNotifiers =
     StateNotifierProvider<UpdateListOfFilterSelectedUseCase, List<ItemSelected?>>(
         (ref) => UpdateListOfFilterSelectedUseCase());
 
+final updateOccasionAllProductListOfFilterSelectedStateNotifiers =
+    StateNotifierProvider<UpdateListOfFilterSelectedUseCase, List<ItemSelected?>>(
+        (ref) => UpdateListOfFilterSelectedUseCase());
+
+final updateOccasionReadyProductListOfFilterSelectedStateNotifiers =
+    StateNotifierProvider<UpdateListOfFilterSelectedUseCase, List<ItemSelected?>>(
+        (ref) => UpdateListOfFilterSelectedUseCase());
+
+final updateOccasionUnReadyProductListOfFilterSelectedStateNotifiers =
+    StateNotifierProvider<UpdateListOfFilterSelectedUseCase, List<ItemSelected?>>(
+        (ref) => UpdateListOfFilterSelectedUseCase());
+
 final updateServiceListOfFilterSelectedStateNotifiers =
     StateNotifierProvider<UpdateListOfFilterSelectedUseCase, List<ItemSelected?>>(
         (ref) => UpdateListOfFilterSelectedUseCase());

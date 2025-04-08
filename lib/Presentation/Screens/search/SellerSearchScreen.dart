@@ -161,7 +161,7 @@ class _SellerSearchScreenState extends ConsumerState<SellerSearchScreen> {
 
                               ref
                                   .read(
-                                  updateProductListOfFilterSelectedStateNotifiers
+                                  updateSellerListOfFilterSelectedStateNotifiers
                                       .notifier)
                                   .removeItem(item);
                               updateFilterData(filterForSellersData);

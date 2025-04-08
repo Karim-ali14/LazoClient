@@ -5,8 +5,10 @@ import 'package:go_router/go_router.dart';
 import 'package:lazo_client/Presentation/Screens/showOccasionsResult/ProductOccasionScreen.dart';
 
 import '../../../Constants.dart';
+import '../../../Constants/Constants.dart';
 import '../../../Constants/Eunms.dart';
 import '../../../Data/Models/FilterData.dart';
+import '../../../Data/Models/ItemSelector.dart';
 import '../../../Data/Models/UpdateDataModel.dart';
 import '../../../Utils/FilterUtils.dart';
 import '../../../Utils/UtilsExts.dart';
@@ -17,8 +19,6 @@ import '../../Theme/AppTheme.dart';
 import '../../Widgets/CircleImage.dart';
 import '../../Widgets/CustomAppBar.dart';
 import '../../Widgets/SearchWithFilter.dart';
-import '../../Widgets/SvgIcons.dart';
-import '../search/ProductSearchScreen.dart';
 
 class OccasionResultScreen extends ConsumerStatefulWidget {
   final String title;
@@ -56,22 +56,19 @@ class _OccasionResultScreenState extends ConsumerState<OccasionResultScreen>
   void initState() {
     tabController = TabController(length: 3, vsync: this);
     tabController.addListener(() {
-      setState(() {
+      // setState(() {
         activeTabIndex = tabController.index;
         if (activeTabIndex == 0) {
           controller.text = searchForAllProductData ?? "";
-          ref.read(filterNumberCountStateNotifiers.notifier).updateNumber(
-              number: getNumberOfFilterItems(filterForAllProductData));
+          updateNumberOfSelectedItems(filterForAllProductData);
         } else if (activeTabIndex == 1) {
           controller.text = searchForReadyGiftsProductData ?? "";
-          ref.read(filterNumberCountStateNotifiers.notifier).updateNumber(
-              number: getNumberOfFilterItems(filterForReadyGiftsProductData));
+          updateNumberOfSelectedItems(filterForReadyGiftsProductData);
         } else if (activeTabIndex == 2) {
           controller.text = searchForUnreadyProductData ?? "";
-          ref.read(filterNumberCountStateNotifiers.notifier).updateNumber(
-              number: getNumberOfFilterItems(filterForUnreadyProductData));
+          updateNumberOfSelectedItems(filterForUnreadyProductData);
         }
-      });
+      // });
     });
 
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
@@ -84,10 +81,7 @@ class _OccasionResultScreenState extends ConsumerState<OccasionResultScreen>
 
   final TextEditingController controller = TextEditingController();
   Future<bool> _onWillPop() async {
-    // Your custom logic here
-    print('Back button pressed! ${ref.watch(filterNumberCountStateNotifiers)}');
-    // clearFilterData();
-    print('Back button pressed! ${ref.watch(filterNumberCountStateNotifiers)}');
+    resetFilterData();
     context.pop(false);
     return false; // Return true to allow the pop action, false to prevent it
   }
@@ -95,6 +89,10 @@ class _OccasionResultScreenState extends ConsumerState<OccasionResultScreen>
   final headerHeightPresent = 0.22;
   @override
   Widget build(BuildContext context) {
+
+    filterForAllProductData = ref.watch(filterForProductStateNotifiers);
+    filterForReadyGiftsProductData = ref.watch(filterForReadyGiftProductStateNotifiers);
+    filterForUnreadyProductData = ref.watch(filterForUnReadyGiftProductStateNotifiers);
     return WillPopScope(
       onWillPop: _onWillPop,
       child: Scaffold(
@@ -102,15 +100,18 @@ class _OccasionResultScreenState extends ConsumerState<OccasionResultScreen>
           child: Column(
             children: [
               Container(
-                height: MediaQuery.of(context).size.height * headerHeightPresent, // ارتفاع الهيدر
+                height: MediaQuery.of(context).size.height *
+                    headerHeightPresent,
                 child: Stack(
                   children: [
                     Container(
-                      height: MediaQuery.of(context).size.height * headerHeightPresent, // ارتفاع الهيدر
+                      height: MediaQuery.of(context).size.height *
+                          headerHeightPresent,
                       width: double.infinity,
                       child: ImageView(
                         width: MediaQuery.of(context).size.width,
-                        height: MediaQuery.of(context).size.height * headerHeightPresent,
+                        height: MediaQuery.of(context).size.height *
+                            headerHeightPresent,
                         initialImg: widget.image,
                       ),
                     ),
@@ -133,6 +134,10 @@ class _OccasionResultScreenState extends ConsumerState<OccasionResultScreen>
                           navigated: true,
                           isCenter: false,
                           contentColor: Colors.white,
+                          customCallBack: (){
+                            resetFilterData();
+                            context.pop(false);
+                          },
                         ),
                         SizedBox(
                           height: 10,
@@ -145,7 +150,7 @@ class _OccasionResultScreenState extends ConsumerState<OccasionResultScreen>
                           contentColor: Colors.white,
                           blurRadius: 0,
                           numberOfFilterItems:
-                          ref.watch(filterNumberCountStateNotifiers) - 1,
+                              ref.watch(filterNumberCountStateNotifiers) - 1,
                           onFilterClick: () {
                             openFilterBottomSheet();
                           },
@@ -158,19 +163,21 @@ class _OccasionResultScreenState extends ConsumerState<OccasionResultScreen>
                             } else if (activeTabIndex == 1) {
                               currentPageForReadyGiftsProducts = 1;
                               searchForReadyGiftsProductData = value;
-                              fetchReadyGiftsProducts(currentPageForReadyGiftsProducts);
+                              fetchReadyGiftsProducts(
+                                  currentPageForReadyGiftsProducts);
                             } else if (activeTabIndex == 2) {
                               currentPageUnreadyForProducts = 1;
                               searchForUnreadyProductData = value;
                               if (value.isNotEmpty ||
-                                  getNumberOfFilterItems(filterForUnreadyProductData) >
+                                  getNumberOfFilterItems(
+                                          filterForUnreadyProductData) >
                                       0) {
-                                fetchUnreadyProducts(currentPageUnreadyForProducts);
+                                fetchUnreadyProducts(
+                                    currentPageUnreadyForProducts);
                               }
                             }
                           },
                         ),
-
                       ],
                     ),
                     Align(
@@ -186,24 +193,31 @@ class _OccasionResultScreenState extends ConsumerState<OccasionResultScreen>
                               child: Text("All",
                                   style: activeTabIndex == 0
                                       ? AppTheme
-                                      .styleWithTextBlackColor2AdelleSansExtendedFonts14w400.copyWith(color: Colors.white)
+                                          .styleWithTextBlackColor2AdelleSansExtendedFonts14w400
+                                          .copyWith(color: Colors.white)
                                       : AppTheme
-                                      .styleWithTextAppGrey7AdelleSansExtendedFonts14w400.copyWith(color: AppTheme.appGrey19))),
+                                          .styleWithTextAppGrey7AdelleSansExtendedFonts14w400
+                                          .copyWith(
+                                              color: AppTheme.appGrey19))),
                           Tab(
                             child: Text("Ready Gifts",
                                 style: activeTabIndex == 1
                                     ? AppTheme
-                                    .styleWithTextBlackColor2AdelleSansExtendedFonts14w400.copyWith(color: Colors.white)
+                                        .styleWithTextBlackColor2AdelleSansExtendedFonts14w400
+                                        .copyWith(color: Colors.white)
                                     : AppTheme
-                                    .styleWithTextAppGrey7AdelleSansExtendedFonts14w400.copyWith(color: AppTheme.appGrey19)),
+                                        .styleWithTextAppGrey7AdelleSansExtendedFonts14w400
+                                        .copyWith(color: AppTheme.appGrey19)),
                           ),
                           Tab(
                             child: Text("Unready Gifts",
                                 style: activeTabIndex == 2
                                     ? AppTheme
-                                    .styleWithTextBlackColor2AdelleSansExtendedFonts14w400.copyWith(color: Colors.white)
+                                        .styleWithTextBlackColor2AdelleSansExtendedFonts14w400
+                                        .copyWith(color: Colors.white)
                                     : AppTheme
-                                    .styleWithTextAppGrey7AdelleSansExtendedFonts14w400.copyWith(color: AppTheme.appGrey19)),
+                                        .styleWithTextAppGrey7AdelleSansExtendedFonts14w400
+                                        .copyWith(color: AppTheme.appGrey19)),
                           ),
                         ],
                         controller: tabController,
@@ -213,38 +227,35 @@ class _OccasionResultScreenState extends ConsumerState<OccasionResultScreen>
                 ),
               ),
               Expanded(
-                  child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 16),
-                child: TabBarView(
-                  controller: tabController,
-                  children: [
-                    ProductOccasionSearchScreen(
-                        type: CategoryType.Search,
-                        productType: ProductOccasionType.All,
-                        showData: controller.text.isNotEmpty,
-                        controller: controller,
-                        id: null,
-                        showAuthenticated: showAuthenticated,
-                        navigateToItemDetails: navigateToItemDetails),
-                    ProductOccasionSearchScreen(
-                        type: CategoryType.Search,
-                        productType: ProductOccasionType.Ready,
-                        showData: controller.text.isNotEmpty,
-                        controller: controller,
-                        id: null,
-                        showAuthenticated: showAuthenticated,
-                        navigateToItemDetails: navigateToItemDetails),
-                    ProductOccasionSearchScreen(
-                        type: CategoryType.Search,
-                        productType: ProductOccasionType.UnReady,
-                        showData: controller.text.isNotEmpty,
-                        controller: controller,
-                        id: null,
-                        showAuthenticated: showAuthenticated,
-                        navigateToItemDetails: navigateToItemDetails),
-                  ],
-                ),
-              ))
+                  child: TabBarView(
+                    controller: tabController,
+                    children: [
+                      ProductOccasionSearchScreen(
+                          type: CategoryType.Search,
+                          productType: ProductOccasionType.All,
+                          showData: controller.text.isNotEmpty,
+                          controller: controller,
+                          id: null,
+                          showAuthenticated: showAuthenticated,
+                          navigateToItemDetails: navigateToItemDetails),
+                      ProductOccasionSearchScreen(
+                          type: CategoryType.Search,
+                          productType: ProductOccasionType.Ready,
+                          showData: controller.text.isNotEmpty,
+                          controller: controller,
+                          id: null,
+                          showAuthenticated: showAuthenticated,
+                          navigateToItemDetails: navigateToItemDetails),
+                      ProductOccasionSearchScreen(
+                          type: CategoryType.Search,
+                          productType: ProductOccasionType.UnReady,
+                          showData: controller.text.isNotEmpty,
+                          controller: controller,
+                          id: null,
+                          showAuthenticated: showAuthenticated,
+                          navigateToItemDetails: navigateToItemDetails),
+                    ],
+                  ))
             ],
           ),
         ),
@@ -342,6 +353,8 @@ class _OccasionResultScreenState extends ConsumerState<OccasionResultScreen>
               final currentIndex = activeTabIndex;
               if (currentIndex == 0) {
                 filterForAllProductData = filterData;
+                clearFilterCategorySelected(ProductOccasionType.All);
+                setFilterData(filterData, ProductOccasionType.All);
                 ref
                     .read(filterForProductStateNotifiers.notifier)
                     .applyDataFilter(
@@ -355,10 +368,13 @@ class _OccasionResultScreenState extends ConsumerState<OccasionResultScreen>
                     .read(filterNumberCountStateNotifiers.notifier)
                     .updateNumber(number: getNumberOfFilterItems(filterData));
                 fetchProducts(1);
-              } else if (currentIndex == 1) {
+              }
+              else if (currentIndex == 1) {
                 filterForReadyGiftsProductData = filterData;
+                clearFilterCategorySelected(ProductOccasionType.Ready);
+                setFilterData(filterData, ProductOccasionType.Ready);
                 ref
-                    .read(filterForServiceStateNotifiers.notifier)
+                    .read(filterForReadyGiftProductStateNotifiers.notifier)
                     .applyDataFilter(
                       priceFromSelected: filterData.priceFromSelected,
                       priceToSelected: filterData.priceToSelected,
@@ -370,10 +386,13 @@ class _OccasionResultScreenState extends ConsumerState<OccasionResultScreen>
                     .read(filterNumberCountStateNotifiers.notifier)
                     .updateNumber(number: getNumberOfFilterItems(filterData));
                 fetchReadyGiftsProducts(1);
-              } else {
+              }
+              else {
                 filterForUnreadyProductData = filterData;
+                clearFilterCategorySelected(ProductOccasionType.UnReady);
+                setFilterData(filterData, ProductOccasionType.UnReady);
                 ref
-                    .read(filterForSellerStateNotifiers.notifier)
+                    .read(filterForUnReadyGiftProductStateNotifiers.notifier)
                     .applyDataFilter(
                       categoriesIdsSelected: filterData.categoriesIdsSelected,
                       occasionsIdsSelected: filterData.occasionsIdsSelected,
@@ -434,5 +453,149 @@ class _OccasionResultScreenState extends ConsumerState<OccasionResultScreen>
       fetchUnreadyProducts(currentPageUnreadyForProducts);
       fetchReadyGiftsProducts(currentPageForReadyGiftsProducts);
     }
+  }
+
+  void updateNumberOfSelectedItems(FilterData? filterData) {
+    ref
+        .read(filterNumberCountStateNotifiers.notifier)
+        .updateNumber(number: getNumberOfFilterItems(filterData));
+  }
+
+  void clearFilterCategorySelected(ProductOccasionType type) {
+    ref
+        .read(type == ProductOccasionType.All
+        ? updateOccasionAllProductListOfFilterSelectedStateNotifiers
+        .notifier
+        : type == ProductOccasionType.Ready
+        ? updateOccasionReadyProductListOfFilterSelectedStateNotifiers
+        .notifier
+        : updateOccasionUnReadyProductListOfFilterSelectedStateNotifiers
+        .notifier).clearAll();
+
+  }
+
+  void setFilterData(FilterData filterData, ProductOccasionType type) {
+    if (filterData.shipmentTypeSelected != null) {
+      ref
+          .read(type == ProductOccasionType.All
+              ? updateOccasionAllProductListOfFilterSelectedStateNotifiers
+                  .notifier
+              : type == ProductOccasionType.Ready
+                  ? updateOccasionReadyProductListOfFilterSelectedStateNotifiers
+                      .notifier
+                  : updateOccasionUnReadyProductListOfFilterSelectedStateNotifiers
+                      .notifier)
+          .addItem(ItemSelected(
+              id: ConstantsMethods.getShipmentTypesList(
+                      context)[filterData.shipmentTypeSelected ?? 0]
+                  .id,
+              text: ConstantsMethods.getShipmentTypesList(
+                      context)[filterData.shipmentTypeSelected ?? 0]
+                  .text,
+              type: FilterTypes.ProductType));
+    }
+    if (filterData.categoriesIdsSelected != null) {
+      ref
+          .watch(getCategoriesDataStateNotifiers)
+          .data
+          ?.data
+          .where((item) =>
+              filterData.categoriesIdsSelected?.contains(item.id) == true)
+          .forEach((item) {
+        ref
+            .read(type == ProductOccasionType.All
+                ? updateOccasionAllProductListOfFilterSelectedStateNotifiers
+                    .notifier
+                : type == ProductOccasionType.Ready
+                    ? updateOccasionReadyProductListOfFilterSelectedStateNotifiers
+                        .notifier
+                    : updateOccasionUnReadyProductListOfFilterSelectedStateNotifiers
+                        .notifier)
+            .addItem(ItemSelected(
+                id: item.id?.toInt(),
+                text: item.name,
+                type: FilterTypes.Categories));
+      });
+    }
+    /*if (filterData.occasionsIdsSelected != null) {
+      ref
+          .watch(getOccasionsDataStateNotifiers)
+          .data
+          ?.data
+          .where((item) =>
+              filterData.occasionsIdsSelected?.contains(item.id) == true)
+          .forEach((item) {
+        ref
+            .read(type == ProductOccasionType.All
+                ? updateOccasionAllProductListOfFilterSelectedStateNotifiers
+                    .notifier
+                : type == ProductOccasionType.Ready
+                    ? updateOccasionReadyProductListOfFilterSelectedStateNotifiers
+                        .notifier
+                    : updateOccasionUnReadyProductListOfFilterSelectedStateNotifiers
+                        .notifier)
+            .addItem(ItemSelected(
+                id: item.id?.toInt(),
+                text: item.name,
+                type: FilterTypes.Occasions));
+      });
+    }*/
+    if (filterData.priceToSelected != null &&
+        filterData.priceFromSelected != null) {
+      ref
+          .read(type == ProductOccasionType.All
+              ? updateOccasionAllProductListOfFilterSelectedStateNotifiers
+                  .notifier
+              : type == ProductOccasionType.Ready
+                  ? updateOccasionReadyProductListOfFilterSelectedStateNotifiers
+                      .notifier
+                  : updateOccasionUnReadyProductListOfFilterSelectedStateNotifiers
+                      .notifier)
+          .addItem(ItemSelected(
+              id: 0,
+              text:
+                  "${filterData.priceToSelected} - ${filterData.priceFromSelected}",
+              type: FilterTypes.Pice));
+    }
+    if (filterData.ratingValueSelected != null) {
+      ConstantsMethods.getRatingsList(context)
+          .where((item) =>
+              filterData.ratingValueSelected?.contains(item.id) == true)
+          .forEach((item) {
+        ref
+            .read(type == ProductOccasionType.All
+                ? updateOccasionAllProductListOfFilterSelectedStateNotifiers
+                    .notifier
+                : type == ProductOccasionType.Ready
+                    ? updateOccasionReadyProductListOfFilterSelectedStateNotifiers
+                        .notifier
+                    : updateOccasionUnReadyProductListOfFilterSelectedStateNotifiers
+                        .notifier)
+            .addItem(ItemSelected(
+                id: item.id.toInt(),
+                text: item.text,
+                type: FilterTypes.Rating));
+      });
+    }
+  }
+
+  void resetFilterData() {
+    ref.read(updateOccasionAllProductListOfFilterSelectedStateNotifiers.notifier).clearAll();
+    ref.read(updateOccasionReadyProductListOfFilterSelectedStateNotifiers.notifier).clearAll();
+    ref.read(updateOccasionUnReadyProductListOfFilterSelectedStateNotifiers.notifier).clearAll();
+    clearFilterData();
+  }
+
+  void clearFilterData() {
+    ref
+        .read(updateOccasionAllProductListOfFilterSelectedStateNotifiers
+        .notifier).clearAll();
+    ref
+        .read(updateOccasionReadyProductListOfFilterSelectedStateNotifiers
+        .notifier).clearAll();
+    ref
+        .read(updateOccasionUnReadyProductListOfFilterSelectedStateNotifiers
+        .notifier).clearAll();
+
   }
 }
