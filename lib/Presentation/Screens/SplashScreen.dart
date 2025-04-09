@@ -14,6 +14,7 @@ import '../../Data/Models/User.dart';
 import '../../Doman/CommenProviders/ApiProvider.dart';
 import '../../Localization/Keys.dart';
 import '../../Localization/LanguageProvider.dart';
+import '../../Localization/LanguageType.dart';
 import '../../Utils/UtilsExts.dart';
 import '../../main.dart';
 import '../StateNotifiersViewModel/PublicStateNotifiers.dart';
@@ -35,6 +36,8 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
   @override
   void initState() {
     Future.delayed(const Duration(seconds: 4), () {
+
+      ref.read(langProvider.notifier).fetchLocale(LanguageType.en);
 
       ref.read(getCategoriesDataStateNotifiers.notifier).getCategoriesData();
 

@@ -150,6 +150,10 @@ final filterForSellerStateNotifiers =
     StateNotifierProvider<FilterDataUseCase, FilterData>(
         (ref) => FilterDataUseCase(ref));
 
+final filterForTopSellerStateNotifiers =
+    StateNotifierProvider<FilterDataUseCase, FilterData>(
+        (ref) => FilterDataUseCase(ref));
+
 final getProductDetails = StateNotifierProvider.autoDispose<
         GetProductDetailsUseCase, StateModel<ProductDetailsResponse>>(
     (ref) => GetProductDetailsUseCase(ref, ref.read(publicApi)));

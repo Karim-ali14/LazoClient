@@ -75,7 +75,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
     tabController = TabController(
         length: widget.type == CategoryType.Search ? 3 : 2, vsync: this);
     tabController.addListener(() {
-      // setState(() {
+      setState(() {
         activeTabIndex = tabController.index;
         if (activeTabIndex == 0) {
           controller.text = searchForProductData ?? "";
@@ -87,7 +87,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
           controller.text = searchForSellersData ?? "";
           updateNumberOfSelectedItems(filterForSellersData);
         }
-      // });
+      });
     });
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       clearAllFilterCategorySelected();

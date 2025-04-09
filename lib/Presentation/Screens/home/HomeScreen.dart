@@ -236,17 +236,13 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                               showLoading:
                               homeDataState.state == DataState.LOADING,
                               itemClick: (itemId, itemName, categoryIds) {
-                                print("homeCategories ${categoryIds}");
                                 navigateToItemDetails(ItemType.Products,
                                     itemId, itemName, categoryIds);
                               },
                               onAddItemToCart: (id) {
-                                print("homeCategories onAddItemToCart");
                                 addProductToCart(id);
                               },
                               onAddItemToWishList: (id) {
-                                print("homeCategories onAddItemToWishList");
-
                                 if (client != null) {
                                   productWishlistToggle(id);
                                 } else {

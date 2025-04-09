@@ -57,7 +57,7 @@ class _OccasionResultScreenState extends ConsumerState<OccasionResultScreen>
   void initState() {
     tabController = TabController(length: 4, vsync: this);
     tabController.addListener(() {
-      // setState(() {
+      setState(() {
       activeTabIndex = tabController.index;
       if (activeTabIndex == 0) {
         controller.text = searchForAllProductData ?? "";
@@ -72,7 +72,7 @@ class _OccasionResultScreenState extends ConsumerState<OccasionResultScreen>
         controller.text = searchForServiceData ?? "";
         updateNumberOfSelectedItems(filterForServicesData);
       }
-      // });
+      });
     });
 
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
@@ -202,6 +202,7 @@ class _OccasionResultScreenState extends ConsumerState<OccasionResultScreen>
                         Align(
                           alignment: Alignment.bottomCenter,
                           child: TabBar(
+                            isScrollable: true,
                             indicatorWeight: 5,
                             labelColor: Colors.transparent,
                             unselectedLabelColor: Colors.transparent,
