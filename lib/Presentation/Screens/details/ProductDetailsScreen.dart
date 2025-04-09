@@ -20,6 +20,7 @@ import 'package:lazo_client/Presentation/Widgets/SeeMoreAndLessTextView.dart';
 import 'package:lazo_client/Utils/Extintions.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
+import '../../../Constants/Constants.dart';
 import '../../../Constants/Eunms.dart';
 import '../../BottomSheets/AuthenticateBottomSheet.dart';
 import '../../StateNotifiersViewModel/UserAuthStateNotifiers.dart';
@@ -207,72 +208,87 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
     return WillPopScope(
       onWillPop: _onWillPop,
       child: Scaffold(
-        appBar: CustomAppBar(
-          title: widget.name,
-          isCenter: false,
-          navigated: true,
-          appContext: context,
-          trailingWidget: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Row(
-              children: [
-                SVGIcons.smallShareIcon(),
-                SizedBox(
-                  width: 10,
-                ),
-                InkWell(
-                    onTap: () {
-                      if (client != null) {
-                        widget.itemType == ItemType.Products
-                            ? productWishlistToggle(
-                                productItemState.data?.data?.id?.toInt() ?? 0)
-                            : serviceWishlistToggle(
-                                serviceItemState.data?.data?.id?.toString() ??
-                                    "");
-                      } else {
-                        showAuthenticated();
-                      }
-                    },
-                    child: widget.itemType == ItemType.Products
-                        ? productItemState.data?.data?.inWishlist == true
-                            ? SVGIcons.activeFavoriteIcon()
-                            : SVGIcons.unFavoriteIconWithLightRedIcon()
-                        : serviceItemState.data?.data?.inWishlist == true
-                            ? SVGIcons.activeFavoriteIcon()
-                            : SVGIcons.unFavoriteIconWithLightRedIcon())
-              ],
-            ),
-          ),
-          customCallBack: () {
-            context.pop(UpdateDataModel(
-                updateRelatedData: true, updateNormalData: makeRefresh));
-          },
-        ),
+        // appBar: CustomAppBar(
+        //   title: widget.name,
+        //   isCenter: false,
+        //   navigated: true,
+        //   appContext: context,
+        //   trailingWidget: Padding(
+        //     padding: const EdgeInsets.symmetric(horizontal: 16),
+        //     child: Row(
+        //       children: [
+        //         SVGIcons.smallShareIcon(),
+        //         SizedBox(
+        //           width: 10,
+        //         ),
+        //         InkWell(
+        //             onTap: () {
+        //               if (client != null) {
+        //                 widget.itemType == ItemType.Products
+        //                     ? productWishlistToggle(
+        //                         productItemState.data?.data?.id?.toInt() ?? 0)
+        //                     : serviceWishlistToggle(
+        //                         serviceItemState.data?.data?.id?.toString() ??
+        //                             "");
+        //               } else {
+        //                 showAuthenticated();
+        //               }
+        //             },
+        //             child: widget.itemType == ItemType.Products
+        //                 ? productItemState.data?.data?.inWishlist == true
+        //                     ? SVGIcons.activeFavoriteIcon()
+        //                     : SVGIcons.unFavoriteIconWithLightRedIcon()
+        //                 : serviceItemState.data?.data?.inWishlist == true
+        //                     ? SVGIcons.activeFavoriteIcon()
+        //                     : SVGIcons.unFavoriteIconWithLightRedIcon())
+        //       ],
+        //     ),
+        //   ),
+        //   customCallBack: () {
+        //     context.pop(UpdateDataModel(
+        //         updateRelatedData: true, updateNormalData: makeRefresh));
+        //   },
+        // ),
         body: SafeArea(
-          child: Column(
-            children: [
-              Expanded(
-                child: SingleChildScrollView(
+          child: CustomScrollView(
+            slivers: [
+              SliverAppBar(
+                expandedHeight: 250,
+                titleSpacing: 0,
+                pinned: true,
+                elevation: 0,
+                flexibleSpace: FlexibleSpaceBar(
+                  background: Stack(
+                    children: [
+                      BannerCardItems(
+                        list: widget.itemType == ItemType.Products
+                            ? (productItemState.data?.data?.images
+                                        ?.map((item) => item.imagePath ?? "") ??
+                                    [])
+                                .toList()
+                            : (serviceItemState.data?.data?.images
+                                        ?.map((item) => item.imagePath ?? "") ??
+                                    [])
+                                .toList(),
+                        height: MediaQuery.of(context).size.height * 0.35,
+                        radius: 0,
+                        width: MediaQuery.of(context).size.width,
+                        showLoading: false,
+                        showIndicator: false,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              SliverToBoxAdapter(
+                child: SizedBox(
+                  height: MediaQuery.of(context).size.height * 1.9,
                   child: Padding(
-                    padding: const EdgeInsets.all(16.0),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: defaultPaddingHorizontal),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        BannerCardItems(
-                          list: widget.itemType == ItemType.Products
-                              ? (productItemState.data?.data?.images?.map(
-                                          (item) => item.imagePath ?? "") ??
-                                      [])
-                                  .toList()
-                              : (serviceItemState.data?.data?.images?.map(
-                                          (item) => item.imagePath ?? "") ??
-                                      [])
-                                  .toList(),
-                          height: 170,
-                          width: MediaQuery.of(context).size.width,
-                          showLoading: false,
-                          showIndicator: false,
-                        ),
                         SizedBox(
                           height: 24,
                         ),
@@ -282,20 +298,34 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
                                 text:
                                     "${widget.itemType == ItemType.Products ? productItemState.data?.data?.name : serviceItemState.data?.data?.name} ",
                                 style: AppTheme
-                                    .styleWithTextBlackAdelleSansExtendedFonts18w700,
+                                    .styleWithTextBlackColor2AdelleSansExtendedFonts20w500,
                                 maxLength: 30),
                             Spacer(),
                             widget.itemType == ItemType.Products
-                                ? Text(
-                                    "${productItemState.data?.data?.amount ?? 0} In Stock",
-                                    style: AppTheme
-                                        .styleWithTextPreparingColorAdelleSansExtendedFonts14w400,
+                                ? Container(
+                                    decoration: BoxDecoration(
+                                      color: AppTheme.appPink,
+                                      borderRadius: BorderRadius.circular(7),
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 10, vertical: 4),
+                                      child: Text(
+                                        "${productItemState.data?.data?.amount ?? 0} In Stock",
+                                        style: AppTheme
+                                            .styleWithTextBlackColor2ColorAdelleSansExtendedFonts13w400,
+                                      ),
+                                    ),
                                   )
                                 : SizedBox(),
                           ],
                         ),
                         SizedBox(
-                          height: 24,
+                          height: 10,
+                        ),
+                        Text("By ${productItemState.data?.data?.provider?.name ?? ""}",style: AppTheme.styleWithTextAppGrey18ColorAdelleSansExtendedFonts16w400,),
+                        SizedBox(
+                          height: 10,
                         ),
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
@@ -303,7 +333,7 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
                             Text(
                               "SAR ${widget.itemType == ItemType.Products ? productItemState.data?.data?.priceAfterDiscount ?? "" : serviceItemState.data?.data?.priceAfterDiscount ?? ""}",
                               style: AppTheme
-                                  .styleWithTextRedAdelleSansExtendedFonts20w700,
+                                  .styleWithTextAppRedColorAdelleSansExtendedFonts16w400,
                             ),
                             SizedBox(
                               width: 8,
@@ -315,7 +345,7 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
                                     ? Text(
                                         "SAR ${productItemState.data?.data?.price ?? ""}",
                                         style: AppTheme
-                                            .styleWithTextAppGrey7AdelleSansExtendedFonts14w400
+                                            .styleWithTextAppGrey18ColorAdelleSansExtendedFonts16w400
                                             .copyWith(
                                                 decoration:
                                                     TextDecoration.lineThrough),
@@ -333,29 +363,29 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
                                                     TextDecoration.lineThrough),
                                       )
                                     : SizedBox(),
-                            Spacer(),
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                SVGIcons.smallStarIcon(),
-                                SizedBox(
-                                  width: 3,
-                                ),
-                                Text(
-                                  "${productItemState.data?.data?.overallRating ?? 0}",
-                                  style: AppTheme
-                                      .styleWithTextBlackAdelleSansExtendedFonts14w400,
-                                ),
-                                SizedBox(
-                                  width: 8,
-                                ),
-                                Text(
-                                  "(${productItemState.data?.data?.ratingsCount ?? 0})",
-                                  style: AppTheme
-                                      .styleWithTextGray7AdelleSansExtendedFonts12w400,
-                                ),
-                              ],
-                            ),
+                            // Spacer(),
+                            // Row(
+                            //   crossAxisAlignment: CrossAxisAlignment.center,
+                            //   children: [
+                            //     SVGIcons.smallStarIcon(),
+                            //     SizedBox(
+                            //       width: 3,
+                            //     ),
+                            //     Text(
+                            //       "${productItemState.data?.data?.overallRating ?? 0}",
+                            //       style: AppTheme
+                            //           .styleWithTextBlackAdelleSansExtendedFonts14w400,
+                            //     ),
+                            //     SizedBox(
+                            //       width: 8,
+                            //     ),
+                            //     Text(
+                            //       "(${productItemState.data?.data?.ratingsCount ?? 0})",
+                            //       style: AppTheme
+                            //           .styleWithTextGray7AdelleSansExtendedFonts12w400,
+                            //     ),
+                            //   ],
+                            // ),
                           ],
                         ),
                         SizedBox(
@@ -1143,6 +1173,7 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
                                         DataState.LOADING,
                                     child: ServiceAndProductItemCardHorizontal(
                                       width: 163,
+                                      height: 165,
                                       product: relatedProductData
                                           .data?.data?.products?.data[index],
                                       type: ItemType.Products,
@@ -1185,6 +1216,7 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
                                         DataState.LOADING,
                                     child: ServiceAndProductItemCardHorizontal(
                                       width: 163,
+                                      height: 165,
                                       service: relatedServiceData
                                           .data?.data?.services?.data[index],
                                       type: ItemType.Services,
@@ -1220,81 +1252,6 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
                     ),
                   ),
                 ),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: AppButton(
-                  onPress: () {
-                    print("${productItemState.data?.data!.inCart}");
-                    if (widget.itemType == ItemType.Products) {
-                      if (widget.productDetails != null ||
-                          (productItemState.data?.data!.inCart == true
-                              && productItemState.data?.data!.cartItemId != null)) {
-                        print("cartId : ${productItemState.data?.data!.cartItemId}");
-
-                        editProductToCart(int.parse(
-                            productItemState.data?.data!.cartItemId ?? "0"));
-                      }
-                      else if (productItemState.data?.data?.id != null &&
-                          productItemState.data?.data?.amount != 0 &&
-                          productItemState.data?.data!.inCart == false) {
-                        addProductToCart(int.parse(
-                            productItemState.data?.data?.id!.toString() ?? ""));
-                      }
-                    }
-                    else {
-                      if (serviceItemState.data?.data?.cardType ==
-                              ServiceTypes.soft_card.name &&
-                          serviceItemState.data?.data?.id != null) {
-                        calculateSoftService(
-                            serviceItemState.data?.data?.priceAfterDiscount ??
-                                0);
-                        makeCheckoutForSoftService(
-                            int.parse(
-                                serviceItemState.data?.data?.id!.toString() ??
-                                    ""),
-                            serviceItemState.data?.data);
-                      }
-                      else if (serviceItemState.data?.data!.inCart == true
-                          && serviceItemState.data?.data!.cartItemId != null) {
-                        print("cartId : ${serviceItemState.data?.data!.cartItemId}");
-
-                        editServiceCart(int.parse(
-                            serviceItemState.data?.data?.cartItemId ?? "0"));
-                      }
-                      else if (serviceItemState.data?.data?.id != null &&
-                          serviceItemState.data?.data!.inCart != true) {
-                        addServiceToCart(int.parse(
-                            serviceItemState.data?.data?.id!.toString() ?? ""));
-                      }
-                    }
-                  },
-                  text: widget.itemType == ItemType.Products
-                      ? widget.productDetails != null
-                          // || productItemState.data?.data!.inCart == true
-                          ? "Edit Product"
-                          : productItemState.data?.data!.inCart == true
-                              ? "Added"
-                              : productItemState.data?.data?.amount == 0
-                                  ? "Out of stock"
-                                  : "Add to cart"
-                      : widget.serviceShowData != null
-                          ? "Edit Service"
-                          : serviceItemState.data?.data?.cardType ==
-                                  ServiceTypes.soft_card.name
-                              ? "Checkout"
-                              : serviceItemState.data?.data!.inCart == true
-                                  ? "Added"
-                                  : "Add to cart",
-                  height: 46,
-                  width: double.infinity,
-                ),
-              ),
-              SizedBox(
-                height: 16,
               )
             ],
           ),

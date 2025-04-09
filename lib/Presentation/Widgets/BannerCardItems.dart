@@ -14,13 +14,14 @@ class BannerCardItems extends StatefulWidget {
   final bool showIndicator;
   final double height;
   final double width;
+  final double? radius;
   final bool showLoading;
   const BannerCardItems(
       {super.key,
       required this.list,
       this.showIndicator = true,
       required this.height,
-      required this.width, required this.showLoading});
+      required this.width, required this.showLoading, this.radius});
 
   @override
   State<BannerCardItems> createState() => _BannerCardItemsState();
@@ -41,7 +42,7 @@ class _BannerCardItemsState extends State<BannerCardItems> {
                 enabled: widget.showLoading,
                 child: Container(
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8.0),
+                    borderRadius: BorderRadius.circular(widget.radius ?? 8.0),
                   ),
                   height: widget.height,
                   width: widget.width,

@@ -273,6 +273,7 @@ class _FilterBottomSheetState extends ConsumerState<FilterBottomSheet> {
                 text: "Show Result",
                 height: 50,
                 width: double.infinity,
+                backColor: AppTheme.mainAppColorDark,
                 onPress: () {
                   widget.onFilterApply?.call(FilterData(
                       shipmentTypeSelected: shipmentTypeSelected,
