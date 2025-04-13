@@ -102,6 +102,5 @@ const giftIconIcon = "assets/images/gift_icon.svg";
 const backWithBackgroundIcon = "assets/images/back_with_background.svg";
 const shareWithBackgroundIcon = "assets/images/share_icon_with_background.svg";
 const unFavoriteWithBackgroundIcon = "assets/images/un_favorite_with_background.svg";
-const unFavoriteWithBackgroundIcon = "assets/images/un_favorite_with_background.svg";
 const showMoreIcon = "assets/images/show_more_icon.svg";
 const showLessIcon = "assets/images/show_less_icon.svg";

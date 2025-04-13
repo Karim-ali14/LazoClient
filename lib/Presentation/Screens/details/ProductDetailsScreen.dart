@@ -992,6 +992,10 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
                                         ?.data.length ??
                                         0),
                               ),
+
+                            SizedBox(
+                              height: 35,
+                            )
                           ],
                         ),
                       ),
