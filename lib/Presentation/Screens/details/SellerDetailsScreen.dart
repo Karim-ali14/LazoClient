@@ -8,6 +8,7 @@ import 'package:lazo_client/Data/Models/StateModel.dart';
 import 'package:lazo_client/Data/Models/UpdateDataModel.dart';
 import 'package:lazo_client/Data/Network/lib/api.dart';
 import 'package:lazo_client/Doman/CommenProviders/ApiProvider.dart';
+import 'package:lazo_client/Presentation/Screens/home/Componants/CategoryTabs.dart';
 
 import 'package:lazo_client/Presentation/Screens/home/Componants/HorizontalTopProductListViewWithTitleSeeAll.dart';
 import 'package:lazo_client/Presentation/Screens/home/Componants/HorizontalTopServiceListViewWithTitleSeeAll.dart';
@@ -40,7 +41,10 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
     with SingleTickerProviderStateMixin {
   late TabController tabController;
   int activeTabIndex = 0;
+
   late ScrollController _scrollController;
+  ScrollController _scrollProductCategoriesController = ScrollController();
+
   bool _appBarTitleVisible = true;
   bool defaultExpandedValue = false;
   @override
@@ -280,22 +284,27 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
                                 SizedBox(
                                   height: 8,
                                 ),
-                                Row(
-                                  children: [
-                                    SVGIcons.localSVG(reviewsIcon,
-                                        width: 13, height: 15),
-                                    SizedBox(
-                                      width: 5,
-                                    ),
-                                    Text(
-                                      "Reviews (${(sellerProducts.data?.data?.ratingsCount ?? 0)})",
-                                      style: AppTheme
-                                          .styleWithTextBlackColor2AdelleSansExtendedFonts14w400
-                                          .copyWith(
-                                              decoration:
-                                                  TextDecoration.underline),
-                                    )
-                                  ],
+                                InkWell(
+                                  onTap: (){
+                                    showReviewsBottomSheet();
+                                  },
+                                  child: Row(
+                                    children: [
+                                      SVGIcons.localSVG(reviewsIcon,
+                                          width: 13, height: 15),
+                                      SizedBox(
+                                        width: 5,
+                                      ),
+                                      Text(
+                                        "Reviews (${(sellerProducts.data?.data?.ratingsCount ?? 0)})",
+                                        style: AppTheme
+                                            .styleWithTextBlackColor2AdelleSansExtendedFonts14w400
+                                            .copyWith(
+                                                decoration:
+                                                    TextDecoration.underline),
+                                      )
+                                    ],
+                                  ),
                                 )
                               ],
                             ),
@@ -331,7 +340,6 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
                                 style: activeTabIndex == 0
                                     ? AppTheme
                                         .styleWithTextBlackColor2AdelleSansExtendedFonts14w400
-
                                     : AppTheme
                                         .styleWithTextAppGrey7AdelleSansExtendedFonts14w400
                                         .copyWith(color: AppTheme.appGrey19),
@@ -342,10 +350,10 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
                                 context.tr(servicesKey),
                                 style: activeTabIndex == 1
                                     ? AppTheme
-                                    .styleWithTextBlackColor2AdelleSansExtendedFonts14w400
+                                        .styleWithTextBlackColor2AdelleSansExtendedFonts14w400
                                     : AppTheme
-                                    .styleWithTextAppGrey7AdelleSansExtendedFonts14w400
-                                    .copyWith(color: AppTheme.appGrey19),
+                                        .styleWithTextAppGrey7AdelleSansExtendedFonts14w400
+                                        .copyWith(color: AppTheme.appGrey19),
                               ),
                             ),
                           ],
@@ -368,44 +376,71 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
             },
           ),
         ),
+        if(activeTabIndex == 0)
+        SliverToBoxAdapter(
+          child:
+          SizedBox(
+            height: 45,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: CategoryTabs(list: (sellerProducts.data?.data?.categories??[]).map((item) => item.name??"").toList(), onItemClick: (index){
+                scrollToCategoryIndex(index);
+              }),
+            ),
+          ),
+        ),
+        if(activeTabIndex == 1)
+          SliverToBoxAdapter(
+            child:
+            SizedBox(
+              height: 45,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: CategoryTabs(list: (sellerServices.data?.data?.categories??[]).map((item) => item.name??"").toList(), onItemClick: (index){
+
+                }),
+              ),
+          ),
+          ),
         if (activeTabIndex == 0)
           SliverList(
             delegate: SliverChildBuilderDelegate(
               (BuildContext context, int index) {
                 return Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 16.0, vertical: 9),
-                  child:
-                  ProductGridListviewWithCategoryName(
-                      title: sellerProducts.data?.data?.categories?[index].name ??
-                          "",
-                      rootId: sellerProducts.data?.data?.categories?[index].id
-                          ?.toInt(),
-                      list: sellerProducts.state == DataState.LOADING
-                          ? [
-                        ProviderProduct(),
-                        ProviderProduct(),
-                        ProviderProduct(),
-                        ProviderProduct(),
-                      ]
-                          : sellerProducts
-                          .data?.data?.categories?[index].products ??
-                          [],
-                      showLoading: sellerProducts.state == DataState.LOADING,
-                      onAddItemToCart: (id) {
-                    addProductToCart(id);
-                  },
-                      onAddItemToWishList: (id) {
-                    if (client != null) {
-                      productWishlistToggle(id);
-                    } else {
-                      showAuthenticated();
-                    }
-                  }, onItemClick: (itemId, itemName, categoryIds) {
-                    navigateToItemDetails(
-                        ItemType.Products, itemId, itemName, categoryIds);
-                  })
-                );
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 16.0, vertical: 9),
+                    child: ProductGridListviewWithCategoryName(
+                        scrollProductCategoriesController: _scrollProductCategoriesController,
+                        title: sellerProducts
+                                .data?.data?.categories?[index].name ??
+                            "",
+                        rootId: sellerProducts.data?.data?.categories?[index].id
+                            ?.toInt(),
+                        list: sellerProducts.state == DataState.LOADING
+                            ? [
+                                ProviderProduct(),
+                                ProviderProduct(),
+                                ProviderProduct(),
+                                ProviderProduct(),
+                              ]
+                            : sellerProducts
+                                    .data?.data?.categories?[index].products ??
+                                [],
+                        showLoading: sellerProducts.state == DataState.LOADING,
+                        onAddItemToCart: (id) {
+                          addProductToCart(id);
+                        },
+                        onAddItemToWishList: (id) {
+                          if (client != null) {
+                            productWishlistToggle(id);
+                          } else {
+                            showAuthenticated();
+                          }
+                        },
+                        onItemClick: (itemId, itemName, categoryIds) {
+                          navigateToItemDetails(
+                              ItemType.Products, itemId, itemName, categoryIds);
+                        }));
               },
               childCount: sellerProducts.state == DataState.LOADING
                   ? 5
@@ -572,7 +607,18 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
       ]),
     );
   }
-
+  void scrollToGridItem(int index) {
+    // if (index < itemKeys.length) {
+    //   final context = itemKeys[index].currentContext;
+    //   if (context != null) {
+    //     Scrollable.ensureVisible(
+    //       context,
+    //       duration: Duration(milliseconds: 500),
+    //       curve: Curves.easeInOut,
+    //     );
+    //   }
+    // }
+  }
   void addProductToCart(int id) {
     var sessionId = ref
         .read(getSessionHandlerStateNotifier.notifier)
@@ -655,6 +701,87 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
               },
             ));
   }
+  void showReviewsBottomSheet() {
+    showModalBottomSheet(
+        isScrollControlled: true,
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+                topRight: Radius.circular(10), topLeft: Radius.circular(10))),
+        context: context,
+        builder: (BuildContext context) => Container(
+          height: 600,
+          child: ListView.builder(itemBuilder: (context,index){
+            return Container(
+              margin: const EdgeInsetsDirectional.symmetric(vertical: 8),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(4),
+                color: AppTheme.appPink2,
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    ExpandedText(
+                      textValue:
+                      "${ref.watch(getSellerDetailsWithReviewsStateNotifier).data?.data?.ratings?[index].ratingComment ?? 0}",
+                      textStyle: AppTheme
+                          .styleWithTextBlackAdelleSansExtendedFonts14w500
+                          .copyWith(height: 1.5),
+                      maxLength: 70,
+                      showLessText: context.tr(readLessKey),
+                      showMoreText: context.tr(readMoreKey),
+                    ),
+                    SizedBox(
+                      height: 8,
+                    ),
+                    Row(
+                      children: [
+                        ImageView(
+                          isCircle: true,
+                          initialImg: ref.watch(getSellerDetailsWithReviewsStateNotifier).data?.data?.ratings?[index].imagePath,
+                          width: 32,
+                          height: 32,
+                        ),
+                        const SizedBox(width: 8),
+                        Text(
+                          "${ref.watch(getSellerDetailsWithReviewsStateNotifier).data?.data?.ratings?[index].userName}",
+                          style: AppTheme
+                              .styleWithTextAppGrey7AdelleSansExtendedFonts14w500,
+                        ),
+                        Spacer(),
+                        Text(
+                          ref.watch(getSellerDetailsWithReviewsStateNotifier).data?.data?.ratings?[index].date
+                              ?.convertDateToDdMmmYyyy ??
+                              "",
+                          style: AppTheme
+                              .styleWithTextGray7AdelleSansExtendedFonts12w400,
+                        )
+                      ],
+                    ),
+                    SizedBox(
+                      height: 8,
+                    ),
+                    Row(
+                      children: [
+                        SVGIcons.smallStarIcon(),
+                        SizedBox(
+                          width: 3,
+                        ),
+                        Text(
+                          "${ref.watch(getSellerDetailsWithReviewsStateNotifier).data?.data?.ratings?[index].rating ?? 0}",
+                          style: AppTheme
+                              .styleWithTextBlackAdelleSansExtendedFonts14w400,
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            );
+          },itemCount: ref.watch(getSellerDetailsWithReviewsStateNotifier).data?.data?.ratings?.length ?? 0,),
+        ));
+  }
 
   void navigateToLogin() async {
     var makeRefresh =
@@ -681,6 +808,20 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
     ref
         .read(getSellerDetailsWithReviewsStateNotifier.notifier)
         .getSellerDetails(providerId: widget.sellerId);
+  }
+
+  void scrollToCategoryIndex(int index) {
+    int crossAxisCount = 2; // Number of columns
+    double itemHeight = 200; // Approximate height of one grid item (including spacing)
+
+    int rowIndex = index ~/ crossAxisCount;
+    double offset = rowIndex * itemHeight;
+
+    _scrollProductCategoriesController.animateTo(
+      offset,
+      duration: Duration(milliseconds: 500),
+      curve: Curves.easeInOut,
+    );
   }
 }
 

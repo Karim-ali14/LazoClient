@@ -15,20 +15,23 @@ class ProductGridListviewWithCategoryName extends StatefulWidget {
   final OnItemClick onItemClick;
   final String title;
   final int? rootId;
-  const ProductGridListviewWithCategoryName({super.key, this.list, this.showLoading, required this.onAddItemToCart, required this.onAddItemToWishList, required this.onItemClick, required this.title, this.rootId});
+  final ScrollController? scrollProductCategoriesController;
+  const ProductGridListviewWithCategoryName({super.key, this.list, this.showLoading, required this.onAddItemToCart, required this.onAddItemToWishList, required this.onItemClick, required this.title, this.rootId, this.scrollProductCategoriesController});
 
   @override
   State<ProductGridListviewWithCategoryName> createState() => _ProductGridListviewWithCategoryNameState();
 }
 
 class _ProductGridListviewWithCategoryNameState extends State<ProductGridListviewWithCategoryName> {
+
   @override
   Widget build(BuildContext context) {
+
     return Column(
       children: [
         Skeletonizer(
           enabled: widget.showLoading ?? false,
-          child: TitleWithSeeAll(
+          child:  TitleWithSeeAll(
             title: widget.title,
             onClickOnSeeAll: () {
             },
@@ -38,9 +41,9 @@ class _ProductGridListviewWithCategoryNameState extends State<ProductGridListvie
           height: 16,
         ),
         GridView.builder(
+          controller: widget.scrollProductCategoriesController,
             itemCount: widget.list?.length,
             shrinkWrap: true,
-            physics: NeverScrollableScrollPhysics(), // disable internal scrolling
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2,
             mainAxisSpacing: 8,
