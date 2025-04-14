@@ -8,6 +8,7 @@ import 'package:lazo_client/Data/Models/StateModel.dart';
 import 'package:lazo_client/Data/Models/UpdateDataModel.dart';
 import 'package:lazo_client/Data/Network/lib/api.dart';
 import 'package:lazo_client/Doman/CommenProviders/ApiProvider.dart';
+import 'package:lazo_client/Presentation/BottomSheets/RatingBottomSheet.dart';
 import 'package:lazo_client/Presentation/Screens/home/Componants/CategoryTabs.dart';
 
 import 'package:lazo_client/Presentation/Screens/home/Componants/HorizontalTopProductListViewWithTitleSeeAll.dart';
@@ -285,7 +286,7 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
                                   height: 8,
                                 ),
                                 InkWell(
-                                  onTap: (){
+                                  onTap: () {
                                     showReviewsBottomSheet();
                                   },
                                   child: Row(
@@ -376,31 +377,35 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
             },
           ),
         ),
-        if(activeTabIndex == 0)
-        SliverToBoxAdapter(
-          child:
-          SizedBox(
-            height: 45,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: CategoryTabs(list: (sellerProducts.data?.data?.categories??[]).map((item) => item.name??"").toList(), onItemClick: (index){
-                scrollToCategoryIndex(index);
-              }),
-            ),
-          ),
-        ),
-        if(activeTabIndex == 1)
+        if (activeTabIndex == 0)
           SliverToBoxAdapter(
-            child:
-            SizedBox(
+            child: SizedBox(
               height: 45,
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                child: CategoryTabs(list: (sellerServices.data?.data?.categories??[]).map((item) => item.name??"").toList(), onItemClick: (index){
-
-                }),
+                child: CategoryTabs(
+                    list: (sellerProducts.data?.data?.categories ?? [])
+                        .map((item) => item.name ?? "")
+                        .toList(),
+                    onItemClick: (index) {
+                      scrollToCategoryIndex(index);
+                    }),
               ),
+            ),
           ),
+        if (activeTabIndex == 1)
+          SliverToBoxAdapter(
+            child: SizedBox(
+              height: 45,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: CategoryTabs(
+                    list: (sellerServices.data?.data?.categories ?? [])
+                        .map((item) => item.name ?? "")
+                        .toList(),
+                    onItemClick: (index) {}),
+              ),
+            ),
           ),
         if (activeTabIndex == 0)
           SliverList(
@@ -410,7 +415,8 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
                     padding: const EdgeInsets.symmetric(
                         horizontal: 16.0, vertical: 9),
                     child: ProductGridListviewWithCategoryName(
-                        scrollProductCategoriesController: _scrollProductCategoriesController,
+                        scrollProductCategoriesController:
+                            _scrollProductCategoriesController,
                         title: sellerProducts
                                 .data?.data?.categories?[index].name ??
                             "",
@@ -607,6 +613,7 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
       ]),
     );
   }
+
   void scrollToGridItem(int index) {
     // if (index < itemKeys.length) {
     //   final context = itemKeys[index].currentContext;
@@ -701,86 +708,21 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
               },
             ));
   }
+
   void showReviewsBottomSheet() {
     showModalBottomSheet(
         isScrollControlled: true,
-        shape: RoundedRectangleBorder(
+        shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.only(
                 topRight: Radius.circular(10), topLeft: Radius.circular(10))),
         context: context,
-        builder: (BuildContext context) => Container(
-          height: 600,
-          child: ListView.builder(itemBuilder: (context,index){
-            return Container(
-              margin: const EdgeInsetsDirectional.symmetric(vertical: 8),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(4),
-                color: AppTheme.appPink2,
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    ExpandedText(
-                      textValue:
-                      "${ref.watch(getSellerDetailsWithReviewsStateNotifier).data?.data?.ratings?[index].ratingComment ?? 0}",
-                      textStyle: AppTheme
-                          .styleWithTextBlackAdelleSansExtendedFonts14w500
-                          .copyWith(height: 1.5),
-                      maxLength: 70,
-                      showLessText: context.tr(readLessKey),
-                      showMoreText: context.tr(readMoreKey),
-                    ),
-                    SizedBox(
-                      height: 8,
-                    ),
-                    Row(
-                      children: [
-                        ImageView(
-                          isCircle: true,
-                          initialImg: ref.watch(getSellerDetailsWithReviewsStateNotifier).data?.data?.ratings?[index].imagePath,
-                          width: 32,
-                          height: 32,
-                        ),
-                        const SizedBox(width: 8),
-                        Text(
-                          "${ref.watch(getSellerDetailsWithReviewsStateNotifier).data?.data?.ratings?[index].userName}",
-                          style: AppTheme
-                              .styleWithTextAppGrey7AdelleSansExtendedFonts14w500,
-                        ),
-                        Spacer(),
-                        Text(
-                          ref.watch(getSellerDetailsWithReviewsStateNotifier).data?.data?.ratings?[index].date
-                              ?.convertDateToDdMmmYyyy ??
-                              "",
-                          style: AppTheme
-                              .styleWithTextGray7AdelleSansExtendedFonts12w400,
-                        )
-                      ],
-                    ),
-                    SizedBox(
-                      height: 8,
-                    ),
-                    Row(
-                      children: [
-                        SVGIcons.smallStarIcon(),
-                        SizedBox(
-                          width: 3,
-                        ),
-                        Text(
-                          "${ref.watch(getSellerDetailsWithReviewsStateNotifier).data?.data?.ratings?[index].rating ?? 0}",
-                          style: AppTheme
-                              .styleWithTextBlackAdelleSansExtendedFonts14w400,
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            );
-          },itemCount: ref.watch(getSellerDetailsWithReviewsStateNotifier).data?.data?.ratings?.length ?? 0,),
-        ));
+        builder: (BuildContext context) => RatingBottomSheet(
+            ratingsList: ref
+                    .watch(getSellerDetailsWithReviewsStateNotifier)
+                    .data
+                    ?.data
+                    ?.ratings ??
+                []));
   }
 
   void navigateToLogin() async {
@@ -812,7 +754,8 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
 
   void scrollToCategoryIndex(int index) {
     int crossAxisCount = 2; // Number of columns
-    double itemHeight = 200; // Approximate height of one grid item (including spacing)
+    double itemHeight =
+        200; // Approximate height of one grid item (including spacing)
 
     int rowIndex = index ~/ crossAxisCount;
     double offset = rowIndex * itemHeight;

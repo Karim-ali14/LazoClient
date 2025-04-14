@@ -1,0 +1,101 @@
+import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:lazo_client/Utils/Extintions.dart';
+import '../../Data/Network/lib/api.dart';
+import '../../Localization/Keys.dart';
+import '../Theme/AppTheme.dart';
+import '../Widgets/CircleImage.dart';
+import '../Widgets/SeeMoreAndLessTextView.dart';
+import '../Widgets/SvgIcons.dart';
+
+class RatingBottomSheet extends StatelessWidget {
+  final List<ProviderDataRatingsInner> ratingsList;
+  const RatingBottomSheet({super.key, required this.ratingsList});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 600,
+      child: Column(
+        children: [
+          Container(
+
+          ),
+          SizedBox(
+            height: 500,
+            child: ListView.builder(itemBuilder: (context,index){
+              return Container(
+                margin: const EdgeInsetsDirectional.symmetric(vertical: 8),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(4),
+                  color: AppTheme.appPink2,
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      ExpandedText(
+                        textValue:
+                        "${ratingsList[index].ratingComment ?? 0}",
+                        textStyle: AppTheme
+                            .styleWithTextBlackAdelleSansExtendedFonts14w500
+                            .copyWith(height: 1.5),
+                        maxLength: 70,
+                        showLessText: context.tr(readLessKey),
+                        showMoreText: context.tr(readMoreKey),
+                      ),
+                      SizedBox(
+                        height: 8,
+                      ),
+                      Row(
+                        children: [
+                          ImageView(
+                            isCircle: true,
+                            initialImg: ratingsList[index].imagePath,
+                            width: 32,
+                            height: 32,
+                          ),
+                          const SizedBox(width: 8),
+                          Text(
+                            "${ratingsList[index].userName}",
+                            style: AppTheme
+                                .styleWithTextAppGrey7AdelleSansExtendedFonts14w500,
+                          ),
+                          Spacer(),
+                          Text(
+                            ratingsList[index].date
+                                ?.convertDateToDdMmmYyyy ??
+                                "",
+                            style: AppTheme
+                                .styleWithTextGray7AdelleSansExtendedFonts12w400,
+                          )
+                        ],
+                      ),
+                      SizedBox(
+                        height: 8,
+                      ),
+                      Row(
+                        children: [
+                          SVGIcons.smallStarIcon(),
+                          SizedBox(
+                            width: 3,
+                          ),
+                          Text(
+                            "${ratingsList[index].rating ?? 0}",
+                            style: AppTheme
+                                .styleWithTextBlackAdelleSansExtendedFonts14w400,
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            },itemCount: ratingsList.length ?? 0,),
+          ),
+        ],
+      ),
+    );
+  }
+}
