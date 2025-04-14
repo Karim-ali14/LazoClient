@@ -12,7 +12,9 @@ import 'package:lazo_client/Doman/CommenProviders/ApiProvider.dart';
 import 'package:lazo_client/Presentation/Screens/home/Componants/HorizontalTopProductListViewWithTitleSeeAll.dart';
 import 'package:lazo_client/Presentation/Screens/home/Componants/HorizontalTopServiceListViewWithTitleSeeAll.dart';
 import 'package:lazo_client/Presentation/Theme/AppTheme.dart';
+import 'package:lazo_client/Presentation/Widgets/ProductGridListView.dart';
 import 'package:lazo_client/Presentation/Widgets/SeeMoreAndLessTextView.dart';
+import 'package:lazo_client/Presentation/Widgets/ServiceGridListView.dart';
 import 'package:lazo_client/Utils/Extintions.dart';
 
 import '../../../Constants.dart';
@@ -48,7 +50,7 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
       if (_scrollController.hasClients) {
         // Update visibility based on scroll offset
         setState(() {
-          _appBarTitleVisible = _scrollController.offset < 100;
+          _appBarTitleVisible = _scrollController.offset < 280;
         });
       }
     });
@@ -74,21 +76,32 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
     final sellerServices = ref.watch(getSellerDetailsWithServicesStateNotifier);
     final sellerReview = ref.watch(getSellerDetailsWithReviewsStateNotifier);
 
-    handleState(addProductToCartUseCaseStateNotifier , showLoading: true ,onSuccess: (res){
+    handleState(addProductToCartUseCaseStateNotifier, showLoading: true,
+        onSuccess: (res) {
       var productId = res.data?.data?.productId;
       print("product id : $productId");
-      if(productId != null){
+      if (productId != null) {
         ref.read(getProductDetails.notifier).handelAddProductToCart(productId);
-        ref.read(getSellerDetailsWithProductStateNotifier.notifier).handleAddProductToCart(productId,res.data?.data?.categoriesIds ?? []);
-        ref.read(homeDataStateNotifiers.notifier).handleAddProductToCart(productId);
-        ref.read(getProductsStateNotifiers.notifier).handleAddProductToCart(productId);
+        ref
+            .read(getSellerDetailsWithProductStateNotifier.notifier)
+            .handleAddProductToCart(
+                productId, res.data?.data?.categoriesIds ?? []);
+        ref
+            .read(homeDataStateNotifiers.notifier)
+            .handleAddProductToCart(productId);
+        ref
+            .read(getProductsStateNotifiers.notifier)
+            .handleAddProductToCart(productId);
       }
     });
 
-    handleState(addServiceToCartUseCaseStateNotifier , showLoading: true ,onSuccess: (res){
+    handleState(addServiceToCartUseCaseStateNotifier, showLoading: true,
+        onSuccess: (res) {
       var id = res.data?.data?.serviceId;
-      if(id != null){
-        ref.read(getSellerDetailsWithServicesStateNotifier.notifier).handleAddServiceToCart(id,res.data?.data?.categoriesIds ?? []);
+      if (id != null) {
+        ref
+            .read(getSellerDetailsWithServicesStateNotifier.notifier)
+            .handleAddServiceToCart(id, res.data?.data?.categoriesIds ?? []);
         ref.read(getServiceDetails.notifier).handelAddServiceToCart(id);
         ref.read(homeDataStateNotifiers.notifier).handelAddServiceToCart(id);
         ref.read(getServicesStateNotifiers.notifier).handelAddServiceToCart(id);
@@ -97,38 +110,46 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
 
     handleState(productToggleStateNotifier, showLoading: true,
         onSuccess: (res) {
-          ref.read(getSellerDetailsWithProductStateNotifier.notifier).handleAddProductToWishList(
-              res.data?.data?.productId?.toInt() ?? 0,res.data?.data?.categoriesIds ?? [],res.data?.data?.inWishlist ?? false);
+      ref
+          .read(getSellerDetailsWithProductStateNotifier.notifier)
+          .handleAddProductToWishList(
+              res.data?.data?.productId?.toInt() ?? 0,
+              res.data?.data?.categoriesIds ?? [],
+              res.data?.data?.inWishlist ?? false);
 
-          ref.read(getProductDetails.notifier).handelAddProductToWishList(res.data?.data?.productId ?? 0,res.data?.data?.inWishlist ?? false);
+      ref.read(getProductDetails.notifier).handelAddProductToWishList(
+          res.data?.data?.productId ?? 0, res.data?.data?.inWishlist ?? false);
 
-          ref.read(homeDataStateNotifiers.notifier).handleAddProductToWishList(
-              res.data?.data?.productId ?? 0, res.data?.data?.inWishlist ?? false);
+      ref.read(homeDataStateNotifiers.notifier).handleAddProductToWishList(
+          res.data?.data?.productId ?? 0, res.data?.data?.inWishlist ?? false);
 
-          ref.read(getProductsStateNotifiers.notifier).handleAddProductToWishList(
-              res.data?.data?.productId ?? 0, res.data?.data?.inWishlist ?? false);
-
-        });
+      ref.read(getProductsStateNotifiers.notifier).handleAddProductToWishList(
+          res.data?.data?.productId ?? 0, res.data?.data?.inWishlist ?? false);
+    });
 
     handleState(serviceToggleStateNotifier, showLoading: true,
         onSuccess: (res) {
-          ref.read(getSellerDetailsWithServicesStateNotifier.notifier).handleAddServiceToWishList(
-              res.data?.data?.serviceId?.toInt() ?? 0,res.data?.data?.categoriesIds ?? [],res.data?.data?.inWishlist ?? false);
+      ref
+          .read(getSellerDetailsWithServicesStateNotifier.notifier)
+          .handleAddServiceToWishList(
+              res.data?.data?.serviceId?.toInt() ?? 0,
+              res.data?.data?.categoriesIds ?? [],
+              res.data?.data?.inWishlist ?? false);
 
-          ref.read(getServiceDetails.notifier).handelAddServiceToWishList(res.data?.data?.serviceId ?? 0,res.data?.data?.inWishlist ?? false);
+      ref.read(getServiceDetails.notifier).handelAddServiceToWishList(
+          res.data?.data?.serviceId ?? 0, res.data?.data?.inWishlist ?? false);
 
-          ref.read(homeDataStateNotifiers.notifier).handelAddServiceToWishList(
-              res.data?.data?.serviceId ?? 0, res.data?.data?.inWishlist ?? false);
+      ref.read(homeDataStateNotifiers.notifier).handelAddServiceToWishList(
+          res.data?.data?.serviceId ?? 0, res.data?.data?.inWishlist ?? false);
 
-          ref.read(getServicesStateNotifiers.notifier).handelAddServiceToWishlist(
-              res.data?.data?.serviceId ?? 0, res.data?.data?.inWishlist ?? false);
-
-        });
+      ref.read(getServicesStateNotifiers.notifier).handelAddServiceToWishlist(
+          res.data?.data?.serviceId ?? 0, res.data?.data?.inWishlist ?? false);
+    });
 
     return Scaffold(
       body: CustomScrollView(controller: _scrollController, slivers: [
         SliverAppBar(
-          expandedHeight: 250,
+          expandedHeight: MediaQuery.of(context).size.height * .374,
           titleSpacing:
               0, // Set spacing between leading and title// Adjust based on your needs
           pinned: true,
@@ -169,71 +190,171 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
                 Positioned(
                   child: SizedBox(
                     child: ImageView(
-                      initialImg: sellerProducts.data?.data?.coverImagePath ?? "",
+                      initialImg:
+                          sellerProducts.data?.data?.coverImagePath ?? "",
                     ),
                     width: double.infinity,
-                    height: 206,
+                    height: 250,
                   ),
                 ),
-                _appBarTitleVisible
-                    ? Positioned(
-                        bottom: 0,
-                        left: 0,
-                        right: 0,
-                        child: Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 16.0),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
+                Positioned(
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  top: 130,
+                  child: Container(
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: const BorderRadius.only(
+                            topLeft: Radius.circular(8),
+                            topRight: Radius.circular(8)),
+                        boxShadow: [
+                          BoxShadow(
+                            color: AppTheme.appGrey11
+                                .withOpacity(0.6), // Shadow color
+                            blurRadius: .5, // Blur effect
+                            spreadRadius: .1, // Spread effect
+                            offset: const Offset(0, .5), // Shadow position
+                          ),
+                        ]),
+                    margin: EdgeInsets.symmetric(horizontal: 16),
+                    padding: const EdgeInsetsDirectional.only(
+                        top: 16, start: 16, end: 16),
+                    width: double.infinity,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              width: 77,
+                              height: 77,
+                              clipBehavior: Clip.antiAlias,
+                              decoration: const BoxDecoration(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(8))),
+                              child: ImageView(
+                                initialImg:
+                                    sellerProducts.data?.data?.imagePath,
+                                placeHolder: defaultUseIconSvg,
+                              ),
+                            ),
+                            SizedBox(
+                              width: 8,
+                            ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                ImageView(
-                                    isCircle: true,
-                                    initialImg:
-                                        sellerProducts.data?.data?.imagePath,
-                                placeHolder: defaultUseIconSvg,),
-                                SizedBox(
-                                  width: 8,
+                                Text(
+                                  sellerProducts.data?.data?.name
+                                          ?.ellipsize(25) ??
+                                      "",
+                                  style: AppTheme
+                                      .styleWithTextBlackAdelleSansExtendedFonts18w500,
                                 ),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                SizedBox(
+                                  height: 8,
+                                ),
+                                Row(
                                   children: [
+                                    SVGIcons.smallStarIcon(),
+                                    SizedBox(
+                                      width: 3,
+                                    ),
                                     Text(
-                                      sellerProducts.data?.data?.name
-                                              ?.ellipsize(25) ??
-                                          "",
+                                      "${sellerProducts.data?.data?.overallRating ?? 0}",
                                       style: AppTheme
-                                          .styleWithTextBlackAdelleSansExtendedFonts18w700,
+                                          .styleWithTextBlackColor2AdelleSansExtendedFonts14w400,
                                     ),
                                     SizedBox(
-                                      height: 8,
+                                      width: 5,
                                     ),
-                                    Row(
-                                      children: [
-                                        SVGIcons.smallStarIcon(),
-                                        SizedBox(
-                                          width: 3,
-                                        ),
-                                        Text(
-                                          "${sellerProducts.data?.data?.overallRating ?? 0}",
-                                          style: AppTheme
-                                              .styleWithTextGray7AdelleSansExtendedFonts12w400,
-                                        ),
-                                        SizedBox(
-                                          width: 5,
-                                        ),
-                                        Text(
-                                          "(${sellerProducts.data?.data?.ratingsCount ?? 0})",
-                                          style: AppTheme
-                                              .styleWithTextGray7AdelleSansExtendedFonts12w400,
-                                        )
-                                      ],
+                                    Text(
+                                      "(${sellerProducts.data?.data?.ratingsCount ?? 0})",
+                                      style: AppTheme
+                                          .styleWithTextBlackColor2AdelleSansExtendedFonts14w400,
+                                    )
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 8,
+                                ),
+                                Row(
+                                  children: [
+                                    SVGIcons.localSVG(reviewsIcon,
+                                        width: 13, height: 15),
+                                    SizedBox(
+                                      width: 5,
                                     ),
+                                    Text(
+                                      "Reviews (${(sellerProducts.data?.data?.ratingsCount ?? 0)})",
+                                      style: AppTheme
+                                          .styleWithTextBlackColor2AdelleSansExtendedFonts14w400
+                                          .copyWith(
+                                              decoration:
+                                                  TextDecoration.underline),
+                                    )
                                   ],
                                 )
                               ],
-                            )),
-                      )
-                    : SizedBox(),
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 8,
+                        ),
+                        ExpandedText(
+                            defaultExpandedValue: defaultExpandedValue,
+                            maxLength: 165,
+                            textStyle: AppTheme
+                                .styleWithTextAppGrey7AdelleSansExtendedFonts14w400
+                                .copyWith(height: 1.5),
+                            onExpandChangeStatus: (value) {
+                              defaultExpandedValue = value;
+                              print(defaultExpandedValue);
+                            },
+                            textValue: sellerProducts.data?.data?.bio ?? ""),
+                        SizedBox(
+                          height: 8,
+                        ),
+                        TabBar(
+                          indicatorWeight: 1,
+                          labelColor: Colors.transparent,
+                          unselectedLabelColor: Colors.transparent,
+                          indicatorPadding: EdgeInsets.zero,
+                          indicatorColor: AppTheme.appRedColor,
+                          tabs: [
+                            Tab(
+                              child: Text(
+                                context.tr(productsKey),
+                                style: activeTabIndex == 0
+                                    ? AppTheme
+                                        .styleWithTextBlackColor2AdelleSansExtendedFonts14w400
+
+                                    : AppTheme
+                                        .styleWithTextAppGrey7AdelleSansExtendedFonts14w400
+                                        .copyWith(color: AppTheme.appGrey19),
+                              ),
+                            ),
+                            Tab(
+                              child: Text(
+                                context.tr(servicesKey),
+                                style: activeTabIndex == 1
+                                    ? AppTheme
+                                    .styleWithTextBlackColor2AdelleSansExtendedFonts14w400
+                                    : AppTheme
+                                    .styleWithTextAppGrey7AdelleSansExtendedFonts14w400
+                                    .copyWith(color: AppTheme.appGrey19),
+                              ),
+                            ),
+                          ],
+                          controller: tabController,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
               ],
             ),
           ),
@@ -247,137 +368,6 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
             },
           ),
         ),
-        SliverToBoxAdapter(
-          child: _appBarTitleVisible
-              ? Padding(
-                  padding:
-                      const EdgeInsets.only(left: 16.0, right: 16, top: 16),
-                  child: ExpandedText(
-                      defaultExpandedValue: defaultExpandedValue,
-                      maxLength: 165,
-                      textStyle: AppTheme
-                          .styleWithTextAppGrey7AdelleSansExtendedFonts14w400
-                          .copyWith(height: 1.5),
-                      onExpandChangeStatus: (value) {
-                        defaultExpandedValue = value;
-                        print(defaultExpandedValue);
-                      },
-                      textValue: sellerProducts.data?.data?.bio ?? ""),
-                )
-              : SizedBox(),
-        ),
-        SliverPersistentHeader(
-          delegate: _SliverTabsDelegate(
-            TabBar(
-              indicatorPadding: EdgeInsets.zero,
-              labelPadding: const EdgeInsetsDirectional.only(end: 0),
-              physics: const ClampingScrollPhysics(),
-              isScrollable: true,
-              dividerColor: Colors.transparent,
-              indicatorColor: Colors.transparent,
-              tabs: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: Tab(
-                    child: Container(
-                      width: 140,
-                      height: 40,
-                      padding: const EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(4),
-                        border: Border.all(
-                          color: activeTabIndex == 0
-                              ? AppTheme.mainAppColor
-                              : AppTheme.appGrey8,
-                        ),
-                        color: activeTabIndex == 0
-                            ? AppTheme.mainAppColor
-                            : AppTheme.appGrey9,
-                      ),
-                      child: Center(
-                        child: Text(
-                          context.tr(productsKey),
-                          style: activeTabIndex == 0
-                              ? AppTheme
-                                  .styleWithTextWhiteAdelleSansExtendedFonts14w400
-                              : AppTheme
-                                  .styleWithTextWhiteAdelleSansExtendedFonts14w400
-                                  .copyWith(color: AppTheme.appGrey10),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                Tab(
-                  child: Padding(
-                    padding: EdgeInsetsDirectional.only(end: 16),
-                    child: Container(
-                      width: 140,
-                      height: 40,
-                      padding: EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(4),
-                        border: Border.all(
-                          color: activeTabIndex == 1
-                              ? AppTheme.mainAppColor
-                              : AppTheme.appGrey8,
-                        ),
-                        color: activeTabIndex == 1
-                            ? AppTheme.mainAppColor
-                            : AppTheme.appGrey9,
-                      ),
-                      child: Center(
-                        child: Text(
-                          context.tr(servicesKey),
-                          style: activeTabIndex == 1
-                              ? AppTheme
-                                  .styleWithTextWhiteAdelleSansExtendedFonts14w400
-                              : AppTheme
-                                  .styleWithTextWhiteAdelleSansExtendedFonts14w400
-                                  .copyWith(color: AppTheme.appGrey10),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                Tab(
-                  child: Padding(
-                    padding: EdgeInsetsDirectional.only(end: 16),
-                    child: Container(
-                      width: 140,
-                      height: 40,
-                      padding: const EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(4),
-                        border: Border.all(
-                          color: activeTabIndex == 2
-                              ? AppTheme.mainAppColor
-                              : AppTheme.appGrey8,
-                        ),
-                        color: activeTabIndex == 2
-                            ? AppTheme.mainAppColor
-                            : AppTheme.appGrey9,
-                      ),
-                      child: Center(
-                        child: Text(
-                          context.tr(reviewsKey),
-                          style: activeTabIndex == 2
-                              ? AppTheme
-                                  .styleWithTextWhiteAdelleSansExtendedFonts14w400
-                              : AppTheme
-                                  .styleWithTextWhiteAdelleSansExtendedFonts14w400
-                                  .copyWith(color: AppTheme.appGrey10),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-              controller: tabController,
-            ),
-          ),
-          pinned: true,
-        ),
         if (activeTabIndex == 0)
           SliverList(
             delegate: SliverChildBuilderDelegate(
@@ -385,45 +375,36 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
                 return Padding(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 16.0, vertical: 9),
-                  child: HorizontalTopProductListViewWithTitleSeeAll(
-                    list: sellerProducts.state == DataState.LOADING
-                        ? [
-                            ProviderProduct(),
-                            ProviderProduct(),
-                            ProviderProduct(),
-                            ProviderProduct(),
-                          ]
-                        : sellerProducts
-                                .data?.data?.categories?[index].products ??
-                            [],
-                    showLoading: sellerProducts.state == DataState.LOADING,
-                    itemClick: (itemId, itemName, categoryIds) {
-                      navigateToItemDetails(
-                          ItemType.Products, itemId, itemName, categoryIds);
-                    },
-                    onAddItemToCart: (id) {
-                      addProductToCart(id);
-                    },
-                    onAddItemToWishList: (id) {
-                      if(client != null) {
-                        productWishlistToggle(id);
-                      }else{
-                        showAuthenticated();
-                      }
-                    },
-                    onSeeAllClickListener: (id, name) {
-                      navigateToSeeAllBestProductAndService(
-                          categoryId: id,
-                          name,
-                          ItemType.Products,
-                          providerId: widget.sellerId);
-                    },
-                    itemWidth: 163,
-                    title: sellerProducts.data?.data?.categories?[index].name ??
-                        "",
-                    rootId: sellerProducts.data?.data?.categories?[index].id
-                        ?.toInt(),
-                  ),
+                  child:
+                  ProductGridListviewWithCategoryName(
+                      title: sellerProducts.data?.data?.categories?[index].name ??
+                          "",
+                      rootId: sellerProducts.data?.data?.categories?[index].id
+                          ?.toInt(),
+                      list: sellerProducts.state == DataState.LOADING
+                          ? [
+                        ProviderProduct(),
+                        ProviderProduct(),
+                        ProviderProduct(),
+                        ProviderProduct(),
+                      ]
+                          : sellerProducts
+                          .data?.data?.categories?[index].products ??
+                          [],
+                      showLoading: sellerProducts.state == DataState.LOADING,
+                      onAddItemToCart: (id) {
+                    addProductToCart(id);
+                  },
+                      onAddItemToWishList: (id) {
+                    if (client != null) {
+                      productWishlistToggle(id);
+                    } else {
+                      showAuthenticated();
+                    }
+                  }, onItemClick: (itemId, itemName, categoryIds) {
+                    navigateToItemDetails(
+                        ItemType.Products, itemId, itemName, categoryIds);
+                  })
                 );
               },
               childCount: sellerProducts.state == DataState.LOADING
@@ -438,7 +419,7 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
                 return Padding(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 16.0, vertical: 9),
-                  child: HorizontalTopServiceListViewWithTitleSeeAll(
+                  child: ServiceGridListviewWithCategoryName(
                     list: sellerServices.state == DataState.LOADING
                         ? [
                             ServiceShowData(),
@@ -451,7 +432,7 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
                                 .data?.data?.categories?[index].services ??
                             [],
                     showLoading: sellerServices.state == DataState.LOADING,
-                    itemClick: (itemId, itemName, categoryIds) {
+                    onItemClick: (itemId, itemName, categoryIds) {
                       navigateToItemDetails(
                           ItemType.Services, itemId, itemName, categoryIds);
                     },
@@ -459,21 +440,12 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
                       addServiceToCart(id);
                     },
                     onAddItemToWishList: (id) {
-                      if(client != null){
+                      if (client != null) {
                         serviceWishlistToggle(id.toString());
-                      }else{
+                      } else {
                         showAuthenticated();
                       }
                     },
-                    onSeeAllClickListener: (id, name) {
-                      print("$id $name");
-                      navigateToSeeAllBestProductAndService(
-                          categoryId: id,
-                          name,
-                          ItemType.Services,
-                          providerId: widget.sellerId);
-                    },
-                    itemWidth: 163,
                     title: sellerServices.data?.data?.categories?[index].name ??
                         "",
                     rootId: sellerServices.data?.data?.categories?[index].id
@@ -656,14 +628,15 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
     ref.read(filterForServiceStateNotifiers.notifier).resetDataFilter();
   }
 
-  void navigateToItemDetails(
-      ItemType itemType, int itemId, String itemName, List<int> categoriesIds) async {
-    var updateData = await context.push("$R_ProductAndServiceDetails/${itemId.toString()}", extra: {
+  void navigateToItemDetails(ItemType itemType, int itemId, String itemName,
+      List<int> categoriesIds) async {
+    var updateData = await context
+        .push("$R_ProductAndServiceDetails/${itemId.toString()}", extra: {
       "type": itemType,
       "name": itemName,
       "categoryIds": categoriesIds
     }) as UpdateDataModel?;
-    if(updateData != null && updateData.updateNormalData == true){
+    if (updateData != null && updateData.updateNormalData == true) {
       getProducts();
       getServices();
     }
@@ -677,15 +650,16 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
                 topRight: Radius.circular(10), topLeft: Radius.circular(10))),
         context: context,
         builder: (BuildContext context) => AuthenticateBottomSheet(
-          onLoginClicked: () {
-            navigateToLogin();
-          },
-        ));
+              onLoginClicked: () {
+                navigateToLogin();
+              },
+            ));
   }
 
   void navigateToLogin() async {
-    var makeRefresh = await context.push(R_LoginScreen, extra: {"type": TypeOfMode.ViewMode});
-    if(makeRefresh == true){
+    var makeRefresh =
+        await context.push(R_LoginScreen, extra: {"type": TypeOfMode.ViewMode});
+    if (makeRefresh == true) {
       getProducts();
       getServices();
     }
@@ -708,7 +682,6 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
         .read(getSellerDetailsWithReviewsStateNotifier.notifier)
         .getSellerDetails(providerId: widget.sellerId);
   }
-
 }
 
 class _SliverTabsDelegate extends SliverPersistentHeaderDelegate {
@@ -725,8 +698,7 @@ class _SliverTabsDelegate extends SliverPersistentHeaderDelegate {
       child: Padding(
         padding: EdgeInsets.only(
             top: paddingTop,
-          bottom: paddingBottom
-        ), // Adjust the space above the TabBar
+            bottom: paddingBottom), // Adjust the space above the TabBar
         child: _tabBar,
       ),
     );
@@ -734,15 +706,18 @@ class _SliverTabsDelegate extends SliverPersistentHeaderDelegate {
 
   @override
   double get maxExtent =>
-      _tabBar.preferredSize.height + paddingTop + paddingBottom; // Add space above the TabBar
+      _tabBar.preferredSize.height +
+      paddingTop +
+      paddingBottom; // Add space above the TabBar
 
   @override
   double get minExtent =>
-      _tabBar.preferredSize.height + paddingTop + paddingBottom; // Add space above the TabBar
+      _tabBar.preferredSize.height +
+      paddingTop +
+      paddingBottom; // Add space above the TabBar
 
   @override
   bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) {
     return _tabBar != (oldDelegate as _SliverTabsDelegate)._tabBar;
   }
-
 }

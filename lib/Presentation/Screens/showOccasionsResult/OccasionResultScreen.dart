@@ -102,201 +102,199 @@ class _OccasionResultScreenState extends ConsumerState<OccasionResultScreen>
     return WillPopScope(
       onWillPop: _onWillPop,
       child: Scaffold(
-        body: SafeArea(
-          child: SingleChildScrollView(
-            child: SizedBox(
-              height: MediaQuery.of(context).size.height,
-              child: Column(
-                children: [
-                  Container(
-                    height: MediaQuery.of(context).size.height *
-                        headerHeightPresent,
-                    child: Stack(
-                      children: [
-                        Container(
+        body: SingleChildScrollView(
+          child: SizedBox(
+            height: MediaQuery.of(context).size.height,
+            child: Column(
+              children: [
+                Container(
+                  height: MediaQuery.of(context).size.height *
+                      headerHeightPresent,
+                  child: Stack(
+                    children: [
+                      Container(
+                        height: MediaQuery.of(context).size.height *
+                            headerHeightPresent,
+                        width: double.infinity,
+                        child: ImageView(
+                          width: MediaQuery.of(context).size.width,
                           height: MediaQuery.of(context).size.height *
                               headerHeightPresent,
-                          width: double.infinity,
-                          child: ImageView(
-                            width: MediaQuery.of(context).size.width,
-                            height: MediaQuery.of(context).size.height *
-                                headerHeightPresent,
-                            initialImg: widget.image,
-                          ),
+                          initialImg: widget.image,
                         ),
-                        Container(
-                          height: 200,
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            color: Colors.black.withOpacity(0.5),
-                          ),
+                      ),
+                      Container(
+                        height: 200,
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          color: Colors.black.withOpacity(0.5),
                         ),
-                        Column(
-                          children: [
-                            SizedBox(
-                              height: 20,
-                            ),
-                            CustomAppBar(
-                              appBarColor: Colors.transparent,
-                              appContext: context,
-                              title: widget.title,
-                              navigated: true,
-                              isCenter: false,
-                              contentColor: Colors.white,
-                              customCallBack: () {
-                                resetFilterData();
-                                context.pop(false);
-                              },
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            AppSearchBarWithFilter(
-                              controller: controller,
-                              hasFilter: true,
-                              background: Colors.transparent,
-                              shadowColor: Colors.white,
-                              contentColor: Colors.white,
-                              blurRadius: 0,
-                              numberOfFilterItems:
-                                  ref.watch(filterNumberCountStateNotifiers) -
-                                      1,
-                              onFilterClick: () {
-                                openFilterBottomSheet();
-                              },
-                              delay: 1,
-                              onTextChangeListener: (value) {
-                                if (activeTabIndex == 0) {
-                                  currentPageForAllProducts = 1;
-                                  searchForAllProductData = value;
-                                  fetchProducts(currentPageForAllProducts);
-                                } else if (activeTabIndex == 1) {
-                                  currentPageForReadyGiftsProducts = 1;
-                                  searchForReadyGiftsProductData = value;
-                                  fetchReadyGiftsProducts(
-                                      currentPageForReadyGiftsProducts);
-                                } else if (activeTabIndex == 2) {
-                                  currentPageUnreadyForProducts = 1;
-                                  searchForUnreadyProductData = value;
-                                  if (value.isNotEmpty ||
-                                      getNumberOfFilterItems(
-                                              filterForUnreadyProductData) >
-                                          0) {
-                                    fetchUnreadyProducts(
-                                        currentPageUnreadyForProducts);
-                                  }
-                                } else if (activeTabIndex == 3) {
-                                  currentPageForServices = 1;
-                                  searchForServiceData = value;
-                                  if (value.isNotEmpty ||
-                                      getNumberOfFilterItems(
-                                              filterForServicesData) >
-                                          0) {
-                                    fetchServices(currentPageForServices);
-                                  }
+                      ),
+                      Column(
+                        children: [
+                          SizedBox(
+                            height: 20,
+                          ),
+                          CustomAppBar(
+                            appBarColor: Colors.transparent,
+                            appContext: context,
+                            title: widget.title,
+                            navigated: true,
+                            isCenter: false,
+                            contentColor: Colors.white,
+                            customCallBack: () {
+                              resetFilterData();
+                              context.pop(false);
+                            },
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          AppSearchBarWithFilter(
+                            controller: controller,
+                            hasFilter: true,
+                            background: Colors.transparent,
+                            shadowColor: Colors.white,
+                            contentColor: Colors.white,
+                            blurRadius: 0,
+                            numberOfFilterItems:
+                                ref.watch(filterNumberCountStateNotifiers) -
+                                    1,
+                            onFilterClick: () {
+                              openFilterBottomSheet();
+                            },
+                            delay: 1,
+                            onTextChangeListener: (value) {
+                              if (activeTabIndex == 0) {
+                                currentPageForAllProducts = 1;
+                                searchForAllProductData = value;
+                                fetchProducts(currentPageForAllProducts);
+                              } else if (activeTabIndex == 1) {
+                                currentPageForReadyGiftsProducts = 1;
+                                searchForReadyGiftsProductData = value;
+                                fetchReadyGiftsProducts(
+                                    currentPageForReadyGiftsProducts);
+                              } else if (activeTabIndex == 2) {
+                                currentPageUnreadyForProducts = 1;
+                                searchForUnreadyProductData = value;
+                                if (value.isNotEmpty ||
+                                    getNumberOfFilterItems(
+                                            filterForUnreadyProductData) >
+                                        0) {
+                                  fetchUnreadyProducts(
+                                      currentPageUnreadyForProducts);
                                 }
-                              },
+                              } else if (activeTabIndex == 3) {
+                                currentPageForServices = 1;
+                                searchForServiceData = value;
+                                if (value.isNotEmpty ||
+                                    getNumberOfFilterItems(
+                                            filterForServicesData) >
+                                        0) {
+                                  fetchServices(currentPageForServices);
+                                }
+                              }
+                            },
+                          ),
+                        ],
+                      ),
+                      Align(
+                        alignment: Alignment.bottomCenter,
+                        child: TabBar(
+                          isScrollable: true,
+                          indicatorWeight: 5,
+                          labelColor: Colors.transparent,
+                          unselectedLabelColor: Colors.transparent,
+                          indicatorPadding: EdgeInsets.zero,
+                          indicatorColor: AppTheme.appRedColor,
+                          tabs: [
+                            Tab(
+                                child: Text("All",
+                                    style: activeTabIndex == 0
+                                        ? AppTheme
+                                            .styleWithTextBlackColor2AdelleSansExtendedFonts14w400
+                                            .copyWith(color: Colors.white)
+                                        : AppTheme
+                                            .styleWithTextAppGrey7AdelleSansExtendedFonts14w400
+                                            .copyWith(
+                                                color: AppTheme.appGrey19))),
+                            Tab(
+                              child: Text("Ready Gifts",
+                                  style: activeTabIndex == 1
+                                      ? AppTheme
+                                          .styleWithTextBlackColor2AdelleSansExtendedFonts14w400
+                                          .copyWith(color: Colors.white)
+                                      : AppTheme
+                                          .styleWithTextAppGrey7AdelleSansExtendedFonts14w400
+                                          .copyWith(
+                                              color: AppTheme.appGrey19)),
+                            ),
+                            Tab(
+                              child: Text("Unready Gifts",
+                                  style: activeTabIndex == 2
+                                      ? AppTheme
+                                          .styleWithTextBlackColor2AdelleSansExtendedFonts14w400
+                                          .copyWith(color: Colors.white)
+                                      : AppTheme
+                                          .styleWithTextAppGrey7AdelleSansExtendedFonts14w400
+                                          .copyWith(
+                                              color: AppTheme.appGrey19)),
+                            ),
+                            Tab(
+                              child: Text("Service",
+                                  style: activeTabIndex == 3
+                                      ? AppTheme
+                                          .styleWithTextBlackColor2AdelleSansExtendedFonts14w400
+                                          .copyWith(color: Colors.white)
+                                      : AppTheme
+                                          .styleWithTextAppGrey7AdelleSansExtendedFonts14w400
+                                          .copyWith(
+                                              color: AppTheme.appGrey19)),
                             ),
                           ],
+                          controller: tabController,
                         ),
-                        Align(
-                          alignment: Alignment.bottomCenter,
-                          child: TabBar(
-                            isScrollable: true,
-                            indicatorWeight: 5,
-                            labelColor: Colors.transparent,
-                            unselectedLabelColor: Colors.transparent,
-                            indicatorPadding: EdgeInsets.zero,
-                            indicatorColor: AppTheme.appRedColor,
-                            tabs: [
-                              Tab(
-                                  child: Text("All",
-                                      style: activeTabIndex == 0
-                                          ? AppTheme
-                                              .styleWithTextBlackColor2AdelleSansExtendedFonts14w400
-                                              .copyWith(color: Colors.white)
-                                          : AppTheme
-                                              .styleWithTextAppGrey7AdelleSansExtendedFonts14w400
-                                              .copyWith(
-                                                  color: AppTheme.appGrey19))),
-                              Tab(
-                                child: Text("Ready Gifts",
-                                    style: activeTabIndex == 1
-                                        ? AppTheme
-                                            .styleWithTextBlackColor2AdelleSansExtendedFonts14w400
-                                            .copyWith(color: Colors.white)
-                                        : AppTheme
-                                            .styleWithTextAppGrey7AdelleSansExtendedFonts14w400
-                                            .copyWith(
-                                                color: AppTheme.appGrey19)),
-                              ),
-                              Tab(
-                                child: Text("Unready Gifts",
-                                    style: activeTabIndex == 2
-                                        ? AppTheme
-                                            .styleWithTextBlackColor2AdelleSansExtendedFonts14w400
-                                            .copyWith(color: Colors.white)
-                                        : AppTheme
-                                            .styleWithTextAppGrey7AdelleSansExtendedFonts14w400
-                                            .copyWith(
-                                                color: AppTheme.appGrey19)),
-                              ),
-                              Tab(
-                                child: Text("Service",
-                                    style: activeTabIndex == 3
-                                        ? AppTheme
-                                            .styleWithTextBlackColor2AdelleSansExtendedFonts14w400
-                                            .copyWith(color: Colors.white)
-                                        : AppTheme
-                                            .styleWithTextAppGrey7AdelleSansExtendedFonts14w400
-                                            .copyWith(
-                                                color: AppTheme.appGrey19)),
-                              ),
-                            ],
-                            controller: tabController,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Expanded(
-                      child: TabBarView(
-                    controller: tabController,
-                    children: [
-                      ProductOccasionSearchScreen(
-                          type: CategoryType.Search,
-                          productType: ProductOccasionType.All,
-                          showData: controller.text.isNotEmpty,
-                          controller: controller,
-                          id: null,
-                          showAuthenticated: showAuthenticated,
-                          navigateToItemDetails: navigateToItemDetails),
-                      ProductOccasionSearchScreen(
-                          type: CategoryType.Search,
-                          productType: ProductOccasionType.Ready,
-                          showData: controller.text.isNotEmpty,
-                          controller: controller,
-                          id: null,
-                          showAuthenticated: showAuthenticated,
-                          navigateToItemDetails: navigateToItemDetails),
-                      ProductOccasionSearchScreen(
-                          type: CategoryType.Search,
-                          productType: ProductOccasionType.UnReady,
-                          showData: controller.text.isNotEmpty,
-                          controller: controller,
-                          id: null,
-                          showAuthenticated: showAuthenticated,
-                          navigateToItemDetails: navigateToItemDetails),
-                      ServiceOccasionScreen(
-                          type: CategoryType.Search,
-                          controller: controller,
-                          id: null,
-                          showAuthenticated: showAuthenticated,
-                          navigateToItemDetails: navigateToItemDetails),
+                      ),
                     ],
-                  ))
-                ],
-              ),
+                  ),
+                ),
+                Expanded(
+                    child: TabBarView(
+                  controller: tabController,
+                  children: [
+                    ProductOccasionSearchScreen(
+                        type: CategoryType.Search,
+                        productType: ProductOccasionType.All,
+                        showData: controller.text.isNotEmpty,
+                        controller: controller,
+                        id: null,
+                        showAuthenticated: showAuthenticated,
+                        navigateToItemDetails: navigateToItemDetails),
+                    ProductOccasionSearchScreen(
+                        type: CategoryType.Search,
+                        productType: ProductOccasionType.Ready,
+                        showData: controller.text.isNotEmpty,
+                        controller: controller,
+                        id: null,
+                        showAuthenticated: showAuthenticated,
+                        navigateToItemDetails: navigateToItemDetails),
+                    ProductOccasionSearchScreen(
+                        type: CategoryType.Search,
+                        productType: ProductOccasionType.UnReady,
+                        showData: controller.text.isNotEmpty,
+                        controller: controller,
+                        id: null,
+                        showAuthenticated: showAuthenticated,
+                        navigateToItemDetails: navigateToItemDetails),
+                    ServiceOccasionScreen(
+                        type: CategoryType.Search,
+                        controller: controller,
+                        id: null,
+                        showAuthenticated: showAuthenticated,
+                        navigateToItemDetails: navigateToItemDetails),
+                  ],
+                ))
+              ],
             ),
           ),
         ),

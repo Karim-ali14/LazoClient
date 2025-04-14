@@ -214,576 +214,643 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
     return WillPopScope(
       onWillPop: _onWillPop,
       child: Scaffold(
-        body: SafeArea(
-          child:
-          Stack(
-            children: [
-              CustomScrollView(
-                slivers: [
-                  SliverAppBar(
-                    automaticallyImplyLeading: false, // Add this line
-                    expandedHeight: MediaQuery.of(context).size.height * .45,
-                    titleSpacing: 0,
-                    pinned: true,
-                    elevation: 0,
-                    title: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: defaultPaddingHorizontal),
-                      child: Row(
-                        children: [
-                          InkWell(
-                              onTap: () {
-                                context.pop();
-                              },
-                              child: SVGIcons.localSVG(backWithBackgroundIcon,
-                                  width: 32, height: 32)),
-                          Spacer(),
-                          InkWell(
-                              onTap: () {
-                                if (client != null) {
-                                  widget.itemType == ItemType.Products
-                                      ? productWishlistToggle(productItemState
-                                      .data?.data?.id
-                                      ?.toInt() ??
-                                      0)
-                                      : serviceWishlistToggle(serviceItemState
-                                      .data?.data?.id
-                                      ?.toString() ??
-                                      "");
-                                } else {
-                                  showAuthenticated();
-                                }
-                              },
-                              child: widget.itemType == ItemType.Products
-                                  ? productItemState.data?.data?.inWishlist ==
-                                  true
-                                  ? SVGIcons.activeFavoriteIcon()
-                                  : SVGIcons.localSVG(
-                                  unFavoriteWithBackgroundIcon,
-                                  width: 32,
-                                  height: 32)
-                                  : serviceItemState.data?.data?.inWishlist ==
-                                  true
-                                  ? SVGIcons.activeFavoriteIcon()
-                                  : SVGIcons.localSVG(
-                                  unFavoriteWithBackgroundIcon,
-                                  width: 32,
-                                  height: 32)),
-                          SizedBox(
-                            width: 8,
-                          ),
-                          SVGIcons.localSVG(shareWithBackgroundIcon,
-                              width: 32, height: 32)
-                        ],
-                      ),
-                    ),
-                    flexibleSpace: FlexibleSpaceBar(
-                      background: Stack(
-                        children: [
-                          BannerCardItems(
-                            list: widget.itemType == ItemType.Products
-                                ? (productItemState.data?.data?.images?.map(
-                                    (item) => item.imagePath ?? "") ??
-                                [])
-                                .toList()
-                                : (serviceItemState.data?.data?.images?.map(
-                                    (item) => item.imagePath ?? "") ??
-                                [])
-                                .toList(),
-                            height: MediaQuery.of(context).size.height * 0.5,
-                            radius: 0,
-                            width: MediaQuery.of(context).size.width,
-                            showLoading: false,
-                            showIndicator: false,
-                          ),
-                          Align(
-                            alignment: AlignmentDirectional.bottomEnd,
-                            child:  Row(
-                              children: [
-                                Spacer(),
-                                Container(
-                                  margin: EdgeInsets.all(10),
-                                  padding: EdgeInsets.symmetric(horizontal: 15,vertical: 5),
-                                  decoration: BoxDecoration(
-                                      color: AppTheme.appPink2,
-                                      borderRadius:
-                                      BorderRadius.all(Radius.circular(50))),
-                                  child: Row(
-                                    children: [
-                                      Text(widget.itemType == ItemType.Products
-                                          ? (productItemState
-                                          .data?.data?.overallRating ??
-                                          0)
-                                          .toString()
-                                          : (serviceItemState
-                                          .data?.data?.overallRating ??
-                                          0)
-                                          .toString(),
-                                        style: AppTheme.styleWithTextBlackColor2ColorAdelleSansExtendedFonts13w400,),
-                                      SizedBox(width: 3),
-                                      SVGIcons.smallStarIcon(),
-                                      SizedBox(width: 3),
-                                      Text("(${widget.itemType == ItemType.Products ? (productItemState.data?.data?.ratingsCount ?? 0).toString() : (serviceItemState.data?.data?.ratingsCount ?? 0).toString()})",
-                                          style: AppTheme.styleWithTextBlackColor2ColorAdelleSansExtendedFonts13w400.copyWith(decoration: TextDecoration.underline))
-                                    ],
-                                  ),
-                                )
-                              ],
-                            ),
-                          )
-                        ],
-                      ),
+        body: Stack(
+          children: [
+            CustomScrollView(
+              slivers: [
+                SliverAppBar(
+                  automaticallyImplyLeading: false, // Add this line
+                  expandedHeight: MediaQuery.of(context).size.height * .45,
+                  titleSpacing: 0,
+                  pinned: true,
+                  elevation: 0,
+                  title: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: defaultPaddingHorizontal),
+                    child: Row(
+                      children: [
+                        InkWell(
+                            onTap: () {
+                              context.pop();
+                            },
+                            child: SVGIcons.localSVG(backWithBackgroundIcon,
+                                width: 32, height: 32)),
+                        Spacer(),
+                        InkWell(
+                            onTap: () {
+                              if (client != null) {
+                                widget.itemType == ItemType.Products
+                                    ? productWishlistToggle(productItemState
+                                    .data?.data?.id
+                                    ?.toInt() ??
+                                    0)
+                                    : serviceWishlistToggle(serviceItemState
+                                    .data?.data?.id
+                                    ?.toString() ??
+                                    "");
+                              } else {
+                                showAuthenticated();
+                              }
+                            },
+                            child: widget.itemType == ItemType.Products
+                                ? productItemState.data?.data?.inWishlist ==
+                                true
+                                ? SVGIcons.activeFavoriteIcon()
+                                : SVGIcons.localSVG(
+                                unFavoriteWithBackgroundIcon,
+                                width: 32,
+                                height: 32)
+                                : serviceItemState.data?.data?.inWishlist ==
+                                true
+                                ? SVGIcons.activeFavoriteIcon()
+                                : SVGIcons.localSVG(
+                                unFavoriteWithBackgroundIcon,
+                                width: 32,
+                                height: 32)),
+                        SizedBox(
+                          width: 8,
+                        ),
+                        SVGIcons.localSVG(shareWithBackgroundIcon,
+                            width: 32, height: 32)
+                      ],
                     ),
                   ),
-                  SliverToBoxAdapter(
-                    child: IntrinsicHeight(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: defaultPaddingHorizontal),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            SizedBox(
-                              height: 24,
-                            ),
-                            Row(
-                              children: [
-                                TruncatedText(
-                                    text:
-                                    "${widget.itemType == ItemType.Products ? productItemState.data?.data?.name : serviceItemState.data?.data?.name} ",
+                  flexibleSpace: FlexibleSpaceBar(
+                    background: Stack(
+                      children: [
+                        BannerCardItems(
+                          list: widget.itemType == ItemType.Products
+                              ? (productItemState.data?.data?.images?.map(
+                                  (item) => item.imagePath ?? "") ??
+                              [])
+                              .toList()
+                              : (serviceItemState.data?.data?.images?.map(
+                                  (item) => item.imagePath ?? "") ??
+                              [])
+                              .toList(),
+                          height: MediaQuery.of(context).size.height * 0.5,
+                          radius: 0,
+                          width: MediaQuery.of(context).size.width,
+                          showLoading: false,
+                          showIndicator: false,
+                        ),
+                        Align(
+                          alignment: AlignmentDirectional.bottomEnd,
+                          child:  Row(
+                            children: [
+                              Spacer(),
+                              Container(
+                                margin: EdgeInsets.all(10),
+                                padding: EdgeInsets.symmetric(horizontal: 15,vertical: 5),
+                                decoration: BoxDecoration(
+                                    color: AppTheme.appPink2,
+                                    borderRadius:
+                                    BorderRadius.all(Radius.circular(50))),
+                                child: Row(
+                                  children: [
+                                    Text(widget.itemType == ItemType.Products
+                                        ? (productItemState
+                                        .data?.data?.overallRating ??
+                                        0)
+                                        .toString()
+                                        : (serviceItemState
+                                        .data?.data?.overallRating ??
+                                        0)
+                                        .toString(),
+                                      style: AppTheme.styleWithTextBlackColor2ColorAdelleSansExtendedFonts13w400,),
+                                    SizedBox(width: 3),
+                                    SVGIcons.smallStarIcon(),
+                                    SizedBox(width: 3),
+                                    Text("(${widget.itemType == ItemType.Products ? (productItemState.data?.data?.ratingsCount ?? 0).toString() : (serviceItemState.data?.data?.ratingsCount ?? 0).toString()})",
+                                        style: AppTheme.styleWithTextBlackColor2ColorAdelleSansExtendedFonts13w400.copyWith(decoration: TextDecoration.underline))
+                                  ],
+                                ),
+                              )
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+                SliverToBoxAdapter(
+                  child: IntrinsicHeight(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: defaultPaddingHorizontal),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(
+                            height: 24,
+                          ),
+                          Row(
+                            children: [
+                              TruncatedText(
+                                  text:
+                                  "${widget.itemType == ItemType.Products ? productItemState.data?.data?.name : serviceItemState.data?.data?.name} ",
+                                  style: AppTheme
+                                      .styleWithTextBlackColor2AdelleSansExtendedFonts20w500,
+                                  maxLength: 30),
+                              Spacer(),
+                              widget.itemType == ItemType.Products
+                                  ? Container(
+                                decoration: BoxDecoration(
+                                  color: AppTheme.appPink,
+                                  borderRadius: BorderRadius.circular(7),
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 10, vertical: 4),
+                                  child: Text(
+                                    "${productItemState.data?.data?.amount ?? 0} In Stock",
                                     style: AppTheme
-                                        .styleWithTextBlackColor2AdelleSansExtendedFonts20w500,
-                                    maxLength: 30),
-                                Spacer(),
-                                widget.itemType == ItemType.Products
-                                    ? Container(
-                                  decoration: BoxDecoration(
-                                    color: AppTheme.appPink,
-                                    borderRadius: BorderRadius.circular(7),
+                                        .styleWithTextBlackColor2ColorAdelleSansExtendedFonts13w400,
                                   ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 10, vertical: 4),
-                                    child: Text(
-                                      "${productItemState.data?.data?.amount ?? 0} In Stock",
-                                      style: AppTheme
-                                          .styleWithTextBlackColor2ColorAdelleSansExtendedFonts13w400,
-                                    ),
-                                  ),
-                                )
-                                    : SizedBox(),
-                              ],
+                                ),
+                              )
+                                  : SizedBox(),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Text(
+                            "By ${productItemState.data?.data?.provider?.name ?? ""}",
+                            style: AppTheme
+                                .styleWithTextAppGrey18ColorAdelleSansExtendedFonts16w400,
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Text(
+                                "SAR ${widget.itemType == ItemType.Products ? productItemState.data?.data?.priceAfterDiscount ?? "" : serviceItemState.data?.data?.priceAfterDiscount ?? ""}",
+                                style: AppTheme
+                                    .styleWithTextAppRedColorAdelleSansExtendedFonts16w400,
+                              ),
+                              SizedBox(
+                                width: 8,
+                              ),
+                              widget.itemType == ItemType.Products
+                                  ? productItemState
+                                  .data?.data?.priceAfterDiscount !=
+                                  productItemState.data?.data?.price
+                                  ? Text(
+                                "SAR ${productItemState.data?.data?.price ?? ""}",
+                                style: AppTheme
+                                    .styleWithTextAppGrey18ColorAdelleSansExtendedFonts16w400
+                                    .copyWith(
+                                    decoration: TextDecoration
+                                        .lineThrough),
+                              )
+                                  : SizedBox()
+                                  : serviceItemState
+                                  .data?.data?.priceAfterDiscount !=
+                                  serviceItemState.data?.data?.price
+                                  ? Text(
+                                "SAR ${serviceItemState.data?.data?.price ?? ""}",
+                                style: AppTheme
+                                    .styleWithTextAppGrey7AdelleSansExtendedFonts14w400
+                                    .copyWith(
+                                    decoration: TextDecoration
+                                        .lineThrough),
+                              )
+                                  : SizedBox(),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 16,
+                          ),
+                          SizedBox(
+                            width: double.infinity,
+                            child: Divider(
+                              height: 1,
+                              color: AppTheme.appGrey20,
                             ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Text(
-                              "By ${productItemState.data?.data?.provider?.name ?? ""}",
-                              style: AppTheme
-                                  .styleWithTextAppGrey18ColorAdelleSansExtendedFonts16w400,
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
+                          ),
+                          SizedBox(
+                            height: 16,
+                          ),
+                          Text(
+                            "Description",
+                            style: AppTheme
+                                .styleWithTextBlackColor2AdelleSansExtendedFonts16w400,
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          ExpandedText(
+                            textValue:
+                            "${widget.itemType == ItemType.Products ? productItemState.data?.data?.description : serviceItemState.data?.data?.description} ",
+                            textStyle: AppTheme
+                                .styleWithTextAppGrey18AdelleSansExtendedFonts14w400
+                                .copyWith(height: 1.5),
+                            maxLength: 200,
+                          ),
+                          SizedBox(
+                            height: 24,
+                          ),
+                          if (widget.itemType == ItemType.Products)
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  "SAR ${widget.itemType == ItemType.Products ? productItemState.data?.data?.priceAfterDiscount ?? "" : serviceItemState.data?.data?.priceAfterDiscount ?? ""}",
+                                  "About Product",
                                   style: AppTheme
-                                      .styleWithTextAppRedColorAdelleSansExtendedFonts16w400,
+                                      .styleWithTextBlackColor2AdelleSansExtendedFonts16w400,
                                 ),
-                                SizedBox(
-                                  width: 8,
+                                ItemDetailsRow(
+                                  title: "Type:",
+                                  textValue: "${widget.productDetails?.type}",
+                                  valueTextStyle: AppTheme
+                                      .styleWithTextAppGrey21AdelleSansExtendedFonts14w400
+                                      .copyWith(
+                                      decoration: TextDecoration.underline),
+                                  extraWidget: SVGIcons.localSVG(giftIconIcon,
+                                      width: 18, height: 18),
+                                  onValueClick: () {},
                                 ),
-                                widget.itemType == ItemType.Products
-                                    ? productItemState
-                                    .data?.data?.priceAfterDiscount !=
-                                    productItemState.data?.data?.price
-                                    ? Text(
-                                  "SAR ${productItemState.data?.data?.price ?? ""}",
-                                  style: AppTheme
-                                      .styleWithTextAppGrey18ColorAdelleSansExtendedFonts16w400
-                                      .copyWith(
-                                      decoration: TextDecoration
-                                          .lineThrough),
-                                )
-                                    : SizedBox()
-                                    : serviceItemState
-                                    .data?.data?.priceAfterDiscount !=
-                                    serviceItemState.data?.data?.price
-                                    ? Text(
-                                  "SAR ${serviceItemState.data?.data?.price ?? ""}",
-                                  style: AppTheme
-                                      .styleWithTextAppGrey7AdelleSansExtendedFonts14w400
-                                      .copyWith(
-                                      decoration: TextDecoration
-                                          .lineThrough),
-                                )
-                                    : SizedBox(),
+                                ItemDetailsRow(
+                                  title: "Color:",
+                                  textValue: productItemState
+                                      .data?.data?.colors.first.name,
+                                ),
+                                ItemDetailsRow(
+                                  title: "Product Size:",
+                                  textValue:
+                                  "${productItemState.data?.data?.sizes.first.name}",
+                                ),
+                                // ProductRowItem(
+                                //   title: "Categories",
+                                //   textValue:
+                                //       "${productItemState.data?.data?.categories.map((item) => item.nameEn).join(" - ")}"
+                                //           .ellipsize(28),
+                                //   hasDivider: true,
+                                // ),
+                                // ProductRowItem(
+                                //   title: "Occasions",
+                                //   textValue:
+                                //       "${productItemState.data?.data?.occasions.map((item) => item.nameEn).join(" - ")}"
+                                //           .ellipsize(28),
+                                //   hasDivider: true,
+                                // ),
+                                ItemDetailsRow(
+                                  title: "Time for processing:",
+                                  textValue:
+                                  "${productItemState.data?.data?.expectedProcessingTime}"
+                                      .ellipsize(28),
+                                ),
                               ],
-                            ),
-                            SizedBox(
-                              height: 16,
-                            ),
-                            SizedBox(
-                              width: double.infinity,
-                              child: Divider(
-                                height: 1,
-                                color: AppTheme.appGrey20,
-                              ),
-                            ),
-                            SizedBox(
-                              height: 16,
-                            ),
-                            Text(
-                              "Description",
-                              style: AppTheme
-                                  .styleWithTextBlackColor2AdelleSansExtendedFonts16w400,
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            ExpandedText(
-                              textValue:
-                              "${widget.itemType == ItemType.Products ? productItemState.data?.data?.description : serviceItemState.data?.data?.description} ",
-                              textStyle: AppTheme
-                                  .styleWithTextAppGrey18AdelleSansExtendedFonts14w400
-                                  .copyWith(height: 1.5),
-                              maxLength: 200,
-                            ),
-                            SizedBox(
-                              height: 24,
-                            ),
-                            if (widget.itemType == ItemType.Products)
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "About Product",
-                                    style: AppTheme
-                                        .styleWithTextBlackColor2AdelleSansExtendedFonts16w400,
+                            )
+                          else if (widget.itemType == ItemType.Services)
+                            StatefulBuilder(
+                              builder: (context, setState) {
+        
+                                // Your item list
+                                final List<Widget> itemDetails = [
+                                  ItemDetailsRow(
+                                    title: "Service Duration",
+                                    textValue: serviceItemState
+                                        .data?.data?.duration
+                                        ?.ellipsize(28),
                                   ),
                                   ItemDetailsRow(
-                                    title: "Type:",
-                                    textValue: "${widget.productDetails?.type}",
-                                    valueTextStyle: AppTheme
-                                        .styleWithTextAppGrey21AdelleSansExtendedFonts14w400
-                                        .copyWith(
-                                        decoration: TextDecoration.underline),
-                                    extraWidget: SVGIcons.localSVG(giftIconIcon,
-                                        width: 18, height: 18),
-                                    onValueClick: () {},
-                                  ),
-                                  ItemDetailsRow(
-                                    title: "Color:",
-                                    textValue: productItemState
-                                        .data?.data?.colors.first.name,
-                                  ),
-                                  ItemDetailsRow(
-                                    title: "Product Size:",
+                                    title: "Card Type",
                                     textValue:
-                                    "${productItemState.data?.data?.sizes.first.name}",
+                                    "${serviceItemState.data?.data?.cardType}",
                                   ),
-                                  // ProductRowItem(
-                                  //   title: "Categories",
-                                  //   textValue:
-                                  //       "${productItemState.data?.data?.categories.map((item) => item.nameEn).join(" - ")}"
-                                  //           .ellipsize(28),
-                                  //   hasDivider: true,
-                                  // ),
-                                  // ProductRowItem(
-                                  //   title: "Occasions",
-                                  //   textValue:
-                                  //       "${productItemState.data?.data?.occasions.map((item) => item.nameEn).join(" - ")}"
-                                  //           .ellipsize(28),
-                                  //   hasDivider: true,
-                                  // ),
+                                  if (serviceItemState.data?.data?.cardPrice !=
+                                      null)
+                                    ItemDetailsRow(
+                                      title: "Price for hard card",
+                                      textValue:
+                                      "SAR ${serviceItemState.data?.data?.cardPrice}",
+                                    ),
                                   ItemDetailsRow(
-                                    title: "Time for processing:",
+                                    title: "Card Duration",
                                     textValue:
-                                    "${productItemState.data?.data?.expectedProcessingTime}"
+                                    "${serviceItemState.data?.data?.cardExpiration}"
                                         .ellipsize(28),
                                   ),
-                                ],
-                              )
-                            else if (widget.itemType == ItemType.Services)
-                              StatefulBuilder(
-                                builder: (context, setState) {
-
-                                  // Your item list
-                                  final List<Widget> itemDetails = [
-                                    ItemDetailsRow(
-                                      title: "Service Duration",
-                                      textValue: serviceItemState
-                                          .data?.data?.duration
-                                          ?.ellipsize(28),
+                                  ItemDetailsRow(
+                                    title: "Out of the store",
+                                    textValue: (serviceItemState.data?.data
+                                        ?.isServiceDeliverableOutsideStore ==
+                                        1
+                                        ? "Yes"
+                                        : "No"),
+                                  ),
+                                  ItemDetailsRow(
+                                    title: "Categories :",
+                                    textValue:
+                                    "${serviceItemState.data?.data?.categories.map((item) => item.nameEn).join(" - ")}"
+                                        .ellipsize(28),
+                                  ),
+                                ];
+        
+                                return Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "About Service",
+                                      style: AppTheme
+                                          .styleWithTextBlackAdelleSansExtendedFonts16w500,
                                     ),
-                                    ItemDetailsRow(
-                                      title: "Card Type",
-                                      textValue:
-                                      "${serviceItemState.data?.data?.cardType}",
-                                    ),
-                                    if (serviceItemState.data?.data?.cardPrice !=
-                                        null)
-                                      ItemDetailsRow(
-                                        title: "Price for hard card",
-                                        textValue:
-                                        "SAR ${serviceItemState.data?.data?.cardPrice}",
-                                      ),
-                                    ItemDetailsRow(
-                                      title: "Card Duration",
-                                      textValue:
-                                      "${serviceItemState.data?.data?.cardExpiration}"
-                                          .ellipsize(28),
-                                    ),
-                                    ItemDetailsRow(
-                                      title: "Out of the store",
-                                      textValue: (serviceItemState.data?.data
-                                          ?.isServiceDeliverableOutsideStore ==
-                                          1
-                                          ? "Yes"
-                                          : "No"),
-                                    ),
-                                    ItemDetailsRow(
-                                      title: "Categories :",
-                                      textValue:
-                                      "${serviceItemState.data?.data?.categories.map((item) => item.nameEn).join(" - ")}"
-                                          .ellipsize(28),
-                                    ),
-                                  ];
-
-                                  return Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        "About Service",
-                                        style: AppTheme
-                                            .styleWithTextBlackAdelleSansExtendedFonts16w500,
-                                      ),
-                                      ...(!showAll
-                                          ? itemDetails.take(3)
-                                          : itemDetails),
-                                      Row(
-                                        crossAxisAlignment: CrossAxisAlignment.center,
-                                        // mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
-                                          InkWell(
-                                            onTap: () {
-                                              setState(() {
-                                                showAll = !showAll;
-                                              });
-                                            },
-                                            child: Padding(
-                                              padding:
-                                              const EdgeInsets.only(top: 8.0),
-                                              child: Text(
-                                                showAll ? "Show Less" : "Show More",
-                                                style: AppTheme.styleWithTextMainAppColorAdelleSansExtendedFonts12w400,
-                                              ),
+                                    ...(!showAll
+                                        ? itemDetails.take(3)
+                                        : itemDetails),
+                                    Row(
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      // mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        InkWell(
+                                          onTap: () {
+                                            setState(() {
+                                              showAll = !showAll;
+                                            });
+                                          },
+                                          child: Padding(
+                                            padding:
+                                            const EdgeInsets.only(top: 8.0),
+                                            child: Text(
+                                              showAll ? "Show Less" : "Show More",
+                                              style: AppTheme.styleWithTextMainAppColorAdelleSansExtendedFonts12w400,
                                             ),
                                           ),
-                                          SizedBox(width: 3,),
-                                          Column(
-                                            children: [
-                                              SizedBox(height: 6,),
-                                              SVGIcons.localSVG(
-                                                  !showAll ? showMoreIcon : showLessIcon,width: 5,height: 5
-                                              ),
-                                            ],
-                                          )
-                                        ],
-                                      ),
-                                    ],
-                                  );
-                                },
-                              ),
-                            SizedBox(
-                              height: 24,
-                            ),
-                            BrandDetails(
-                              provider: widget.itemType == ItemType.Products
-                                  ? productItemState.data?.data?.provider
-                                  : serviceItemState.data?.data?.provider,
-                              onProviderClick: () {},
-                              onReviewClick: () {
-                                navigateToShowAllReviews(
-                                    widget.id, widget.itemType);
+                                        ),
+                                        SizedBox(width: 3,),
+                                        Column(
+                                          children: [
+                                            SizedBox(height: 6,),
+                                            SVGIcons.localSVG(
+                                                !showAll ? showMoreIcon : showLessIcon,width: 5,height: 5
+                                            ),
+                                          ],
+                                        )
+                                      ],
+                                    ),
+                                  ],
+                                );
                               },
                             ),
-                            SizedBox(
-                              height: 16,
+                          SizedBox(
+                            height: 24,
+                          ),
+                          BrandDetails(
+                            provider: widget.itemType == ItemType.Products
+                                ? productItemState.data?.data?.provider
+                                : serviceItemState.data?.data?.provider,
+                            onProviderClick: () {},
+                            onReviewClick: () {
+                              navigateToShowAllReviews(
+                                  widget.id, widget.itemType);
+                            },
+                          ),
+                          SizedBox(
+                            height: 16,
+                          ),
+                          SizedBox(
+                            width: double.infinity,
+                            child: Divider(
+                              height: 1,
+                              color: AppTheme.appGrey20,
                             ),
-                            SizedBox(
-                              width: double.infinity,
-                              child: Divider(
-                                height: 1,
-                                color: AppTheme.appGrey20,
-                              ),
-                            ),
-                            if (widget.itemType == ItemType.Products)
-                              ...(List.generate(
-                                  productItemState.data?.data?.lists?.length ?? 0,
-                                      (index) => Column(
-                                    crossAxisAlignment:
-                                    CrossAxisAlignment.start,
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      SizedBox(
-                                        height: 16,
-                                      ),
-                                      Row(
-                                        crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            "${productItemState.data?.data!.lists?[index].name}",
-                                            style: AppTheme
-                                                .styleWithTextBlackColor2AdelleSansExtendedFonts16w400,
+                          ),
+                          if (widget.itemType == ItemType.Products)
+                            ...(List.generate(
+                                productItemState.data?.data?.lists?.length ?? 0,
+                                    (index) => Column(
+                                  crossAxisAlignment:
+                                  CrossAxisAlignment.start,
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    SizedBox(
+                                      height: 16,
+                                    ),
+                                    Row(
+                                      crossAxisAlignment:
+                                      CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          "${productItemState.data?.data!.lists?[index].name}",
+                                          style: AppTheme
+                                              .styleWithTextBlackColor2AdelleSansExtendedFonts16w400,
+                                        ),
+                                        Spacer(),
+                                        Container(
+                                          decoration: BoxDecoration(
+                                            color: AppTheme.appPink,
+                                            borderRadius:
+                                            BorderRadius.circular(7),
                                           ),
-                                          Spacer(),
-                                          Container(
-                                            decoration: BoxDecoration(
-                                              color: AppTheme.appPink,
-                                              borderRadius:
-                                              BorderRadius.circular(7),
+                                          child: Padding(
+                                            padding:
+                                            const EdgeInsets.symmetric(
+                                                horizontal: 10,
+                                                vertical: 4),
+                                            child: Text(
+                                              "Optinal",
+                                              style: AppTheme
+                                                  .styleWithTextBlackColor2ColorAdelleSansExtendedFonts13w400,
                                             ),
-                                            child: Padding(
-                                              padding:
-                                              const EdgeInsets.symmetric(
-                                                  horizontal: 10,
-                                                  vertical: 4),
-                                              child: Text(
-                                                "Optinal",
-                                                style: AppTheme
-                                                    .styleWithTextBlackColor2ColorAdelleSansExtendedFonts13w400,
-                                              ),
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                      Text(
-                                        productItemState
-                                            .data
-                                            ?.data
-                                            ?.lists?[index]
-                                            .isMultiSelectable ==
-                                            0
-                                            ? "(Choose 1)"
-                                            : "(Choose items from the list)",
-                                        style: AppTheme
-                                            .styleWithTextGray7AdelleSansExtendedFonts12w400,
-                                      ),
-                                      const SizedBox(
-                                        height: 1,
-                                      ),
-                                      IntrinsicHeight(
-                                        child: productItemState
-                                            .data
-                                            ?.data
-                                            ?.lists?[index]
-                                            .isMultiSelectable ==
-                                            0
-                                            ? ProductSingleSelectItemsModify(
-                                          list: productItemState
-                                              .data
-                                              ?.data
-                                              ?.lists?[index]
-                                              .items
-                                              .map((item) =>
-                                              ItemSelector(
-                                                  item.id?.toInt() ??
-                                                      0,
-                                                  item.name ??
-                                                      "",
-                                                  Text(
-                                                    "(+SAR ${item.price})",
-                                                    style: AppTheme
-                                                        .styleWithTextAppGrey18AdelleSansExtendedFonts14w400,
-                                                  )))
-                                              .toList() ??
-                                              [],
-                                          onItemSelect: (item, id) {
-                                            var categoryId =
-                                                productItemState
-                                                    .data
-                                                    ?.data
-                                                    ?.lists?[index]
-                                                    .id
-                                                    ?.toInt() ??
-                                                    0;
-                                            if (item != null) {
-                                              productSelectedItemsIds[
-                                              categoryId] = ["$id"];
-                                            } else {
-                                              if (productSelectedItemsIds
-                                                  .containsKey(
-                                                  categoryId)) {
-                                                productSelectedItemsIds
-                                                    .remove(categoryId);
-                                              }
-                                              // productSelectedItemsIds[
-                                              //     categoryId] = [];
-                                            }
-                                          },
-                                          itemSelectedId: productItemState
-                                              .data
-                                              ?.data
-                                              ?.lists?[index]
-                                              .clientSelectedItemsInCart
-                                              ?.isNotEmpty ==
-                                              true
-                                              ? productItemState
-                                              .data
-                                              ?.data
-                                              ?.lists![index]
-                                              .clientSelectedItemsInCart
-                                              ?.first
-                                              .id
-                                              ?.toInt()
-                                              : null,
+                                          ),
                                         )
-                                            : ProductMultipleSelectItemsModify(
-                                          list: productItemState
-                                              .data
-                                              ?.data
-                                              ?.lists?[index]
-                                              .items
+                                      ],
+                                    ),
+                                    Text(
+                                      productItemState
+                                          .data
+                                          ?.data
+                                          ?.lists?[index]
+                                          .isMultiSelectable ==
+                                          0
+                                          ? "(Choose 1)"
+                                          : "(Choose items from the list)",
+                                      style: AppTheme
+                                          .styleWithTextGray7AdelleSansExtendedFonts12w400,
+                                    ),
+                                    const SizedBox(
+                                      height: 1,
+                                    ),
+                                    IntrinsicHeight(
+                                      child: productItemState
+                                          .data
+                                          ?.data
+                                          ?.lists?[index]
+                                          .isMultiSelectable ==
+                                          0
+                                          ? ProductSingleSelectItemsModify(
+                                        list: productItemState
+                                            .data
+                                            ?.data
+                                            ?.lists?[index]
+                                            .items
+                                            .map((item) =>
+                                            ItemSelector(
+                                                item.id?.toInt() ??
+                                                    0,
+                                                item.name ??
+                                                    "",
+                                                Text(
+                                                  "(+SAR ${item.price})",
+                                                  style: AppTheme
+                                                      .styleWithTextAppGrey18AdelleSansExtendedFonts14w400,
+                                                )))
+                                            .toList() ??
+                                            [],
+                                        onItemSelect: (item, id) {
+                                          var categoryId =
+                                              productItemState
+                                                  .data
+                                                  ?.data
+                                                  ?.lists?[index]
+                                                  .id
+                                                  ?.toInt() ??
+                                                  0;
+                                          if (item != null) {
+                                            productSelectedItemsIds[
+                                            categoryId] = ["$id"];
+                                          } else {
+                                            if (productSelectedItemsIds
+                                                .containsKey(
+                                                categoryId)) {
+                                              productSelectedItemsIds
+                                                  .remove(categoryId);
+                                            }
+                                            // productSelectedItemsIds[
+                                            //     categoryId] = [];
+                                          }
+                                        },
+                                        itemSelectedId: productItemState
+                                            .data
+                                            ?.data
+                                            ?.lists?[index]
+                                            .clientSelectedItemsInCart
+                                            ?.isNotEmpty ==
+                                            true
+                                            ? productItemState
+                                            .data
+                                            ?.data
+                                            ?.lists![index]
+                                            .clientSelectedItemsInCart
+                                            ?.first
+                                            .id
+                                            ?.toInt()
+                                            : null,
+                                      )
+                                          : ProductMultipleSelectItemsModify(
+                                        list: productItemState
+                                            .data
+                                            ?.data
+                                            ?.lists?[index]
+                                            .items
+                                            .map((item) =>
+                                            ItemSelector(
+                                                item.id?.toInt() ??
+                                                    0,
+                                                item.name ??
+                                                    "",
+                                                Text(
+                                                  "(+SAR ${item.price})",
+                                                  style: AppTheme
+                                                      .styleWithTextAppGrey18AdelleSansExtendedFonts14w400,
+                                                )))
+                                            .toList() ??
+                                            [],
+                                        onItemSelect: (items) {
+                                          var categoryId =
+                                              productItemState
+                                                  .data
+                                                  ?.data
+                                                  ?.lists?[index]
+                                                  .id
+                                                  ?.toInt() ??
+                                                  0;
+                                          if (items.isEmpty) {
+                                            if (productSelectedItemsIds
+                                                .containsKey(
+                                                categoryId)) {
+                                              productSelectedItemsIds
+                                                  .remove(categoryId);
+                                            }
+                                          } else {
+                                            productSelectedItemsIds[
+                                            categoryId] = items;
+                                          }
+                                        },
+                                        itemSelect: productItemState
+                                            .data
+                                            ?.data
+                                            ?.lists?[index]
+                                            .clientSelectedItemsInCart
+                                            ?.map((toElement) =>
+                                            toElement.id
+                                                .toString())
+                                            .toList() ??
+                                            [],
+                                      ),
+                                    ),
+                                  ],
+                                )))
+                          else
+                            ...(List.generate(
+                                serviceItemState.data?.data?.lists?.length ?? 0,
+                                    (index) => Column(
+                                  crossAxisAlignment:
+                                  CrossAxisAlignment.start,
+                                  children: [
+                                    SizedBox(
+                                      height: 32,
+                                    ),
+                                    Text(
+                                      "${serviceItemState.data?.data?.lists?[index].name}",
+                                      style: AppTheme
+                                          .styleWithTextBlackAdelleSansExtendedFonts18w700,
+                                    ),
+                                    SizedBox(
+                                      height: 24,
+                                    ),
+                                    IntrinsicHeight(
+                                      child: Container(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 12.0, vertical: 6),
+                                        clipBehavior: Clip.antiAlias,
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                          BorderRadius.circular(4),
+                                          border: Border.all(
+                                              color: AppTheme.appGrey8),
+                                          color: Colors.white,
+                                        ),
+                                        child: ProductMultipleSelectItems(
+                                          list: serviceItemState.data?.data
+                                              ?.lists?[index].items
                                               .map((item) =>
                                               ItemSelector(
                                                   item.id?.toInt() ??
                                                       0,
-                                                  item.name ??
-                                                      "",
+                                                  item.name ?? "",
                                                   Text(
-                                                    "(+SAR ${item.price})",
+                                                    "SAR ${item.price}",
                                                     style: AppTheme
-                                                        .styleWithTextAppGrey18AdelleSansExtendedFonts14w400,
+                                                        .styleWithTextAppGrey7AdelleSansExtendedFonts14w400,
                                                   )))
                                               .toList() ??
                                               [],
                                           onItemSelect: (items) {
                                             var categoryId =
-                                                productItemState
-                                                    .data
-                                                    ?.data
-                                                    ?.lists?[index]
-                                                    .id
+                                                serviceItemState.data?.data
+                                                    ?.lists?[index].id
                                                     ?.toInt() ??
                                                     0;
-                                            if (items.isEmpty) {
-                                              if (productSelectedItemsIds
-                                                  .containsKey(
-                                                  categoryId)) {
-                                                productSelectedItemsIds
-                                                    .remove(categoryId);
-                                              }
-                                            } else {
-                                              productSelectedItemsIds[
-                                              categoryId] = items;
-                                            }
+        
+                                            serviceSelectedItemsIds[
+                                            categoryId] = items;
                                           },
-                                          itemSelect: productItemState
+                                          itemSelect: serviceItemState
                                               .data
                                               ?.data
                                               ?.lists?[index]
@@ -795,320 +862,250 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
                                               [],
                                         ),
                                       ),
-                                    ],
-                                  )))
-                            else
-                              ...(List.generate(
-                                  serviceItemState.data?.data?.lists?.length ?? 0,
-                                      (index) => Column(
-                                    crossAxisAlignment:
-                                    CrossAxisAlignment.start,
-                                    children: [
-                                      SizedBox(
-                                        height: 32,
+                                    )
+                                  ],
+                                ))),
+                          SizedBox(
+                            height: 16,
+                          ),
+                          SizedBox(
+                            width: double.infinity,
+                            child: Divider(
+                              height: 1,
+                              color: AppTheme.appGrey20,
+                            ),
+                          ),
+                          SizedBox(
+                            height: 16,
+                          ),
+                          relatedProductData
+                              .data?.data?.products?.data.length !=
+                              0 ||
+                              relatedServiceData
+                                  .data?.data?.products?.data.length !=
+                                  0
+                              ? Text(
+                            "You may also like",
+                            style: AppTheme
+                                .styleWithTextBlackAdelleSansExtendedFonts18w700,
+                          )
+                              : SizedBox(),
+                          SizedBox(
+                            height: 16,
+                          ),
+                          if (widget.itemType == ItemType.Products)
+                            SizedBox(
+                              height: 280,
+                              child: ListView.separated(
+                                  scrollDirection: Axis.horizontal,
+                                  itemBuilder: (context, index) {
+                                    return Skeletonizer(
+                                      enabled: relatedProductData.state ==
+                                          DataState.LOADING,
+                                      child:
+                                      ServiceAndProductItemCardHorizontal(
+                                        width: 163,
+                                        height: 165,
+                                        product: relatedProductData
+                                            .data?.data?.products?.data[index],
+                                        type: ItemType.Products,
+                                        onAddItemToCart: (id) {
+                                          addProductToCart(id);
+                                        },
+                                        onAddItemToWishList: (id) {
+                                          if (client != null) {
+                                            productWishlistToggle(id);
+                                          } else {
+                                            showAuthenticated();
+                                          }
+                                        },
+                                        onItemClick:
+                                            (id, itemName, categoryIds) {
+                                          navigateToItemDetails(
+                                              ItemType.Products,
+                                              id,
+                                              itemName,
+                                              categoryIds);
+                                        },
                                       ),
-                                      Text(
-                                        "${serviceItemState.data?.data?.lists?[index].name}",
-                                        style: AppTheme
-                                            .styleWithTextBlackAdelleSansExtendedFonts18w700,
+                                    );
+                                  },
+                                  separatorBuilder: (context, index) =>
+                                  const SizedBox(
+                                    width: 12,
+                                  ),
+                                  itemCount: relatedProductData.state ==
+                                      DataState.LOADING
+                                      ? 5
+                                      : relatedProductData.data?.data?.products
+                                      ?.data.length ??
+                                      0),
+                            ),
+                          if (widget.itemType == ItemType.Services)
+                            SizedBox(
+                              height: 280,
+                              child: ListView.separated(
+                                  scrollDirection: Axis.horizontal,
+                                  itemBuilder: (context, index) {
+                                    return Skeletonizer(
+                                      enabled: relatedServiceData.state ==
+                                          DataState.LOADING,
+                                      child:
+                                      ServiceAndProductItemCardHorizontal(
+                                        width: 163,
+                                        height: 165,
+                                        service: relatedServiceData
+                                            .data?.data?.services?.data[index],
+                                        type: ItemType.Services,
+                                        onAddItemToCart: (id) {
+                                          addServiceToCart(id);
+                                        },
+                                        onAddItemToWishList: (id) {
+                                          if (client != null) {
+                                            serviceWishlistToggle(
+                                                id.toString());
+                                          } else {
+                                            showAuthenticated();
+                                          }
+                                        },
+                                        onItemClick:
+                                            (id, itemName, categoryIds) {
+                                          navigateToItemDetails(
+                                              ItemType.Services,
+                                              id,
+                                              itemName,
+                                              categoryIds);
+                                        },
                                       ),
-                                      SizedBox(
-                                        height: 24,
-                                      ),
-                                      IntrinsicHeight(
-                                        child: Container(
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 12.0, vertical: 6),
-                                          clipBehavior: Clip.antiAlias,
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                            BorderRadius.circular(4),
-                                            border: Border.all(
-                                                color: AppTheme.appGrey8),
-                                            color: Colors.white,
-                                          ),
-                                          child: ProductMultipleSelectItems(
-                                            list: serviceItemState.data?.data
-                                                ?.lists?[index].items
-                                                .map((item) =>
-                                                ItemSelector(
-                                                    item.id?.toInt() ??
-                                                        0,
-                                                    item.name ?? "",
-                                                    Text(
-                                                      "SAR ${item.price}",
-                                                      style: AppTheme
-                                                          .styleWithTextAppGrey7AdelleSansExtendedFonts14w400,
-                                                    )))
-                                                .toList() ??
-                                                [],
-                                            onItemSelect: (items) {
-                                              var categoryId =
-                                                  serviceItemState.data?.data
-                                                      ?.lists?[index].id
-                                                      ?.toInt() ??
-                                                      0;
-
-                                              serviceSelectedItemsIds[
-                                              categoryId] = items;
-                                            },
-                                            itemSelect: serviceItemState
-                                                .data
-                                                ?.data
-                                                ?.lists?[index]
-                                                .clientSelectedItemsInCart
-                                                ?.map((toElement) =>
-                                                toElement.id
-                                                    .toString())
-                                                .toList() ??
-                                                [],
-                                          ),
-                                        ),
-                                      )
-                                    ],
-                                  ))),
-                            SizedBox(
-                              height: 16,
+                                    );
+                                  },
+                                  separatorBuilder: (context, index) =>
+                                  const SizedBox(
+                                    width: 12,
+                                  ),
+                                  itemCount: relatedServiceData.state ==
+                                      DataState.LOADING
+                                      ? 5
+                                      : relatedServiceData.data?.data?.services
+                                      ?.data.length ??
+                                      0),
                             ),
-                            SizedBox(
-                              width: double.infinity,
-                              child: Divider(
-                                height: 1,
-                                color: AppTheme.appGrey20,
-                              ),
-                            ),
-                            SizedBox(
-                              height: 16,
-                            ),
-                            relatedProductData
-                                .data?.data?.products?.data.length !=
-                                0 ||
-                                relatedServiceData
-                                    .data?.data?.products?.data.length !=
-                                    0
-                                ? Text(
-                              "You may also like",
-                              style: AppTheme
-                                  .styleWithTextBlackAdelleSansExtendedFonts18w700,
-                            )
-                                : SizedBox(),
-                            SizedBox(
-                              height: 16,
-                            ),
-                            if (widget.itemType == ItemType.Products)
-                              SizedBox(
-                                height: 280,
-                                child: ListView.separated(
-                                    scrollDirection: Axis.horizontal,
-                                    itemBuilder: (context, index) {
-                                      return Skeletonizer(
-                                        enabled: relatedProductData.state ==
-                                            DataState.LOADING,
-                                        child:
-                                        ServiceAndProductItemCardHorizontal(
-                                          width: 163,
-                                          height: 165,
-                                          product: relatedProductData
-                                              .data?.data?.products?.data[index],
-                                          type: ItemType.Products,
-                                          onAddItemToCart: (id) {
-                                            addProductToCart(id);
-                                          },
-                                          onAddItemToWishList: (id) {
-                                            if (client != null) {
-                                              productWishlistToggle(id);
-                                            } else {
-                                              showAuthenticated();
-                                            }
-                                          },
-                                          onItemClick:
-                                              (id, itemName, categoryIds) {
-                                            navigateToItemDetails(
-                                                ItemType.Products,
-                                                id,
-                                                itemName,
-                                                categoryIds);
-                                          },
-                                        ),
-                                      );
-                                    },
-                                    separatorBuilder: (context, index) =>
-                                    const SizedBox(
-                                      width: 12,
-                                    ),
-                                    itemCount: relatedProductData.state ==
-                                        DataState.LOADING
-                                        ? 5
-                                        : relatedProductData.data?.data?.products
-                                        ?.data.length ??
-                                        0),
-                              ),
-                            if (widget.itemType == ItemType.Services)
-                              SizedBox(
-                                height: 280,
-                                child: ListView.separated(
-                                    scrollDirection: Axis.horizontal,
-                                    itemBuilder: (context, index) {
-                                      return Skeletonizer(
-                                        enabled: relatedServiceData.state ==
-                                            DataState.LOADING,
-                                        child:
-                                        ServiceAndProductItemCardHorizontal(
-                                          width: 163,
-                                          height: 165,
-                                          service: relatedServiceData
-                                              .data?.data?.services?.data[index],
-                                          type: ItemType.Services,
-                                          onAddItemToCart: (id) {
-                                            addServiceToCart(id);
-                                          },
-                                          onAddItemToWishList: (id) {
-                                            if (client != null) {
-                                              serviceWishlistToggle(
-                                                  id.toString());
-                                            } else {
-                                              showAuthenticated();
-                                            }
-                                          },
-                                          onItemClick:
-                                              (id, itemName, categoryIds) {
-                                            navigateToItemDetails(
-                                                ItemType.Services,
-                                                id,
-                                                itemName,
-                                                categoryIds);
-                                          },
-                                        ),
-                                      );
-                                    },
-                                    separatorBuilder: (context, index) =>
-                                    const SizedBox(
-                                      width: 12,
-                                    ),
-                                    itemCount: relatedServiceData.state ==
-                                        DataState.LOADING
-                                        ? 5
-                                        : relatedServiceData.data?.data?.services
-                                        ?.data.length ??
-                                        0),
-                              ),
-
-                            SizedBox(
-                              height: 35,
-                            )
-                          ],
-                        ),
+        
+                          SizedBox(
+                            height: 35,
+                          )
+                        ],
                       ),
                     ),
                   ),
-                ],
-              ),
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.1), // Shadow color
-                        offset: Offset(0, -1),                 // Negative Y for top shadow
-                        blurRadius: 6,                         // How soft the shadow is
-                        spreadRadius: 0,                       // Optional: how much it spreads
-                      ),
-                    ],
-                  ),
-                  padding: const EdgeInsets.symmetric(horizontal: 16,vertical: 16),
-                  child:  Row(
-                    children: [
-                      SizedBox(
-                        height: 46,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              "SAR ${widget.itemType == ItemType.Products ? productItemState.data?.data?.priceAfterDiscount ?? "" : serviceItemState.data?.data?.priceAfterDiscount ?? ""}",
-                              style: AppTheme
-                                  .styleWithTextBlackAdelleSansExtendedFonts18w500,
-                            ),
-                            Text("Vat. included",style: AppTheme.styleWithTextGray7AdelleSansExtendedFonts12w400,)
-                          ],
-                        ),
-                      ),
-                      SizedBox(width: 26,),
-                      Expanded(
-                        child: AppButton(
-                          onPress: () {
-                            print("${productItemState.data?.data!.inCart}");
-                            if (widget.itemType == ItemType.Products) {
-                              if (widget.productDetails != null ||
-                                  (productItemState.data?.data!.inCart == true
-                                      && productItemState.data?.data!.cartItemId != null)) {
-                                print("cartId : ${productItemState.data?.data!.cartItemId}");
-
-                                editProductToCart(int.parse(
-                                    productItemState.data?.data!.cartItemId.toString() ?? "0"));
-                              }
-                              else if (productItemState.data?.data?.id != null &&
-                                  productItemState.data?.data?.amount != 0 &&
-                                  productItemState.data?.data!.inCart == false) {
-                                addProductToCart(int.parse(
-                                    productItemState.data?.data?.id!.toString() ?? ""));
-                              }
-                            }
-                            else {
-                              if (serviceItemState.data?.data?.cardType ==
-                                  ServiceTypes.soft_card.name &&
-                                  serviceItemState.data?.data?.id != null) {
-                                calculateSoftService(
-                                    serviceItemState.data?.data?.priceAfterDiscount ??
-                                        0);
-                                makeCheckoutForSoftService(
-                                    int.parse(
-                                        serviceItemState.data?.data?.id!.toString() ??
-                                            ""),
-                                    serviceItemState.data?.data);
-                              }
-                              else if (serviceItemState.data?.data!.inCart == true
-                                  && serviceItemState.data?.data!.cartItemId != null) {
-                                print("cartId : ${serviceItemState.data?.data!.cartItemId}");
-
-                                editServiceCart(int.parse(
-                                    serviceItemState.data?.data?.cartItemId.toString() ?? "0"));
-                              }
-                              else if (serviceItemState.data?.data?.id != null &&
-                                  serviceItemState.data?.data!.inCart != true) {
-                                addServiceToCart(int.parse(
-                                    serviceItemState.data?.data?.id!.toString() ?? ""));
-                              }
-                            }
-                          },
-                          text: widget.itemType == ItemType.Products
-                              ? widget.productDetails != null
-                          // || productItemState.data?.data!.inCart == true
-                              ? "Edit Product"
-                              : productItemState.data?.data!.inCart == true
-                              ? "Added"
-                              : productItemState.data?.data?.amount == 0
-                              ? "Out of stock"
-                              : "Add to cart"
-                              : widget.serviceShowData != null
-                              ? "Edit Service"
-                              : serviceItemState.data?.data?.cardType ==
-                              ServiceTypes.soft_card.name
-                              ? "Checkout"
-                              : serviceItemState.data?.data!.inCart == true
-                              ? "Added"
-                              : "Add to cart",
-                          height: 48,
-                          backColor: AppTheme.mainAppColorDark,
-                        ),
-                      ),
-                    ],
-                  ),
                 ),
-              )
-            ],
-          ),
+              ],
+            ),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.1), // Shadow color
+                      offset: Offset(0, -1),                 // Negative Y for top shadow
+                      blurRadius: 6,                         // How soft the shadow is
+                      spreadRadius: 0,                       // Optional: how much it spreads
+                    ),
+                  ],
+                ),
+                padding: const EdgeInsets.symmetric(horizontal: 16,vertical: 16),
+                child:  Row(
+                  children: [
+                    SizedBox(
+                      height: 46,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "SAR ${widget.itemType == ItemType.Products ? productItemState.data?.data?.priceAfterDiscount ?? "" : serviceItemState.data?.data?.priceAfterDiscount ?? ""}",
+                            style: AppTheme
+                                .styleWithTextBlackAdelleSansExtendedFonts18w500,
+                          ),
+                          Text("Vat. included",style: AppTheme.styleWithTextGray7AdelleSansExtendedFonts12w400,)
+                        ],
+                      ),
+                    ),
+                    SizedBox(width: 26,),
+                    Expanded(
+                      child: AppButton(
+                        onPress: () {
+                          print("${productItemState.data?.data!.inCart}");
+                          if (widget.itemType == ItemType.Products) {
+                            if (widget.productDetails != null ||
+                                (productItemState.data?.data!.inCart == true
+                                    && productItemState.data?.data!.cartItemId != null)) {
+                              print("cartId : ${productItemState.data?.data!.cartItemId}");
+        
+                              editProductToCart(int.parse(
+                                  productItemState.data?.data!.cartItemId.toString() ?? "0"));
+                            }
+                            else if (productItemState.data?.data?.id != null &&
+                                productItemState.data?.data?.amount != 0 &&
+                                productItemState.data?.data!.inCart == false) {
+                              addProductToCart(int.parse(
+                                  productItemState.data?.data?.id!.toString() ?? ""));
+                            }
+                          }
+                          else {
+                            if (serviceItemState.data?.data?.cardType ==
+                                ServiceTypes.soft_card.name &&
+                                serviceItemState.data?.data?.id != null) {
+                              calculateSoftService(
+                                  serviceItemState.data?.data?.priceAfterDiscount ??
+                                      0);
+                              makeCheckoutForSoftService(
+                                  int.parse(
+                                      serviceItemState.data?.data?.id!.toString() ??
+                                          ""),
+                                  serviceItemState.data?.data);
+                            }
+                            else if (serviceItemState.data?.data!.inCart == true
+                                && serviceItemState.data?.data!.cartItemId != null) {
+                              print("cartId : ${serviceItemState.data?.data!.cartItemId}");
+        
+                              editServiceCart(int.parse(
+                                  serviceItemState.data?.data?.cartItemId.toString() ?? "0"));
+                            }
+                            else if (serviceItemState.data?.data?.id != null &&
+                                serviceItemState.data?.data!.inCart != true) {
+                              addServiceToCart(int.parse(
+                                  serviceItemState.data?.data?.id!.toString() ?? ""));
+                            }
+                          }
+                        },
+                        text: widget.itemType == ItemType.Products
+                            ? widget.productDetails != null
+                        // || productItemState.data?.data!.inCart == true
+                            ? "Edit Product"
+                            : productItemState.data?.data!.inCart == true
+                            ? "Added"
+                            : productItemState.data?.data?.amount == 0
+                            ? "Out of stock"
+                            : "Add to cart"
+                            : widget.serviceShowData != null
+                            ? "Edit Service"
+                            : serviceItemState.data?.data?.cardType ==
+                            ServiceTypes.soft_card.name
+                            ? "Checkout"
+                            : serviceItemState.data?.data!.inCart == true
+                            ? "Added"
+                            : "Add to cart",
+                        height: 48,
+                        backColor: AppTheme.mainAppColorDark,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            )
+          ],
         ),
       ),
     );
