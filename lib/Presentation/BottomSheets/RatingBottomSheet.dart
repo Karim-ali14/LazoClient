@@ -1,5 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:lazo_client/Constants/Assets.dart';
+import 'package:lazo_client/Constants/Constants.dart';
 import 'package:lazo_client/Utils/Extintions.dart';
 import '../../Data/Network/lib/api.dart';
 import '../../Localization/Keys.dart';
@@ -19,10 +23,42 @@ class RatingBottomSheet extends StatelessWidget {
       child: Column(
         children: [
           Container(
-
+            height: 50,
+            width: double.infinity,
+            child: Stack(
+              children: [
+                Center(
+                  child: Text("Reviews",style: AppTheme.styleWithTextBlackAdelleSansExtendedFonts16w500,),
+                ),
+                InkWell(
+                  onTap: (){
+                    context.pop();
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: defaultPaddingHorizontal),
+                    child: Align(
+                        alignment: AlignmentDirectional.centerEnd,
+                        child: SVGIcons.localSVG(closeIconSvg,width: 32,height: 32)),
+                  ),
+                )
+              ],
+            ),
+            decoration: BoxDecoration(
+              color: CupertinoColors.white,
+              boxShadow: [
+                BoxShadow(
+                  color: AppTheme.appGrey11
+                      .withOpacity(0.6), // Shadow color
+                  blurRadius: .5, // Blur effect
+                  spreadRadius: .1, // Spread effect
+                  offset: const Offset(0, .5), // Shadow position
+                ),
+              ],
+              borderRadius: BorderRadius.only(topRight: Radius.circular(8),topLeft: Radius.circular(8)),
+            ),
           ),
           SizedBox(
-            height: 500,
+            height: 550,
             child: ListView.builder(itemBuilder: (context,index){
               return Container(
                 margin: const EdgeInsetsDirectional.symmetric(vertical: 8),
@@ -39,7 +75,7 @@ class RatingBottomSheet extends StatelessWidget {
                         textValue:
                         "${ratingsList[index].ratingComment ?? 0}",
                         textStyle: AppTheme
-                            .styleWithTextBlackAdelleSansExtendedFonts14w500
+                            .styleWithTextBlackAdelleSansExtendedFonts16w400
                             .copyWith(height: 1.5),
                         maxLength: 70,
                         showLessText: context.tr(readLessKey),
