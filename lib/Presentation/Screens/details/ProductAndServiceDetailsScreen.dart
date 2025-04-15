@@ -26,6 +26,7 @@ import '../../../Constants/Assets.dart';
 import '../../../Constants/Constants.dart';
 import '../../../Constants/Eunms.dart';
 import '../../BottomSheets/AuthenticateBottomSheet.dart';
+import '../../BottomSheets/RatingBottomSheet.dart';
 import '../../StateNotifiersViewModel/UserAuthStateNotifiers.dart';
 import '../../StateNotifiersViewModel/WishListStateNotifiers.dart';
 import '../../Widgets/BannerCardItems.dart';
@@ -36,7 +37,7 @@ import 'componants/BrandDetails.dart';
 import 'componants/ProductRowItem.dart';
 import 'componants/ProductSingleSelectItemsModify.dart';
 
-class ProductDetailsScreen extends ConsumerStatefulWidget {
+class ProductAndServiceDetailsScreen extends ConsumerStatefulWidget {
   final String? id;
   final ItemType? itemType;
   final String? name;
@@ -44,7 +45,7 @@ class ProductDetailsScreen extends ConsumerStatefulWidget {
   final ProductDetails? productDetails;
   final ServiceShowData? serviceShowData;
   final int? cartId;
-  const ProductDetailsScreen(
+  const ProductAndServiceDetailsScreen(
       {this.name,
         this.id,
         this.relatedCategoriesIds,
@@ -55,11 +56,11 @@ class ProductDetailsScreen extends ConsumerStatefulWidget {
         super.key});
 
   @override
-  ConsumerState<ProductDetailsScreen> createState() =>
-      _ProductDetailsScreenState();
+  ConsumerState<ProductAndServiceDetailsScreen> createState() =>
+      _ProductAndServiceDetailsScreenState();
 }
 
-class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
+class _ProductAndServiceDetailsScreenState extends ConsumerState<ProductAndServiceDetailsScreen> {
   var makeRefresh = false;
 
   Future<bool> _onWillPop() async {
@@ -211,6 +212,10 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
               .handelAddServiceToWishlist(res.data?.data?.serviceId ?? 0,
               res.data?.data?.inWishlist ?? false);
         });
+
+    handleState(getProductReviews,onSuccess: (res){
+      // showReviewsBottomSheet(res.data?.data?.ratings);
+    });
     return WillPopScope(
       onWillPop: _onWillPop,
       child: Scaffold(
@@ -605,8 +610,16 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
                                 : serviceItemState.data?.data?.provider,
                             onProviderClick: () {},
                             onReviewClick: () {
-                              navigateToShowAllReviews(
-                                  widget.id, widget.itemType);
+                              if (widget.itemType == ItemType.Products) {
+                                ref
+                                    .read(getProductReviews.notifier)
+                                    .getProductDetails(productId: widget.id);
+                              }
+                              else {
+                                ref
+                                    .read(getServiceReviews.notifier)
+                                    .getServiceDetails(serviceId: widget.id);
+                              }
                             },
                           ),
                           SizedBox(
@@ -1343,5 +1356,16 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
     ref
         .read(calculationForSoftItemStateNotifies.notifier)
         .calculateSoftItemForCheckout(totalPrice: price);
+  }
+
+  void showReviewsBottomSheet(List<ProductDetailsRatingsInner> ratingsList) {
+    // showModalBottomSheet(
+    //     isScrollControlled: true,
+    //     shape: const RoundedRectangleBorder(
+    //         borderRadius: BorderRadius.only(
+    //             topRight: Radius.circular(10), topLeft: Radius.circular(10))),
+    //     context: context,
+    //     builder: (BuildContext context) => RatingBottomSheet(
+    //         providerRatingsList: ratingsList.map((item) => )));
   }
 }

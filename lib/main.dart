@@ -16,7 +16,7 @@ import 'package:lazo_client/Presentation/Screens/More/PrivacyAndPolicyScreen.dar
 import 'package:lazo_client/Presentation/Screens/More/TermsAndConditionsScreen.dart';
 import 'package:lazo_client/Presentation/Screens/PaymentScreen.dart';
 import 'package:lazo_client/Presentation/Screens/cartScreen/CartScreen.dart';
-import 'package:lazo_client/Presentation/Screens/details/ProductDetailsScreen.dart';
+import 'package:lazo_client/Presentation/Screens/details/ProductAndServiceDetailsScreen.dart';
 import 'package:lazo_client/Presentation/Screens/details/SellerDetailsScreen.dart';
 import 'package:lazo_client/Presentation/Screens/home/ShowBestProductAndServiceScreen.dart';
 import 'package:lazo_client/Presentation/Screens/orders/OrdersScreen.dart';
@@ -297,7 +297,7 @@ class MyApp extends ConsumerWidget {
           path: "$R_ProductAndServiceDetails/:id",
           builder: (BuildContext context, GoRouterState status) {
             var extra = status.extra as Map;
-            return ProductDetailsScreen(
+            return ProductAndServiceDetailsScreen(
               name: extra["name"],
               id: status.pathParameters["id"],
               relatedCategoriesIds: extra["categoryIds"] as List<int>,

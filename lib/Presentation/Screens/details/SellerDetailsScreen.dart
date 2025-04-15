@@ -724,19 +724,19 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
   }
 
   void showReviewsBottomSheet() {
-    showModalBottomSheet(
-        isScrollControlled: true,
-        shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.only(
-                topRight: Radius.circular(10), topLeft: Radius.circular(10))),
-        context: context,
-        builder: (BuildContext context) => RatingBottomSheet(
-            ratingsList: ref
-                    .watch(getSellerDetailsWithReviewsStateNotifier)
-                    .data
-                    ?.data
-                    ?.ratings ??
-                []));
+    // showModalBottomSheet(
+    //     isScrollControlled: true,
+    //     shape: const RoundedRectangleBorder(
+    //         borderRadius: BorderRadius.only(
+    //             topRight: Radius.circular(10), topLeft: Radius.circular(10))),
+    //     context: context,
+    //     builder: (BuildContext context) => RatingBottomSheet(
+    //         providerRatingsList: ref
+    //                 .watch(getSellerDetailsWithReviewsStateNotifier)
+    //                 .data
+    //                 ?.data
+    //                 ?.ratings ??
+    //             []));
   }
 
   void navigateToLogin() async {

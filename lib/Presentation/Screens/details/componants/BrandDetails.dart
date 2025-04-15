@@ -63,7 +63,7 @@ class BrandDetails extends StatelessWidget {
             ),
             const SizedBox(width: 5,),
             Text("${provider?.overallRating}",style: AppTheme.styleWithTextAppGrey21AdelleSansExtendedFonts14w400,),
-           SizedBox(width: 5,),
+            SizedBox(width: 5,),
             RatingBar(
               initialRating: (provider?.overallRating ??
                   0).toDouble(),
@@ -81,7 +81,6 @@ class BrandDetails extends StatelessWidget {
               },
               ignoreGestures: true,
             ),
-
             const SizedBox(width: 5,),
             InkWell(
               onTap: (){
