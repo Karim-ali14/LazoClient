@@ -38,9 +38,9 @@ class ShowAllProviderSOrders200ResponseDataLinksInner {
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is ShowAllProviderSOrders200ResponseDataLinksInner &&
-     other.active == active &&
-     other.label == label &&
-     other.url == url;
+    other.active == active &&
+    other.label == label &&
+    other.url == url;
 
   @override
   int get hashCode =>

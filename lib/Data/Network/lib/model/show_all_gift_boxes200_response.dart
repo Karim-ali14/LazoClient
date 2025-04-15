@@ -20,7 +20,7 @@ class ShowAllGiftBoxes200Response {
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is ShowAllGiftBoxes200Response &&
-     other.data == data;
+    _deepEquality.equals(other.data, data);
 
   @override
   int get hashCode =>

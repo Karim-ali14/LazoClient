@@ -459,46 +459,46 @@ class ShowOrderDetails2200ResponseData {
         cancelledAt: mapValueOfType<String>(json, r'cancelled_at'),
         id: json[r'id'] == null
             ? null
-            : num.parse(json[r'id'].toString()),
+            : num.tryParse(json[r'id'].toString()),
         orderFamily: mapValueOfType<String>(json, r'order_family'),
         orderItems: ShowOrderDetails2200ResponseDataOrderItemsInner.listFromJson(json[r'order_items']),
         packagingProviderId: json[r'packaging_provider_id'] == null
             ? null
-            : num.parse(json[r'packaging_provider_id'].toString()),
+            : num.tryParse(json[r'packaging_provider_id'].toString()),
         paymentMethod: mapValueOfType<String>(json, r'payment_method'),
         promocode: ShowAllProviderSOrders200ResponseDataDataInnerPromocode.fromJson(json[r'promocode']),
         promocodeDiscountType: mapValueOfType<String>(json, r'promocode_discount_type'),
         promocodeDiscountValue: json[r'promocode_discount_value'] == null
             ? null
-            : num.parse(json[r'promocode_discount_value'].toString()),
+            : num.tryParse(json[r'promocode_discount_value'].toString()),
         promocodeId: json[r'promocode_id'] == null
             ? null
-            : num.parse(json[r'promocode_id'].toString()),
+            : num.tryParse(json[r'promocode_id'].toString()),
         rating: json[r'rating'] == null
             ? null
-            : num.parse(json[r'rating'].toString()),
+            : num.tryParse(json[r'rating'].toString()),
         ratingComment: mapValueOfType<String>(json, r'rating_comment'),
         receiverAddress: mapValueOfType<String>(json, r'receiver_address'),
         receiverPhoneNumber: mapValueOfType<String>(json, r'receiver_phone_number'),
         referenceNumber: mapValueOfType<String>(json, r'reference_number'),
         shippingFee: json[r'shipping_fee'] == null
             ? null
-            : num.parse(json[r'shipping_fee'].toString()),
+            : num.tryParse(json[r'shipping_fee'].toString()),
         statusId: json[r'status_id'] == null
             ? null
-            : num.parse(json[r'status_id'].toString()),
+            : num.tryParse(json[r'status_id'].toString()),
         total: json[r'total'] == null
             ? null
-            : num.parse(json[r'total'].toString()),
+            : num.tryParse(json[r'total'].toString()),
         totalWithShippingFee: json[r'total_with_shipping_fee'] == null
             ? null
-            : num.parse(json[r'total_with_shipping_fee'].toString()),
+            : num.tryParse(json[r'total_with_shipping_fee'].toString()),
         type: mapValueOfType<String>(json, r'type'),
         updatedAt: mapValueOfType<String>(json, r'updated_at'),
         user: ShowAllProviderSOrders200ResponseDataDataInnerUser.fromJson(json[r'user']),
         userId: json[r'user_id'] == null
             ? null
-            : num.parse(json[r'user_id'].toString()),
+            : num.tryParse(json[r'user_id'].toString()),
       );
     }
     return null;

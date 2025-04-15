@@ -214,7 +214,10 @@ class _ProductAndServiceDetailsScreenState extends ConsumerState<ProductAndServi
         });
 
     handleState(getProductReviews,onSuccess: (res){
-      // showReviewsBottomSheet(res.data?.data?.ratings);
+      showReviewsBottomSheet(res.data?.data?.ratings);
+    });
+    handleState(getServiceReviews,onSuccess: (res){
+      showReviewsBottomSheet(res.data?.data?.ratings);
     });
     return WillPopScope(
       onWillPop: _onWillPop,
@@ -469,7 +472,8 @@ class _ProductAndServiceDetailsScreenState extends ConsumerState<ProductAndServi
                                 ),
                                 ItemDetailsRow(
                                   title: "Type:",
-                                  textValue: "${widget.productDetails?.type}",
+                                  textValue: "${productItemState
+                                      .data?.data?.type}",
                                   valueTextStyle: AppTheme
                                       .styleWithTextAppGrey21AdelleSansExtendedFonts14w400
                                       .copyWith(
@@ -1358,14 +1362,14 @@ class _ProductAndServiceDetailsScreenState extends ConsumerState<ProductAndServi
         .calculateSoftItemForCheckout(totalPrice: price);
   }
 
-  void showReviewsBottomSheet(List<ProductDetailsRatingsInner> ratingsList) {
-    // showModalBottomSheet(
-    //     isScrollControlled: true,
-    //     shape: const RoundedRectangleBorder(
-    //         borderRadius: BorderRadius.only(
-    //             topRight: Radius.circular(10), topLeft: Radius.circular(10))),
-    //     context: context,
-    //     builder: (BuildContext context) => RatingBottomSheet(
-    //         providerRatingsList: ratingsList.map((item) => )));
+  void showReviewsBottomSheet(List<ProductDetailsRatingsInner>? ratingsList) {
+    showModalBottomSheet(
+        isScrollControlled: true,
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+                topRight: Radius.circular(10), topLeft: Radius.circular(10))),
+        context: context,
+        builder: (BuildContext context) => RatingBottomSheet(
+            productRatingsList: ratingsList, type: FilterScreenTypes.Products,));
   }
 }

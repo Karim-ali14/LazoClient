@@ -452,61 +452,61 @@ class ProviderData {
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is ProviderData &&
-     other.id == id &&
-     other.nameEn == nameEn &&
-     other.nameAr == nameAr &&
-     other.bioEn == bioEn &&
-     other.bioAr == bioAr &&
-     other.ownerName == ownerName &&
-     other.email == email &&
-     other.phone == phone &&
-     other.image == image &&
-     other.cityId == cityId &&
-     other.accountType == accountType &&
-     other.deviceType == deviceType &&
-     other.fcmToken == fcmToken &&
-     other.lang == lang &&
-     other.status == status &&
-     other.instagramLink == instagramLink &&
-     other.snapchatLink == snapchatLink &&
-     other.tiktokLink == tiktokLink &&
-     other.xLink == xLink &&
-     other.hasOfflineStores == hasOfflineStores &&
-     other.offlineStoresNumber == offlineStoresNumber &&
-     other.provideDelivery == provideDelivery &&
-     other.overallRating == overallRating &&
-     other.ratingsCount == ratingsCount &&
-     other.isEmailVerified == isEmailVerified &&
-     other.isPhoneVerified == isPhoneVerified &&
-     other.businessType == businessType &&
-     other.commercialRegisterImage == commercialRegisterImage &&
-     other.selfEmploymentDocument == selfEmploymentDocument &&
-     other.startTime == startTime &&
-     other.endTime == endTime &&
-     other.workingDaysIndices == workingDaysIndices &&
-     other.workingHours == workingHours &&
-     other.bankName == bankName &&
-     other.beneficiaryName == beneficiaryName &&
-     other.bankAccountNumber == bankAccountNumber &&
-     other.iban == iban &&
-     other.ibanImage == ibanImage &&
-     other.createdAt == createdAt &&
-     other.updatedAt == updatedAt &&
-     other.name == name &&
-     other.bio == bio &&
-     other.isPromoted == isPromoted &&
-     other.coverImage == coverImage &&
-     other.coverImagePath == coverImagePath &&
-     other.imagePath == imagePath &&
-     other.workingDaysIndicesList == workingDaysIndicesList &&
-     other.workingHoursList == workingHoursList &&
-     other.selfEmploymentDocumentPath == selfEmploymentDocumentPath &&
-     other.commercialRegisterImagePath == commercialRegisterImagePath &&
-     other.city == city &&
-     other.locations == locations &&
-     other.tags == tags &&
-     other.categories == categories &&
-     other.ratings == ratings;
+    other.id == id &&
+    other.nameEn == nameEn &&
+    other.nameAr == nameAr &&
+    other.bioEn == bioEn &&
+    other.bioAr == bioAr &&
+    other.ownerName == ownerName &&
+    other.email == email &&
+    other.phone == phone &&
+    other.image == image &&
+    other.cityId == cityId &&
+    other.accountType == accountType &&
+    other.deviceType == deviceType &&
+    other.fcmToken == fcmToken &&
+    other.lang == lang &&
+    other.status == status &&
+    other.instagramLink == instagramLink &&
+    other.snapchatLink == snapchatLink &&
+    other.tiktokLink == tiktokLink &&
+    other.xLink == xLink &&
+    other.hasOfflineStores == hasOfflineStores &&
+    other.offlineStoresNumber == offlineStoresNumber &&
+    other.provideDelivery == provideDelivery &&
+    other.overallRating == overallRating &&
+    other.ratingsCount == ratingsCount &&
+    other.isEmailVerified == isEmailVerified &&
+    other.isPhoneVerified == isPhoneVerified &&
+    other.businessType == businessType &&
+    other.commercialRegisterImage == commercialRegisterImage &&
+    other.selfEmploymentDocument == selfEmploymentDocument &&
+    other.startTime == startTime &&
+    other.endTime == endTime &&
+    other.workingDaysIndices == workingDaysIndices &&
+    other.workingHours == workingHours &&
+    other.bankName == bankName &&
+    other.beneficiaryName == beneficiaryName &&
+    other.bankAccountNumber == bankAccountNumber &&
+    other.iban == iban &&
+    other.ibanImage == ibanImage &&
+    other.createdAt == createdAt &&
+    other.updatedAt == updatedAt &&
+    other.name == name &&
+    other.bio == bio &&
+    other.isPromoted == isPromoted &&
+    other.coverImage == coverImage &&
+    other.coverImagePath == coverImagePath &&
+    other.imagePath == imagePath &&
+    _deepEquality.equals(other.workingDaysIndicesList, workingDaysIndicesList) &&
+    _deepEquality.equals(other.workingHoursList, workingHoursList) &&
+    other.selfEmploymentDocumentPath == selfEmploymentDocumentPath &&
+    other.commercialRegisterImagePath == commercialRegisterImagePath &&
+    other.city == city &&
+    _deepEquality.equals(other.locations, locations) &&
+    _deepEquality.equals(other.tags, tags) &&
+    _deepEquality.equals(other.categories, categories) &&
+    _deepEquality.equals(other.ratings, ratings);
 
   @override
   int get hashCode =>
@@ -875,9 +875,7 @@ class ProviderData {
         hasOfflineStores: mapValueOfType<int>(json, r'has_offline_stores'),
         offlineStoresNumber: mapValueOfType<int>(json, r'offline_stores_number'),
         provideDelivery: mapValueOfType<String>(json, r'provide_delivery'),
-        overallRating: json[r'overall_rating'] == null
-            ? null
-            : num.parse(json[r'overall_rating'].toString()),
+        overallRating: num.tryParse('${json[r'overall_rating']}'),
         ratingsCount: mapValueOfType<int>(json, r'ratings_count'),
         isEmailVerified: mapValueOfType<bool>(json, r'is_email_verified'),
         isPhoneVerified: mapValueOfType<bool>(json, r'is_phone_verified'),
@@ -897,17 +895,15 @@ class ProviderData {
         updatedAt: mapValueOfType<String>(json, r'updated_at'),
         name: mapValueOfType<String>(json, r'name'),
         bio: mapValueOfType<String>(json, r'bio'),
-        isPromoted: json[r'is_promoted'] == null
-            ? null
-            : num.parse(json[r'is_promoted'].toString()),
+        isPromoted: num.tryParse('${json[r'is_promoted']}'),
         coverImage: mapValueOfType<String>(json, r'cover_image'),
         coverImagePath: mapValueOfType<String>(json, r'coverImagePath'),
         imagePath: mapValueOfType<String>(json, r'imagePath'),
-        workingDaysIndicesList: json[r'working_days_indices_list'] is List
-            ? (json[r'working_days_indices_list'] as List).cast<String>()
+        workingDaysIndicesList: json[r'working_days_indices_list'] is Iterable
+            ? (json[r'working_days_indices_list'] as Iterable).cast<String>().toList(growable: false)
             : const [],
-        workingHoursList: json[r'working_hours_list'] is List
-            ? (json[r'working_hours_list'] as List).cast<String>()
+        workingHoursList: json[r'working_hours_list'] is Iterable
+            ? (json[r'working_hours_list'] as Iterable).cast<String>().toList(growable: false)
             : const [],
         selfEmploymentDocumentPath: mapValueOfType<String>(json, r'self_employment_document_path'),
         commercialRegisterImagePath: mapValueOfType<String>(json, r'commercial_register_image_path'),

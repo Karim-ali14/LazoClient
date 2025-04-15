@@ -71,12 +71,12 @@ class Size {
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is Size &&
-     other.createdAt == createdAt &&
-     other.id == id &&
-     other.name == name &&
-     other.nameAr == nameAr &&
-     other.nameEn == nameEn &&
-     other.updatedAt == updatedAt;
+    other.createdAt == createdAt &&
+    other.id == id &&
+    other.name == name &&
+    other.nameAr == nameAr &&
+    other.nameEn == nameEn &&
+    other.updatedAt == updatedAt;
 
   @override
   int get hashCode =>
@@ -145,14 +145,12 @@ class Size {
       }());
 
       return Size(
-        createdAt: mapDateTime(json, r'created_at', ''),
-        id: json[r'id'] == null
-            ? null
-            : num.parse(json[r'id'].toString()),
+        createdAt: mapDateTime(json, r'created_at', r''),
+        id: num.tryParse('${json[r'id']}'),
         name: mapValueOfType<String>(json, r'name'),
         nameAr: mapValueOfType<String>(json, r'name_ar'),
         nameEn: mapValueOfType<String>(json, r'name_en'),
-        updatedAt: mapDateTime(json, r'updated_at', ''),
+        updatedAt: mapDateTime(json, r'updated_at', r''),
       );
     }
     return null;

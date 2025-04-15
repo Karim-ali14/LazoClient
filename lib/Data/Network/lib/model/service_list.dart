@@ -116,19 +116,19 @@ class ServiceList {
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is ServiceList &&
-     other.createdAt == createdAt &&
-     other.id == id &&
-     other.isMultiSelectable == isMultiSelectable &&
-     other.items == items &&
-     other.maxSelectableItemsNumber == maxSelectableItemsNumber &&
-     other.name == name &&
-     other.nameAr == nameAr &&
-     other.nameEn == nameEn &&
-     other.serviceId == serviceId &&
-     other.totalPrice == totalPrice &&
-     other.updatedAt == updatedAt &&
-     other.clientSelectedItemsInCart == clientSelectedItemsInCart &&
-     other.clientSelectedItemsInOrder == clientSelectedItemsInOrder;
+    other.createdAt == createdAt &&
+    other.id == id &&
+    other.isMultiSelectable == isMultiSelectable &&
+    _deepEquality.equals(other.items, items) &&
+    other.maxSelectableItemsNumber == maxSelectableItemsNumber &&
+    other.name == name &&
+    other.nameAr == nameAr &&
+    other.nameEn == nameEn &&
+    other.serviceId == serviceId &&
+    other.totalPrice == totalPrice &&
+    other.updatedAt == updatedAt &&
+    _deepEquality.equals(other.clientSelectedItemsInCart, clientSelectedItemsInCart) &&
+    _deepEquality.equals(other.clientSelectedItemsInOrder, clientSelectedItemsInOrder);
 
   @override
   int get hashCode =>
@@ -236,25 +236,15 @@ class ServiceList {
 
       return ServiceList(
         createdAt: mapValueOfType<String>(json, r'created_at'),
-        id: json[r'id'] == null
-            ? null
-            : num.parse(json[r'id'].toString()),
-        isMultiSelectable: json[r'is_multi_selectable'] == null
-            ? null
-            : num.parse(json[r'is_multi_selectable'].toString()),
+        id: num.tryParse('${json[r'id']}'),
+        isMultiSelectable: num.tryParse('${json[r'is_multi_selectable']}'),
         items: ServiceListItem.listFromJson(json[r'items']),
-        maxSelectableItemsNumber: json[r'max_selectable_items_number'] == null
-            ? null
-            : num.parse(json[r'max_selectable_items_number'].toString()),
+        maxSelectableItemsNumber: num.tryParse('${json[r'max_selectable_items_number']}'),
         name: mapValueOfType<String>(json, r'name'),
         nameAr: mapValueOfType<String>(json, r'name_ar'),
         nameEn: mapValueOfType<String>(json, r'name_en'),
-        serviceId: json[r'service_id'] == null
-            ? null
-            : num.parse(json[r'service_id'].toString()),
-        totalPrice: json[r'total_price'] == null
-            ? null
-            : num.parse(json[r'total_price'].toString()),
+        serviceId: num.tryParse('${json[r'service_id']}'),
+        totalPrice: num.tryParse('${json[r'total_price']}'),
         updatedAt: mapValueOfType<String>(json, r'updated_at'),
         clientSelectedItemsInCart: ServiceListItem.listFromJson(json[r'client_selected_items_in_cart']),
         clientSelectedItemsInOrder: ServiceListItem.listFromJson(json[r'client_selected_items_in_order']),

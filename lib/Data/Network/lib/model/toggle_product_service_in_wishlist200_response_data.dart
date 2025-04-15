@@ -47,14 +47,14 @@ class ToggleProductServiceInWishlist200ResponseData {
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is ToggleProductServiceInWishlist200ResponseData &&
-     other.id == id &&
-     other.userId == userId &&
-     other.serviceId == serviceId &&
-     other.productId == productId &&
-     other.createdAt == createdAt &&
-     other.updatedAt == updatedAt &&
-     other.inWishlist == inWishlist &&
-     other.categoriesIds == categoriesIds;
+    other.id == id &&
+    other.userId == userId &&
+    other.serviceId == serviceId &&
+    other.productId == productId &&
+    other.createdAt == createdAt &&
+    other.updatedAt == updatedAt &&
+    other.inWishlist == inWishlist &&
+    _deepEquality.equals(other.categoriesIds, categoriesIds);
 
   @override
   int get hashCode =>
@@ -137,21 +137,19 @@ class ToggleProductServiceInWishlist200ResponseData {
       return ToggleProductServiceInWishlist200ResponseData(
         id: json[r'id'] == null
             ? null
-            : num.parse(json[r'id'].toString()),
-        userId: json[r'user_id'] == null
-            ? null
-            : num.parse(json[r'user_id'].toString()),
+            : num.tryParse('${json[r'id']}'),
+        userId: num.tryParse('${json[r'user_id']}'),
         serviceId: json[r'service_id'] == null
             ? null
-            : num.parse(json[r'service_id'].toString()),
+            : num.tryParse('${json[r'service_id']}'),
         productId: json[r'product_id'] == null
             ? null
-            : num.parse(json[r'product_id'].toString()),
+            : num.tryParse('${json[r'product_id']}'),
         createdAt: mapValueOfType<String>(json, r'created_at'),
         updatedAt: mapValueOfType<String>(json, r'updated_at'),
         inWishlist: mapValueOfType<bool>(json, r'in_wishlist'),
-        categoriesIds: json[r'categories_ids'] is List
-            ? (json[r'categories_ids'] as List).cast<String>()
+        categoriesIds: json[r'categories_ids'] is Iterable
+            ? (json[r'categories_ids'] as Iterable).cast<String>().toList(growable: false)
             : const [],
       );
     }

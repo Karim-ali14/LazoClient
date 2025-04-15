@@ -32,6 +32,7 @@ Name | Type | Description | Notes
 **price** | **num** |  | [optional] 
 **priceAfterDiscount** | **num** |  | [optional] 
 **providerId** | **num** |  | [optional] 
+**providerName** | **String** |  | [optional] 
 **updatedAt** | **String** |  | [optional] 
 **inCart** | **bool** |  | [optional] 
 **cartItemId** | **String** |  | [optional] 

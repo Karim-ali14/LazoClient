@@ -17,11 +17,14 @@ class Occasion {
     this.id,
     this.image,
     this.imagePath,
+    this.coverImage,
+    this.coverImagePath,
     this.name,
     this.nameAr,
     this.nameEn,
     this.updatedAt,
     this.isChecked,
+    this.productsCount,
   });
 
   ///
@@ -55,6 +58,10 @@ class Occasion {
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
   String? imagePath;
+
+  String? coverImage;
+
+  String? coverImagePath;
 
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
@@ -96,17 +103,28 @@ class Occasion {
   ///
   bool? isChecked;
 
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  num? productsCount;
+
   @override
   bool operator ==(Object other) => identical(this, other) || other is Occasion &&
-     other.createdAt == createdAt &&
-     other.id == id &&
-     other.image == image &&
-     other.imagePath == imagePath &&
-     other.name == name &&
-     other.nameAr == nameAr &&
-     other.nameEn == nameEn &&
-     other.updatedAt == updatedAt &&
-     other.isChecked == isChecked;
+    other.createdAt == createdAt &&
+    other.id == id &&
+    other.image == image &&
+    other.imagePath == imagePath &&
+    other.coverImage == coverImage &&
+    other.coverImagePath == coverImagePath &&
+    other.name == name &&
+    other.nameAr == nameAr &&
+    other.nameEn == nameEn &&
+    other.updatedAt == updatedAt &&
+    other.isChecked == isChecked &&
+    other.productsCount == productsCount;
 
   @override
   int get hashCode =>
@@ -115,14 +133,17 @@ class Occasion {
     (id == null ? 0 : id!.hashCode) +
     (image == null ? 0 : image!.hashCode) +
     (imagePath == null ? 0 : imagePath!.hashCode) +
+    (coverImage == null ? 0 : coverImage!.hashCode) +
+    (coverImagePath == null ? 0 : coverImagePath!.hashCode) +
     (name == null ? 0 : name!.hashCode) +
     (nameAr == null ? 0 : nameAr!.hashCode) +
     (nameEn == null ? 0 : nameEn!.hashCode) +
     (updatedAt == null ? 0 : updatedAt!.hashCode) +
-    (isChecked == null ? 0 : isChecked!.hashCode);
+    (isChecked == null ? 0 : isChecked!.hashCode) +
+    (productsCount == null ? 0 : productsCount!.hashCode);
 
   @override
-  String toString() => 'Occasion[createdAt=$createdAt, id=$id, image=$image, imagePath=$imagePath, name=$name, nameAr=$nameAr, nameEn=$nameEn, updatedAt=$updatedAt, isChecked=$isChecked]';
+  String toString() => 'Occasion[createdAt=$createdAt, id=$id, image=$image, imagePath=$imagePath, coverImage=$coverImage, coverImagePath=$coverImagePath, name=$name, nameAr=$nameAr, nameEn=$nameEn, updatedAt=$updatedAt, isChecked=$isChecked, productsCount=$productsCount]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -145,6 +166,16 @@ class Occasion {
       json[r'imagePath'] = this.imagePath;
     } else {
       json[r'imagePath'] = null;
+    }
+    if (this.coverImage != null) {
+      json[r'cover_image'] = this.coverImage;
+    } else {
+      json[r'cover_image'] = null;
+    }
+    if (this.coverImagePath != null) {
+      json[r'coverImagePath'] = this.coverImagePath;
+    } else {
+      json[r'coverImagePath'] = null;
     }
     if (this.name != null) {
       json[r'name'] = this.name;
@@ -171,6 +202,11 @@ class Occasion {
     } else {
       json[r'is_checked'] = null;
     }
+    if (this.productsCount != null) {
+      json[r'products_count'] = this.productsCount;
+    } else {
+      json[r'products_count'] = null;
+    }
     return json;
   }
 
@@ -194,16 +230,17 @@ class Occasion {
 
       return Occasion(
         createdAt: mapValueOfType<String>(json, r'created_at'),
-        id: json[r'id'] == null
-            ? null
-            : num.parse(json[r'id'].toString()),
+        id: num.tryParse('${json[r'id']}'),
         image: mapValueOfType<String>(json, r'image'),
         imagePath: mapValueOfType<String>(json, r'imagePath'),
+        coverImage: mapValueOfType<String>(json, r'cover_image'),
+        coverImagePath: mapValueOfType<String>(json, r'coverImagePath'),
         name: mapValueOfType<String>(json, r'name'),
         nameAr: mapValueOfType<String>(json, r'name_ar'),
         nameEn: mapValueOfType<String>(json, r'name_en'),
         updatedAt: mapValueOfType<String>(json, r'updated_at'),
         isChecked: mapValueOfType<bool>(json, r'is_checked'),
+        productsCount: num.tryParse('${json[r'products_count']}'),
       );
     }
     return null;

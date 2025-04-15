@@ -29,6 +29,7 @@ Name | Type | Description | Notes
 **price** | **num** |  | [optional] 
 **priceAfterDiscount** | **num** |  | [optional] 
 **providerId** | **num** |  | [optional] 
+**providerName** | **String** |  | [optional] 
 **sizes** | [**List<Size>**](Size.md) |  | [optional] [default to const []]
 **type** | **String** |  | [optional] 
 **updatedAt** | **String** |  | [optional] 

@@ -53,10 +53,10 @@ class CodeSendResponse {
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is CodeSendResponse &&
-     other.status == status &&
-     other.message == message &&
-     other.isExist == isExist &&
-     other.isVerified == isVerified;
+    other.status == status &&
+    other.message == message &&
+    other.isExist == isExist &&
+    other.isVerified == isVerified;
 
   @override
   int get hashCode =>

@@ -113,7 +113,7 @@ class RatingBottomSheet extends StatelessWidget {
                                 : ImageView(
                                     isCircle: true,
                                     initialImg:
-                                        productRatingsList?[index].userName,
+                                        productRatingsList?[index].imagePath,
                                     width: 32,
                                     height: 32,
                                   ),
@@ -126,15 +126,23 @@ class RatingBottomSheet extends StatelessWidget {
                                   .styleWithTextAppGrey7AdelleSansExtendedFonts14w500,
                             ),
                             Spacer(),
-                            // Text(
-                            //   type == FilterScreenTypes.Sellers ?
-                            //   providerRatingsList?[index]
-                            //           .date
-                            //           ?.convertDateToDdMmmYyyy ??
-                            //       "" : productRatingsList?[index].date.convertDateToDdMmmYyyy,
-                            //   style: AppTheme
-                            //       .styleWithTextGray7AdelleSansExtendedFonts12w400,
-                            // )
+                            type == FilterScreenTypes.Sellers
+                                ? Text(
+                                    providerRatingsList?[index]
+                                            .date
+                                            ?.convertDateToDdMmmYyyy ??
+                                        "",
+                                    style: AppTheme
+                                        .styleWithTextGray7AdelleSansExtendedFonts12w400,
+                                  )
+                                : Text(
+                                    productRatingsList?[index]
+                                            .date
+                                            ?.convertDateToDdMmmYyyy ??
+                                        "",
+                                    style: AppTheme
+                                        .styleWithTextGray7AdelleSansExtendedFonts12w400,
+                                  )
                           ],
                         ),
                         SizedBox(
@@ -144,8 +152,11 @@ class RatingBottomSheet extends StatelessWidget {
                           children: [
                             // SVGIcons.smallStarIcon(),
                             RatingBar(
-                              initialRating: double.parse(
-                                  providerRatingsList?[index].rating ?? "0"),
+                              initialRating: type == FilterScreenTypes.Sellers
+                                  ? double.parse(
+                                      providerRatingsList?[index].rating ?? "0")
+                                  : (productRatingsList?[index].rating ?? 0)
+                                      .toDouble(),
                               direction: Axis.horizontal,
                               allowHalfRating: true,
                               itemCount: 5,
@@ -164,7 +175,9 @@ class RatingBottomSheet extends StatelessWidget {
                               width: 3,
                             ),
                             Text(
-                              "${providerRatingsList?[index].rating ?? 0}",
+                              type == FilterScreenTypes.Sellers
+                                  ? "${providerRatingsList?[index].rating ?? 0}"
+                                  : "${productRatingsList?[index].rating ?? 0}",
                               style: AppTheme
                                   .styleWithTextBlackAdelleSansExtendedFonts14w400,
                             ),
@@ -175,7 +188,9 @@ class RatingBottomSheet extends StatelessWidget {
                   ),
                 );
               },
-              itemCount: providerRatingsList?.length ?? 0,
+              itemCount: type == FilterScreenTypes.Sellers
+                  ? providerRatingsList?.length ?? 0
+                  : productRatingsList?.length ?? 0,
             ),
           ),
         ],

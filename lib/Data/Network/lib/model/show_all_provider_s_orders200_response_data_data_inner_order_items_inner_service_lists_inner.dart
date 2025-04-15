@@ -218,23 +218,23 @@ class ShowAllProviderSOrders200ResponseDataDataInnerOrderItemsInnerServiceListsI
         createdAt: mapValueOfType<String>(json, r'created_at'),
         id: json[r'id'] == null
             ? null
-            : num.parse(json[r'id'].toString()),
+            : num.tryParse(json[r'id'].toString()),
         isMultiSelectable: json[r'is_multi_selectable'] == null
             ? null
-            : num.parse(json[r'is_multi_selectable'].toString()),
+            : num.tryParse(json[r'is_multi_selectable'].toString()),
         items: ShowAllProviderSOrders200ResponseDataDataInnerOrderItemsInnerServiceListsInnerItemsInner.listFromJson(json[r'items']),
         maxSelectableItemsNumber: json[r'max_selectable_items_number'] == null
             ? null
-            : num.parse(json[r'max_selectable_items_number'].toString()),
+            : num.tryParse(json[r'max_selectable_items_number'].toString()),
         name: mapValueOfType<String>(json, r'name'),
         nameAr: mapValueOfType<String>(json, r'name_ar'),
         nameEn: mapValueOfType<String>(json, r'name_en'),
         serviceId: json[r'service_id'] == null
             ? null
-            : num.parse(json[r'service_id'].toString()),
+            : num.tryParse(json[r'service_id'].toString()),
         totalPrice: json[r'total_price'] == null
             ? null
-            : num.parse(json[r'total_price'].toString()),
+            : num.tryParse(json[r'total_price'].toString()),
         updatedAt: mapValueOfType<String>(json, r'updated_at'),
       );
     }

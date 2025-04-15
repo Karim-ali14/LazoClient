@@ -36,12 +36,12 @@ class FilterTopSellersRequest {
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is FilterTopSellersRequest &&
-     other.page == page &&
-     other.searchByName == searchByName &&
-     other.categoriesIds == categoriesIds &&
-     other.isPromoted == isPromoted &&
-     other.occasionsIds == occasionsIds &&
-     other.ratings == ratings;
+    other.page == page &&
+    other.searchByName == searchByName &&
+    _deepEquality.equals(other.categoriesIds, categoriesIds) &&
+    other.isPromoted == isPromoted &&
+    _deepEquality.equals(other.occasionsIds, occasionsIds) &&
+    _deepEquality.equals(other.ratings, ratings);
 
   @override
   int get hashCode =>
@@ -112,19 +112,19 @@ class FilterTopSellersRequest {
       return FilterTopSellersRequest(
         page: json[r'page'] == null
             ? null
-            : num.parse(json[r'page'].toString()),
+            : num.tryParse('${json[r'page']}'),
         searchByName: mapValueOfType<String>(json, r'search_by_name'),
-        categoriesIds: json[r'categories_ids'] is List
-            ? (json[r'categories_ids'] as List).cast<String>()
+        categoriesIds: json[r'categories_ids'] is Iterable
+            ? (json[r'categories_ids'] as Iterable).cast<String>().toList(growable: false)
             : const [],
         isPromoted: json[r'is_promoted'] == null
             ? null
-            : num.parse(json[r'is_promoted'].toString()),
-        occasionsIds: json[r'occasions_ids'] is List
-            ? (json[r'occasions_ids'] as List).cast<String>()
+            : num.tryParse('${json[r'is_promoted']}'),
+        occasionsIds: json[r'occasions_ids'] is Iterable
+            ? (json[r'occasions_ids'] as Iterable).cast<String>().toList(growable: false)
             : const [],
-        ratings: json[r'ratings'] is List
-            ? (json[r'ratings'] as List).cast<String>()
+        ratings: json[r'ratings'] is Iterable
+            ? (json[r'ratings'] as Iterable).cast<String>().toList(growable: false)
             : const [],
       );
     }

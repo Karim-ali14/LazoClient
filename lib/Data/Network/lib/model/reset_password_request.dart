@@ -53,10 +53,10 @@ class ResetPasswordRequest {
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is ResetPasswordRequest &&
-     other.emailOrPhone == emailOrPhone &&
-     other.newPassword == newPassword &&
-     other.confirmNewPassword == confirmNewPassword &&
-     other.accountType == accountType;
+    other.emailOrPhone == emailOrPhone &&
+    other.newPassword == newPassword &&
+    other.confirmNewPassword == confirmNewPassword &&
+    other.accountType == accountType;
 
   @override
   int get hashCode =>

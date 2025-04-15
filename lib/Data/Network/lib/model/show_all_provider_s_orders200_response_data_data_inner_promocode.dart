@@ -183,12 +183,12 @@ class ShowAllProviderSOrders200ResponseDataDataInnerPromocode {
         expirationDate: mapValueOfType<String>(json, r'expiration_date'),
         id: json[r'id'] == null
             ? null
-            : num.parse(json[r'id'].toString()),
+            : num.tryParse(json[r'id'].toString()),
         type: mapValueOfType<String>(json, r'type'),
         updatedAt: mapValueOfType<String>(json, r'updated_at'),
         value: json[r'value'] == null
             ? null
-            : num.parse(json[r'value'].toString()),
+            : num.tryParse(json[r'value'].toString()),
       );
     }
     return null;

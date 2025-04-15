@@ -374,51 +374,51 @@ class ProviderProfileUpdateResponseData {
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is ProviderProfileUpdateResponseData &&
-     other.accountType == accountType &&
-     other.bankAccountNumber == bankAccountNumber &&
-     other.bankName == bankName &&
-     other.beneficiaryName == beneficiaryName &&
-     other.businessType == businessType &&
-     other.city == city &&
-     other.cityId == cityId &&
-     other.commercialRegisterImage == commercialRegisterImage &&
-     other.commercialRegisterImagePath == commercialRegisterImagePath &&
-     other.createdAt == createdAt &&
-     other.deviceType == deviceType &&
-     other.email == email &&
-     other.endTime == endTime &&
-     other.fcmToken == fcmToken &&
-     other.hasOfflineStores == hasOfflineStores &&
-     other.iban == iban &&
-     other.ibanImage == ibanImage &&
-     other.id == id &&
-     other.image == image &&
-     other.imagePath == imagePath &&
-     other.instagramLink == instagramLink &&
-     other.lang == lang &&
-     other.locations == locations &&
-     other.name == name &&
-     other.nameAr == nameAr &&
-     other.nameEn == nameEn &&
-     other.offlineStoresNumber == offlineStoresNumber &&
-     other.ownerName == ownerName &&
-     other.phone == phone &&
-     other.overallRating == overallRating &&
-     other.ratingsCount == ratingsCount &&
-     other.isEmailVerified == isEmailVerified &&
-     other.isPhoneVerified == isPhoneVerified &&
-     other.provideDelivery == provideDelivery &&
-     other.selfEmploymentDocument == selfEmploymentDocument &&
-     other.selfEmploymentDocumentPath == selfEmploymentDocumentPath &&
-     other.snapchatLink == snapchatLink &&
-     other.startTime == startTime &&
-     other.status == status &&
-     other.tags == tags &&
-     other.tiktokLink == tiktokLink &&
-     other.updatedAt == updatedAt &&
-     other.workingDaysIndices == workingDaysIndices &&
-     other.workingDaysIndicesList == workingDaysIndicesList &&
-     other.xLink == xLink;
+    other.accountType == accountType &&
+    other.bankAccountNumber == bankAccountNumber &&
+    other.bankName == bankName &&
+    other.beneficiaryName == beneficiaryName &&
+    other.businessType == businessType &&
+    other.city == city &&
+    other.cityId == cityId &&
+    other.commercialRegisterImage == commercialRegisterImage &&
+    other.commercialRegisterImagePath == commercialRegisterImagePath &&
+    other.createdAt == createdAt &&
+    other.deviceType == deviceType &&
+    other.email == email &&
+    other.endTime == endTime &&
+    other.fcmToken == fcmToken &&
+    other.hasOfflineStores == hasOfflineStores &&
+    other.iban == iban &&
+    other.ibanImage == ibanImage &&
+    other.id == id &&
+    other.image == image &&
+    other.imagePath == imagePath &&
+    other.instagramLink == instagramLink &&
+    other.lang == lang &&
+    _deepEquality.equals(other.locations, locations) &&
+    other.name == name &&
+    other.nameAr == nameAr &&
+    other.nameEn == nameEn &&
+    other.offlineStoresNumber == offlineStoresNumber &&
+    other.ownerName == ownerName &&
+    other.phone == phone &&
+    other.overallRating == overallRating &&
+    other.ratingsCount == ratingsCount &&
+    other.isEmailVerified == isEmailVerified &&
+    other.isPhoneVerified == isPhoneVerified &&
+    other.provideDelivery == provideDelivery &&
+    other.selfEmploymentDocument == selfEmploymentDocument &&
+    other.selfEmploymentDocumentPath == selfEmploymentDocumentPath &&
+    other.snapchatLink == snapchatLink &&
+    other.startTime == startTime &&
+    other.status == status &&
+    _deepEquality.equals(other.tags, tags) &&
+    other.tiktokLink == tiktokLink &&
+    other.updatedAt == updatedAt &&
+    other.workingDaysIndices == workingDaysIndices &&
+    _deepEquality.equals(other.workingDaysIndicesList, workingDaysIndicesList) &&
+    other.xLink == xLink;
 
   @override
   int get hashCode =>
@@ -715,9 +715,7 @@ class ProviderProfileUpdateResponseData {
         beneficiaryName: mapValueOfType<String>(json, r'beneficiary_name'),
         businessType: mapValueOfType<String>(json, r'business_type'),
         city: City.fromJson(json[r'city']),
-        cityId: json[r'city_id'] == null
-            ? null
-            : num.parse(json[r'city_id'].toString()),
+        cityId: num.tryParse('${json[r'city_id']}'),
         commercialRegisterImage: mapValueOfType<Object>(json, r'commercial_register_image'),
         commercialRegisterImagePath: mapValueOfType<Object>(json, r'commercial_register_image_path'),
         createdAt: mapValueOfType<String>(json, r'created_at'),
@@ -725,14 +723,10 @@ class ProviderProfileUpdateResponseData {
         email: mapValueOfType<String>(json, r'email'),
         endTime: mapValueOfType<String>(json, r'end_time'),
         fcmToken: mapValueOfType<Object>(json, r'fcm_token'),
-        hasOfflineStores: json[r'has_offline_stores'] == null
-            ? null
-            : num.parse(json[r'has_offline_stores'].toString()),
+        hasOfflineStores: num.tryParse('${json[r'has_offline_stores']}'),
         iban: mapValueOfType<String>(json, r'iban'),
         ibanImage: mapValueOfType<String>(json, r'iban_image'),
-        id: json[r'id'] == null
-            ? null
-            : num.parse(json[r'id'].toString()),
+        id: num.tryParse('${json[r'id']}'),
         image: mapValueOfType<String>(json, r'image'),
         imagePath: mapValueOfType<String>(json, r'imagePath'),
         instagramLink: mapValueOfType<String>(json, r'instagram_link'),
@@ -741,14 +735,10 @@ class ProviderProfileUpdateResponseData {
         name: mapValueOfType<String>(json, r'name'),
         nameAr: mapValueOfType<String>(json, r'name_ar'),
         nameEn: mapValueOfType<String>(json, r'name_en'),
-        offlineStoresNumber: json[r'offline_stores_number'] == null
-            ? null
-            : num.parse(json[r'offline_stores_number'].toString()),
+        offlineStoresNumber: num.tryParse('${json[r'offline_stores_number']}'),
         ownerName: mapValueOfType<String>(json, r'owner_name'),
         phone: mapValueOfType<String>(json, r'phone'),
-        overallRating: json[r'overall_rating'] == null
-            ? null
-            : num.parse(json[r'overall_rating'].toString()),
+        overallRating: num.tryParse('${json[r'overall_rating']}'),
         ratingsCount: mapValueOfType<int>(json, r'ratings_count'),
         isEmailVerified: mapValueOfType<bool>(json, r'is_email_verified'),
         isPhoneVerified: mapValueOfType<bool>(json, r'is_phone_verified'),
@@ -762,8 +752,8 @@ class ProviderProfileUpdateResponseData {
         tiktokLink: mapValueOfType<String>(json, r'tiktok_link'),
         updatedAt: mapValueOfType<String>(json, r'updated_at'),
         workingDaysIndices: mapValueOfType<String>(json, r'working_days_indices'),
-        workingDaysIndicesList: json[r'working_days_indices_list'] is List
-            ? (json[r'working_days_indices_list'] as List).cast<String>()
+        workingDaysIndicesList: json[r'working_days_indices_list'] is Iterable
+            ? (json[r'working_days_indices_list'] as Iterable).cast<String>().toList(growable: false)
             : const [],
         xLink: mapValueOfType<String>(json, r'x_link'),
       );

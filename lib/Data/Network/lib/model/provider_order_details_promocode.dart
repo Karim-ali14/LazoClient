@@ -89,14 +89,14 @@ class ProviderOrderDetailsPromocode {
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is ProviderOrderDetailsPromocode &&
-     other.allowedUsageNumber == allowedUsageNumber &&
-     other.code == code &&
-     other.createdAt == createdAt &&
-     other.expirationDate == expirationDate &&
-     other.id == id &&
-     other.type == type &&
-     other.updatedAt == updatedAt &&
-     other.value == value;
+    other.allowedUsageNumber == allowedUsageNumber &&
+    other.code == code &&
+    other.createdAt == createdAt &&
+    other.expirationDate == expirationDate &&
+    other.id == id &&
+    other.type == type &&
+    other.updatedAt == updatedAt &&
+    other.value == value;
 
   @override
   int get hashCode =>
@@ -181,14 +181,10 @@ class ProviderOrderDetailsPromocode {
         code: mapValueOfType<String>(json, r'code'),
         createdAt: mapValueOfType<String>(json, r'created_at'),
         expirationDate: mapValueOfType<String>(json, r'expiration_date'),
-        id: json[r'id'] == null
-            ? null
-            : num.parse(json[r'id'].toString()),
+        id: num.tryParse('${json[r'id']}'),
         type: mapValueOfType<String>(json, r'type'),
         updatedAt: mapValueOfType<String>(json, r'updated_at'),
-        value: json[r'value'] == null
-            ? null
-            : num.parse(json[r'value'].toString()),
+        value: num.tryParse('${json[r'value']}'),
       );
     }
     return null;

@@ -26,9 +26,9 @@ class RateOrderRequest {
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is RateOrderRequest &&
-     other.comments == comments &&
-     other.orderItemsIds == orderItemsIds &&
-     other.ratings == ratings;
+    _deepEquality.equals(other.comments, comments) &&
+    _deepEquality.equals(other.orderItemsIds, orderItemsIds) &&
+    _deepEquality.equals(other.ratings, ratings);
 
   @override
   int get hashCode =>
@@ -67,14 +67,14 @@ class RateOrderRequest {
       }());
 
       return RateOrderRequest(
-        comments: json[r'comments'] is List
-            ? (json[r'comments'] as List).cast<String>()
+        comments: json[r'comments'] is Iterable
+            ? (json[r'comments'] as Iterable).cast<String>().toList(growable: false)
             : const [],
-        orderItemsIds: json[r'order_items_ids'] is List
-            ? (json[r'order_items_ids'] as List).cast<String>()
+        orderItemsIds: json[r'order_items_ids'] is Iterable
+            ? (json[r'order_items_ids'] as Iterable).cast<String>().toList(growable: false)
             : const [],
-        ratings: json[r'ratings'] is List
-            ? (json[r'ratings'] as List).cast<String>()
+        ratings: json[r'ratings'] is Iterable
+            ? (json[r'ratings'] as Iterable).cast<String>().toList(growable: false)
             : const [],
       );
     }

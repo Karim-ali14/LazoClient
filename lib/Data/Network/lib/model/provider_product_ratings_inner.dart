@@ -10,14 +10,14 @@
 
 part of openapi.api;
 
-class ProviderLoginResponseData {
-  /// Returns a new [ProviderLoginResponseData] instance.
-  ProviderLoginResponseData({
-    this.accessToken,
-    this.tokenType,
-    this.provider,
-    this.isExist,
-    this.isVerified,
+class ProviderProductRatingsInner {
+  /// Returns a new [ProviderProductRatingsInner] instance.
+  ProviderProductRatingsInner({
+    this.orderItemId,
+    this.rating,
+    this.ratingComment,
+    this.date,
+    this.userName,
   });
 
   ///
@@ -26,7 +26,7 @@ class ProviderLoginResponseData {
   /// source code must fall back to having a nullable type.
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
-  String? accessToken;
+  String? orderItemId;
 
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
@@ -34,7 +34,7 @@ class ProviderLoginResponseData {
   /// source code must fall back to having a nullable type.
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
-  String? tokenType;
+  num? rating;
 
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
@@ -42,7 +42,7 @@ class ProviderLoginResponseData {
   /// source code must fall back to having a nullable type.
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
-  ProviderData? provider;
+  String? ratingComment;
 
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
@@ -50,7 +50,7 @@ class ProviderLoginResponseData {
   /// source code must fall back to having a nullable type.
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
-  bool? isExist;
+  String? date;
 
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
@@ -58,62 +58,62 @@ class ProviderLoginResponseData {
   /// source code must fall back to having a nullable type.
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
-  bool? isVerified;
+  String? userName;
 
   @override
-  bool operator ==(Object other) => identical(this, other) || other is ProviderLoginResponseData &&
-    other.accessToken == accessToken &&
-    other.tokenType == tokenType &&
-    other.provider == provider &&
-    other.isExist == isExist &&
-    other.isVerified == isVerified;
+  bool operator ==(Object other) => identical(this, other) || other is ProviderProductRatingsInner &&
+    other.orderItemId == orderItemId &&
+    other.rating == rating &&
+    other.ratingComment == ratingComment &&
+    other.date == date &&
+    other.userName == userName;
 
   @override
   int get hashCode =>
     // ignore: unnecessary_parenthesis
-    (accessToken == null ? 0 : accessToken!.hashCode) +
-    (tokenType == null ? 0 : tokenType!.hashCode) +
-    (provider == null ? 0 : provider!.hashCode) +
-    (isExist == null ? 0 : isExist!.hashCode) +
-    (isVerified == null ? 0 : isVerified!.hashCode);
+    (orderItemId == null ? 0 : orderItemId!.hashCode) +
+    (rating == null ? 0 : rating!.hashCode) +
+    (ratingComment == null ? 0 : ratingComment!.hashCode) +
+    (date == null ? 0 : date!.hashCode) +
+    (userName == null ? 0 : userName!.hashCode);
 
   @override
-  String toString() => 'ProviderLoginResponseData[accessToken=$accessToken, tokenType=$tokenType, provider=$provider, isExist=$isExist, isVerified=$isVerified]';
+  String toString() => 'ProviderProductRatingsInner[orderItemId=$orderItemId, rating=$rating, ratingComment=$ratingComment, date=$date, userName=$userName]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-    if (this.accessToken != null) {
-      json[r'access_token'] = this.accessToken;
+    if (this.orderItemId != null) {
+      json[r'order_item_id'] = this.orderItemId;
     } else {
-      json[r'access_token'] = null;
+      json[r'order_item_id'] = null;
     }
-    if (this.tokenType != null) {
-      json[r'token_type'] = this.tokenType;
+    if (this.rating != null) {
+      json[r'rating'] = this.rating;
     } else {
-      json[r'token_type'] = null;
+      json[r'rating'] = null;
     }
-    if (this.provider != null) {
-      json[r'provider'] = this.provider;
+    if (this.ratingComment != null) {
+      json[r'rating_comment'] = this.ratingComment;
     } else {
-      json[r'provider'] = null;
+      json[r'rating_comment'] = null;
     }
-    if (this.isExist != null) {
-      json[r'is_exist'] = this.isExist;
+    if (this.date != null) {
+      json[r'date'] = this.date;
     } else {
-      json[r'is_exist'] = null;
+      json[r'date'] = null;
     }
-    if (this.isVerified != null) {
-      json[r'is_verified'] = this.isVerified;
+    if (this.userName != null) {
+      json[r'user_name'] = this.userName;
     } else {
-      json[r'is_verified'] = null;
+      json[r'user_name'] = null;
     }
     return json;
   }
 
-  /// Returns a new [ProviderLoginResponseData] instance and imports its values from
+  /// Returns a new [ProviderProductRatingsInner] instance and imports its values from
   /// [value] if it's a [Map], null otherwise.
   // ignore: prefer_constructors_over_static_methods
-  static ProviderLoginResponseData? fromJson(dynamic value) {
+  static ProviderProductRatingsInner? fromJson(dynamic value) {
     if (value is Map) {
       final json = value.cast<String, dynamic>();
 
@@ -122,28 +122,28 @@ class ProviderLoginResponseData {
       // Note 2: this code is stripped in release mode!
       assert(() {
         requiredKeys.forEach((key) {
-          assert(json.containsKey(key), 'Required key "ProviderLoginResponseData[$key]" is missing from JSON.');
-          assert(json[key] != null, 'Required key "ProviderLoginResponseData[$key]" has a null value in JSON.');
+          assert(json.containsKey(key), 'Required key "ProviderProductRatingsInner[$key]" is missing from JSON.');
+          assert(json[key] != null, 'Required key "ProviderProductRatingsInner[$key]" has a null value in JSON.');
         });
         return true;
       }());
 
-      return ProviderLoginResponseData(
-        accessToken: mapValueOfType<String>(json, r'access_token'),
-        tokenType: mapValueOfType<String>(json, r'token_type'),
-        provider: ProviderData.fromJson(json[r'provider']),
-        isExist: mapValueOfType<bool>(json, r'is_exist'),
-        isVerified: mapValueOfType<bool>(json, r'is_verified'),
+      return ProviderProductRatingsInner(
+        orderItemId: mapValueOfType<String>(json, r'order_item_id'),
+        rating: num.tryParse('${json[r'rating']}'),
+        ratingComment: mapValueOfType<String>(json, r'rating_comment'),
+        date: mapValueOfType<String>(json, r'date'),
+        userName: mapValueOfType<String>(json, r'user_name'),
       );
     }
     return null;
   }
 
-  static List<ProviderLoginResponseData> listFromJson(dynamic json, {bool growable = false,}) {
-    final result = <ProviderLoginResponseData>[];
+  static List<ProviderProductRatingsInner> listFromJson(dynamic json, {bool growable = false,}) {
+    final result = <ProviderProductRatingsInner>[];
     if (json is List && json.isNotEmpty) {
       for (final row in json) {
-        final value = ProviderLoginResponseData.fromJson(row);
+        final value = ProviderProductRatingsInner.fromJson(row);
         if (value != null) {
           result.add(value);
         }
@@ -152,12 +152,12 @@ class ProviderLoginResponseData {
     return result.toList(growable: growable);
   }
 
-  static Map<String, ProviderLoginResponseData> mapFromJson(dynamic json) {
-    final map = <String, ProviderLoginResponseData>{};
+  static Map<String, ProviderProductRatingsInner> mapFromJson(dynamic json) {
+    final map = <String, ProviderProductRatingsInner>{};
     if (json is Map && json.isNotEmpty) {
       json = json.cast<String, dynamic>(); // ignore: parameter_assignments
       for (final entry in json.entries) {
-        final value = ProviderLoginResponseData.fromJson(entry.value);
+        final value = ProviderProductRatingsInner.fromJson(entry.value);
         if (value != null) {
           map[entry.key] = value;
         }
@@ -166,14 +166,14 @@ class ProviderLoginResponseData {
     return map;
   }
 
-  // maps a json object with a list of ProviderLoginResponseData-objects as value to a dart map
-  static Map<String, List<ProviderLoginResponseData>> mapListFromJson(dynamic json, {bool growable = false,}) {
-    final map = <String, List<ProviderLoginResponseData>>{};
+  // maps a json object with a list of ProviderProductRatingsInner-objects as value to a dart map
+  static Map<String, List<ProviderProductRatingsInner>> mapListFromJson(dynamic json, {bool growable = false,}) {
+    final map = <String, List<ProviderProductRatingsInner>>{};
     if (json is Map && json.isNotEmpty) {
       // ignore: parameter_assignments
       json = json.cast<String, dynamic>();
       for (final entry in json.entries) {
-        map[entry.key] = ProviderLoginResponseData.listFromJson(entry.value, growable: growable,);
+        map[entry.key] = ProviderProductRatingsInner.listFromJson(entry.value, growable: growable,);
       }
     }
     return map;

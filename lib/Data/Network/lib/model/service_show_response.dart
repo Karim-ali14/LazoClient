@@ -44,9 +44,9 @@ class ServiceShowResponse {
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is ServiceShowResponse &&
-     other.data == data &&
-     other.message == message &&
-     other.status == status;
+    other.data == data &&
+    other.message == message &&
+    other.status == status;
 
   @override
   int get hashCode =>

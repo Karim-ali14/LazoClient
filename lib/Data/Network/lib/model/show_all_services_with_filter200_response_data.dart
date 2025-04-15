@@ -227,29 +227,29 @@ class ShowAllServicesWithFilter200ResponseData {
       return ShowAllServicesWithFilter200ResponseData(
         currentPage: json[r'current_page'] == null
             ? null
-            : num.parse(json[r'current_page'].toString()),
+            : num.tryParse(json[r'current_page'].toString()),
         data: ShowAllServicesWithFilter200ResponseDataDataInner.listFromJson(json[r'data']),
         firstPageUrl: mapValueOfType<String>(json, r'first_page_url'),
         from: json[r'from'] == null
             ? null
-            : num.parse(json[r'from'].toString()),
+            : num.tryParse(json[r'from'].toString()),
         lastPage: json[r'last_page'] == null
             ? null
-            : num.parse(json[r'last_page'].toString()),
+            : num.tryParse(json[r'last_page'].toString()),
         lastPageUrl: mapValueOfType<String>(json, r'last_page_url'),
         links: ShowAllServicesWithFilter200ResponseDataLinksInner.listFromJson(json[r'links']),
         nextPageUrl: mapValueOfType<Object>(json, r'next_page_url'),
         path: mapValueOfType<String>(json, r'path'),
         perPage: json[r'per_page'] == null
             ? null
-            : num.parse(json[r'per_page'].toString()),
+            : num.tryParse(json[r'per_page'].toString()),
         prevPageUrl: mapValueOfType<Object>(json, r'prev_page_url'),
         to: json[r'to'] == null
             ? null
-            : num.parse(json[r'to'].toString()),
+            : num.tryParse(json[r'to'].toString()),
         total: json[r'total'] == null
             ? null
-            : num.parse(json[r'total'].toString()),
+            : num.tryParse(json[r'total'].toString()),
       );
     }
     return null;

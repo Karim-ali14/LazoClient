@@ -32,9 +32,9 @@ class ClientAuthResponseData {
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is ClientAuthResponseData &&
-     other.accessToken == accessToken &&
-     other.client == client &&
-     other.tokenType == tokenType;
+    other.accessToken == accessToken &&
+    other.client == client &&
+    other.tokenType == tokenType;
 
   @override
   int get hashCode =>

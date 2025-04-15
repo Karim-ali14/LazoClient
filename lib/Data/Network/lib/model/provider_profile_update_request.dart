@@ -255,34 +255,34 @@ class ProviderProfileUpdateRequest {
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is ProviderProfileUpdateRequest &&
-     other.bankAccountNumber == bankAccountNumber &&
-     other.bankName == bankName &&
-     other.beneficiaryName == beneficiaryName &&
-     other.businessType == businessType &&
-     other.cityId == cityId &&
-     other.commercialRegisterImage == commercialRegisterImage &&
-     other.email == email &&
-     other.endTime == endTime &&
-     other.hasOfflineStores == hasOfflineStores &&
-     other.iban == iban &&
-     other.ibanImage == ibanImage &&
-     other.image == image &&
-     other.instagramLink == instagramLink &&
-     other.locations == locations &&
-     other.nameAr == nameAr &&
-     other.nameEn == nameEn &&
-     other.offlineStoresNumber == offlineStoresNumber &&
-     other.ownerName == ownerName &&
-     other.phone == phone &&
-     other.provideDelivery == provideDelivery &&
-     other.selfEmploymentDocument == selfEmploymentDocument &&
-     other.snapchatLink == snapchatLink &&
-     other.startTime == startTime &&
-     other.status == status &&
-     other.tagsIds == tagsIds &&
-     other.tiktokLink == tiktokLink &&
-     other.workingDaysIndices == workingDaysIndices &&
-     other.xLink == xLink;
+    other.bankAccountNumber == bankAccountNumber &&
+    other.bankName == bankName &&
+    other.beneficiaryName == beneficiaryName &&
+    other.businessType == businessType &&
+    other.cityId == cityId &&
+    other.commercialRegisterImage == commercialRegisterImage &&
+    other.email == email &&
+    other.endTime == endTime &&
+    other.hasOfflineStores == hasOfflineStores &&
+    other.iban == iban &&
+    other.ibanImage == ibanImage &&
+    other.image == image &&
+    other.instagramLink == instagramLink &&
+    _deepEquality.equals(other.locations, locations) &&
+    other.nameAr == nameAr &&
+    other.nameEn == nameEn &&
+    other.offlineStoresNumber == offlineStoresNumber &&
+    other.ownerName == ownerName &&
+    other.phone == phone &&
+    other.provideDelivery == provideDelivery &&
+    other.selfEmploymentDocument == selfEmploymentDocument &&
+    other.snapchatLink == snapchatLink &&
+    other.startTime == startTime &&
+    other.status == status &&
+    _deepEquality.equals(other.tagsIds, tagsIds) &&
+    other.tiktokLink == tiktokLink &&
+    _deepEquality.equals(other.workingDaysIndices, workingDaysIndices) &&
+    other.xLink == xLink;
 
   @override
   int get hashCode =>
@@ -484,8 +484,8 @@ class ProviderProfileUpdateRequest {
         ibanImage: mapValueOfType<String>(json, r'iban_image'),
         image: mapValueOfType<String>(json, r'image'),
         instagramLink: mapValueOfType<String>(json, r'instagram_link'),
-        locations: json[r'locations'] is List
-            ? (json[r'locations'] as List).cast<String>()
+        locations: json[r'locations'] is Iterable
+            ? (json[r'locations'] as Iterable).cast<String>().toList(growable: false)
             : const [],
         nameAr: mapValueOfType<String>(json, r'name_ar'),
         nameEn: mapValueOfType<String>(json, r'name_en'),
@@ -497,12 +497,12 @@ class ProviderProfileUpdateRequest {
         snapchatLink: mapValueOfType<String>(json, r'snapchat_link'),
         startTime: mapValueOfType<String>(json, r'start_time'),
         status: mapValueOfType<String>(json, r'status'),
-        tagsIds: json[r'tags_ids'] is List
-            ? (json[r'tags_ids'] as List).cast<String>()
+        tagsIds: json[r'tags_ids'] is Iterable
+            ? (json[r'tags_ids'] as Iterable).cast<String>().toList(growable: false)
             : const [],
         tiktokLink: mapValueOfType<String>(json, r'tiktok_link'),
-        workingDaysIndices: json[r'working_days_indices'] is List
-            ? (json[r'working_days_indices'] as List).cast<String>()
+        workingDaysIndices: json[r'working_days_indices'] is Iterable
+            ? (json[r'working_days_indices'] as Iterable).cast<String>().toList(growable: false)
             : const [],
         xLink: mapValueOfType<String>(json, r'x_link'),
       );

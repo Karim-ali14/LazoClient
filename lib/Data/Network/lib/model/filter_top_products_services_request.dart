@@ -54,16 +54,16 @@ class FilterTopProductsServicesRequest {
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is FilterTopProductsServicesRequest &&
-     other.page == page &&
-     other.searchByName == searchByName &&
-     other.providerId == providerId &&
-     other.categoriesIds == categoriesIds &&
-     other.occasionsIds == occasionsIds &&
-     other.priceFrom == priceFrom &&
-     other.priceTo == priceTo &&
-     other.shipmentType == shipmentType &&
-     other.ratings == ratings &&
-     other.type == type;
+    other.page == page &&
+    other.searchByName == searchByName &&
+    other.providerId == providerId &&
+    _deepEquality.equals(other.categoriesIds, categoriesIds) &&
+    _deepEquality.equals(other.occasionsIds, occasionsIds) &&
+    other.priceFrom == priceFrom &&
+    other.priceTo == priceTo &&
+    other.shipmentType == shipmentType &&
+    _deepEquality.equals(other.ratings, ratings) &&
+    other.type == type;
 
   @override
   int get hashCode =>
@@ -158,26 +158,26 @@ class FilterTopProductsServicesRequest {
       return FilterTopProductsServicesRequest(
         page: json[r'page'] == null
             ? null
-            : num.parse(json[r'page'].toString()),
+            : num.tryParse('${json[r'page']}'),
         searchByName: mapValueOfType<String>(json, r'search_by_name'),
         providerId: json[r'provider_id'] == null
             ? null
-            : num.parse(json[r'provider_id'].toString()),
-        categoriesIds: json[r'categories_ids'] is List
-            ? (json[r'categories_ids'] as List).cast<num>()
+            : num.tryParse('${json[r'provider_id']}'),
+        categoriesIds: json[r'categories_ids'] is Iterable
+            ? (json[r'categories_ids'] as Iterable).cast<num>().toList(growable: false)
             : const [],
-        occasionsIds: json[r'occasions_ids'] is List
-            ? (json[r'occasions_ids'] as List).cast<num>()
+        occasionsIds: json[r'occasions_ids'] is Iterable
+            ? (json[r'occasions_ids'] as Iterable).cast<num>().toList(growable: false)
             : const [],
         priceFrom: json[r'price_from'] == null
             ? null
-            : num.parse(json[r'price_from'].toString()),
+            : num.tryParse('${json[r'price_from']}'),
         priceTo: json[r'price_to'] == null
             ? null
-            : num.parse(json[r'price_to'].toString()),
+            : num.tryParse('${json[r'price_to']}'),
         shipmentType: mapValueOfType<String>(json, r'shipment_type'),
-        ratings: json[r'ratings'] is List
-            ? (json[r'ratings'] as List).cast<String>()
+        ratings: json[r'ratings'] is Iterable
+            ? (json[r'ratings'] as Iterable).cast<String>().toList(growable: false)
             : const [],
         type: mapValueOfType<String>(json, r'type'),
       );

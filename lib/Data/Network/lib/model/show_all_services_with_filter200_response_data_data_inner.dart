@@ -372,7 +372,7 @@ class ShowAllServicesWithFilter200ResponseDataDataInner {
         cardExpiration: mapValueOfType<String>(json, r'card_expiration'),
         cardPrice: json[r'card_price'] == null
             ? null
-            : num.parse(json[r'card_price'].toString()),
+            : num.tryParse(json[r'card_price'].toString()),
         cardType: mapValueOfType<String>(json, r'card_type'),
         coverImagePath: mapValueOfType<String>(json, r'coverImagePath'),
         coverImage: mapValueOfType<String>(json, r'cover_image'),
@@ -383,25 +383,25 @@ class ShowAllServicesWithFilter200ResponseDataDataInner {
         duration: mapValueOfType<String>(json, r'duration'),
         id: json[r'id'] == null
             ? null
-            : num.parse(json[r'id'].toString()),
+            : num.tryParse(json[r'id'].toString()),
         isServiceDeliverableOutsideStore: json[r'is_service_deliverable_outside_store'] == null
             ? null
-            : num.parse(json[r'is_service_deliverable_outside_store'].toString()),
+            : num.tryParse(json[r'is_service_deliverable_outside_store'].toString()),
         isVisible: json[r'is_visible'] == null
             ? null
-            : num.parse(json[r'is_visible'].toString()),
+            : num.tryParse(json[r'is_visible'].toString()),
         name: mapValueOfType<String>(json, r'name'),
         nameAr: mapValueOfType<String>(json, r'name_ar'),
         nameEn: mapValueOfType<String>(json, r'name_en'),
         price: json[r'price'] == null
             ? null
-            : num.parse(json[r'price'].toString()),
+            : num.tryParse(json[r'price'].toString()),
         priceAfterDiscount: json[r'price_after_discount'] == null
             ? null
-            : num.parse(json[r'price_after_discount'].toString()),
+            : num.tryParse(json[r'price_after_discount'].toString()),
         providerId: json[r'provider_id'] == null
             ? null
-            : num.parse(json[r'provider_id'].toString()),
+            : num.tryParse(json[r'provider_id'].toString()),
         updatedAt: mapValueOfType<String>(json, r'updated_at'),
       );
     }

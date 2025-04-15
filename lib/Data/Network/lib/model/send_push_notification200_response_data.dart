@@ -26,7 +26,7 @@ class SendPushNotification200ResponseData {
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is SendPushNotification200ResponseData &&
-     other.name == name;
+    other.name == name;
 
   @override
   int get hashCode =>

@@ -692,7 +692,7 @@ class ShowHome200ResponseDataTopRatedProvidersInner {
         businessType: mapValueOfType<String>(json, r'business_type'),
         cityId: json[r'city_id'] == null
             ? null
-            : num.parse(json[r'city_id'].toString()),
+            : num.tryParse(json[r'city_id'].toString()),
         commercialRegisterImage: mapValueOfType<String>(json, r'commercial_register_image'),
         commercialRegisterImagePath: mapValueOfType<String>(json, r'commercial_register_image_path'),
         createdAt: mapValueOfType<String>(json, r'created_at'),
@@ -702,13 +702,13 @@ class ShowHome200ResponseDataTopRatedProvidersInner {
         fcmToken: mapValueOfType<Object>(json, r'fcm_token'),
         hasOfflineStores: json[r'has_offline_stores'] == null
             ? null
-            : num.parse(json[r'has_offline_stores'].toString()),
+            : num.tryParse(json[r'has_offline_stores'].toString()),
         iban: mapValueOfType<String>(json, r'iban'),
         ibanImage: mapValueOfType<String>(json, r'iban_image'),
         ibanImagePath: mapValueOfType<String>(json, r'iban_image_path'),
         id: json[r'id'] == null
             ? null
-            : num.parse(json[r'id'].toString()),
+            : num.tryParse(json[r'id'].toString()),
         image: mapValueOfType<String>(json, r'image'),
         imagePath: mapValueOfType<String>(json, r'imagePath'),
         instagramLink: mapValueOfType<String>(json, r'instagram_link'),
@@ -720,18 +720,18 @@ class ShowHome200ResponseDataTopRatedProvidersInner {
         nameEn: mapValueOfType<String>(json, r'name_en'),
         offlineStoresNumber: json[r'offline_stores_number'] == null
             ? null
-            : num.parse(json[r'offline_stores_number'].toString()),
+            : num.tryParse(json[r'offline_stores_number'].toString()),
         overallRating: json[r'overall_rating'] == null
             ? null
-            : num.parse(json[r'overall_rating'].toString()),
+            : num.tryParse(json[r'overall_rating'].toString()),
         ownerName: mapValueOfType<String>(json, r'owner_name'),
         phone: mapValueOfType<String>(json, r'phone'),
         provideDelivery: json[r'provide_delivery'] == null
             ? null
-            : num.parse(json[r'provide_delivery'].toString()),
+            : num.tryParse(json[r'provide_delivery'].toString()),
         ratingsCount: json[r'ratings_count'] == null
             ? null
-            : num.parse(json[r'ratings_count'].toString()),
+            : num.tryParse(json[r'ratings_count'].toString()),
         selfEmploymentDocument: mapValueOfType<String>(json, r'self_employment_document'),
         selfEmploymentDocumentPath: mapValueOfType<String>(json, r'self_employment_document_path'),
         snapchatLink: mapValueOfType<String>(json, r'snapchat_link'),

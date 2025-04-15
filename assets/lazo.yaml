@@ -984,6 +984,8 @@ components:
         provider_id:
           type: number
           example: 1
+        provider_name:
+          type: string
         sizes:
           type: array
           items:
@@ -1023,6 +1025,9 @@ components:
               date:
                 type: string
               user_name:
+                type: string
+              imagePath:
+                nullable: true
                 type: string
         provider:
           nullable: true
@@ -1457,6 +1462,12 @@ components:
         imagePath:
           type: string
           example: http://localhost:8000/uploads/files/04-2024/1713354063L6Sxt2kHExLiW2p.png
+        cover_image:
+          type: string
+          nullable: true
+        coverImagePath:
+          type: string
+          nullable: true
         name:
           type: string
           example: حفل زفاف
@@ -1471,6 +1482,8 @@ components:
           example: '2024-04-23T10:42:32.000000Z'
         is_checked:
           type: boolean
+        products_count:
+          type: number
 
     Category:
       type: object
@@ -1592,6 +1605,8 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ImageItem'
+        provider_name:
+          type: string
         lists:
           nullable: true
           type: array
@@ -3366,6 +3381,8 @@ components:
         provider_id:
           type: number
           example: 2
+        provider_name:
+          type: string
         updated_at:
           type: string
           example: '2024-05-04T14:51:44.000000Z'
@@ -3398,6 +3415,9 @@ components:
               date:
                 type: string
               user_name:
+                type: string
+              imagePath:
+                nullable: true
                 type: string
         provider:
           nullable: true

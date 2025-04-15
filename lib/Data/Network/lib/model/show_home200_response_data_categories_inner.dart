@@ -212,7 +212,7 @@ class ShowHome200ResponseDataCategoriesInner {
         createdAt: mapValueOfType<String>(json, r'created_at'),
         id: json[r'id'] == null
             ? null
-            : num.parse(json[r'id'].toString()),
+            : num.tryParse(json[r'id'].toString()),
         image: mapValueOfType<String>(json, r'image'),
         imagePath: mapValueOfType<String>(json, r'imagePath'),
         name: mapValueOfType<String>(json, r'name'),
@@ -220,10 +220,10 @@ class ShowHome200ResponseDataCategoriesInner {
         nameEn: mapValueOfType<String>(json, r'name_en'),
         productsCount: json[r'products_count'] == null
             ? null
-            : num.parse(json[r'products_count'].toString()),
+            : num.tryParse(json[r'products_count'].toString()),
         servicesCount: json[r'services_count'] == null
             ? null
-            : num.parse(json[r'services_count'].toString()),
+            : num.tryParse(json[r'services_count'].toString()),
         updatedAt: mapValueOfType<String>(json, r'updated_at'),
       );
     }

@@ -35,12 +35,12 @@ class ShowHome200ResponseData {
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is ShowHome200ResponseData &&
-     other.banners == banners &&
-     other.categories == categories &&
-     other.occasions == occasions &&
-     other.topRatedProducts == topRatedProducts &&
-     other.topRatedProviders == topRatedProviders &&
-     other.topRatedServices == topRatedServices;
+    _deepEquality.equals(other.banners, banners) &&
+    _deepEquality.equals(other.categories, categories) &&
+    _deepEquality.equals(other.occasions, occasions) &&
+    _deepEquality.equals(other.topRatedProducts, topRatedProducts) &&
+    _deepEquality.equals(other.topRatedProviders, topRatedProviders) &&
+    _deepEquality.equals(other.topRatedServices, topRatedServices);
 
   @override
   int get hashCode =>

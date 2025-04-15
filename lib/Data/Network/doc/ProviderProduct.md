@@ -20,6 +20,7 @@ Name | Type | Description | Notes
 **isVisible** | **int** |  | [optional] 
 **id** | **num** |  | [optional] 
 **images** | [**List<ImageItem>**](ImageItem.md) |  | [optional] [default to const []]
+**providerName** | **String** |  | [optional] 
 **lists** | [**List<ProductListItem>**](ProductListItem.md) |  | [optional] [default to const []]
 **name** | **String** |  | [optional] 
 **nameAr** | **String** |  | [optional] 
@@ -37,7 +38,7 @@ Name | Type | Description | Notes
 **inWishlist** | **bool** |  | [optional] 
 **overallRating** | **num** |  | [optional] 
 **ratingsCount** | **num** |  | [optional] 
-**ratings** | [**List<ProductDetailsRatingsInner>**](ProductDetailsRatingsInner.md) |  | [optional] [default to const []]
+**ratings** | [**List<ProviderProductRatingsInner>**](ProviderProductRatingsInner.md) |  | [optional] [default to const []]
 **provider** | [**ProviderData**](ProviderData.md) |  | [optional] 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

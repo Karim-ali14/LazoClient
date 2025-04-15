@@ -37,6 +37,7 @@ class ServiceShowData {
     this.price,
     this.priceAfterDiscount,
     this.providerId,
+    this.providerName,
     this.updatedAt,
     this.inCart,
     this.cartItemId,
@@ -216,6 +217,14 @@ class ServiceShowData {
   /// source code must fall back to having a nullable type.
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
+  String? providerName;
+
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
   String? updatedAt;
 
   ///
@@ -266,39 +275,40 @@ class ServiceShowData {
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is ServiceShowData &&
-     other.cardExpiration == cardExpiration &&
-     other.cardPrice == cardPrice &&
-     other.cardType == cardType &&
-     other.categories == categories &&
-     other.categoryMenu == categoryMenu &&
-     other.coverImagePath == coverImagePath &&
-     other.coverImage == coverImage &&
-     other.createdAt == createdAt &&
-     other.description == description &&
-     other.descriptionAr == descriptionAr &&
-     other.descriptionEn == descriptionEn &&
-     other.duration == duration &&
-     other.id == id &&
-     other.images == images &&
-     other.imagePath == imagePath &&
-     other.isServiceDeliverableOutsideStore == isServiceDeliverableOutsideStore &&
-     other.isVisible == isVisible &&
-     other.lists == lists &&
-     other.name == name &&
-     other.nameAr == nameAr &&
-     other.nameEn == nameEn &&
-     other.price == price &&
-     other.priceAfterDiscount == priceAfterDiscount &&
-     other.providerId == providerId &&
-     other.updatedAt == updatedAt &&
-     other.inCart == inCart &&
-     other.cartItemId == cartItemId &&
-     other.cartItemQuantity == cartItemQuantity &&
-     other.inWishlist == inWishlist &&
-     other.overallRating == overallRating &&
-     other.ratingsCount == ratingsCount &&
-     other.ratings == ratings &&
-     other.provider == provider;
+    other.cardExpiration == cardExpiration &&
+    other.cardPrice == cardPrice &&
+    other.cardType == cardType &&
+    _deepEquality.equals(other.categories, categories) &&
+    _deepEquality.equals(other.categoryMenu, categoryMenu) &&
+    other.coverImagePath == coverImagePath &&
+    other.coverImage == coverImage &&
+    other.createdAt == createdAt &&
+    other.description == description &&
+    other.descriptionAr == descriptionAr &&
+    other.descriptionEn == descriptionEn &&
+    other.duration == duration &&
+    other.id == id &&
+    _deepEquality.equals(other.images, images) &&
+    other.imagePath == imagePath &&
+    other.isServiceDeliverableOutsideStore == isServiceDeliverableOutsideStore &&
+    other.isVisible == isVisible &&
+    _deepEquality.equals(other.lists, lists) &&
+    other.name == name &&
+    other.nameAr == nameAr &&
+    other.nameEn == nameEn &&
+    other.price == price &&
+    other.priceAfterDiscount == priceAfterDiscount &&
+    other.providerId == providerId &&
+    other.providerName == providerName &&
+    other.updatedAt == updatedAt &&
+    other.inCart == inCart &&
+    other.cartItemId == cartItemId &&
+    other.cartItemQuantity == cartItemQuantity &&
+    other.inWishlist == inWishlist &&
+    other.overallRating == overallRating &&
+    other.ratingsCount == ratingsCount &&
+    _deepEquality.equals(other.ratings, ratings) &&
+    other.provider == provider;
 
   @override
   int get hashCode =>
@@ -327,6 +337,7 @@ class ServiceShowData {
     (price == null ? 0 : price!.hashCode) +
     (priceAfterDiscount == null ? 0 : priceAfterDiscount!.hashCode) +
     (providerId == null ? 0 : providerId!.hashCode) +
+    (providerName == null ? 0 : providerName!.hashCode) +
     (updatedAt == null ? 0 : updatedAt!.hashCode) +
     (inCart == null ? 0 : inCart!.hashCode) +
     (cartItemId == null ? 0 : cartItemId!.hashCode) +
@@ -338,7 +349,7 @@ class ServiceShowData {
     (provider == null ? 0 : provider!.hashCode);
 
   @override
-  String toString() => 'ServiceShowData[cardExpiration=$cardExpiration, cardPrice=$cardPrice, cardType=$cardType, categories=$categories, categoryMenu=$categoryMenu, coverImagePath=$coverImagePath, coverImage=$coverImage, createdAt=$createdAt, description=$description, descriptionAr=$descriptionAr, descriptionEn=$descriptionEn, duration=$duration, id=$id, images=$images, imagePath=$imagePath, isServiceDeliverableOutsideStore=$isServiceDeliverableOutsideStore, isVisible=$isVisible, lists=$lists, name=$name, nameAr=$nameAr, nameEn=$nameEn, price=$price, priceAfterDiscount=$priceAfterDiscount, providerId=$providerId, updatedAt=$updatedAt, inCart=$inCart, cartItemId=$cartItemId, cartItemQuantity=$cartItemQuantity, inWishlist=$inWishlist, overallRating=$overallRating, ratingsCount=$ratingsCount, ratings=$ratings, provider=$provider]';
+  String toString() => 'ServiceShowData[cardExpiration=$cardExpiration, cardPrice=$cardPrice, cardType=$cardType, categories=$categories, categoryMenu=$categoryMenu, coverImagePath=$coverImagePath, coverImage=$coverImage, createdAt=$createdAt, description=$description, descriptionAr=$descriptionAr, descriptionEn=$descriptionEn, duration=$duration, id=$id, images=$images, imagePath=$imagePath, isServiceDeliverableOutsideStore=$isServiceDeliverableOutsideStore, isVisible=$isVisible, lists=$lists, name=$name, nameAr=$nameAr, nameEn=$nameEn, price=$price, priceAfterDiscount=$priceAfterDiscount, providerId=$providerId, providerName=$providerName, updatedAt=$updatedAt, inCart=$inCart, cartItemId=$cartItemId, cartItemQuantity=$cartItemQuantity, inWishlist=$inWishlist, overallRating=$overallRating, ratingsCount=$ratingsCount, ratings=$ratings, provider=$provider]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -454,6 +465,11 @@ class ServiceShowData {
     } else {
       json[r'provider_id'] = null;
     }
+    if (this.providerName != null) {
+      json[r'provider_name'] = this.providerName;
+    } else {
+      json[r'provider_name'] = null;
+    }
     if (this.updatedAt != null) {
       json[r'updated_at'] = this.updatedAt;
     } else {
@@ -522,9 +538,7 @@ class ServiceShowData {
 
       return ServiceShowData(
         cardExpiration: mapValueOfType<String>(json, r'card_expiration'),
-        cardPrice: json[r'card_price'] == null
-            ? null
-            : num.parse(json[r'card_price'].toString()),
+        cardPrice: num.tryParse('${json[r'card_price']}'),
         cardType: mapValueOfType<String>(json, r'card_type'),
         categories: Category.listFromJson(json[r'categories']),
         categoryMenu: CategoryMenu.listFromJson(json[r'category_menu']),
@@ -535,41 +549,26 @@ class ServiceShowData {
         descriptionAr: mapValueOfType<String>(json, r'description_ar'),
         descriptionEn: mapValueOfType<String>(json, r'description_en'),
         duration: mapValueOfType<String>(json, r'duration'),
-        id: json[r'id'] == null
-            ? null
-            : num.parse(json[r'id'].toString()),
+        id: num.tryParse('${json[r'id']}'),
         images: ImageItem.listFromJson(json[r'images']),
         imagePath: mapValueOfType<String>(json, r'imagePath'),
-        isServiceDeliverableOutsideStore: json[r'is_service_deliverable_outside_store'] == null
-            ? null
-            : num.parse(json[r'is_service_deliverable_outside_store'].toString()),
-        isVisible: json[r'is_visible'] == null
-            ? null
-            : num.parse(json[r'is_visible'].toString()),
+        isServiceDeliverableOutsideStore: num.tryParse('${json[r'is_service_deliverable_outside_store']}'),
+        isVisible: num.tryParse('${json[r'is_visible']}'),
         lists: ServiceList.listFromJson(json[r'lists']),
         name: mapValueOfType<String>(json, r'name'),
         nameAr: mapValueOfType<String>(json, r'name_ar'),
         nameEn: mapValueOfType<String>(json, r'name_en'),
-        price: json[r'price'] == null
-            ? null
-            : num.parse(json[r'price'].toString()),
-        priceAfterDiscount: json[r'price_after_discount'] == null
-            ? null
-            : num.parse(json[r'price_after_discount'].toString()),
-        providerId: json[r'provider_id'] == null
-            ? null
-            : num.parse(json[r'provider_id'].toString()),
+        price: num.tryParse('${json[r'price']}'),
+        priceAfterDiscount: num.tryParse('${json[r'price_after_discount']}'),
+        providerId: num.tryParse('${json[r'provider_id']}'),
+        providerName: mapValueOfType<String>(json, r'provider_name'),
         updatedAt: mapValueOfType<String>(json, r'updated_at'),
         inCart: mapValueOfType<bool>(json, r'in_cart'),
         cartItemId: mapValueOfType<String>(json, r'cart_item_id'),
         cartItemQuantity: mapValueOfType<int>(json, r'cart_item_quantity'),
         inWishlist: mapValueOfType<bool>(json, r'in_wishlist'),
-        overallRating: json[r'overall_rating'] == null
-            ? null
-            : num.parse(json[r'overall_rating'].toString()),
-        ratingsCount: json[r'ratings_count'] == null
-            ? null
-            : num.parse(json[r'ratings_count'].toString()),
+        overallRating: num.tryParse('${json[r'overall_rating']}'),
+        ratingsCount: num.tryParse('${json[r'ratings_count']}'),
         ratings: ProductDetailsRatingsInner.listFromJson(json[r'ratings']),
         provider: ProviderData.fromJson(json[r'provider']),
       );

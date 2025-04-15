@@ -232,6 +232,7 @@ Class | Method | HTTP request | Description
  - [ProviderOrderDetailsResponse](doc//ProviderOrderDetailsResponse.md)
  - [ProviderOrderDetailsUser](doc//ProviderOrderDetailsUser.md)
  - [ProviderProduct](doc//ProviderProduct.md)
+ - [ProviderProductRatingsInner](doc//ProviderProductRatingsInner.md)
  - [ProviderProfileShowResponse](doc//ProviderProfileShowResponse.md)
  - [ProviderProfileUpdateRequest](doc//ProviderProfileUpdateRequest.md)
  - [ProviderProfileUpdateResponse](doc//ProviderProfileUpdateResponse.md)

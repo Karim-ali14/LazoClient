@@ -387,7 +387,7 @@ class ShowHome200ResponseDataTopRatedProductsInner {
       return ShowHome200ResponseDataTopRatedProductsInner(
         amount: json[r'amount'] == null
             ? null
-            : num.parse(json[r'amount'].toString()),
+            : num.tryParse(json[r'amount'].toString()),
         createdAt: mapValueOfType<String>(json, r'created_at'),
         description: mapValueOfType<String>(json, r'description'),
         descriptionAr: mapValueOfType<String>(json, r'description_ar'),
@@ -395,33 +395,33 @@ class ShowHome200ResponseDataTopRatedProductsInner {
         expectedProcessingTime: mapValueOfType<String>(json, r'expected_processing_time'),
         hasStock: json[r'has_stock'] == null
             ? null
-            : num.parse(json[r'has_stock'].toString()),
+            : num.tryParse(json[r'has_stock'].toString()),
         id: json[r'id'] == null
             ? null
-            : num.parse(json[r'id'].toString()),
+            : num.tryParse(json[r'id'].toString()),
         inCart: mapValueOfType<bool>(json, r'in_cart'),
         inWishlist: mapValueOfType<bool>(json, r'in_wishlist'),
         isVisible: json[r'is_visible'] == null
             ? null
-            : num.parse(json[r'is_visible'].toString()),
+            : num.tryParse(json[r'is_visible'].toString()),
         name: mapValueOfType<String>(json, r'name'),
         nameAr: mapValueOfType<String>(json, r'name_ar'),
         nameEn: mapValueOfType<String>(json, r'name_en'),
         overallRating: json[r'overall_rating'] == null
             ? null
-            : num.parse(json[r'overall_rating'].toString()),
+            : num.tryParse(json[r'overall_rating'].toString()),
         price: json[r'price'] == null
             ? null
-            : num.parse(json[r'price'].toString()),
+            : num.tryParse(json[r'price'].toString()),
         priceAfterDiscount: json[r'price_after_discount'] == null
             ? null
-            : num.parse(json[r'price_after_discount'].toString()),
+            : num.tryParse(json[r'price_after_discount'].toString()),
         providerId: json[r'provider_id'] == null
             ? null
-            : num.parse(json[r'provider_id'].toString()),
+            : num.tryParse(json[r'provider_id'].toString()),
         ratingsCount: json[r'ratings_count'] == null
             ? null
-            : num.parse(json[r'ratings_count'].toString()),
+            : num.tryParse(json[r'ratings_count'].toString()),
         type: mapValueOfType<String>(json, r'type'),
         updatedAt: mapValueOfType<String>(json, r'updated_at'),
       );

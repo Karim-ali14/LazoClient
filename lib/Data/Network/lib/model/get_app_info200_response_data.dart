@@ -38,9 +38,9 @@ class GetAppInfo200ResponseData {
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is GetAppInfo200ResponseData &&
-     other.providerAppInfo == providerAppInfo &&
-     other.clientAppInfo == clientAppInfo &&
-     other.faqs == faqs;
+    other.providerAppInfo == providerAppInfo &&
+    other.clientAppInfo == clientAppInfo &&
+    _deepEquality.equals(other.faqs, faqs);
 
   @override
   int get hashCode =>

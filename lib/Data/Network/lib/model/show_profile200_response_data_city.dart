@@ -71,12 +71,12 @@ class ShowProfile200ResponseDataCity {
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is ShowProfile200ResponseDataCity &&
-     other.createdAt == createdAt &&
-     other.id == id &&
-     other.name == name &&
-     other.nameAr == nameAr &&
-     other.nameEn == nameEn &&
-     other.updatedAt == updatedAt;
+    other.createdAt == createdAt &&
+    other.id == id &&
+    other.name == name &&
+    other.nameAr == nameAr &&
+    other.nameEn == nameEn &&
+    other.updatedAt == updatedAt;
 
   @override
   int get hashCode =>
@@ -146,9 +146,7 @@ class ShowProfile200ResponseDataCity {
 
       return ShowProfile200ResponseDataCity(
         createdAt: mapValueOfType<String>(json, r'created_at'),
-        id: json[r'id'] == null
-            ? null
-            : num.parse(json[r'id'].toString()),
+        id: num.tryParse('${json[r'id']}'),
         name: mapValueOfType<String>(json, r'name'),
         nameAr: mapValueOfType<String>(json, r'name_ar'),
         nameEn: mapValueOfType<String>(json, r'name_en'),

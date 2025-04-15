@@ -84,6 +84,7 @@ doc/ProviderOrderDetailsPromocode.md
 doc/ProviderOrderDetailsResponse.md
 doc/ProviderOrderDetailsUser.md
 doc/ProviderProduct.md
+doc/ProviderProductRatingsInner.md
 doc/ProviderProfileShowResponse.md
 doc/ProviderProfileUpdateRequest.md
 doc/ProviderProfileUpdateResponse.md
@@ -248,6 +249,7 @@ lib/model/provider_order_details_promocode.dart
 lib/model/provider_order_details_response.dart
 lib/model/provider_order_details_user.dart
 lib/model/provider_product.dart
+lib/model/provider_product_ratings_inner.dart
 lib/model/provider_profile_show_response.dart
 lib/model/provider_profile_update_request.dart
 lib/model/provider_profile_update_response.dart
@@ -313,3 +315,4 @@ lib/model/update_cart_item_quantity200_response_data.dart
 lib/model/upload_files.dart
 lib/model/upload_files_response.dart
 pubspec.yaml
+test/provider_product_ratings_inner_test.dart

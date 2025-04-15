@@ -357,10 +357,10 @@ class ShowOrderDetails2200ResponseDataOrderItemsInnerProduct {
       return ShowOrderDetails2200ResponseDataOrderItemsInnerProduct(
         hasStock: json[r'has_stock'] == null
             ? null
-            : num.parse(json[r'has_stock'].toString()),
+            : num.tryParse(json[r'has_stock'].toString()),
         amount: json[r'amount'] == null
             ? null
-            : num.parse(json[r'amount'].toString()),
+            : num.tryParse(json[r'amount'].toString()),
         expectedProcessingTime: mapValueOfType<String>(json, r'expected_processing_time'),
         colors: Color.listFromJson(json[r'colors']),
         sizes: Size.listFromJson(json[r'sizes']),
@@ -372,23 +372,23 @@ class ShowOrderDetails2200ResponseDataOrderItemsInnerProduct {
         descriptionEn: mapValueOfType<String>(json, r'description_en'),
         id: json[r'id'] == null
             ? null
-            : num.parse(json[r'id'].toString()),
+            : num.tryParse(json[r'id'].toString()),
         isVisible: json[r'is_visible'] == null
             ? null
-            : num.parse(json[r'is_visible'].toString()),
+            : num.tryParse(json[r'is_visible'].toString()),
         lists: ShowOrderDetails2200ResponseDataOrderItemsInnerProductListsInner.listFromJson(json[r'lists']),
         name: mapValueOfType<String>(json, r'name'),
         nameAr: mapValueOfType<String>(json, r'name_ar'),
         nameEn: mapValueOfType<String>(json, r'name_en'),
         price: json[r'price'] == null
             ? null
-            : num.parse(json[r'price'].toString()),
+            : num.tryParse(json[r'price'].toString()),
         priceAfterDiscount: json[r'price_after_discount'] == null
             ? null
-            : num.parse(json[r'price_after_discount'].toString()),
+            : num.tryParse(json[r'price_after_discount'].toString()),
         providerId: json[r'provider_id'] == null
             ? null
-            : num.parse(json[r'provider_id'].toString()),
+            : num.tryParse(json[r'provider_id'].toString()),
         updatedAt: mapValueOfType<String>(json, r'updated_at'),
       );
     }

@@ -155,28 +155,28 @@ class CartItemsInner {
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is CartItemsInner &&
-     other.cardPrice == cardPrice &&
-     other.cartId == cartId &&
-     other.createdAt == createdAt &&
-     other.id == id &&
-     other.listsTotalPrice == listsTotalPrice &&
-     other.price == price &&
-     other.product == product &&
-     other.productId == productId &&
-     other.quantity == quantity &&
-     other.type == type &&
-     other.cartItemTotalBeforeDiscount == cartItemTotalBeforeDiscount &&
-     other.cartItemTotalAfterDiscount == cartItemTotalAfterDiscount &&
-     other.productSelectedListIds == productSelectedListIds &&
-     other.productSelectedListItemsIds == productSelectedListItemsIds &&
-     other.serviceSelectedListIds == serviceSelectedListIds &&
-     other.serviceSelectedListItemsIds == serviceSelectedListItemsIds &&
-     other.productSelectedListItemsNames == productSelectedListItemsNames &&
-     other.clientSelectedItemsInCart == clientSelectedItemsInCart &&
-     other.serviceSelectedListItemsNames == serviceSelectedListItemsNames &&
-     other.service == service &&
-     other.serviceId == serviceId &&
-     other.updatedAt == updatedAt;
+    other.cardPrice == cardPrice &&
+    other.cartId == cartId &&
+    other.createdAt == createdAt &&
+    other.id == id &&
+    other.listsTotalPrice == listsTotalPrice &&
+    other.price == price &&
+    other.product == product &&
+    other.productId == productId &&
+    other.quantity == quantity &&
+    other.type == type &&
+    other.cartItemTotalBeforeDiscount == cartItemTotalBeforeDiscount &&
+    other.cartItemTotalAfterDiscount == cartItemTotalAfterDiscount &&
+    other.productSelectedListIds == productSelectedListIds &&
+    other.productSelectedListItemsIds == productSelectedListItemsIds &&
+    other.serviceSelectedListIds == serviceSelectedListIds &&
+    other.serviceSelectedListItemsIds == serviceSelectedListItemsIds &&
+    other.productSelectedListItemsNames == productSelectedListItemsNames &&
+    _deepEquality.equals(other.clientSelectedItemsInCart, clientSelectedItemsInCart) &&
+    other.serviceSelectedListItemsNames == serviceSelectedListItemsNames &&
+    other.service == service &&
+    other.serviceId == serviceId &&
+    other.updatedAt == updatedAt;
 
   @override
   int get hashCode =>
@@ -343,34 +343,20 @@ class CartItemsInner {
       return CartItemsInner(
         cardPrice: json[r'card_price'] == null
             ? null
-            : num.parse(json[r'card_price'].toString()),
-        cartId: json[r'cart_id'] == null
-            ? null
-            : num.parse(json[r'cart_id'].toString()),
+            : num.tryParse('${json[r'card_price']}'),
+        cartId: num.tryParse('${json[r'cart_id']}'),
         createdAt: mapValueOfType<String>(json, r'created_at'),
-        id: json[r'id'] == null
-            ? null
-            : num.parse(json[r'id'].toString()),
-        listsTotalPrice: json[r'lists_total_price'] == null
-            ? null
-            : num.parse(json[r'lists_total_price'].toString()),
-        price: json[r'price'] == null
-            ? null
-            : num.parse(json[r'price'].toString()),
+        id: num.tryParse('${json[r'id']}'),
+        listsTotalPrice: num.tryParse('${json[r'lists_total_price']}'),
+        price: num.tryParse('${json[r'price']}'),
         product: ProductDetails.fromJson(json[r'product']),
         productId: json[r'product_id'] == null
             ? null
-            : num.parse(json[r'product_id'].toString()),
-        quantity: json[r'quantity'] == null
-            ? null
-            : num.parse(json[r'quantity'].toString()),
+            : num.tryParse('${json[r'product_id']}'),
+        quantity: num.tryParse('${json[r'quantity']}'),
         type: mapValueOfType<String>(json, r'type'),
-        cartItemTotalBeforeDiscount: json[r'cart_item_total_before_discount'] == null
-            ? null
-            : num.parse(json[r'cart_item_total_before_discount'].toString()),
-        cartItemTotalAfterDiscount: json[r'cart_item_total_after_discount'] == null
-            ? null
-            : num.parse(json[r'cart_item_total_after_discount'].toString()),
+        cartItemTotalBeforeDiscount: num.tryParse('${json[r'cart_item_total_before_discount']}'),
+        cartItemTotalAfterDiscount: num.tryParse('${json[r'cart_item_total_after_discount']}'),
         productSelectedListIds: mapValueOfType<String>(json, r'product_selected_list_ids'),
         productSelectedListItemsIds: mapValueOfType<String>(json, r'product_selected_list_items_ids'),
         serviceSelectedListIds: mapValueOfType<String>(json, r'service_selected_list_ids'),
@@ -381,7 +367,7 @@ class CartItemsInner {
         service: ServiceShowData.fromJson(json[r'service']),
         serviceId: json[r'service_id'] == null
             ? null
-            : num.parse(json[r'service_id'].toString()),
+            : num.tryParse('${json[r'service_id']}'),
         updatedAt: mapValueOfType<String>(json, r'updated_at'),
       );
     }

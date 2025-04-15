@@ -47,9 +47,9 @@ class ProviderchangePasswordRequest {
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is ProviderchangePasswordRequest &&
-     other.oldPassword == oldPassword &&
-     other.newPassword == newPassword &&
-     other.confirmNewPassword == confirmNewPassword;
+    other.oldPassword == oldPassword &&
+    other.newPassword == newPassword &&
+    other.confirmNewPassword == confirmNewPassword;
 
   @override
   int get hashCode =>

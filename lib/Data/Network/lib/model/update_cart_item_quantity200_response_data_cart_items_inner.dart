@@ -313,42 +313,42 @@ class UpdateCartItemQuantity200ResponseDataCartItemsInner {
       return UpdateCartItemQuantity200ResponseDataCartItemsInner(
         cardPrice: json[r'card_price'] == null
             ? null
-            : num.parse(json[r'card_price'].toString()),
+            : num.tryParse(json[r'card_price'].toString()),
         cartId: json[r'cart_id'] == null
             ? null
-            : num.parse(json[r'cart_id'].toString()),
+            : num.tryParse(json[r'cart_id'].toString()),
         createdAt: mapValueOfType<String>(json, r'created_at'),
         id: json[r'id'] == null
             ? null
-            : num.parse(json[r'id'].toString()),
+            : num.tryParse(json[r'id'].toString()),
         serviceSelectedListIds: mapValueOfType<String>(json, r'service_selected_list_ids'),
         serviceSelectedListItemsIds: mapValueOfType<String>(json, r'service_selected_list_items_ids'),
         productSelectedListIds: mapValueOfType<String>(json, r'product_selected_list_ids'),
         productSelectedListItemsIds: mapValueOfType<String>(json, r'product_selected_list_items_ids'),
         listsTotalPrice: json[r'lists_total_price'] == null
             ? null
-            : num.parse(json[r'lists_total_price'].toString()),
+            : num.tryParse(json[r'lists_total_price'].toString()),
         price: json[r'price'] == null
             ? null
-            : num.parse(json[r'price'].toString()),
+            : num.tryParse(json[r'price'].toString()),
         product: ProductDetails.fromJson(json[r'product']),
         productId: json[r'product_id'] == null
             ? null
-            : num.parse(json[r'product_id'].toString()),
+            : num.tryParse(json[r'product_id'].toString()),
         quantity: json[r'quantity'] == null
             ? null
-            : num.parse(json[r'quantity'].toString()),
+            : num.tryParse(json[r'quantity'].toString()),
         type: mapValueOfType<String>(json, r'type'),
         cartItemTotalBeforeDiscount: json[r'cart_item_total_before_discount'] == null
             ? null
-            : num.parse(json[r'cart_item_total_before_discount'].toString()),
+            : num.tryParse(json[r'cart_item_total_before_discount'].toString()),
         cartItemTotalAfterDiscount: json[r'cart_item_total_after_discount'] == null
             ? null
-            : num.parse(json[r'cart_item_total_after_discount'].toString()),
+            : num.tryParse(json[r'cart_item_total_after_discount'].toString()),
         service: ServiceShowData.fromJson(json[r'service']),
         serviceId: json[r'service_id'] == null
             ? null
-            : num.parse(json[r'service_id'].toString()),
+            : num.tryParse(json[r'service_id'].toString()),
         updatedAt: mapValueOfType<String>(json, r'updated_at'),
       );
     }

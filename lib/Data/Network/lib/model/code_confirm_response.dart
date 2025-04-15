@@ -44,9 +44,9 @@ class CodeConfirmResponse {
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is CodeConfirmResponse &&
-     other.status == status &&
-     other.message == message &&
-     other.data == data;
+    other.status == status &&
+    other.message == message &&
+    other.data == data;
 
   @override
   int get hashCode =>

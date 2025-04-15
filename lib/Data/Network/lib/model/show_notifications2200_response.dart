@@ -47,10 +47,10 @@ class ShowNotifications2200Response {
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is ShowNotifications2200Response &&
-     other.code == code &&
-     other.data == data &&
-     other.message == message &&
-     other.status == status;
+    other.code == code &&
+    _deepEquality.equals(other.data, data) &&
+    other.message == message &&
+    other.status == status;
 
   @override
   int get hashCode =>
@@ -103,9 +103,7 @@ class ShowNotifications2200Response {
       }());
 
       return ShowNotifications2200Response(
-        code: json[r'code'] == null
-            ? null
-            : num.parse(json[r'code'].toString()),
+        code: num.tryParse('${json[r'code']}'),
         data: ClientNotification.listFromJson(json[r'data']),
         message: mapValueOfType<String>(json, r'message'),
         status: mapValueOfType<bool>(json, r'status'),

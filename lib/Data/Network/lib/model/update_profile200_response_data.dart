@@ -281,14 +281,14 @@ class UpdateProfile200ResponseData {
         city: UpdateProfile200ResponseDataCity.fromJson(json[r'city']),
         cityId: json[r'city_id'] == null
             ? null
-            : num.parse(json[r'city_id'].toString()),
+            : num.tryParse(json[r'city_id'].toString()),
         createdAt: mapValueOfType<String>(json, r'created_at'),
         deviceType: mapValueOfType<Object>(json, r'device_type'),
         email: mapValueOfType<String>(json, r'email'),
         fcmToken: mapValueOfType<Object>(json, r'fcm_token'),
         id: json[r'id'] == null
             ? null
-            : num.parse(json[r'id'].toString()),
+            : num.tryParse(json[r'id'].toString()),
         image: mapValueOfType<String>(json, r'image'),
         imagePath: mapValueOfType<String>(json, r'imagePath'),
         lang: mapValueOfType<String>(json, r'lang'),

@@ -35,8 +35,8 @@ class CodeSendRequest {
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is CodeSendRequest &&
-     other.emailOrPhone == emailOrPhone &&
-     other.accountType == accountType;
+    other.emailOrPhone == emailOrPhone &&
+    other.accountType == accountType;
 
   @override
   int get hashCode =>

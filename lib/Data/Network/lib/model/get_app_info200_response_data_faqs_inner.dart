@@ -62,11 +62,11 @@ class GetAppInfo200ResponseDataFaqsInner {
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is GetAppInfo200ResponseDataFaqsInner &&
-     other.id == id &&
-     other.question == question &&
-     other.answer == answer &&
-     other.createdAt == createdAt &&
-     other.updatedAt == updatedAt;
+    other.id == id &&
+    other.question == question &&
+    other.answer == answer &&
+    other.createdAt == createdAt &&
+    other.updatedAt == updatedAt;
 
   @override
   int get hashCode =>

@@ -180,16 +180,16 @@ class ShowOrderDetails2200ResponseDataOrderItemsInnerProductListsInnerItemsInner
         createdAt: mapValueOfType<String>(json, r'created_at'),
         id: json[r'id'] == null
             ? null
-            : num.parse(json[r'id'].toString()),
+            : num.tryParse(json[r'id'].toString()),
         name: mapValueOfType<String>(json, r'name'),
         nameAr: mapValueOfType<String>(json, r'name_ar'),
         nameEn: mapValueOfType<String>(json, r'name_en'),
         price: json[r'price'] == null
             ? null
-            : num.parse(json[r'price'].toString()),
+            : num.tryParse(json[r'price'].toString()),
         productListId: json[r'product_list_id'] == null
             ? null
-            : num.parse(json[r'product_list_id'].toString()),
+            : num.tryParse(json[r'product_list_id'].toString()),
         updatedAt: mapValueOfType<String>(json, r'updated_at'),
       );
     }

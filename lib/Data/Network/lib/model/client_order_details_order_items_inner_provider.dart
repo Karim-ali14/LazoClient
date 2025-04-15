@@ -389,48 +389,48 @@ class ClientOrderDetailsOrderItemsInnerProvider {
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is ClientOrderDetailsOrderItemsInnerProvider &&
-     other.id == id &&
-     other.nameEn == nameEn &&
-     other.nameAr == nameAr &&
-     other.ownerName == ownerName &&
-     other.email == email &&
-     other.phone == phone &&
-     other.image == image &&
-     other.cityId == cityId &&
-     other.accountType == accountType &&
-     other.deviceType == deviceType &&
-     other.fcmToken == fcmToken &&
-     other.lang == lang &&
-     other.status == status &&
-     other.instagramLink == instagramLink &&
-     other.snapchatLink == snapchatLink &&
-     other.tiktokLink == tiktokLink &&
-     other.xLink == xLink &&
-     other.hasOfflineStores == hasOfflineStores &&
-     other.offlineStoresNumber == offlineStoresNumber &&
-     other.provideDelivery == provideDelivery &&
-     other.overallRating == overallRating &&
-     other.ratingsCount == ratingsCount &&
-     other.isEmailVerified == isEmailVerified &&
-     other.isPhoneVerified == isPhoneVerified &&
-     other.businessType == businessType &&
-     other.commercialRegisterImage == commercialRegisterImage &&
-     other.selfEmploymentDocument == selfEmploymentDocument &&
-     other.startTime == startTime &&
-     other.endTime == endTime &&
-     other.workingDaysIndices == workingDaysIndices &&
-     other.bankName == bankName &&
-     other.beneficiaryName == beneficiaryName &&
-     other.bankAccountNumber == bankAccountNumber &&
-     other.iban == iban &&
-     other.ibanImage == ibanImage &&
-     other.createdAt == createdAt &&
-     other.updatedAt == updatedAt &&
-     other.name == name &&
-     other.imagePath == imagePath &&
-     other.workingDaysIndicesList == workingDaysIndicesList &&
-     other.selfEmploymentDocumentPath == selfEmploymentDocumentPath &&
-     other.commercialRegisterImagePath == commercialRegisterImagePath;
+    other.id == id &&
+    other.nameEn == nameEn &&
+    other.nameAr == nameAr &&
+    other.ownerName == ownerName &&
+    other.email == email &&
+    other.phone == phone &&
+    other.image == image &&
+    other.cityId == cityId &&
+    other.accountType == accountType &&
+    other.deviceType == deviceType &&
+    other.fcmToken == fcmToken &&
+    other.lang == lang &&
+    other.status == status &&
+    other.instagramLink == instagramLink &&
+    other.snapchatLink == snapchatLink &&
+    other.tiktokLink == tiktokLink &&
+    other.xLink == xLink &&
+    other.hasOfflineStores == hasOfflineStores &&
+    other.offlineStoresNumber == offlineStoresNumber &&
+    other.provideDelivery == provideDelivery &&
+    other.overallRating == overallRating &&
+    other.ratingsCount == ratingsCount &&
+    other.isEmailVerified == isEmailVerified &&
+    other.isPhoneVerified == isPhoneVerified &&
+    other.businessType == businessType &&
+    other.commercialRegisterImage == commercialRegisterImage &&
+    other.selfEmploymentDocument == selfEmploymentDocument &&
+    other.startTime == startTime &&
+    other.endTime == endTime &&
+    other.workingDaysIndices == workingDaysIndices &&
+    other.bankName == bankName &&
+    other.beneficiaryName == beneficiaryName &&
+    other.bankAccountNumber == bankAccountNumber &&
+    other.iban == iban &&
+    other.ibanImage == ibanImage &&
+    other.createdAt == createdAt &&
+    other.updatedAt == updatedAt &&
+    other.name == name &&
+    other.imagePath == imagePath &&
+    _deepEquality.equals(other.workingDaysIndicesList, workingDaysIndicesList) &&
+    other.selfEmploymentDocumentPath == selfEmploymentDocumentPath &&
+    other.commercialRegisterImagePath == commercialRegisterImagePath;
 
   @override
   int get hashCode =>
@@ -731,9 +731,7 @@ class ClientOrderDetailsOrderItemsInnerProvider {
         hasOfflineStores: mapValueOfType<int>(json, r'has_offline_stores'),
         offlineStoresNumber: mapValueOfType<int>(json, r'offline_stores_number'),
         provideDelivery: mapValueOfType<String>(json, r'provide_delivery'),
-        overallRating: json[r'overall_rating'] == null
-            ? null
-            : num.parse(json[r'overall_rating'].toString()),
+        overallRating: num.tryParse('${json[r'overall_rating']}'),
         ratingsCount: mapValueOfType<int>(json, r'ratings_count'),
         isEmailVerified: mapValueOfType<bool>(json, r'is_email_verified'),
         isPhoneVerified: mapValueOfType<bool>(json, r'is_phone_verified'),
@@ -752,8 +750,8 @@ class ClientOrderDetailsOrderItemsInnerProvider {
         updatedAt: mapValueOfType<String>(json, r'updated_at'),
         name: mapValueOfType<String>(json, r'name'),
         imagePath: mapValueOfType<String>(json, r'imagePath'),
-        workingDaysIndicesList: json[r'working_days_indices_list'] is List
-            ? (json[r'working_days_indices_list'] as List).cast<String>()
+        workingDaysIndicesList: json[r'working_days_indices_list'] is Iterable
+            ? (json[r'working_days_indices_list'] as Iterable).cast<String>().toList(growable: false)
             : const [],
         selfEmploymentDocumentPath: mapValueOfType<String>(json, r'self_employment_document_path'),
         commercialRegisterImagePath: mapValueOfType<String>(json, r'commercial_register_image_path'),

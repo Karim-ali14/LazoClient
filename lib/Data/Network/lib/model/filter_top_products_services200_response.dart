@@ -44,9 +44,9 @@ class FilterTopProductsServices200Response {
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is FilterTopProductsServices200Response &&
-     other.data == data &&
-     other.message == message &&
-     other.status == status;
+    other.data == data &&
+    other.message == message &&
+    other.status == status;
 
   @override
   int get hashCode =>

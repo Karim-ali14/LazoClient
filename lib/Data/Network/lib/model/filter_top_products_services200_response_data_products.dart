@@ -113,18 +113,18 @@ class FilterTopProductsServices200ResponseDataProducts {
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is FilterTopProductsServices200ResponseDataProducts &&
-     other.currentPage == currentPage &&
-     other.firstPageUrl == firstPageUrl &&
-     other.nextPageUrl == nextPageUrl &&
-     other.prevPageUrl == prevPageUrl &&
-     other.lastPage == lastPage &&
-     other.lastPageUrl == lastPageUrl &&
-     other.from == from &&
-     other.to == to &&
-     other.path == path &&
-     other.total == total &&
-     other.links == links &&
-     other.data == data;
+    other.currentPage == currentPage &&
+    other.firstPageUrl == firstPageUrl &&
+    other.nextPageUrl == nextPageUrl &&
+    other.prevPageUrl == prevPageUrl &&
+    other.lastPage == lastPage &&
+    other.lastPageUrl == lastPageUrl &&
+    other.from == from &&
+    other.to == to &&
+    other.path == path &&
+    other.total == total &&
+    _deepEquality.equals(other.links, links) &&
+    _deepEquality.equals(other.data, data);
 
   @override
   int get hashCode =>
@@ -221,22 +221,14 @@ class FilterTopProductsServices200ResponseDataProducts {
       }());
 
       return FilterTopProductsServices200ResponseDataProducts(
-        currentPage: json[r'current_page'] == null
-            ? null
-            : num.parse(json[r'current_page'].toString()),
+        currentPage: num.tryParse('${json[r'current_page']}'),
         firstPageUrl: mapValueOfType<String>(json, r'first_page_url'),
         nextPageUrl: mapValueOfType<String>(json, r'next_page_url'),
         prevPageUrl: mapValueOfType<String>(json, r'prev_page_url'),
-        lastPage: json[r'last_page'] == null
-            ? null
-            : num.parse(json[r'last_page'].toString()),
+        lastPage: num.tryParse('${json[r'last_page']}'),
         lastPageUrl: mapValueOfType<String>(json, r'last_page_url'),
-        from: json[r'from'] == null
-            ? null
-            : num.parse(json[r'from'].toString()),
-        to: json[r'to'] == null
-            ? null
-            : num.parse(json[r'to'].toString()),
+        from: num.tryParse('${json[r'from']}'),
+        to: num.tryParse('${json[r'to']}'),
         path: mapValueOfType<String>(json, r'path'),
         total: mapValueOfType<String>(json, r'total'),
         links: FilterTopSellers200ResponseDataLinksInner.listFromJson(json[r'links']),

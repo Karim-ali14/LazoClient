@@ -45,9 +45,9 @@ class CodeConfirmRequest {
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is CodeConfirmRequest &&
-     other.emailOrPhone == emailOrPhone &&
-     other.confirmCode == confirmCode &&
-     other.accountType == accountType;
+    other.emailOrPhone == emailOrPhone &&
+    other.confirmCode == confirmCode &&
+    other.accountType == accountType;
 
   @override
   int get hashCode =>

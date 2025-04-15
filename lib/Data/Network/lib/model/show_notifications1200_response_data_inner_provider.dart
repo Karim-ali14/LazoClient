@@ -362,49 +362,49 @@ class ShowNotifications1200ResponseDataInnerProvider {
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is ShowNotifications1200ResponseDataInnerProvider &&
-     other.accountType == accountType &&
-     other.bankAccountNumber == bankAccountNumber &&
-     other.bankName == bankName &&
-     other.beneficiaryName == beneficiaryName &&
-     other.businessType == businessType &&
-     other.cityId == cityId &&
-     other.commercialRegisterImage == commercialRegisterImage &&
-     other.commercialRegisterImagePath == commercialRegisterImagePath &&
-     other.createdAt == createdAt &&
-     other.deviceType == deviceType &&
-     other.email == email &&
-     other.endTime == endTime &&
-     other.fcmToken == fcmToken &&
-     other.hasOfflineStores == hasOfflineStores &&
-     other.iban == iban &&
-     other.ibanImage == ibanImage &&
-     other.ibanImagePath == ibanImagePath &&
-     other.id == id &&
-     other.image == image &&
-     other.imagePath == imagePath &&
-     other.instagramLink == instagramLink &&
-     other.isEmailVerified == isEmailVerified &&
-     other.isPhoneVerified == isPhoneVerified &&
-     other.lang == lang &&
-     other.name == name &&
-     other.nameAr == nameAr &&
-     other.nameEn == nameEn &&
-     other.offlineStoresNumber == offlineStoresNumber &&
-     other.overallRating == overallRating &&
-     other.ownerName == ownerName &&
-     other.phone == phone &&
-     other.provideDelivery == provideDelivery &&
-     other.ratingsCount == ratingsCount &&
-     other.selfEmploymentDocument == selfEmploymentDocument &&
-     other.selfEmploymentDocumentPath == selfEmploymentDocumentPath &&
-     other.snapchatLink == snapchatLink &&
-     other.startTime == startTime &&
-     other.status == status &&
-     other.tiktokLink == tiktokLink &&
-     other.updatedAt == updatedAt &&
-     other.workingDaysIndices == workingDaysIndices &&
-     other.workingDaysIndicesList == workingDaysIndicesList &&
-     other.xLink == xLink;
+    other.accountType == accountType &&
+    other.bankAccountNumber == bankAccountNumber &&
+    other.bankName == bankName &&
+    other.beneficiaryName == beneficiaryName &&
+    other.businessType == businessType &&
+    other.cityId == cityId &&
+    other.commercialRegisterImage == commercialRegisterImage &&
+    other.commercialRegisterImagePath == commercialRegisterImagePath &&
+    other.createdAt == createdAt &&
+    other.deviceType == deviceType &&
+    other.email == email &&
+    other.endTime == endTime &&
+    other.fcmToken == fcmToken &&
+    other.hasOfflineStores == hasOfflineStores &&
+    other.iban == iban &&
+    other.ibanImage == ibanImage &&
+    other.ibanImagePath == ibanImagePath &&
+    other.id == id &&
+    other.image == image &&
+    other.imagePath == imagePath &&
+    other.instagramLink == instagramLink &&
+    other.isEmailVerified == isEmailVerified &&
+    other.isPhoneVerified == isPhoneVerified &&
+    other.lang == lang &&
+    other.name == name &&
+    other.nameAr == nameAr &&
+    other.nameEn == nameEn &&
+    other.offlineStoresNumber == offlineStoresNumber &&
+    other.overallRating == overallRating &&
+    other.ownerName == ownerName &&
+    other.phone == phone &&
+    other.provideDelivery == provideDelivery &&
+    other.ratingsCount == ratingsCount &&
+    other.selfEmploymentDocument == selfEmploymentDocument &&
+    other.selfEmploymentDocumentPath == selfEmploymentDocumentPath &&
+    other.snapchatLink == snapchatLink &&
+    other.startTime == startTime &&
+    other.status == status &&
+    other.tiktokLink == tiktokLink &&
+    other.updatedAt == updatedAt &&
+    other.workingDaysIndices == workingDaysIndices &&
+    _deepEquality.equals(other.workingDaysIndicesList, workingDaysIndicesList) &&
+    other.xLink == xLink;
 
   @override
   int get hashCode =>
@@ -696,9 +696,7 @@ class ShowNotifications1200ResponseDataInnerProvider {
         bankName: mapValueOfType<String>(json, r'bank_name'),
         beneficiaryName: mapValueOfType<String>(json, r'beneficiary_name'),
         businessType: mapValueOfType<String>(json, r'business_type'),
-        cityId: json[r'city_id'] == null
-            ? null
-            : num.parse(json[r'city_id'].toString()),
+        cityId: num.tryParse('${json[r'city_id']}'),
         commercialRegisterImage: mapValueOfType<Object>(json, r'commercial_register_image'),
         commercialRegisterImagePath: mapValueOfType<Object>(json, r'commercial_register_image_path'),
         createdAt: mapValueOfType<String>(json, r'created_at'),
@@ -706,15 +704,11 @@ class ShowNotifications1200ResponseDataInnerProvider {
         email: mapValueOfType<String>(json, r'email'),
         endTime: mapValueOfType<String>(json, r'end_time'),
         fcmToken: mapValueOfType<Object>(json, r'fcm_token'),
-        hasOfflineStores: json[r'has_offline_stores'] == null
-            ? null
-            : num.parse(json[r'has_offline_stores'].toString()),
+        hasOfflineStores: num.tryParse('${json[r'has_offline_stores']}'),
         iban: mapValueOfType<String>(json, r'iban'),
         ibanImage: mapValueOfType<String>(json, r'iban_image'),
         ibanImagePath: mapValueOfType<String>(json, r'iban_image_path'),
-        id: json[r'id'] == null
-            ? null
-            : num.parse(json[r'id'].toString()),
+        id: num.tryParse('${json[r'id']}'),
         image: mapValueOfType<String>(json, r'image'),
         imagePath: mapValueOfType<String>(json, r'imagePath'),
         instagramLink: mapValueOfType<String>(json, r'instagram_link'),
@@ -724,16 +718,12 @@ class ShowNotifications1200ResponseDataInnerProvider {
         name: mapValueOfType<String>(json, r'name'),
         nameAr: mapValueOfType<String>(json, r'name_ar'),
         nameEn: mapValueOfType<String>(json, r'name_en'),
-        offlineStoresNumber: json[r'offline_stores_number'] == null
-            ? null
-            : num.parse(json[r'offline_stores_number'].toString()),
+        offlineStoresNumber: num.tryParse('${json[r'offline_stores_number']}'),
         overallRating: mapValueOfType<Object>(json, r'overall_rating'),
         ownerName: mapValueOfType<String>(json, r'owner_name'),
         phone: mapValueOfType<String>(json, r'phone'),
         provideDelivery: mapValueOfType<Object>(json, r'provide_delivery'),
-        ratingsCount: json[r'ratings_count'] == null
-            ? null
-            : num.parse(json[r'ratings_count'].toString()),
+        ratingsCount: num.tryParse('${json[r'ratings_count']}'),
         selfEmploymentDocument: mapValueOfType<String>(json, r'self_employment_document'),
         selfEmploymentDocumentPath: mapValueOfType<String>(json, r'self_employment_document_path'),
         snapchatLink: mapValueOfType<String>(json, r'snapchat_link'),
@@ -742,8 +732,8 @@ class ShowNotifications1200ResponseDataInnerProvider {
         tiktokLink: mapValueOfType<String>(json, r'tiktok_link'),
         updatedAt: mapValueOfType<String>(json, r'updated_at'),
         workingDaysIndices: mapValueOfType<String>(json, r'working_days_indices'),
-        workingDaysIndicesList: json[r'working_days_indices_list'] is List
-            ? (json[r'working_days_indices_list'] as List).cast<String>()
+        workingDaysIndicesList: json[r'working_days_indices_list'] is Iterable
+            ? (json[r'working_days_indices_list'] as Iterable).cast<String>().toList(growable: false)
             : const [],
         xLink: mapValueOfType<String>(json, r'x_link'),
       );

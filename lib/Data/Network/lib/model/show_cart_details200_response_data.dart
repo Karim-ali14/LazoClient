@@ -92,15 +92,15 @@ class ShowCartDetails200ResponseData {
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is ShowCartDetails200ResponseData &&
-     other.cartItems == cartItems &&
-     other.createdAt == createdAt &&
-     other.id == id &&
-     other.total == total &&
-     other.updatedAt == updatedAt &&
-     other.userId == userId &&
-     other.type == type &&
-     other.shipmentType == shipmentType &&
-     other.expectedProcessingTime == expectedProcessingTime;
+    _deepEquality.equals(other.cartItems, cartItems) &&
+    other.createdAt == createdAt &&
+    other.id == id &&
+    other.total == total &&
+    other.updatedAt == updatedAt &&
+    other.userId == userId &&
+    other.type == type &&
+    other.shipmentType == shipmentType &&
+    other.expectedProcessingTime == expectedProcessingTime;
 
   @override
   int get hashCode =>
@@ -185,16 +185,10 @@ class ShowCartDetails200ResponseData {
       return ShowCartDetails200ResponseData(
         cartItems: CartItemsInner.listFromJson(json[r'cart_items']),
         createdAt: mapValueOfType<String>(json, r'created_at'),
-        id: json[r'id'] == null
-            ? null
-            : num.parse(json[r'id'].toString()),
-        total: json[r'total'] == null
-            ? null
-            : num.parse(json[r'total'].toString()),
+        id: num.tryParse('${json[r'id']}'),
+        total: num.tryParse('${json[r'total']}'),
         updatedAt: mapValueOfType<String>(json, r'updated_at'),
-        userId: json[r'user_id'] == null
-            ? null
-            : num.parse(json[r'user_id'].toString()),
+        userId: num.tryParse('${json[r'user_id']}'),
         type: mapValueOfType<String>(json, r'type'),
         shipmentType: mapValueOfType<String>(json, r'shipment_type'),
         expectedProcessingTime: mapValueOfType<String>(json, r'expected_processing_time'),

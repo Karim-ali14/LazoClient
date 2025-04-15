@@ -35,8 +35,8 @@ class ResetCodeSendRequest {
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is ResetCodeSendRequest &&
-     other.emailOrPhone == emailOrPhone &&
-     other.accountType == accountType;
+    other.emailOrPhone == emailOrPhone &&
+    other.accountType == accountType;
 
   @override
   int get hashCode =>

@@ -71,12 +71,12 @@ class ProviderDataRatingsInner {
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is ProviderDataRatingsInner &&
-     other.orderItemId == orderItemId &&
-     other.rating == rating &&
-     other.ratingComment == ratingComment &&
-     other.date == date &&
-     other.userName == userName &&
-     other.imagePath == imagePath;
+    other.orderItemId == orderItemId &&
+    other.rating == rating &&
+    other.ratingComment == ratingComment &&
+    other.date == date &&
+    other.userName == userName &&
+    other.imagePath == imagePath;
 
   @override
   int get hashCode =>

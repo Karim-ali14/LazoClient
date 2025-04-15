@@ -247,34 +247,34 @@ class ShowAllProviderSOrders200ResponseDataDataInnerOrderItemsInner {
       return ShowAllProviderSOrders200ResponseDataDataInnerOrderItemsInner(
         cardPrice: json[r'card_price'] == null
             ? null
-            : num.parse(json[r'card_price'].toString()),
+            : num.tryParse(json[r'card_price'].toString()),
         createdAt: mapValueOfType<String>(json, r'created_at'),
         id: json[r'id'] == null
             ? null
-            : num.parse(json[r'id'].toString()),
+            : num.tryParse(json[r'id'].toString()),
         listsTotalPrice: json[r'lists_total_price'] == null
             ? null
-            : num.parse(json[r'lists_total_price'].toString()),
+            : num.tryParse(json[r'lists_total_price'].toString()),
         orderId: json[r'order_id'] == null
             ? null
-            : num.parse(json[r'order_id'].toString()),
+            : num.tryParse(json[r'order_id'].toString()),
         price: json[r'price'] == null
             ? null
-            : num.parse(json[r'price'].toString()),
+            : num.tryParse(json[r'price'].toString()),
         product: mapValueOfType<Object>(json, r'product'),
         productId: json[r'product_id'] == null
             ? null
-            : num.parse(json[r'product_id'].toString()),
+            : num.tryParse(json[r'product_id'].toString()),
         providerId: json[r'provider_id'] == null
             ? null
-            : num.parse(json[r'provider_id'].toString()),
+            : num.tryParse(json[r'provider_id'].toString()),
         quantity: json[r'quantity'] == null
             ? null
-            : num.parse(json[r'quantity'].toString()),
+            : num.tryParse(json[r'quantity'].toString()),
         service: ShowAllProviderSOrders200ResponseDataDataInnerOrderItemsInnerService.fromJson(json[r'service']),
         serviceId: json[r'service_id'] == null
             ? null
-            : num.parse(json[r'service_id'].toString()),
+            : num.tryParse(json[r'service_id'].toString()),
         updatedAt: mapValueOfType<String>(json, r'updated_at'),
       );
     }
