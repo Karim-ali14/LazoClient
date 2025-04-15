@@ -148,7 +148,7 @@ class _ProductItemCardState extends State<ProductItemCard> {
                 ),
                 Row(
                   children: [
-                    const Text(
+                     Text(
                       "${context.tr(extraItemsKey)} :",
                       style: AppTheme
                           .styleWithTextAppGrey7AdelleSansExtendedFonts14w400,

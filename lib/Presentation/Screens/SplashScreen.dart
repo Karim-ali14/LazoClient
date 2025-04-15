@@ -90,7 +90,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
           width: context.getScreenSize.width,
           height: context.getScreenSize.height,
           decoration: const BoxDecoration(
-            color: AppTheme.mainAppColor
+            color: AppTheme.mainAppColorLight
           ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -99,7 +99,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
               TweenAnimationBuilder<double>(
                   curve: Curves.ease,
                   tween: Tween<double>(begin: 0.0, end: 1.0),
-                  duration: const Duration(seconds: 4),
+                  duration: const Duration(seconds: 9),
                   builder:
                       (BuildContext context, double opacity, Widget? child) {
                     return Opacity(
