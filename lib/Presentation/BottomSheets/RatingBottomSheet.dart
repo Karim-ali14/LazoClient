@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lazo_client/Constants/Assets.dart';
 import 'package:lazo_client/Constants/Constants.dart';
@@ -113,7 +114,23 @@ class RatingBottomSheet extends StatelessWidget {
                       ),
                       Row(
                         children: [
-                          SVGIcons.smallStarIcon(),
+                          // SVGIcons.smallStarIcon(),
+                          RatingBar(
+                            initialRating: double.parse(ratingsList[index].rating ?? "0"),
+                            direction: Axis.horizontal,
+                            allowHalfRating: true,
+                            itemCount: 5,
+                            itemSize: 11,
+                            ratingWidget: RatingWidget(
+                              full: SVGIcons.localSVG(fullStarSvg),
+                              half: SVGIcons.localSVG(smallHalfStarSvg),
+                              empty: SVGIcons.localSVG(smallStarEmptySvg),
+                            ),
+                            itemPadding: EdgeInsets.symmetric(horizontal: 1.0),
+                            onRatingUpdate: (rating) {
+                              },
+                            ignoreGestures: true,
+                          ),
                           SizedBox(
                             width: 3,
                           ),
