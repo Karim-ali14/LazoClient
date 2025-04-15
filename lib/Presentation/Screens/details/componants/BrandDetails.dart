@@ -1,9 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:lazo_client/Data/Network/lib/api.dart';
 import 'package:lazo_client/Presentation/Widgets/CircleImage.dart';
 
+import '../../../../Constants/Assets.dart';
 import '../../../Theme/AppTheme.dart';
+import '../../../Widgets/SvgIcons.dart';
 
 class BrandDetails extends StatelessWidget {
   final ProviderData? provider;
@@ -48,7 +51,7 @@ class BrandDetails extends StatelessWidget {
                 onTap: (){
                   onProviderClick.call();
                 },
-                child: Text("By ${provider?.name}",style: AppTheme.styleWithTextAppGrey21AdelleSansExtendedFonts14w500,)),
+                child: Text("By ${provider?.name}",style: AppTheme.styleWithTextAppGrey21AdelleSansExtendedFonts14w500.copyWith(decoration: TextDecoration.underline),)),
             const SizedBox(width: 5,),
             Container(
               width: 5,
@@ -60,6 +63,25 @@ class BrandDetails extends StatelessWidget {
             ),
             const SizedBox(width: 5,),
             Text("${provider?.overallRating}",style: AppTheme.styleWithTextAppGrey21AdelleSansExtendedFonts14w400,),
+           SizedBox(width: 5,),
+            RatingBar(
+              initialRating: (provider?.overallRating ??
+                  0).toDouble(),
+              direction: Axis.horizontal,
+              allowHalfRating: true,
+              itemCount: 5,
+              itemSize: 11,
+              ratingWidget: RatingWidget(
+                full: SVGIcons.localSVG(fullStarSvg),
+                half: SVGIcons.localSVG(smallHalfStarSvg),
+                empty: SVGIcons.localSVG(smallStarEmptySvg),
+              ),
+              itemPadding: const EdgeInsets.symmetric(horizontal: 1.0),
+              onRatingUpdate: (rating) {
+              },
+              ignoreGestures: true,
+            ),
+
             const SizedBox(width: 5,),
             InkWell(
               onTap: (){

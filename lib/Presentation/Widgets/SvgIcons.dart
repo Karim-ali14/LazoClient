@@ -19,6 +19,7 @@ class SVGIcons {
       width: width,
       height: height,
       color: color,
+      fit: BoxFit.fitHeight,
     );
   }
 

@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lazo_client/Constants/Eunms.dart';
@@ -154,7 +155,7 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
     return Scaffold(
       body: CustomScrollView(controller: _scrollController, slivers: [
         SliverAppBar(
-          expandedHeight: MediaQuery.of(context).size.height * .415,
+          expandedHeight: MediaQuery.of(context).size.height * .37,
           titleSpacing:
               0, // Set spacing between leading and title// Adjust based on your needs
           pinned: true,
@@ -202,167 +203,178 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
                     height: 250,
                   ),
                 ),
-                Positioned(
-                  bottom: 0,
-                  left: 0,
-                  right: 0,
-                  top: 130,
-                  child: IntrinsicHeight(
-                    child: Container(
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: const BorderRadius.only(
-                              topLeft: Radius.circular(8),
-                              topRight: Radius.circular(8)),
-                          boxShadow: [
-                            BoxShadow(
-                              color: AppTheme.appGrey11
-                                  .withOpacity(0.6), // Shadow color
-                              blurRadius: .5, // Blur effect
-                              spreadRadius: .1, // Spread effect
-                              offset: const Offset(0, .5), // Shadow position
+                SizedBox(
+                  child: Container(
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: const BorderRadius.only(
+                            topLeft: Radius.circular(8),
+                            topRight: Radius.circular(8)),
+                        boxShadow: [
+                          BoxShadow(
+                            color: AppTheme.appGrey11
+                                .withOpacity(0.6), // Shadow color
+                            blurRadius: .5, // Blur effect
+                            spreadRadius: .1, // Spread effect
+                            offset: const Offset(0, .5), // Shadow position
+                          ),
+                        ]),
+                    margin: EdgeInsets.only(right: 16,left: 16,top: 120),
+                    padding: const EdgeInsetsDirectional.only(
+                        top: 16, start: 16, end: 16),
+                    width: double.infinity,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              width: 77,
+                              height: 77,
+                              clipBehavior: Clip.antiAlias,
+                              decoration: const BoxDecoration(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(8))),
+                              child: ImageView(
+                                initialImg:
+                                    sellerProducts.data?.data?.imagePath,
+                                placeHolder: defaultUseIconSvg,
+                              ),
                             ),
-                          ]),
-                      margin: EdgeInsets.symmetric(horizontal: 16),
-                      padding: const EdgeInsetsDirectional.only(
-                          top: 16, start: 16, end: 16),
-                      width: double.infinity,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Container(
-                                width: 77,
-                                height: 77,
-                                clipBehavior: Clip.antiAlias,
-                                decoration: const BoxDecoration(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(8))),
-                                child: ImageView(
-                                  initialImg:
-                                      sellerProducts.data?.data?.imagePath,
-                                  placeHolder: defaultUseIconSvg,
+                            SizedBox(
+                              width: 8,
+                            ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  sellerProducts.data?.data?.name
+                                          ?.ellipsize(25) ??
+                                      "",
+                                  style: AppTheme
+                                      .styleWithTextBlackAdelleSansExtendedFonts18w500,
                                 ),
-                              ),
-                              SizedBox(
-                                width: 8,
-                              ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    sellerProducts.data?.data?.name
-                                            ?.ellipsize(25) ??
-                                        "",
-                                    style: AppTheme
-                                        .styleWithTextBlackAdelleSansExtendedFonts18w500,
-                                  ),
-                                  SizedBox(
-                                    height: 8,
-                                  ),
-                                  Row(
+                                SizedBox(
+                                  height: 8,
+                                ),
+                                Row(
+                                  children: [
+                                    RatingBar(
+                                      initialRating: (sellerProducts.data?.data?.overallRating ?? 0).toDouble(),
+                                      direction: Axis.horizontal,
+                                      allowHalfRating: true,
+                                      itemCount: 5,
+                                      itemSize: 11,
+                                      ratingWidget: RatingWidget(
+                                        full: SVGIcons.localSVG(fullStarSvg),
+                                        half: SVGIcons.localSVG(smallHalfStarSvg),
+                                        empty: SVGIcons.localSVG(smallStarEmptySvg),
+                                      ),
+                                      itemPadding: EdgeInsets.symmetric(horizontal: 1.0),
+                                      onRatingUpdate: (rating) {
+                                      },
+                                      ignoreGestures: true,
+                                    ),
+
+                                    SizedBox(
+                                      width: 3,
+                                    ),
+                                    Text(
+                                      "${sellerProducts.data?.data?.overallRating ?? 0}",
+                                      style: AppTheme
+                                          .styleWithTextBlackColor2AdelleSansExtendedFonts14w400,
+                                    ),
+                                    SizedBox(
+                                      width: 5,
+                                    ),
+                                    Text(
+                                      "(${sellerProducts.data?.data?.ratingsCount ?? 0})",
+                                      style: AppTheme
+                                          .styleWithTextBlackColor2AdelleSansExtendedFonts14w400,
+                                    )
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 8,
+                                ),
+                                InkWell(
+                                  onTap: () {
+                                    showReviewsBottomSheet();
+                                  },
+                                  child: Row(
                                     children: [
-                                      SVGIcons.smallStarIcon(),
-                                      SizedBox(
-                                        width: 3,
-                                      ),
-                                      Text(
-                                        "${sellerProducts.data?.data?.overallRating ?? 0}",
-                                        style: AppTheme
-                                            .styleWithTextBlackColor2AdelleSansExtendedFonts14w400,
-                                      ),
+                                      SVGIcons.localSVG(reviewsIcon,
+                                          width: 13, height: 15),
                                       SizedBox(
                                         width: 5,
                                       ),
                                       Text(
-                                        "(${sellerProducts.data?.data?.ratingsCount ?? 0})",
+                                        "Reviews (${(sellerProducts.data?.data?.ratingsCount ?? 0)})",
                                         style: AppTheme
-                                            .styleWithTextBlackColor2AdelleSansExtendedFonts14w400,
+                                            .styleWithTextBlackColor2AdelleSansExtendedFonts14w400
+                                            .copyWith(
+                                                decoration:
+                                                    TextDecoration.underline),
                                       )
                                     ],
                                   ),
-                                  SizedBox(
-                                    height: 8,
-                                  ),
-                                  InkWell(
-                                    onTap: () {
-                                      showReviewsBottomSheet();
-                                    },
-                                    child: Row(
-                                      children: [
-                                        SVGIcons.localSVG(reviewsIcon,
-                                            width: 13, height: 15),
-                                        SizedBox(
-                                          width: 5,
-                                        ),
-                                        Text(
-                                          "Reviews (${(sellerProducts.data?.data?.ratingsCount ?? 0)})",
-                                          style: AppTheme
-                                              .styleWithTextBlackColor2AdelleSansExtendedFonts14w400
-                                              .copyWith(
-                                                  decoration:
-                                                      TextDecoration.underline),
-                                        )
-                                      ],
-                                    ),
-                                  )
-                                ],
+                                )
+                              ],
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 8,
+                        ),
+                        ExpandedText(
+                            defaultExpandedValue: defaultExpandedValue,
+                            maxLength: 165,
+                            textStyle: AppTheme
+                                .styleWithTextAppGrey7AdelleSansExtendedFonts14w400
+                                .copyWith(height: 1.5),
+                            onExpandChangeStatus: (value) {
+                              defaultExpandedValue = value;
+                              print(defaultExpandedValue);
+                            },
+                            textValue: sellerProducts.data?.data?.bio ?? ""),
+                        SizedBox(
+                          height: 8,
+                        ),
+                        TabBar(
+                          indicatorWeight: 1,
+                          labelColor: Colors.transparent,
+                          unselectedLabelColor: Colors.transparent,
+                          indicatorPadding: EdgeInsets.zero,
+                          indicatorColor: AppTheme.appRedColor,
+                          tabs: [
+                            Tab(
+                              child: Text(
+                                context.tr(productsKey),
+                                style: activeTabIndex == 0
+                                    ? AppTheme
+                                        .styleWithTextBlackColor2AdelleSansExtendedFonts14w400
+                                    : AppTheme
+                                        .styleWithTextAppGrey7AdelleSansExtendedFonts14w400
+                                        .copyWith(color: AppTheme.appGrey19),
                               ),
-                            ],
-                          ),
-                          SizedBox(
-                            height: 8,
-                          ),
-                          ExpandedText(
-                              defaultExpandedValue: defaultExpandedValue,
-                              maxLength: 165,
-                              textStyle: AppTheme
-                                  .styleWithTextAppGrey7AdelleSansExtendedFonts14w400
-                                  .copyWith(height: 1.5),
-                              onExpandChangeStatus: (value) {
-                                defaultExpandedValue = value;
-                                print(defaultExpandedValue);
-                              },
-                              textValue: sellerProducts.data?.data?.bio ?? ""),
-                          SizedBox(
-                            height: 8,
-                          ),
-                          TabBar(
-                            indicatorWeight: 1,
-                            labelColor: Colors.transparent,
-                            unselectedLabelColor: Colors.transparent,
-                            indicatorPadding: EdgeInsets.zero,
-                            indicatorColor: AppTheme.appRedColor,
-                            tabs: [
-                              Tab(
-                                child: Text(
-                                  context.tr(productsKey),
-                                  style: activeTabIndex == 0
-                                      ? AppTheme
-                                          .styleWithTextBlackColor2AdelleSansExtendedFonts14w400
-                                      : AppTheme
-                                          .styleWithTextAppGrey7AdelleSansExtendedFonts14w400
-                                          .copyWith(color: AppTheme.appGrey19),
-                                ),
+                            ),
+                            Tab(
+                              child: Text(
+                                context.tr(servicesKey),
+                                style: activeTabIndex == 1
+                                    ? AppTheme
+                                        .styleWithTextBlackColor2AdelleSansExtendedFonts14w400
+                                    : AppTheme
+                                        .styleWithTextAppGrey7AdelleSansExtendedFonts14w400
+                                        .copyWith(color: AppTheme.appGrey19),
                               ),
-                              Tab(
-                                child: Text(
-                                  context.tr(servicesKey),
-                                  style: activeTabIndex == 1
-                                      ? AppTheme
-                                          .styleWithTextBlackColor2AdelleSansExtendedFonts14w400
-                                      : AppTheme
-                                          .styleWithTextAppGrey7AdelleSansExtendedFonts14w400
-                                          .copyWith(color: AppTheme.appGrey19),
-                                ),
-                              ),
-                            ],
-                            controller: tabController,
-                          ),
-                        ],
-                      ),
+                            ),
+                          ],
+                          controller: tabController,
+                        ),
+                      ],
                     ),
                   ),
                 ),
