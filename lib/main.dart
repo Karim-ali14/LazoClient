@@ -18,7 +18,6 @@ import 'package:lazo_client/Presentation/Screens/PaymentScreen.dart';
 import 'package:lazo_client/Presentation/Screens/cartScreen/CartScreen.dart';
 import 'package:lazo_client/Presentation/Screens/details/ProductAndServiceDetailsScreen.dart';
 import 'package:lazo_client/Presentation/Screens/details/SellerDetailsScreen.dart';
-import 'package:lazo_client/Presentation/Screens/details/SellerDetailsScreen3.dart';
 import 'package:lazo_client/Presentation/Screens/home/ShowBestProductAndServiceScreen.dart';
 import 'package:lazo_client/Presentation/Screens/orders/OrdersScreen.dart';
 import 'package:lazo_client/Presentation/Screens/orders/RatingOrderItemsScreen.dart';
