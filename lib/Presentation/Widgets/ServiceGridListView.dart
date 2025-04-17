@@ -42,7 +42,7 @@ class _ServiceGridListviewWithCategoryNameState extends State<ServiceGridListvie
             crossAxisCount: 2,
             mainAxisSpacing: 8,
             crossAxisSpacing: 15,
-            childAspectRatio: .82,
+            childAspectRatio: .78,
             ),
             itemBuilder: (context, gridIndex) => Skeletonizer(
               enabled: widget.showLoading ?? false,

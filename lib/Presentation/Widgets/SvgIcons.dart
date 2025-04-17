@@ -13,13 +13,13 @@ class SVGIcons {
       height: 40,
     );
   }
-  static Widget localSVG(String assetPath, {double width = 50, double height = 50 , Color? color}) {
+  static Widget localSVG(String assetPath, {double width = 50, double height = 50 , Color? color,BoxFit? fit}) {
     return SvgPicture.asset(
       assetPath,
       width: width,
       height: height,
       color: color,
-      fit: BoxFit.fitHeight,
+      fit: fit ?? BoxFit.fitHeight,
     );
   }
 

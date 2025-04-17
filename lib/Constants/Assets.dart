@@ -108,3 +108,4 @@ const showMoreIcon = "assets/images/show_more_icon.svg";
 const showLessIcon = "assets/images/show_less_icon.svg";
 const reviewsIcon = "assets/images/reviews_icon.svg";
 const categoryMenuIcon = "assets/images/category_menu.svg";
+const backWithDarkBackgroundIcon = "assets/images/back_with_dark_background.svg";

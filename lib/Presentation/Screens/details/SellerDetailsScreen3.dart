@@ -30,54 +30,56 @@ import '../../StateNotifiersViewModel/WishListStateNotifiers.dart';
 import '../../Widgets/CircleImage.dart';
 import '../../Widgets/SvgIcons.dart';
 
-class SellerDetailsScreen2 extends ConsumerStatefulWidget {
+class SellerDetailsScreen3 extends ConsumerStatefulWidget {
   final int sellerId;
-  const SellerDetailsScreen2({super.key, required this.sellerId});
+  const SellerDetailsScreen3({super.key, required this.sellerId});
 
   @override
-  ConsumerState<SellerDetailsScreen2> createState() =>
+  ConsumerState<SellerDetailsScreen3> createState() =>
       _SellerDetailsScreenState2();
 }
 
-class _SellerDetailsScreenState2 extends ConsumerState<SellerDetailsScreen2>
+class _SellerDetailsScreenState2 extends ConsumerState<SellerDetailsScreen3>
     with TickerProviderStateMixin {
   late TabController tabController;
-  late TabController? categoryForProductTabController;
-  late TabController? categoryForServiceTabController;
-
-  List<Tab> productCategoryTabs = [];
-  List<Tab> serviceCategoryTabs = [];
-
+  late TabController? categoryTabController;
+  List<Tab> tabs = [];
   int activeTabIndex = 0;
-  int activeCategoryForProductTabIndex = 0;
-  int activeCategoryTabForServiceIndex = 0;
+  int activeCategoryTabIndex = 0;
 
   late ScrollController _scrollController;
+  ScrollController _scrollProductCategoriesController = ScrollController();
 
   bool _appBarTitleVisible = true;
   bool defaultExpandedValue = false;
-  List<GlobalKey> _categoryForProductKeys = [];
-
+  List<GlobalKey> _categoryKeys = []; // List of global keys for each category>
   @override
   void initState() {
     _scrollController = ScrollController();
 
     _scrollController.addListener(() {
       if (_scrollController.hasClients) {
-        for (int i = 0; i < _categoryForProductKeys.length; i++) {
-          final keyContext = _categoryForProductKeys[i].currentContext;
+        // Update visibility based on scroll offset
+        // setState(() {
+        //   _appBarTitleVisible = _scrollController.offset < 280;
+        // });
+
+        print("sdfas ${_scrollController.offset}");
+        print("sdfas sdfasdf${_categoryKeys.length}");
+        for (int i = 0; i < _categoryKeys.length; i++) {
+          final keyContext = _categoryKeys[i].currentContext;
           if (keyContext != null) {
             final box = keyContext.findRenderObject() as RenderBox;
             final position =
-                box.localToGlobal(Offset.zero); // مكان الكاتيجوري على الشاشة
+            box.localToGlobal(Offset.zero); // مكان الكاتيجوري على الشاشة
 
             double y = position.dy;
 
             if (y <= 160 && y >= -box.size.height / 2) {
-              if (activeCategoryForProductTabIndex != i) {
-                  activeCategoryForProductTabIndex = i;
+              if (activeCategoryTabIndex != i) {
+                activeCategoryTabIndex = i;
               }
-              categoryForProductTabController?.animateTo(activeCategoryForProductTabIndex);
+              categoryTabController?.animateTo(activeCategoryTabIndex);
               break;
             }
           }
@@ -92,13 +94,12 @@ class _SellerDetailsScreenState2 extends ConsumerState<SellerDetailsScreen2>
     });
     WidgetsBinding.instance.addPostFrameCallback((_) {
       getProducts();
-      getServices();
     });
     super.initState();
   }
 
   void scrollToCategory(int index) {
-    final RenderBox renderBox = _categoryForProductKeys[index].currentContext?.findRenderObject() as RenderBox;
+    final RenderBox renderBox = _categoryKeys[index].currentContext?.findRenderObject() as RenderBox;
     final position = renderBox.localToGlobal(Offset.zero, ancestor: context.findRenderObject());
     final offset = position.dy + _scrollController.offset - 130;
 
@@ -114,15 +115,13 @@ class _SellerDetailsScreenState2 extends ConsumerState<SellerDetailsScreen2>
     print(defaultExpandedValue);
     final client = ref.watch(clientStateProvider);
     final sellerProducts = ref.watch(getSellerDetailsWithProductStateNotifier);
-    final sellerServices = ref.watch(getSellerDetailsWithServicesStateNotifier);
 
-    print(activeTabIndex);
     return Scaffold(
       body: CustomScrollView(controller: _scrollController, slivers: [
         SliverAppBar(
           expandedHeight: MediaQuery.of(context).size.height * .41,
           titleSpacing:
-              0, // Set spacing between leading and title// Adjust based on your needs
+          0, // Set spacing between leading and title// Adjust based on your needs
           pinned: true,
           floating: true,
           elevation: 0,
@@ -162,7 +161,7 @@ class _SellerDetailsScreenState2 extends ConsumerState<SellerDetailsScreen2>
                   child: SizedBox(
                     child: ImageView(
                       initialImg:
-                          sellerProducts.data?.data?.coverImagePath ?? "",
+                      sellerProducts.data?.data?.coverImagePath ?? "",
                     ),
                     width: double.infinity,
                     height: 250,
@@ -201,10 +200,10 @@ class _SellerDetailsScreenState2 extends ConsumerState<SellerDetailsScreen2>
                               clipBehavior: Clip.antiAlias,
                               decoration: const BoxDecoration(
                                   borderRadius:
-                                      BorderRadius.all(Radius.circular(8))),
+                                  BorderRadius.all(Radius.circular(8))),
                               child: ImageView(
                                 initialImg:
-                                    sellerProducts.data?.data?.imagePath,
+                                sellerProducts.data?.data?.imagePath,
                                 placeHolder: defaultUseIconSvg,
                               ),
                             ),
@@ -216,7 +215,7 @@ class _SellerDetailsScreenState2 extends ConsumerState<SellerDetailsScreen2>
                               children: [
                                 Text(
                                   sellerProducts.data?.data?.name
-                                          ?.ellipsize(25) ??
+                                      ?.ellipsize(25) ??
                                       "",
                                   style: AppTheme
                                       .styleWithTextBlackAdelleSansExtendedFonts18w500,
@@ -228,8 +227,8 @@ class _SellerDetailsScreenState2 extends ConsumerState<SellerDetailsScreen2>
                                   children: [
                                     RatingBar(
                                       initialRating: (sellerProducts
-                                                  .data?.data?.overallRating ??
-                                              0)
+                                          .data?.data?.overallRating ??
+                                          0)
                                           .toDouble(),
                                       direction: Axis.horizontal,
                                       allowHalfRating: true,
@@ -238,12 +237,12 @@ class _SellerDetailsScreenState2 extends ConsumerState<SellerDetailsScreen2>
                                       ratingWidget: RatingWidget(
                                         full: SVGIcons.localSVG(fullStarSvg),
                                         half:
-                                            SVGIcons.localSVG(smallHalfStarSvg),
+                                        SVGIcons.localSVG(smallHalfStarSvg),
                                         empty: SVGIcons.localSVG(
                                             smallStarEmptySvg),
                                       ),
                                       itemPadding:
-                                          EdgeInsets.symmetric(horizontal: 1.0),
+                                      EdgeInsets.symmetric(horizontal: 1.0),
                                       onRatingUpdate: (rating) {},
                                       ignoreGestures: true,
                                     ),
@@ -284,8 +283,8 @@ class _SellerDetailsScreenState2 extends ConsumerState<SellerDetailsScreen2>
                                         style: AppTheme
                                             .styleWithTextBlackColor2AdelleSansExtendedFonts14w400
                                             .copyWith(
-                                                decoration:
-                                                    TextDecoration.underline),
+                                            decoration:
+                                            TextDecoration.underline),
                                       )
                                     ],
                                   ),
@@ -323,10 +322,10 @@ class _SellerDetailsScreenState2 extends ConsumerState<SellerDetailsScreen2>
                                 context.tr(productsKey),
                                 style: activeTabIndex == 0
                                     ? AppTheme
-                                        .styleWithTextBlackColor2AdelleSansExtendedFonts14w400
+                                    .styleWithTextBlackColor2AdelleSansExtendedFonts14w400
                                     : AppTheme
-                                        .styleWithTextAppGrey7AdelleSansExtendedFonts14w400
-                                        .copyWith(color: AppTheme.appGrey19),
+                                    .styleWithTextAppGrey7AdelleSansExtendedFonts14w400
+                                    .copyWith(color: AppTheme.appGrey19),
                               ),
                             ),
                             Tab(
@@ -334,10 +333,10 @@ class _SellerDetailsScreenState2 extends ConsumerState<SellerDetailsScreen2>
                                 context.tr(servicesKey),
                                 style: activeTabIndex == 1
                                     ? AppTheme
-                                        .styleWithTextBlackColor2AdelleSansExtendedFonts14w400
+                                    .styleWithTextBlackColor2AdelleSansExtendedFonts14w400
                                     : AppTheme
-                                        .styleWithTextAppGrey7AdelleSansExtendedFonts14w400
-                                        .copyWith(color: AppTheme.appGrey19),
+                                    .styleWithTextAppGrey7AdelleSansExtendedFonts14w400
+                                    .copyWith(color: AppTheme.appGrey19),
                               ),
                             ),
                           ],
@@ -362,10 +361,10 @@ class _SellerDetailsScreenState2 extends ConsumerState<SellerDetailsScreen2>
         ),
         Consumer(builder: (context, ref, child) {
           if (sellerProducts.state == DataState.SUCCESS) {
-            categoryForProductTabController = TabController(
+            categoryTabController = TabController(
                 length: sellerProducts.data!.data!.categories?.length ?? 0,
                 vsync: this);
-            productCategoryTabs = sellerProducts.data!.data!.categories!
+            tabs = sellerProducts.data!.data!.categories!
                 .map((e) => Tab(text: e.name ?? ""))
                 .toList();
             return SliverPersistentHeader(
@@ -377,60 +376,112 @@ class _SellerDetailsScreenState2 extends ConsumerState<SellerDetailsScreen2>
                     scrollToCategory(index);
                     // categoryTabController?.animateTo(index);
                   },
-                  controller: categoryForProductTabController,
-                  tabs: [...productCategoryTabs],
+                  controller: categoryTabController,
+                  tabs: [...tabs],
                 ),
               ),
             );
           }
           return SliverToBoxAdapter(child: SizedBox());
         }),
-        SliverList(
-          delegate: SliverChildBuilderDelegate(
-            (BuildContext context, int index) {
-              return Consumer(builder: (context, ref, child) {
-                if (sellerProducts.state == DataState.SUCCESS) {
-                  if (_categoryForProductKeys.isEmpty &&
-                      sellerProducts.data?.data?.categories != null) {
-                    _categoryForProductKeys = sellerProducts.data!.data!.categories!
-                        .map((e) => GlobalKey())
-                        .toList();
+        if(activeTabIndex == 0)
+          SliverList(
+            delegate: SliverChildBuilderDelegate(
+                  (BuildContext context, int index) {
+                return Consumer(builder: (context, ref, child) {
+                  if (sellerProducts.state == DataState.SUCCESS) {
+                    if (_categoryKeys.isEmpty &&
+                        sellerProducts.data?.data?.categories != null) {
+                      _categoryKeys = sellerProducts.data!.data!.categories!
+                          .map((e) => GlobalKey())
+                          .toList();
+                    }
+                    return Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 16.0, vertical: 9),
+                        child: ProductGridListviewWithCategoryName(
+                          key: _categoryKeys[index],
+                          scrollProductCategoriesController:
+                          _scrollProductCategoriesController,
+                          title: sellerProducts
+                              .data?.data?.categories?[index].name ??
+                              "",
+                          rootId: sellerProducts.data?.data?.categories?[index].id
+                              ?.toInt(),
+                          list: sellerProducts.state == DataState.LOADING
+                              ? [
+                            ProviderProduct(),
+                            ProviderProduct(),
+                            ProviderProduct(),
+                            ProviderProduct(),
+                          ]
+                              : sellerProducts
+                              .data?.data?.categories?[index].products ??
+                              [],
+                          showLoading: sellerProducts.state == DataState.LOADING,
+                          onAddItemToCart: (id) {},
+                          onAddItemToWishList: (id) {},
+                          onItemClick: (itemId, itemName, categoryIds) {},
+                        ));
+                  } else {
+                    return SizedBox();
                   }
-                  return Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 16.0, vertical: 9),
-                      child: ProductGridListviewWithCategoryName(
-                        key: _categoryForProductKeys[index],
-                        title: sellerProducts
-                                .data?.data?.categories?[index].name ??
-                            "",
-                        rootId: sellerProducts.data?.data?.categories?[index].id
-                            ?.toInt(),
-                        list: sellerProducts.state == DataState.LOADING
-                            ? [
-                                ProviderProduct(),
-                                ProviderProduct(),
-                                ProviderProduct(),
-                                ProviderProduct(),
-                              ]
-                            : sellerProducts
-                                    .data?.data?.categories?[index].products ??
-                                [],
-                        showLoading: sellerProducts.state == DataState.LOADING,
-                        onAddItemToCart: (id) {},
-                        onAddItemToWishList: (id) {},
-                        onItemClick: (itemId, itemName, categoryIds) {},
-                      ));
-                } else {
-                  return SizedBox();
-                }
-              });
-            },
-            childCount: sellerProducts.state == DataState.LOADING
-                ? 5
-                : sellerProducts.data?.data?.categories?.length ?? 0,
+                });
+              },
+              childCount: sellerProducts.state == DataState.LOADING
+                  ? 5
+                  : sellerProducts.data?.data?.categories?.length ?? 0,
+            ),
+            ),
+        if(activeTabIndex == 1)
+          SliverList(
+            delegate: SliverChildBuilderDelegate(
+                  (BuildContext context, int index) {
+                return Consumer(builder: (context, ref, child) {
+                  if (sellerProducts.state == DataState.SUCCESS) {
+                    if (_categoryKeys.isEmpty &&
+                        sellerProducts.data?.data?.categories != null) {
+                      _categoryKeys = sellerProducts.data!.data!.categories!
+                          .map((e) => GlobalKey())
+                          .toList();
+                    }
+                    return Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 16.0, vertical: 9),
+                        child: ProductGridListviewWithCategoryName(
+                          key: _categoryKeys[index],
+                          scrollProductCategoriesController:
+                          _scrollProductCategoriesController,
+                          title: sellerProducts
+                              .data?.data?.categories?[index].name ??
+                              "",
+                          rootId: sellerProducts.data?.data?.categories?[index].id
+                              ?.toInt(),
+                          list: sellerProducts.state == DataState.LOADING
+                              ? [
+                            ProviderProduct(),
+                            ProviderProduct(),
+                            ProviderProduct(),
+                            ProviderProduct(),
+                          ]
+                              : sellerProducts
+                              .data?.data?.categories?[index].products ??
+                              [],
+                          showLoading: sellerProducts.state == DataState.LOADING,
+                          onAddItemToCart: (id) {},
+                          onAddItemToWishList: (id) {},
+                          onItemClick: (itemId, itemName, categoryIds) {},
+                        ));
+                  } else {
+                    return SizedBox();
+                  }
+                });
+              },
+              childCount: sellerProducts.state == DataState.LOADING
+                  ? 5
+                  : sellerProducts.data?.data?.categories?.length ?? 0,
+            ),
           ),
-        ),
       ]),
     );
   }
@@ -438,11 +489,6 @@ class _SellerDetailsScreenState2 extends ConsumerState<SellerDetailsScreen2>
   void getProducts() {
     ref
         .read(getSellerDetailsWithProductStateNotifier.notifier)
-        .getSellerDetails(providerId: widget.sellerId);
-  }
-  void getServices() {
-    ref
-        .read(getSellerDetailsWithServicesStateNotifier.notifier)
         .getSellerDetails(providerId: widget.sellerId);
   }
 }
