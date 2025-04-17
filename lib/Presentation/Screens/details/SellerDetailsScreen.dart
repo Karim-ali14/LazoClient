@@ -24,6 +24,7 @@ import '../../../Constants.dart';
 import '../../../Constants/Assets.dart';
 import '../../../Localization/Keys.dart';
 import '../../BottomSheets/AuthenticateBottomSheet.dart';
+import '../../BottomSheets/CategoriesBottomSheet.dart';
 import '../../StateNotifiersViewModel/PublicStateNotifiers.dart';
 import '../../StateNotifiersViewModel/UserAuthStateNotifiers.dart';
 import '../../StateNotifiersViewModel/WishListStateNotifiers.dart';
@@ -54,7 +55,6 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
 
   late ScrollController _scrollController;
 
-  bool _appBarTitleVisible = true;
   bool defaultExpandedValue = false;
   List<GlobalKey> _categoryForProductKeys = [];
   List<GlobalKey> _categoryForServiceKeys = [];
@@ -66,13 +66,13 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
 
     _scrollController.addListener(() {
       if (_scrollController.hasClients) {
-        if(activeTabIndex == 0){
+        if (activeTabIndex == 0) {
           for (int i = 0; i < _categoryForProductKeys.length; i++) {
             final keyContext = _categoryForProductKeys[i].currentContext;
             if (keyContext != null) {
               final box = keyContext.findRenderObject() as RenderBox;
               final position =
-              box.localToGlobal(Offset.zero); // مكان الكاتيجوري على الشاشة
+                  box.localToGlobal(Offset.zero); // مكان الكاتيجوري على الشاشة
 
               double y = position.dy;
 
@@ -80,13 +80,13 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
                 if (activeCategoryForProductTabIndex != i) {
                   activeCategoryForProductTabIndex = i;
                 }
-                categoryForProductTabController?.animateTo(activeCategoryForProductTabIndex);
+                categoryForProductTabController
+                    ?.animateTo(activeCategoryForProductTabIndex);
                 break;
               }
             }
           }
-        }
-        else if(activeTabIndex == 1){
+        } else if (activeTabIndex == 1) {
           handleServiceScroll();
         }
         appBarTitleVisible.value = !(_scrollController.offset > 280);
@@ -107,8 +107,11 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
   }
 
   void scrollToCategory(int index) {
-    final RenderBox renderBox = _categoryForProductKeys[index].currentContext?.findRenderObject() as RenderBox;
-    final position = renderBox.localToGlobal(Offset.zero, ancestor: context.findRenderObject());
+    final RenderBox renderBox = _categoryForProductKeys[index]
+        .currentContext
+        ?.findRenderObject() as RenderBox;
+    final position = renderBox.localToGlobal(Offset.zero,
+        ancestor: context.findRenderObject());
     final offset = position.dy + _scrollController.offset - 130;
 
     _scrollController.animateTo(
@@ -193,8 +196,7 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
               valueListenable: appBarTitleVisible,
               builder: (context, value, child) {
                 return AnimatedOpacity(
-                  opacity: value ? 0.0
-                      : 1.0,
+                  opacity: value ? 0.0 : 1.0,
                   duration: Duration(milliseconds: 300),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -204,24 +206,27 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
                       //   initialImg: sellerProducts.data?.data?.imagePath,
                       //   width: 32,
                       // ),
-                      SizedBox(width: 10,height: MediaQuery.of(context).size.height *.07,),
+                      SizedBox(
+                        width: 10,
+                        height: MediaQuery.of(context).size.height * .07,
+                      ),
                       Text(
                         sellerProducts.data?.data?.name?.ellipsize(20) ?? '',
-                        style: AppTheme.styleWithTextBlackAdelleSansExtendedFonts18w700,
+                        style: AppTheme
+                            .styleWithTextBlackAdelleSansExtendedFonts18w700,
                       ),
                     ],
                   ),
                 );
               },
-            )
-            ,
+            ),
             background: Stack(
               children: [
                 Positioned(
                   child: SizedBox(
                     child: ImageView(
                       initialImg:
-                      sellerProducts.data?.data?.coverImagePath ?? "",
+                          sellerProducts.data?.data?.coverImagePath ?? "",
                     ),
                     width: double.infinity,
                     height: 250,
@@ -260,10 +265,10 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
                               clipBehavior: Clip.antiAlias,
                               decoration: const BoxDecoration(
                                   borderRadius:
-                                  BorderRadius.all(Radius.circular(8))),
+                                      BorderRadius.all(Radius.circular(8))),
                               child: ImageView(
                                 initialImg:
-                                sellerProducts.data?.data?.imagePath,
+                                    sellerProducts.data?.data?.imagePath,
                                 placeHolder: defaultUseIconSvg,
                               ),
                             ),
@@ -275,7 +280,7 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
                               children: [
                                 Text(
                                   sellerProducts.data?.data?.name
-                                      ?.ellipsize(25) ??
+                                          ?.ellipsize(25) ??
                                       "",
                                   style: AppTheme
                                       .styleWithTextBlackAdelleSansExtendedFonts18w500,
@@ -286,19 +291,24 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
                                 Row(
                                   children: [
                                     RatingBar(
-                                      initialRating: (sellerProducts.data?.data?.overallRating ?? 0).toDouble(),
+                                      initialRating: (sellerProducts
+                                                  .data?.data?.overallRating ??
+                                              0)
+                                          .toDouble(),
                                       direction: Axis.horizontal,
                                       allowHalfRating: true,
                                       itemCount: 5,
                                       itemSize: 11,
                                       ratingWidget: RatingWidget(
                                         full: SVGIcons.localSVG(fullStarSvg),
-                                        half: SVGIcons.localSVG(smallHalfStarSvg),
-                                        empty: SVGIcons.localSVG(smallStarEmptySvg),
+                                        half:
+                                            SVGIcons.localSVG(smallHalfStarSvg),
+                                        empty: SVGIcons.localSVG(
+                                            smallStarEmptySvg),
                                       ),
-                                      itemPadding: EdgeInsets.symmetric(horizontal: 1.0),
-                                      onRatingUpdate: (rating) {
-                                      },
+                                      itemPadding:
+                                          EdgeInsets.symmetric(horizontal: 1.0),
+                                      onRatingUpdate: (rating) {},
                                       ignoreGestures: true,
                                     ),
                                     SizedBox(
@@ -338,8 +348,8 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
                                         style: AppTheme
                                             .styleWithTextBlackColor2AdelleSansExtendedFonts14w400
                                             .copyWith(
-                                            decoration:
-                                            TextDecoration.underline),
+                                                decoration:
+                                                    TextDecoration.underline),
                                       )
                                     ],
                                   ),
@@ -377,10 +387,10 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
                                 context.tr(productsKey),
                                 style: activeTabIndex == 0
                                     ? AppTheme
-                                    .styleWithTextBlackColor2AdelleSansExtendedFonts14w400
+                                        .styleWithTextBlackColor2AdelleSansExtendedFonts14w400
                                     : AppTheme
-                                    .styleWithTextAppGrey7AdelleSansExtendedFonts14w400
-                                    .copyWith(color: AppTheme.appGrey19),
+                                        .styleWithTextAppGrey7AdelleSansExtendedFonts14w400
+                                        .copyWith(color: AppTheme.appGrey19),
                               ),
                             ),
                             Tab(
@@ -388,10 +398,10 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
                                 context.tr(servicesKey),
                                 style: activeTabIndex == 1
                                     ? AppTheme
-                                    .styleWithTextBlackColor2AdelleSansExtendedFonts14w400
+                                        .styleWithTextBlackColor2AdelleSansExtendedFonts14w400
                                     : AppTheme
-                                    .styleWithTextAppGrey7AdelleSansExtendedFonts14w400
-                                    .copyWith(color: AppTheme.appGrey19),
+                                        .styleWithTextAppGrey7AdelleSansExtendedFonts14w400
+                                        .copyWith(color: AppTheme.appGrey19),
                               ),
                             ),
                           ],
@@ -405,168 +415,206 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
             ),
           ),
           leading: InkWell(
-              onTap: (){
+              onTap: () {
                 context.pop();
               },
-              child: SVGIcons.localSVG(backWithDarkBackgroundIcon,width: 20,height: 20,fit: BoxFit.scaleDown)),
+              child: SVGIcons.localSVG(backWithDarkBackgroundIcon,
+                  width: 20, height: 20, fit: BoxFit.scaleDown)),
         ),
-        activeTabIndex == 0 ? Consumer(builder: (context, ref, child) {
-          if (sellerProducts.state == DataState.SUCCESS) {
-            categoryForProductTabController = TabController(
-                length: sellerProducts.data!.data!.categories?.length ?? 0,
-                vsync: this);
-            productCategoryTabs = sellerProducts.data!.data!.categories!
-                .map((e) => Tab(text: e.name ?? ""))
-                .toList();
-            return SliverPersistentHeader(
-              pinned: true,
-              delegate: _SliverTabBarDelegate(
-                Row(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsetsDirectional.only(start: 12.0,end: 6),
-                      child: SVGIcons.localSVG(categoryMenuIcon,width: 24,height: 24),
-                    ),
-                    Expanded(
-                      child: TabBar(
-                        isScrollable: true,
-                        onTap: (index){
-                          scrollToCategory(index);
-                          // categoryTabController?.animateTo(index);
-                        },
-                        controller: categoryForProductTabController,
-                        tabs: [...productCategoryTabs],
+        activeTabIndex == 0
+            ? Consumer(builder: (context, ref, child) {
+                if (sellerProducts.state == DataState.SUCCESS) {
+                  categoryForProductTabController = TabController(
+                      length:
+                          sellerProducts.data!.data!.categories?.length ?? 0,
+                      vsync: this);
+                  productCategoryTabs = sellerProducts.data!.data!.categories!
+                      .map((e) => Tab(text: e.name ?? ""))
+                      .toList();
+                  return SliverPersistentHeader(
+                    pinned: true,
+                    delegate: _SliverTabBarDelegate(
+                      Row(
+                        children: [
+                          InkWell(
+                            onTap: () {
+                              showCategoriesBottomSheet(
+                                  FilterScreenTypes.Products);
+                            },
+                            child: Padding(
+                              padding: const EdgeInsetsDirectional.only(
+                                  start: 12.0, end: 6),
+                              child: SVGIcons.localSVG(categoryMenuIcon,
+                                  width: 24, height: 24),
+                            ),
+                          ),
+                          Expanded(
+                            child: TabBar(
+                              isScrollable: true,
+                              onTap: (index) {
+                                scrollToCategory(index);
+                                // categoryTabController?.animateTo(index);
+                              },
+                              controller: categoryForProductTabController,
+                              tabs: [...productCategoryTabs],
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                  ],
-                ),
+                  );
+                }
+                return SliverToBoxAdapter(child: SizedBox());
+              })
+            : SliverToBoxAdapter(
+                child: SizedBox(),
               ),
-            );
-          }
-          return SliverToBoxAdapter(child: SizedBox());
-        }):SliverToBoxAdapter(child: SizedBox(),),
-        activeTabIndex == 1 ? Consumer(builder: (context, ref, child) {
-          if (sellerServices.state == DataState.SUCCESS) {
-            categoryForServiceTabController = TabController(
-                length: sellerServices.data!.data!.categories?.length ?? 0,
-                vsync: this);
-            serviceCategoryTabs = sellerServices.data!.data!.categories!
-                .map((e) => Tab(text: e.name ?? ""))
-                .toList();
-            return SliverPersistentHeader(
-              pinned: true,
-              delegate: _SliverTabBarDelegate(
-                Row(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsetsDirectional.only(start: 12.0,end: 6),
-                      child: SVGIcons.localSVG(categoryMenuIcon,width: 24,height: 24),
-                    ),
-                    Expanded(
-                      child: TabBar(
-                        isScrollable: true,
-                        onTap: (index){
-                          scrollToCategory(index);
-                          // categoryTabController?.animateTo(index);
-                        },
-                        controller: categoryForServiceTabController,
-                        tabs: [...serviceCategoryTabs],
+        activeTabIndex == 1
+            ? Consumer(builder: (context, ref, child) {
+                if (sellerServices.state == DataState.SUCCESS) {
+                  categoryForServiceTabController = TabController(
+                      length:
+                          sellerServices.data!.data!.categories?.length ?? 0,
+                      vsync: this);
+                  serviceCategoryTabs = sellerServices.data!.data!.categories!
+                      .map((e) => Tab(text: e.name ?? ""))
+                      .toList();
+                  return SliverPersistentHeader(
+                    pinned: true,
+                    delegate: _SliverTabBarDelegate(
+                      Row(
+                        children: [
+                          InkWell(
+                            onTap: () {
+                              showCategoriesBottomSheet(
+                                  FilterScreenTypes.Services);
+                            },
+                            child: Padding(
+                              padding: const EdgeInsetsDirectional.only(
+                                  start: 12.0, end: 6),
+                              child: SVGIcons.localSVG(categoryMenuIcon,
+                                  width: 24, height: 24),
+                            ),
+                          ),
+                          Expanded(
+                            child: TabBar(
+                              isScrollable: true,
+                              onTap: (index) {
+                                scrollToCategory(index);
+                                // categoryTabController?.animateTo(index);
+                              },
+                              controller: categoryForServiceTabController,
+                              tabs: [...serviceCategoryTabs],
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                  ],
-                ),
+                  );
+                }
+                return SliverToBoxAdapter(child: SizedBox());
+              })
+            : SliverToBoxAdapter(
+                child: SizedBox(),
               ),
-            );
-          }
-          return SliverToBoxAdapter(child: SizedBox());
-        }):SliverToBoxAdapter(child: SizedBox(),),
-
-        activeTabIndex == 0 ?
-            Consumer(builder:  (context, ref, child) {
-              if (_categoryForProductKeys.isEmpty &&
-                  sellerProducts.data?.data?.categories != null) {
-                _categoryForProductKeys = sellerProducts.data!.data!.categories!
-                    .map((e) => GlobalKey())
-                    .toList();
-              }
-              return SliverToBoxAdapter(
-                child: Column(
-                  children: List.generate(
-                    sellerProducts.data?.data?.categories?.length ?? 0,
-                        (index) => Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 9),
-                      child: ProductGridListviewWithCategoryName(
-                        key: _categoryForProductKeys[index],
-                        title: sellerProducts.data?.data?.categories?[index].name ?? "",
-                        rootId: sellerProducts.data?.data?.categories?[index].id?.toInt(),
-                        list: sellerProducts.data?.data?.categories?[index].products ?? [],
-                        showLoading: false,
-                        onAddItemToCart: (id) => addProductToCart(id),
-                        onAddItemToWishList: (id) => client != null
-                            ? productWishlistToggle(id)
-                            : showAuthenticated(),
-                        onItemClick: (itemId, itemName, categoryIds) {
-                          navigateToItemDetails(ItemType.Products, itemId, itemName, categoryIds);
-                        },
+        activeTabIndex == 0
+            ? Consumer(builder: (context, ref, child) {
+                if (_categoryForProductKeys.isEmpty &&
+                    sellerProducts.data?.data?.categories != null) {
+                  _categoryForProductKeys = sellerProducts
+                      .data!.data!.categories!
+                      .map((e) => GlobalKey())
+                      .toList();
+                }
+                return SliverToBoxAdapter(
+                  child: Column(
+                    children: List.generate(
+                      sellerProducts.data?.data?.categories?.length ?? 0,
+                      (index) => Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 16.0, vertical: 9),
+                        child: ProductGridListviewWithCategoryName(
+                          key: _categoryForProductKeys[index],
+                          title: sellerProducts
+                                  .data?.data?.categories?[index].name ??
+                              "",
+                          rootId: sellerProducts
+                              .data?.data?.categories?[index].id
+                              ?.toInt(),
+                          list: sellerProducts
+                                  .data?.data?.categories?[index].products ??
+                              [],
+                          showLoading: false,
+                          onAddItemToCart: (id) => addProductToCart(id),
+                          onAddItemToWishList: (id) => client != null
+                              ? productWishlistToggle(id)
+                              : showAuthenticated(),
+                          onItemClick: (itemId, itemName, categoryIds) {
+                            navigateToItemDetails(ItemType.Products, itemId,
+                                itemName, categoryIds);
+                          },
+                        ),
                       ),
                     ),
                   ),
-                ),
-              );
-            }) :
-            Consumer(builder:  (context, ref, child) {
-              if (_categoryForServiceKeys.isEmpty &&
-                  sellerServices.data?.data?.categories != null) {
-                _categoryForServiceKeys = sellerServices.data!.data!.categories!
-                    .map((e) => GlobalKey())
-                    .toList();
-              }
-              return SliverToBoxAdapter(
-                child: Column(
-                  children: List.generate(
-                    sellerServices.data?.data?.categories?.length ?? 0,
-                        (index) => Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 16.0, vertical: 9),
-                            child: ServiceGridListviewWithCategoryName(
-                              key: _categoryForServiceKeys[index],
-                              list: sellerServices.state == DataState.LOADING
-                                  ? [
-                                ServiceShowData(),
-                                ServiceShowData(),
-                                ServiceShowData(),
-                                ServiceShowData(),
-                                ServiceShowData(),
-                              ]
-                                  : sellerServices
-                                  .data?.data?.categories?[index].services ??
-                                  [],
-                              showLoading: sellerServices.state == DataState.LOADING,
-                              onItemClick: (itemId, itemName, categoryIds) {
-                                navigateToItemDetails(
-                                    ItemType.Services, itemId, itemName, categoryIds);
-                              },
-                              onAddItemToCart: (id) {
-                                addServiceToCart(id);
-                              },
-                              onAddItemToWishList: (id) {
-                                if (client != null) {
-                                  serviceWishlistToggle(id.toString());
-                                } else {
-                                  showAuthenticated();
-                                }
-                              },
-                              title: sellerServices.data?.data?.categories?[index].name ??
-                                  "",
-                              rootId: sellerServices.data?.data?.categories?[index].id
-                                  ?.toInt() ??
-                                  0,
-                            )),
+                );
+              })
+            : Consumer(builder: (context, ref, child) {
+                if (_categoryForServiceKeys.isEmpty &&
+                    sellerServices.data?.data?.categories != null) {
+                  _categoryForServiceKeys = sellerServices
+                      .data!.data!.categories!
+                      .map((e) => GlobalKey())
+                      .toList();
+                }
+                return SliverToBoxAdapter(
+                  child: Column(
+                    children: List.generate(
+                      sellerServices.data?.data?.categories?.length ?? 0,
+                      (index) => Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 16.0, vertical: 9),
+                          child: ServiceGridListviewWithCategoryName(
+                            key: _categoryForServiceKeys[index],
+                            list: sellerServices.state == DataState.LOADING
+                                ? [
+                                    ServiceShowData(),
+                                    ServiceShowData(),
+                                    ServiceShowData(),
+                                    ServiceShowData(),
+                                    ServiceShowData(),
+                                  ]
+                                : sellerServices.data?.data?.categories?[index]
+                                        .services ??
+                                    [],
+                            showLoading:
+                                sellerServices.state == DataState.LOADING,
+                            onItemClick: (itemId, itemName, categoryIds) {
+                              navigateToItemDetails(ItemType.Services, itemId,
+                                  itemName, categoryIds);
+                            },
+                            onAddItemToCart: (id) {
+                              addServiceToCart(id);
+                            },
+                            onAddItemToWishList: (id) {
+                              if (client != null) {
+                                serviceWishlistToggle(id.toString());
+                              } else {
+                                showAuthenticated();
+                              }
+                            },
+                            title: sellerServices
+                                    .data?.data?.categories?[index].name ??
+                                "",
+                            rootId: sellerServices
+                                    .data?.data?.categories?[index].id
+                                    ?.toInt() ??
+                                0,
+                          )),
+                    ),
                   ),
-                ),
-              );
-            })
-        ,
+                );
+              }),
       ]),
     );
   }
@@ -576,6 +624,7 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
         .read(getSellerDetailsWithProductStateNotifier.notifier)
         .getSellerDetails(providerId: widget.sellerId);
   }
+
   void getServices() {
     ref
         .read(getSellerDetailsWithServicesStateNotifier.notifier)
@@ -583,8 +632,11 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
   }
 
   void scrollToProductCategory(int index) {
-    final RenderBox renderBox = _categoryForProductKeys[index].currentContext?.findRenderObject() as RenderBox;
-    final position = renderBox.localToGlobal(Offset.zero, ancestor: context.findRenderObject());
+    final RenderBox renderBox = _categoryForProductKeys[index]
+        .currentContext
+        ?.findRenderObject() as RenderBox;
+    final position = renderBox.localToGlobal(Offset.zero,
+        ancestor: context.findRenderObject());
     final offset = position.dy + _scrollController.offset - 130;
 
     _scrollController.animateTo(
@@ -595,8 +647,11 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
   }
 
   void scrollToServiceCategory(int index) {
-    final RenderBox renderBox = _categoryForServiceKeys[index].currentContext?.findRenderObject() as RenderBox;
-    final position = renderBox.localToGlobal(Offset.zero, ancestor: context.findRenderObject());
+    final RenderBox renderBox = _categoryForServiceKeys[index]
+        .currentContext
+        ?.findRenderObject() as RenderBox;
+    final position = renderBox.localToGlobal(Offset.zero,
+        ancestor: context.findRenderObject());
     final offset = position.dy + _scrollController.offset - 130;
 
     _scrollController.animateTo(
@@ -683,10 +738,10 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
                 topRight: Radius.circular(10), topLeft: Radius.circular(10))),
         context: context,
         builder: (BuildContext context) => AuthenticateBottomSheet(
-          onLoginClicked: () {
-            navigateToLogin();
-          },
-        ));
+              onLoginClicked: () {
+                navigateToLogin();
+              },
+            ));
   }
 
   void showReviewsBottomSheet() {
@@ -697,17 +752,49 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
                 topRight: Radius.circular(10), topLeft: Radius.circular(10))),
         context: context,
         builder: (BuildContext context) => RatingBottomSheet(
-          providerRatingsList: ref
-              .watch(getSellerDetailsWithReviewsStateNotifier)
-              .data
-              ?.data
-              ?.ratings ??
-              [], type: FilterScreenTypes.Sellers,));
+              providerRatingsList: ref
+                      .watch(getSellerDetailsWithReviewsStateNotifier)
+                      .data
+                      ?.data
+                      ?.ratings ??
+                  [],
+              type: FilterScreenTypes.Sellers,
+            ));
+  }
+
+  void showCategoriesBottomSheet(FilterScreenTypes type) {
+    showModalBottomSheet(
+        isScrollControlled: true,
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+                topRight: Radius.circular(10), topLeft: Radius.circular(10))),
+        context: context,
+        builder: (BuildContext context) => CategoriesBottomSheet(
+              categories: type == FilterScreenTypes.Products
+                  ? ref
+                          .watch(getSellerDetailsWithProductStateNotifier)
+                          .data
+                          ?.data
+                          ?.categories ??
+                      []
+                  : ref
+                      .watch(getSellerDetailsWithServicesStateNotifier)
+                      .data
+                      ?.data
+                      ?.categories,
+              type: type,
+              initSelected: type == FilterScreenTypes.Products
+                  ? categoryForProductTabController?.index ?? 0
+                  : categoryForServiceTabController?.index ?? 0,
+          onSelected: (index){
+            scrollToCategory(index);
+          },
+        ));
   }
 
   void navigateToLogin() async {
     var makeRefresh =
-    await context.push(R_LoginScreen, extra: {"type": TypeOfMode.ViewMode});
+        await context.push(R_LoginScreen, extra: {"type": TypeOfMode.ViewMode});
     if (makeRefresh == true) {
       getProducts();
       getServices();
@@ -726,7 +813,7 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
       if (keyContext != null) {
         final box = keyContext.findRenderObject() as RenderBox;
         final position =
-        box.localToGlobal(Offset.zero); // مكان الكاتيجوري على الشاشة
+            box.localToGlobal(Offset.zero); // مكان الكاتيجوري على الشاشة
 
         double y = position.dy;
 
@@ -734,7 +821,8 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
           if (activeCategoryForProductTabIndex != i) {
             activeCategoryForProductTabIndex = i;
           }
-          categoryForProductTabController?.animateTo(activeCategoryForProductTabIndex);
+          categoryForProductTabController
+              ?.animateTo(activeCategoryForProductTabIndex);
           break;
         }
       }
@@ -747,7 +835,7 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
       if (keyContext != null) {
         final box = keyContext.findRenderObject() as RenderBox;
         final position =
-        box.localToGlobal(Offset.zero); // مكان الكاتيجوري على الشاشة
+            box.localToGlobal(Offset.zero); // مكان الكاتيجوري على الشاشة
 
         double y = position.dy;
 
@@ -755,14 +843,15 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
           if (activeCategoryTabForServiceIndex != i) {
             activeCategoryTabForServiceIndex = i;
           }
-          categoryForServiceTabController?.animateTo(activeCategoryTabForServiceIndex);
+          categoryForServiceTabController
+              ?.animateTo(activeCategoryTabForServiceIndex);
           break;
         }
       }
     }
   }
-
 }
+
 class _SliverTabBarDelegate extends SliverPersistentHeaderDelegate {
   final Widget tabBar;
 
@@ -775,13 +864,9 @@ class _SliverTabBarDelegate extends SliverPersistentHeaderDelegate {
       alignment: Alignment.centerLeft,
       child: tabBar,
       decoration: BoxDecoration(
-        color: Colors.white,
-        border: Border(
-          bottom: BorderSide(
-            color: AppTheme.appGrey8,width: .7
-          )
-        )
-      ),
+          color: Colors.white,
+          border:
+              Border(bottom: BorderSide(color: AppTheme.appGrey8, width: .7))),
     );
   }
 
@@ -796,5 +881,3 @@ class _SliverTabBarDelegate extends SliverPersistentHeaderDelegate {
     return oldDelegate.tabBar != tabBar;
   }
 }
-
-
