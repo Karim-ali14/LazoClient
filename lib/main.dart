@@ -37,7 +37,6 @@ import 'Presentation/Screens/More/FAQScreen.dart';
 import 'Presentation/Screens/More/MoreScreen.dart';
 import 'Presentation/Screens/Notification/NotificationScreen.dart';
 import 'Presentation/Screens/checkout/CheckoutScreen.dart';
-import 'Presentation/Screens/details/SellerDetailsScreen2.dart';
 import 'Presentation/Screens/details/ShowAllRatingAndReviewScreen.dart';
 import 'Presentation/Screens/home/HomeScreen.dart';
 import 'Presentation/Screens/home/ShowAllCategoryAndOccasionsData.dart';
