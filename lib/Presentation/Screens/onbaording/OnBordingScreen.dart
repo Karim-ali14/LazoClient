@@ -125,14 +125,14 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                   count: 3,
                   effect: CustomizableEffect(
                     dotDecoration: DotDecoration(
-                        width: 12,
-                        height: 2,
-                        borderRadius: BorderRadius.circular(4),
+                        width: 8,
+                        height: 8,
+                        borderRadius: BorderRadius.circular(50),
                         color: AppTheme.mainAppColorLight),
                     activeDotDecoration: DotDecoration(
-                        width: 12,
-                        height: 2,
-                        borderRadius: BorderRadius.circular(4),
+                        width: 8,
+                        height: 8,
+                        borderRadius: BorderRadius.circular(50),
                         color: AppTheme.mainAppColor),
                   ),
                   onDotClicked: (index) {
@@ -159,7 +159,18 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                       ),
                     ),
                   )
-                : const SizedBox(),
+                : Align(
+              alignment: AlignmentDirectional.bottomCenter,
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 16),
+                child: AppButton(
+                  text: context.tr(nextKey),
+                  onPress: swipeToNextOnbordingScreen,
+                  width: context.getScreenSize.width * .95,
+                  height: 56,
+                ),
+              ),
+            ),
             Padding(
               padding:
                   const EdgeInsets.symmetric(vertical: 10.0, horizontal: 8),
@@ -183,5 +194,17 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
   void getStarted() {
     context.go(R_MainScreen);
     prefs.setBool(doneLandingKey, true);
+  }
+  void swipeToNextOnbordingScreen() {
+    if (pageController.hasClients && pageController.page != null) {
+      final nextPage = pageController.page!.toInt() + 1;
+      if (nextPage < 3) {
+        pageController.animateToPage(
+          nextPage,
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeInOut,
+        );
+      }
+    }
   }
 }

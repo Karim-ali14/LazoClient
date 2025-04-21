@@ -1,5 +1,6 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/services.dart';
+import 'package:lazo_client/Constants/Assets.dart';
 import 'package:lazo_client/Presentation/StateNotifiersViewModel/ClientStateNotifiers.dart';
 import 'package:lazo_client/Presentation/StateNotifiersViewModel/UserAuthStateNotifiers.dart';
 import 'package:lazo_client/Utils/Extintions.dart';
@@ -90,25 +91,11 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
           width: context.getScreenSize.width,
           height: context.getScreenSize.height,
           decoration: const BoxDecoration(
-            color: AppTheme.mainAppColorLight
+            color: AppTheme.mainAppColorLight,
           ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Spacer(),
-              TweenAnimationBuilder<double>(
-                  curve: Curves.ease,
-                  tween: Tween<double>(begin: 0.0, end: 1.0),
-                  duration: const Duration(seconds: 9),
-                  builder:
-                      (BuildContext context, double opacity, Widget? child) {
-                    return Opacity(
-                        opacity: opacity,
-                        child: SVGIcons.appLogoIcon(width: 191, height: 159));
-                  }),
-              const Spacer(),
-            ],
-          ),
+          child: SVGIcons.localGIF(lazoSplachImage, // Use BoxFit.fill if you want exact stretch
+            width: double.infinity,
+            height: double.infinity,),
         ),
       ),
       backgroundColor: AppTheme.mainBackgroundLightColor,

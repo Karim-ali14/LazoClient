@@ -114,6 +114,7 @@ const String shareTheAppKey = "shareTheApp";
 const String appNameKey = "appName";
 const String welcomeToKey = "Welcome to";
 const String letsStartKey = "Let’s Start";
+const String nextKey = "Next";
 const String skipKey = "Skip";
 const String viewDetailsKey = "View Details";
 const String acceptKey = "Accept";
