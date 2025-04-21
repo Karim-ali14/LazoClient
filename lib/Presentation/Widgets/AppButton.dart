@@ -36,7 +36,7 @@ class AppButton extends StatelessWidget {
             shape: isCircle == true ? MaterialStateProperty.all(const CircleBorder()) : MaterialStateProperty.all(RoundedRectangleBorder(
                 borderRadius: radius??BorderRadius.circular(8)
             )),
-            backgroundColor: MaterialStateProperty.all(backColor ?? (enabled == true ? AppTheme.appSwatch : AppTheme.appGrey7)),
+            backgroundColor: MaterialStateProperty.all(backColor ?? (enabled == true ? AppTheme.mainAppColorDark : AppTheme.appGrey7)),
           ),
           child: child ?? Text(
               text!,

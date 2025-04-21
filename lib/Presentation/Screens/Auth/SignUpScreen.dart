@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:country_code_picker/country_code_picker.dart';
+import 'package:country_picker/country_picker.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -42,6 +44,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
   final phoneController = TextEditingController();
   final emailController = TextEditingController();
   final cityController = TextEditingController();
+  final CodeCountryController = TextEditingController();
   final formKey = GlobalKey<FormState>();
   File? imageFile = null;
   List<City> cities = [];
@@ -129,7 +132,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                   ),
                   AppTextField(
                     textInputType: TextInputType.name,
-                    textFieldBorderColor: AppTheme.appGrey3,
+                    textFieldBorderColor: Colors.white,
                     mode: AutovalidateMode.onUserInteraction,
                     hint: context.tr(fullNameKey),
                     label: context.tr(fullNameKey),
@@ -146,28 +149,8 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                     height: defaultPaddingHorizontal,
                   ),
                   AppTextField(
-                    textInputType: TextInputType.phone,
-                    textFieldBorderColor: AppTheme.appGrey3,
-                    mode: AutovalidateMode.onUserInteraction,
-                    hint: context.tr(phoneNumberKey),
-                    label: context.tr(phoneNumberKey),
-                    textEditingController: phoneController,
-                    validate: (value) {
-                      if (value?.isEmpty == true) {
-                        return context.tr(enterYourPhoneKey);
-                      }else if (value?.isPhoneValidate == false) {
-                        return "Must start with 5 and be 9 digits long";
-                      } else {
-                        return null;
-                      }
-                    },
-                  ),
-                  const SizedBox(
-                    height: defaultPaddingHorizontal,
-                  ),
-                  AppTextField(
                     textInputType: TextInputType.emailAddress,
-                    textFieldBorderColor: AppTheme.appGrey3,
+                    textFieldBorderColor: Colors.white,
                     mode: AutovalidateMode.onUserInteraction,
                     hint: context.tr(emailAddressOptionalKey),
                     label: context.tr(emailAddressOptionalKey),
@@ -183,6 +166,62 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                   const SizedBox(
                     height: defaultPaddingHorizontal,
                   ),
+                  Row(
+                    children: [
+                      // Country Code Picker
+                    AppTextField(
+                    width: 130,
+                    readOnly: true,
+                    textInputType: TextInputType.none,
+                    textFieldBorderColor: Colors.white,
+                    mode: AutovalidateMode.disabled,
+                    hint: '', // ما فيش hint
+                    label: '', // ولا label
+                    textEditingController: CodeCountryController,
+                    endWidget: CountryCodePicker(
+                      onChanged: (country) {
+                        setState(() {
+                          CodeCountryController.text = country.dialCode ?? "+966";
+                        });
+                      },
+                      showCountryOnly: false,
+                      showOnlyCountryWhenClosed: false,
+                      showFlag: false,
+                      showFlagDialog: true,
+                      alignLeft: false,
+                      textStyle: const TextStyle(fontSize: 16, color: Colors.black),
+                      flagWidth: 24,
+                      padding: EdgeInsets.zero,
+                    ),
+                    validate: (_) => null,
+                  ),
+                      const SizedBox(width: 8),
+
+                      // رقم الهاتف
+                      Expanded(
+                        child: AppTextField(
+                          textInputType: TextInputType.phone,
+                          textFieldBorderColor: Colors.white,
+                          mode: AutovalidateMode.onUserInteraction,
+                          hint: context.tr(phoneNumberKey),
+                          label: context.tr(phoneNumberKey),
+                          textEditingController: phoneController,
+                          validate: (value) {
+                            if (value?.isEmpty == true) {
+                              return context.tr(enterYourPhoneKey);
+                            } else if (value?.isPhoneValidate == false) {
+                              return "Must start with 5 and be 9 digits long";
+                            } else {
+                              return null;
+                            }
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: defaultPaddingHorizontal,
+                  ),
                   AppTextField(
                     endWidget: InkWell(
                         onTap: () {
@@ -191,7 +230,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                         child: SVGIcons.bottomRedArrowIcon()),
                     readOnly: true,
                     textInputType: TextInputType.text,
-                    textFieldBorderColor: AppTheme.appGrey3,
+                    textFieldBorderColor: Colors.white,
                     mode: AutovalidateMode.onUserInteraction,
                     hint: context.tr(chooseCityKey),
                     label: context.tr(chooseCityKey),
@@ -266,9 +305,10 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
         builder: (BuildContext context) {
           return CustomSelectorBottomSheet(
               context: context,
+              showRadio: false,
               btuName: context.tr("Ok"),
-              enableSearch: true,
-              title: context.tr("chooseManufacturingYearsKey"),
+              enableSearch: false,
+              title: context.tr("Select City"),
               widgetList: cities
                   .map((e) => ItemSelector(e.id ?? 0, e.name ?? "", null))
                   .toList(),

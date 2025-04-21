@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:lazo_client/Presentation/Theme/AppTheme.dart';
 
 typedef StringCallBack = Function(String);
 
@@ -120,14 +121,14 @@ class _AppTextFieldState extends State<AppTextField> {
 
   InputBorder get getBorder => widget.textFieldBorderColor != null ?  OutlineInputBorder(
     borderSide: BorderSide(color: widget.textFieldBorderColor??Colors.transparent),
-    borderRadius: widget.borderRidus?? BorderRadius.circular(4),
+    borderRadius: widget.borderRidus?? BorderRadius.circular(8),
   ) : UnderlineInputBorder(
     borderSide: BorderSide(color:Colors.transparent),
-    borderRadius: widget.borderRidus?? BorderRadius.circular(4),
+    borderRadius: widget.borderRidus?? BorderRadius.circular(8),
   );
 
   InputBorder get getErrBorder => widget.textFieldBorderColor != null ?  OutlineInputBorder(
-    borderSide: BorderSide(color: Colors.red),
+    borderSide: BorderSide(color: AppTheme.mainAppColorDark),
     borderRadius: widget.borderRidus?? BorderRadius.circular(4),
   ) : UnderlineInputBorder(
     borderSide: BorderSide(color:Colors.transparent),
