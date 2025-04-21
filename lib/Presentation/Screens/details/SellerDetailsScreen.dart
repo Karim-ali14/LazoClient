@@ -26,6 +26,7 @@ import '../../../Constants/Assets.dart';
 import '../../../Localization/Keys.dart';
 import '../../BottomSheets/AuthenticateBottomSheet.dart';
 import '../../BottomSheets/CategoriesBottomSheet.dart';
+import '../../BottomSheets/DescriptionBottomSheet.dart';
 import '../../StateNotifiersViewModel/PublicStateNotifiers.dart';
 import '../../StateNotifiersViewModel/UserAuthStateNotifiers.dart';
 import '../../StateNotifiersViewModel/WishListStateNotifiers.dart';
@@ -339,17 +340,17 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
                         SizedBox(
                           height: 8,
                         ),
-                        ExpandedText(
-                            defaultExpandedValue: defaultExpandedValue,
-                            maxLength: 40,
-                            textStyle: AppTheme
-                                .styleWithTextAppGrey7AdelleSansExtendedFonts14w400
-                                .copyWith(height: 1.5),
-                            onExpandChangeStatus: (value) {
-                              defaultExpandedValue = value;
-                              print(defaultExpandedValue);
-                            },
-                            textValue: sellerProducts.data?.data?.bio ?? ""),
+                        Row(
+                          children: [
+                            Text((sellerProducts.data?.data?.bio ?? "").ellipsize(40),style: AppTheme
+                                .styleWithTextAppGrey7AdelleSansExtendedFonts14w400,),
+                            (sellerProducts.data?.data?.bio?.length ?? 0) > 40 ? InkWell(
+                                onTap: (){
+                                  showAllDescriptionBottomSheet();
+                                },
+                                child: Text("See more",style: AppTheme.styleWithTextBlackColor2AdelleSansExtendedFonts14w400.copyWith(decoration: TextDecoration.underline),)) : SizedBox(),
+                          ],
+                        ),
                         SizedBox(
                           height: 8,
                         ),
@@ -831,6 +832,23 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
         }
       }
     }
+  }
+
+  void showAllDescriptionBottomSheet() {
+    showModalBottomSheet(
+        isScrollControlled: true,
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+                topRight: Radius.circular(10), topLeft: Radius.circular(10))),
+        context: context,
+        builder: (BuildContext context) => DescriptionBottomSheet(
+              description: ref
+                      .watch(getSellerDetailsWithProductStateNotifier)
+                      .data
+                      ?.data
+                      ?.bio ??
+                  "",
+            ));
   }
 }
 
