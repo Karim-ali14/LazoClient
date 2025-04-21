@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:lazo_client/Data/Network/lib/api.dart';
 import 'package:lazo_client/Presentation/Widgets/CircleImage.dart';
+import 'package:lazo_client/Utils/Extintions.dart';
 
 import '../../../../Constants/Assets.dart';
 import '../../../Theme/AppTheme.dart';
@@ -10,8 +11,8 @@ import '../../../Widgets/SvgIcons.dart';
 
 class BrandDetails extends StatelessWidget {
   final ProviderData? provider;
-  final VoidCallback onProviderClick;
-  final VoidCallback onReviewClick;
+  final Function(int?) onProviderClick;
+  final Function(int?) onReviewClick;
   const BrandDetails({super.key, this.provider, required this.onProviderClick, required this.onReviewClick});
 
   @override
@@ -20,7 +21,7 @@ class BrandDetails extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          "Description",
+          "Brand Details",
           style: AppTheme
               .styleWithTextBlackColor2AdelleSansExtendedFonts16w400,
         ),
@@ -31,7 +32,7 @@ class BrandDetails extends StatelessWidget {
           children: [
             InkWell(
               onTap: (){
-                onProviderClick.call();
+                onProviderClick.call(provider?.id);
               },
               child: Container(
                 width: 24,
@@ -49,9 +50,9 @@ class BrandDetails extends StatelessWidget {
             const SizedBox(width: 5,),
             InkWell(
                 onTap: (){
-                  onProviderClick.call();
+                  onProviderClick.call(provider?.id);
                 },
-                child: Text("By ${provider?.name}",style: AppTheme.styleWithTextAppGrey21AdelleSansExtendedFonts14w500.copyWith(decoration: TextDecoration.underline),)),
+                child: Text("By ${provider?.name?.ellipsize(20)}",style: AppTheme.styleWithTextAppGrey21AdelleSansExtendedFonts14w500.copyWith(decoration: TextDecoration.underline),)),
             const SizedBox(width: 5,),
             Container(
               width: 5,
@@ -84,7 +85,7 @@ class BrandDetails extends StatelessWidget {
             const SizedBox(width: 5,),
             InkWell(
               onTap: (){
-                onReviewClick.call();
+                onReviewClick.call(provider?.id);
               },
               child: Text(
                 "(${provider?.ratingsCount}) Reviews",

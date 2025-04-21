@@ -27,7 +27,7 @@ enum ButtonsClickType {
 }
 
 enum ItemType {
-  Products,Services,
+  Products,Services
 }
 
 enum CartItemType {

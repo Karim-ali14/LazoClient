@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lazo_client/Presentation/Screens/showOccasionsResult/ProductOccasionScreen.dart';
 import 'package:lazo_client/Presentation/Screens/showOccasionsResult/ServiceOccasionsScreen.dart';
@@ -91,7 +92,7 @@ class _OccasionResultScreenState extends ConsumerState<OccasionResultScreen>
     return false; // Return true to allow the pop action, false to prevent it
   }
 
-  final headerHeightPresent = 0.22;
+  final headerHeightPresent = 214.h;
   @override
   Widget build(BuildContext context) {
     filterForAllProductData = ref.watch(filterForProductStateNotifiers);
@@ -108,23 +109,21 @@ class _OccasionResultScreenState extends ConsumerState<OccasionResultScreen>
             child: Column(
               children: [
                 Container(
-                  height: MediaQuery.of(context).size.height *
-                      headerHeightPresent,
+                  height: headerHeightPresent,
                   child: Stack(
                     children: [
                       Container(
-                        height: MediaQuery.of(context).size.height *
-                            headerHeightPresent,
+                        height: headerHeightPresent,
                         width: double.infinity,
                         child: ImageView(
                           width: MediaQuery.of(context).size.width,
-                          height: MediaQuery.of(context).size.height *
+                          height:
                               headerHeightPresent,
                           initialImg: widget.image,
                         ),
                       ),
                       Container(
-                        height: 200,
+                        height: headerHeightPresent,
                         width: double.infinity,
                         decoration: BoxDecoration(
                           color: Colors.black.withOpacity(0.5),

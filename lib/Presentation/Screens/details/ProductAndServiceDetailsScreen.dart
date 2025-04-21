@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lazo_client/Constants.dart';
 import 'package:lazo_client/Data/Models/ItemSelector.dart';
@@ -47,20 +48,21 @@ class ProductAndServiceDetailsScreen extends ConsumerStatefulWidget {
   final int? cartId;
   const ProductAndServiceDetailsScreen(
       {this.name,
-        this.id,
-        this.relatedCategoriesIds,
-        this.itemType,
-        this.productDetails,
-        this.serviceShowData,
-        this.cartId,
-        super.key});
+      this.id,
+      this.relatedCategoriesIds,
+      this.itemType,
+      this.productDetails,
+      this.serviceShowData,
+      this.cartId,
+      super.key});
 
   @override
   ConsumerState<ProductAndServiceDetailsScreen> createState() =>
       _ProductAndServiceDetailsScreenState();
 }
 
-class _ProductAndServiceDetailsScreenState extends ConsumerState<ProductAndServiceDetailsScreen> {
+class _ProductAndServiceDetailsScreenState
+    extends ConsumerState<ProductAndServiceDetailsScreen> {
   var makeRefresh = false;
 
   Future<bool> _onWillPop() async {
@@ -108,14 +110,15 @@ class _ProductAndServiceDetailsScreenState extends ConsumerState<ProductAndServi
     final serviceItemState = ref.watch(getServiceDetails);
     final relatedProductData = ref.watch(getRelatedProductsStateNotifiers);
     final relatedServiceData = ref.watch(getRelatedServicesStateNotifiers);
+    final sellerReview = ref.watch(getSellerDetailsWithReviewsStateNotifier);
 
     handleState(getProductDetails, showLoading: false, onSuccess: (res) {
       res.data?.data?.lists?.forEach((item) {
         if (item.clientSelectedItemsInCart?.isNotEmpty == true) {
           productSelectedItemsIds[int.tryParse((item.id ?? 0).toString()) ??
               0] = item.clientSelectedItemsInCart
-              ?.map((item) => item.id.toString())
-              .toList() ??
+                  ?.map((item) => item.id.toString())
+                  .toList() ??
               [];
         }
       });
@@ -125,100 +128,106 @@ class _ProductAndServiceDetailsScreenState extends ConsumerState<ProductAndServi
 
     handleState(updateCartItemsStateNotifies, showLoading: true,
         onSuccess: (res) {
-          updateCart();
-          context.pop();
-        });
+      updateCart();
+      context.pop();
+    });
 
+    handleState(getSellerDetailsWithReviewsStateNotifier, showLoading: true,onSuccess: (res) {
+      showReviewsBottomSheet(type: FilterScreenTypes.Sellers,sellerRatingsList: res.data?.data?.ratings);
+    });
     handleState(addProductToCartUseCaseStateNotifier,
         showLoading: true, showToast: true, onSuccess: (res) {
-          var id = res.data?.data?.productId;
-          print("product id : $id");
-          if (id != null) {
-            ref
-                .read(fetchCardDetailsStateNotifies.notifier)
-                .getCardDetails(sessionId: res.data?.data?.sessionId);
-            ref.read(getProductDetails.notifier).handelAddProductToCart(id);
-            ref.read(homeDataStateNotifiers.notifier).handleAddProductToCart(id);
-            ref.read(getProductsStateNotifiers.notifier).handleAddProductToCart(id);
-            ref
-                .read(getRelatedProductsStateNotifiers.notifier)
-                .handleAddProductToCart(id);
-          }
-        });
+      var id = res.data?.data?.productId;
+      print("product id : $id");
+      if (id != null) {
+        ref
+            .read(fetchCardDetailsStateNotifies.notifier)
+            .getCardDetails(sessionId: res.data?.data?.sessionId);
+        ref.read(getProductDetails.notifier).handelAddProductToCart(id);
+        ref.read(homeDataStateNotifiers.notifier).handleAddProductToCart(id);
+        ref.read(getProductsStateNotifiers.notifier).handleAddProductToCart(id);
+        ref
+            .read(getRelatedProductsStateNotifiers.notifier)
+            .handleAddProductToCart(id);
+      }
+    });
 
     handleState(addServiceToCartUseCaseStateNotifier,
         showLoading: true, showToast: true, onSuccess: (res) {
-          var id = res.data?.data?.serviceId;
-          if (id != null) {
-            var sessionId = ref
-                .read(getSessionHandlerStateNotifier.notifier)
-                .checkIfSessionIdExist();
-            ref
-                .read(fetchCardDetailsStateNotifies.notifier)
-                .getCardDetails(sessionId: res.data?.data?.sessionId);
-            ref.read(getServiceDetails.notifier).handelAddServiceToCart(id);
-            ref.read(homeDataStateNotifiers.notifier).handelAddServiceToCart(id);
-            ref.read(getServicesStateNotifiers.notifier).handelAddServiceToCart(id);
-            ref
-                .read(getRelatedServicesStateNotifiers.notifier)
-                .handelAddServiceToCart(id);
-          }
-        });
+      var id = res.data?.data?.serviceId;
+      if (id != null) {
+        var sessionId = ref
+            .read(getSessionHandlerStateNotifier.notifier)
+            .checkIfSessionIdExist();
+        ref
+            .read(fetchCardDetailsStateNotifies.notifier)
+            .getCardDetails(sessionId: res.data?.data?.sessionId);
+        ref.read(getServiceDetails.notifier).handelAddServiceToCart(id);
+        ref.read(homeDataStateNotifiers.notifier).handelAddServiceToCart(id);
+        ref.read(getServicesStateNotifiers.notifier).handelAddServiceToCart(id);
+        ref
+            .read(getRelatedServicesStateNotifiers.notifier)
+            .handelAddServiceToCart(id);
+      }
+    });
 
     handleState(productToggleStateNotifier, showLoading: true,
         onSuccess: (res) {
-          ref
-              .read(getSellerDetailsWithProductStateNotifier.notifier)
-              .handleAddProductToWishList(
+      ref
+          .read(getSellerDetailsWithProductStateNotifier.notifier)
+          .handleAddProductToWishList(
               res.data?.data?.productId?.toInt() ?? 0,
               res.data?.data?.categoriesIds ?? [],
               res.data?.data?.inWishlist ?? false);
 
-          ref.read(getProductDetails.notifier).handelAddProductToWishList(
-              res.data?.data?.productId ?? 0, res.data?.data?.inWishlist ?? false);
+      ref.read(getProductDetails.notifier).handelAddProductToWishList(
+          res.data?.data?.productId ?? 0, res.data?.data?.inWishlist ?? false);
 
-          ref.read(homeDataStateNotifiers.notifier).handleAddProductToWishList(
-              res.data?.data?.productId ?? 0, res.data?.data?.inWishlist ?? false);
+      ref.read(homeDataStateNotifiers.notifier).handleAddProductToWishList(
+          res.data?.data?.productId ?? 0, res.data?.data?.inWishlist ?? false);
 
-          ref.read(getProductsStateNotifiers.notifier).handleAddProductToWishList(
-              res.data?.data?.productId ?? 0, res.data?.data?.inWishlist ?? false);
+      ref.read(getProductsStateNotifiers.notifier).handleAddProductToWishList(
+          res.data?.data?.productId ?? 0, res.data?.data?.inWishlist ?? false);
 
-          ref
-              .read(getRelatedProductsStateNotifiers.notifier)
-              .handleAddProductToWishList(res.data?.data?.productId ?? 0,
+      ref
+          .read(getRelatedProductsStateNotifiers.notifier)
+          .handleAddProductToWishList(res.data?.data?.productId ?? 0,
               res.data?.data?.inWishlist ?? false);
-        });
+    });
 
     handleState(serviceToggleStateNotifier, showLoading: true,
         onSuccess: (res) {
-          ref
-              .read(getSellerDetailsWithServicesStateNotifier.notifier)
-              .handleAddServiceToWishList(
+      ref
+          .read(getSellerDetailsWithServicesStateNotifier.notifier)
+          .handleAddServiceToWishList(
               res.data?.data?.serviceId?.toInt() ?? 0,
               res.data?.data?.categoriesIds ?? [],
               res.data?.data?.inWishlist ?? false);
 
-          ref.read(getServiceDetails.notifier).handelAddServiceToWishList(
-              res.data?.data?.serviceId ?? 0, res.data?.data?.inWishlist ?? false);
+      ref.read(getServiceDetails.notifier).handelAddServiceToWishList(
+          res.data?.data?.serviceId ?? 0, res.data?.data?.inWishlist ?? false);
 
-          ref.read(homeDataStateNotifiers.notifier).handelAddServiceToWishList(
-              res.data?.data?.serviceId ?? 0, res.data?.data?.inWishlist ?? false);
+      ref.read(homeDataStateNotifiers.notifier).handelAddServiceToWishList(
+          res.data?.data?.serviceId ?? 0, res.data?.data?.inWishlist ?? false);
 
-          ref.read(getServicesStateNotifiers.notifier).handelAddServiceToWishlist(
-              res.data?.data?.serviceId ?? 0, res.data?.data?.inWishlist ?? false);
+      ref.read(getServicesStateNotifiers.notifier).handelAddServiceToWishlist(
+          res.data?.data?.serviceId ?? 0, res.data?.data?.inWishlist ?? false);
 
-          ref
-              .read(getRelatedServicesStateNotifiers.notifier)
-              .handelAddServiceToWishlist(res.data?.data?.serviceId ?? 0,
+      ref
+          .read(getRelatedServicesStateNotifiers.notifier)
+          .handelAddServiceToWishlist(res.data?.data?.serviceId ?? 0,
               res.data?.data?.inWishlist ?? false);
-        });
+    });
 
-    handleState(getProductReviews,onSuccess: (res){
-      showReviewsBottomSheet(res.data?.data?.ratings);
+    handleState(getProductReviews, showLoading: true, onSuccess: (res) {
+      showReviewsBottomSheet(type : FilterScreenTypes.Products,productAndServiceRatingsList: res.data?.data?.ratings);
     });
-    handleState(getServiceReviews,onSuccess: (res){
-      showReviewsBottomSheet(res.data?.data?.ratings);
+    handleState(getServiceReviews, showLoading: true, onSuccess: (res) {
+      showReviewsBottomSheet(productAndServiceRatingsList:res.data?.data?.ratings,type: FilterScreenTypes.Services);
     });
+
+    final expandedHeight = 352.h;
+    final imageHeight = 375.h;
     return WillPopScope(
       onWillPop: _onWillPop,
       child: Scaffold(
@@ -228,7 +237,7 @@ class _ProductAndServiceDetailsScreenState extends ConsumerState<ProductAndServi
               slivers: [
                 SliverAppBar(
                   automaticallyImplyLeading: false, // Add this line
-                  expandedHeight: MediaQuery.of(context).size.height * .45,
+                  expandedHeight: expandedHeight,
                   titleSpacing: 0,
                   pinned: true,
                   elevation: 0,
@@ -249,32 +258,32 @@ class _ProductAndServiceDetailsScreenState extends ConsumerState<ProductAndServi
                               if (client != null) {
                                 widget.itemType == ItemType.Products
                                     ? productWishlistToggle(productItemState
-                                    .data?.data?.id
-                                    ?.toInt() ??
-                                    0)
+                                            .data?.data?.id
+                                            ?.toInt() ??
+                                        0)
                                     : serviceWishlistToggle(serviceItemState
-                                    .data?.data?.id
-                                    ?.toString() ??
-                                    "");
+                                            .data?.data?.id
+                                            ?.toString() ??
+                                        "");
                               } else {
                                 showAuthenticated();
                               }
                             },
                             child: widget.itemType == ItemType.Products
                                 ? productItemState.data?.data?.inWishlist ==
-                                true
-                                ? SVGIcons.activeFavoriteIcon()
-                                : SVGIcons.localSVG(
-                                unFavoriteWithBackgroundIcon,
-                                width: 32,
-                                height: 32)
+                                        true
+                                    ? SVGIcons.activeFavoriteIcon()
+                                    : SVGIcons.localSVG(
+                                        unFavoriteWithBackgroundIcon,
+                                        width: 32,
+                                        height: 32)
                                 : serviceItemState.data?.data?.inWishlist ==
-                                true
-                                ? SVGIcons.activeFavoriteIcon()
-                                : SVGIcons.localSVG(
-                                unFavoriteWithBackgroundIcon,
-                                width: 32,
-                                height: 32)),
+                                        true
+                                    ? SVGIcons.activeFavoriteIcon()
+                                    : SVGIcons.localSVG(
+                                        unFavoriteWithBackgroundIcon,
+                                        width: 32,
+                                        height: 32)),
                         SizedBox(
                           width: 8,
                         ),
@@ -289,14 +298,14 @@ class _ProductAndServiceDetailsScreenState extends ConsumerState<ProductAndServi
                         BannerCardItems(
                           list: widget.itemType == ItemType.Products
                               ? (productItemState.data?.data?.images?.map(
-                                  (item) => item.imagePath ?? "") ??
-                              [])
-                              .toList()
+                                          (item) => item.imagePath ?? "") ??
+                                      [])
+                                  .toList()
                               : (serviceItemState.data?.data?.images?.map(
-                                  (item) => item.imagePath ?? "") ??
-                              [])
-                              .toList(),
-                          height: MediaQuery.of(context).size.height * 0.5,
+                                          (item) => item.imagePath ?? "") ??
+                                      [])
+                                  .toList(),
+                          height: imageHeight,
                           radius: 0,
                           width: MediaQuery.of(context).size.width,
                           showLoading: false,
@@ -304,33 +313,52 @@ class _ProductAndServiceDetailsScreenState extends ConsumerState<ProductAndServi
                         ),
                         Align(
                           alignment: AlignmentDirectional.bottomEnd,
-                          child:  Row(
+                          child: Row(
                             children: [
                               Spacer(),
                               Container(
-                                margin: EdgeInsets.all(10),
-                                padding: EdgeInsets.symmetric(horizontal: 15,vertical: 5),
+                                margin: EdgeInsetsDirectional.only(
+                                    end: 10, bottom: 10.h),
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 15, vertical: 5),
                                 decoration: BoxDecoration(
                                     color: AppTheme.appPink2,
                                     borderRadius:
-                                    BorderRadius.all(Radius.circular(50))),
+                                        BorderRadius.all(Radius.circular(50))),
                                 child: Row(
                                   children: [
-                                    Text(widget.itemType == ItemType.Products
-                                        ? (productItemState
-                                        .data?.data?.overallRating ??
-                                        0)
-                                        .toString()
-                                        : (serviceItemState
-                                        .data?.data?.overallRating ??
-                                        0)
-                                        .toString(),
-                                      style: AppTheme.styleWithTextBlackColor2ColorAdelleSansExtendedFonts13w400,),
+                                    Text(
+                                      widget.itemType == ItemType.Products
+                                          ? (productItemState.data?.data
+                                                      ?.overallRating ??
+                                                  0)
+                                              .toString()
+                                          : (serviceItemState.data?.data
+                                                      ?.overallRating ??
+                                                  0)
+                                              .toString(),
+                                      style: AppTheme
+                                          .styleWithTextBlackColor2ColorAdelleSansExtendedFonts13w400,
+                                    ),
                                     SizedBox(width: 3),
                                     SVGIcons.smallStarIcon(),
                                     SizedBox(width: 3),
-                                    Text("(${widget.itemType == ItemType.Products ? (productItemState.data?.data?.ratingsCount ?? 0).toString() : (serviceItemState.data?.data?.ratingsCount ?? 0).toString()})",
-                                        style: AppTheme.styleWithTextBlackColor2ColorAdelleSansExtendedFonts13w400.copyWith(decoration: TextDecoration.underline))
+                                    InkWell(
+                                      onTap: () {
+                                        showAllReviews(
+                                            widget.id,
+                                            widget.itemType == ItemType.Products
+                                                ? FilterScreenTypes.Products
+                                                : FilterScreenTypes.Services);
+                                      },
+                                      child: Text(
+                                          "(${widget.itemType == ItemType.Products ? (productItemState.data?.data?.ratingsCount ?? 0).toString() : (serviceItemState.data?.data?.ratingsCount ?? 0).toString()}) Reviews",
+                                          style: AppTheme
+                                              .styleWithTextBlackColor2ColorAdelleSansExtendedFonts13w500
+                                              .copyWith(
+                                                  decoration: TextDecoration
+                                                      .underline)),
+                                    )
                                   ],
                                 ),
                               )
@@ -356,27 +384,27 @@ class _ProductAndServiceDetailsScreenState extends ConsumerState<ProductAndServi
                             children: [
                               TruncatedText(
                                   text:
-                                  "${widget.itemType == ItemType.Products ? productItemState.data?.data?.name : serviceItemState.data?.data?.name} ",
+                                      "${widget.itemType == ItemType.Products ? productItemState.data?.data?.name : serviceItemState.data?.data?.name} ",
                                   style: AppTheme
                                       .styleWithTextBlackColor2AdelleSansExtendedFonts20w500,
                                   maxLength: 30),
                               Spacer(),
                               widget.itemType == ItemType.Products
                                   ? Container(
-                                decoration: BoxDecoration(
-                                  color: AppTheme.appPink,
-                                  borderRadius: BorderRadius.circular(7),
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 10, vertical: 4),
-                                  child: Text(
-                                    "${productItemState.data?.data?.amount ?? 0} In Stock",
-                                    style: AppTheme
-                                        .styleWithTextBlackColor2ColorAdelleSansExtendedFonts13w400,
-                                  ),
-                                ),
-                              )
+                                      decoration: BoxDecoration(
+                                        color: AppTheme.appPink,
+                                        borderRadius: BorderRadius.circular(7),
+                                      ),
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 10, vertical: 4),
+                                        child: Text(
+                                          "${productItemState.data?.data?.amount ?? 0} In Stock",
+                                          style: AppTheme
+                                              .styleWithTextBlackColor2ColorAdelleSansExtendedFonts13w400,
+                                        ),
+                                      ),
+                                    )
                                   : SizedBox(),
                             ],
                           ),
@@ -404,29 +432,29 @@ class _ProductAndServiceDetailsScreenState extends ConsumerState<ProductAndServi
                               ),
                               widget.itemType == ItemType.Products
                                   ? productItemState
-                                  .data?.data?.priceAfterDiscount !=
-                                  productItemState.data?.data?.price
-                                  ? Text(
-                                "SAR ${productItemState.data?.data?.price ?? ""}",
-                                style: AppTheme
-                                    .styleWithTextAppGrey18ColorAdelleSansExtendedFonts16w400
-                                    .copyWith(
-                                    decoration: TextDecoration
-                                        .lineThrough),
-                              )
-                                  : SizedBox()
+                                              .data?.data?.priceAfterDiscount !=
+                                          productItemState.data?.data?.price
+                                      ? Text(
+                                          "SAR ${productItemState.data?.data?.price ?? ""}",
+                                          style: AppTheme
+                                              .styleWithTextAppGrey18ColorAdelleSansExtendedFonts16w400
+                                              .copyWith(
+                                                  decoration: TextDecoration
+                                                      .lineThrough),
+                                        )
+                                      : SizedBox()
                                   : serviceItemState
-                                  .data?.data?.priceAfterDiscount !=
-                                  serviceItemState.data?.data?.price
-                                  ? Text(
-                                "SAR ${serviceItemState.data?.data?.price ?? ""}",
-                                style: AppTheme
-                                    .styleWithTextAppGrey7AdelleSansExtendedFonts14w400
-                                    .copyWith(
-                                    decoration: TextDecoration
-                                        .lineThrough),
-                              )
-                                  : SizedBox(),
+                                              .data?.data?.priceAfterDiscount !=
+                                          serviceItemState.data?.data?.price
+                                      ? Text(
+                                          "SAR ${serviceItemState.data?.data?.price ?? ""}",
+                                          style: AppTheme
+                                              .styleWithTextAppGrey7AdelleSansExtendedFonts14w400
+                                              .copyWith(
+                                                  decoration: TextDecoration
+                                                      .lineThrough),
+                                        )
+                                      : SizedBox(),
                             ],
                           ),
                           SizedBox(
@@ -452,7 +480,7 @@ class _ProductAndServiceDetailsScreenState extends ConsumerState<ProductAndServi
                           ),
                           ExpandedText(
                             textValue:
-                            "${widget.itemType == ItemType.Products ? productItemState.data?.data?.description : serviceItemState.data?.data?.description} ",
+                                "${widget.itemType == ItemType.Products ? productItemState.data?.data?.description : serviceItemState.data?.data?.description} ",
                             textStyle: AppTheme
                                 .styleWithTextAppGrey18AdelleSansExtendedFonts14w400
                                 .copyWith(height: 1.5),
@@ -472,12 +500,12 @@ class _ProductAndServiceDetailsScreenState extends ConsumerState<ProductAndServi
                                 ),
                                 ItemDetailsRow(
                                   title: "Type:",
-                                  textValue: "${productItemState
-                                      .data?.data?.type}",
+                                  textValue:
+                                      "${productItemState.data?.data?.type}",
                                   valueTextStyle: AppTheme
                                       .styleWithTextAppGrey21AdelleSansExtendedFonts14w400
                                       .copyWith(
-                                      decoration: TextDecoration.underline),
+                                          decoration: TextDecoration.underline),
                                   extraWidget: SVGIcons.localSVG(giftIconIcon,
                                       width: 18, height: 18),
                                   onValueClick: () {},
@@ -490,7 +518,7 @@ class _ProductAndServiceDetailsScreenState extends ConsumerState<ProductAndServi
                                 ItemDetailsRow(
                                   title: "Product Size:",
                                   textValue:
-                                  "${productItemState.data?.data?.sizes.first.name}",
+                                      "${productItemState.data?.data?.sizes.first.name}",
                                 ),
                                 // ProductRowItem(
                                 //   title: "Categories",
@@ -509,15 +537,14 @@ class _ProductAndServiceDetailsScreenState extends ConsumerState<ProductAndServi
                                 ItemDetailsRow(
                                   title: "Time for processing:",
                                   textValue:
-                                  "${productItemState.data?.data?.expectedProcessingTime}"
-                                      .ellipsize(28),
+                                      "${productItemState.data?.data?.expectedProcessingTime}"
+                                          .ellipsize(28),
                                 ),
                               ],
                             )
                           else if (widget.itemType == ItemType.Services)
                             StatefulBuilder(
                               builder: (context, setState) {
-        
                                 // Your item list
                                 final List<Widget> itemDetails = [
                                   ItemDetailsRow(
@@ -529,37 +556,37 @@ class _ProductAndServiceDetailsScreenState extends ConsumerState<ProductAndServi
                                   ItemDetailsRow(
                                     title: "Card Type",
                                     textValue:
-                                    "${serviceItemState.data?.data?.cardType}",
+                                        "${serviceItemState.data?.data?.cardType}",
                                   ),
                                   if (serviceItemState.data?.data?.cardPrice !=
                                       null)
                                     ItemDetailsRow(
                                       title: "Price for hard card",
                                       textValue:
-                                      "SAR ${serviceItemState.data?.data?.cardPrice}",
+                                          "SAR ${serviceItemState.data?.data?.cardPrice}",
                                     ),
                                   ItemDetailsRow(
                                     title: "Card Duration",
                                     textValue:
-                                    "${serviceItemState.data?.data?.cardExpiration}"
-                                        .ellipsize(28),
+                                        "${serviceItemState.data?.data?.cardExpiration}"
+                                            .ellipsize(28),
                                   ),
                                   ItemDetailsRow(
                                     title: "Out of the store",
                                     textValue: (serviceItemState.data?.data
-                                        ?.isServiceDeliverableOutsideStore ==
-                                        1
+                                                ?.isServiceDeliverableOutsideStore ==
+                                            1
                                         ? "Yes"
                                         : "No"),
                                   ),
                                   ItemDetailsRow(
                                     title: "Categories :",
                                     textValue:
-                                    "${serviceItemState.data?.data?.categories.map((item) => item.nameEn).join(" - ")}"
-                                        .ellipsize(28),
+                                        "${serviceItemState.data?.data?.categories.map((item) => item.nameEn).join(" - ")}"
+                                            .ellipsize(28),
                                   ),
                                 ];
-        
+
                                 return Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -572,7 +599,8 @@ class _ProductAndServiceDetailsScreenState extends ConsumerState<ProductAndServi
                                         ? itemDetails.take(3)
                                         : itemDetails),
                                     Row(
-                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
                                       // mainAxisAlignment: MainAxisAlignment.center,
                                       children: [
                                         InkWell(
@@ -583,20 +611,30 @@ class _ProductAndServiceDetailsScreenState extends ConsumerState<ProductAndServi
                                           },
                                           child: Padding(
                                             padding:
-                                            const EdgeInsets.only(top: 8.0),
+                                                const EdgeInsets.only(top: 8.0),
                                             child: Text(
-                                              showAll ? "Show Less" : "Show More",
-                                              style: AppTheme.styleWithTextMainAppColorAdelleSansExtendedFonts12w400,
+                                              showAll
+                                                  ? "Show Less"
+                                                  : "Show More",
+                                              style: AppTheme
+                                                  .styleWithTextMainAppColorAdelleSansExtendedFonts12w400,
                                             ),
                                           ),
                                         ),
-                                        SizedBox(width: 3,),
+                                        SizedBox(
+                                          width: 3,
+                                        ),
                                         Column(
                                           children: [
-                                            SizedBox(height: 6,),
-                                            SVGIcons.localSVG(
-                                                !showAll ? showMoreIcon : showLessIcon,width: 5,height: 5
+                                            SizedBox(
+                                              height: 6,
                                             ),
+                                            SVGIcons.localSVG(
+                                                !showAll
+                                                    ? showMoreIcon
+                                                    : showLessIcon,
+                                                width: 5,
+                                                height: 5),
                                           ],
                                         )
                                       ],
@@ -612,18 +650,12 @@ class _ProductAndServiceDetailsScreenState extends ConsumerState<ProductAndServi
                             provider: widget.itemType == ItemType.Products
                                 ? productItemState.data?.data?.provider
                                 : serviceItemState.data?.data?.provider,
-                            onProviderClick: () {},
-                            onReviewClick: () {
-                              if (widget.itemType == ItemType.Products) {
-                                ref
-                                    .read(getProductReviews.notifier)
-                                    .getProductDetails(productId: widget.id);
-                              }
-                              else {
-                                ref
-                                    .read(getServiceReviews.notifier)
-                                    .getServiceDetails(serviceId: widget.id);
-                              }
+                            onProviderClick: (sellerId) {
+                              navigateToSellerDetails(sellerId ?? 0);
+                            },
+                            onReviewClick: (sellerId) {
+                              showAllReviews(sellerId.toString(),
+                                  FilterScreenTypes.Sellers);
                             },
                           ),
                           SizedBox(
@@ -639,249 +671,249 @@ class _ProductAndServiceDetailsScreenState extends ConsumerState<ProductAndServi
                           if (widget.itemType == ItemType.Products)
                             ...(List.generate(
                                 productItemState.data?.data?.lists?.length ?? 0,
-                                    (index) => Column(
-                                  crossAxisAlignment:
-                                  CrossAxisAlignment.start,
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    SizedBox(
-                                      height: 16,
-                                    ),
-                                    Row(
+                                (index) => Column(
                                       crossAxisAlignment:
-                                      CrossAxisAlignment.start,
+                                          CrossAxisAlignment.start,
+                                      mainAxisSize: MainAxisSize.min,
                                       children: [
-                                        Text(
-                                          "${productItemState.data?.data!.lists?[index].name}",
-                                          style: AppTheme
-                                              .styleWithTextBlackColor2AdelleSansExtendedFonts16w400,
+                                        SizedBox(
+                                          height: 16,
                                         ),
-                                        Spacer(),
-                                        Container(
-                                          decoration: BoxDecoration(
-                                            color: AppTheme.appPink,
-                                            borderRadius:
-                                            BorderRadius.circular(7),
-                                          ),
-                                          child: Padding(
-                                            padding:
-                                            const EdgeInsets.symmetric(
-                                                horizontal: 10,
-                                                vertical: 4),
-                                            child: Text(
-                                              "Optinal",
+                                        Row(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              "${productItemState.data?.data!.lists?[index].name}",
                                               style: AppTheme
-                                                  .styleWithTextBlackColor2ColorAdelleSansExtendedFonts13w400,
+                                                  .styleWithTextBlackColor2AdelleSansExtendedFonts16w400,
+                                            ),
+                                            Spacer(),
+                                            Container(
+                                              decoration: BoxDecoration(
+                                                color: AppTheme.appPink,
+                                                borderRadius:
+                                                    BorderRadius.circular(7),
+                                              ),
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 10,
+                                                        vertical: 4),
+                                                child: Text(
+                                                  "Optinal",
+                                                  style: AppTheme
+                                                      .styleWithTextBlackColor2ColorAdelleSansExtendedFonts13w400,
+                                                ),
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                        Text(
+                                          productItemState
+                                                      .data
+                                                      ?.data
+                                                      ?.lists?[index]
+                                                      .isMultiSelectable ==
+                                                  0
+                                              ? "(Choose 1)"
+                                              : "(Choose items from the list)",
+                                          style: AppTheme
+                                              .styleWithTextGray7AdelleSansExtendedFonts12w400,
+                                        ),
+                                        const SizedBox(
+                                          height: 1,
+                                        ),
+                                        IntrinsicHeight(
+                                          child: productItemState
+                                                      .data
+                                                      ?.data
+                                                      ?.lists?[index]
+                                                      .isMultiSelectable ==
+                                                  0
+                                              ? ProductSingleSelectItemsModify(
+                                                  list: productItemState
+                                                          .data
+                                                          ?.data
+                                                          ?.lists?[index]
+                                                          .items
+                                                          .map((item) =>
+                                                              ItemSelector(
+                                                                  item.id?.toInt() ??
+                                                                      0,
+                                                                  item.name ??
+                                                                      "",
+                                                                  Text(
+                                                                    "(+SAR ${item.price})",
+                                                                    style: AppTheme
+                                                                        .styleWithTextAppGrey18AdelleSansExtendedFonts14w400,
+                                                                  )))
+                                                          .toList() ??
+                                                      [],
+                                                  onItemSelect: (item, id) {
+                                                    var categoryId =
+                                                        productItemState
+                                                                .data
+                                                                ?.data
+                                                                ?.lists?[index]
+                                                                .id
+                                                                ?.toInt() ??
+                                                            0;
+                                                    if (item != null) {
+                                                      productSelectedItemsIds[
+                                                          categoryId] = ["$id"];
+                                                    } else {
+                                                      if (productSelectedItemsIds
+                                                          .containsKey(
+                                                              categoryId)) {
+                                                        productSelectedItemsIds
+                                                            .remove(categoryId);
+                                                      }
+                                                      // productSelectedItemsIds[
+                                                      //     categoryId] = [];
+                                                    }
+                                                  },
+                                                  itemSelectedId: productItemState
+                                                              .data
+                                                              ?.data
+                                                              ?.lists?[index]
+                                                              .clientSelectedItemsInCart
+                                                              ?.isNotEmpty ==
+                                                          true
+                                                      ? productItemState
+                                                          .data
+                                                          ?.data
+                                                          ?.lists![index]
+                                                          .clientSelectedItemsInCart
+                                                          ?.first
+                                                          .id
+                                                          ?.toInt()
+                                                      : null,
+                                                )
+                                              : ProductMultipleSelectItemsModify(
+                                                  list: productItemState
+                                                          .data
+                                                          ?.data
+                                                          ?.lists?[index]
+                                                          .items
+                                                          .map((item) =>
+                                                              ItemSelector(
+                                                                  item.id?.toInt() ??
+                                                                      0,
+                                                                  item.name ??
+                                                                      "",
+                                                                  Text(
+                                                                    "(+SAR ${item.price})",
+                                                                    style: AppTheme
+                                                                        .styleWithTextAppGrey18AdelleSansExtendedFonts14w400,
+                                                                  )))
+                                                          .toList() ??
+                                                      [],
+                                                  onItemSelect: (items) {
+                                                    var categoryId =
+                                                        productItemState
+                                                                .data
+                                                                ?.data
+                                                                ?.lists?[index]
+                                                                .id
+                                                                ?.toInt() ??
+                                                            0;
+                                                    if (items.isEmpty) {
+                                                      if (productSelectedItemsIds
+                                                          .containsKey(
+                                                              categoryId)) {
+                                                        productSelectedItemsIds
+                                                            .remove(categoryId);
+                                                      }
+                                                    } else {
+                                                      productSelectedItemsIds[
+                                                          categoryId] = items;
+                                                    }
+                                                  },
+                                                  itemSelect: productItemState
+                                                          .data
+                                                          ?.data
+                                                          ?.lists?[index]
+                                                          .clientSelectedItemsInCart
+                                                          ?.map((toElement) =>
+                                                              toElement.id
+                                                                  .toString())
+                                                          .toList() ??
+                                                      [],
+                                                ),
+                                        ),
+                                      ],
+                                    )))
+                          else
+                            ...(List.generate(
+                                serviceItemState.data?.data?.lists?.length ?? 0,
+                                (index) => Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        SizedBox(
+                                          height: 32,
+                                        ),
+                                        Text(
+                                          "${serviceItemState.data?.data?.lists?[index].name}",
+                                          style: AppTheme
+                                              .styleWithTextBlackAdelleSansExtendedFonts18w700,
+                                        ),
+                                        SizedBox(
+                                          height: 24,
+                                        ),
+                                        IntrinsicHeight(
+                                          child: Container(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 12.0, vertical: 6),
+                                            clipBehavior: Clip.antiAlias,
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(4),
+                                              border: Border.all(
+                                                  color: AppTheme.appGrey8),
+                                              color: Colors.white,
+                                            ),
+                                            child: ProductMultipleSelectItems(
+                                              list: serviceItemState.data?.data
+                                                      ?.lists?[index].items
+                                                      .map((item) =>
+                                                          ItemSelector(
+                                                              item.id?.toInt() ??
+                                                                  0,
+                                                              item.name ?? "",
+                                                              Text(
+                                                                "SAR ${item.price}",
+                                                                style: AppTheme
+                                                                    .styleWithTextAppGrey7AdelleSansExtendedFonts14w400,
+                                                              )))
+                                                      .toList() ??
+                                                  [],
+                                              onItemSelect: (items) {
+                                                var categoryId =
+                                                    serviceItemState.data?.data
+                                                            ?.lists?[index].id
+                                                            ?.toInt() ??
+                                                        0;
+
+                                                serviceSelectedItemsIds[
+                                                    categoryId] = items;
+                                              },
+                                              itemSelect: serviceItemState
+                                                      .data
+                                                      ?.data
+                                                      ?.lists?[index]
+                                                      .clientSelectedItemsInCart
+                                                      ?.map((toElement) =>
+                                                          toElement.id
+                                                              .toString())
+                                                      .toList() ??
+                                                  [],
                                             ),
                                           ),
                                         )
                                       ],
-                                    ),
-                                    Text(
-                                      productItemState
-                                          .data
-                                          ?.data
-                                          ?.lists?[index]
-                                          .isMultiSelectable ==
-                                          0
-                                          ? "(Choose 1)"
-                                          : "(Choose items from the list)",
-                                      style: AppTheme
-                                          .styleWithTextGray7AdelleSansExtendedFonts12w400,
-                                    ),
-                                    const SizedBox(
-                                      height: 1,
-                                    ),
-                                    IntrinsicHeight(
-                                      child: productItemState
-                                          .data
-                                          ?.data
-                                          ?.lists?[index]
-                                          .isMultiSelectable ==
-                                          0
-                                          ? ProductSingleSelectItemsModify(
-                                        list: productItemState
-                                            .data
-                                            ?.data
-                                            ?.lists?[index]
-                                            .items
-                                            .map((item) =>
-                                            ItemSelector(
-                                                item.id?.toInt() ??
-                                                    0,
-                                                item.name ??
-                                                    "",
-                                                Text(
-                                                  "(+SAR ${item.price})",
-                                                  style: AppTheme
-                                                      .styleWithTextAppGrey18AdelleSansExtendedFonts14w400,
-                                                )))
-                                            .toList() ??
-                                            [],
-                                        onItemSelect: (item, id) {
-                                          var categoryId =
-                                              productItemState
-                                                  .data
-                                                  ?.data
-                                                  ?.lists?[index]
-                                                  .id
-                                                  ?.toInt() ??
-                                                  0;
-                                          if (item != null) {
-                                            productSelectedItemsIds[
-                                            categoryId] = ["$id"];
-                                          } else {
-                                            if (productSelectedItemsIds
-                                                .containsKey(
-                                                categoryId)) {
-                                              productSelectedItemsIds
-                                                  .remove(categoryId);
-                                            }
-                                            // productSelectedItemsIds[
-                                            //     categoryId] = [];
-                                          }
-                                        },
-                                        itemSelectedId: productItemState
-                                            .data
-                                            ?.data
-                                            ?.lists?[index]
-                                            .clientSelectedItemsInCart
-                                            ?.isNotEmpty ==
-                                            true
-                                            ? productItemState
-                                            .data
-                                            ?.data
-                                            ?.lists![index]
-                                            .clientSelectedItemsInCart
-                                            ?.first
-                                            .id
-                                            ?.toInt()
-                                            : null,
-                                      )
-                                          : ProductMultipleSelectItemsModify(
-                                        list: productItemState
-                                            .data
-                                            ?.data
-                                            ?.lists?[index]
-                                            .items
-                                            .map((item) =>
-                                            ItemSelector(
-                                                item.id?.toInt() ??
-                                                    0,
-                                                item.name ??
-                                                    "",
-                                                Text(
-                                                  "(+SAR ${item.price})",
-                                                  style: AppTheme
-                                                      .styleWithTextAppGrey18AdelleSansExtendedFonts14w400,
-                                                )))
-                                            .toList() ??
-                                            [],
-                                        onItemSelect: (items) {
-                                          var categoryId =
-                                              productItemState
-                                                  .data
-                                                  ?.data
-                                                  ?.lists?[index]
-                                                  .id
-                                                  ?.toInt() ??
-                                                  0;
-                                          if (items.isEmpty) {
-                                            if (productSelectedItemsIds
-                                                .containsKey(
-                                                categoryId)) {
-                                              productSelectedItemsIds
-                                                  .remove(categoryId);
-                                            }
-                                          } else {
-                                            productSelectedItemsIds[
-                                            categoryId] = items;
-                                          }
-                                        },
-                                        itemSelect: productItemState
-                                            .data
-                                            ?.data
-                                            ?.lists?[index]
-                                            .clientSelectedItemsInCart
-                                            ?.map((toElement) =>
-                                            toElement.id
-                                                .toString())
-                                            .toList() ??
-                                            [],
-                                      ),
-                                    ),
-                                  ],
-                                )))
-                          else
-                            ...(List.generate(
-                                serviceItemState.data?.data?.lists?.length ?? 0,
-                                    (index) => Column(
-                                  crossAxisAlignment:
-                                  CrossAxisAlignment.start,
-                                  children: [
-                                    SizedBox(
-                                      height: 32,
-                                    ),
-                                    Text(
-                                      "${serviceItemState.data?.data?.lists?[index].name}",
-                                      style: AppTheme
-                                          .styleWithTextBlackAdelleSansExtendedFonts18w700,
-                                    ),
-                                    SizedBox(
-                                      height: 24,
-                                    ),
-                                    IntrinsicHeight(
-                                      child: Container(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 12.0, vertical: 6),
-                                        clipBehavior: Clip.antiAlias,
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                          BorderRadius.circular(4),
-                                          border: Border.all(
-                                              color: AppTheme.appGrey8),
-                                          color: Colors.white,
-                                        ),
-                                        child: ProductMultipleSelectItems(
-                                          list: serviceItemState.data?.data
-                                              ?.lists?[index].items
-                                              .map((item) =>
-                                              ItemSelector(
-                                                  item.id?.toInt() ??
-                                                      0,
-                                                  item.name ?? "",
-                                                  Text(
-                                                    "SAR ${item.price}",
-                                                    style: AppTheme
-                                                        .styleWithTextAppGrey7AdelleSansExtendedFonts14w400,
-                                                  )))
-                                              .toList() ??
-                                              [],
-                                          onItemSelect: (items) {
-                                            var categoryId =
-                                                serviceItemState.data?.data
-                                                    ?.lists?[index].id
-                                                    ?.toInt() ??
-                                                    0;
-        
-                                            serviceSelectedItemsIds[
-                                            categoryId] = items;
-                                          },
-                                          itemSelect: serviceItemState
-                                              .data
-                                              ?.data
-                                              ?.lists?[index]
-                                              .clientSelectedItemsInCart
-                                              ?.map((toElement) =>
-                                              toElement.id
-                                                  .toString())
-                                              .toList() ??
-                                              [],
-                                        ),
-                                      ),
-                                    )
-                                  ],
-                                ))),
+                                    ))),
                           SizedBox(
                             height: 16,
                           ),
@@ -896,16 +928,16 @@ class _ProductAndServiceDetailsScreenState extends ConsumerState<ProductAndServi
                             height: 16,
                           ),
                           relatedProductData
-                              .data?.data?.products?.data.length !=
-                              0 ||
-                              relatedServiceData
-                                  .data?.data?.products?.data.length !=
-                                  0
+                                          .data?.data?.products?.data.length !=
+                                      0 ||
+                                  relatedServiceData
+                                          .data?.data?.products?.data.length !=
+                                      0
                               ? Text(
-                            "You may also like",
-                            style: AppTheme
-                                .styleWithTextBlackAdelleSansExtendedFonts18w700,
-                          )
+                                  "You may also like",
+                                  style: AppTheme
+                                      .styleWithTextBlackAdelleSansExtendedFonts18w700,
+                                )
                               : SizedBox(),
                           SizedBox(
                             height: 16,
@@ -920,7 +952,7 @@ class _ProductAndServiceDetailsScreenState extends ConsumerState<ProductAndServi
                                       enabled: relatedProductData.state ==
                                           DataState.LOADING,
                                       child:
-                                      ServiceAndProductItemCardHorizontal(
+                                          ServiceAndProductItemCardHorizontal(
                                         width: 163,
                                         height: 165,
                                         product: relatedProductData
@@ -948,15 +980,15 @@ class _ProductAndServiceDetailsScreenState extends ConsumerState<ProductAndServi
                                     );
                                   },
                                   separatorBuilder: (context, index) =>
-                                  const SizedBox(
-                                    width: 12,
-                                  ),
+                                      const SizedBox(
+                                        width: 12,
+                                      ),
                                   itemCount: relatedProductData.state ==
-                                      DataState.LOADING
+                                          DataState.LOADING
                                       ? 5
                                       : relatedProductData.data?.data?.products
-                                      ?.data.length ??
-                                      0),
+                                              ?.data.length ??
+                                          0),
                             ),
                           if (widget.itemType == ItemType.Services)
                             SizedBox(
@@ -968,7 +1000,7 @@ class _ProductAndServiceDetailsScreenState extends ConsumerState<ProductAndServi
                                       enabled: relatedServiceData.state ==
                                           DataState.LOADING,
                                       child:
-                                      ServiceAndProductItemCardHorizontal(
+                                          ServiceAndProductItemCardHorizontal(
                                         width: 163,
                                         height: 165,
                                         service: relatedServiceData
@@ -997,17 +1029,16 @@ class _ProductAndServiceDetailsScreenState extends ConsumerState<ProductAndServi
                                     );
                                   },
                                   separatorBuilder: (context, index) =>
-                                  const SizedBox(
-                                    width: 12,
-                                  ),
+                                      const SizedBox(
+                                        width: 12,
+                                      ),
                                   itemCount: relatedServiceData.state ==
-                                      DataState.LOADING
+                                          DataState.LOADING
                                       ? 5
                                       : relatedServiceData.data?.data?.services
-                                      ?.data.length ??
-                                      0),
+                                              ?.data.length ??
+                                          0),
                             ),
-        
                           SizedBox(
                             height: 35,
                           )
@@ -1026,14 +1057,15 @@ class _ProductAndServiceDetailsScreenState extends ConsumerState<ProductAndServi
                   boxShadow: [
                     BoxShadow(
                       color: Colors.black.withOpacity(0.1), // Shadow color
-                      offset: Offset(0, -1),                 // Negative Y for top shadow
-                      blurRadius: 6,                         // How soft the shadow is
-                      spreadRadius: 0,                       // Optional: how much it spreads
+                      offset: Offset(0, -1), // Negative Y for top shadow
+                      blurRadius: 6, // How soft the shadow is
+                      spreadRadius: 0, // Optional: how much it spreads
                     ),
                   ],
                 ),
-                padding: const EdgeInsets.symmetric(horizontal: 16,vertical: 16),
-                child:  Row(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                child: Row(
                   children: [
                     SizedBox(
                       height: 46,
@@ -1045,75 +1077,91 @@ class _ProductAndServiceDetailsScreenState extends ConsumerState<ProductAndServi
                             style: AppTheme
                                 .styleWithTextBlackAdelleSansExtendedFonts18w500,
                           ),
-                          Text("Vat. included",style: AppTheme.styleWithTextGray7AdelleSansExtendedFonts12w400,)
+                          Text(
+                            "Vat. included",
+                            style: AppTheme
+                                .styleWithTextGray7AdelleSansExtendedFonts12w400,
+                          )
                         ],
                       ),
                     ),
-                    SizedBox(width: 26,),
+                    SizedBox(
+                      width: 26,
+                    ),
                     Expanded(
                       child: AppButton(
                         onPress: () {
                           print("${productItemState.data?.data!.inCart}");
                           if (widget.itemType == ItemType.Products) {
                             if (widget.productDetails != null ||
-                                (productItemState.data?.data!.inCart == true
-                                    && productItemState.data?.data!.cartItemId != null)) {
-                              print("cartId : ${productItemState.data?.data!.cartItemId}");
-        
-                              editProductToCart(int.parse(
-                                  productItemState.data?.data!.cartItemId.toString() ?? "0"));
-                            }
-                            else if (productItemState.data?.data?.id != null &&
+                                (productItemState.data?.data!.inCart == true &&
+                                    productItemState.data?.data!.cartItemId !=
+                                        null)) {
+                              print(
+                                  "cartId : ${productItemState.data?.data!.cartItemId}");
+
+                              editProductToCart(int.parse(productItemState
+                                      .data?.data!.cartItemId
+                                      .toString() ??
+                                  "0"));
+                            } else if (productItemState.data?.data?.id !=
+                                    null &&
                                 productItemState.data?.data?.amount != 0 &&
                                 productItemState.data?.data!.inCart == false) {
                               addProductToCart(int.parse(
-                                  productItemState.data?.data?.id!.toString() ?? ""));
+                                  productItemState.data?.data?.id!.toString() ??
+                                      ""));
                             }
-                          }
-                          else {
+                          } else {
                             if (serviceItemState.data?.data?.cardType ==
-                                ServiceTypes.soft_card.name &&
+                                    ServiceTypes.soft_card.name &&
                                 serviceItemState.data?.data?.id != null) {
-                              calculateSoftService(
-                                  serviceItemState.data?.data?.priceAfterDiscount ??
-                                      0);
+                              calculateSoftService(serviceItemState
+                                      .data?.data?.priceAfterDiscount ??
+                                  0);
                               makeCheckoutForSoftService(
-                                  int.parse(
-                                      serviceItemState.data?.data?.id!.toString() ??
-                                          ""),
+                                  int.parse(serviceItemState.data?.data?.id!
+                                          .toString() ??
+                                      ""),
                                   serviceItemState.data?.data);
-                            }
-                            else if (serviceItemState.data?.data!.inCart == true
-                                && serviceItemState.data?.data!.cartItemId != null) {
-                              print("cartId : ${serviceItemState.data?.data!.cartItemId}");
-        
-                              editServiceCart(int.parse(
-                                  serviceItemState.data?.data?.cartItemId.toString() ?? "0"));
-                            }
-                            else if (serviceItemState.data?.data?.id != null &&
+                            } else if (serviceItemState.data?.data!.inCart ==
+                                    true &&
+                                serviceItemState.data?.data!.cartItemId !=
+                                    null) {
+                              print(
+                                  "cartId : ${serviceItemState.data?.data!.cartItemId}");
+
+                              editServiceCart(int.parse(serviceItemState
+                                      .data?.data?.cartItemId
+                                      .toString() ??
+                                  "0"));
+                            } else if (serviceItemState.data?.data?.id !=
+                                    null &&
                                 serviceItemState.data?.data!.inCart != true) {
                               addServiceToCart(int.parse(
-                                  serviceItemState.data?.data?.id!.toString() ?? ""));
+                                  serviceItemState.data?.data?.id!.toString() ??
+                                      ""));
                             }
                           }
                         },
                         text: widget.itemType == ItemType.Products
                             ? widget.productDetails != null
-                        // || productItemState.data?.data!.inCart == true
-                            ? "Edit Product"
-                            : productItemState.data?.data!.inCart == true
-                            ? "Added"
-                            : productItemState.data?.data?.amount == 0
-                            ? "Out of stock"
-                            : "Add to cart"
+                                // || productItemState.data?.data!.inCart == true
+                                ? "Edit Product"
+                                : productItemState.data?.data!.inCart == true
+                                    ? "Added"
+                                    : productItemState.data?.data?.amount == 0
+                                        ? "Out of stock"
+                                        : "Add to cart"
                             : widget.serviceShowData != null
-                            ? "Edit Service"
-                            : serviceItemState.data?.data?.cardType ==
-                            ServiceTypes.soft_card.name
-                            ? "Checkout"
-                            : serviceItemState.data?.data!.inCart == true
-                            ? "Added"
-                            : "Add to cart",
+                                ? "Edit Service"
+                                : serviceItemState.data?.data?.cardType ==
+                                        ServiceTypes.soft_card.name
+                                    ? "Checkout"
+                                    : serviceItemState.data?.data!.inCart ==
+                                            true
+                                        ? "Added"
+                                        : "Add to cart",
                         height: 48,
                         backColor: AppTheme.mainAppColorDark,
                       ),
@@ -1128,8 +1176,26 @@ class _ProductAndServiceDetailsScreenState extends ConsumerState<ProductAndServi
     );
   }
 
-  void navigateToShowAllReviews(String? id, ItemType? itemType) {
-    context.push(R_ShowAllReviews, extra: {"id": id, "type": itemType});
+  void navigateToSellerDetails(
+    int sellerId,
+  ) {
+    context.push(R_SellerDetails, extra: {"sellerId": sellerId});
+  }
+
+  void showAllReviews(String? id, FilterScreenTypes? itemType) {
+    if (itemType == FilterScreenTypes.Products) {
+      ref
+          .read(getProductReviews.notifier)
+          .getProductDetails(productId: widget.id);
+    } else if (itemType == FilterScreenTypes.Services) {
+      ref
+          .read(getServiceReviews.notifier)
+          .getServiceDetails(serviceId: widget.id);
+    } else {
+      ref
+          .read(getSellerDetailsWithReviewsStateNotifier.notifier)
+          .getSellerDetails(providerId: int.tryParse(id ?? "0"));
+    }
   }
 
   void navigateToItemDetails(ItemType itemType, int itemId, String itemName,
@@ -1262,15 +1328,15 @@ class _ProductAndServiceDetailsScreenState extends ConsumerState<ProductAndServi
                 topRight: Radius.circular(10), topLeft: Radius.circular(10))),
         context: context,
         builder: (BuildContext context) => AuthenticateBottomSheet(
-          onLoginClicked: () {
-            navigateToLogin();
-          },
-        ));
+              onLoginClicked: () {
+                navigateToLogin();
+              },
+            ));
   }
 
   void navigateToLogin() async {
     var makeRefresh =
-    await context.push(R_LoginScreen, extra: {"type": TypeOfMode.ViewMode});
+        await context.push(R_LoginScreen, extra: {"type": TypeOfMode.ViewMode});
     if (makeRefresh == true) {
       // Todo make this action butter
       this.makeRefresh = true;
@@ -1362,7 +1428,10 @@ class _ProductAndServiceDetailsScreenState extends ConsumerState<ProductAndServi
         .calculateSoftItemForCheckout(totalPrice: price);
   }
 
-  void showReviewsBottomSheet(List<ProductDetailsRatingsInner>? ratingsList) {
+  void showReviewsBottomSheet(
+      {List<ProductDetailsRatingsInner>? productAndServiceRatingsList,
+      List<ProviderDataRatingsInner>? sellerRatingsList,
+      FilterScreenTypes? type}) {
     showModalBottomSheet(
         isScrollControlled: true,
         shape: const RoundedRectangleBorder(
@@ -1370,6 +1439,9 @@ class _ProductAndServiceDetailsScreenState extends ConsumerState<ProductAndServi
                 topRight: Radius.circular(10), topLeft: Radius.circular(10))),
         context: context,
         builder: (BuildContext context) => RatingBottomSheet(
-            productRatingsList: ratingsList, type: FilterScreenTypes.Products,));
+              productRatingsList: productAndServiceRatingsList,
+              type: type??FilterScreenTypes.Products,
+              providerRatingsList: sellerRatingsList,
+            ));
   }
 }

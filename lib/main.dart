@@ -6,6 +6,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lazo_client/Data/Network/lib/api.dart';
 import 'package:lazo_client/Presentation/Screens/FilterScreen.dart';
@@ -50,6 +51,7 @@ import 'Presentation/Screens/profileScreen/ProfileScreen.dart';
 import 'Presentation/Screens/showOccasionsResult/OccasionResultScreen.dart';
 import 'Presentation/Screens/wishlist/WishlistScreen.dart';
 import 'Utils/NotificationsUtils.dart';
+import 'package:flutter/material.dart' as material;
 
 late SharedPreferences prefs;
 
@@ -130,40 +132,39 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
 
-  await Firebase.initializeApp(
-      // options: DefaultFirebaseOptions.currentPlatform,
-      );
-  //SharedPrefs
+  await Firebase.initializeApp();
+
   prefs = await SharedPreferences.getInstance();
-  // // Notifications
+
   handlingNotificationPermission();
-  //
+
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingHandler);
   getNotificationsOnForeground();
-  // setupInteractedMessage(navigatorKey.currentContext);
-  // await FirebaseMessaging.instance.subscribeToTopic("championship");
 
-  // Background notification handling
   FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-    print(" Background notification handling ${message.data}");
+    print("Background notification handling ${message.data}");
     _handleMessage(message, navigatorKey.currentContext);
   });
 
-  // Handle app launch when terminated
   FirebaseMessaging.instance.getInitialMessage().then((RemoteMessage? message) {
     if (message != null) {
-      print(" Handle app launch when terminated ${message.data}");
+      print("Handle app launch when terminated ${message.data}");
       _handleMessage(message, navigatorKey.currentContext);
     }
   });
 
   ago.setLocaleMessages('ar', ago.ArMessages());
-  //Main App
+
   runApp(ProviderScope(
-      child: EasyLocalization(supportedLocales: const [
-    Locale("en"),
-    Locale("ar"),
-  ], path: 'assets/translations', child: MyApp())));
+    child: EasyLocalization(
+      supportedLocales: const [
+        Locale("en"),
+        Locale("ar"),
+      ],
+      path: 'assets/translations',
+      child: MyApp(),
+    ),
+  ));
 }
 
 void handleNotificationClicks(RemoteMessage message) {}
@@ -177,20 +178,25 @@ class MyApp extends ConsumerWidget {
     return ThemeProvider(
       initTheme: Theme.of(context),
       duration: const Duration(milliseconds: 500),
-      child: MaterialApp.router(
-        debugShowCheckedModeBanner: false,
-        title: 'Lazo',
-        themeMode: ThemeMode.light,
-        theme: AppTheme.lightTheme,
-        darkTheme: AppTheme.darkTheme,
-        localizationsDelegates: context.localizationDelegates,
-        supportedLocales: context.supportedLocales,
-        locale: ref.watch(langProvider),
-        routerDelegate: _router.routerDelegate,
-        routeInformationProvider: _router.routeInformationProvider,
-        routeInformationParser: _router.routeInformationParser,
-      ),
-    );
+      child: ScreenUtilInit(
+        designSize: material.Size(MediaQuery.of(context).size.width, MediaQuery.of(context).size.height), // Adjust to your design size
+        minTextAdapt: true,
+        splitScreenMode: true,
+        builder: (context, child) {
+          return MaterialApp.router(
+          debugShowCheckedModeBanner: false,
+          title: 'Lazo',
+          themeMode: ThemeMode.light,
+          theme: AppTheme.lightTheme,
+          darkTheme: AppTheme.darkTheme,
+          localizationsDelegates: context.localizationDelegates,
+          supportedLocales: context.supportedLocales,
+          locale: ref.watch(langProvider),
+          routerDelegate: _router.routerDelegate,
+          routeInformationProvider: _router.routeInformationProvider,
+          routeInformationParser: _router.routeInformationParser,
+        );
+        },));
   }
 
   final GoRouter _router = GoRouter(

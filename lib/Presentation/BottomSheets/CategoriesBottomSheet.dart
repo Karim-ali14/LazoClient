@@ -31,11 +31,13 @@ class _CategoriesBottomSheetState extends State<CategoriesBottomSheet> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 600,
+      color: Colors.white,
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
           Container(
-            height: 50,
+            height: 64,
+            margin: EdgeInsetsDirectional.only(bottom: 12),
             width: double.infinity,
             child: Stack(
               children: [
@@ -85,6 +87,7 @@ class _CategoriesBottomSheetState extends State<CategoriesBottomSheet> {
                 return InkWell(
                   onTap: () {
                     setState(() {
+                      print("$index");
                       selectedIndex = index;
                       widget.onSelected?.call(selectedIndex??0);
                       context.pop();
@@ -119,6 +122,7 @@ class _CategoriesBottomSheetState extends State<CategoriesBottomSheet> {
                         const Spacer(),
                         Text(
                           "(${widget.type == FilterScreenTypes.Products ? (widget.categories?[index].products?.length ?? 0) : (widget.categories?[index].services?.length ?? 0)})",
+                          style: AppTheme.styleWithTextAppGrey22ColorAdelleSansExtendedFonts16w400,
                         ),
                         const SizedBox(width: 16),
                       ],

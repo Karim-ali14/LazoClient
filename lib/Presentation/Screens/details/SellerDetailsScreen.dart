@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lazo_client/Constants/Eunms.dart';
 import 'package:lazo_client/Data/Models/StateModel.dart';
@@ -67,25 +68,7 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
     _scrollController.addListener(() {
       if (_scrollController.hasClients) {
         if (activeTabIndex == 0) {
-          for (int i = 0; i < _categoryForProductKeys.length; i++) {
-            final keyContext = _categoryForProductKeys[i].currentContext;
-            if (keyContext != null) {
-              final box = keyContext.findRenderObject() as RenderBox;
-              final position =
-                  box.localToGlobal(Offset.zero); // مكان الكاتيجوري على الشاشة
-
-              double y = position.dy;
-
-              if (y <= 160 && y >= -box.size.height / 2) {
-                if (activeCategoryForProductTabIndex != i) {
-                  activeCategoryForProductTabIndex = i;
-                }
-                categoryForProductTabController
-                    ?.animateTo(activeCategoryForProductTabIndex);
-                break;
-              }
-            }
-          }
+          handleProductScroll();
         } else if (activeTabIndex == 1) {
           handleServiceScroll();
         }
@@ -106,9 +89,9 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
     super.initState();
   }
 
-  void scrollToCategory(int index) {
-    final RenderBox renderBox = _categoryForProductKeys[index]
-        .currentContext
+  void scrollToCategory(int index,FilterScreenTypes type) {
+    final RenderBox renderBox = (type == FilterScreenTypes.Products ?_categoryForProductKeys[index]
+        .currentContext : _categoryForServiceKeys[index].currentContext)
         ?.findRenderObject() as RenderBox;
     final position = renderBox.localToGlobal(Offset.zero,
         ancestor: context.findRenderObject());
@@ -183,7 +166,7 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
     return Scaffold(
       body: CustomScrollView(controller: _scrollController, slivers: [
         SliverAppBar(
-          expandedHeight: MediaQuery.of(context).size.height * .41,
+          expandedHeight: 280.h,
           titleSpacing:
               0, // Set spacing between leading and title// Adjust based on your needs
           pinned: true,
@@ -201,11 +184,6 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      // ImageView(
-                      //   isCircle: true,
-                      //   initialImg: sellerProducts.data?.data?.imagePath,
-                      //   width: 32,
-                      // ),
                       SizedBox(
                         width: 10,
                         height: MediaQuery.of(context).size.height * .07,
@@ -229,7 +207,7 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
                           sellerProducts.data?.data?.coverImagePath ?? "",
                     ),
                     width: double.infinity,
-                    height: 250,
+                    height: 208.h,
                   ),
                 ),
                 SizedBox(
@@ -248,7 +226,7 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
                             offset: const Offset(0, .5), // Shadow position
                           ),
                         ]),
-                    margin: EdgeInsets.only(right: 16, left: 16, top: 120),
+                    margin: const EdgeInsets.only(right: 16, left: 16, top: 120),
                     padding: const EdgeInsetsDirectional.only(
                         top: 16, start: 16, end: 16),
                     width: double.infinity,
@@ -280,7 +258,7 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
                               children: [
                                 Text(
                                   sellerProducts.data?.data?.name
-                                          ?.ellipsize(25) ??
+                                          ?.ellipsize(28) ??
                                       "",
                                   style: AppTheme
                                       .styleWithTextBlackAdelleSansExtendedFonts18w500,
@@ -363,7 +341,7 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
                         ),
                         ExpandedText(
                             defaultExpandedValue: defaultExpandedValue,
-                            maxLength: 165,
+                            maxLength: 40,
                             textStyle: AppTheme
                                 .styleWithTextAppGrey7AdelleSansExtendedFonts14w400
                                 .copyWith(height: 1.5),
@@ -429,7 +407,7 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
                           sellerProducts.data!.data!.categories?.length ?? 0,
                       vsync: this);
                   productCategoryTabs = sellerProducts.data!.data!.categories!
-                      .map((e) => Tab(text: e.name ?? ""))
+                      .map((e) => Tab(child: Text(e.name ?? "",style: AppTheme.styleWithTextBlackColorAdelleSansExtendedFonts12w500,)))
                       .toList();
                   return SliverPersistentHeader(
                     pinned: true,
@@ -452,7 +430,7 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
                             child: TabBar(
                               isScrollable: true,
                               onTap: (index) {
-                                scrollToCategory(index);
+                                scrollToCategory(index,FilterScreenTypes.Products);
                                 // categoryTabController?.animateTo(index);
                               },
                               controller: categoryForProductTabController,
@@ -477,11 +455,12 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
                           sellerServices.data!.data!.categories?.length ?? 0,
                       vsync: this);
                   serviceCategoryTabs = sellerServices.data!.data!.categories!
-                      .map((e) => Tab(text: e.name ?? ""))
+                      .map((e) => Tab(child: Text(e.name ?? "",style: AppTheme.styleWithTextBlackColorAdelleSansExtendedFonts12w500,)))
                       .toList();
                   return SliverPersistentHeader(
                     pinned: true,
-                    delegate: _SliverTabBarDelegate(
+                    delegate:
+                    _SliverTabBarDelegate(
                       Row(
                         children: [
                           InkWell(
@@ -500,7 +479,7 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
                             child: TabBar(
                               isScrollable: true,
                               onTap: (index) {
-                                scrollToCategory(index);
+                                scrollToCategory(index,FilterScreenTypes.Services);
                                 // categoryTabController?.animateTo(index);
                               },
                               controller: categoryForServiceTabController,
@@ -529,22 +508,23 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
                 return SliverToBoxAdapter(
                   child: Column(
                     children: List.generate(
-                      sellerProducts.data?.data?.categories?.length ?? 0,
+                      sellerProducts.state == DataState.LOADING ? 5 :
+                      sellerProducts.data?.data?.categories?.length ?? 0 ,
                       (index) => Padding(
                         padding: const EdgeInsets.symmetric(
                             horizontal: 16.0, vertical: 9),
                         child: ProductGridListviewWithCategoryName(
-                          key: _categoryForProductKeys[index],
+                          key: sellerProducts.state == DataState.LOADING ? GlobalKey() :_categoryForProductKeys[index]  ,
                           title: sellerProducts
                                   .data?.data?.categories?[index].name ??
                               "",
                           rootId: sellerProducts
                               .data?.data?.categories?[index].id
                               ?.toInt(),
-                          list: sellerProducts
+                          list: sellerProducts.state == DataState.LOADING ? [ProviderProduct(),ProviderProduct(),ProviderProduct(),ProviderProduct(),ProviderProduct(),] : sellerProducts
                                   .data?.data?.categories?[index].products ??
                               [],
-                          showLoading: false,
+                          showLoading: sellerProducts.state == DataState.LOADING,
                           onAddItemToCart: (id) => addProductToCart(id),
                           onAddItemToWishList: (id) => client != null
                               ? productWishlistToggle(id)
@@ -570,12 +550,13 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
                 return SliverToBoxAdapter(
                   child: Column(
                     children: List.generate(
+                      sellerServices.state == DataState.LOADING ? 5 :
                       sellerServices.data?.data?.categories?.length ?? 0,
                       (index) => Padding(
                           padding: const EdgeInsets.symmetric(
                               horizontal: 16.0, vertical: 9),
                           child: ServiceGridListviewWithCategoryName(
-                            key: _categoryForServiceKeys[index],
+                            key:  sellerServices.state == DataState.LOADING ? GlobalKey() :_categoryForServiceKeys[index],
                             list: sellerServices.state == DataState.LOADING
                                 ? [
                                     ServiceShowData(),
@@ -745,6 +726,7 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
   }
 
   void showReviewsBottomSheet() {
+    print("${ref.watch(getSellerDetailsWithReviewsStateNotifier).data?.data?.name}");
     showModalBottomSheet(
         isScrollControlled: true,
         shape: const RoundedRectangleBorder(
@@ -787,7 +769,7 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
                   ? categoryForProductTabController?.index ?? 0
                   : categoryForServiceTabController?.index ?? 0,
           onSelected: (index){
-            scrollToCategory(index);
+             scrollToCategory(index,type);
           },
         ));
   }
@@ -813,7 +795,7 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
       if (keyContext != null) {
         final box = keyContext.findRenderObject() as RenderBox;
         final position =
-            box.localToGlobal(Offset.zero); // مكان الكاتيجوري على الشاشة
+        box.localToGlobal(Offset.zero); // مكان الكاتيجوري على الشاشة
 
         double y = position.dy;
 
@@ -861,17 +843,26 @@ class _SliverTabBarDelegate extends SliverPersistentHeaderDelegate {
   Widget build(
       BuildContext context, double shrinkOffset, bool overlapsContent) {
     return Container(
-      alignment: Alignment.centerLeft,
+      alignment: Alignment.bottomLeft,
       child: tabBar,
       decoration: BoxDecoration(
           color: Colors.white,
-          border:
-              Border(bottom: BorderSide(color: AppTheme.appGrey8, width: .7))),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black
+                .withOpacity(.2), // Shadow color
+            blurRadius: .9, // Blur effect
+            spreadRadius: .1, // Spread effect
+            offset:
+            const Offset(0, .5), // Shadow position
+          )
+        ]
+      ),
     );
   }
 
   @override
-  double get maxExtent => 64; // أو حسب المحتوى
+  double get maxExtent => 64;
 
   @override
   double get minExtent => 64;

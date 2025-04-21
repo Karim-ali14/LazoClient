@@ -54,6 +54,8 @@ class _BannerCardItemsState extends State<BannerCardItems> {
                       color: Colors.white,
                     ),
                     child: ImageView(
+                      width: widget.width,
+                      height: widget.height,
                       initialImg: imagePath,
                       placeHolder: placeHolderForCardsSvg,
                     ),

@@ -26,12 +26,13 @@ class RatingBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print( "adfasdf${providerRatingsList?.length}");
     return Container(
-      height: 600,
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
           Container(
-            height: 50,
+            height: 64,
             width: double.infinity,
             child: Stack(
               children: [
