@@ -457,6 +457,7 @@ class _ShowProductAndServiceScreenState
         priceTo: filterForProductData?.priceToSelected.toString(),
         priceFrom: filterForProductData?.priceFromSelected.toString(),
         type: ItemType.Products.name.toLowerCase(),
+        shipmentType: filterForProductData?.shipmentTypeSelected != null ? filterForProductData?.shipmentTypeSelected  == 0 ? ProductTypes.ready_made_gifts.name : ProductTypes.various_gifts.name : null,
         searchByName: searchForProductData?.isNotEmpty == true
             ? searchForProductData
             : null);

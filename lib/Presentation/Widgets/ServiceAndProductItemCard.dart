@@ -261,7 +261,7 @@ class _ServiceAndProductItemCardHorizontalState
                     child: Row(children: [
                   widget.type == ItemType.Products &&
                           widget.product?.type ==
-                              ProductTypes.various_gifts.name
+                              ProductTypes.ready_made_gifts.name
                       ? Container(
                           padding: const EdgeInsetsDirectional.symmetric(
                               horizontal: 6, vertical: 3),
