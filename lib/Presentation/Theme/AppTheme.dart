@@ -72,6 +72,7 @@ class AppTheme {
   static const kYellow = Color(0xFFEC9922);
   static const appYellow = Color(0xFFCDCB02);
   static const kErrorColor = Color(0xFFF03738);
+  static const appWhite = Color(0xFFF5F3F0);
 
   static const kDefaultPadding = 20.0;
 

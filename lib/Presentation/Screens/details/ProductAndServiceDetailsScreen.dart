@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -226,8 +228,8 @@ class _ProductAndServiceDetailsScreenState
       showReviewsBottomSheet(productAndServiceRatingsList:res.data?.data?.ratings,type: FilterScreenTypes.Services);
     });
 
-    final expandedHeight = 352.h;
-    final imageHeight = 375.h;
+    final expandedHeight = 380.h;
+    final imageHeight = 400.h;
     return WillPopScope(
       onWillPop: _onWillPop,
       child: Scaffold(
@@ -508,7 +510,9 @@ class _ProductAndServiceDetailsScreenState
                                           decoration: TextDecoration.underline),
                                   extraWidget: SVGIcons.localSVG(giftIconIcon,
                                       width: 18, height: 18),
-                                  onValueClick: () {},
+                                  onValueClick: () {
+                                    showUnreadyGiftDialog(context,productItemState.data?.data?.type == ProductType.ready_made_gifts.name ? ProductTypes.ready_made_gifts : ProductTypes.various_gifts);
+                                  },
                                 ),
                                 ItemDetailsRow(
                                   title: "Color:",
@@ -1444,4 +1448,98 @@ class _ProductAndServiceDetailsScreenState
               providerRatingsList: sellerRatingsList,
             ));
   }
+
+
+  void showUnreadyGiftDialog(BuildContext context, ProductTypes type) {
+    showDialog(
+      context: context,
+      barrierDismissible: true,
+      barrierColor: Colors.transparent, // Optional: darken the background a bit
+      builder: (context) {
+        return Dialog(
+          backgroundColor: Colors.transparent,
+          insetPadding: EdgeInsets.all(24),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(12),
+            child: Stack(
+              alignment: Alignment.center,
+              children: [
+                // 🔹 Blur effect
+                BackdropFilter(
+                  filter: ImageFilter.blur(sigmaX: 30, sigmaY: 30),
+                  child: Container(
+                    width: 280.w,
+                    height: 160.h,
+                    color: Colors.white.withOpacity(0.45), // لون خفيف عشان يوضح التأثير
+                    child:
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                      child: Stack(
+                        children: [
+                          Center(
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                SizedBox(
+                                  height: 8.h,
+                                ),
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Spacer(),
+                                    Text(
+                                      type == ProductTypes.ready_made_gifts
+                                          ? "Ready Gift"
+                                          : "Unready Gift",
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 18,
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                    Spacer(),
+                                    GestureDetector(
+                                      onTap: () => Navigator.of(context).pop(),
+                                      child: SVGIcons.localSVG(closeIconSvg, width: 32, height: 32),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(height: 16),
+                                Text(
+                                  type == ProductTypes.ready_made_gifts
+                                      ? "These gift will be delivered\nwith no packaging."
+                                      : "These gift come with\ncustomizable packaging\nbefore delivery!",
+                                  textAlign: TextAlign.center,
+                                  style: AppTheme.styleWithTextBlackAdelleSansExtendedFonts16w500.copyWith(height: 1.5),
+                                ),
+                                SizedBox(height: 16),
+                              ],
+                            ),
+                          ),
+
+                          // 🔸 Close button
+                          // PositionedDirectional(
+                          //   top: 0,
+                          //   end: 0,
+                          //   child: GestureDetector(
+                          //     onTap: () => Navigator.of(context).pop(),
+                          //     child: SVGIcons.localSVG(closeIconSvg, width: 32, height: 32),
+                          //   ),
+                          // ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
 }
