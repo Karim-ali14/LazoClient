@@ -112,7 +112,7 @@ class _ProductAndServiceDetailsScreenState
     final serviceItemState = ref.watch(getServiceDetails);
     final relatedProductData = ref.watch(getRelatedProductsStateNotifiers);
     final relatedServiceData = ref.watch(getRelatedServicesStateNotifiers);
-    final sellerReview = ref.watch(getSellerDetailsWithReviewsStateNotifier);
+    final sellerReview = ref.watch(getSellerDetailsToShowReviewsStateNotifier);
 
     handleState(getProductDetails, showLoading: false, onSuccess: (res) {
       res.data?.data?.lists?.forEach((item) {
@@ -134,9 +134,10 @@ class _ProductAndServiceDetailsScreenState
       context.pop();
     });
 
-    handleState(getSellerDetailsWithReviewsStateNotifier, showLoading: true,onSuccess: (res) {
+    handleState(getSellerDetailsToShowReviewsStateNotifier, showLoading: true,onSuccess: (res) {
       showReviewsBottomSheet(type: FilterScreenTypes.Sellers,sellerRatingsList: res.data?.data?.ratings);
     });
+
     handleState(addProductToCartUseCaseStateNotifier,
         showLoading: true, showToast: true, onSuccess: (res) {
       var id = res.data?.data?.productId;
@@ -705,7 +706,7 @@ class _ProductAndServiceDetailsScreenState
                                                         horizontal: 10,
                                                         vertical: 4),
                                                 child: Text(
-                                                  "Optinal",
+                                                  "Optional",
                                                   style: AppTheme
                                                       .styleWithTextBlackColor2ColorAdelleSansExtendedFonts13w400,
                                                 ),
@@ -858,10 +859,47 @@ class _ProductAndServiceDetailsScreenState
                                         SizedBox(
                                           height: 32,
                                         ),
+                                        Row(
+                                          crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              "${serviceItemState.data?.data!.lists?[index].name}",
+                                              style: AppTheme
+                                                  .styleWithTextBlackColor2AdelleSansExtendedFonts16w400,
+                                            ),
+                                            Spacer(),
+                                            Container(
+                                              decoration: BoxDecoration(
+                                                color: AppTheme.appPink,
+                                                borderRadius:
+                                                BorderRadius.circular(7),
+                                              ),
+                                              child: Padding(
+                                                padding:
+                                                const EdgeInsets.symmetric(
+                                                    horizontal: 10,
+                                                    vertical: 4),
+                                                child: Text(
+                                                  "Optional",
+                                                  style: AppTheme
+                                                      .styleWithTextBlackColor2ColorAdelleSansExtendedFonts13w400,
+                                                ),
+                                              ),
+                                            )
+                                          ],
+                                        ),
                                         Text(
-                                          "${serviceItemState.data?.data?.lists?[index].name}",
+                                          serviceItemState
+                                              .data
+                                              ?.data
+                                              ?.lists?[index]
+                                              .isMultiSelectable ==
+                                              0
+                                              ? "(Choose 1)"
+                                              : "(Choose items from the list)",
                                           style: AppTheme
-                                              .styleWithTextBlackAdelleSansExtendedFonts18w700,
+                                              .styleWithTextGray7AdelleSansExtendedFonts12w400,
                                         ),
                                         SizedBox(
                                           height: 24,
@@ -1197,7 +1235,7 @@ class _ProductAndServiceDetailsScreenState
           .getServiceDetails(serviceId: widget.id);
     } else {
       ref
-          .read(getSellerDetailsWithReviewsStateNotifier.notifier)
+          .read(getSellerDetailsToShowReviewsStateNotifier.notifier)
           .getSellerDetails(providerId: int.tryParse(id ?? "0"));
     }
   }

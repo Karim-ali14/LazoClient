@@ -9,7 +9,8 @@ import '../../Localization/Keys.dart';
 class TitleWithSeeAll extends StatelessWidget {
   final String title;
   final VoidCallback onClickOnSeeAll;
-  const TitleWithSeeAll({super.key, required this.title, required this.onClickOnSeeAll});
+  final bool? showSeeMore;
+  const TitleWithSeeAll({super.key, required this.title, required this.onClickOnSeeAll, this.showSeeMore = true});
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +28,7 @@ class TitleWithSeeAll extends StatelessWidget {
           ),
         ),
         Spacer(),
-        Skeleton.replace(
+        showSeeMore == true ? Skeleton.replace(
           child: InkWell(
             onTap: onClickOnSeeAll,
             child: Text(
@@ -41,7 +42,7 @@ class TitleWithSeeAll extends StatelessWidget {
             height: 20,
             color: Colors.white,
           ),
-        )
+        ) : SizedBox()
       ],
     );
   }

@@ -19,6 +19,7 @@ import 'package:lazo_client/Presentation/Widgets/SvgIcons.dart';
 import 'package:lazo_client/Utils/CategoryUtils.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
+import '../../../Constants/Assets.dart';
 import '../../../Constants/Constants.dart';
 import '../../../Constants/Eunms.dart';
 import '../../../Data/Models/FilterData.dart';
@@ -355,10 +356,9 @@ class _ShowTopSellersState extends ConsumerState<ShowTopSellers> {
                         ),
                       )
                     : EmptyDataView(
-                        icon: SVGIcons.searchGifIcon(),
-                        title: "No Data Found",
-                        description:
-                            "Please refine your search using common words to get accurate results",
+                        icon: SVGIcons.localSVG(searchIconNoDataSvg,
+                            width: 114, height: 97),
+                        title: null,description: "Oops! No seller found.",
                       )
               ],
             ),

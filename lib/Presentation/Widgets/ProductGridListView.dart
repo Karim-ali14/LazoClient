@@ -10,6 +10,7 @@ import 'TitleWithSeeAll.dart';
 class ProductGridListviewWithCategoryName extends StatefulWidget {
   final List<ProviderProduct>? list;
   final bool? showLoading;
+  final bool? showSeeMore;
   final OnAddItemClick onAddItemToCart;
   final OnAddItemClick onAddItemToWishList;
   final OnItemClick onItemClick;
@@ -25,7 +26,7 @@ class ProductGridListviewWithCategoryName extends StatefulWidget {
       required this.onItemClick,
       required this.title,
       this.rootId,
-      this.scrollProductCategoriesController,
+      this.scrollProductCategoriesController, this.showSeeMore = true,
       });
 
   @override
@@ -42,6 +43,7 @@ class _ProductGridListviewWithCategoryNameState
         Skeletonizer(
           enabled: widget.showLoading ?? false,
           child: TitleWithSeeAll(
+            showSeeMore: widget.showSeeMore,
             title: widget.title,
             onClickOnSeeAll: () {},
           ),

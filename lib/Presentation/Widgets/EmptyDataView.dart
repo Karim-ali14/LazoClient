@@ -25,7 +25,7 @@ class EmptyDataView extends StatelessWidget {
               icon ?? SizedBox(),
               icon != null
                   ? SizedBox(
-                      height: 32,
+                      height: 24,
                     )
                   : SizedBox(),
               Text(
@@ -45,9 +45,9 @@ class EmptyDataView extends StatelessWidget {
                         .copyWith(height: 1.5),
                     textAlign: TextAlign.center),
               ),
-              description != null
+              btuName != null
                   ? SizedBox(
-                      height: 24,
+                      height: 20,
                     )
                   : SizedBox(),
               btuName != null ?

@@ -11,6 +11,7 @@ import 'package:lazo_client/Presentation/Widgets/EmptyDataView.dart';
 import 'package:lazo_client/Presentation/Widgets/SvgIcons.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import '../../../Constants.dart';
+import '../../../Constants/Assets.dart';
 import '../../../Constants/Eunms.dart';
 import '../../../Data/Network/lib/api.dart';
 import '../../Widgets/CategoryItemCart.dart';
@@ -89,7 +90,8 @@ class _ShowAllCategoryAndOccasionsDataState
                     child: categoryState.state == DataState.EMPTY ||
                             occasionsState.state == DataState.EMPTY
                         ? EmptyDataView(
-                            icon: SVGIcons.searchGifIcon(),
+                            icon: SVGIcons.localSVG(searchIconNoDataSvg,
+                                width: 114, height: 97),
                             title: context.tr(noDataFoundKey),
                             description:
                                 context.tr(pleaseRefineYourSearchUsingCommonWordsToGetAccurateResultsKey),

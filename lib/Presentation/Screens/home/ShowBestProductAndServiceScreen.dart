@@ -9,6 +9,7 @@ import 'package:lazo_client/Presentation/Widgets/CustomAppBar.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../../Constants.dart';
+import '../../../Constants/Assets.dart';
 import '../../../Constants/Constants.dart';
 import '../../../Constants/Eunms.dart';
 import '../../../Data/Models/FilterData.dart';
@@ -295,10 +296,10 @@ class _ShowProductAndServiceScreenState
               child: widget.type == ItemType.Products
                   ? productsState.state == DataState.EMPTY
                       ? /*OrderPlaceHolder(onAddOrderClick: () {})*/ EmptyDataView(
-                          icon: SVGIcons.searchGifIcon(),
-                          title: context.tr(noDataFoundKey),
-                          description: context.tr(
-                              pleaseRefineYourSearchUsingCommonWordsToGetAccurateResultsKey),
+                          icon: SVGIcons.localSVG(searchIconNoDataSvg,
+                              width: 114, height: 97),
+                          title: null,
+                          description: "Oops! No product found.",
                         )
                       : Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -355,10 +356,10 @@ class _ShowProductAndServiceScreenState
                         )
                   : servicesState.state == DataState.EMPTY
                       ? /*OrderPlaceHolder(onAddOrderClick: () {})*/ EmptyDataView(
-                          icon: SVGIcons.searchGifIcon(),
-                          title: context.tr(noDataFoundKey),
-                          description: context.tr(
-                              pleaseRefineYourSearchUsingCommonWordsToGetAccurateResultsKey),
+                          icon: SVGIcons.localSVG(searchIconNoDataSvg,
+                              width: 114, height: 97),
+                          title: null,
+                          description: "Oops! No service found.",
                         )
                       : Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 8.0),
