@@ -13,6 +13,14 @@ import '../../Constants.dart';
 import '../../Localization/Keys.dart';
 import 'package:mime/mime.dart';
 
+class Counter extends StateNotifier<int>{
+  Counter():super(0);
+
+  void updateState(int number){
+    state = number;
+  }
+}
+
 class LoginUseCase extends StateNotifier<StateModel<ClientAuthResponse>> {
   final Ref ref;
   final AuthApi authApi;

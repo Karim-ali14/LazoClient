@@ -49,6 +49,7 @@ import 'Presentation/Screens/profileScreen/EditPhoneScreen.dart';
 import 'Presentation/Screens/profileScreen/ProfileScreen.dart';
 import 'Presentation/Screens/showOccasionsResult/OccasionResultScreen.dart';
 import 'Presentation/Screens/wishlist/WishlistScreen.dart';
+import 'Presentation/counter_screen.dart';
 import 'Utils/NotificationsUtils.dart';
 
 late SharedPreferences prefs;

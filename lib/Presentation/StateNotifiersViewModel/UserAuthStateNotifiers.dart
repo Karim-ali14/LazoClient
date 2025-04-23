@@ -42,3 +42,6 @@ final updateProfileStateProvider =
         (ref) => UpdateProfileUseCase(ref,ref.read(clientApi)));
 
 
+final counterCaseStateNotifier = StateNotifierProvider<Counter,int>((ref) => Counter());
+
+

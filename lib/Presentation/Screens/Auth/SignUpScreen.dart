@@ -3,12 +3,14 @@ import 'dart:io';
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:country_picker/country_picker.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:fl_country_code_picker/fl_country_code_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lazo_client/Constants/Constants.dart';
 import 'package:lazo_client/Doman/CommenProviders/ApiProvider.dart';
+import 'package:lazo_client/Presentation/Screens/Auth/Componants/CustomSelectorCitySheet.dart';
 
 import 'package:lazo_client/Presentation/StateNotifiersViewModel/PublicStateNotifiers.dart';
 import 'package:lazo_client/Presentation/Widgets/CircleImagePicker.dart';
@@ -17,6 +19,7 @@ import 'package:lazo_client/Utils/Extintions.dart';
 import 'package:lazo_client/Utils/ValidationEx.dart';
 
 import '../../../Constants.dart';
+import '../../../Constants/Assets.dart';
 import '../../../Constants/Eunms.dart';
 import '../../../Data/Models/ItemSelector.dart';
 import '../../../Data/Network/lib/api.dart';
@@ -45,7 +48,9 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
   final emailController = TextEditingController();
   final cityController = TextEditingController();
   final CodeCountryController = TextEditingController();
+  final countryPicker = const FlCountryCodePicker();
   final formKey = GlobalKey<FormState>();
+  final ValueNotifier<String> code = ValueNotifier("+966");
   File? imageFile = null;
   List<City> cities = [];
   List<String?> images = [];
@@ -166,39 +171,49 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                   const SizedBox(
                     height: defaultPaddingHorizontal,
                   ),
-                  Row(
-                    children: [
-                      // Country Code Picker
-                    AppTextField(
-                    width: 130,
-                    readOnly: true,
-                    textInputType: TextInputType.none,
-                    textFieldBorderColor: Colors.white,
-                    mode: AutovalidateMode.disabled,
-                    hint: '', // ما فيش hint
-                    label: '', // ولا label
-                    textEditingController: CodeCountryController,
-                    endWidget: CountryCodePicker(
-                      onChanged: (country) {
-                        setState(() {
-                          CodeCountryController.text = country.dialCode ?? "+966";
-                        });
-                      },
-                      showCountryOnly: false,
-                      showOnlyCountryWhenClosed: false,
-                      showFlag: false,
-                      showFlagDialog: true,
-                      alignLeft: false,
-                      textStyle: const TextStyle(fontSize: 16, color: Colors.black),
-                      flagWidth: 24,
-                      padding: EdgeInsets.zero,
-                    ),
-                    validate: (_) => null,
-                  ),
-                      const SizedBox(width: 8),
-
-                      // رقم الهاتف
-                      Expanded(
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // كود الدولة (TextField + Picker)
+                        GestureDetector(
+                          onTap: () async {
+                            final country =
+                            await countryPicker.showPicker(context: context);
+                            if (country != null) {
+                              code.value = country.dialCode;
+                            }
+                          },
+                          child: Container(
+                            width: 84,
+                            height: 58,
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius:
+                                BorderRadius.all(Radius.circular(8))),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                ValueListenableBuilder(
+                                  valueListenable: code,
+                                  builder: ( context, value,  child){
+                                    return Text(
+                                      value,
+                                      style: AppTheme
+                                          .styleWithTextBlackAdelleSansExtendedFonts14w400,
+                                    );
+                                  },
+                                ),
+                                SizedBox(
+                                  width: 8,
+                                ),
+                                SVGIcons.localSVG(downArrowImg,width: 10,height: 10,color: Colors.black)
+                              ],
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        Expanded(
                         child: AppTextField(
                           textInputType: TextInputType.phone,
                           textFieldBorderColor: Colors.white,
@@ -303,7 +318,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
             borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(10), topRight: Radius.circular(10))),
         builder: (BuildContext context) {
-          return CustomSelectorBottomSheet(
+          return CustomSelectorCitySheet(
               context: context,
               showRadio: false,
               btuName: context.tr("Ok"),
@@ -323,8 +338,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                   cityController.text =
                       cities.firstWhere((item) => item.id == itemid).name ?? "";
                 }
-
-                Navigator.pop(context);
+               // Navigator.pop(context);
               });
         });
   }
