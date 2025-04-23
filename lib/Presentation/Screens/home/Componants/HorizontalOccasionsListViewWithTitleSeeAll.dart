@@ -55,7 +55,7 @@ class _HorizontalOccasionsListViewWithTitleSeeAllState extends State<HorizontalO
                       widget.itemClick.call(widget.list[index]);
                     },
                     child: CategoryItemCart(
-                      image: widget.showLoading ? "" : widget.list[index].imagePath ?? "",
+                      image: widget.showLoading ? "" : widget.list[index].coverImagePath ?? "",
                       title: widget.showLoading ? "" :  widget.list[index].name ?? "",
                       width: 127,
                       height: 78,
