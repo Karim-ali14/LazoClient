@@ -69,8 +69,10 @@ Class | Method | HTTP request | Description
 *ClientApi* | [**calculateInstantOrder**](doc//ClientApi.md#calculateinstantorder) | **POST** /client/instant-order/calculate | calculate an instant order
 *ClientApi* | [**clientAccountDeleteGet**](doc//ClientApi.md#clientaccountdeleteget) | **GET** /client/account-delete | client\\'s account deleted successfully
 *ClientApi* | [**clientLogoutGet**](doc//ClientApi.md#clientlogoutget) | **GET** /client/logout | client logout
+*ClientApi* | [**clientWishlistCollectionDeleteDelete**](doc//ClientApi.md#clientwishlistcollectiondeletedelete) | **DELETE** /client/wishlist/collection/delete | delete collection wishlist
 *ClientApi* | [**creatInstantOrder**](doc//ClientApi.md#creatinstantorder) | **POST** /client/instant-order/create | create an instant order
 *ClientApi* | [**createOrder**](doc//ClientApi.md#createorder) | **POST** /client/order/create | Create order
+*ClientApi* | [**createWishlistCollection**](doc//ClientApi.md#createwishlistcollection) | **POST** /client/wishlist/collection/create | create wishlist collection
 *ClientApi* | [**manageOrder**](doc//ClientApi.md#manageorder) | **POST** /client/order/manage | Manage order
 *ClientApi* | [**rateOrder**](doc//ClientApi.md#rateorder) | **POST** /client/order/rating | Rate order
 *ClientApi* | [**readANotification122**](doc//ClientApi.md#readanotification122) | **POST** /client/notification/read | read a notification
@@ -78,10 +80,12 @@ Class | Method | HTTP request | Description
 *ClientApi* | [**showOrderDetails**](doc//ClientApi.md#showorderdetails) | **GET** /client/order/show | Show order details
 *ClientApi* | [**showOrders**](doc//ClientApi.md#showorders) | **GET** /client/orders | Show orders
 *ClientApi* | [**showProfile**](doc//ClientApi.md#showprofile) | **GET** /client/profile/show | show profile
+*ClientApi* | [**showWishlistCollections**](doc//ClientApi.md#showwishlistcollections) | **GET** /client/wishlist/collections | Show wishlist collections
 *ClientApi* | [**showWishlistItemsWithSearchByName**](doc//ClientApi.md#showwishlistitemswithsearchbyname) | **GET** /client/wishlist/show | Show wishlist items (with search by name)
 *ClientApi* | [**toggleProductServiceInWishlist**](doc//ClientApi.md#toggleproductserviceinwishlist) | **POST** /client/wishlist/toggle | Toggle product/service in wishlist
 *ClientApi* | [**updateFcmTokenAndDeviceType2**](doc//ClientApi.md#updatefcmtokenanddevicetype2) | **POST** /client/update/device-data | update fcm_token and device_type
 *ClientApi* | [**updateProfile**](doc//ClientApi.md#updateprofile) | **POST** /client/profile/update | update profile
+*ClientApi* | [**updateWishlistCollection**](doc//ClientApi.md#updatewishlistcollection) | **POST** /client/wishlist/collection/update | update wishlist collection
 *NotificationsApi* | [**assignChatNotificationToAClient**](doc//NotificationsApi.md#assignchatnotificationtoaclient) | **POST** /provider/chat/notification/assign | Assign chat notification to a client
 *NotificationsApi* | [**assignChatNotificationToAProvider**](doc//NotificationsApi.md#assignchatnotificationtoaprovider) | **POST** /client/chat/notification/assign | Assign chat notification to a provider
 *NotificationsApi* | [**readANotification1**](doc//NotificationsApi.md#readanotification1) | **POST** /provider/notification/read | read a notification
@@ -152,8 +156,12 @@ Class | Method | HTTP request | Description
 *PublicAuthApi* | [**resetCodeSendPost**](doc//PublicAuthApi.md#resetcodesendpost) | **POST** /reset-code/send | send reset code
 *PublicAuthApi* | [**resetPasswordPost**](doc//PublicAuthApi.md#resetpasswordpost) | **POST** /reset-password | reset password
 *TransactionsApi* | [**showtransactions**](doc//TransactionsApi.md#showtransactions) | **GET** /provider/transactions | show transactions
+*WishlistApi* | [**clientWishlistCollectionDeleteDelete**](doc//WishlistApi.md#clientwishlistcollectiondeletedelete) | **DELETE** /client/wishlist/collection/delete | delete collection wishlist
+*WishlistApi* | [**createWishlistCollection**](doc//WishlistApi.md#createwishlistcollection) | **POST** /client/wishlist/collection/create | create wishlist collection
+*WishlistApi* | [**showWishlistCollections**](doc//WishlistApi.md#showwishlistcollections) | **GET** /client/wishlist/collections | Show wishlist collections
 *WishlistApi* | [**showWishlistItemsWithSearchByName**](doc//WishlistApi.md#showwishlistitemswithsearchbyname) | **GET** /client/wishlist/show | Show wishlist items (with search by name)
 *WishlistApi* | [**toggleProductServiceInWishlist**](doc//WishlistApi.md#toggleproductserviceinwishlist) | **POST** /client/wishlist/toggle | Toggle product/service in wishlist
+*WishlistApi* | [**updateWishlistCollection**](doc//WishlistApi.md#updatewishlistcollection) | **POST** /client/wishlist/collection/update | update wishlist collection
 
 
 ## Documentation For Models
@@ -184,6 +192,9 @@ Class | Method | HTTP request | Description
  - [CodeSendResponse](doc//CodeSendResponse.md)
  - [Color](doc//Color.md)
  - [ColorsResponse](doc//ColorsResponse.md)
+ - [CreateWishlistCollection200Response](doc//CreateWishlistCollection200Response.md)
+ - [CreateWishlistCollection200ResponseData](doc//CreateWishlistCollection200ResponseData.md)
+ - [CreateWishlistCollectionRequest](doc//CreateWishlistCollectionRequest.md)
  - [FilterTopProductsServices200Response](doc//FilterTopProductsServices200Response.md)
  - [FilterTopProductsServices200ResponseData](doc//FilterTopProductsServices200ResponseData.md)
  - [FilterTopProductsServices200ResponseDataProducts](doc//FilterTopProductsServices200ResponseDataProducts.md)
@@ -252,7 +263,6 @@ Class | Method | HTTP request | Description
  - [ResetPasswordRequest](doc//ResetPasswordRequest.md)
  - [ResetPasswordResponse](doc//ResetPasswordResponse.md)
  - [SendPushNotification200Response](doc//SendPushNotification200Response.md)
- - [SendPushNotification200ResponseData](doc//SendPushNotification200ResponseData.md)
  - [ServiceList](doc//ServiceList.md)
  - [ServiceListItem](doc//ServiceListItem.md)
  - [ServiceShowData](doc//ServiceShowData.md)
@@ -281,6 +291,8 @@ Class | Method | HTTP request | Description
  - [ShowProfile200ResponseDataCity](doc//ShowProfile200ResponseDataCity.md)
  - [ShowPromocodeDetails200Response](doc//ShowPromocodeDetails200Response.md)
  - [ShowPromocodeDetails200ResponseData](doc//ShowPromocodeDetails200ResponseData.md)
+ - [ShowWishlistCollections200Response](doc//ShowWishlistCollections200Response.md)
+ - [ShowWishlistCollections200ResponseData](doc//ShowWishlistCollections200ResponseData.md)
  - [ShowWishlistItemsWithSearchByName200Response](doc//ShowWishlistItemsWithSearchByName200Response.md)
  - [ShowWishlistItemsWithSearchByName200ResponseData](doc//ShowWishlistItemsWithSearchByName200ResponseData.md)
  - [Showtransactions200Response](doc//Showtransactions200Response.md)
@@ -297,6 +309,7 @@ Class | Method | HTTP request | Description
  - [UpdateCartItemQuantity200ResponseData](doc//UpdateCartItemQuantity200ResponseData.md)
  - [UploadFiles](doc//UploadFiles.md)
  - [UploadFilesResponse](doc//UploadFilesResponse.md)
+ - [WishlistItem](doc//WishlistItem.md)
 
 
 ## Documentation For Authorization

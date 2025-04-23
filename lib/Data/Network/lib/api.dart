@@ -67,6 +67,9 @@ part 'model/code_send_request.dart';
 part 'model/code_send_response.dart';
 part 'model/color.dart';
 part 'model/colors_response.dart';
+part 'model/create_wishlist_collection200_response.dart';
+part 'model/create_wishlist_collection200_response_data.dart';
+part 'model/create_wishlist_collection_request.dart';
 part 'model/filter_top_products_services200_response.dart';
 part 'model/filter_top_products_services200_response_data.dart';
 part 'model/filter_top_products_services200_response_data_products.dart';
@@ -135,7 +138,6 @@ part 'model/reset_code_send_response.dart';
 part 'model/reset_password_request.dart';
 part 'model/reset_password_response.dart';
 part 'model/send_push_notification200_response.dart';
-part 'model/send_push_notification200_response_data.dart';
 part 'model/service_list.dart';
 part 'model/service_list_item.dart';
 part 'model/service_show_data.dart';
@@ -164,6 +166,8 @@ part 'model/show_profile200_response_data.dart';
 part 'model/show_profile200_response_data_city.dart';
 part 'model/show_promocode_details200_response.dart';
 part 'model/show_promocode_details200_response_data.dart';
+part 'model/show_wishlist_collections200_response.dart';
+part 'model/show_wishlist_collections200_response_data.dart';
 part 'model/show_wishlist_items_with_search_by_name200_response.dart';
 part 'model/show_wishlist_items_with_search_by_name200_response_data.dart';
 part 'model/showtransactions200_response.dart';
@@ -180,6 +184,7 @@ part 'model/update_cart_item_quantity200_response.dart';
 part 'model/update_cart_item_quantity200_response_data.dart';
 part 'model/upload_files.dart';
 part 'model/upload_files_response.dart';
+part 'model/wishlist_item.dart';
 
 
 /// An [ApiClient] instance that uses the default values obtained from

@@ -234,6 +234,12 @@ class ApiClient {
           return Color.fromJson(value);
         case 'ColorsResponse':
           return ColorsResponse.fromJson(value);
+        case 'CreateWishlistCollection200Response':
+          return CreateWishlistCollection200Response.fromJson(value);
+        case 'CreateWishlistCollection200ResponseData':
+          return CreateWishlistCollection200ResponseData.fromJson(value);
+        case 'CreateWishlistCollectionRequest':
+          return CreateWishlistCollectionRequest.fromJson(value);
         case 'FilterTopProductsServices200Response':
           return FilterTopProductsServices200Response.fromJson(value);
         case 'FilterTopProductsServices200ResponseData':
@@ -370,8 +376,6 @@ class ApiClient {
           return ResetPasswordResponse.fromJson(value);
         case 'SendPushNotification200Response':
           return SendPushNotification200Response.fromJson(value);
-        case 'SendPushNotification200ResponseData':
-          return SendPushNotification200ResponseData.fromJson(value);
         case 'ServiceList':
           return ServiceList.fromJson(value);
         case 'ServiceListItem':
@@ -428,6 +432,10 @@ class ApiClient {
           return ShowPromocodeDetails200Response.fromJson(value);
         case 'ShowPromocodeDetails200ResponseData':
           return ShowPromocodeDetails200ResponseData.fromJson(value);
+        case 'ShowWishlistCollections200Response':
+          return ShowWishlistCollections200Response.fromJson(value);
+        case 'ShowWishlistCollections200ResponseData':
+          return ShowWishlistCollections200ResponseData.fromJson(value);
         case 'ShowWishlistItemsWithSearchByName200Response':
           return ShowWishlistItemsWithSearchByName200Response.fromJson(value);
         case 'ShowWishlistItemsWithSearchByName200ResponseData':
@@ -460,6 +468,8 @@ class ApiClient {
           return UploadFiles.fromJson(value);
         case 'UploadFilesResponse':
           return UploadFilesResponse.fromJson(value);
+        case 'WishlistItem':
+          return WishlistItem.fromJson(value);
         default:
           dynamic match;
           if (value is List && (match = _regList.firstMatch(targetType)?.group(1)) != null) {

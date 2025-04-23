@@ -1,4 +1,4 @@
-# lazo.model.SendPushNotification200Response
+# lazo.model.ShowWishlistCollections200Response
 
 ## Load the model package
 ```dart
@@ -8,7 +8,7 @@ import 'package:lazo/api.dart';
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**data** | [**CreateWishlistCollectionRequest**](CreateWishlistCollectionRequest.md) |  | [optional] 
+**data** | [**ShowWishlistCollections200ResponseData**](ShowWishlistCollections200ResponseData.md) |  | [optional] 
 **message** | **String** |  | [optional] 
 **status** | **bool** |  | [optional] 
 

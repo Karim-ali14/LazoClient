@@ -32,6 +32,9 @@ doc/CodeSendRequest.md
 doc/CodeSendResponse.md
 doc/Color.md
 doc/ColorsResponse.md
+doc/CreateWishlistCollection200Response.md
+doc/CreateWishlistCollection200ResponseData.md
+doc/CreateWishlistCollectionRequest.md
 doc/FilterTopProductsServices200Response.md
 doc/FilterTopProductsServices200ResponseData.md
 doc/FilterTopProductsServices200ResponseDataProducts.md
@@ -106,7 +109,6 @@ doc/ResetCodeSendResponse.md
 doc/ResetPasswordRequest.md
 doc/ResetPasswordResponse.md
 doc/SendPushNotification200Response.md
-doc/SendPushNotification200ResponseData.md
 doc/ServiceList.md
 doc/ServiceListItem.md
 doc/ServiceShowData.md
@@ -135,6 +137,8 @@ doc/ShowProfile200ResponseData.md
 doc/ShowProfile200ResponseDataCity.md
 doc/ShowPromocodeDetails200Response.md
 doc/ShowPromocodeDetails200ResponseData.md
+doc/ShowWishlistCollections200Response.md
+doc/ShowWishlistCollections200ResponseData.md
 doc/ShowWishlistItemsWithSearchByName200Response.md
 doc/ShowWishlistItemsWithSearchByName200ResponseData.md
 doc/Showtransactions200Response.md
@@ -153,6 +157,7 @@ doc/UpdateCartItemQuantity200ResponseData.md
 doc/UploadFiles.md
 doc/UploadFilesResponse.md
 doc/WishlistApi.md
+doc/WishlistItem.md
 git_push.sh
 lib/api.dart
 lib/api/app_info_api.dart
@@ -201,6 +206,9 @@ lib/model/code_send_request.dart
 lib/model/code_send_response.dart
 lib/model/color.dart
 lib/model/colors_response.dart
+lib/model/create_wishlist_collection200_response.dart
+lib/model/create_wishlist_collection200_response_data.dart
+lib/model/create_wishlist_collection_request.dart
 lib/model/filter_top_products_services200_response.dart
 lib/model/filter_top_products_services200_response_data.dart
 lib/model/filter_top_products_services200_response_data_products.dart
@@ -269,7 +277,6 @@ lib/model/reset_code_send_response.dart
 lib/model/reset_password_request.dart
 lib/model/reset_password_response.dart
 lib/model/send_push_notification200_response.dart
-lib/model/send_push_notification200_response_data.dart
 lib/model/service_list.dart
 lib/model/service_list_item.dart
 lib/model/service_show_data.dart
@@ -298,6 +305,8 @@ lib/model/show_profile200_response_data.dart
 lib/model/show_profile200_response_data_city.dart
 lib/model/show_promocode_details200_response.dart
 lib/model/show_promocode_details200_response_data.dart
+lib/model/show_wishlist_collections200_response.dart
+lib/model/show_wishlist_collections200_response_data.dart
 lib/model/show_wishlist_items_with_search_by_name200_response.dart
 lib/model/show_wishlist_items_with_search_by_name200_response_data.dart
 lib/model/showtransactions200_response.dart
@@ -314,5 +323,11 @@ lib/model/update_cart_item_quantity200_response.dart
 lib/model/update_cart_item_quantity200_response_data.dart
 lib/model/upload_files.dart
 lib/model/upload_files_response.dart
+lib/model/wishlist_item.dart
 pubspec.yaml
-test/provider_product_ratings_inner_test.dart
+test/create_wishlist_collection200_response_data_test.dart
+test/create_wishlist_collection200_response_test.dart
+test/create_wishlist_collection_request_test.dart
+test/show_wishlist_collections200_response_data_test.dart
+test/show_wishlist_collections200_response_test.dart
+test/wishlist_item_test.dart

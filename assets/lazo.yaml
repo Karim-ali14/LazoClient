@@ -3471,6 +3471,25 @@ components:
           items:
             $ref: '#/components/schemas/ServiceListItem'
 
+    WishlistItem:
+      type: object
+      properties:
+        id:
+          type: integer
+        collection_id:
+          type: string
+        product_id:
+          type: string
+          nullable: true
+        service_id:
+          type: string
+          nullable: true
+        created_at:
+          type: string
+        updated_at:
+          type: string
+        imagePath:
+          type: string
 
     ServiceListItem:
       type: object
@@ -9647,6 +9666,15 @@ paths:
           in: query
           schema:
             type: string
+        - name: collection_id
+          in: query
+          schema:
+            type: string
+        - name: shipment_type
+          in: query
+          schema:
+            type: string
+            nullable: true
       responses:
         '200':
           description: Show wishlist items
@@ -9731,6 +9759,9 @@ paths:
                   description: Select product or service
                   type: string
                   example: '2'
+                collection_id:
+                  type: string
+                  nullable: true
       responses:
         '200':
           description: Successfully toggled product/service in wishlist
@@ -9773,6 +9804,201 @@ paths:
                     type: boolean
       security:
         - bearerAuth: []
+  /client/wishlist/collections:
+    get:
+      tags:
+        - client
+        - wishlist
+      summary: Show wishlist collections
+      description: Show wishlist collections
+      operationId: showWishlistCollections
+      responses:
+        '200':
+          description: Show wishlist items
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+            Cache-Control:
+              schema:
+                type: string
+                example: no-cache, private
+            Connection:
+              schema:
+                type: string
+                example: close
+            Date:
+              schema:
+                type: string
+                example: Wed, 22 May 2024 10:29:41 GMT
+            Host:
+              schema:
+                type: string
+                example: localhost:8000
+            X-Powered-By:
+              schema:
+                type: string
+                example: PHP/8.2.3
+            X-RateLimit-Limit:
+              schema:
+                type: string
+                example: '60'
+            X-RateLimit-Remaining:
+              schema:
+                type: string
+                example: '59'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      user_id:
+                        type: string
+                      name:
+                        type: string
+                      tag_id:
+                        type: string
+                      created_at:
+                        type: string
+                      updated_at:
+                        type: string
+                      items_count:
+                        type: integer
+                      items:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/WishlistItem'
+
+                  message:
+                    type: string
+                    example: user's wishlists
+                  status:
+                    type: boolean
+                    example: true
+      security:
+        - bearerAuth: []
+
+
+  /client/wishlist/collection/create:
+    post:
+      tags:
+        - client
+        - wishlist
+      summary: create wishlist collection
+      description: create wishlist collection
+      operationId: createWishlistCollection
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+      responses:
+        '200':
+          description: wishlist collection created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: number
+                      user_id:
+                        type: number
+                      tag_id:
+                        type: number
+                      name:
+                        type: string
+                      created_at:
+                        type: string
+                        nullable: true
+                      updated_at:
+                        type: string
+                        nullable: true
+                  message:
+                    type: string
+                  status:
+                    type: boolean
+      security:
+        - bearerAuth: []
+  /client/wishlist/collection/update:
+    post:
+      tags:
+        - client
+        - wishlist
+      summary: update wishlist collection
+      description: update wishlist collection
+      operationId: updateWishlistCollection
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                collection_id:
+                  type: string
+                name:
+                  type: string
+      responses:
+        '200':
+          description: wishlist collection updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: number
+                      user_id:
+                        type: number
+                      tag_id:
+                        type: number
+                      name:
+                        type: string
+                      created_at:
+                        type: string
+                        nullable: true
+                      updated_at:
+                        type: string
+                        nullable: true
+                  message:
+                    type: string
+                  status:
+                    type: boolean
+      security:
+        - bearerAuth: []
+  /client/wishlist/collection/delete:
+    delete:
+      tags:
+        - client
+        - wishlist
+      summary: delete collection wishlist
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: collection_id
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: wishlist collection deleted successfully
+          content:
+            application/json: {}
 
   /client/notifications:
     get:

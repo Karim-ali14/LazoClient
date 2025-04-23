@@ -13,8 +13,10 @@ Method | HTTP request | Description
 [**calculateInstantOrder**](ClientApi.md#calculateinstantorder) | **POST** /client/instant-order/calculate | calculate an instant order
 [**clientAccountDeleteGet**](ClientApi.md#clientaccountdeleteget) | **GET** /client/account-delete | client\\'s account deleted successfully
 [**clientLogoutGet**](ClientApi.md#clientlogoutget) | **GET** /client/logout | client logout
+[**clientWishlistCollectionDeleteDelete**](ClientApi.md#clientwishlistcollectiondeletedelete) | **DELETE** /client/wishlist/collection/delete | delete collection wishlist
 [**creatInstantOrder**](ClientApi.md#creatinstantorder) | **POST** /client/instant-order/create | create an instant order
 [**createOrder**](ClientApi.md#createorder) | **POST** /client/order/create | Create order
+[**createWishlistCollection**](ClientApi.md#createwishlistcollection) | **POST** /client/wishlist/collection/create | create wishlist collection
 [**manageOrder**](ClientApi.md#manageorder) | **POST** /client/order/manage | Manage order
 [**rateOrder**](ClientApi.md#rateorder) | **POST** /client/order/rating | Rate order
 [**readANotification122**](ClientApi.md#readanotification122) | **POST** /client/notification/read | read a notification
@@ -22,10 +24,12 @@ Method | HTTP request | Description
 [**showOrderDetails**](ClientApi.md#showorderdetails) | **GET** /client/order/show | Show order details
 [**showOrders**](ClientApi.md#showorders) | **GET** /client/orders | Show orders
 [**showProfile**](ClientApi.md#showprofile) | **GET** /client/profile/show | show profile
+[**showWishlistCollections**](ClientApi.md#showwishlistcollections) | **GET** /client/wishlist/collections | Show wishlist collections
 [**showWishlistItemsWithSearchByName**](ClientApi.md#showwishlistitemswithsearchbyname) | **GET** /client/wishlist/show | Show wishlist items (with search by name)
 [**toggleProductServiceInWishlist**](ClientApi.md#toggleproductserviceinwishlist) | **POST** /client/wishlist/toggle | Toggle product/service in wishlist
 [**updateFcmTokenAndDeviceType2**](ClientApi.md#updatefcmtokenanddevicetype2) | **POST** /client/update/device-data | update fcm_token and device_type
 [**updateProfile**](ClientApi.md#updateprofile) | **POST** /client/profile/update | update profile
+[**updateWishlistCollection**](ClientApi.md#updatewishlistcollection) | **POST** /client/wishlist/collection/update | update wishlist collection
 
 
 # **assignChatNotificationToAProvider**
@@ -221,6 +225,52 @@ void (empty response body)
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+# **clientWishlistCollectionDeleteDelete**
+> clientWishlistCollectionDeleteDelete(collectionId)
+
+delete collection wishlist
+
+### Example
+```dart
+import 'package:lazo/api.dart';
+// TODO Configure HTTP Bearer authorization: bearerAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('bearerAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('bearerAuth').setAccessToken(yourTokenGeneratorFunction);
+
+final api_instance = ClientApi();
+final collectionId = collectionId_example; // String | 
+
+try {
+    api_instance.clientWishlistCollectionDeleteDelete(collectionId);
+} catch (e) {
+    print('Exception when calling ClientApi->clientWishlistCollectionDeleteDelete: $e\n');
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **collectionId** | **String**|  | [optional] 
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 # **creatInstantOrder**
 > ClientOrderDetailsResponse creatInstantOrder(serviceId, serviceQuantity, serviceSelectedListIds, serviceSelectedListItemsIds, paymentMethod, promocode, receiverName, receiverPhoneNumber, cardMessage, cardFrom, cardTo, deliveryDate, deliveryTime)
 
@@ -355,6 +405,55 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**ClientOrderDetailsResponse**](ClientOrderDetailsResponse.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: multipart/form-data
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **createWishlistCollection**
+> CreateWishlistCollection200Response createWishlistCollection(name)
+
+create wishlist collection
+
+create wishlist collection
+
+### Example
+```dart
+import 'package:lazo/api.dart';
+// TODO Configure HTTP Bearer authorization: bearerAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('bearerAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('bearerAuth').setAccessToken(yourTokenGeneratorFunction);
+
+final api_instance = ClientApi();
+final name = name_example; // String | 
+
+try {
+    final result = api_instance.createWishlistCollection(name);
+    print(result);
+} catch (e) {
+    print('Exception when calling ClientApi->createWishlistCollection: $e\n');
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **name** | **String**|  | [optional] 
+
+### Return type
+
+[**CreateWishlistCollection200Response**](CreateWishlistCollection200Response.md)
 
 ### Authorization
 
@@ -710,8 +809,53 @@ This endpoint does not need any parameter.
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+# **showWishlistCollections**
+> ShowWishlistCollections200Response showWishlistCollections()
+
+Show wishlist collections
+
+Show wishlist collections
+
+### Example
+```dart
+import 'package:lazo/api.dart';
+// TODO Configure HTTP Bearer authorization: bearerAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('bearerAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('bearerAuth').setAccessToken(yourTokenGeneratorFunction);
+
+final api_instance = ClientApi();
+
+try {
+    final result = api_instance.showWishlistCollections();
+    print(result);
+} catch (e) {
+    print('Exception when calling ClientApi->showWishlistCollections: $e\n');
+}
+```
+
+### Parameters
+This endpoint does not need any parameter.
+
+### Return type
+
+[**ShowWishlistCollections200Response**](ShowWishlistCollections200Response.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 # **showWishlistItemsWithSearchByName**
-> ShowWishlistItemsWithSearchByName200Response showWishlistItemsWithSearchByName(searchByName, type)
+> ShowWishlistItemsWithSearchByName200Response showWishlistItemsWithSearchByName(searchByName, type, collectionId, shipmentType)
 
 Show wishlist items (with search by name)
 
@@ -730,9 +874,11 @@ import 'package:lazo/api.dart';
 final api_instance = ClientApi();
 final searchByName = searchByName_example; // String | 
 final type = type_example; // String | 
+final collectionId = collectionId_example; // String | 
+final shipmentType = shipmentType_example; // String | 
 
 try {
-    final result = api_instance.showWishlistItemsWithSearchByName(searchByName, type);
+    final result = api_instance.showWishlistItemsWithSearchByName(searchByName, type, collectionId, shipmentType);
     print(result);
 } catch (e) {
     print('Exception when calling ClientApi->showWishlistItemsWithSearchByName: $e\n');
@@ -745,6 +891,8 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **searchByName** | **String**|  | [optional] 
  **type** | **String**|  | [optional] 
+ **collectionId** | **String**|  | [optional] 
+ **shipmentType** | **String**|  | [optional] 
 
 ### Return type
 
@@ -762,7 +910,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **toggleProductServiceInWishlist**
-> ToggleProductServiceInWishlist200Response toggleProductServiceInWishlist(productId, serviceId)
+> ToggleProductServiceInWishlist200Response toggleProductServiceInWishlist(productId, serviceId, collectionId)
 
 Toggle product/service in wishlist
 
@@ -781,9 +929,10 @@ import 'package:lazo/api.dart';
 final api_instance = ClientApi();
 final productId = productId_example; // String | Select product or service
 final serviceId = serviceId_example; // String | Select product or service
+final collectionId = collectionId_example; // String | 
 
 try {
-    final result = api_instance.toggleProductServiceInWishlist(productId, serviceId);
+    final result = api_instance.toggleProductServiceInWishlist(productId, serviceId, collectionId);
     print(result);
 } catch (e) {
     print('Exception when calling ClientApi->toggleProductServiceInWishlist: $e\n');
@@ -796,6 +945,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **productId** | **String**| Select product or service | [optional] 
  **serviceId** | **String**| Select product or service | [optional] 
+ **collectionId** | **String**|  | [optional] 
 
 ### Return type
 
@@ -907,6 +1057,57 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**ClientAuthResponse**](ClientAuthResponse.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: multipart/form-data
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **updateWishlistCollection**
+> CreateWishlistCollection200Response updateWishlistCollection(collectionId, name)
+
+update wishlist collection
+
+update wishlist collection
+
+### Example
+```dart
+import 'package:lazo/api.dart';
+// TODO Configure HTTP Bearer authorization: bearerAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('bearerAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('bearerAuth').setAccessToken(yourTokenGeneratorFunction);
+
+final api_instance = ClientApi();
+final collectionId = collectionId_example; // String | 
+final name = name_example; // String | 
+
+try {
+    final result = api_instance.updateWishlistCollection(collectionId, name);
+    print(result);
+} catch (e) {
+    print('Exception when calling ClientApi->updateWishlistCollection: $e\n');
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **collectionId** | **String**|  | [optional] 
+ **name** | **String**|  | [optional] 
+
+### Return type
+
+[**CreateWishlistCollection200Response**](CreateWishlistCollection200Response.md)
 
 ### Authorization
 
