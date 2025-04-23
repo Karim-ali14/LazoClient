@@ -89,19 +89,18 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
     });
     super.initState();
   }
-
-  void scrollToCategory(int index, FilterScreenTypes type) {
+    void scrollToCategory(int index, FilterScreenTypes type) {
     final RenderBox renderBox = (type == FilterScreenTypes.Products
-            ? _categoryForProductKeys[index].currentContext
-            : _categoryForServiceKeys[index].currentContext)
+        ? _categoryForProductKeys[index].currentContext
+        : _categoryForServiceKeys[index].currentContext)
         ?.findRenderObject() as RenderBox;
     final position = renderBox.localToGlobal(Offset.zero,
         ancestor: context.findRenderObject());
-    final offset = position.dy + _scrollController.offset - 130;
+    final offset = position.dy + _scrollController.offset - 150;
 
     _scrollController.animateTo(
       offset,
-      duration: const Duration(milliseconds: 400),
+      duration: const Duration(milliseconds: 800),
       curve: Curves.easeInOut,
     );
   }
@@ -172,7 +171,6 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
           titleSpacing:
               0, // Set spacing between leading and title// Adjust based on your needs
           pinned: true,
-          floating: true,
           elevation: 0,
           flexibleSpace: FlexibleSpaceBar(
             titlePadding: EdgeInsetsDirectional.only(
@@ -671,6 +669,8 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
       ]),
     );
   }
+
+
 
   void getProducts() {
     ref
