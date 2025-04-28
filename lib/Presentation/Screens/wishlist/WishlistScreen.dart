@@ -4,6 +4,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lazo_client/Constants/Assets.dart';
 import 'package:lazo_client/Data/Models/StateModel.dart';
+import 'package:lazo_client/Doman/CommenProviders/ApiProvider.dart';
+import 'package:lazo_client/Presentation/BottomSheets/AddCollectionBottomSheet.dart';
 import 'package:lazo_client/Presentation/Screens/wishlist/widgets/WishlistGrid.dart';
 import 'package:lazo_client/Presentation/Theme/AppTheme.dart';
 import 'package:skeletonizer/skeletonizer.dart';
@@ -22,7 +24,7 @@ class WishListScreen extends ConsumerStatefulWidget {
 class _WishListScreenState extends ConsumerState<WishListScreen>
     with SingleTickerProviderStateMixin {
   double _opacity = 0.8;
-
+  final TextEditingController controller = TextEditingController();
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
@@ -43,6 +45,9 @@ class _WishListScreenState extends ConsumerState<WishListScreen>
     final wishlistCollectionsState =
         ref.watch(showWishlistCollectionsStateNotifier);
 
+    handleState(createWishlistCollectionStateNotifier,showLoading: true,onSuccess: (res){
+      fetchWishListCollections();
+    });
     return WillPopScope(
       onWillPop: _onWillPop,
       child: Scaffold(
@@ -86,8 +91,13 @@ class _WishListScreenState extends ConsumerState<WishListScreen>
                   overflow: TextOverflow.ellipsis,
                 ),
                 const Spacer(),
-                SVGIcons.localSVG(addIcon,
-                    width: 16, height: 16, fit: BoxFit.scaleDown)
+                InkWell(
+                  onTap: (){
+                    showCreateNewCollection();
+                  },
+                  child: SVGIcons.localSVG(addIcon,
+                      width: 16, height: 16, fit: BoxFit.scaleDown),
+                )
               ],
             ),
           )
@@ -100,5 +110,36 @@ class _WishListScreenState extends ConsumerState<WishListScreen>
     ref
         .read(showWishlistCollectionsStateNotifier.notifier)
         .fetchWishlistCollections();
+  }
+
+  void showCreateNewCollection() {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topRight: Radius.circular(10),
+          topLeft: Radius.circular(10),
+        ),
+      ),
+      builder: (BuildContext context) {
+        return Padding(
+          padding: EdgeInsets.only(
+            bottom: MediaQuery.of(context).viewInsets.bottom,
+          ),
+          child: AddCollectionBottomSheet(
+            onCreateCollection: (collectionName) {
+              createCollection(collectionName);
+            }, controller: controller,
+          ),
+        );
+      },
+    );
+  }
+
+
+  void createCollection(String collectionName) {
+    ref.read(createWishlistCollectionStateNotifier.notifier)
+        .createCollection(name: collectionName);
   }
 }

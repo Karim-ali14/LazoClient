@@ -23,7 +23,7 @@ class WishlistGrid extends StatelessWidget {
         ),
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
-        itemCount:collections?.length,
+        itemCount:collections?.length ?? 0,
         itemBuilder: (context, index) {
           return Skeletonizer(
               enabled: showLoading ?? false,

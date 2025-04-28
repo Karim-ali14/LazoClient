@@ -26,7 +26,7 @@ final getWishListServicesStateNotifier = StateNotifierProvider<
     (ref) => WishListProductsUseCase(ref,ref.read(clientApi)));
 
 
-final createWishlistCollectionStateNotifier = StateNotifierProvider<
+final createWishlistCollectionStateNotifier = StateNotifierProvider.autoDispose<
     CreateWishlistCollectionUseCase,
         StateModel<CreateWishlistCollection200Response?>>(
     (ref) => CreateWishlistCollectionUseCase(ref.read(wishlistApi)));
