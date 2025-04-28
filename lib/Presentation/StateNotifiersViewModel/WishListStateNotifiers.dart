@@ -24,3 +24,24 @@ final getWishListServicesStateNotifier = StateNotifierProvider<
         WishListProductsUseCase,
         StateModel<ShowWishlistItemsWithSearchByName200Response?>>(
     (ref) => WishListProductsUseCase(ref,ref.read(clientApi)));
+
+
+final createWishlistCollectionStateNotifier = StateNotifierProvider<
+    CreateWishlistCollectionUseCase,
+        StateModel<CreateWishlistCollection200Response?>>(
+    (ref) => CreateWishlistCollectionUseCase(ref.read(wishlistApi)));
+
+final showWishlistCollectionsStateNotifier = StateNotifierProvider<
+    ShowWishlistCollectionsUseCase,
+        StateModel<ShowWishlistCollections200Response?>>(
+    (ref) => ShowWishlistCollectionsUseCase(ref.read(wishlistApi)));
+
+final deleteWishlistCollectionStateNotifier = StateNotifierProvider<
+    DeleteWishlistCollectionUseCase,
+        StateModel<void>>(
+    (ref) => DeleteWishlistCollectionUseCase(ref.read(wishlistApi)));
+
+final editWishlistCollectionStateNotifier = StateNotifierProvider<
+    EditWishlistCollectionUseCase,
+        StateModel<CreateWishlistCollection200Response?>>(
+    (ref) => EditWishlistCollectionUseCase(ref.read(wishlistApi)));

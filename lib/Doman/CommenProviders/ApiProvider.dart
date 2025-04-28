@@ -34,6 +34,7 @@ final publicAuthApi = Provider((ref) => PublicAuthApi(ref.read(apiClient)));
 final publicApi = Provider((ref) => PublicApi(ref.read(apiClient)));
 final clientApi = Provider((ref) => ClientApi(ref.read(apiClient)));
 final notificationApi = Provider((ref) => NotificationsApi(ref.read(apiClient)));
+final wishlistApi = Provider((ref) => WishlistApi(ref.read(apiClient)));
 
 
 // final userAuthApi = Provider((ref) => PublicAuthenticationApi(ref.read(apiClient)));

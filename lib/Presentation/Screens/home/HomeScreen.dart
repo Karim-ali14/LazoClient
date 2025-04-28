@@ -309,7 +309,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 ),
               ),
               IntrinsicHeight(
-                child: Container  (
+                child: Container(
                   color: Colors.white.withOpacity(_opacity),
                   padding: const EdgeInsets.symmetric(horizontal: 16.0,vertical: 20),
                   child: Column(

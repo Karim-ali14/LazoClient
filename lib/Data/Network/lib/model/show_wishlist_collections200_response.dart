@@ -13,18 +13,12 @@ part of openapi.api;
 class ShowWishlistCollections200Response {
   /// Returns a new [ShowWishlistCollections200Response] instance.
   ShowWishlistCollections200Response({
-    this.data,
+    this.data = const [],
     this.message,
     this.status,
   });
 
-  ///
-  /// Please note: This property should have been non-nullable! Since the specification file
-  /// does not include a default value (using the "default:" property), however, the generated
-  /// source code must fall back to having a nullable type.
-  /// Consider adding a "default:" property in the specification file to hide this note.
-  ///
-  ShowWishlistCollections200ResponseData? data;
+  List<CollectionItem> data;
 
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
@@ -44,14 +38,14 @@ class ShowWishlistCollections200Response {
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is ShowWishlistCollections200Response &&
-    other.data == data &&
+    _deepEquality.equals(other.data, data) &&
     other.message == message &&
     other.status == status;
 
   @override
   int get hashCode =>
     // ignore: unnecessary_parenthesis
-    (data == null ? 0 : data!.hashCode) +
+    (data.hashCode) +
     (message == null ? 0 : message!.hashCode) +
     (status == null ? 0 : status!.hashCode);
 
@@ -60,11 +54,7 @@ class ShowWishlistCollections200Response {
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-    if (this.data != null) {
       json[r'data'] = this.data;
-    } else {
-      json[r'data'] = null;
-    }
     if (this.message != null) {
       json[r'message'] = this.message;
     } else {
@@ -97,7 +87,7 @@ class ShowWishlistCollections200Response {
       }());
 
       return ShowWishlistCollections200Response(
-        data: ShowWishlistCollections200ResponseData.fromJson(json[r'data']),
+        data: CollectionItem.listFromJson(json[r'data']),
         message: mapValueOfType<String>(json, r'message'),
         status: mapValueOfType<bool>(json, r'status'),
       );

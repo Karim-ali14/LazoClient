@@ -30,6 +30,7 @@ doc/CodeConfirmRequest.md
 doc/CodeConfirmResponse.md
 doc/CodeSendRequest.md
 doc/CodeSendResponse.md
+doc/CollectionItem.md
 doc/Color.md
 doc/ColorsResponse.md
 doc/CreateWishlistCollection200Response.md
@@ -138,7 +139,6 @@ doc/ShowProfile200ResponseDataCity.md
 doc/ShowPromocodeDetails200Response.md
 doc/ShowPromocodeDetails200ResponseData.md
 doc/ShowWishlistCollections200Response.md
-doc/ShowWishlistCollections200ResponseData.md
 doc/ShowWishlistItemsWithSearchByName200Response.md
 doc/ShowWishlistItemsWithSearchByName200ResponseData.md
 doc/Showtransactions200Response.md
@@ -204,6 +204,7 @@ lib/model/code_confirm_request.dart
 lib/model/code_confirm_response.dart
 lib/model/code_send_request.dart
 lib/model/code_send_response.dart
+lib/model/collection_item.dart
 lib/model/color.dart
 lib/model/colors_response.dart
 lib/model/create_wishlist_collection200_response.dart
@@ -306,7 +307,6 @@ lib/model/show_profile200_response_data_city.dart
 lib/model/show_promocode_details200_response.dart
 lib/model/show_promocode_details200_response_data.dart
 lib/model/show_wishlist_collections200_response.dart
-lib/model/show_wishlist_collections200_response_data.dart
 lib/model/show_wishlist_items_with_search_by_name200_response.dart
 lib/model/show_wishlist_items_with_search_by_name200_response_data.dart
 lib/model/showtransactions200_response.dart
@@ -325,9 +325,4 @@ lib/model/upload_files.dart
 lib/model/upload_files_response.dart
 lib/model/wishlist_item.dart
 pubspec.yaml
-test/create_wishlist_collection200_response_data_test.dart
-test/create_wishlist_collection200_response_test.dart
-test/create_wishlist_collection_request_test.dart
-test/show_wishlist_collections200_response_data_test.dart
-test/show_wishlist_collections200_response_test.dart
-test/wishlist_item_test.dart
+test/collection_item_test.dart

@@ -50,7 +50,7 @@ class MainScreenNavHostState extends ConsumerState<MainScreenNavHost> {
     final cartData = ref.watch(fetchCardDetailsStateNotifies);
     return Scaffold(
       appBar: PreferredSize(
-          preferredSize: Size.fromHeight(currentTab == 0 ? 0 : 60),
+          preferredSize: Size.fromHeight(currentTab == 0 || currentTab == 2 ? 0 : 60),
           child: CustomAppBar(
             appContext: context,
             title: currentTab == 0 ? "" : listTabsName[currentTab],
