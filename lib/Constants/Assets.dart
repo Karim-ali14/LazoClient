@@ -110,3 +110,5 @@ const reviewsIcon = "assets/images/reviews_icon.svg";
 const categoryMenuIcon = "assets/images/category_menu.svg";
 const backWithDarkBackgroundIcon = "assets/images/back_with_dark_background.svg";
 const addIcon = "assets/images/add_icon.svg";
+const snackBarHeartFullIcon = "assets/images/snack_bar_heart_full.svg";
+const snackBarHeartEmptyIcon = "assets/images/snack_bar_heart_empty.svg";

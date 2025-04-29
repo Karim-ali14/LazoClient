@@ -14,10 +14,11 @@ class ToggleProductServiceInWishlistUseCase extends StateNotifier<
   void toggle({
     String? productId,
     String? serviceId,
+    String? collectionId,
   }) {
     state = StateModel.loading();
     requestWithHandleMessage(() => clientApi.toggleProductServiceInWishlist(
-        productId: productId, serviceId: serviceId));
+        productId: productId, serviceId: serviceId,collectionId: collectionId));
   }
 }
 
@@ -99,8 +100,7 @@ class ShowWishlistCollectionsUseCase
   ShowWishlistCollectionsUseCase(this.wishlistApi) : super(StateModel());
   void fetchWishlistCollections() {
     state = StateModel.loading();
-    requestWithHandleMessage(
-        () => wishlistApi.showWishlistCollections());
+    requestWithHandleMessage(() => wishlistApi.showWishlistCollections());
   }
 }
 
@@ -115,14 +115,13 @@ class CreateWishlistCollectionUseCase
   }
 }
 
-class DeleteWishlistCollectionUseCase
-    extends StateNotifier<StateModel<void>> {
+class DeleteWishlistCollectionUseCase extends StateNotifier<StateModel<void>> {
   final WishlistApi wishlistApi;
   DeleteWishlistCollectionUseCase(this.wishlistApi) : super(StateModel());
   void deleteCollection({String? collectionId}) {
     state = StateModel.loading();
-    requestWithHandleMessage(
-        () => wishlistApi.clientWishlistCollectionDeleteDelete(collectionId: collectionId));
+    requestWithHandleMessage(() => wishlistApi
+        .clientWishlistCollectionDeleteDelete(collectionId: collectionId));
   }
 }
 
@@ -130,9 +129,12 @@ class EditWishlistCollectionUseCase
     extends StateNotifier<StateModel<CreateWishlistCollection200Response?>> {
   final WishlistApi wishlistApi;
   EditWishlistCollectionUseCase(this.wishlistApi) : super(StateModel());
-  void updateCollection({ String? collectionId, String? name, }) {
+  void updateCollection({
+    String? collectionId,
+    String? name,
+  }) {
     state = StateModel.loading();
-    requestWithHandleMessage(
-        () => wishlistApi.updateWishlistCollection(collectionId: collectionId,name: name));
+    requestWithHandleMessage(() => wishlistApi.updateWishlistCollection(
+        collectionId: collectionId, name: name));
   }
 }

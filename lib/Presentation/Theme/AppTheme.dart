@@ -59,6 +59,7 @@ class AppTheme {
   static const Color mainBackgroundDarkColor = Color(0xFF0E0314);
   static const Color mainBackgroundSemiDarkColor = Color(0xFF0E0322);
   static const Color blackColor2 = Color(0xFF333333);
+  static const Color blackColor3 = Color(0xFF2B2B2B);
   static const Color cardColor = Color(0xFFfcfcfc);
   static const Color lightTextColor = Colors.white;
   static Color? lightDetailTextColor = Colors.grey[200];

@@ -69,7 +69,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         onSuccess: (res) {
       ref.read(homeDataStateNotifiers.notifier).handleAddProductToWishList(
           res.data?.data?.productId ?? 0, res.data?.data?.inWishlist ?? false);
-      makeRefreshForWishListProducts();
+      // makeRefreshForWishListProducts();
     });
 
     handleState(serviceToggleStateNotifier, showLoading: true,
