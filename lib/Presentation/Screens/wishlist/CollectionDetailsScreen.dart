@@ -29,6 +29,7 @@ import '../../Widgets/ServiceAndProductItemCard.dart';
 import '../../Widgets/SvgIcons.dart';
 import 'ProductWishlistScreen.dart';
 import 'ServiceWishlistScreen.dart';
+import 'package:flutter/cupertino.dart' as cupertinoSize;
 
 class CollectionDetailsScreen extends ConsumerStatefulWidget {
   final String? collectionId;
@@ -79,6 +80,90 @@ class _CollectionDetailsScreenState
     return false; // Return true to allow the pop action, false to prevent it
   }
 
+  OverlayEntry? _overlayEntry;
+
+  void _showMenu(BuildContext context, GlobalKey key) {
+    final RenderBox renderBox =
+        key.currentContext!.findRenderObject() as RenderBox;
+    final Offset offset = renderBox.localToGlobal(Offset.zero);
+    final cupertinoSize.Size size = renderBox.size;
+
+    _overlayEntry = OverlayEntry(
+      builder: (context) => Stack(
+        children: [
+          GestureDetector(
+            onTap: () => _removeOverlay(),
+            child: Container(
+              color: Colors.black.withOpacity(0.3), // تعتيم الخلفية
+            ),
+          ),
+          Positioned(
+            top: offset.dy + size.height,
+            right: 16,
+            child: Material(
+              elevation: 8,
+              borderRadius: BorderRadius.circular(8),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  _buildMenuItem(
+                      'Delete Collection',
+                      AppTheme.styleWithTextBlackAdelleSansExtendedFonts14w400
+                          .copyWith(color: AppTheme.appRedColor)),
+                  Container(
+                    height: 1,
+                    width: 180,
+                    color: AppTheme.appGrey19.withOpacity(.5),
+                  ),
+                  _buildMenuItem('Edit',
+                      AppTheme.styleWithTextBlackAdelleSansExtendedFonts14w400
+                          .copyWith(color: AppTheme.appRedColor)),
+                  Container(
+                    height: 1,
+                    width: 180,
+                    color: AppTheme.appGrey19.withOpacity(.5),
+                  ),
+                  _buildMenuItem('Empty Collection',
+                      AppTheme.styleWithTextBlackAdelleSansExtendedFonts14w400
+                          ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+
+    Overlay.of(context).insert(_overlayEntry!);
+  }
+
+  Widget _buildMenuItem(String text, TextStyle style) {
+    return InkWell(
+      onTap: () {
+        _removeOverlay();
+        // نفذ العملية المطلوبة هنا
+      },
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+        width: 180,
+        child: Row(
+          children: [
+            Expanded(
+              child: Center(child: Text(text, style: style)),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void _removeOverlay() {
+    _overlayEntry?.remove();
+    _overlayEntry = null;
+  }
+
+  final GlobalKey _menuKey = GlobalKey();
   @override
   Widget build(BuildContext context) {
     final user = ref.read(clientStateProvider.notifier).checkIfUserExist();
@@ -160,7 +245,20 @@ class _CollectionDetailsScreenState
                             overflow: TextOverflow.ellipsis,
                           ),
                           const Spacer(),
-                          SVGIcons.localSVG(menuIcon,width: 10,height: 10, fit: BoxFit.none)
+                          GestureDetector(
+                            onTap: () {
+                              print("object");
+                              _showMenu(context, _menuKey);
+                              },
+                            child: Container(
+                              color: Colors.white,
+                              width: 50,
+                              height: 50,
+                              key: _menuKey,
+                              child: SVGIcons.localSVG(menuIcon,
+                                  width: 10, height: 10, fit: BoxFit.none),
+                            ),
+                          ),
                         ],
                       ),
                       TabBar(
@@ -175,32 +273,32 @@ class _CollectionDetailsScreenState
                               child: Text("All",
                                   style: activeTabIndex == 0
                                       ? AppTheme
-                                      .styleWithTextBlackColor2AdelleSansExtendedFonts14w400
+                                          .styleWithTextBlackColor2AdelleSansExtendedFonts14w400
                                       : AppTheme
-                                      .styleWithTextAppGrey7AdelleSansExtendedFonts14w400)),
+                                          .styleWithTextAppGrey7AdelleSansExtendedFonts14w400)),
                           Tab(
                             child: Text("Ready Gifts",
                                 style: activeTabIndex == 1
                                     ? AppTheme
-                                    .styleWithTextBlackColor2AdelleSansExtendedFonts14w400
+                                        .styleWithTextBlackColor2AdelleSansExtendedFonts14w400
                                     : AppTheme
-                                    .styleWithTextAppGrey7AdelleSansExtendedFonts14w400),
+                                        .styleWithTextAppGrey7AdelleSansExtendedFonts14w400),
                           ),
                           Tab(
                             child: Text("Unready Gifts",
                                 style: activeTabIndex == 2
                                     ? AppTheme
-                                    .styleWithTextBlackColor2AdelleSansExtendedFonts14w400
+                                        .styleWithTextBlackColor2AdelleSansExtendedFonts14w400
                                     : AppTheme
-                                    .styleWithTextAppGrey7AdelleSansExtendedFonts14w400),
+                                        .styleWithTextAppGrey7AdelleSansExtendedFonts14w400),
                           ),
                           Tab(
                             child: Text("Service",
                                 style: activeTabIndex == 3
                                     ? AppTheme
-                                    .styleWithTextBlackColor2AdelleSansExtendedFonts14w400
+                                        .styleWithTextBlackColor2AdelleSansExtendedFonts14w400
                                     : AppTheme
-                                    .styleWithTextAppGrey7AdelleSansExtendedFonts14w400),
+                                        .styleWithTextAppGrey7AdelleSansExtendedFonts14w400),
                           ),
                         ],
                         controller: tabController,

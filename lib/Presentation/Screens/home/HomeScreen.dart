@@ -20,6 +20,7 @@ import 'package:lazo_client/Presentation/Widgets/SvgIcons.dart';
 import '../../../Constants.dart';
 import '../../../Constants/Eunms.dart';
 import '../../../Data/Network/lib/api.dart';
+import '../../BottomSheets/CollectionsBottomSheet.dart';
 import '../../StateNotifiersViewModel/WishListStateNotifiers.dart';
 import '../../Theme/AppTheme.dart';
 import 'Componants/HorizontalOccasionsListViewWithTitleSeeAll.dart';
@@ -67,6 +68,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
     handleState(productToggleStateNotifier, showLoading: true,
         onSuccess: (res) {
+          showSnackBar(
+              isFavorite: res.data?.data?.inWishlist ?? false,
+              productId: res.data?.data?.productId?.toInt() ?? 0,
+              collectionId: res.data?.data?.collectionId ?? 0,
+              collectionName: res.data?.data?.collectionName);
       ref.read(homeDataStateNotifiers.notifier).handleAddProductToWishList(
           res.data?.data?.productId ?? 0, res.data?.data?.inWishlist ?? false,res.data?.data?.collectionId);
       // makeRefreshForWishListProducts();
@@ -74,6 +80,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
     handleState(serviceToggleStateNotifier, showLoading: true,
         onSuccess: (res) {
+          showSnackBar(
+              isFavorite: res.data?.data?.inWishlist ?? false,
+              productId: res.data?.data?.productId?.toInt() ?? 0,
+              collectionId: res.data?.data?.collectionId ?? 0,
+              collectionName: res.data?.data?.collectionName);
       ref.read(homeDataStateNotifiers.notifier).handelAddServiceToWishList(
           res.data?.data?.serviceId ?? 0, res.data?.data?.inWishlist ?? false);
       makeRefreshForWishListServices();
@@ -244,7 +255,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                               },
                               onAddItemToWishList: (id,collectionId) {
                                 if (client != null) {
-                                  productWishlistToggle(id);
+                                  productWishlistToggle(id,collectionId);
                                 } else {
                                   showAuthenticated();
                                 }
@@ -438,10 +449,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     }
   }
 
-  void productWishlistToggle(int id) {
+  void productWishlistToggle(int id,String? collectionId) {
     ref
         .read(productToggleStateNotifier.notifier)
-        .toggle(productId: id.toString());
+        .toggle(productId: id.toString(),collectionId: collectionId);
   }
 
   void serviceWishlistToggle(String serviceId) {
@@ -508,5 +519,63 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     ref.read(filterForUnReadyGiftProductStateNotifiers.notifier).resetDataFilter();
     ref.read(filterForServiceStateNotifiers.notifier).resetDataFilter();
     context.push(R_OccasionResultScreen,extra: {"occasionId":id,"title":name,"image":image});
+  }
+  void showSnackBar(
+      {bool? isFavorite,
+        int? productId,
+        int? collectionId,
+        String? collectionName}) {
+    final snackBar = SnackBar(
+      backgroundColor: AppTheme.blackColor3,
+      content: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 8),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SVGIcons.localSVG(
+                (isFavorite??false) ? snackBarHeartFullIcon : snackBarHeartEmptyIcon,
+                width: 12,
+                height: 12),
+            SizedBox(
+              width: 3.5,
+            ),
+            Text(
+              (isFavorite??false)
+                  ? "Added to $collectionName"
+                  : "Removed from $collectionName",
+              style: AppTheme.styleWithTextWhiteAdelleSansExtendedFonts14w400,
+            ),
+            Spacer(),
+            InkWell(
+              onTap: () {
+                showCollectionsBottomSheet(collectionId: collectionId,productId: productId);
+              },
+              child: Text(
+                "Edit",
+                style: AppTheme.styleWithTextWhiteAdelleSansExtendedFonts12w400,
+              ),
+            )
+          ],
+        ),
+      ),
+      behavior: SnackBarBehavior.floating,
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+
+  void showCollectionsBottomSheet({int? collectionId, int? productId}) {
+    showModalBottomSheet(
+        isScrollControlled: true,
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+                topRight: Radius.circular(10), topLeft: Radius.circular(10))),
+        context: context,
+        builder: (BuildContext context) => CollectionsBottomSheet(
+          selectedCollectionId: collectionId,
+          onCreateCollection: (collectionName) {}, onChangeCollection: (selectedCollectionId) {
+            print("sjdlfjlskdjf $selectedCollectionId");
+          productWishlistToggle(productId??0, selectedCollectionId);
+        },));
   }
 }

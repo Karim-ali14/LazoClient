@@ -91,13 +91,8 @@ class _ProductSearchScreenState extends ConsumerState<ProductSearchScreen> {
       }
     });
 
-    handleState(productToggleStateNotifier, showLoading: true,
+    handleState(productToggleStateNotifier,
         onSuccess: (res) {
-      showSnackBar(
-          isFavorite: res.data?.data?.inWishlist ?? false,
-          productId: res.data?.data?.productId?.toInt() ?? 0,
-          collectionId: res.data?.data?.collectionId ?? 0,
-          collectionName: res.data?.data?.collectionName);
       ref
           .read(getSellerDetailsWithProductStateNotifier.notifier)
           .handleAddProductToWishList(
@@ -421,61 +416,4 @@ class _ProductSearchScreenState extends ConsumerState<ProductSearchScreen> {
         ratingValueSelected: filterForProductData?.ratingValueSelected);
   }
 
-  void showSnackBar(
-      {bool? isFavorite,
-      int? productId,
-      int? collectionId,
-      String? collectionName}) {
-    final snackBar = SnackBar(
-      backgroundColor: AppTheme.blackColor3,
-      content: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 8),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SVGIcons.localSVG(
-                (isFavorite??false) ? snackBarHeartFullIcon : snackBarHeartEmptyIcon,
-                width: 12,
-                height: 12),
-            SizedBox(
-              width: 3.5,
-            ),
-            Text(
-              (isFavorite??false)
-                  ? "Added to $collectionName"
-                  : "Removed from $collectionName",
-              style: AppTheme.styleWithTextWhiteAdelleSansExtendedFonts14w400,
-            ),
-            Spacer(),
-            InkWell(
-              onTap: () {
-                showCollectionsBottomSheet(collectionId: collectionId,productId: productId);
-              },
-              child: Text(
-                "Edit",
-                style: AppTheme.styleWithTextWhiteAdelleSansExtendedFonts12w400,
-              ),
-            )
-          ],
-        ),
-      ),
-      behavior: SnackBarBehavior.floating,
-    );
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
-  }
-
-  void showCollectionsBottomSheet({int? collectionId, int? productId}) {
-    showModalBottomSheet(
-        isScrollControlled: true,
-        shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.only(
-                topRight: Radius.circular(10), topLeft: Radius.circular(10))),
-        context: context,
-        builder: (BuildContext context) => CollectionsBottomSheet(
-            selectedCollectionId: collectionId,
-            onCreateCollection: (collectionName) {}, onChangeCollection: (selectedCollectionId) {
-              productWishlistToggle(productId??0, selectedCollectionId);
-        },));
-  }
 }
