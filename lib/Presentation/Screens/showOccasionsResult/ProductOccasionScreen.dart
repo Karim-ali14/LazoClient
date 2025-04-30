@@ -83,16 +83,16 @@ class _ProductSearchScreenState
           .handleAddProductToWishList(
               res.data?.data?.productId?.toInt() ?? 0,
               res.data?.data?.categoriesIds ?? [],
-              res.data?.data?.inWishlist ?? false);
+              res.data?.data?.inWishlist ?? false,res.data?.data?.collectionId);
 
       ref.read(getProductDetails.notifier).handelAddProductToWishList(
-          res.data?.data?.productId ?? 0, res.data?.data?.inWishlist ?? false);
+          res.data?.data?.productId ?? 0, res.data?.data?.inWishlist ?? false,res.data?.data?.collectionId);
 
       ref.read(homeDataStateNotifiers.notifier).handleAddProductToWishList(
-          res.data?.data?.productId ?? 0, res.data?.data?.inWishlist ?? false);
+          res.data?.data?.productId ?? 0, res.data?.data?.inWishlist ?? false,res.data?.data?.collectionId);
 
       ref.read(getProductsStateNotifiers.notifier).handleAddProductToWishList(
-          res.data?.data?.productId ?? 0, res.data?.data?.inWishlist ?? false);
+          res.data?.data?.productId ?? 0, res.data?.data?.inWishlist ?? false,res.data?.data?.collectionId);
     });
 
     return Column(
@@ -291,7 +291,7 @@ class _ProductSearchScreenState
                               onAddItemToCart: (id) {
                                 addProductToCart(id);
                               },
-                              onAddItemToWishList: (id) {
+                              onAddItemToWishList: (id,collectionId) {
                                 if (client != null) {
                                   productWishlistToggle(id);
                                 } else {

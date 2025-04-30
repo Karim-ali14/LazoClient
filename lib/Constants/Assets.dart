@@ -112,3 +112,6 @@ const backWithDarkBackgroundIcon = "assets/images/back_with_dark_background.svg"
 const addIcon = "assets/images/add_icon.svg";
 const snackBarHeartFullIcon = "assets/images/snack_bar_heart_full.svg";
 const snackBarHeartEmptyIcon = "assets/images/snack_bar_heart_empty.svg";
+const addedToWishlistIcon = "assets/images/added_to_wishlist.svg";
+const plusEmptyIcon = "assets/images/plus_empty.svg";
+const plusFullIcon = "assets/images/plus_full.svg";

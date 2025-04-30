@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lazo_client/Doman/CommenProviders/ApiProvider.dart';
+import 'package:lazo_client/Presentation/BottomSheets/CollectionsBottomSheet.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import '../../../Constants.dart';
 import '../../../Constants/Assets.dart';
@@ -92,23 +93,33 @@ class _ProductSearchScreenState extends ConsumerState<ProductSearchScreen> {
 
     handleState(productToggleStateNotifier, showLoading: true,
         onSuccess: (res) {
-      print("asldkjflaskdjfl $res");
-      showSnackBar(res.data?.data?.inWishlist ?? false);
-      // ref
-      //     .read(getSellerDetailsWithProductStateNotifier.notifier)
-      //     .handleAddProductToWishList(
-      //         res.data?.data?.productId?.toInt() ?? 0,
-      //         res.data?.data?.categoriesIds ?? [],
-      //         res.data?.data?.inWishlist ?? false);
-      //
-      // ref.read(getProductDetails.notifier).handelAddProductToWishList(
-      //     res.data?.data?.productId ?? 0, res.data?.data?.inWishlist ?? false);
-      //
-      // ref.read(homeDataStateNotifiers.notifier).handleAddProductToWishList(
-      //     res.data?.data?.productId ?? 0, res.data?.data?.inWishlist ?? false);
+      showSnackBar(
+          isFavorite: res.data?.data?.inWishlist ?? false,
+          productId: res.data?.data?.productId?.toInt() ?? 0,
+          collectionId: res.data?.data?.collectionId ?? 0,
+          collectionName: res.data?.data?.collectionName);
+      ref
+          .read(getSellerDetailsWithProductStateNotifier.notifier)
+          .handleAddProductToWishList(
+              res.data?.data?.productId?.toInt() ?? 0,
+              res.data?.data?.categoriesIds ?? [],
+              res.data?.data?.inWishlist ?? false,
+              res.data?.data?.collectionId);
+
+      ref.read(getProductDetails.notifier).handelAddProductToWishList(
+          res.data?.data?.productId ?? 0,
+          res.data?.data?.inWishlist ?? false,
+          res.data?.data?.collectionId);
+
+      ref.read(homeDataStateNotifiers.notifier).handleAddProductToWishList(
+          res.data?.data?.productId ?? 0,
+          res.data?.data?.inWishlist ?? false,
+          res.data?.data?.collectionId);
 
       ref.read(getProductsStateNotifiers.notifier).handleAddProductToWishList(
-          res.data?.data?.productId ?? 0, res.data?.data?.inWishlist ?? false);
+          res.data?.data?.productId ?? 0,
+          res.data?.data?.inWishlist ?? false,
+          res.data?.data?.collectionId);
     });
 
     return Column(
@@ -292,9 +303,9 @@ class _ProductSearchScreenState extends ConsumerState<ProductSearchScreen> {
                                   onAddItemToCart: (id) {
                                     addProductToCart(id);
                                   },
-                                  onAddItemToWishList: (id) {
+                                  onAddItemToWishList: (id,collectionId) {
                                     if (client != null) {
-                                      productWishlistToggle(id);
+                                      productWishlistToggle(id,collectionId);
                                     } else {
                                       widget.showAuthenticated?.call();
                                     }
@@ -376,10 +387,10 @@ class _ProductSearchScreenState extends ConsumerState<ProductSearchScreen> {
     }
   }
 
-  void productWishlistToggle(int id) {
+  void productWishlistToggle(int id,String? collectionId) {
     ref
         .read(productToggleStateNotifier.notifier)
-        .toggle(productId: id.toString());
+        .toggle(productId: id.toString(),collectionId: collectionId);
   }
 
   void navigateToSeeAllBestProductAndService(String title, ItemType type,
@@ -410,27 +421,41 @@ class _ProductSearchScreenState extends ConsumerState<ProductSearchScreen> {
         ratingValueSelected: filterForProductData?.ratingValueSelected);
   }
 
-  void showSnackBar(bool isFavorite) {
+  void showSnackBar(
+      {bool? isFavorite,
+      int? productId,
+      int? collectionId,
+      String? collectionName}) {
     final snackBar = SnackBar(
       backgroundColor: AppTheme.blackColor3,
       content: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
+        padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 8),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            SVGIcons.localSVG(isFavorite ? snackBarHeartFullIcon : snackBarHeartEmptyIcon, width: 12, height: 12),
+            SVGIcons.localSVG(
+                (isFavorite??false) ? snackBarHeartFullIcon : snackBarHeartEmptyIcon,
+                width: 12,
+                height: 12),
             SizedBox(
               width: 3.5,
             ),
             Text(
-              isFavorite ? "Added to Default" : "Removed from Default",
+              (isFavorite??false)
+                  ? "Added to $collectionName"
+                  : "Removed from $collectionName",
               style: AppTheme.styleWithTextWhiteAdelleSansExtendedFonts14w400,
             ),
             Spacer(),
-            Text(
-              "Edit",
-              style: AppTheme.styleWithTextWhiteAdelleSansExtendedFonts12w400,
+            InkWell(
+              onTap: () {
+                showCollectionsBottomSheet(collectionId: collectionId,productId: productId);
+              },
+              child: Text(
+                "Edit",
+                style: AppTheme.styleWithTextWhiteAdelleSansExtendedFonts12w400,
+              ),
             )
           ],
         ),
@@ -438,5 +463,19 @@ class _ProductSearchScreenState extends ConsumerState<ProductSearchScreen> {
       behavior: SnackBarBehavior.floating,
     );
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+
+  void showCollectionsBottomSheet({int? collectionId, int? productId}) {
+    showModalBottomSheet(
+        isScrollControlled: true,
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+                topRight: Radius.circular(10), topLeft: Radius.circular(10))),
+        context: context,
+        builder: (BuildContext context) => CollectionsBottomSheet(
+            selectedCollectionId: collectionId,
+            onCreateCollection: (collectionName) {}, onChangeCollection: (selectedCollectionId) {
+              productWishlistToggle(productId??0, selectedCollectionId);
+        },));
   }
 }

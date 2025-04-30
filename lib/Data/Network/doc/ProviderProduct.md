@@ -36,6 +36,7 @@ Name | Type | Description | Notes
 **cartItemId** | **int** |  | [optional] 
 **cartItemQuantity** | **int** |  | [optional] 
 **inWishlist** | **bool** |  | [optional] 
+**wishlistCollectionId** | **String** |  | [optional] 
 **overallRating** | **num** |  | [optional] 
 **ratingsCount** | **num** |  | [optional] 
 **ratings** | [**List<ProviderProductRatingsInner>**](ProviderProductRatingsInner.md) |  | [optional] [default to const []]

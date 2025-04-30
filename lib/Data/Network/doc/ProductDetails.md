@@ -37,6 +37,7 @@ Name | Type | Description | Notes
 **cartItemId** | **String** |  | [optional] 
 **cartItemQuantity** | **int** |  | [optional] 
 **inWishlist** | **bool** |  | [optional] 
+**wishlistCollectionId** | **String** |  | [optional] 
 **overallRating** | **num** |  | [optional] 
 **ratingsCount** | **num** |  | [optional] 
 **ratings** | [**List<ProductDetailsRatingsInner>**](ProductDetailsRatingsInner.md) |  | [optional] [default to const []]

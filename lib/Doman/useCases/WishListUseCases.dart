@@ -17,6 +17,7 @@ class ToggleProductServiceInWishlistUseCase extends StateNotifier<
     String? collectionId,
   }) {
     state = StateModel.loading();
+    print("alskdjflaskdjflkajsdfkl $productId  $collectionId");
     requestWithHandleMessage(() => clientApi.toggleProductServiceInWishlist(
         productId: productId, serviceId: serviceId,collectionId: collectionId));
   }

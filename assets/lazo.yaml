@@ -1006,6 +1006,9 @@ components:
           nullable: true
         in_wishlist:
           type: boolean
+        wishlist_collection_id:
+          nullable: true
+          type: string
         overall_rating:
           type: number
         ratings_count:
@@ -1656,6 +1659,9 @@ components:
           nullable: true
         in_wishlist:
           type: boolean
+        wishlist_collection_id:
+          nullable: true
+          type: string
         overall_rating:
           type: number
         ratings_count:
@@ -3396,6 +3402,9 @@ components:
           nullable: true
         in_wishlist:
           type: boolean
+        wishlist_collection_id:
+          nullable: true
+          type: string
         overall_rating:
           type: number
         ratings_count:
@@ -9812,6 +9821,12 @@ paths:
                       updated_at:
                         type: string
                         nullable: true
+                      collection_id:
+                        type: integer
+                        nullable: true
+                      collection_name:
+                        type: string
+                        nullable: true
                       in_wishlist:
                         type: boolean
                         nullable: true
@@ -10003,6 +10018,25 @@ paths:
           description: wishlist collection deleted successfully
           content:
             application/json: {}
+  /client/wishlist/collection/reset:
+    get:
+      tags:
+          - client
+          - wishlist
+      summary: reset collection wishlist
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: collection_id
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: wishlist collection reset successfully
+          content:
+            application/json: {}
+
 
   /client/notifications:
     get:

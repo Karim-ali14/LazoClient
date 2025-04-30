@@ -60,12 +60,13 @@ class HomeDataUseCase extends StateNotifier<StateModel<ShowHome200Response>> {
     }
   }
 
-  void handleAddProductToWishList(num productId, bool inWishlist) {
+  void handleAddProductToWishList(num productId, bool inWishlist,int? collectionId) {
     if (data != null) {
       var index = data?.data?.topRatedProducts
           .indexWhere((product) => productId == product.id);
       if (index != null && index != -1) {
         data?.data?.topRatedProducts.getSafe(index)?.inWishlist = inWishlist;
+        data?.data?.topRatedProducts.getSafe(index)?.wishlistCollectionId = collectionId.toString();
       }
       state = StateModel.success(data);
     }
@@ -304,13 +305,14 @@ class GetProductsUseCase
     }
   }
 
-  void handleAddProductToWishList(num productId, bool inWishList) {
+  void handleAddProductToWishList(num productId, bool inWishList,int? collectionId) {
     if (state.data != null) {
       final data = state.data;
       var index = data?.data?.products?.data
           .indexWhere((product) => productId == product.id);
       if (index != null && index != -1) {
         data?.data?.products?.data.getSafe(index)?.inWishlist = inWishList;
+        data?.data?.products?.data.getSafe(index)?.wishlistCollectionId = collectionId.toString();
       }
       state = StateModel.success(data);
     }
@@ -461,9 +463,10 @@ class GetProductDetailsUseCase
     state = StateModel.success(data);
   }
 
-  void handelAddProductToWishList(num productId, bool inWishlist) {
+  void handelAddProductToWishList(num productId, bool inWishlist,int? collectionId) {
     final data = state.data;
     data?.data?.inWishlist = inWishlist;
+    data?.data?.wishlistCollectionId = collectionId.toString();
     state = StateModel.success(data);
   }
 
@@ -567,7 +570,7 @@ class GetSellerDetailsUseCase
   }
 
   void handleAddProductToWishList(
-      int id, List<String> categories, bool inWishlist) {
+      int id, List<String> categories, bool inWishlist,int? collectionId) {
     final data = state.data;
     for (var categoryId in categories) {
       for (int i = 0; i < (data?.data?.categories?.length ?? 0); i++) {
@@ -577,6 +580,7 @@ class GetSellerDetailsUseCase
               n++) {
             if (data?.data?.categories?[i].products?[n].id == id) {
               data?.data?.categories?[i].products?[n].inWishlist = inWishlist;
+              data?.data?.categories?[i].products?[n].wishlistCollectionId = collectionId.toString();
             }
           }
         }

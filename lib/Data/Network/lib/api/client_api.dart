@@ -306,6 +306,54 @@ class ClientApi {
     }
   }
 
+  /// reset collection wishlist
+  ///
+  /// Note: This method returns the HTTP [Response].
+  ///
+  /// Parameters:
+  ///
+  /// * [String] collectionId:
+  Future<Response> clientWishlistCollectionResetGetWithHttpInfo({ String? collectionId, }) async {
+    // ignore: prefer_const_declarations
+    final path = r'/client/wishlist/collection/reset';
+
+    // ignore: prefer_final_locals
+    Object? postBody;
+
+    final queryParams = <QueryParam>[];
+    final headerParams = <String, String>{};
+    final formParams = <String, String>{};
+
+    if (collectionId != null) {
+      queryParams.addAll(_queryParams('', 'collection_id', collectionId));
+    }
+
+    const contentTypes = <String>[];
+
+
+    return apiClient.invokeAPI(
+      path,
+      'GET',
+      queryParams,
+      postBody,
+      headerParams,
+      formParams,
+      contentTypes.isEmpty ? null : contentTypes.first,
+    );
+  }
+
+  /// reset collection wishlist
+  ///
+  /// Parameters:
+  ///
+  /// * [String] collectionId:
+  Future<void> clientWishlistCollectionResetGet({ String? collectionId, }) async {
+    final response = await clientWishlistCollectionResetGetWithHttpInfo( collectionId: collectionId, );
+    if (response.statusCode >= HttpStatus.badRequest) {
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
+    }
+  }
+
   /// create an instant order
   ///
   /// create an instant order

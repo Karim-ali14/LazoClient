@@ -16,7 +16,7 @@ class HorizontalTopServiceListViewWithTitleSeeAll extends StatefulWidget {
   final bool showLoading;
   final OnItemClickListener itemClick;
   final OnAddItemClick onAddItemToCart;
-  final OnAddItemClick onAddItemToWishList;
+  final OnAddToWishlistItemClick onAddItemToWishList;
   final OnSeeAllClickListener onSeeAllClickListener;
   final double itemWidth;
   final String title;
@@ -61,8 +61,8 @@ class _HorizontalTopServiceListViewWithTitleSeeAll extends State<HorizontalTopSe
                     service: widget.list[index],
                     type: ItemType.Services, onAddItemToCart: (id) {
                       widget.onAddItemToCart.call(id);
-                  }, onAddItemToWishList: (id ) {
-                    widget.onAddItemToWishList.call(id);
+                  }, onAddItemToWishList: (id,collectionId ) {
+                    widget.onAddItemToWishList.call(id,collectionId);
                   }, onItemClick: (id,name,categoriesIds) {
                     widget.itemClick.call(id,name,categoriesIds);
                   },

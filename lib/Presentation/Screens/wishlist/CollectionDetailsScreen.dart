@@ -244,7 +244,7 @@ class _CollectionDetailsScreenState extends ConsumerState<CollectionDetailsScree
                                 type: ItemType.Products,
                                 product: item,
                                 onAddItemToCart: (id) {},
-                                onAddItemToWishList: (id) {
+                                onAddItemToWishList: (id,collectionId) {
                                   if (user != null) {
                                     productWishlistToggle(id);
                                   } else {
@@ -308,7 +308,7 @@ class _CollectionDetailsScreenState extends ConsumerState<CollectionDetailsScree
                                 service: item,
                                 type: ItemType.Services,
                                 onAddItemToCart: (id) {},
-                                onAddItemToWishList: (id) {
+                                onAddItemToWishList: (id,collectionId) {
                                   if (user != null) {
                                     serviceWishlistToggle(
                                         id.toString());

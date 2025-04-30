@@ -19,6 +19,8 @@ class ToggleProductServiceInWishlist200ResponseData {
     this.productId,
     this.createdAt,
     this.updatedAt,
+    this.collectionId,
+    this.collectionName,
     this.inWishlist,
     this.categoriesIds = const [],
   });
@@ -41,6 +43,10 @@ class ToggleProductServiceInWishlist200ResponseData {
 
   String? updatedAt;
 
+  int? collectionId;
+
+  String? collectionName;
+
   bool? inWishlist;
 
   List<String>? categoriesIds;
@@ -53,6 +59,8 @@ class ToggleProductServiceInWishlist200ResponseData {
     other.productId == productId &&
     other.createdAt == createdAt &&
     other.updatedAt == updatedAt &&
+    other.collectionId == collectionId &&
+    other.collectionName == collectionName &&
     other.inWishlist == inWishlist &&
     _deepEquality.equals(other.categoriesIds, categoriesIds);
 
@@ -65,11 +73,13 @@ class ToggleProductServiceInWishlist200ResponseData {
     (productId == null ? 0 : productId!.hashCode) +
     (createdAt == null ? 0 : createdAt!.hashCode) +
     (updatedAt == null ? 0 : updatedAt!.hashCode) +
+    (collectionId == null ? 0 : collectionId!.hashCode) +
+    (collectionName == null ? 0 : collectionName!.hashCode) +
     (inWishlist == null ? 0 : inWishlist!.hashCode) +
     (categoriesIds == null ? 0 : categoriesIds!.hashCode);
 
   @override
-  String toString() => 'ToggleProductServiceInWishlist200ResponseData[id=$id, userId=$userId, serviceId=$serviceId, productId=$productId, createdAt=$createdAt, updatedAt=$updatedAt, inWishlist=$inWishlist, categoriesIds=$categoriesIds]';
+  String toString() => 'ToggleProductServiceInWishlist200ResponseData[id=$id, userId=$userId, serviceId=$serviceId, productId=$productId, createdAt=$createdAt, updatedAt=$updatedAt, collectionId=$collectionId, collectionName=$collectionName, inWishlist=$inWishlist, categoriesIds=$categoriesIds]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -102,6 +112,16 @@ class ToggleProductServiceInWishlist200ResponseData {
       json[r'updated_at'] = this.updatedAt;
     } else {
       json[r'updated_at'] = null;
+    }
+    if (this.collectionId != null) {
+      json[r'collection_id'] = this.collectionId;
+    } else {
+      json[r'collection_id'] = null;
+    }
+    if (this.collectionName != null) {
+      json[r'collection_name'] = this.collectionName;
+    } else {
+      json[r'collection_name'] = null;
     }
     if (this.inWishlist != null) {
       json[r'in_wishlist'] = this.inWishlist;
@@ -147,6 +167,8 @@ class ToggleProductServiceInWishlist200ResponseData {
             : num.tryParse('${json[r'product_id']}'),
         createdAt: mapValueOfType<String>(json, r'created_at'),
         updatedAt: mapValueOfType<String>(json, r'updated_at'),
+        collectionId: mapValueOfType<int>(json, r'collection_id'),
+        collectionName: mapValueOfType<String>(json, r'collection_name'),
         inWishlist: mapValueOfType<bool>(json, r'in_wishlist'),
         categoriesIds: json[r'categories_ids'] is Iterable
             ? (json[r'categories_ids'] as Iterable).cast<String>().toList(growable: false)

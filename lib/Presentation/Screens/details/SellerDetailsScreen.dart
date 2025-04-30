@@ -152,16 +152,16 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
           .handleAddProductToWishList(
               res.data?.data?.productId?.toInt() ?? 0,
               res.data?.data?.categoriesIds ?? [],
-              res.data?.data?.inWishlist ?? false);
+              res.data?.data?.inWishlist ?? false,res.data?.data?.collectionId);
 
       ref.read(getProductDetails.notifier).handelAddProductToWishList(
-          res.data?.data?.productId ?? 0, res.data?.data?.inWishlist ?? false);
+          res.data?.data?.productId ?? 0, res.data?.data?.inWishlist ?? false,res.data?.data?.collectionId);
 
       ref.read(homeDataStateNotifiers.notifier).handleAddProductToWishList(
-          res.data?.data?.productId ?? 0, res.data?.data?.inWishlist ?? false);
+          res.data?.data?.productId ?? 0, res.data?.data?.inWishlist ?? false,res.data?.data?.collectionId);
 
       ref.read(getProductsStateNotifiers.notifier).handleAddProductToWishList(
-          res.data?.data?.productId ?? 0, res.data?.data?.inWishlist ?? false);
+          res.data?.data?.productId ?? 0, res.data?.data?.inWishlist ?? false,res.data?.data?.collectionId);
     });
 
     return Scaffold(
@@ -589,7 +589,7 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
                           showLoading:
                           sellerProducts.state == DataState.LOADING,
                           onAddItemToCart: (id) => addProductToCart(id),
-                          onAddItemToWishList: (id) => client != null
+                          onAddItemToWishList: (id,collectionId) => client != null
                               ? productWishlistToggle(id)
                               : showAuthenticated(),
                           onItemClick: (itemId, itemName, categoryIds) {
@@ -644,7 +644,7 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
                             onAddItemToCart: (id) {
                               addServiceToCart(id);
                             },
-                            onAddItemToWishList: (id) {
+                            onAddItemToWishList: (id,collectionId) {
                               if (client != null) {
                                 serviceWishlistToggle(id.toString());
                               } else {
