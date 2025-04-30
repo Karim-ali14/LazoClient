@@ -20,6 +20,16 @@ final getWishListProductsStateNotifier = StateNotifierProvider<
         StateModel<ShowWishlistItemsWithSearchByName200Response?>>(
     (ref) => WishListProductsUseCase(ref,ref.read(clientApi)));
 
+final getWishListReadyGiftsProductsStateNotifier = StateNotifierProvider<
+        WishListProductsUseCase,
+        StateModel<ShowWishlistItemsWithSearchByName200Response?>>(
+    (ref) => WishListProductsUseCase(ref,ref.read(clientApi)));
+
+final getWishListUnReadyGiftsProductsStateNotifier = StateNotifierProvider<
+        WishListProductsUseCase,
+        StateModel<ShowWishlistItemsWithSearchByName200Response?>>(
+    (ref) => WishListProductsUseCase(ref,ref.read(clientApi)));
+
 final getWishListServicesStateNotifier = StateNotifierProvider<
         WishListProductsUseCase,
         StateModel<ShowWishlistItemsWithSearchByName200Response?>>(

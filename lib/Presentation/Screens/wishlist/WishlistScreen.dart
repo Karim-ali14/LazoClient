@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:lazo_client/Constants.dart';
 import 'package:lazo_client/Constants/Assets.dart';
 import 'package:lazo_client/Data/Models/StateModel.dart';
 import 'package:lazo_client/Doman/CommenProviders/ApiProvider.dart';
@@ -45,7 +46,9 @@ class _WishListScreenState extends ConsumerState<WishListScreen>
     final wishlistCollectionsState =
         ref.watch(showWishlistCollectionsStateNotifier);
 
-    handleState(createWishlistCollectionStateNotifier,showLoading: true,onSuccess: (res){
+    print("sdfaeette ${wishlistCollectionsState.data?.data.first.items}");
+    handleState(createWishlistCollectionStateNotifier, showLoading: true,
+        onSuccess: (res) {
       fetchWishListCollections();
     });
     return WillPopScope(
@@ -73,6 +76,9 @@ class _WishListScreenState extends ConsumerState<WishListScreen>
                         CollectionItem(),
                       ]
                     : wishlistCollectionsState.data?.data,
+                onCollectionClick: (collection) {
+                  navigateToCollectionDetails(collection);
+                },
               ),
             ],
           )),
@@ -92,7 +98,7 @@ class _WishListScreenState extends ConsumerState<WishListScreen>
                 ),
                 const Spacer(),
                 InkWell(
-                  onTap: (){
+                  onTap: () {
                     showCreateNewCollection();
                   },
                   child: SVGIcons.localSVG(addIcon,
@@ -130,16 +136,22 @@ class _WishListScreenState extends ConsumerState<WishListScreen>
           child: AddCollectionBottomSheet(
             onCreateCollection: (collectionName) {
               createCollection(collectionName);
-            }, controller: controller,
+            },
+            controller: controller,
           ),
         );
       },
     );
   }
 
-
   void createCollection(String collectionName) {
-    ref.read(createWishlistCollectionStateNotifier.notifier)
+    ref
+        .read(createWishlistCollectionStateNotifier.notifier)
         .createCollection(name: collectionName);
+  }
+
+  void navigateToCollectionDetails(CollectionItem? collection) {
+    context
+        .push(R_CollectionDetailsScreen, extra: {"collectionId": collection?.id.toString(),"collectionName":collection?.name,});
   }
 }

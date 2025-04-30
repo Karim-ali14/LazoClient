@@ -23,6 +23,7 @@ import 'package:lazo_client/Presentation/Screens/home/ShowBestProductAndServiceS
 import 'package:lazo_client/Presentation/Screens/orders/OrdersScreen.dart';
 import 'package:lazo_client/Presentation/Screens/orders/RatingOrderItemsScreen.dart';
 import 'package:lazo_client/Presentation/Screens/profileScreen/EditProfileScreen.dart';
+import 'package:lazo_client/Presentation/Screens/wishlist/CollectionDetailsScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:timeago/timeago.dart' as ago;
 
@@ -420,6 +421,15 @@ class MyApp extends ConsumerWidget {
               occasionId: extra["occasionId"],
               title: extra["title"],
               image: extra["image"],
+            );
+          }),
+      GoRoute(
+          path: R_CollectionDetailsScreen,
+          builder: (BuildContext context, GoRouterState state) {
+            var extra = state.extra as Map;
+            return CollectionDetailsScreen(
+              collectionId: extra["collectionId"],
+              collectionName: extra["collectionName"],
             );
           }),
     ],

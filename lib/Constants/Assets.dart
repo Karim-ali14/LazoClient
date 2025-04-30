@@ -115,3 +115,4 @@ const snackBarHeartEmptyIcon = "assets/images/snack_bar_heart_empty.svg";
 const addedToWishlistIcon = "assets/images/added_to_wishlist.svg";
 const plusEmptyIcon = "assets/images/plus_empty.svg";
 const plusFullIcon = "assets/images/plus_full.svg";
+const menuIcon = "assets/images/menu_icon.svg";

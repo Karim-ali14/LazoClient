@@ -91,11 +91,6 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
     });
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       clearAllFilterCategorySelected();
-      // fetchProducts(currentPageForProducts);
-      // fetchServices(currentPageForServices);
-      // if (widget.type == CategoryType.Search) {
-      //   fetchSellers(currentPageForSellers);
-      // }
     });
     super.initState();
   }

@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:lazo_client/Presentation/Screens/wishlist/widgets/WishlistCard.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
@@ -7,8 +8,8 @@ import '../../../../Data/Network/lib/api.dart';
 class WishlistGrid extends StatelessWidget {
   final bool? showLoading;
   final List<CollectionItem>? collections;
-
-  const WishlistGrid({super.key, this.showLoading, this.collections});
+  final Function(CollectionItem?) onCollectionClick;
+  const WishlistGrid({super.key, this.showLoading, this.collections, required this.onCollectionClick});
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +28,13 @@ class WishlistGrid extends StatelessWidget {
         itemBuilder: (context, index) {
           return Skeletonizer(
               enabled: showLoading ?? false,
-              child: WishlistCard(collection: collections?[index]));
+              child: InkWell(
+                 onTap: (){
+                   if(showLoading == false){
+                     onCollectionClick.call(collections?[index]);
+                   }
+                 },
+                  child: WishlistCard(collection: collections?[index])));
         },
       ),
     );

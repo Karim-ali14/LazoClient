@@ -19,7 +19,9 @@ class ToggleProductServiceInWishlistUseCase extends StateNotifier<
     state = StateModel.loading();
     print("alskdjflaskdjflkajsdfkl $productId  $collectionId");
     requestWithHandleMessage(() => clientApi.toggleProductServiceInWishlist(
-        productId: productId, serviceId: serviceId,collectionId: collectionId));
+        productId: productId,
+        serviceId: serviceId,
+        collectionId: collectionId));
   }
 }
 
@@ -32,11 +34,13 @@ class WishListProductsUseCase extends StateNotifier<
   void fetchAllProductsInWishlist({
     String? searchByName,
     String? type,
+    String? collectionId,
+    String? shipmentType,
   }) {
     state = StateModel.loading();
     request(
         () => _clientApi.showWishlistItemsWithSearchByName(
-            searchByName: searchByName, type: type), onComplete: (res) {
+            searchByName: searchByName, type: type,collectionId: collectionId,shipmentType: shipmentType), onComplete: (res) {
       if (res?.data?.products.isEmpty == true) {
         state = StateModel.empty();
       }
@@ -46,11 +50,12 @@ class WishListProductsUseCase extends StateNotifier<
   void fetchAllServicesInWishlist({
     String? searchByName,
     String? type,
+    String? collectionId,
   }) {
     state = StateModel.loading();
     request(
         () => _clientApi.showWishlistItemsWithSearchByName(
-            searchByName: searchByName, type: type), onComplete: (res) {
+            searchByName: searchByName, type: type,collectionId: collectionId), onComplete: (res) {
       if (res?.data?.services.isEmpty == true) {
         state = StateModel.empty();
       }

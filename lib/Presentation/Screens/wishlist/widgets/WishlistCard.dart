@@ -42,30 +42,29 @@ class WishlistCard extends StatelessWidget {
                         ? collection?.items.length
                         : 1,
                     itemBuilder: (context, index) {
-                      // if (index == 3 && (collection?.items.length ?? 0) > 4) {
-                      //   int extraCount = collection!.items.length - 4;
-                      //   return Stack(
-                      //     fit: StackFit.expand,
-                      //     children: [
-                      //       Image.network(
-                      //         collection?.items[index].imagePath ?? "",
-                      //         fit: BoxFit.cover,
-                      //       ),
-                      //       Container(
-                      //         color: Colors.black.withOpacity(.5),
-                      //         child: Center(
-                      //           child: Text("+$extraCount Items"),
-                      //         ),
-                      //       )
-                      //     ],
-                      //   );
-                      // }
-                      // return Image.network(
-                      //   collection?.items[index].imagePath ?? "",
-                      //   fit: BoxFit.cover,
-                      // );
-                      return SizedBox();
-                    },
+                      if (index == 3 && (collection?.items.length ?? 0) > 4) {
+                        int extraCount = collection!.items.length - 4;
+                        return Stack(
+                          fit: StackFit.expand,
+                          children: [
+                            Image.network(
+                              collection?.items[index].imagePath ?? "",
+                              fit: BoxFit.cover,
+                            ),
+                            Container(
+                              color: Colors.black.withOpacity(.5),
+                              child: Center(
+                                child: Text("+$extraCount Items",style: AppTheme.styleWithTextWhiteColorAdelleSansExtendedFonts12w500,),
+                              ),
+                            )
+                          ],
+                        );
+                      }
+                      return Image.network(
+                        collection?.items[index].imagePath ?? "",
+                        fit: BoxFit.cover,
+                      );
+                      },
                   )
                 : Expanded(
                     child: collection?.items.isEmpty == false
@@ -105,7 +104,7 @@ class WishlistCard extends StatelessWidget {
           ),
           child: Padding(
             padding: const EdgeInsets.only(top: 8.0),
-            child: Text('${collection?.itemsCount ?? 'No'} Items',
+            child: Text('${collection?.items.length ?? 'No'} Items',
                 style: AppTheme.styleWithTextGray18AdelleSansExtendedFonts12w400),
           ),
         ),
