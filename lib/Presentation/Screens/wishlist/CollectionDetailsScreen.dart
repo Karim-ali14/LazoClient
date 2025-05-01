@@ -16,6 +16,7 @@ import '../../../Data/Models/StateModel.dart';
 import '../../../Data/Models/UpdateDataModel.dart';
 import '../../../Data/Network/lib/api.dart';
 import '../../../Localization/Keys.dart';
+import '../../../Utils/UtilsExts.dart';
 import '../../BottomSheets/AuthenticateBottomSheet.dart';
 import '../../StateNotifiersViewModel/PublicStateNotifiers.dart';
 import '../../StateNotifiersViewModel/UserAuthStateNotifiers.dart';
@@ -48,14 +49,18 @@ class CollectionDetailsScreen extends ConsumerStatefulWidget {
 class _CollectionDetailsScreenState
     extends ConsumerState<CollectionDetailsScreen>
     with SingleTickerProviderStateMixin {
+  final TextEditingController editCollectionController = TextEditingController();
   late TabController tabController;
   int activeTabIndex = 0;
 
   String? searchForProductData = null;
   String? searchForServiceData = null;
 
+  String collectionName = "";
+
   @override
   void initState() {
+    collectionName = widget.collectionName??"";
     tabController = TabController(length: 4, vsync: this);
     tabController.addListener(() {
       setState(() {
@@ -82,86 +87,6 @@ class _CollectionDetailsScreenState
 
   OverlayEntry? _overlayEntry;
 
-  void _showMenu(BuildContext context, GlobalKey key) {
-    final RenderBox renderBox =
-        key.currentContext!.findRenderObject() as RenderBox;
-    final Offset offset = renderBox.localToGlobal(Offset.zero);
-    final cupertinoSize.Size size = renderBox.size;
-
-    _overlayEntry = OverlayEntry(
-      builder: (context) => Stack(
-        children: [
-          GestureDetector(
-            onTap: () => _removeOverlay(),
-            child: Container(
-              color: Colors.black.withOpacity(0.3), // تعتيم الخلفية
-            ),
-          ),
-          Positioned(
-            top: offset.dy + size.height,
-            right: 16,
-            child: Material(
-              elevation: 8,
-              borderRadius: BorderRadius.circular(8),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  _buildMenuItem(
-                      'Delete Collection',
-                      AppTheme.styleWithTextBlackAdelleSansExtendedFonts14w400
-                          .copyWith(color: AppTheme.appRedColor)),
-                  Container(
-                    height: 1,
-                    width: 180,
-                    color: AppTheme.appGrey19.withOpacity(.5),
-                  ),
-                  _buildMenuItem('Edit',
-                      AppTheme.styleWithTextBlackAdelleSansExtendedFonts14w400
-                          .copyWith(color: AppTheme.appRedColor)),
-                  Container(
-                    height: 1,
-                    width: 180,
-                    color: AppTheme.appGrey19.withOpacity(.5),
-                  ),
-                  _buildMenuItem('Empty Collection',
-                      AppTheme.styleWithTextBlackAdelleSansExtendedFonts14w400
-                          ),
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-
-    Overlay.of(context).insert(_overlayEntry!);
-  }
-
-  Widget _buildMenuItem(String text, TextStyle style) {
-    return InkWell(
-      onTap: () {
-        _removeOverlay();
-        // نفذ العملية المطلوبة هنا
-      },
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
-        width: 180,
-        child: Row(
-          children: [
-            Expanded(
-              child: Center(child: Text(text, style: style)),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  void _removeOverlay() {
-    _overlayEntry?.remove();
-    _overlayEntry = null;
-  }
 
   final GlobalKey _menuKey = GlobalKey();
   @override
@@ -175,6 +100,20 @@ class _CollectionDetailsScreenState
       if (id != null) {
         ref.read(getProductsStateNotifiers.notifier).handleAddProductToCart(id);
       }
+    });
+
+    handleState(editWishlistCollectionStateNotifier, showLoading: true,
+        onSuccess: (res) {
+      updateCollectionList();
+      setState(() {
+        collectionName = res.data?.data?.name ?? "";
+      });
+    });
+
+    handleState(deleteWishlistCollectionStateNotifier, showLoading: true,
+        onSuccess: (res) {
+      updateCollectionList();
+      context.pop();
     });
 
     handleState(productToggleStateNotifier, showLoading: true,
@@ -238,7 +177,7 @@ class _CollectionDetailsScreenState
                             ),
                           ),
                           Text(
-                            widget.collectionName ?? "",
+                            collectionName ?? "",
                             textAlign: TextAlign.center,
                             style: AppTheme.darkTheme.textTheme.displayLarge
                                 ?.copyWith(fontSize: 22, color: Colors.black),
@@ -249,7 +188,7 @@ class _CollectionDetailsScreenState
                             onTap: () {
                               print("object");
                               _showMenu(context, _menuKey);
-                              },
+                            },
                             child: Container(
                               color: Colors.white,
                               width: 50,
@@ -343,6 +282,99 @@ class _CollectionDetailsScreenState
     );
   }
 
+  void _showMenu(BuildContext context, GlobalKey key) {
+    final RenderBox renderBox =
+    key.currentContext!.findRenderObject() as RenderBox;
+    final Offset offset = renderBox.localToGlobal(Offset.zero);
+    final cupertinoSize.Size size = renderBox.size;
+
+    _overlayEntry = OverlayEntry(
+      builder: (context) => Stack(
+        children: [
+          GestureDetector(
+            onTap: () => _removeOverlay(),
+            child: Container(
+              color: Colors.black.withOpacity(0.3), // تعتيم الخلفية
+            ),
+          ),
+          Positioned(
+            top: offset.dy + size.height,
+            right: 16,
+            child: Material(
+              elevation: 8,
+              borderRadius: BorderRadius.circular(8),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  _buildMenuItem(
+                      text: 'Delete Collection',
+                      style: AppTheme
+                          .styleWithTextBlackAdelleSansExtendedFonts14w400
+                          .copyWith(color: AppTheme.appRedColor),
+                      action: () {
+                        deleteCollection();
+                      }),
+                  Container(
+                    height: 1,
+                    width: 180,
+                    color: AppTheme.appGrey19.withOpacity(.5),
+                  ),
+                  _buildMenuItem(
+                      text: 'Edit',
+                      style: AppTheme
+                          .styleWithTextBlackAdelleSansExtendedFonts14w400
+                          .copyWith(color: AppTheme.appRedColor),
+                      action: () {
+                        showEditCollectionBottomSheet();
+                      }),
+                  Container(
+                    height: 1,
+                    width: 180,
+                    color: AppTheme.appGrey19.withOpacity(.5),
+                  ),
+                  _buildMenuItem(
+                      text: 'Empty Collection',
+                      style: AppTheme
+                          .styleWithTextBlackAdelleSansExtendedFonts14w400,
+                      action: () {
+                        resetCollection();
+                      }),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+
+    Overlay.of(context).insert(_overlayEntry!);
+  }
+
+  Widget _buildMenuItem({String? text, TextStyle? style, Function? action}) {
+    return InkWell(
+      onTap: () {
+        _removeOverlay();
+        action?.call();
+      },
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+        width: 180,
+        child: Row(
+          children: [
+            Expanded(
+              child: Center(child: Text(text ?? "", style: style)),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void _removeOverlay() {
+    _overlayEntry?.remove();
+    _overlayEntry = null;
+  }
   void fetchFavoriteProducts() {
     ref
         .read(getWishListProductsStateNotifier.notifier)
@@ -426,5 +458,38 @@ class _CollectionDetailsScreenState
 
   void refreshHomeData() {
     ref.read(homeDataStateNotifiers.notifier).getHomeData();
+  }
+
+  void deleteCollection() {
+    showMakeSureDialog(context: context,collectionName:  widget.collectionName ?? "",onDelete: (){
+      ref.read(deleteWishlistCollectionStateNotifier.notifier).deleteCollection(
+        collectionId: widget.collectionId
+      );
+    });
+  }
+
+  void showEditCollectionBottomSheet() {
+    showCreateNewCollection(
+      controller: editCollectionController,
+      type: CollectionProcess.EditCollection,
+        context: context,
+        onCreateCollection: (collectionName){
+          editCollection(collectionName??"");
+        },
+      onDeleteCollection: (){
+          deleteCollection();
+        },
+    );
+    editCollectionController.text = collectionName;
+  }
+
+  void resetCollection() {}
+
+  void updateCollectionList() {
+    ref.read(showWishlistCollectionsStateNotifier.notifier).fetchWishlistCollections();
+  }
+
+  void editCollection(String newCollectionName) {
+    ref.read(editWishlistCollectionStateNotifier.notifier).updateCollection(collectionId: widget.collectionId,name: newCollectionName);
   }
 }

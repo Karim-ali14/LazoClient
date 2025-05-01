@@ -11,6 +11,7 @@ import 'package:lazo_client/Presentation/Screens/wishlist/widgets/WishlistGrid.d
 import 'package:lazo_client/Presentation/Theme/AppTheme.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import '../../../Data/Network/lib/api.dart';
+import '../../../Utils/UtilsExts.dart';
 import '../../StateNotifiersViewModel/UserAuthStateNotifiers.dart';
 import '../../StateNotifiersViewModel/WishListStateNotifiers.dart';
 import '../../Widgets/SvgIcons.dart';
@@ -46,7 +47,6 @@ class _WishListScreenState extends ConsumerState<WishListScreen>
     final wishlistCollectionsState =
         ref.watch(showWishlistCollectionsStateNotifier);
 
-    print("sdfaeette ${wishlistCollectionsState.data?.data.first.items}");
     handleState(createWishlistCollectionStateNotifier, showLoading: true,
         onSuccess: (res) {
       fetchWishListCollections();
@@ -99,7 +99,13 @@ class _WishListScreenState extends ConsumerState<WishListScreen>
                 const Spacer(),
                 InkWell(
                   onTap: () {
-                    showCreateNewCollection();
+                    showCreateNewCollection(
+                      context: context,
+                      controller: controller,
+                      onCreateCollection: (collectionName){
+                        createCollection(collectionName??"");
+                      }
+                    );
                   },
                   child: SVGIcons.localSVG(addIcon,
                       width: 16, height: 16, fit: BoxFit.scaleDown),
@@ -118,31 +124,6 @@ class _WishListScreenState extends ConsumerState<WishListScreen>
         .fetchWishlistCollections();
   }
 
-  void showCreateNewCollection() {
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.only(
-          topRight: Radius.circular(10),
-          topLeft: Radius.circular(10),
-        ),
-      ),
-      builder: (BuildContext context) {
-        return Padding(
-          padding: EdgeInsets.only(
-            bottom: MediaQuery.of(context).viewInsets.bottom,
-          ),
-          child: AddCollectionBottomSheet(
-            onCreateCollection: (collectionName) {
-              createCollection(collectionName);
-            },
-            controller: controller,
-          ),
-        );
-      },
-    );
-  }
 
   void createCollection(String collectionName) {
     ref

@@ -1,21 +1,8 @@
+enum OTPType { SignUp, Login, Update }
 
-enum OTPType {
-  SignUp,
-  Login,
-  Update
-}
-enum MainOrderStatus {
-  New,
-  Current,
-  Finished,
-  Cancelled
-}
-enum ButtonsType {
-  ViewDetails,
-  ShowAcceptOrCancel,
-  Finish,
-  ReadyToShipping
-}
+enum MainOrderStatus { New, Current, Finished, Cancelled }
+
+enum ButtonsType { ViewDetails, ShowAcceptOrCancel, Finish, ReadyToShipping }
 
 enum ButtonsClickType {
   ViewDetails,
@@ -26,69 +13,42 @@ enum ButtonsClickType {
   CompleteOrder
 }
 
-enum ItemType {
-  Products,Services
-}
+enum ItemType { Products, Services }
 
 enum CartItemType {
-  Product,Service,
+  Product,
+  Service,
 }
 
 enum GiftItemType {
-  Box,Card,
+  Box,
+  Card,
 }
 
-enum CategoryType {
-  Categories,Occasions,Search
-}
+enum CategoryType { Categories, Occasions, Search }
 
-enum ProductOccasionType {
-  All,Ready,UnReady
-}
+enum ProductOccasionType { All, Ready, UnReady }
 
-enum ProductType {
-  ready_made_gifts,various_gifts
-}
+enum ProductType { ready_made_gifts, various_gifts }
 
-enum FilterScreenTypes {
-  Services,Products,Sellers
-}
+enum FilterScreenTypes { Services, Products, Sellers }
 
-enum TypeOfMode {
-  ViewMode,AuthMode
-}
+enum TypeOfMode { ViewMode, AuthMode }
 
-enum OrderTypes {
-  self_order,receiver_order
-}
+enum OrderTypes { self_order, receiver_order }
 
-enum CartItemTypes {
-  ready_made,unready_made
-}
+enum CartItemTypes { ready_made, unready_made }
 
-enum ServiceTypes {
-  soft_card,hard_card
-}
-enum ProductTypes {
-  ready_made_gifts,various_gifts
-}
-enum OrderStateActionType {
-  Accepte,
-  Cancel,
-  Finish,
-  ReadyToShipping
-}
+enum ServiceTypes { soft_card, hard_card }
 
-enum OrderItemType {
-  Product,
-  Service
-}
+enum ProductTypes { ready_made_gifts, various_gifts }
 
-enum CheckoutTypes {
-  HartCard,
-  SoftCard
-}
+enum OrderStateActionType { Accepte, Cancel, Finish, ReadyToShipping }
 
-enum FilterTypes {
-  ProductType,Categories,Occasions,Pice,Rating
-}
+enum OrderItemType { Product, Service }
+
+enum CheckoutTypes { HartCard, SoftCard }
+
+enum FilterTypes { ProductType, Categories, Occasions, Pice, Rating }
+
+enum CollectionProcess { AddCollection, EditCollection }
