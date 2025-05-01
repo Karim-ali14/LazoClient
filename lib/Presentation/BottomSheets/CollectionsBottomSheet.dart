@@ -14,7 +14,7 @@ import '../Theme/AppTheme.dart';
 import '../Widgets/SvgIcons.dart';
 
 class CollectionsBottomSheet extends ConsumerStatefulWidget {
-  final Function(String) onCreateCollection;
+  final Function onCreateCollection;
   final Function(String) onChangeCollection;
   final int? selectedCollectionId;
   const CollectionsBottomSheet(  {super.key, required this.onCreateCollection,required this.onChangeCollection,this.selectedCollectionId,});
@@ -27,38 +27,13 @@ class _AddCollectionBottomSheetState extends ConsumerState<CollectionsBottomShee
   @override
   Widget build(BuildContext context) {
     final collectionsList = ref.watch(showWishlistCollectionsStateNotifier);
-    print(" gfhfasdfasdfa${collectionsList.data?.data.length}");
     return Container(
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           Container(
-            height: 64,
+            height: 130,
             width: double.infinity,
-            child: Stack(
-              children: [
-                Center(
-                  child: Text(
-                    "Collections",
-                    style: AppTheme
-                        .styleWithTextBlackAdelleSansExtendedFonts16w500,
-                  ),
-                ),
-                InkWell(
-                  onTap: () {
-                    context.pop();
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: defaultPaddingHorizontal),
-                    child: Align(
-                        alignment: AlignmentDirectional.centerEnd,
-                        child: SVGIcons.localSVG(closeIconSvg,
-                            width: 32, height: 32)),
-                  ),
-                )
-              ],
-            ),
             decoration: BoxDecoration(
               color: CupertinoColors.white,
               boxShadow: [
@@ -71,6 +46,67 @@ class _AddCollectionBottomSheetState extends ConsumerState<CollectionsBottomShee
               ],
               borderRadius: BorderRadius.only(
                   topRight: Radius.circular(8), topLeft: Radius.circular(8)),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                SizedBox(
+                  height: 50,
+                  child: Stack(
+                    children: [
+                      Center(
+                        child: Text(
+                          "Collections",
+                          style: AppTheme
+                              .styleWithTextBlackAdelleSansExtendedFonts16w500,
+                        ),
+                      ),
+                      InkWell(
+                        onTap: () {
+                          context.pop();
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: defaultPaddingHorizontal),
+                          child: Align(
+                              alignment: AlignmentDirectional.centerEnd,
+                              child: SVGIcons.localSVG(closeIconSvg,
+                                  width: 32, height: 32)),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 8,
+                ),
+                InkWell(
+                  onTap: (){
+                    context.pop();
+                    widget.onCreateCollection.call();
+                  },
+                  child: Container(
+                    margin: const EdgeInsets.symmetric(horizontal: 16),
+                    padding: EdgeInsets.symmetric(horizontal: 16),
+                    width: double.infinity,
+                    height: 55.h,
+                    decoration: BoxDecoration(
+                      color: AppTheme.appGrey23,
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        SVGIcons.localSVG(plusEmptyIcon,width: 20,height: 20),
+                        const SizedBox(
+                          width: 8,
+                        ),
+                        const Text("New Collection",style: AppTheme.styleWithTextBlackAdelleSansExtendedFonts14w500,)
+                      ],
+                    ),
+                  ),
+                )
+              ],
             ),
           ),
           Padding(

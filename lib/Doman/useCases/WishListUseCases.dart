@@ -144,3 +144,16 @@ class EditWishlistCollectionUseCase
         collectionId: collectionId, name: name));
   }
 }
+
+class ResetWishlistCollectionUseCase
+    extends StateNotifier<StateModel<void>> {
+  final WishlistApi wishlistApi;
+  ResetWishlistCollectionUseCase(this.wishlistApi) : super(StateModel());
+  void resetCollection({
+    String? collectionId
+  }) {
+    state = StateModel.loading();
+    requestWithHandleMessage(() => wishlistApi.clientWishlistCollectionResetGet(
+        collectionId: collectionId));
+  }
+}

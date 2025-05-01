@@ -41,6 +41,11 @@ final createWishlistCollectionStateNotifier = StateNotifierProvider.autoDispose<
         StateModel<CreateWishlistCollection200Response?>>(
     (ref) => CreateWishlistCollectionUseCase(ref.read(wishlistApi)));
 
+final createWishlistFromBottomSheetCollectionStateNotifier = StateNotifierProvider.autoDispose<
+    CreateWishlistCollectionUseCase,
+        StateModel<CreateWishlistCollection200Response?>>(
+    (ref) => CreateWishlistCollectionUseCase(ref.read(wishlistApi)));
+
 final showWishlistCollectionsStateNotifier = StateNotifierProvider<
     ShowWishlistCollectionsUseCase,
         StateModel<ShowWishlistCollections200Response?>>(
@@ -55,3 +60,8 @@ final editWishlistCollectionStateNotifier = StateNotifierProvider.autoDispose<
     EditWishlistCollectionUseCase,
         StateModel<CreateWishlistCollection200Response?>>(
     (ref) => EditWishlistCollectionUseCase(ref.read(wishlistApi)));
+
+final resetCollectionStateNotifier = StateNotifierProvider.autoDispose<
+    ResetWishlistCollectionUseCase,
+        StateModel<void>>(
+    (ref) => ResetWishlistCollectionUseCase(ref.read(wishlistApi)));

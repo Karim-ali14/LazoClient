@@ -116,6 +116,12 @@ class _CollectionDetailsScreenState
       context.pop();
     });
 
+    handleState(resetCollectionStateNotifier, showLoading: true,
+        onSuccess: (res) {
+      updateCollectionList();
+      context.pop();
+    });
+
     handleState(productToggleStateNotifier, showLoading: true,
         onSuccess: (res) {
       print(
@@ -468,6 +474,11 @@ class _CollectionDetailsScreenState
     });
   }
 
+  void resetCollection(){
+    ref.read(resetCollectionStateNotifier.notifier).resetCollection(
+      collectionId: widget.collectionId
+    );
+  }
   void showEditCollectionBottomSheet() {
     showCreateNewCollection(
       controller: editCollectionController,
@@ -482,8 +493,6 @@ class _CollectionDetailsScreenState
     );
     editCollectionController.text = collectionName;
   }
-
-  void resetCollection() {}
 
   void updateCollectionList() {
     ref.read(showWishlistCollectionsStateNotifier.notifier).fetchWishlistCollections();
