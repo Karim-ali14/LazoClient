@@ -1,4 +1,4 @@
-# lazo.model.ToggleProductServiceInWishlist200ResponseData
+# lazo.model.CollectionItem
 
 ## Load the model package
 ```dart
@@ -8,16 +8,14 @@ import 'package:lazo/api.dart';
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**id** | **num** |  | [optional] 
-**userId** | **num** |  | [optional] 
-**serviceId** | **num** |  | [optional] 
-**productId** | **num** |  | [optional] 
+**id** | **int** |  | [optional] 
+**userId** | **String** |  | [optional] 
+**name** | **String** |  | [optional] 
+**tagId** | **String** |  | [optional] 
 **createdAt** | **String** |  | [optional] 
 **updatedAt** | **String** |  | [optional] 
-**collectionId** | **int** |  | [optional] 
-**collectionName** | **String** |  | [optional] 
-**inWishlist** | **bool** |  | [optional] 
-**categoriesIds** | **List<String>** |  | [optional] [default to const []]
+**itemsCount** | **int** |  | [optional] 
+**items** | [**List<WishlistItem>**](WishlistItem.md) |  | [optional] [default to const []]
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

@@ -181,21 +181,21 @@ class _ProductAndServiceDetailsScreenState
           .handleAddProductToWishList(
               res.data?.data?.productId?.toInt() ?? 0,
               res.data?.data?.categoriesIds ?? [],
-              res.data?.data?.inWishlist ?? false);
+              res.data?.data?.inWishlist ?? false,res.data?.data?.collectionId);
 
       ref.read(getProductDetails.notifier).handelAddProductToWishList(
-          res.data?.data?.productId ?? 0, res.data?.data?.inWishlist ?? false);
+          res.data?.data?.productId ?? 0, res.data?.data?.inWishlist ?? false,res.data?.data?.collectionId);
 
       ref.read(homeDataStateNotifiers.notifier).handleAddProductToWishList(
-          res.data?.data?.productId ?? 0, res.data?.data?.inWishlist ?? false);
+          res.data?.data?.productId ?? 0, res.data?.data?.inWishlist ?? false,res.data?.data?.collectionId);
 
       ref.read(getProductsStateNotifiers.notifier).handleAddProductToWishList(
-          res.data?.data?.productId ?? 0, res.data?.data?.inWishlist ?? false);
+          res.data?.data?.productId ?? 0, res.data?.data?.inWishlist ?? false,res.data?.data?.collectionId);
 
       ref
           .read(getRelatedProductsStateNotifiers.notifier)
           .handleAddProductToWishList(res.data?.data?.productId ?? 0,
-              res.data?.data?.inWishlist ?? false);
+              res.data?.data?.inWishlist ?? false,res.data?.data?.collectionId);
     });
 
     handleState(serviceToggleStateNotifier, showLoading: true,
@@ -1008,7 +1008,7 @@ class _ProductAndServiceDetailsScreenState
                                         onAddItemToCart: (id) {
                                           addProductToCart(id);
                                         },
-                                        onAddItemToWishList: (id) {
+                                        onAddItemToWishList: (id,collectionId) {
                                           if (client != null) {
                                             productWishlistToggle(id);
                                           } else {
@@ -1056,7 +1056,7 @@ class _ProductAndServiceDetailsScreenState
                                         onAddItemToCart: (id) {
                                           addServiceToCart(id);
                                         },
-                                        onAddItemToWishList: (id) {
+                                        onAddItemToWishList: (id,collectionId) {
                                           if (client != null) {
                                             serviceWishlistToggle(
                                                 id.toString());

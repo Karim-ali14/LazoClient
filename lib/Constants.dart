@@ -33,6 +33,7 @@ const R_OrderDetails = "/orderDetailsScreen";
 const R_RatingOrder = "/ratingOrderScreen";
 const R_PaymentScreen = "/paymentScreen";
 const R_OccasionResultScreen = "/occasionResultScreen";
+const R_CollectionDetailsScreen = "/collectionDetailsScreen";
 
 const R_MoreScreen = '/more';
 const R_NotificationScreen = '/notification';

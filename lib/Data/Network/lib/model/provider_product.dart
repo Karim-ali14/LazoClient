@@ -41,6 +41,7 @@ class ProviderProduct {
     this.cartItemId,
     this.cartItemQuantity,
     this.inWishlist,
+    this.wishlistCollectionId,
     this.overallRating,
     this.ratingsCount,
     this.ratings = const [],
@@ -217,6 +218,8 @@ class ProviderProduct {
   ///
   bool? inWishlist;
 
+  String? wishlistCollectionId;
+
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
   /// does not include a default value (using the "default:" property), however, the generated
@@ -273,6 +276,7 @@ class ProviderProduct {
     other.cartItemId == cartItemId &&
     other.cartItemQuantity == cartItemQuantity &&
     other.inWishlist == inWishlist &&
+    other.wishlistCollectionId == wishlistCollectionId &&
     other.overallRating == overallRating &&
     other.ratingsCount == ratingsCount &&
     _deepEquality.equals(other.ratings, ratings) &&
@@ -309,13 +313,14 @@ class ProviderProduct {
     (cartItemId == null ? 0 : cartItemId!.hashCode) +
     (cartItemQuantity == null ? 0 : cartItemQuantity!.hashCode) +
     (inWishlist == null ? 0 : inWishlist!.hashCode) +
+    (wishlistCollectionId == null ? 0 : wishlistCollectionId!.hashCode) +
     (overallRating == null ? 0 : overallRating!.hashCode) +
     (ratingsCount == null ? 0 : ratingsCount!.hashCode) +
     (ratings == null ? 0 : ratings!.hashCode) +
     (provider == null ? 0 : provider!.hashCode);
 
   @override
-  String toString() => 'ProviderProduct[amount=$amount, categories=$categories, categoryMenu=$categoryMenu, colors=$colors, createdAt=$createdAt, description=$description, descriptionAr=$descriptionAr, descriptionEn=$descriptionEn, expectedProcessingTime=$expectedProcessingTime, isVisible=$isVisible, id=$id, images=$images, providerName=$providerName, lists=$lists, name=$name, nameAr=$nameAr, nameEn=$nameEn, occasions=$occasions, price=$price, priceAfterDiscount=$priceAfterDiscount, providerId=$providerId, sizes=$sizes, type=$type, updatedAt=$updatedAt, inCart=$inCart, cartItemId=$cartItemId, cartItemQuantity=$cartItemQuantity, inWishlist=$inWishlist, overallRating=$overallRating, ratingsCount=$ratingsCount, ratings=$ratings, provider=$provider]';
+  String toString() => 'ProviderProduct[amount=$amount, categories=$categories, categoryMenu=$categoryMenu, colors=$colors, createdAt=$createdAt, description=$description, descriptionAr=$descriptionAr, descriptionEn=$descriptionEn, expectedProcessingTime=$expectedProcessingTime, isVisible=$isVisible, id=$id, images=$images, providerName=$providerName, lists=$lists, name=$name, nameAr=$nameAr, nameEn=$nameEn, occasions=$occasions, price=$price, priceAfterDiscount=$priceAfterDiscount, providerId=$providerId, sizes=$sizes, type=$type, updatedAt=$updatedAt, inCart=$inCart, cartItemId=$cartItemId, cartItemQuantity=$cartItemQuantity, inWishlist=$inWishlist, wishlistCollectionId=$wishlistCollectionId, overallRating=$overallRating, ratingsCount=$ratingsCount, ratings=$ratings, provider=$provider]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -459,6 +464,11 @@ class ProviderProduct {
     } else {
       json[r'in_wishlist'] = null;
     }
+    if (this.wishlistCollectionId != null) {
+      json[r'wishlist_collection_id'] = this.wishlistCollectionId;
+    } else {
+      json[r'wishlist_collection_id'] = null;
+    }
     if (this.overallRating != null) {
       json[r'overall_rating'] = this.overallRating;
     } else {
@@ -529,6 +539,7 @@ class ProviderProduct {
         cartItemId: mapValueOfType<int>(json, r'cart_item_id'),
         cartItemQuantity: mapValueOfType<int>(json, r'cart_item_quantity'),
         inWishlist: mapValueOfType<bool>(json, r'in_wishlist'),
+        wishlistCollectionId: mapValueOfType<String>(json, r'wishlist_collection_id'),
         overallRating: num.tryParse('${json[r'overall_rating']}'),
         ratingsCount: num.tryParse('${json[r'ratings_count']}'),
         ratings: ProviderProductRatingsInner.listFromJson(json[r'ratings']),

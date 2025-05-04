@@ -1,8 +1,13 @@
 import 'dart:io';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
+import 'package:lazo_client/Constants/Eunms.dart';
+
+import '../Presentation/BottomSheets/AddCollectionBottomSheet.dart';
+import '../Presentation/Theme/AppTheme.dart';
 class UtilsExts {
 
     static void handleStatusBarColorWithIcon(
@@ -116,4 +121,71 @@ extension DoubleExt on double {
             name: 'USD',
         ).format(this);
     }
+}
+
+void showMakeSureDialog(
+    {BuildContext? context, String? collectionName, Function? onDelete}) {
+    showCupertinoDialog(
+        context: context!,
+        builder: (_) => CupertinoAlertDialog(
+            content: Column(
+                children: [
+                    Text(
+                        'Are you sure you want to delete "$collectionName" ?',
+                        style: AppTheme.styleWithTextBlackAdelleSansFonts17w700,
+                    ),
+                ],
+            ),
+            actions: [
+                CupertinoDialogAction(
+                    onPressed: () {
+                        Navigator.pop(context);
+                        onDelete?.call();
+                    },
+                    isDefaultAction: true,
+                    child: Text(
+                        'Sure',
+                        style: AppTheme.styleWithTextBlackAdelleSansFonts17w400
+                            .copyWith(color: Colors.blue),
+                    ),
+                ),
+                CupertinoDialogAction(
+                    onPressed: () => Navigator.pop(context),
+                    isDestructiveAction: true,
+                    child: Text('Cancel' , style: AppTheme.styleWithTextBlackAdelleSansFonts17w400
+                        .copyWith(color:AppTheme.appSwatch),),
+                ),
+            ],
+        ),
+    );
+}
+
+void showCreateNewCollection(
+    {required BuildContext context, TextEditingController? controller, CollectionProcess? type,
+    Function(String?)? onCreateCollection,Function()? onDeleteCollection,}) {
+    showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+                topRight: Radius.circular(10),
+                topLeft: Radius.circular(10),
+            ),
+        ),
+        builder: (BuildContext context) {
+            return Padding(
+                padding: EdgeInsets.only(
+                    bottom: MediaQuery.of(context).viewInsets.bottom,
+                ),
+                child: AddCollectionBottomSheet(
+                    onCreateCollection: (collectionName) {
+                        onCreateCollection?.call(collectionName);
+                    },
+                    onDeleteCollection: onDeleteCollection,
+                    controller: controller,
+                    type: type,
+                ),
+            );
+        },
+    );
 }

@@ -271,7 +271,7 @@ class _ServiceSearchScreenState extends ConsumerState<ServiceSearchScreen> {
                     onAddItemToCart: (id) {
                       addServiceToCart(id);
                     },
-                    onAddItemToWishList: (id) {
+                    onAddItemToWishList: (id,collectionId) {
                       if (client != null) {
                         serviceWishlistToggle(id.toString());
                       } else {

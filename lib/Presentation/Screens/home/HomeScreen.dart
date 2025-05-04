@@ -20,6 +20,8 @@ import 'package:lazo_client/Presentation/Widgets/SvgIcons.dart';
 import '../../../Constants.dart';
 import '../../../Constants/Eunms.dart';
 import '../../../Data/Network/lib/api.dart';
+import '../../../Utils/UtilsExts.dart';
+import '../../BottomSheets/CollectionsBottomSheet.dart';
 import '../../StateNotifiersViewModel/WishListStateNotifiers.dart';
 import '../../Theme/AppTheme.dart';
 import 'Componants/HorizontalOccasionsListViewWithTitleSeeAll.dart';
@@ -35,6 +37,7 @@ class HomeScreen extends ConsumerStatefulWidget {
 
 class _HomeScreenState extends ConsumerState<HomeScreen> {
   double _opacity = 0.8;
+  final TextEditingController controller = TextEditingController();
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
@@ -42,6 +45,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     });
     super.initState();
   }
+
+  int? collectionIdAfterAddedNewCollection;
+  int? itemIdAfterAddedNewCollection;
 
   @override
   Widget build(BuildContext context) {
@@ -67,21 +73,44 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
     handleState(productToggleStateNotifier, showLoading: true,
         onSuccess: (res) {
+      collectionIdAfterAddedNewCollection = null;
+      itemIdAfterAddedNewCollection = null;
+      showSnackBar(
+          isFavorite: res.data?.data?.inWishlist ?? false,
+          productId: res.data?.data?.productId?.toInt() ?? 0,
+          collectionId: res.data?.data?.collectionId ?? 0,
+          collectionName: res.data?.data?.collectionName);
       ref.read(homeDataStateNotifiers.notifier).handleAddProductToWishList(
-          res.data?.data?.productId ?? 0, res.data?.data?.inWishlist ?? false);
-      makeRefreshForWishListProducts();
+          res.data?.data?.productId ?? 0,
+          res.data?.data?.inWishlist ?? false,
+          res.data?.data?.collectionId);
+      updateCollectionList();
     });
 
     handleState(serviceToggleStateNotifier, showLoading: true,
         onSuccess: (res) {
+      showSnackBar(
+          isFavorite: res.data?.data?.inWishlist ?? false,
+          productId: res.data?.data?.serviceId?.toInt() ?? 0,
+          collectionId: res.data?.data?.collectionId ?? 0,
+          collectionName: res.data?.data?.collectionName);
       ref.read(homeDataStateNotifiers.notifier).handelAddServiceToWishList(
           res.data?.data?.serviceId ?? 0, res.data?.data?.inWishlist ?? false);
+      updateCollectionList();
       makeRefreshForWishListServices();
+    });
+
+    handleState(createWishlistFromBottomSheetCollectionStateNotifier,
+        showLoading: true, onSuccess: (res) {
+      showCollectionsBottomSheet(
+          collectionId: collectionIdAfterAddedNewCollection,
+          itemId: itemIdAfterAddedNewCollection);
+      updateCollectionList();
     });
 
     return Scaffold(
       body: SafeArea(
-        child:RefreshIndicator(
+        child: RefreshIndicator(
           triggerMode: RefreshIndicatorTriggerMode.onEdge,
           onRefresh: () {
             getHomeData();
@@ -100,240 +129,298 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                           height: 125,
                         ),
                         (homeDataState.state == DataState.SUCCESS &&
-                            homeDataState.data?.data?.banners.isEmpty == true)
+                                homeDataState.data?.data?.banners.isEmpty ==
+                                    true)
                             ? const SizedBox()
                             : Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            BannerCardItems(
-                              list: homeDataState.state != DataState.LOADING
-                                  ? homeDataState.data?.data?.banners
-                                  .map((item) =>
-                              item.imagePath ?? "")
-                                  .toList() ??
-                                  []
-                                  : [""],
-                              height: 156,
-                              width: MediaQuery.of(context).size.width,
-                              showLoading:
-                              homeDataState.state == DataState.LOADING,
-                              showIndicator:
-                              homeDataState.state != DataState.LOADING,
-                            ),
-                            SizedBox(
-                              height: defaultPaddingHorizontal,
-                            )
-                          ],
-                        ),
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  BannerCardItems(
+                                    list:
+                                        homeDataState.state != DataState.LOADING
+                                            ? homeDataState.data?.data?.banners
+                                                    .map((item) =>
+                                                        item.imagePath ?? "")
+                                                    .toList() ??
+                                                []
+                                            : [""],
+                                    height: 156,
+                                    width: MediaQuery.of(context).size.width,
+                                    showLoading: homeDataState.state ==
+                                        DataState.LOADING,
+                                    showIndicator: homeDataState.state !=
+                                        DataState.LOADING,
+                                  ),
+                                  SizedBox(
+                                    height: defaultPaddingHorizontal,
+                                  )
+                                ],
+                              ),
                         (homeDataState.state == DataState.SUCCESS &&
-                            homeDataState.data?.data?.occasions.isEmpty ==
-                                true)
+                                homeDataState.data?.data?.occasions.isEmpty ==
+                                    true)
                             ? SizedBox()
                             : Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            HorizontalOccasionsListViewWithTitleSeeAll(
-                              list: homeDataState.state != DataState.LOADING ?
-                              homeDataState.data?.data?.occasions
-                                  .toList() ??
-                                  []:[Occasion(),Occasion(),Occasion(),Occasion()],
-                              showLoading:
-                              homeDataState.state == DataState.LOADING,
-                              itemClick: (occasionItem) {
-                                // navigateToSeeAllBestProductAndService(
-                                //     occasionItem.name ?? "",
-                                //     ItemType.Products,
-                                //     occasionId: occasionItem.id?.toInt());
-                                navigateToOccasion(
-                                  occasionItem.id,
-                                  occasionItem.name,
-                                  occasionItem.imagePath
-                                );
-                              },
-                              onSeeAllClickListener: (id, name) {
-                                navigateToSeeAllOccasions();
-                              },
-                            ),
-                            SizedBox(
-                              height: defaultPaddingHorizontal,
-                            ),
-                          ],
-                        ),
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  HorizontalOccasionsListViewWithTitleSeeAll(
+                                    list: homeDataState.state !=
+                                            DataState.LOADING
+                                        ? homeDataState.data?.data?.occasions
+                                                .toList() ??
+                                            []
+                                        : [
+                                            Occasion(),
+                                            Occasion(),
+                                            Occasion(),
+                                            Occasion()
+                                          ],
+                                    showLoading: homeDataState.state ==
+                                        DataState.LOADING,
+                                    itemClick: (occasionItem) {
+                                      // navigateToSeeAllBestProductAndService(
+                                      //     occasionItem.name ?? "",
+                                      //     ItemType.Products,
+                                      //     occasionId: occasionItem.id?.toInt());
+                                      navigateToOccasion(
+                                          occasionItem.id,
+                                          occasionItem.name,
+                                          occasionItem.imagePath);
+                                    },
+                                    onSeeAllClickListener: (id, name) {
+                                      navigateToSeeAllOccasions();
+                                    },
+                                  ),
+                                  SizedBox(
+                                    height: defaultPaddingHorizontal,
+                                  ),
+                                ],
+                              ),
                         (homeDataState.state == DataState.SUCCESS &&
-                            homeDataState
-                                .data?.data?.topRatedProviders.isEmpty ==
-                                true)
+                                homeDataState.data?.data?.topRatedProviders
+                                        .isEmpty ==
+                                    true)
                             ? SizedBox()
                             : Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            HorizontalTopSellersListViewWithTitleSeeAll(
-                              list: homeDataState.state != DataState.LOADING ? homeDataState
-                                  .data?.data?.topRatedProviders
-                                  .toList() ??
-                                  []:[ProviderData(),ProviderData(),ProviderData(),ProviderData()],
-                              showLoading:
-                              homeDataState.state == DataState.LOADING,
-                              itemClick: (itemId) {
-                                print("seller $itemId");
-                                navigateToSellerDetails(itemId);
-                              },
-                              onSeeAllClickListener: (id, name) {
-                                navigateToSeeAllTopSeller(
-                                    context.tr(topSellersKey),
-                                    CategoryType.Search
-                                );
-                              },
-                            ),
-                            SizedBox(
-                              height: defaultPaddingHorizontal,
-                            ),
-                          ],
-                        ),
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  HorizontalTopSellersListViewWithTitleSeeAll(
+                                    list:
+                                        homeDataState.state != DataState.LOADING
+                                            ? homeDataState.data?.data
+                                                    ?.topRatedProviders
+                                                    .toList() ??
+                                                []
+                                            : [
+                                                ProviderData(),
+                                                ProviderData(),
+                                                ProviderData(),
+                                                ProviderData()
+                                              ],
+                                    showLoading: homeDataState.state ==
+                                        DataState.LOADING,
+                                    itemClick: (itemId) {
+                                      print("seller $itemId");
+                                      navigateToSellerDetails(itemId);
+                                    },
+                                    onSeeAllClickListener: (id, name) {
+                                      navigateToSeeAllTopSeller(
+                                          context.tr(topSellersKey),
+                                          CategoryType.Search);
+                                    },
+                                  ),
+                                  SizedBox(
+                                    height: defaultPaddingHorizontal,
+                                  ),
+                                ],
+                              ),
                         (homeDataState.state == DataState.SUCCESS &&
-                            homeDataState.data?.data?.categories.isEmpty ==
-                                true)
+                                homeDataState.data?.data?.categories.isEmpty ==
+                                    true)
                             ? SizedBox()
                             : Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            HorizontalCategoryListViewWithTitleSeeAll(
-                              isGrid: true,
-                              list: homeDataState.state != DataState.LOADING ?
-                              homeDataState.data?.data?.categories
-                                  .toList() ??
-                                  []:[Category(),Category(),Category(),Category(),Category(),Category()],
-                              showLoading:
-                              homeDataState.state == DataState.LOADING,
-                              itemClick: (item) {
-                                navigateToSeeAllTopSeller(
-                                    "${item.name}", CategoryType.Categories,
-                                    categoryId: item.id?.toInt() ?? 0);
-                              },
-                              onSeeAllClickListener: (id, name) {
-                                navigateToSeeAllCategories();
-                              },
-                            ),
-                            SizedBox(
-                              height: defaultPaddingHorizontal,
-                            )
-                          ],
-                        ),
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  HorizontalCategoryListViewWithTitleSeeAll(
+                                    isGrid: true,
+                                    list: homeDataState.state !=
+                                            DataState.LOADING
+                                        ? homeDataState.data?.data?.categories
+                                                .toList() ??
+                                            []
+                                        : [
+                                            Category(),
+                                            Category(),
+                                            Category(),
+                                            Category(),
+                                            Category(),
+                                            Category()
+                                          ],
+                                    showLoading: homeDataState.state ==
+                                        DataState.LOADING,
+                                    itemClick: (item) {
+                                      navigateToSeeAllTopSeller("${item.name}",
+                                          CategoryType.Categories,
+                                          categoryId: item.id?.toInt() ?? 0);
+                                    },
+                                    onSeeAllClickListener: (id, name) {
+                                      navigateToSeeAllCategories();
+                                    },
+                                  ),
+                                  SizedBox(
+                                    height: defaultPaddingHorizontal,
+                                  )
+                                ],
+                              ),
                         (homeDataState.state == DataState.SUCCESS &&
-                            homeDataState
-                                .data?.data?.topRatedProducts.isEmpty ==
-                                true)
+                                homeDataState
+                                        .data?.data?.topRatedProducts.isEmpty ==
+                                    true)
                             ? SizedBox()
                             : Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            HorizontalTopProductListViewWithTitleSeeAll(
-                              list: homeDataState.state != DataState.LOADING ?
-                              homeDataState
-                                  .data?.data?.topRatedProducts
-                                  .toList() ??
-                                  [] : [ProviderProduct(),ProviderProduct(),ProviderProduct(),ProviderProduct(),],
-                              showLoading:
-                              homeDataState.state == DataState.LOADING,
-                              itemClick: (itemId, itemName, categoryIds) {
-                                navigateToItemDetails(ItemType.Products,
-                                    itemId, itemName, categoryIds);
-                              },
-                              onAddItemToCart: (id) {
-                                addProductToCart(id);
-                              },
-                              onAddItemToWishList: (id) {
-                                if (client != null) {
-                                  productWishlistToggle(id);
-                                } else {
-                                  showAuthenticated();
-                                }
-                              },
-                              onSeeAllClickListener: (id, name) {
-                                navigateToSeeAllBestProductAndService(
-                                    context.tr(bestProductsKey), ItemType.Products);
-                              },
-                              itemWidth: 160,
-                              title: context.tr(bestProductsKey),
-                            ),
-                            SizedBox(
-                              height: defaultPaddingHorizontal,
-                            )
-                          ],
-                        ),
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  HorizontalTopProductListViewWithTitleSeeAll(
+                                    list:
+                                        homeDataState.state != DataState.LOADING
+                                            ? homeDataState.data?.data
+                                                    ?.topRatedProducts
+                                                    .toList() ??
+                                                []
+                                            : [
+                                                ProviderProduct(),
+                                                ProviderProduct(),
+                                                ProviderProduct(),
+                                                ProviderProduct(),
+                                              ],
+                                    showLoading: homeDataState.state ==
+                                        DataState.LOADING,
+                                    itemClick: (itemId, itemName, categoryIds) {
+                                      navigateToItemDetails(ItemType.Products,
+                                          itemId, itemName, categoryIds);
+                                    },
+                                    onAddItemToCart: (id) {
+                                      addProductToCart(id);
+                                    },
+                                    onAddItemToWishList: (id, collectionId) {
+                                      if (client != null) {
+                                        productWishlistToggle(id, collectionId);
+                                      } else {
+                                        showAuthenticated();
+                                      }
+                                    },
+                                    onSeeAllClickListener: (id, name) {
+                                      navigateToSeeAllBestProductAndService(
+                                          context.tr(bestProductsKey),
+                                          ItemType.Products);
+                                    },
+                                    itemWidth: 160,
+                                    title: context.tr(bestProductsKey),
+                                  ),
+                                  SizedBox(
+                                    height: defaultPaddingHorizontal,
+                                  )
+                                ],
+                              ),
                         (homeDataState.state == DataState.SUCCESS &&
-                            homeDataState
-                                .data?.data?.topRatedServices.isEmpty ==
-                                true)
+                                homeDataState
+                                        .data?.data?.topRatedServices.isEmpty ==
+                                    true)
                             ? SizedBox()
                             : Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            HorizontalTopServiceListViewWithTitleSeeAll(
-                              list: homeDataState.state != DataState.LOADING ? homeDataState
-                                  .data?.data?.topRatedServices
-                                  .toList() ?? []
-                                  :[ServiceShowData(),ServiceShowData(),ServiceShowData(),ServiceShowData(),ServiceShowData()],
-                              showLoading:
-                              homeDataState.state == DataState.LOADING,
-                              itemClick: (itemId, itemName, categoryIds) {
-                                navigateToItemDetails(ItemType.Services,
-                                    itemId, itemName, categoryIds);
-                              },
-                              onAddItemToCart: (id) {
-                                addServiceToCart(id);
-                              },
-                              onAddItemToWishList: (id) {
-                                print("object");
-                                if (client != null) {
-                                  serviceWishlistToggle(id.toString());
-                                } else {
-                                  showAuthenticated();
-                                }
-                              },
-                              onSeeAllClickListener: (id, name) {
-                                navigateToSeeAllBestProductAndService(
-                                    context.tr(bestServicesKey), ItemType.Services);
-                              },
-                              itemWidth: 160,
-                              title: context.tr(bestServicesKey),
-                            ),
-                            SizedBox(
-                              height: 10,
-                            )
-                          ],
-                        ),
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  HorizontalTopServiceListViewWithTitleSeeAll(
+                                    list:
+                                        homeDataState.state != DataState.LOADING
+                                            ? homeDataState.data?.data
+                                                    ?.topRatedServices
+                                                    .toList() ??
+                                                []
+                                            : [
+                                                ServiceShowData(),
+                                                ServiceShowData(),
+                                                ServiceShowData(),
+                                                ServiceShowData(),
+                                                ServiceShowData()
+                                              ],
+                                    showLoading: homeDataState.state ==
+                                        DataState.LOADING,
+                                    itemClick: (itemId, itemName, categoryIds) {
+                                      navigateToItemDetails(ItemType.Services,
+                                          itemId, itemName, categoryIds);
+                                    },
+                                    onAddItemToCart: (id) {
+                                      addServiceToCart(id);
+                                    },
+                                    onAddItemToWishList: (id, collectionId) {
+                                      print("object");
+                                      if (client != null) {
+                                        serviceWishlistToggle(id.toString(),collectionId);
+                                      } else {
+                                        showAuthenticated();
+                                      }
+                                    },
+                                    onSeeAllClickListener: (id, name) {
+                                      navigateToSeeAllBestProductAndService(
+                                          context.tr(bestServicesKey),
+                                          ItemType.Services);
+                                    },
+                                    itemWidth: 160,
+                                    title: context.tr(bestServicesKey),
+                                  ),
+                                  SizedBox(
+                                    height: 10,
+                                  )
+                                ],
+                              ),
                       ],
                     ),
                   ),
                 ),
               ),
               IntrinsicHeight(
-                child: Container  (
+                child: Container(
                   color: Colors.white.withOpacity(_opacity),
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0,vertical: 20),
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 16.0, vertical: 20),
                   child: Column(
                     children: [
                       Row(
-                        children:[
-                          SVGIcons.localSVG(lazoLogoSvg,width: 27,height: 30),
-                          const SizedBox(width: 6,),
-                          SVGIcons.localSVG(lazoKeywordSvg,width: 64,height: 18),
+                        children: [
+                          SVGIcons.localSVG(lazoLogoSvg, width: 27, height: 30),
+                          const SizedBox(
+                            width: 6,
+                          ),
+                          SVGIcons.localSVG(lazoKeywordSvg,
+                              width: 64, height: 18),
                           const Spacer(),
                           InkWell(
-                              onTap: (){
+                              onTap: () {
                                 navigateToProductsAndServices(
-                                    CategoryType.Search, context.tr(searchKey), null);
+                                    CategoryType.Search,
+                                    context.tr(searchKey),
+                                    null);
                               },
-                              child: SVGIcons.localSVG(searchIconWithPinkBackgroundSvg)),
-                          const SizedBox(width: 6,),
-                          SVGIcons.localSVG(notificationIconWithPinkBackgroundSvg),
-                        ] ,
+                              child: SVGIcons.localSVG(
+                                  searchIconWithPinkBackgroundSvg)),
+                          const SizedBox(
+                            width: 6,
+                          ),
+                          SVGIcons.localSVG(
+                              notificationIconWithPinkBackgroundSvg),
+                        ],
                       ),
-                      const SizedBox(height: defaultPaddingHorizontal,),
+                      const SizedBox(
+                        height: defaultPaddingHorizontal,
+                      ),
                       Row(
                         children: [
-                          Text("Delivery To",style: AppTheme.styleWithTextAppGrey17AdelleSansFonts14w350,),
+                          Text(
+                            "Delivery To",
+                            style: AppTheme
+                                .styleWithTextAppGrey17AdelleSansFonts14w350,
+                          ),
                           SizedBox(
                             width: 4,
                           ),
@@ -345,12 +432,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                           SizedBox(
                             width: 5,
                           ),
-                          SVGIcons.localSVG(
-                            downArrowImg,
-                            color: AppTheme.blackColor2,
-                            width: 16,
-                            height: 16
-                          )
+                          SVGIcons.localSVG(downArrowImg,
+                              color: AppTheme.blackColor2,
+                              width: 16,
+                              height: 16)
                         ],
                       )
                     ],
@@ -383,7 +468,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     var makeRefresh = await context.push(R_SeeAllProductOrService,
         extra: {"type": type, "title": title, "id": id});
 
-    if(makeRefresh == true){
+    if (makeRefresh == true) {
       getHomeData();
     }
     print(
@@ -438,14 +523,14 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     }
   }
 
-  void productWishlistToggle(int id) {
+  void productWishlistToggle(int id, String? collectionId) {
     ref
         .read(productToggleStateNotifier.notifier)
-        .toggle(productId: id.toString());
+        .toggle(productId: id.toString(), collectionId: collectionId);
   }
 
-  void serviceWishlistToggle(String serviceId) {
-    ref.read(serviceToggleStateNotifier.notifier).toggle(serviceId: serviceId);
+  void serviceWishlistToggle(String serviceId, String? collectionId) {
+    ref.read(serviceToggleStateNotifier.notifier).toggle(serviceId: serviceId,collectionId: collectionId);
   }
 
   void addServiceToCart(int id) {
@@ -479,9 +564,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             ));
   }
 
-  void navigateToLogin() async{
-    var makeRefresh = await context.push(R_LoginScreen, extra: {"type": TypeOfMode.ViewMode});
-    if(makeRefresh == true){
+  void navigateToLogin() async {
+    var makeRefresh =
+        await context.push(R_LoginScreen, extra: {"type": TypeOfMode.ViewMode});
+    if (makeRefresh == true) {
       getHomeData();
     }
   }
@@ -491,22 +577,117 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   }
 
   void makeRefreshForWishListProducts() {
-    ref.read(
-      getWishListProductsStateNotifier.notifier
-    ).fetchAllProductsInWishlist();
+    ref
+        .read(getWishListProductsStateNotifier.notifier)
+        .fetchAllProductsInWishlist();
   }
 
   void makeRefreshForWishListServices() {
-    ref.read(
-      getWishListServicesStateNotifier.notifier
-    ).fetchAllServicesInWishlist();
+    ref
+        .read(getWishListServicesStateNotifier.notifier)
+        .fetchAllServicesInWishlist();
   }
 
-  void navigateToOccasion(num? id, String? name,String? image) {
+  void navigateToOccasion(num? id, String? name, String? image) {
     ref.read(filterForProductStateNotifiers.notifier).resetDataFilter();
-    ref.read(filterForReadyGiftProductStateNotifiers.notifier).resetDataFilter();
-    ref.read(filterForUnReadyGiftProductStateNotifiers.notifier).resetDataFilter();
+    ref
+        .read(filterForReadyGiftProductStateNotifiers.notifier)
+        .resetDataFilter();
+    ref
+        .read(filterForUnReadyGiftProductStateNotifiers.notifier)
+        .resetDataFilter();
     ref.read(filterForServiceStateNotifiers.notifier).resetDataFilter();
-    context.push(R_OccasionResultScreen,extra: {"occasionId":id,"title":name,"image":image});
+    context.push(R_OccasionResultScreen,
+        extra: {"occasionId": id, "title": name, "image": image});
+  }
+
+  void showSnackBar(
+      {bool? isFavorite,
+      int? productId,
+      int? collectionId,
+      String? collectionName}) {
+    final snackBar = SnackBar(
+      backgroundColor: AppTheme.blackColor3,
+      content: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 8),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SVGIcons.localSVG(
+                (isFavorite ?? false)
+                    ? snackBarHeartFullIcon
+                    : snackBarHeartEmptyIcon,
+                width: 12,
+                height: 12),
+            SizedBox(
+              width: 3.5,
+            ),
+            Text(
+              (isFavorite ?? false)
+                  ? "Added to $collectionName"
+                  : "Removed from $collectionName",
+              style: AppTheme.styleWithTextWhiteAdelleSansExtendedFonts14w400,
+            ),
+            Spacer(),
+            InkWell(
+              onTap: () {
+                showCollectionsBottomSheet(
+                    collectionId: collectionId, itemId: productId);
+              },
+              child: Text(
+                "Edit",
+                style: AppTheme.styleWithTextWhiteAdelleSansExtendedFonts12w400,
+              ),
+            )
+          ],
+        ),
+      ),
+      behavior: SnackBarBehavior.floating,
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+
+  void showCollectionsBottomSheet({int? collectionId, int? itemId,OrderItemType? type}) {
+    print("asdfasdfasdf2 $itemId $collectionId");
+
+    showModalBottomSheet(
+        isScrollControlled: true,
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+                topRight: Radius.circular(10), topLeft: Radius.circular(10))),
+        context: context,
+        builder: (BuildContext context) => CollectionsBottomSheet(
+              selectedCollectionId: collectionId,
+              onCreateCollection: () {
+                collectionIdAfterAddedNewCollection = collectionId;
+                itemIdAfterAddedNewCollection = itemId;
+                showCreateNewCollection(
+                    context: context,
+                    controller: controller,
+                    onCreateCollection: (collectionName) {
+                      createCollection(collectionName ?? "");
+                    });
+              },
+              onChangeCollection: (selectedCollectionId) {
+                if(type == OrderItemType.Product) {
+                  productWishlistToggle(itemId ?? 0, selectedCollectionId);
+                }else{
+                  serviceWishlistToggle((itemId ?? 0).toString(),selectedCollectionId);
+                }
+              },
+            ));
+  }
+
+  void updateCollectionList() {
+    ref
+        .read(showWishlistCollectionsStateNotifier.notifier)
+        .fetchWishlistCollections();
+  }
+
+  void createCollection(String collectionName) {
+    ref
+        .read(createWishlistFromBottomSheetCollectionStateNotifier.notifier)
+        .createCollection(name: collectionName);
   }
 }

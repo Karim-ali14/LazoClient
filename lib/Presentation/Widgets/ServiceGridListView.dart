@@ -12,7 +12,7 @@ class ServiceGridListviewWithCategoryName extends StatefulWidget {
   final bool? showLoading;
   final bool? showSeeMore;
   final OnAddItemClick onAddItemToCart;
-  final OnAddItemClick onAddItemToWishList;
+  final OnAddToWishlistItemClick onAddItemToWishList;
   final OnItemClick onItemClick;
   final String title;
   final int? rootId;
@@ -69,8 +69,8 @@ class _ServiceGridListviewWithCategoryNameState
                       onAddItemToCart: (id) {
                         widget.onAddItemToCart(id);
                       },
-                      onAddItemToWishList: (id) {
-                        widget.onAddItemToWishList(id);
+                      onAddItemToWishList: (id,collectionId) {
+                        widget.onAddItemToWishList(id,collectionId);
                       },
                       onItemClick: (id, name, categoriesIds) {
                         widget.onItemClick.call(id, name, categoriesIds);

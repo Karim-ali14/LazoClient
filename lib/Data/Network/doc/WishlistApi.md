@@ -10,6 +10,7 @@ All URIs are relative to *http://localhost*
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**clientWishlistCollectionDeleteDelete**](WishlistApi.md#clientwishlistcollectiondeletedelete) | **DELETE** /client/wishlist/collection/delete | delete collection wishlist
+[**clientWishlistCollectionResetGet**](WishlistApi.md#clientwishlistcollectionresetget) | **GET** /client/wishlist/collection/reset | reset collection wishlist
 [**createWishlistCollection**](WishlistApi.md#createwishlistcollection) | **POST** /client/wishlist/collection/create | create wishlist collection
 [**showWishlistCollections**](WishlistApi.md#showwishlistcollections) | **GET** /client/wishlist/collections | Show wishlist collections
 [**showWishlistItemsWithSearchByName**](WishlistApi.md#showwishlistitemswithsearchbyname) | **GET** /client/wishlist/show | Show wishlist items (with search by name)
@@ -39,6 +40,52 @@ try {
     api_instance.clientWishlistCollectionDeleteDelete(collectionId);
 } catch (e) {
     print('Exception when calling WishlistApi->clientWishlistCollectionDeleteDelete: $e\n');
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **collectionId** | **String**|  | [optional] 
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **clientWishlistCollectionResetGet**
+> clientWishlistCollectionResetGet(collectionId)
+
+reset collection wishlist
+
+### Example
+```dart
+import 'package:lazo/api.dart';
+// TODO Configure HTTP Bearer authorization: bearerAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('bearerAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('bearerAuth').setAccessToken(yourTokenGeneratorFunction);
+
+final api_instance = WishlistApi();
+final collectionId = collectionId_example; // String | 
+
+try {
+    api_instance.clientWishlistCollectionResetGet(collectionId);
+} catch (e) {
+    print('Exception when calling WishlistApi->clientWishlistCollectionResetGet: $e\n');
 }
 ```
 

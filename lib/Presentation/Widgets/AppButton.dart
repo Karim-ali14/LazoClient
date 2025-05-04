@@ -24,7 +24,7 @@ class AppButton extends StatelessWidget {
         child: outlined == true ? OutlinedButton(
           onPressed: enabled! ? onPress : null,
           style: OutlinedButton.styleFrom(
-            side: BorderSide(color: backColor??AppTheme.appSwatch,width: strokeWidth??1),
+            side: BorderSide(color: backColor??AppTheme.mainAppColorDark,width: strokeWidth??1),
             shape: RoundedRectangleBorder(borderRadius: radius??BorderRadius.circular(8),)
           ),
           child: child?? Text(
@@ -36,7 +36,7 @@ class AppButton extends StatelessWidget {
             shape: isCircle == true ? MaterialStateProperty.all(const CircleBorder()) : MaterialStateProperty.all(RoundedRectangleBorder(
                 borderRadius: radius??BorderRadius.circular(8)
             )),
-            backgroundColor: MaterialStateProperty.all(backColor ?? (enabled == true ? AppTheme.appSwatch : AppTheme.appGrey7)),
+            backgroundColor: MaterialStateProperty.all(backColor ?? (enabled == true ? AppTheme.mainAppColorDark : AppTheme.appGrey7)),
           ),
           child: child ?? Text(
               text!,

@@ -108,11 +108,11 @@ class _ShowProductAndServiceScreenState
     handleState(productToggleStateNotifier, showLoading: true,
         onSuccess: (res) {
       ref.read(getProductsStateNotifiers.notifier).handleAddProductToWishList(
-          res.data?.data?.productId ?? 0, res.data?.data?.inWishlist ?? false);
+          res.data?.data?.productId ?? 0, res.data?.data?.inWishlist ?? false,res.data?.data?.collectionId);
       ref.read(getBestProductsStateNotifiers.notifier).handleAddProductToWishList(
-          res.data?.data?.productId ?? 0, res.data?.data?.inWishlist ?? false);
+          res.data?.data?.productId ?? 0, res.data?.data?.inWishlist ?? false,res.data?.data?.collectionId);
       ref.read(homeDataStateNotifiers.notifier).handleAddProductToWishList(
-          res.data?.data?.productId ?? 0, res.data?.data?.inWishlist ?? false);
+          res.data?.data?.productId ?? 0, res.data?.data?.inWishlist ?? false,res.data?.data?.collectionId);
     });
 
     handleState(serviceToggleStateNotifier, showLoading: true,
@@ -338,7 +338,7 @@ class _ShowProductAndServiceScreenState
                                       onAddItemToCart: (id) {
                                         addProductToCart(id);
                                       },
-                                      onAddItemToWishList: (id) {
+                                      onAddItemToWishList: (id,collectionId) {
                                         if (client != null) {
                                           productWishlistToggle(id);
                                         } else {
@@ -398,7 +398,7 @@ class _ShowProductAndServiceScreenState
                                       onAddItemToCart: (id) {
                                         addServiceToCart(id);
                                       },
-                                      onAddItemToWishList: (id) {
+                                      onAddItemToWishList: (id,collectionId) {
                                         if (client != null) {
                                           serviceWishlistToggle(id.toString());
                                         } else {

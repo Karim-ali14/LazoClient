@@ -70,6 +70,7 @@ Class | Method | HTTP request | Description
 *ClientApi* | [**clientAccountDeleteGet**](doc//ClientApi.md#clientaccountdeleteget) | **GET** /client/account-delete | client\\'s account deleted successfully
 *ClientApi* | [**clientLogoutGet**](doc//ClientApi.md#clientlogoutget) | **GET** /client/logout | client logout
 *ClientApi* | [**clientWishlistCollectionDeleteDelete**](doc//ClientApi.md#clientwishlistcollectiondeletedelete) | **DELETE** /client/wishlist/collection/delete | delete collection wishlist
+*ClientApi* | [**clientWishlistCollectionResetGet**](doc//ClientApi.md#clientwishlistcollectionresetget) | **GET** /client/wishlist/collection/reset | reset collection wishlist
 *ClientApi* | [**creatInstantOrder**](doc//ClientApi.md#creatinstantorder) | **POST** /client/instant-order/create | create an instant order
 *ClientApi* | [**createOrder**](doc//ClientApi.md#createorder) | **POST** /client/order/create | Create order
 *ClientApi* | [**createWishlistCollection**](doc//ClientApi.md#createwishlistcollection) | **POST** /client/wishlist/collection/create | create wishlist collection
@@ -157,6 +158,7 @@ Class | Method | HTTP request | Description
 *PublicAuthApi* | [**resetPasswordPost**](doc//PublicAuthApi.md#resetpasswordpost) | **POST** /reset-password | reset password
 *TransactionsApi* | [**showtransactions**](doc//TransactionsApi.md#showtransactions) | **GET** /provider/transactions | show transactions
 *WishlistApi* | [**clientWishlistCollectionDeleteDelete**](doc//WishlistApi.md#clientwishlistcollectiondeletedelete) | **DELETE** /client/wishlist/collection/delete | delete collection wishlist
+*WishlistApi* | [**clientWishlistCollectionResetGet**](doc//WishlistApi.md#clientwishlistcollectionresetget) | **GET** /client/wishlist/collection/reset | reset collection wishlist
 *WishlistApi* | [**createWishlistCollection**](doc//WishlistApi.md#createwishlistcollection) | **POST** /client/wishlist/collection/create | create wishlist collection
 *WishlistApi* | [**showWishlistCollections**](doc//WishlistApi.md#showwishlistcollections) | **GET** /client/wishlist/collections | Show wishlist collections
 *WishlistApi* | [**showWishlistItemsWithSearchByName**](doc//WishlistApi.md#showwishlistitemswithsearchbyname) | **GET** /client/wishlist/show | Show wishlist items (with search by name)
@@ -190,6 +192,7 @@ Class | Method | HTTP request | Description
  - [CodeConfirmResponse](doc//CodeConfirmResponse.md)
  - [CodeSendRequest](doc//CodeSendRequest.md)
  - [CodeSendResponse](doc//CodeSendResponse.md)
+ - [CollectionItem](doc//CollectionItem.md)
  - [Color](doc//Color.md)
  - [ColorsResponse](doc//ColorsResponse.md)
  - [CreateWishlistCollection200Response](doc//CreateWishlistCollection200Response.md)
@@ -292,7 +295,6 @@ Class | Method | HTTP request | Description
  - [ShowPromocodeDetails200Response](doc//ShowPromocodeDetails200Response.md)
  - [ShowPromocodeDetails200ResponseData](doc//ShowPromocodeDetails200ResponseData.md)
  - [ShowWishlistCollections200Response](doc//ShowWishlistCollections200Response.md)
- - [ShowWishlistCollections200ResponseData](doc//ShowWishlistCollections200ResponseData.md)
  - [ShowWishlistItemsWithSearchByName200Response](doc//ShowWishlistItemsWithSearchByName200Response.md)
  - [ShowWishlistItemsWithSearchByName200ResponseData](doc//ShowWishlistItemsWithSearchByName200ResponseData.md)
  - [Showtransactions200Response](doc//Showtransactions200Response.md)

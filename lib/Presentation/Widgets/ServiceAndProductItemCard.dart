@@ -13,13 +13,14 @@ import 'CircleImage.dart';
 
 typedef OnItemClick = Function(int, String, List<int>);
 typedef OnAddItemClick = Function(int);
+typedef OnAddToWishlistItemClick = Function(int,String?);
 
 class ServiceAndProductItemCardHorizontal extends StatefulWidget {
   final ItemType type;
   final ProviderProduct? product;
   final ServiceShowData? service;
   final OnAddItemClick onAddItemToCart;
-  final OnAddItemClick onAddItemToWishList;
+  final OnAddToWishlistItemClick onAddItemToWishList;
   final OnItemClick onItemClick;
   final double? width;
   final double? height;
@@ -255,7 +256,7 @@ class _ServiceAndProductItemCardHorizontalState
                 onTap: () {
                   widget.onAddItemToWishList(widget.type == ItemType.Products
                       ? widget.product?.id?.toInt() ?? 0
-                      : widget.service?.id?.toInt() ?? 0);
+                      : widget.service?.id?.toInt() ?? 0,widget.product?.wishlistCollectionId);
                 },
                 child: Skeleton.ignore(
                     child: Row(children: [

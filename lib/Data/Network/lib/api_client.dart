@@ -230,6 +230,8 @@ class ApiClient {
           return CodeSendRequest.fromJson(value);
         case 'CodeSendResponse':
           return CodeSendResponse.fromJson(value);
+        case 'CollectionItem':
+          return CollectionItem.fromJson(value);
         case 'Color':
           return Color.fromJson(value);
         case 'ColorsResponse':
@@ -434,8 +436,6 @@ class ApiClient {
           return ShowPromocodeDetails200ResponseData.fromJson(value);
         case 'ShowWishlistCollections200Response':
           return ShowWishlistCollections200Response.fromJson(value);
-        case 'ShowWishlistCollections200ResponseData':
-          return ShowWishlistCollections200ResponseData.fromJson(value);
         case 'ShowWishlistItemsWithSearchByName200Response':
           return ShowWishlistItemsWithSearchByName200Response.fromJson(value);
         case 'ShowWishlistItemsWithSearchByName200ResponseData':

@@ -20,7 +20,48 @@ final getWishListProductsStateNotifier = StateNotifierProvider<
         StateModel<ShowWishlistItemsWithSearchByName200Response?>>(
     (ref) => WishListProductsUseCase(ref,ref.read(clientApi)));
 
+final getWishListReadyGiftsProductsStateNotifier = StateNotifierProvider<
+        WishListProductsUseCase,
+        StateModel<ShowWishlistItemsWithSearchByName200Response?>>(
+    (ref) => WishListProductsUseCase(ref,ref.read(clientApi)));
+
+final getWishListUnReadyGiftsProductsStateNotifier = StateNotifierProvider<
+        WishListProductsUseCase,
+        StateModel<ShowWishlistItemsWithSearchByName200Response?>>(
+    (ref) => WishListProductsUseCase(ref,ref.read(clientApi)));
+
 final getWishListServicesStateNotifier = StateNotifierProvider<
         WishListProductsUseCase,
         StateModel<ShowWishlistItemsWithSearchByName200Response?>>(
     (ref) => WishListProductsUseCase(ref,ref.read(clientApi)));
+
+
+final createWishlistCollectionStateNotifier = StateNotifierProvider.autoDispose<
+    CreateWishlistCollectionUseCase,
+        StateModel<CreateWishlistCollection200Response?>>(
+    (ref) => CreateWishlistCollectionUseCase(ref.read(wishlistApi)));
+
+final createWishlistFromBottomSheetCollectionStateNotifier = StateNotifierProvider.autoDispose<
+    CreateWishlistCollectionUseCase,
+        StateModel<CreateWishlistCollection200Response?>>(
+    (ref) => CreateWishlistCollectionUseCase(ref.read(wishlistApi)));
+
+final showWishlistCollectionsStateNotifier = StateNotifierProvider<
+    ShowWishlistCollectionsUseCase,
+        StateModel<ShowWishlistCollections200Response?>>(
+    (ref) => ShowWishlistCollectionsUseCase(ref.read(wishlistApi)));
+
+final deleteWishlistCollectionStateNotifier = StateNotifierProvider.autoDispose<
+    DeleteWishlistCollectionUseCase,
+        StateModel<void>>(
+    (ref) => DeleteWishlistCollectionUseCase(ref.read(wishlistApi)));
+
+final editWishlistCollectionStateNotifier = StateNotifierProvider.autoDispose<
+    EditWishlistCollectionUseCase,
+        StateModel<CreateWishlistCollection200Response?>>(
+    (ref) => EditWishlistCollectionUseCase(ref.read(wishlistApi)));
+
+final resetCollectionStateNotifier = StateNotifierProvider.autoDispose<
+    ResetWishlistCollectionUseCase,
+        StateModel<void>>(
+    (ref) => ResetWishlistCollectionUseCase(ref.read(wishlistApi)));
