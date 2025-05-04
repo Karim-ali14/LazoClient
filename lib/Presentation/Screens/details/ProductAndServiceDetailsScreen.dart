@@ -321,7 +321,7 @@ class _ProductAndServiceDetailsScreenState
                               Spacer(),
                               Container(
                                 margin: EdgeInsetsDirectional.only(
-                                    end: 10, bottom: 10.h),
+                                    end: 10, bottom: 13.h),
                                 padding: EdgeInsets.symmetric(
                                     horizontal: 15, vertical: 5),
                                 decoration: BoxDecoration(
@@ -509,8 +509,13 @@ class _ProductAndServiceDetailsScreenState
                                       .styleWithTextAppGrey21AdelleSansExtendedFonts14w400
                                       .copyWith(
                                           decoration: TextDecoration.underline),
-                                  extraWidget: SVGIcons.localSVG(giftIconIcon,
-                                      width: 18, height: 18),
+                                  extraWidget: InkWell(
+                                    onTap: (){
+                                      showUnreadyGiftDialog(context,productItemState.data?.data?.type == ProductType.ready_made_gifts.name ? ProductTypes.ready_made_gifts : ProductTypes.various_gifts);
+                                    },
+                                    child: SVGIcons.localSVG(giftIconIcon,
+                                        width: 18, height: 18),
+                                  ),
                                   onValueClick: () {
                                     showUnreadyGiftDialog(context,productItemState.data?.data?.type == ProductType.ready_made_gifts.name ? ProductTypes.ready_made_gifts : ProductTypes.various_gifts);
                                   },
@@ -1508,7 +1513,7 @@ class _ProductAndServiceDetailsScreenState
                   child: Container(
                     width: 280.w,
                     height: 160.h,
-                    color: Colors.white.withOpacity(0.45), // لون خفيف عشان يوضح التأثير
+                    color: Colors.white.withOpacity(0.45),
                     child:
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 25.0),
