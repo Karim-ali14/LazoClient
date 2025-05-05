@@ -9,8 +9,10 @@ import 'package:go_router/go_router.dart';
 import 'package:lazo_client/Constants/Eunms.dart';
 import 'package:lazo_client/Doman/CommenProviders/ApiProvider.dart';
 import 'package:lazo_client/Presentation/Dialogs/LoadingDialog.dart';
+import 'package:lazo_client/Presentation/Screens/More/Componants/client_info_card.dart';
 import 'package:lazo_client/Presentation/Widgets/AppButton.dart';
 import '../../../Constants.dart';
+import '../../../Constants/Assets.dart';
 import '../../../Constants/Constants.dart';
 import '../../../Data/Network/lib/api.dart';
 import '../../../Localization/Keys.dart';
@@ -47,7 +49,6 @@ class _MoreScreenState extends ConsumerState<MoreScreen> {
      final isEnglishLang = ref.watch(langProvider.notifier).isEnglish;
 
     handleState(logoutStateProvider,showLoading: true , onSuccess: (res){
-      // navigateToLogin(TypeOfMode.AuthMode);
       rebuildMainScreen();
       updateMainScreen();
       navigateToHomeScreen();
@@ -63,43 +64,27 @@ class _MoreScreenState extends ConsumerState<MoreScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            client != null ?
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: defaultPaddingHorizontal,vertical: 24),
+                  child: const ClientInfoCard(),
+                )
+                : const SizedBox(),
             client != null
                 ? Padding(
-                    padding: const EdgeInsets.all(16.0),
+                    padding: const EdgeInsets.symmetric(horizontal: defaultPaddingHorizontal),
                     child: Column(
                       children: [
-                        Container(
-                          height: 72,
-                          padding: const EdgeInsets.all(16),
-                          decoration: BoxDecoration(
-                            color: AppTheme.mainAppColor,
-                            borderRadius: BorderRadius.circular(8),
+                        MoreItemCard(
+                          text: "Wallet",
+                          startIcon: SVGIcons.localSVG(walletIcon,width: 20,height: 20,),
+                          endWidget: Text(
+                            "${context.tr(sarKey)} ${client.client?.balance}",
+                            style: AppTheme
+                                .styleWithTextBlack2AdelleSansExtendedFonts12w400,
                           ),
-                          child: Row(
-                            children: [
-                              SVGIcons.walletWithWhiteBackgroundIcon(),
-                              SizedBox(
-                                width: 8,
-                              ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    context.tr(walletBalanceKey),
-                                    style: AppTheme
-                                        .styleWithTextWhiteAdelleSansExtendedFonts12w400,
-                                  ),
-                                  Spacer(),
-                                  Text(
-                                    "${context.tr(sarKey)} ${client.client?.balance}",
-                                    style: AppTheme
-                                        .styleWithTextWhiteAdelleSansExtendedFonts20w700,
-                                  )
-                                ],
-                              )
-                            ],
-                          ),
-                        )
+                          withDivider: false,
+                        ),
                       ],
                     ),
                   )
@@ -134,7 +119,7 @@ class _MoreScreenState extends ConsumerState<MoreScreen> {
                     ),
                   ),
             SizedBox(
-              height: 10,
+              height: 24,
             ),
 
             client != null ?
@@ -145,15 +130,11 @@ class _MoreScreenState extends ConsumerState<MoreScreen> {
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: MoreItemCard(
-                  startIcon: SVGIcons.langIcon(),
-                  text: context.tr(profileKey),
-                  endIcon: SVGIcons.rightArrowWithBackgroundIcon(),
+                  startIcon: SVGIcons.localSVG(addressIcon,width: 20,height: 20,),
+                  text: "Addresses",
                 ),
               ),
             ):SizedBox(),
-            SizedBox(
-              height: defaultPaddingHorizontal,
-            ),
             InkWell(
               onTap: (){
                 context.showSelectionActionSheet(["ar" , "en"], (lang){
@@ -165,15 +146,12 @@ class _MoreScreenState extends ConsumerState<MoreScreen> {
                 child: MoreItemCard(
                   startIcon: SVGIcons.langIcon(),
                   text: context.tr(languageKey),
-                  endIcon: Text(
+                  endWidget: Text(
                     isEnglishLang ? context.tr(englishKey) : context.tr(arabicKey),
-                    style: AppTheme.styleWithTextRedAdelleSansExtendedFonts16w500,
+                    style: AppTheme.styleWithTextRedAdelleSansExtendedFonts12w400,
                   ),
                 ),
               ),
-            ),
-            SizedBox(
-              height: defaultPaddingHorizontal,
             ),
             InkWell(
               onTap: showContactUsBottomSheet,
@@ -182,12 +160,8 @@ class _MoreScreenState extends ConsumerState<MoreScreen> {
                 child: MoreItemCard(
                   startIcon: SVGIcons.contactUsIcon(),
                   text: context.tr(contactUsKey),
-                  endIcon: SVGIcons.rightArrowWithBackgroundIcon(),
                 ),
               ),
-            ),
-            SizedBox(
-              height: defaultPaddingHorizontal,
             ),
             InkWell(
               onTap: () {
@@ -198,23 +172,17 @@ class _MoreScreenState extends ConsumerState<MoreScreen> {
                 child: MoreItemCard(
                   startIcon: SVGIcons.faqIcon(),
                   text: context.tr(faqKey),
-                  endIcon: SVGIcons.rightArrowWithBackgroundIcon(),
                 ),
               ),
             ),
-            SizedBox(
-              height: defaultPaddingHorizontal,
-            ),
+
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: MoreItemCard(
                 startIcon: SVGIcons.shareImgIcon(),
                 text: context.tr(shareTheAppKey),
-                endIcon: SVGIcons.rightArrowWithBackgroundIcon(),
+
               ),
-            ),
-            SizedBox(
-              height: defaultPaddingHorizontal,
             ),
             InkWell(
               onTap: (){
@@ -225,12 +193,9 @@ class _MoreScreenState extends ConsumerState<MoreScreen> {
                 child: MoreItemCard(
                   startIcon: SVGIcons.termsConditionsImgIcon(),
                   text: context.tr(termsAndConditionsKey),
-                  endIcon: SVGIcons.rightArrowWithBackgroundIcon(),
+
                 ),
               ),
-            ),
-            SizedBox(
-              height: defaultPaddingHorizontal,
             ),
             InkWell(
               onTap: (){
@@ -239,14 +204,14 @@ class _MoreScreenState extends ConsumerState<MoreScreen> {
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: MoreItemCard(
-                  startIcon: SVGIcons.langIcon(),
+                  startIcon: SVGIcons.localSVG(privacyPolicyImg,width: 20,height: 20,),
                   text: context.tr(privacyAndPolicyKey),
-                  endIcon: SVGIcons.rightArrowWithBackgroundIcon(),
+
                 ),
               ),
             ),
             SizedBox(
-              height: defaultPaddingHorizontal,
+              height: 24,
             ),
             client != null ? InkWell(
               onTap: showSignOutBottomSheet,
@@ -257,15 +222,12 @@ class _MoreScreenState extends ConsumerState<MoreScreen> {
                   textWidget: Text(
                     context.tr(signOutKey),
                     style:
-                        AppTheme.styleWithTextRedAdelleSansExtendedFonts16w500,
+                        AppTheme.styleWithTextBlack2AdelleSansExtendedFonts12w400,
                   ),
-                  endIcon: SVGIcons.rightArrowWithBackgroundIcon(),
+
                 ),
               ),
             ):SizedBox(),
-            SizedBox(
-              height: defaultPaddingHorizontal,
-            ),
             client != null ?InkWell(
               onTap: showDeleteAccountBottomSheet,
               child: Padding(
@@ -275,9 +237,9 @@ class _MoreScreenState extends ConsumerState<MoreScreen> {
                   textWidget: Text(
                     context.tr(deleteAccountKey),
                     style:
-                        AppTheme.styleWithTextRedAdelleSansExtendedFonts16w500,
+                        AppTheme.styleWithTextBlack2AdelleSansExtendedFonts12w400,
                   ),
-                  endIcon: SVGIcons.rightArrowWithBackgroundIcon(),
+
                 ),
               ),
             ):SizedBox(),

@@ -155,6 +155,9 @@ class AppTheme {
   // Text style
   static const TextStyle styleWithTextBlackAdelleSansExtendedFonts20w700 = TextStyle(
       color: Colors.black, fontSize: 20, fontWeight: FontWeight.w700);
+  // Text style
+  static const TextStyle styleWithTextWhiteAdelleSansExtendedFonts38w500 = TextStyle(
+      color: Colors.white, fontSize: 38, fontWeight: FontWeight.w500);
 
   static const TextStyle styleWithTextWhiteAdelleSansExtendedFonts20w700 = TextStyle(
       color: Colors.white, fontSize: 20, fontWeight: FontWeight.w700);
@@ -282,6 +285,9 @@ class AppTheme {
   static const TextStyle styleWithTextRedAdelleSansExtendedFonts16w500 = TextStyle(
       color: mainAppColor , fontSize: 16, fontWeight: FontWeight.w500);
 
+  static const TextStyle styleWithTextRedAdelleSansExtendedFonts12w400 = TextStyle(
+      color: mainAppColor , fontSize: 12, fontWeight: FontWeight.w400);
+
   static const TextStyle styleWithTextRedAdelleSansExtendedFonts15w500 = TextStyle(
       color: mainAppColor , fontSize: 15, fontWeight: FontWeight.w500);
 
@@ -290,6 +296,9 @@ class AppTheme {
 
   static const TextStyle styleWithTextBlackAdelleSansExtendedFonts14w400 = TextStyle(
       color: Colors.black , fontSize: 14, fontWeight: FontWeight.w400);
+
+  static const TextStyle styleWithTextBlack2AdelleSansExtendedFonts14w400 = TextStyle(
+      color: blackColor2 , fontSize: 14, fontWeight: FontWeight.w400);
 
   static const TextStyle styleWithTextAppRedColorAdelleSansExtendedFonts14w400 = TextStyle(
       color: appRedColor , fontSize: 14, fontWeight: FontWeight.w400);

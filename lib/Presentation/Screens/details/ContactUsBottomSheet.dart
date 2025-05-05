@@ -51,7 +51,7 @@ class _ContactUsBottomSheetState extends State<ContactUsBottomSheet> {
             child: MoreItemCard(
               startIcon: SVGIcons.callingIcon(),
               text: context.tr(communicateByCallingKey),
-              endIcon: SVGIcons.rightArrowWithBackgroundIcon(),
+              endWidget: SVGIcons.rightArrowWithBackgroundIcon(),
             ),
           ),
           const SizedBox(
@@ -65,7 +65,7 @@ class _ContactUsBottomSheetState extends State<ContactUsBottomSheet> {
               text: context.tr(whatsAppKey),
               description:
                   context.tr(startAConversationWithACustomerServiceRepresentativeKey),
-              endIcon: SVGIcons.rightArrowWithBackgroundIcon(),
+              endWidget: SVGIcons.rightArrowWithBackgroundIcon(),
             ),
           ),
           const SizedBox(
@@ -78,7 +78,7 @@ class _ContactUsBottomSheetState extends State<ContactUsBottomSheet> {
               startIcon: SVGIcons.messageIcon(),
               text: context.tr(emailKey),
               description: context.tr(contactUsViaEmailKey),
-              endIcon: SVGIcons.rightArrowWithBackgroundIcon(),
+              endWidget: SVGIcons.rightArrowWithBackgroundIcon(),
             ),
           ),
           const SizedBox(
@@ -91,7 +91,7 @@ class _ContactUsBottomSheetState extends State<ContactUsBottomSheet> {
               startIcon: SVGIcons.redFaqIcon(),
               text: context.tr(faqKey),
               description: context.tr(readTheMostFrequentlyAskedQuestionsKey),
-              endIcon: SVGIcons.rightArrowWithBackgroundIcon(),
+              endWidget: SVGIcons.rightArrowWithBackgroundIcon(),
             ),
           ),
           const SizedBox(

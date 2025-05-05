@@ -559,7 +559,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   void showAuthenticated() {
     showModalBottomSheet(
         isScrollControlled: true,
-        shape: RoundedRectangleBorder(
+        shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.only(
                 topRight: Radius.circular(10), topLeft: Radius.circular(10))),
         context: context,
@@ -651,7 +651,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   void showCollectionsBottomSheet(
       {int? collectionId, int? itemId, OrderItemType? type}) {
-    print("asdfasdfasdf2 $itemId $collectionId");
 
     showModalBottomSheet(
         isScrollControlled: true,
