@@ -37,7 +37,7 @@ class WishlistCard extends StatelessWidget {
                         crossAxisCount: 2,
                         mainAxisSpacing: 1,
                         crossAxisSpacing: 1,
-                        childAspectRatio: 1.11),
+                        childAspectRatio: 1),
                     itemCount: (collection?.items.length ?? 0) >= 4
                         ? collection?.items.length
                         : 1,

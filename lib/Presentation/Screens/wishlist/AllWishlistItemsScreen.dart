@@ -48,11 +48,7 @@ class _ProductSearchScreenState extends ConsumerState<ProductWishlistScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final productsState = widget.productType == ProductOccasionType.All
-        ? ref.watch(getWishListItemsStateNotifier)
-        : widget.productType == ProductOccasionType.Ready
-            ? ref.watch(getWishListReadyGiftsProductsStateNotifier)
-            : ref.watch(getWishListUnReadyGiftsProductsStateNotifier);
+    final productsState = ref.watch(getWishListItemsStateNotifier);
     final client = ref.watch(clientStateProvider);
 
     handleState(addProductToCartUseCaseStateNotifier, showLoading: true,

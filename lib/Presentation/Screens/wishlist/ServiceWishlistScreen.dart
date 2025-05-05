@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lazo_client/Doman/CommenProviders/ApiProvider.dart';
 import 'package:lazo_client/Presentation/Theme/AppTheme.dart';
@@ -86,11 +87,11 @@ class _ServiceOccasionScreenState extends ConsumerState<ServiceWishlistScreen> {
       children: [
          servicesState.state == DataState.EMPTY
             ? EmptyDataView(
-           icon: SVGIcons.localSVG(searchIconNoDataSvg,
-               width: 114, height: 97),
+           icon: SVGIcons.localSVG(noFavoriteDataIcon,
+               width: 79.w, height: 88.h),
            btuName: null,
            description:
-           "Oops! Use different keywords to see more results.",
+           "Looks like this collection has no gifts saved yet.",
            btuAction: () {},
          )
             : Container(
@@ -111,11 +112,8 @@ class _ServiceOccasionScreenState extends ConsumerState<ServiceWishlistScreen> {
               paginated: true,
               gridView: true,
               childAspectRatio: .78,
-              heightPresent:  ref
-                  .watch(updateOccasionServiceListOfFilterSelectedStateNotifiers)
-                  .isNotEmpty == true ? 0.623
-                  : 0.699,
-              loadingHeightPresent: 0.73,
+              heightPresent: .828,
+              loadingHeightPresent: .828,
               crossAxisSpacing: 12,
               pageLoading: servicesState.state == DataState.MORE_LOADING,
               onBottomReached: () {

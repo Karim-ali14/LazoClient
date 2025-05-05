@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lazo_client/Constants.dart';
 import 'package:lazo_client/Constants/Assets.dart';
@@ -59,7 +60,7 @@ class _WishListScreenState extends ConsumerState<WishListScreen>
               child: Column(
             children: [
               SizedBox(
-                height: 85,
+                height: 85.h,
               ),
               WishlistGrid(
                 showLoading:
@@ -86,7 +87,7 @@ class _WishListScreenState extends ConsumerState<WishListScreen>
             padding: EdgeInsets.symmetric(horizontal: 16),
             width: double.infinity,
             color: Colors.white.withOpacity(_opacity),
-            height: 65,
+            height: 65.h,
             child: Row(
               children: [
                 Text(

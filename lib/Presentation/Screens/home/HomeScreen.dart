@@ -79,7 +79,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           isFavorite: res.data?.data?.inWishlist ?? false,
           productId: res.data?.data?.productId?.toInt() ?? 0,
           collectionId: res.data?.data?.collectionId ?? 0,
-          collectionName: res.data?.data?.collectionName);
+          collectionName: res.data?.data?.collectionName,
+          type: OrderItemType.Product);
       ref.read(homeDataStateNotifiers.notifier).handleAddProductToWishList(
           res.data?.data?.productId ?? 0,
           res.data?.data?.inWishlist ?? false,
@@ -93,7 +94,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           isFavorite: res.data?.data?.inWishlist ?? false,
           productId: res.data?.data?.serviceId?.toInt() ?? 0,
           collectionId: res.data?.data?.collectionId ?? 0,
-          collectionName: res.data?.data?.collectionName);
+          collectionName: res.data?.data?.collectionName,
+          type: OrderItemType.Service);
       ref.read(homeDataStateNotifiers.notifier).handelAddServiceToWishList(
           res.data?.data?.serviceId ?? 0, res.data?.data?.inWishlist ?? false);
       updateCollectionList();
@@ -356,7 +358,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                     onAddItemToWishList: (id, collectionId) {
                                       print("object");
                                       if (client != null) {
-                                        serviceWishlistToggle(id.toString(),collectionId);
+                                        serviceWishlistToggle(
+                                            id.toString(), collectionId);
                                       } else {
                                         showAuthenticated();
                                       }
@@ -524,13 +527,16 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   }
 
   void productWishlistToggle(int id, String? collectionId) {
+    print("product id : $id");
     ref
         .read(productToggleStateNotifier.notifier)
         .toggle(productId: id.toString(), collectionId: collectionId);
   }
 
   void serviceWishlistToggle(String serviceId, String? collectionId) {
-    ref.read(serviceToggleStateNotifier.notifier).toggle(serviceId: serviceId,collectionId: collectionId);
+    ref
+        .read(serviceToggleStateNotifier.notifier)
+        .toggle(serviceId: serviceId, collectionId: collectionId);
   }
 
   void addServiceToCart(int id) {
@@ -576,12 +582,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     ref.read(homeDataStateNotifiers.notifier).getHomeData();
   }
 
-  void makeRefreshForWishListProducts() {
-    ref
-        .read(getWishListProductsStateNotifier.notifier)
-        .fetchAllProductsInWishlist();
-  }
-
   void makeRefreshForWishListServices() {
     ref
         .read(getWishListServicesStateNotifier.notifier)
@@ -605,7 +605,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       {bool? isFavorite,
       int? productId,
       int? collectionId,
-      String? collectionName}) {
+      String? collectionName,
+      OrderItemType? type}) {
     final snackBar = SnackBar(
       backgroundColor: AppTheme.blackColor3,
       content: Padding(
@@ -626,20 +627,20 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             Text(
               (isFavorite ?? false)
                   ? "Added to $collectionName"
-                  : "Removed from $collectionName",
+                  : "Removed from wishlist",
               style: AppTheme.styleWithTextWhiteAdelleSansExtendedFonts14w400,
             ),
             Spacer(),
-            InkWell(
+            isFavorite ?? false ? InkWell(
               onTap: () {
                 showCollectionsBottomSheet(
-                    collectionId: collectionId, itemId: productId);
+                    collectionId: collectionId, itemId: productId, type: type);
               },
               child: Text(
                 "Edit",
                 style: AppTheme.styleWithTextWhiteAdelleSansExtendedFonts12w400,
               ),
-            )
+            ) : SizedBox()
           ],
         ),
       ),
@@ -648,7 +649,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 
-  void showCollectionsBottomSheet({int? collectionId, int? itemId,OrderItemType? type}) {
+  void showCollectionsBottomSheet(
+      {int? collectionId, int? itemId, OrderItemType? type}) {
     print("asdfasdfasdf2 $itemId $collectionId");
 
     showModalBottomSheet(
@@ -670,10 +672,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     });
               },
               onChangeCollection: (selectedCollectionId) {
-                if(type == OrderItemType.Product) {
+                if (type == OrderItemType.Product) {
                   productWishlistToggle(itemId ?? 0, selectedCollectionId);
-                }else{
-                  serviceWishlistToggle((itemId ?? 0).toString(),selectedCollectionId);
+                } else {
+                  serviceWishlistToggle(
+                      (itemId ?? 0).toString(), selectedCollectionId);
                 }
               },
             ));

@@ -127,7 +127,7 @@ class _CollectionDetailsScreenState
       print(
           "object ${res.data?.data?.id.toString()} ${res.data?.data?.productId.toString()}");
       ref
-          .read(getWishListProductsStateNotifier.notifier)
+          .read(getWishListItemsStateNotifier.notifier)
           .deleteProductItem(res.data?.data?.productId.toString() ?? "");
       ref.read(homeDataStateNotifiers.notifier).handleAddProductToWishList(
           res.data?.data?.productId ?? 0,
@@ -162,6 +162,7 @@ class _CollectionDetailsScreenState
               children: [
                 Container(
                   width: double.infinity,
+                  height: 101.h,
                   decoration: BoxDecoration(color: Colors.white, boxShadow: [
                     BoxShadow(
                       color: AppTheme.appGrey8.withOpacity(0.6), // Shadow color
@@ -186,7 +187,7 @@ class _CollectionDetailsScreenState
                             collectionName ?? "",
                             textAlign: TextAlign.center,
                             style: AppTheme.darkTheme.textTheme.displayLarge
-                                ?.copyWith(fontSize: 22, color: Colors.black),
+                                ?.copyWith(fontSize: 22.sp, color: Colors.black),
                             overflow: TextOverflow.ellipsis,
                           ),
                           const Spacer(),
@@ -197,11 +198,11 @@ class _CollectionDetailsScreenState
                             },
                             child: Container(
                               color: Colors.white,
-                              width: 50,
-                              height: 50,
+                              width: 50.w,
+                              height: 50.h,
                               key: _menuKey,
                               child: SVGIcons.localSVG(menuIcon,
-                                  width: 10, height: 10, fit: BoxFit.none),
+                                  width: 10.w, height: 10.h, fit: BoxFit.none),
                             ),
                           ),
                         ],
@@ -383,7 +384,7 @@ class _CollectionDetailsScreenState
   }
   void fetchFavoriteProducts() {
     ref
-        .read(getWishListProductsStateNotifier.notifier)
+        .read(getWishListItemsStateNotifier.notifier)
         .fetchAllProductsInWishlist(
             type: "product", collectionId: widget.collectionId);
   }
