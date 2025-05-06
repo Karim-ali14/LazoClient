@@ -91,17 +91,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
               child: Column(
                 children: [
                   const SizedBox(
-                    height: 24,
-                  ),
-                  CircleImgPicker(
-                      size: 88,
-                      placeHolder: SVGIcons.placeHolderForPickImagesSvgIcon(),
-                      initialImg: client?.client?.imagePath??"",
-                      onResult: (path, value46) {
-                        imageFile = File(path);
-                      }),
-                  const SizedBox(
-                    height: 32,
+                    height: 20,
                   ),
                   AppTextField(
                     textInputType: TextInputType.name,

@@ -337,7 +337,7 @@ class SVGIcons {
 
   static Widget redFaqIcon() {
     return SvgPicture.asset(
-      redFaqImg,
+      contactFaqImg,
     );
   }
 

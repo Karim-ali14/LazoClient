@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lazo_client/Presentation/Theme/AppTheme.dart';
@@ -8,7 +9,8 @@ import '../../../StateNotifiersViewModel/UserAuthStateNotifiers.dart';
 import '../../../Widgets/SvgIcons.dart';
 
 class ClientInfoCard extends StatelessWidget {
-  const ClientInfoCard({super.key});
+  final VoidCallback? onTap;
+  const ClientInfoCard({super.key, this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -44,17 +46,22 @@ class ClientInfoCard extends StatelessWidget {
                 SizedBox(
                   height: 4.h,
                 ),
-                Row(
-                  children: [
-                    SVGIcons.localSVG(editProfileIcon,width: 16,height: 16),
-                    const SizedBox(
-                      width: 1,
-                    ),
-                    Text(
-                      "View/Edit Profile",
-                      style: AppTheme.styleWithTextBlack2AdelleSansExtendedFonts12w400,
-                    ),
-                  ],
+                InkWell(
+                  onTap: (){
+                    onTap?.call();
+                  },
+                  child: Row(
+                    children: [
+                      SVGIcons.localSVG(editProfileIcon,width: 16,height: 16),
+                      const SizedBox(
+                        width: 1,
+                      ),
+                      Text(
+                        "View/Edit Profile",
+                        style: AppTheme.styleWithTextBlack2AdelleSansExtendedFonts12w400,
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),

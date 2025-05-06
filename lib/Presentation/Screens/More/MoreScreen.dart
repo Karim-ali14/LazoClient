@@ -67,7 +67,9 @@ class _MoreScreenState extends ConsumerState<MoreScreen> {
             client != null ?
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: defaultPaddingHorizontal,vertical: 24),
-                  child: const ClientInfoCard(),
+                  child: ClientInfoCard(onTap: (){
+                    navigateToProfileScreen();
+                  },),
                 )
                 : const SizedBox(),
             client != null
@@ -239,7 +241,7 @@ class _MoreScreenState extends ConsumerState<MoreScreen> {
                     style:
                         AppTheme.styleWithTextBlack2AdelleSansExtendedFonts12w400,
                   ),
-
+                  withDivider: false,
                 ),
               ),
             ):SizedBox(),
@@ -315,7 +317,7 @@ class _MoreScreenState extends ConsumerState<MoreScreen> {
   }
 
   void navigateToProfileScreen() {
-    context.push(R_ProfileScreen);
+    context.push(R_EditProfileScreen);
   }
 
   void navigateToHomeScreen() {
@@ -324,14 +326,7 @@ class _MoreScreenState extends ConsumerState<MoreScreen> {
 
   void updateMainScreen(){
     ref.read(homeDataStateNotifiers.notifier).getHomeData();
-
-    // ref.read(getNewOrderStateProvider.notifier).getOrders();
-    // ref.read(getCurrentOrderStateProvider.notifier).getOrders();
-    // ref.read(getFinishOrderStateProvider.notifier).getOrders();
-    // ref.read(getCanselOrderStateProvider.notifier).getOrders();
     ref.read(fetchCardDetailsStateNotifies.notifier).getCardDetails();
-    // ref.read(getWishListProductsStateNotifier.notifier).fetchAllProductsInWishlist();
-    // ref.read(getWishListServicesStateNotifier.notifier).fetchAllServicesInWishlist();
   }
 
   void rebuildMainScreen(){

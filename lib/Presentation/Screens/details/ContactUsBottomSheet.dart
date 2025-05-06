@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../Constants/Assets.dart';
 import '../../../Constants/Constants.dart';
 import '../../../Localization/Keys.dart';
 import '../../Theme/AppTheme.dart';
@@ -25,33 +26,65 @@ class _ContactUsBottomSheetState extends State<ContactUsBottomSheet> {
 
     return Container(
       decoration: BoxDecoration(
-          color: Colors.white,
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(10),
             topRight: Radius.circular(10),
           )),
-      height: bottomSheetHeight,
       child: Column(
-        // Set min size constraint
+        mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          SizedBox(
-            height: 24,
+          Container(
+            height: 64,
+            width: double.infinity,
+            child: Stack(
+              children: [
+                Center(
+                  child: Text(
+                    context.tr(contactUsKey),
+                    style: AppTheme
+                        .styleWithTextBlackAdelleSansExtendedFonts16w500,
+                  ),
+                ),
+                InkWell(
+                  onTap: () {
+                    context.pop();
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: defaultPaddingHorizontal),
+                    child: Align(
+                        alignment: AlignmentDirectional.centerEnd,
+                        child: SVGIcons.localSVG(closeIconSvg,
+                            width: 32, height: 32)),
+                  ),
+                )
+              ],
+            ),
+            decoration: BoxDecoration(
+              color: CupertinoColors.white,
+              boxShadow: [
+                BoxShadow(
+                  color: AppTheme.appGrey11.withOpacity(0.6), // Shadow color
+                  blurRadius: .5, // Blur effect
+                  spreadRadius: .1, // Spread effect
+                  offset: const Offset(0, .5), // Shadow position
+                ),
+              ],
+              borderRadius: BorderRadius.only(
+                  topRight: Radius.circular(8), topLeft: Radius.circular(8)),
+            ),
           ),
-          Text(
-            context.tr(contactUsKey),
-            style: AppTheme.styleWithTextBlackAdelleSansExtendedFonts18w700,
-          ),
           SizedBox(
-            height: 32,
+            height: 16,
           ),
           Padding(
             padding: const EdgeInsets.symmetric(
                 horizontal: defaultPaddingHorizontal),
             child: MoreItemCard(
               startIcon: SVGIcons.callingIcon(),
-              text: context.tr(communicateByCallingKey),
-              endWidget: SVGIcons.rightArrowWithBackgroundIcon(),
+              text: "Phone call",
+              withDivider: false,
             ),
           ),
           const SizedBox(
@@ -65,7 +98,7 @@ class _ContactUsBottomSheetState extends State<ContactUsBottomSheet> {
               text: context.tr(whatsAppKey),
               description:
                   context.tr(startAConversationWithACustomerServiceRepresentativeKey),
-              endWidget: SVGIcons.rightArrowWithBackgroundIcon(),
+              withDivider: false,
             ),
           ),
           const SizedBox(
@@ -78,7 +111,7 @@ class _ContactUsBottomSheetState extends State<ContactUsBottomSheet> {
               startIcon: SVGIcons.messageIcon(),
               text: context.tr(emailKey),
               description: context.tr(contactUsViaEmailKey),
-              endWidget: SVGIcons.rightArrowWithBackgroundIcon(),
+              withDivider: false,
             ),
           ),
           const SizedBox(
@@ -91,25 +124,11 @@ class _ContactUsBottomSheetState extends State<ContactUsBottomSheet> {
               startIcon: SVGIcons.redFaqIcon(),
               text: context.tr(faqKey),
               description: context.tr(readTheMostFrequentlyAskedQuestionsKey),
-              endWidget: SVGIcons.rightArrowWithBackgroundIcon(),
+              withDivider: false,
             ),
           ),
           const SizedBox(
-            height: 32,
-          ),
-          Padding(
-              padding: const EdgeInsets.symmetric(
-                  horizontal: defaultPaddingHorizontal),
-              child: AppButton(
-                onPress: () {
-                  context.pop();
-                },
-                text: context.tr(okKey),
-                width: double.infinity,
-                height: 46,
-              )),
-          const SizedBox(
-            height: defaultPaddingHorizontal,
+            height: 25,
           ),
         ],
       ),
