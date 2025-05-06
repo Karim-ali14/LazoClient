@@ -105,9 +105,9 @@ class ConfirmResetCodeUseCase extends StateNotifier<StateModel<CodeConfirmRespon
   final PublicAuthApi authApi;
   ConfirmResetCodeUseCase( this.ref, this.authApi):super(StateModel());
 
-  void confirmReset(String? emailOrPhone,String? code) async {
+  void confirmReset(String? emailOrPhone,String? code,{String? countryCode}) async {
     state = StateModel.loading();
-    requestWithHandleMessage(() => authApi.codeConfirmPost(emailOrPhone: emailOrPhone,confirmCode: code ,accountType : accountType),onComplete: (res){
+    requestWithHandleMessage(() => authApi.codeConfirmPost(emailOrPhone: emailOrPhone,confirmCode: code ,countryCode: countryCode,accountType : accountType),onComplete: (res){
       print("File Response ${res?.message}");
     });
   }

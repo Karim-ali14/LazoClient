@@ -205,21 +205,21 @@ class _ProductAndServiceDetailsScreenState
           .handleAddServiceToWishList(
               res.data?.data?.serviceId?.toInt() ?? 0,
               res.data?.data?.categoriesIds ?? [],
-              res.data?.data?.inWishlist ?? false);
+              res.data?.data?.inWishlist ?? false,res.data?.data?.collectionId);
 
       ref.read(getServiceDetails.notifier).handelAddServiceToWishList(
-          res.data?.data?.serviceId ?? 0, res.data?.data?.inWishlist ?? false);
+          res.data?.data?.serviceId ?? 0, res.data?.data?.inWishlist ?? false,res.data?.data?.collectionId);
 
       ref.read(homeDataStateNotifiers.notifier).handelAddServiceToWishList(
-          res.data?.data?.serviceId ?? 0, res.data?.data?.inWishlist ?? false);
+          res.data?.data?.serviceId ?? 0, res.data?.data?.inWishlist ?? false,res.data?.data?.collectionId);
 
       ref.read(getServicesStateNotifiers.notifier).handelAddServiceToWishlist(
-          res.data?.data?.serviceId ?? 0, res.data?.data?.inWishlist ?? false);
+          res.data?.data?.serviceId ?? 0, res.data?.data?.inWishlist ?? false,res.data?.data?.collectionId);
 
       ref
           .read(getRelatedServicesStateNotifiers.notifier)
           .handelAddServiceToWishlist(res.data?.data?.serviceId ?? 0,
-              res.data?.data?.inWishlist ?? false);
+              res.data?.data?.inWishlist ?? false,res.data?.data?.collectionId);
     });
 
     handleState(getProductReviews, showLoading: true, onSuccess: (res) {

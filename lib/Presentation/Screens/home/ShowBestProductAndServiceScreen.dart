@@ -118,11 +118,11 @@ class _ShowProductAndServiceScreenState
     handleState(serviceToggleStateNotifier, showLoading: true,
         onSuccess: (res) {
       ref.read(getServicesStateNotifiers.notifier).handelAddServiceToWishlist(
-          res.data?.data?.serviceId ?? 0, res.data?.data?.inWishlist ?? false);
+          res.data?.data?.serviceId ?? 0, res.data?.data?.inWishlist ?? false,res.data?.data?.collectionId);
       ref.read(getBestServicesStateNotifiers.notifier).handelAddServiceToWishlist(
-          res.data?.data?.serviceId ?? 0, res.data?.data?.inWishlist ?? false);
+          res.data?.data?.serviceId ?? 0, res.data?.data?.inWishlist ?? false,res.data?.data?.collectionId);
       ref.read(homeDataStateNotifiers.notifier).handelAddServiceToWishList(
-          res.data?.data?.serviceId ?? 0, res.data?.data?.inWishlist ?? false);
+          res.data?.data?.serviceId ?? 0, res.data?.data?.inWishlist ?? false,res.data?.data?.collectionId);
     });
 
     return Scaffold(

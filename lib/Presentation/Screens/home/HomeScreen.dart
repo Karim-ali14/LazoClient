@@ -73,6 +73,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
     handleState(productToggleStateNotifier, showLoading: true,
         onSuccess: (res) {
+      print("sdf $res");
       collectionIdAfterAddedNewCollection = null;
       itemIdAfterAddedNewCollection = null;
       showSnackBar(
@@ -97,7 +98,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           collectionName: res.data?.data?.collectionName,
           type: OrderItemType.Service);
       ref.read(homeDataStateNotifiers.notifier).handelAddServiceToWishList(
-          res.data?.data?.serviceId ?? 0, res.data?.data?.inWishlist ?? false);
+          res.data?.data?.serviceId ?? 0, res.data?.data?.inWishlist ?? false,res.data?.data?.collectionId);
       updateCollectionList();
       makeRefreshForWishListServices();
     });
@@ -527,7 +528,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   }
 
   void productWishlistToggle(int id, String? collectionId) {
-    print("product id : $id");
+    print("product id : $id $collectionId");
     ref
         .read(productToggleStateNotifier.notifier)
         .toggle(productId: id.toString(), collectionId: collectionId);

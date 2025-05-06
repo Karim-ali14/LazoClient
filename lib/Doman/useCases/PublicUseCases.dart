@@ -66,18 +66,23 @@ class HomeDataUseCase extends StateNotifier<StateModel<ShowHome200Response>> {
           .indexWhere((product) => productId == product.id);
       if (index != null && index != -1) {
         data?.data?.topRatedProducts.getSafe(index)?.inWishlist = inWishlist;
-        data?.data?.topRatedProducts.getSafe(index)?.wishlistCollectionId = collectionId.toString();
+        if(collectionId != null){
+          data?.data?.topRatedProducts.getSafe(index)?.wishlistCollectionId = collectionId.toString();
+        }
       }
       state = StateModel.success(data);
     }
   }
 
-  void handelAddServiceToWishList(num serviceId, bool inWishlist) {
+  void handelAddServiceToWishList(num serviceId, bool inWishlist,int? collectionId) {
     if (data != null) {
       var index = data?.data?.topRatedServices
           .indexWhere((product) => serviceId == product.id);
       if (index != null && index != -1) {
         data?.data?.topRatedServices.getSafe(index)?.inWishlist = inWishlist;
+        if(collectionId != null){
+          data?.data?.topRatedServices.getSafe(index)?.wishlistCollectionId = collectionId.toString();
+        }
       }
       state = StateModel.success(data);
     }
@@ -389,13 +394,16 @@ class GetServicesUseCase
     }
   }
 
-  void handelAddServiceToWishlist(num serviceId, bool inWishlist) {
+  void handelAddServiceToWishlist(num serviceId, bool inWishlist,int? collectionId) {
     if (state.data != null) {
       final data = state.data;
       var index = data?.data?.services?.data
           .indexWhere((product) => serviceId == product.id);
       if (index != null && index != -1) {
         data?.data?.services?.data.getSafe(index)?.inWishlist = inWishlist;
+        if(collectionId != null){
+          data?.data?.services?.data.getSafe(index)?.wishlistCollectionId = collectionId.toString();
+        }
       }
       state = StateModel.success(data);
     }
@@ -500,9 +508,12 @@ class GetServiceDetailsUseCase
     state = StateModel.success(data);
   }
 
-  void handelAddServiceToWishList(num serviceId, bool inWishList) {
+  void handelAddServiceToWishList(num serviceId, bool inWishList,int? collectionId) {
     final data = state.data;
     data?.data?.inWishlist = inWishList;
+    if(collectionId != null){
+      data?.data?.wishlistCollectionId = collectionId.toString();
+    }
     state = StateModel.success(data);
   }
 }
@@ -608,7 +619,7 @@ class GetSellerDetailsUseCase
   }
 
   void handleAddServiceToWishList(
-      int id, List<String> categories, bool inWishList) {
+      int id, List<String> categories, bool inWishList,int? collectionId) {
     final data = state.data;
     for (var categoryId in categories) {
       for (int i = 0; i < (data?.data?.categories?.length ?? 0); i++) {
@@ -618,6 +629,9 @@ class GetSellerDetailsUseCase
               n++) {
             if (data?.data?.categories?[i].services?[n].id == id) {
               data?.data?.categories?[i].services?[n].inWishlist = inWishList;
+              if(collectionId != null){
+                data?.data?.categories?[i].services?[n].wishlistCollectionId = collectionId.toString();
+              }
             }
           }
         }
