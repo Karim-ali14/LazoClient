@@ -71,12 +71,12 @@ class Banner {
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is Banner &&
-     other.createdAt == createdAt &&
-     other.id == id &&
-     other.image == image &&
-     other.imagePath == imagePath &&
-     other.title == title &&
-     other.updatedAt == updatedAt;
+    other.createdAt == createdAt &&
+    other.id == id &&
+    other.image == image &&
+    other.imagePath == imagePath &&
+    other.title == title &&
+    other.updatedAt == updatedAt;
 
   @override
   int get hashCode =>
@@ -146,9 +146,7 @@ class Banner {
 
       return Banner(
         createdAt: mapValueOfType<String>(json, r'created_at'),
-        id: json[r'id'] == null
-            ? null
-            : num.parse(json[r'id'].toString()),
+        id: num.tryParse('${json[r'id']}'),
         image: mapValueOfType<String>(json, r'image'),
         imagePath: mapValueOfType<String>(json, r'imagePath'),
         title: mapValueOfType<String>(json, r'title'),

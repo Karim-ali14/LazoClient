@@ -80,13 +80,13 @@ class Color {
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is Color &&
-     other.createdAt == createdAt &&
-     other.hexcode == hexcode &&
-     other.id == id &&
-     other.name == name &&
-     other.nameAr == nameAr &&
-     other.nameEn == nameEn &&
-     other.updatedAt == updatedAt;
+    other.createdAt == createdAt &&
+    other.hexcode == hexcode &&
+    other.id == id &&
+    other.name == name &&
+    other.nameAr == nameAr &&
+    other.nameEn == nameEn &&
+    other.updatedAt == updatedAt;
 
   @override
   int get hashCode =>
@@ -161,15 +161,13 @@ class Color {
       }());
 
       return Color(
-        createdAt: mapDateTime(json, r'created_at', ''),
+        createdAt: mapDateTime(json, r'created_at', r''),
         hexcode: mapValueOfType<String>(json, r'hexcode'),
-        id: json[r'id'] == null
-            ? null
-            : num.parse(json[r'id'].toString()),
+        id: num.tryParse('${json[r'id']}'),
         name: mapValueOfType<String>(json, r'name'),
         nameAr: mapValueOfType<String>(json, r'name_ar'),
         nameEn: mapValueOfType<String>(json, r'name_en'),
-        updatedAt: mapDateTime(json, r'updated_at', ''),
+        updatedAt: mapDateTime(json, r'updated_at', r''),
       );
     }
     return null;

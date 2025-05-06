@@ -38,9 +38,9 @@ class UploadFiles {
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is UploadFiles &&
-     other.status == status &&
-     other.message == message &&
-     other.data == data;
+    other.status == status &&
+    other.message == message &&
+    _deepEquality.equals(other.data, data);
 
   @override
   int get hashCode =>
@@ -89,8 +89,8 @@ class UploadFiles {
       return UploadFiles(
         status: mapValueOfType<bool>(json, r'status'),
         message: mapValueOfType<String>(json, r'message'),
-        data: json[r'data'] is List
-            ? (json[r'data'] as List).cast<String>()
+        data: json[r'data'] is Iterable
+            ? (json[r'data'] as Iterable).cast<String>().toList(growable: false)
             : const [],
       );
     }

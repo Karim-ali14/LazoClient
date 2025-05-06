@@ -188,27 +188,27 @@ class ProviderOrderDetailsOrderItemsInnerProduct {
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is ProviderOrderDetailsOrderItemsInnerProduct &&
-     other.hasStock == hasStock &&
-     other.amount == amount &&
-     other.expectedProcessingTime == expectedProcessingTime &&
-     other.colors == colors &&
-     other.sizes == sizes &&
-     other.coverImagePath == coverImagePath &&
-     other.coverImage == coverImage &&
-     other.createdAt == createdAt &&
-     other.description == description &&
-     other.descriptionAr == descriptionAr &&
-     other.descriptionEn == descriptionEn &&
-     other.id == id &&
-     other.isVisible == isVisible &&
-     other.lists == lists &&
-     other.name == name &&
-     other.nameAr == nameAr &&
-     other.nameEn == nameEn &&
-     other.price == price &&
-     other.priceAfterDiscount == priceAfterDiscount &&
-     other.providerId == providerId &&
-     other.updatedAt == updatedAt;
+    other.hasStock == hasStock &&
+    other.amount == amount &&
+    other.expectedProcessingTime == expectedProcessingTime &&
+    _deepEquality.equals(other.colors, colors) &&
+    _deepEquality.equals(other.sizes, sizes) &&
+    other.coverImagePath == coverImagePath &&
+    other.coverImage == coverImage &&
+    other.createdAt == createdAt &&
+    other.description == description &&
+    other.descriptionAr == descriptionAr &&
+    other.descriptionEn == descriptionEn &&
+    other.id == id &&
+    other.isVisible == isVisible &&
+    _deepEquality.equals(other.lists, lists) &&
+    other.name == name &&
+    other.nameAr == nameAr &&
+    other.nameEn == nameEn &&
+    other.price == price &&
+    other.priceAfterDiscount == priceAfterDiscount &&
+    other.providerId == providerId &&
+    other.updatedAt == updatedAt;
 
   @override
   int get hashCode =>
@@ -355,12 +355,8 @@ class ProviderOrderDetailsOrderItemsInnerProduct {
       }());
 
       return ProviderOrderDetailsOrderItemsInnerProduct(
-        hasStock: json[r'has_stock'] == null
-            ? null
-            : num.parse(json[r'has_stock'].toString()),
-        amount: json[r'amount'] == null
-            ? null
-            : num.parse(json[r'amount'].toString()),
+        hasStock: num.tryParse('${json[r'has_stock']}'),
+        amount: num.tryParse('${json[r'amount']}'),
         expectedProcessingTime: mapValueOfType<String>(json, r'expected_processing_time'),
         colors: Color.listFromJson(json[r'colors']),
         sizes: Size.listFromJson(json[r'sizes']),
@@ -370,25 +366,15 @@ class ProviderOrderDetailsOrderItemsInnerProduct {
         description: mapValueOfType<String>(json, r'description'),
         descriptionAr: mapValueOfType<String>(json, r'description_ar'),
         descriptionEn: mapValueOfType<String>(json, r'description_en'),
-        id: json[r'id'] == null
-            ? null
-            : num.parse(json[r'id'].toString()),
-        isVisible: json[r'is_visible'] == null
-            ? null
-            : num.parse(json[r'is_visible'].toString()),
+        id: num.tryParse('${json[r'id']}'),
+        isVisible: num.tryParse('${json[r'is_visible']}'),
         lists: ProviderOrderDetailsOrderItemsInnerProductListsInner.listFromJson(json[r'lists']),
         name: mapValueOfType<String>(json, r'name'),
         nameAr: mapValueOfType<String>(json, r'name_ar'),
         nameEn: mapValueOfType<String>(json, r'name_en'),
-        price: json[r'price'] == null
-            ? null
-            : num.parse(json[r'price'].toString()),
-        priceAfterDiscount: json[r'price_after_discount'] == null
-            ? null
-            : num.parse(json[r'price_after_discount'].toString()),
-        providerId: json[r'provider_id'] == null
-            ? null
-            : num.parse(json[r'provider_id'].toString()),
+        price: num.tryParse('${json[r'price']}'),
+        priceAfterDiscount: num.tryParse('${json[r'price_after_discount']}'),
+        providerId: num.tryParse('${json[r'provider_id']}'),
         updatedAt: mapValueOfType<String>(json, r'updated_at'),
       );
     }

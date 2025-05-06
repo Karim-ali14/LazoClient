@@ -77,18 +77,18 @@ class GetAppInfo200ResponseDataProviderAppInfo {
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is GetAppInfo200ResponseDataProviderAppInfo &&
-     other.id == id &&
-     other.type == type &&
-     other.termsConditions == termsConditions &&
-     other.aboutApp == aboutApp &&
-     other.contactEmail == contactEmail &&
-     other.contactPhone == contactPhone &&
-     other.contactWhatsapp == contactWhatsapp &&
-     other.createdAt == createdAt &&
-     other.updatedAt == updatedAt &&
-     other.termsConditionsPath == termsConditionsPath &&
-     other.aboutAppPath == aboutAppPath &&
-     other.privacyPolicy == privacyPolicy;
+    other.id == id &&
+    other.type == type &&
+    other.termsConditions == termsConditions &&
+    other.aboutApp == aboutApp &&
+    other.contactEmail == contactEmail &&
+    other.contactPhone == contactPhone &&
+    other.contactWhatsapp == contactWhatsapp &&
+    other.createdAt == createdAt &&
+    other.updatedAt == updatedAt &&
+    other.termsConditionsPath == termsConditionsPath &&
+    other.aboutAppPath == aboutAppPath &&
+    other.privacyPolicy == privacyPolicy;
 
   @override
   int get hashCode =>
@@ -193,9 +193,7 @@ class GetAppInfo200ResponseDataProviderAppInfo {
       }());
 
       return GetAppInfo200ResponseDataProviderAppInfo(
-        id: json[r'id'] == null
-            ? null
-            : num.parse(json[r'id'].toString()),
+        id: num.tryParse('${json[r'id']}'),
         type: mapValueOfType<String>(json, r'type'),
         termsConditions: mapValueOfType<String>(json, r'terms_conditions'),
         aboutApp: mapValueOfType<String>(json, r'about_app'),

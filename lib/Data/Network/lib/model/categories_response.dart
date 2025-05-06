@@ -38,9 +38,9 @@ class CategoriesResponse {
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is CategoriesResponse &&
-     other.status == status &&
-     other.message == message &&
-     other.data == data;
+    other.status == status &&
+    other.message == message &&
+    _deepEquality.equals(other.data, data);
 
   @override
   int get hashCode =>

@@ -71,12 +71,12 @@ class ProviderDataTagsInner {
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is ProviderDataTagsInner &&
-     other.id == id &&
-     other.nameEn == nameEn &&
-     other.nameAr == nameAr &&
-     other.createdAt == createdAt &&
-     other.updatedAt == updatedAt &&
-     other.name == name;
+    other.id == id &&
+    other.nameEn == nameEn &&
+    other.nameAr == nameAr &&
+    other.createdAt == createdAt &&
+    other.updatedAt == updatedAt &&
+    other.name == name;
 
   @override
   int get hashCode =>

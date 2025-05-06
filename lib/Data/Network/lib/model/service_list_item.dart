@@ -83,14 +83,14 @@ class ServiceListItem {
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is ServiceListItem &&
-     other.createdAt == createdAt &&
-     other.id == id &&
-     other.name == name &&
-     other.nameAr == nameAr &&
-     other.nameEn == nameEn &&
-     other.price == price &&
-     other.serviceListId == serviceListId &&
-     other.updatedAt == updatedAt;
+    other.createdAt == createdAt &&
+    other.id == id &&
+    other.name == name &&
+    other.nameAr == nameAr &&
+    other.nameEn == nameEn &&
+    other.price == price &&
+    other.serviceListId == serviceListId &&
+    other.updatedAt == updatedAt;
 
   @override
   int get hashCode =>
@@ -172,18 +172,12 @@ class ServiceListItem {
 
       return ServiceListItem(
         createdAt: mapValueOfType<String>(json, r'created_at'),
-        id: json[r'id'] == null
-            ? null
-            : num.parse(json[r'id'].toString()),
+        id: num.tryParse('${json[r'id']}'),
         name: mapValueOfType<String>(json, r'name'),
         nameAr: mapValueOfType<String>(json, r'name_ar'),
         nameEn: mapValueOfType<String>(json, r'name_en'),
-        price: json[r'price'] == null
-            ? null
-            : num.parse(json[r'price'].toString()),
-        serviceListId: json[r'service_list_id'] == null
-            ? null
-            : num.parse(json[r'service_list_id'].toString()),
+        price: num.tryParse('${json[r'price']}'),
+        serviceListId: num.tryParse('${json[r'service_list_id']}'),
         updatedAt: mapValueOfType<String>(json, r'updated_at'),
       );
     }

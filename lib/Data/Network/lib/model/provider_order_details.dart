@@ -293,46 +293,46 @@ class ProviderOrderDetails {
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is ProviderOrderDetails &&
-     other.cancellationReason == cancellationReason &&
-     other.cancelledBy == cancelledBy &&
-     other.createdAt == createdAt &&
-     other.deliveryDate == deliveryDate &&
-     other.deliveryTime == deliveryTime &&
-     other.isMultiProviders == isMultiProviders &&
-     other.finishedAt == finishedAt &&
-     other.cancelledAt == cancelledAt &&
-     other.id == id &&
-     other.orderFamily == orderFamily &&
-     other.orderItems == orderItems &&
-     other.packagingProviderId == packagingProviderId &&
-     other.paymentMethod == paymentMethod &&
-     other.promocode == promocode &&
-     other.promocodeDiscountType == promocodeDiscountType &&
-     other.promocodeDiscountValue == promocodeDiscountValue &&
-     other.promocodeId == promocodeId &&
-     other.rating == rating &&
-     other.ratingComment == ratingComment &&
-     other.receiverAddress == receiverAddress &&
-     other.latLng == latLng &&
-     other.receiverPhoneNumber == receiverPhoneNumber &&
-     other.receiverAddressDetails == receiverAddressDetails &&
-     other.receiverName == receiverName &&
-     other.referenceNumber == referenceNumber &&
-     other.shippingFee == shippingFee &&
-     other.packagingFee == packagingFee &&
-     other.statusId == statusId &&
-     other.rejectedProvidersIds == rejectedProvidersIds &&
-     other.rejectedOrderItems == rejectedOrderItems &&
-     other.totalBeforeDiscount == totalBeforeDiscount &&
-     other.discount == discount &&
-     other.total == total &&
-     other.totalWithShippingFee == totalWithShippingFee &&
-     other.type == type &&
-     other.updatedAt == updatedAt &&
-     other.user == user &&
-     other.userId == userId &&
-     other.giftBox == giftBox &&
-     other.giftCard == giftCard;
+    other.cancellationReason == cancellationReason &&
+    other.cancelledBy == cancelledBy &&
+    other.createdAt == createdAt &&
+    other.deliveryDate == deliveryDate &&
+    other.deliveryTime == deliveryTime &&
+    other.isMultiProviders == isMultiProviders &&
+    other.finishedAt == finishedAt &&
+    other.cancelledAt == cancelledAt &&
+    other.id == id &&
+    other.orderFamily == orderFamily &&
+    _deepEquality.equals(other.orderItems, orderItems) &&
+    other.packagingProviderId == packagingProviderId &&
+    other.paymentMethod == paymentMethod &&
+    other.promocode == promocode &&
+    other.promocodeDiscountType == promocodeDiscountType &&
+    other.promocodeDiscountValue == promocodeDiscountValue &&
+    other.promocodeId == promocodeId &&
+    other.rating == rating &&
+    other.ratingComment == ratingComment &&
+    other.receiverAddress == receiverAddress &&
+    other.latLng == latLng &&
+    other.receiverPhoneNumber == receiverPhoneNumber &&
+    other.receiverAddressDetails == receiverAddressDetails &&
+    other.receiverName == receiverName &&
+    other.referenceNumber == referenceNumber &&
+    other.shippingFee == shippingFee &&
+    other.packagingFee == packagingFee &&
+    other.statusId == statusId &&
+    other.rejectedProvidersIds == rejectedProvidersIds &&
+    other.rejectedOrderItems == rejectedOrderItems &&
+    other.totalBeforeDiscount == totalBeforeDiscount &&
+    other.discount == discount &&
+    other.total == total &&
+    other.totalWithShippingFee == totalWithShippingFee &&
+    other.type == type &&
+    other.updatedAt == updatedAt &&
+    other.user == user &&
+    other.userId == userId &&
+    other.giftBox == giftBox &&
+    other.giftCard == giftCard;
 
   @override
   int get hashCode =>
@@ -609,26 +609,18 @@ class ProviderOrderDetails {
         isMultiProviders: mapValueOfType<bool>(json, r'is_multi_providers'),
         finishedAt: mapValueOfType<String>(json, r'finished_at'),
         cancelledAt: mapValueOfType<String>(json, r'cancelled_at'),
-        id: json[r'id'] == null
-            ? null
-            : num.parse(json[r'id'].toString()),
+        id: num.tryParse('${json[r'id']}'),
         orderFamily: mapValueOfType<String>(json, r'order_family'),
         orderItems: ProviderOrderDetailsOrderItemsInner.listFromJson(json[r'order_items']),
         packagingProviderId: json[r'packaging_provider_id'] == null
             ? null
-            : num.parse(json[r'packaging_provider_id'].toString()),
+            : num.tryParse('${json[r'packaging_provider_id']}'),
         paymentMethod: mapValueOfType<String>(json, r'payment_method'),
         promocode: ProviderOrderDetailsPromocode.fromJson(json[r'promocode']),
         promocodeDiscountType: mapValueOfType<String>(json, r'promocode_discount_type'),
-        promocodeDiscountValue: json[r'promocode_discount_value'] == null
-            ? null
-            : num.parse(json[r'promocode_discount_value'].toString()),
-        promocodeId: json[r'promocode_id'] == null
-            ? null
-            : num.parse(json[r'promocode_id'].toString()),
-        rating: json[r'rating'] == null
-            ? null
-            : num.parse(json[r'rating'].toString()),
+        promocodeDiscountValue: num.tryParse('${json[r'promocode_discount_value']}'),
+        promocodeId: num.tryParse('${json[r'promocode_id']}'),
+        rating: num.tryParse('${json[r'rating']}'),
         ratingComment: mapValueOfType<String>(json, r'rating_comment'),
         receiverAddress: mapValueOfType<String>(json, r'receiver_address'),
         latLng: mapValueOfType<String>(json, r'lat_lng'),
@@ -636,35 +628,21 @@ class ProviderOrderDetails {
         receiverAddressDetails: mapValueOfType<String>(json, r'receiver_address_details'),
         receiverName: mapValueOfType<String>(json, r'receiver_name'),
         referenceNumber: mapValueOfType<String>(json, r'reference_number'),
-        shippingFee: json[r'shipping_fee'] == null
-            ? null
-            : num.parse(json[r'shipping_fee'].toString()),
+        shippingFee: num.tryParse('${json[r'shipping_fee']}'),
         packagingFee: json[r'packaging_fee'] == null
             ? null
-            : num.parse(json[r'packaging_fee'].toString()),
-        statusId: json[r'status_id'] == null
-            ? null
-            : num.parse(json[r'status_id'].toString()),
+            : num.tryParse('${json[r'packaging_fee']}'),
+        statusId: num.tryParse('${json[r'status_id']}'),
         rejectedProvidersIds: mapValueOfType<String>(json, r'rejected_providers_ids'),
         rejectedOrderItems: mapValueOfType<String>(json, r'rejected_order_items'),
-        totalBeforeDiscount: json[r'total_before_discount'] == null
-            ? null
-            : num.parse(json[r'total_before_discount'].toString()),
-        discount: json[r'discount'] == null
-            ? null
-            : num.parse(json[r'discount'].toString()),
-        total: json[r'total'] == null
-            ? null
-            : num.parse(json[r'total'].toString()),
-        totalWithShippingFee: json[r'total_with_shipping_fee'] == null
-            ? null
-            : num.parse(json[r'total_with_shipping_fee'].toString()),
+        totalBeforeDiscount: num.tryParse('${json[r'total_before_discount']}'),
+        discount: num.tryParse('${json[r'discount']}'),
+        total: num.tryParse('${json[r'total']}'),
+        totalWithShippingFee: num.tryParse('${json[r'total_with_shipping_fee']}'),
         type: mapValueOfType<String>(json, r'type'),
         updatedAt: mapValueOfType<String>(json, r'updated_at'),
         user: ProviderOrderDetailsUser.fromJson(json[r'user']),
-        userId: json[r'user_id'] == null
-            ? null
-            : num.parse(json[r'user_id'].toString()),
+        userId: num.tryParse('${json[r'user_id']}'),
         giftBox: ProviderOrderDetailsGiftBox.fromJson(json[r'gift_box']),
         giftCard: ProviderOrderDetailsGiftBox.fromJson(json[r'gift_card']),
       );

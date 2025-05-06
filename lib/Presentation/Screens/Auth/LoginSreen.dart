@@ -202,19 +202,11 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     );
   }
 
-  void login() async {
-    if (formKey.currentState?.validate() == true) {
-      ref
-          .read(loginStateNotifierProvider.notifier)
-          .login(phoneController.text.toString());
-    }
-  }
-
   void sendOtp() async {
     if (formKey.currentState?.validate() == true) {
       ref
           .read(sendOtpForLoginStateProvider.notifier)
-          .sendOtp(phoneController.text.toString());
+          .sendOtp(phoneController.text.toString(),countryCode: code.value.removeFirstChar("+"));
     }
   }
 

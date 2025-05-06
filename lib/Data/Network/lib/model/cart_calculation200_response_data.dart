@@ -56,11 +56,11 @@ class CartCalculation200ResponseData {
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is CartCalculation200ResponseData &&
-     other.totalBefore == totalBefore &&
-     other.discountTotal == discountTotal &&
-     other.shippingFee == shippingFee &&
-     other.packagingFee == packagingFee &&
-     other.totalAfter == totalAfter;
+    other.totalBefore == totalBefore &&
+    other.discountTotal == discountTotal &&
+    other.shippingFee == shippingFee &&
+    other.packagingFee == packagingFee &&
+    other.totalAfter == totalAfter;
 
   @override
   int get hashCode =>
@@ -123,21 +123,13 @@ class CartCalculation200ResponseData {
       }());
 
       return CartCalculation200ResponseData(
-        totalBefore: json[r'total_before'] == null
-            ? null
-            : num.parse(json[r'total_before'].toString()),
-        discountTotal: json[r'discount_total'] == null
-            ? null
-            : num.parse(json[r'discount_total'].toString()),
-        shippingFee: json[r'shipping_fee'] == null
-            ? null
-            : num.parse(json[r'shipping_fee'].toString()),
+        totalBefore: num.tryParse('${json[r'total_before']}'),
+        discountTotal: num.tryParse('${json[r'discount_total']}'),
+        shippingFee: num.tryParse('${json[r'shipping_fee']}'),
         packagingFee: json[r'packaging_fee'] == null
             ? null
-            : num.parse(json[r'packaging_fee'].toString()),
-        totalAfter: json[r'total_after'] == null
-            ? null
-            : num.parse(json[r'total_after'].toString()),
+            : num.tryParse('${json[r'packaging_fee']}'),
+        totalAfter: num.tryParse('${json[r'total_after']}'),
       );
     }
     return null;

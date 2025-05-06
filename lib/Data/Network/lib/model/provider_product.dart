@@ -25,6 +25,7 @@ class ProviderProduct {
     this.isVisible,
     this.id,
     this.images = const [],
+    this.providerName,
     this.lists = const [],
     this.name,
     this.nameAr,
@@ -40,6 +41,7 @@ class ProviderProduct {
     this.cartItemId,
     this.cartItemQuantity,
     this.inWishlist,
+    this.wishlistCollectionId,
     this.overallRating,
     this.ratingsCount,
     this.ratings = const [],
@@ -117,6 +119,14 @@ class ProviderProduct {
   num? id;
 
   List<ImageItem>? images;
+
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  String? providerName;
 
   List<ProductListItem>? lists;
 
@@ -208,6 +218,8 @@ class ProviderProduct {
   ///
   bool? inWishlist;
 
+  String? wishlistCollectionId;
+
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
   /// does not include a default value (using the "default:" property), however, the generated
@@ -224,7 +236,7 @@ class ProviderProduct {
   ///
   num? ratingsCount;
 
-  List<ProductDetailsRatingsInner>? ratings;
+  List<ProviderProductRatingsInner>? ratings;
 
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
@@ -236,37 +248,39 @@ class ProviderProduct {
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is ProviderProduct &&
-     other.amount == amount &&
-     other.categories == categories &&
-     other.categoryMenu == categoryMenu &&
-     other.colors == colors &&
-     other.createdAt == createdAt &&
-     other.description == description &&
-     other.descriptionAr == descriptionAr &&
-     other.descriptionEn == descriptionEn &&
-     other.expectedProcessingTime == expectedProcessingTime &&
-     other.isVisible == isVisible &&
-     other.id == id &&
-     other.images == images &&
-     other.lists == lists &&
-     other.name == name &&
-     other.nameAr == nameAr &&
-     other.nameEn == nameEn &&
-     other.occasions == occasions &&
-     other.price == price &&
-     other.priceAfterDiscount == priceAfterDiscount &&
-     other.providerId == providerId &&
-     other.sizes == sizes &&
-     other.type == type &&
-     other.updatedAt == updatedAt &&
-     other.inCart == inCart &&
-     other.cartItemId == cartItemId &&
-     other.cartItemQuantity == cartItemQuantity &&
-     other.inWishlist == inWishlist &&
-     other.overallRating == overallRating &&
-     other.ratingsCount == ratingsCount &&
-     other.ratings == ratings &&
-     other.provider == provider;
+    other.amount == amount &&
+    _deepEquality.equals(other.categories, categories) &&
+    _deepEquality.equals(other.categoryMenu, categoryMenu) &&
+    _deepEquality.equals(other.colors, colors) &&
+    other.createdAt == createdAt &&
+    other.description == description &&
+    other.descriptionAr == descriptionAr &&
+    other.descriptionEn == descriptionEn &&
+    other.expectedProcessingTime == expectedProcessingTime &&
+    other.isVisible == isVisible &&
+    other.id == id &&
+    _deepEquality.equals(other.images, images) &&
+    other.providerName == providerName &&
+    _deepEquality.equals(other.lists, lists) &&
+    other.name == name &&
+    other.nameAr == nameAr &&
+    other.nameEn == nameEn &&
+    _deepEquality.equals(other.occasions, occasions) &&
+    other.price == price &&
+    other.priceAfterDiscount == priceAfterDiscount &&
+    other.providerId == providerId &&
+    _deepEquality.equals(other.sizes, sizes) &&
+    other.type == type &&
+    other.updatedAt == updatedAt &&
+    other.inCart == inCart &&
+    other.cartItemId == cartItemId &&
+    other.cartItemQuantity == cartItemQuantity &&
+    other.inWishlist == inWishlist &&
+    other.wishlistCollectionId == wishlistCollectionId &&
+    other.overallRating == overallRating &&
+    other.ratingsCount == ratingsCount &&
+    _deepEquality.equals(other.ratings, ratings) &&
+    other.provider == provider;
 
   @override
   int get hashCode =>
@@ -283,6 +297,7 @@ class ProviderProduct {
     (isVisible == null ? 0 : isVisible!.hashCode) +
     (id == null ? 0 : id!.hashCode) +
     (images == null ? 0 : images!.hashCode) +
+    (providerName == null ? 0 : providerName!.hashCode) +
     (lists == null ? 0 : lists!.hashCode) +
     (name == null ? 0 : name!.hashCode) +
     (nameAr == null ? 0 : nameAr!.hashCode) +
@@ -298,13 +313,14 @@ class ProviderProduct {
     (cartItemId == null ? 0 : cartItemId!.hashCode) +
     (cartItemQuantity == null ? 0 : cartItemQuantity!.hashCode) +
     (inWishlist == null ? 0 : inWishlist!.hashCode) +
+    (wishlistCollectionId == null ? 0 : wishlistCollectionId!.hashCode) +
     (overallRating == null ? 0 : overallRating!.hashCode) +
     (ratingsCount == null ? 0 : ratingsCount!.hashCode) +
     (ratings == null ? 0 : ratings!.hashCode) +
     (provider == null ? 0 : provider!.hashCode);
 
   @override
-  String toString() => 'ProviderProduct[amount=$amount, categories=$categories, categoryMenu=$categoryMenu, colors=$colors, createdAt=$createdAt, description=$description, descriptionAr=$descriptionAr, descriptionEn=$descriptionEn, expectedProcessingTime=$expectedProcessingTime, isVisible=$isVisible, id=$id, images=$images, lists=$lists, name=$name, nameAr=$nameAr, nameEn=$nameEn, occasions=$occasions, price=$price, priceAfterDiscount=$priceAfterDiscount, providerId=$providerId, sizes=$sizes, type=$type, updatedAt=$updatedAt, inCart=$inCart, cartItemId=$cartItemId, cartItemQuantity=$cartItemQuantity, inWishlist=$inWishlist, overallRating=$overallRating, ratingsCount=$ratingsCount, ratings=$ratings, provider=$provider]';
+  String toString() => 'ProviderProduct[amount=$amount, categories=$categories, categoryMenu=$categoryMenu, colors=$colors, createdAt=$createdAt, description=$description, descriptionAr=$descriptionAr, descriptionEn=$descriptionEn, expectedProcessingTime=$expectedProcessingTime, isVisible=$isVisible, id=$id, images=$images, providerName=$providerName, lists=$lists, name=$name, nameAr=$nameAr, nameEn=$nameEn, occasions=$occasions, price=$price, priceAfterDiscount=$priceAfterDiscount, providerId=$providerId, sizes=$sizes, type=$type, updatedAt=$updatedAt, inCart=$inCart, cartItemId=$cartItemId, cartItemQuantity=$cartItemQuantity, inWishlist=$inWishlist, wishlistCollectionId=$wishlistCollectionId, overallRating=$overallRating, ratingsCount=$ratingsCount, ratings=$ratings, provider=$provider]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -367,6 +383,11 @@ class ProviderProduct {
       json[r'images'] = this.images;
     } else {
       json[r'images'] = null;
+    }
+    if (this.providerName != null) {
+      json[r'provider_name'] = this.providerName;
+    } else {
+      json[r'provider_name'] = null;
     }
     if (this.lists != null) {
       json[r'lists'] = this.lists;
@@ -443,6 +464,11 @@ class ProviderProduct {
     } else {
       json[r'in_wishlist'] = null;
     }
+    if (this.wishlistCollectionId != null) {
+      json[r'wishlist_collection_id'] = this.wishlistCollectionId;
+    } else {
+      json[r'wishlist_collection_id'] = null;
+    }
     if (this.overallRating != null) {
       json[r'overall_rating'] = this.overallRating;
     } else {
@@ -485,9 +511,7 @@ class ProviderProduct {
       }());
 
       return ProviderProduct(
-        amount: json[r'amount'] == null
-            ? null
-            : num.parse(json[r'amount'].toString()),
+        amount: num.tryParse('${json[r'amount']}'),
         categories: Category.listFromJson(json[r'categories']),
         categoryMenu: CategoryMenu.listFromJson(json[r'category_menu']),
         colors: Color.listFromJson(json[r'colors']),
@@ -497,24 +521,17 @@ class ProviderProduct {
         descriptionEn: mapValueOfType<String>(json, r'description_en'),
         expectedProcessingTime: mapValueOfType<String>(json, r'expected_processing_time'),
         isVisible: mapValueOfType<int>(json, r'is_visible'),
-        id: json[r'id'] == null
-            ? null
-            : num.parse(json[r'id'].toString()),
+        id: num.tryParse('${json[r'id']}'),
         images: ImageItem.listFromJson(json[r'images']),
+        providerName: mapValueOfType<String>(json, r'provider_name'),
         lists: ProductListItem.listFromJson(json[r'lists']),
         name: mapValueOfType<String>(json, r'name'),
         nameAr: mapValueOfType<String>(json, r'name_ar'),
         nameEn: mapValueOfType<String>(json, r'name_en'),
         occasions: Occasion.listFromJson(json[r'occasions']),
-        price: json[r'price'] == null
-            ? null
-            : num.parse(json[r'price'].toString()),
-        priceAfterDiscount: json[r'price_after_discount'] == null
-            ? null
-            : num.parse(json[r'price_after_discount'].toString()),
-        providerId: json[r'provider_id'] == null
-            ? null
-            : num.parse(json[r'provider_id'].toString()),
+        price: num.tryParse('${json[r'price']}'),
+        priceAfterDiscount: num.tryParse('${json[r'price_after_discount']}'),
+        providerId: num.tryParse('${json[r'provider_id']}'),
         sizes: Size.listFromJson(json[r'sizes']),
         type: mapValueOfType<String>(json, r'type'),
         updatedAt: mapValueOfType<String>(json, r'updated_at'),
@@ -522,13 +539,10 @@ class ProviderProduct {
         cartItemId: mapValueOfType<int>(json, r'cart_item_id'),
         cartItemQuantity: mapValueOfType<int>(json, r'cart_item_quantity'),
         inWishlist: mapValueOfType<bool>(json, r'in_wishlist'),
-        overallRating: json[r'overall_rating'] == null
-            ? null
-            : num.parse(json[r'overall_rating'].toString()),
-        ratingsCount: json[r'ratings_count'] == null
-            ? null
-            : num.parse(json[r'ratings_count'].toString()),
-        ratings: ProductDetailsRatingsInner.listFromJson(json[r'ratings']),
+        wishlistCollectionId: mapValueOfType<String>(json, r'wishlist_collection_id'),
+        overallRating: num.tryParse('${json[r'overall_rating']}'),
+        ratingsCount: num.tryParse('${json[r'ratings_count']}'),
+        ratings: ProviderProductRatingsInner.listFromJson(json[r'ratings']),
         provider: ProviderData.fromJson(json[r'provider']),
       );
     }

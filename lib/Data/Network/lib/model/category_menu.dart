@@ -98,15 +98,15 @@ class CategoryMenu {
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is CategoryMenu &&
-     other.id == id &&
-     other.name == name &&
-     other.nameEn == nameEn &&
-     other.nameAr == nameAr &&
-     other.providerId == providerId &&
-     other.servicesCount == servicesCount &&
-     other.productsCount == productsCount &&
-     other.createdAt == createdAt &&
-     other.updatedAt == updatedAt;
+    other.id == id &&
+    other.name == name &&
+    other.nameEn == nameEn &&
+    other.nameAr == nameAr &&
+    other.providerId == providerId &&
+    other.servicesCount == servicesCount &&
+    other.productsCount == productsCount &&
+    other.createdAt == createdAt &&
+    other.updatedAt == updatedAt;
 
   @override
   int get hashCode =>
@@ -193,21 +193,13 @@ class CategoryMenu {
       }());
 
       return CategoryMenu(
-        id: json[r'id'] == null
-            ? null
-            : num.parse(json[r'id'].toString()),
+        id: num.tryParse('${json[r'id']}'),
         name: mapValueOfType<String>(json, r'name'),
         nameEn: mapValueOfType<String>(json, r'name_en'),
         nameAr: mapValueOfType<String>(json, r'name_ar'),
-        providerId: json[r'provider_id'] == null
-            ? null
-            : num.parse(json[r'provider_id'].toString()),
-        servicesCount: json[r'services_count'] == null
-            ? null
-            : num.parse(json[r'services_count'].toString()),
-        productsCount: json[r'products_count'] == null
-            ? null
-            : num.parse(json[r'products_count'].toString()),
+        providerId: num.tryParse('${json[r'provider_id']}'),
+        servicesCount: num.tryParse('${json[r'services_count']}'),
+        productsCount: num.tryParse('${json[r'products_count']}'),
         createdAt: mapValueOfType<String>(json, r'created_at'),
         updatedAt: mapValueOfType<String>(json, r'updated_at'),
       );

@@ -122,19 +122,19 @@ class Category {
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is Category &&
-     other.id == id &&
-     other.nameEn == nameEn &&
-     other.nameAr == nameAr &&
-     other.name == name &&
-     other.image == image &&
-     other.servicesCount == servicesCount &&
-     other.productsCount == productsCount &&
-     other.imagePath == imagePath &&
-     other.createdAt == createdAt &&
-     other.updatedAt == updatedAt &&
-     other.isChecked == isChecked &&
-     other.products == products &&
-     other.services == services;
+    other.id == id &&
+    other.nameEn == nameEn &&
+    other.nameAr == nameAr &&
+    other.name == name &&
+    other.image == image &&
+    other.servicesCount == servicesCount &&
+    other.productsCount == productsCount &&
+    other.imagePath == imagePath &&
+    other.createdAt == createdAt &&
+    other.updatedAt == updatedAt &&
+    other.isChecked == isChecked &&
+    _deepEquality.equals(other.products, products) &&
+    _deepEquality.equals(other.services, services);
 
   @override
   int get hashCode =>
@@ -245,19 +245,13 @@ class Category {
       }());
 
       return Category(
-        id: json[r'id'] == null
-            ? null
-            : num.parse(json[r'id'].toString()),
+        id: num.tryParse('${json[r'id']}'),
         nameEn: mapValueOfType<String>(json, r'name_en'),
         nameAr: mapValueOfType<String>(json, r'name_ar'),
         name: mapValueOfType<String>(json, r'name'),
         image: mapValueOfType<String>(json, r'image'),
-        servicesCount: json[r'services_count'] == null
-            ? null
-            : num.parse(json[r'services_count'].toString()),
-        productsCount: json[r'products_count'] == null
-            ? null
-            : num.parse(json[r'products_count'].toString()),
+        servicesCount: num.tryParse('${json[r'services_count']}'),
+        productsCount: num.tryParse('${json[r'products_count']}'),
         imagePath: mapValueOfType<String>(json, r'imagePath'),
         createdAt: mapValueOfType<String>(json, r'created_at'),
         updatedAt: mapValueOfType<String>(json, r'updated_at'),

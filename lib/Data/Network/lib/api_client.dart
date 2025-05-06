@@ -11,7 +11,7 @@
 part of openapi.api;
 
 class ApiClient {
-  ApiClient({this.basePath = 'http://localhost', this.authentication,});
+  ApiClient({this.basePath = 'http://}', this.authentication,});
 
   final String basePath;
   final Authentication? authentication;
@@ -143,19 +143,19 @@ class ApiClient {
     );
   }
 
-  Future<dynamic> deserializeAsync(String json, String targetType, {bool growable = false,}) async =>
+  Future<dynamic> deserializeAsync(String value, String targetType, {bool growable = false,}) async =>
     // ignore: deprecated_member_use_from_same_package
-    deserialize(json, targetType, growable: growable);
+    deserialize(value, targetType, growable: growable);
 
   @Deprecated('Scheduled for removal in OpenAPI Generator 6.x. Use deserializeAsync() instead.')
-  dynamic deserialize(String json, String targetType, {bool growable = false,}) {
+  dynamic deserialize(String value, String targetType, {bool growable = false,}) {
     // Remove all spaces. Necessary for regular expressions as well.
     targetType = targetType.replaceAll(' ', ''); // ignore: parameter_assignments
 
     // If the expected target type is String, nothing to do...
     return targetType == 'String'
-      ? json
-      : _deserialize(jsonDecode(json), targetType, growable: growable);
+      ? value
+      : fromJson(json.decode(value), targetType, growable: growable);
   }
 
   // ignore: deprecated_member_use_from_same_package
@@ -164,7 +164,8 @@ class ApiClient {
   @Deprecated('Scheduled for removal in OpenAPI Generator 6.x. Use serializeAsync() instead.')
   String serialize(Object? value) => value == null ? '' : json.encode(value);
 
-  static dynamic _deserialize(dynamic value, String targetType, {bool growable = false}) {
+  /// Returns a native instance of an OpenAPI class matching the [specified type][targetType].
+  static dynamic fromJson(dynamic value, String targetType, {bool growable = false,}) {
     try {
       switch (targetType) {
         case 'String':
@@ -209,6 +210,8 @@ class ApiClient {
           return ClientAuthResponse.fromJson(value);
         case 'ClientAuthResponseData':
           return ClientAuthResponseData.fromJson(value);
+        case 'ClientAuthResponseDataClient':
+          return ClientAuthResponseDataClient.fromJson(value);
         case 'ClientNotification':
           return ClientNotification.fromJson(value);
         case 'ClientOrderDetails':
@@ -229,10 +232,18 @@ class ApiClient {
           return CodeSendRequest.fromJson(value);
         case 'CodeSendResponse':
           return CodeSendResponse.fromJson(value);
+        case 'CollectionItem':
+          return CollectionItem.fromJson(value);
         case 'Color':
           return Color.fromJson(value);
         case 'ColorsResponse':
           return ColorsResponse.fromJson(value);
+        case 'CreateWishlistCollection200Response':
+          return CreateWishlistCollection200Response.fromJson(value);
+        case 'CreateWishlistCollection200ResponseData':
+          return CreateWishlistCollection200ResponseData.fromJson(value);
+        case 'CreateWishlistCollectionRequest':
+          return CreateWishlistCollectionRequest.fromJson(value);
         case 'FilterTopProductsServices200Response':
           return FilterTopProductsServices200Response.fromJson(value);
         case 'FilterTopProductsServices200ResponseData':
@@ -329,6 +340,8 @@ class ApiClient {
           return ProviderOrderDetailsUser.fromJson(value);
         case 'ProviderProduct':
           return ProviderProduct.fromJson(value);
+        case 'ProviderProductRatingsInner':
+          return ProviderProductRatingsInner.fromJson(value);
         case 'ProviderProfileShowResponse':
           return ProviderProfileShowResponse.fromJson(value);
         case 'ProviderProfileUpdateRequest':
@@ -367,8 +380,6 @@ class ApiClient {
           return ResetPasswordResponse.fromJson(value);
         case 'SendPushNotification200Response':
           return SendPushNotification200Response.fromJson(value);
-        case 'SendPushNotification200ResponseData':
-          return SendPushNotification200ResponseData.fromJson(value);
         case 'ServiceList':
           return ServiceList.fromJson(value);
         case 'ServiceListItem':
@@ -425,6 +436,8 @@ class ApiClient {
           return ShowPromocodeDetails200Response.fromJson(value);
         case 'ShowPromocodeDetails200ResponseData':
           return ShowPromocodeDetails200ResponseData.fromJson(value);
+        case 'ShowWishlistCollections200Response':
+          return ShowWishlistCollections200Response.fromJson(value);
         case 'ShowWishlistItemsWithSearchByName200Response':
           return ShowWishlistItemsWithSearchByName200Response.fromJson(value);
         case 'ShowWishlistItemsWithSearchByName200ResponseData':
@@ -457,22 +470,24 @@ class ApiClient {
           return UploadFiles.fromJson(value);
         case 'UploadFilesResponse':
           return UploadFilesResponse.fromJson(value);
+        case 'WishlistItem':
+          return WishlistItem.fromJson(value);
         default:
           dynamic match;
           if (value is List && (match = _regList.firstMatch(targetType)?.group(1)) != null) {
             return value
-              .map<dynamic>((dynamic v) => _deserialize(v, match, growable: growable,))
+              .map<dynamic>((dynamic v) => fromJson(v, match, growable: growable,))
               .toList(growable: growable);
           }
           if (value is Set && (match = _regSet.firstMatch(targetType)?.group(1)) != null) {
             return value
-              .map<dynamic>((dynamic v) => _deserialize(v, match, growable: growable,))
+              .map<dynamic>((dynamic v) => fromJson(v, match, growable: growable,))
               .toSet();
           }
           if (value is Map && (match = _regMap.firstMatch(targetType)?.group(1)) != null) {
             return Map<String, dynamic>.fromIterables(
               value.keys.cast<String>(),
-              value.values.map<dynamic>((dynamic v) => _deserialize(v, match, growable: growable,)),
+              value.values.map<dynamic>((dynamic v) => fromJson(v, match, growable: growable,)),
             );
           }
       }
@@ -502,6 +517,17 @@ class DeserializationMessage {
 }
 
 /// Primarily intended for use in an isolate.
+Future<dynamic> decodeAsync(DeserializationMessage message) async {
+  // Remove all spaces. Necessary for regular expressions as well.
+  final targetType = message.targetType.replaceAll(' ', '');
+
+  // If the expected target type is String, nothing to do...
+  return targetType == 'String'
+    ? message.json
+    : json.decode(message.json);
+}
+
+/// Primarily intended for use in an isolate.
 Future<dynamic> deserializeAsync(DeserializationMessage message) async {
   // Remove all spaces. Necessary for regular expressions as well.
   final targetType = message.targetType.replaceAll(' ', '');
@@ -509,8 +535,8 @@ Future<dynamic> deserializeAsync(DeserializationMessage message) async {
   // If the expected target type is String, nothing to do...
   return targetType == 'String'
     ? message.json
-    : ApiClient._deserialize(
-        jsonDecode(message.json),
+    : ApiClient.fromJson(
+        json.decode(message.json),
         targetType,
         growable: message.growable,
       );

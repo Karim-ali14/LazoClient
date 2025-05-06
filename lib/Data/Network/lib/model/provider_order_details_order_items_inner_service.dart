@@ -200,27 +200,27 @@ class ProviderOrderDetailsOrderItemsInnerService {
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is ProviderOrderDetailsOrderItemsInnerService &&
-     other.cardExpiration == cardExpiration &&
-     other.cardPrice == cardPrice &&
-     other.cardType == cardType &&
-     other.coverImagePath == coverImagePath &&
-     other.coverImage == coverImage &&
-     other.createdAt == createdAt &&
-     other.description == description &&
-     other.descriptionAr == descriptionAr &&
-     other.descriptionEn == descriptionEn &&
-     other.duration == duration &&
-     other.id == id &&
-     other.isServiceDeliverableOutsideStore == isServiceDeliverableOutsideStore &&
-     other.isVisible == isVisible &&
-     other.lists == lists &&
-     other.name == name &&
-     other.nameAr == nameAr &&
-     other.nameEn == nameEn &&
-     other.price == price &&
-     other.priceAfterDiscount == priceAfterDiscount &&
-     other.providerId == providerId &&
-     other.updatedAt == updatedAt;
+    other.cardExpiration == cardExpiration &&
+    other.cardPrice == cardPrice &&
+    other.cardType == cardType &&
+    other.coverImagePath == coverImagePath &&
+    other.coverImage == coverImage &&
+    other.createdAt == createdAt &&
+    other.description == description &&
+    other.descriptionAr == descriptionAr &&
+    other.descriptionEn == descriptionEn &&
+    other.duration == duration &&
+    other.id == id &&
+    other.isServiceDeliverableOutsideStore == isServiceDeliverableOutsideStore &&
+    other.isVisible == isVisible &&
+    _deepEquality.equals(other.lists, lists) &&
+    other.name == name &&
+    other.nameAr == nameAr &&
+    other.nameEn == nameEn &&
+    other.price == price &&
+    other.priceAfterDiscount == priceAfterDiscount &&
+    other.providerId == providerId &&
+    other.updatedAt == updatedAt;
 
   @override
   int get hashCode =>
@@ -376,9 +376,7 @@ class ProviderOrderDetailsOrderItemsInnerService {
 
       return ProviderOrderDetailsOrderItemsInnerService(
         cardExpiration: mapValueOfType<String>(json, r'card_expiration'),
-        cardPrice: json[r'card_price'] == null
-            ? null
-            : num.parse(json[r'card_price'].toString()),
+        cardPrice: num.tryParse('${json[r'card_price']}'),
         cardType: mapValueOfType<String>(json, r'card_type'),
         coverImagePath: mapValueOfType<String>(json, r'coverImagePath'),
         coverImage: mapValueOfType<String>(json, r'cover_image'),
@@ -387,28 +385,16 @@ class ProviderOrderDetailsOrderItemsInnerService {
         descriptionAr: mapValueOfType<String>(json, r'description_ar'),
         descriptionEn: mapValueOfType<String>(json, r'description_en'),
         duration: mapValueOfType<String>(json, r'duration'),
-        id: json[r'id'] == null
-            ? null
-            : num.parse(json[r'id'].toString()),
-        isServiceDeliverableOutsideStore: json[r'is_service_deliverable_outside_store'] == null
-            ? null
-            : num.parse(json[r'is_service_deliverable_outside_store'].toString()),
-        isVisible: json[r'is_visible'] == null
-            ? null
-            : num.parse(json[r'is_visible'].toString()),
+        id: num.tryParse('${json[r'id']}'),
+        isServiceDeliverableOutsideStore: num.tryParse('${json[r'is_service_deliverable_outside_store']}'),
+        isVisible: num.tryParse('${json[r'is_visible']}'),
         lists: ProviderOrderDetailsOrderItemsInnerServiceListsInner.listFromJson(json[r'lists']),
         name: mapValueOfType<String>(json, r'name'),
         nameAr: mapValueOfType<String>(json, r'name_ar'),
         nameEn: mapValueOfType<String>(json, r'name_en'),
-        price: json[r'price'] == null
-            ? null
-            : num.parse(json[r'price'].toString()),
-        priceAfterDiscount: json[r'price_after_discount'] == null
-            ? null
-            : num.parse(json[r'price_after_discount'].toString()),
-        providerId: json[r'provider_id'] == null
-            ? null
-            : num.parse(json[r'provider_id'].toString()),
+        price: num.tryParse('${json[r'price']}'),
+        priceAfterDiscount: num.tryParse('${json[r'price_after_discount']}'),
+        providerId: num.tryParse('${json[r'provider_id']}'),
         updatedAt: mapValueOfType<String>(json, r'updated_at'),
       );
     }

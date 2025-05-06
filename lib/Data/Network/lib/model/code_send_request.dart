@@ -14,6 +14,7 @@ class CodeSendRequest {
   /// Returns a new [CodeSendRequest] instance.
   CodeSendRequest({
     this.emailOrPhone,
+    this.countryCode,
     this.accountType,
   });
 
@@ -25,6 +26,8 @@ class CodeSendRequest {
   ///
   String? emailOrPhone;
 
+  String? countryCode;
+
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
   /// does not include a default value (using the "default:" property), however, the generated
@@ -35,17 +38,19 @@ class CodeSendRequest {
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is CodeSendRequest &&
-     other.emailOrPhone == emailOrPhone &&
-     other.accountType == accountType;
+    other.emailOrPhone == emailOrPhone &&
+    other.countryCode == countryCode &&
+    other.accountType == accountType;
 
   @override
   int get hashCode =>
     // ignore: unnecessary_parenthesis
     (emailOrPhone == null ? 0 : emailOrPhone!.hashCode) +
+    (countryCode == null ? 0 : countryCode!.hashCode) +
     (accountType == null ? 0 : accountType!.hashCode);
 
   @override
-  String toString() => 'CodeSendRequest[emailOrPhone=$emailOrPhone, accountType=$accountType]';
+  String toString() => 'CodeSendRequest[emailOrPhone=$emailOrPhone, countryCode=$countryCode, accountType=$accountType]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -53,6 +58,11 @@ class CodeSendRequest {
       json[r'email_or_phone'] = this.emailOrPhone;
     } else {
       json[r'email_or_phone'] = null;
+    }
+    if (this.countryCode != null) {
+      json[r'country_code'] = this.countryCode;
+    } else {
+      json[r'country_code'] = null;
     }
     if (this.accountType != null) {
       json[r'account_type'] = this.accountType;
@@ -82,6 +92,7 @@ class CodeSendRequest {
 
       return CodeSendRequest(
         emailOrPhone: mapValueOfType<String>(json, r'email_or_phone'),
+        countryCode: mapValueOfType<String>(json, r'country_code'),
         accountType: mapValueOfType<String>(json, r'account_type'),
       );
     }

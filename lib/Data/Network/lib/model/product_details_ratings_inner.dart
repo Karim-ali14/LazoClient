@@ -18,6 +18,7 @@ class ProductDetailsRatingsInner {
     this.ratingComment,
     this.date,
     this.userName,
+    this.imagePath,
   });
 
   ///
@@ -60,13 +61,16 @@ class ProductDetailsRatingsInner {
   ///
   String? userName;
 
+  String? imagePath;
+
   @override
   bool operator ==(Object other) => identical(this, other) || other is ProductDetailsRatingsInner &&
-     other.orderItemId == orderItemId &&
-     other.rating == rating &&
-     other.ratingComment == ratingComment &&
-     other.date == date &&
-     other.userName == userName;
+    other.orderItemId == orderItemId &&
+    other.rating == rating &&
+    other.ratingComment == ratingComment &&
+    other.date == date &&
+    other.userName == userName &&
+    other.imagePath == imagePath;
 
   @override
   int get hashCode =>
@@ -75,10 +79,11 @@ class ProductDetailsRatingsInner {
     (rating == null ? 0 : rating!.hashCode) +
     (ratingComment == null ? 0 : ratingComment!.hashCode) +
     (date == null ? 0 : date!.hashCode) +
-    (userName == null ? 0 : userName!.hashCode);
+    (userName == null ? 0 : userName!.hashCode) +
+    (imagePath == null ? 0 : imagePath!.hashCode);
 
   @override
-  String toString() => 'ProductDetailsRatingsInner[orderItemId=$orderItemId, rating=$rating, ratingComment=$ratingComment, date=$date, userName=$userName]';
+  String toString() => 'ProductDetailsRatingsInner[orderItemId=$orderItemId, rating=$rating, ratingComment=$ratingComment, date=$date, userName=$userName, imagePath=$imagePath]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -107,6 +112,11 @@ class ProductDetailsRatingsInner {
     } else {
       json[r'user_name'] = null;
     }
+    if (this.imagePath != null) {
+      json[r'imagePath'] = this.imagePath;
+    } else {
+      json[r'imagePath'] = null;
+    }
     return json;
   }
 
@@ -130,12 +140,11 @@ class ProductDetailsRatingsInner {
 
       return ProductDetailsRatingsInner(
         orderItemId: mapValueOfType<String>(json, r'order_item_id'),
-        rating: json[r'rating'] == null
-            ? null
-            : num.parse(json[r'rating'].toString()),
+        rating: num.tryParse('${json[r'rating']}'),
         ratingComment: mapValueOfType<String>(json, r'rating_comment'),
         date: mapValueOfType<String>(json, r'date'),
         userName: mapValueOfType<String>(json, r'user_name'),
+        imagePath: mapValueOfType<String>(json, r'imagePath'),
       );
     }
     return null;

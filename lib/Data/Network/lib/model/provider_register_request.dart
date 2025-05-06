@@ -250,36 +250,36 @@ class ProviderRegisterRequest {
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is ProviderRegisterRequest &&
-     other.nameEn == nameEn &&
-     other.nameAr == nameAr &&
-     other.ownerName == ownerName &&
-     other.email == email &&
-     other.phone == phone &&
-     other.accountType == accountType &&
-     other.password == password &&
-     other.confirmPassword == confirmPassword &&
-     other.cityId == cityId &&
-     other.tagsIds == tagsIds &&
-     other.hasOfflineStores == hasOfflineStores &&
-     other.offlineStoresNumber == offlineStoresNumber &&
-     other.locations == locations &&
-     other.provideDelivery == provideDelivery &&
-     other.businessType == businessType &&
-     other.image == image &&
-     other.instagramLink == instagramLink &&
-     other.snapchatLink == snapchatLink &&
-     other.tiktokLink == tiktokLink &&
-     other.xLink == xLink &&
-     other.startTime == startTime &&
-     other.endTime == endTime &&
-     other.workingDaysIndices == workingDaysIndices &&
-     other.selfEmploymentDocument == selfEmploymentDocument &&
-     other.commercialRegisterImage == commercialRegisterImage &&
-     other.bankName == bankName &&
-     other.beneficiaryName == beneficiaryName &&
-     other.bankAccountNumber == bankAccountNumber &&
-     other.iban == iban &&
-     other.ibanImage == ibanImage;
+    other.nameEn == nameEn &&
+    other.nameAr == nameAr &&
+    other.ownerName == ownerName &&
+    other.email == email &&
+    other.phone == phone &&
+    other.accountType == accountType &&
+    other.password == password &&
+    other.confirmPassword == confirmPassword &&
+    other.cityId == cityId &&
+    _deepEquality.equals(other.tagsIds, tagsIds) &&
+    other.hasOfflineStores == hasOfflineStores &&
+    other.offlineStoresNumber == offlineStoresNumber &&
+    _deepEquality.equals(other.locations, locations) &&
+    other.provideDelivery == provideDelivery &&
+    other.businessType == businessType &&
+    other.image == image &&
+    other.instagramLink == instagramLink &&
+    other.snapchatLink == snapchatLink &&
+    other.tiktokLink == tiktokLink &&
+    other.xLink == xLink &&
+    other.startTime == startTime &&
+    other.endTime == endTime &&
+    _deepEquality.equals(other.workingDaysIndices, workingDaysIndices) &&
+    other.selfEmploymentDocument == selfEmploymentDocument &&
+    other.commercialRegisterImage == commercialRegisterImage &&
+    other.bankName == bankName &&
+    other.beneficiaryName == beneficiaryName &&
+    other.bankAccountNumber == bankAccountNumber &&
+    other.iban == iban &&
+    other.ibanImage == ibanImage;
 
   @override
   int get hashCode =>
@@ -489,13 +489,13 @@ class ProviderRegisterRequest {
         password: mapValueOfType<String>(json, r'password'),
         confirmPassword: mapValueOfType<String>(json, r'confirm_password'),
         cityId: mapValueOfType<int>(json, r'city_id'),
-        tagsIds: json[r'tags_ids'] is List
-            ? (json[r'tags_ids'] as List).cast<int>()
+        tagsIds: json[r'tags_ids'] is Iterable
+            ? (json[r'tags_ids'] as Iterable).cast<int>().toList(growable: false)
             : const [],
         hasOfflineStores: ProviderRegisterRequestHasOfflineStoresEnum.fromJson(json[r'has_offline_stores']),
         offlineStoresNumber: mapValueOfType<int>(json, r'offline_stores_number'),
-        locations: json[r'locations'] is List
-            ? (json[r'locations'] as List).cast<String>()
+        locations: json[r'locations'] is Iterable
+            ? (json[r'locations'] as Iterable).cast<String>().toList(growable: false)
             : const [],
         provideDelivery: ProviderRegisterRequestProvideDeliveryEnum.fromJson(json[r'provide_delivery']),
         businessType: ProviderRegisterRequestBusinessTypeEnum.fromJson(json[r'business_type']),

@@ -131,20 +131,20 @@ class ProviderOrderDetailsUser {
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is ProviderOrderDetailsUser &&
-     other.balance == balance &&
-     other.cityId == cityId &&
-     other.createdAt == createdAt &&
-     other.deviceType == deviceType &&
-     other.email == email &&
-     other.fcmToken == fcmToken &&
-     other.id == id &&
-     other.image == image &&
-     other.imagePath == imagePath &&
-     other.lang == lang &&
-     other.name == name &&
-     other.phone == phone &&
-     other.status == status &&
-     other.updatedAt == updatedAt;
+    other.balance == balance &&
+    other.cityId == cityId &&
+    other.createdAt == createdAt &&
+    other.deviceType == deviceType &&
+    other.email == email &&
+    other.fcmToken == fcmToken &&
+    other.id == id &&
+    other.image == image &&
+    other.imagePath == imagePath &&
+    other.lang == lang &&
+    other.name == name &&
+    other.phone == phone &&
+    other.status == status &&
+    other.updatedAt == updatedAt;
 
   @override
   int get hashCode =>
@@ -262,16 +262,12 @@ class ProviderOrderDetailsUser {
 
       return ProviderOrderDetailsUser(
         balance: mapValueOfType<String>(json, r'balance'),
-        cityId: json[r'city_id'] == null
-            ? null
-            : num.parse(json[r'city_id'].toString()),
+        cityId: num.tryParse('${json[r'city_id']}'),
         createdAt: mapValueOfType<String>(json, r'created_at'),
         deviceType: mapValueOfType<Object>(json, r'device_type'),
         email: mapValueOfType<String>(json, r'email'),
         fcmToken: mapValueOfType<Object>(json, r'fcm_token'),
-        id: json[r'id'] == null
-            ? null
-            : num.parse(json[r'id'].toString()),
+        id: num.tryParse('${json[r'id']}'),
         image: mapValueOfType<String>(json, r'image'),
         imagePath: mapValueOfType<String>(json, r'imagePath'),
         lang: mapValueOfType<String>(json, r'lang'),

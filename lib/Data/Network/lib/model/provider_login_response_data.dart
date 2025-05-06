@@ -62,11 +62,11 @@ class ProviderLoginResponseData {
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is ProviderLoginResponseData &&
-     other.accessToken == accessToken &&
-     other.tokenType == tokenType &&
-     other.provider == provider &&
-     other.isExist == isExist &&
-     other.isVerified == isVerified;
+    other.accessToken == accessToken &&
+    other.tokenType == tokenType &&
+    other.provider == provider &&
+    other.isExist == isExist &&
+    other.isVerified == isVerified;
 
   @override
   int get hashCode =>

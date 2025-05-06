@@ -290,7 +290,6 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
   }
 
   void signUp() {
-    print(code.value.removeFirstChar("+"));
     context.push(R_OTP, extra: {
       "phone": phoneController.text.removeFirstChar("0"),
       "name": fullNameController.text,
@@ -306,7 +305,8 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
   void sendCode() {
     ref
         .read(sendOtpForSignUpStateProvider.notifier)
-        .sendOtp(phoneController.text.toString());
+        .sendOtp(phoneController.text.toString(),countryCode: code.value.removeFirstChar("+")
+    );
   }
 
   void uploadFiles() {

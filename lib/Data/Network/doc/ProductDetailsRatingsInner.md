@@ -13,6 +13,7 @@ Name | Type | Description | Notes
 **ratingComment** | **String** |  | [optional] 
 **date** | **String** |  | [optional] 
 **userName** | **String** |  | [optional] 
+**imagePath** | **String** |  | [optional] 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

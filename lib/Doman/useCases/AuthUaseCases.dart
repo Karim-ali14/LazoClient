@@ -26,9 +26,9 @@ class LoginUseCase extends StateNotifier<StateModel<ClientAuthResponse>> {
   final AuthApi authApi;
   LoginUseCase(this.ref, this.authApi) : super(StateModel());
 
-  void login(String phone,{String? sessionId}) async {
+  void login(String phone,{String? countryCode,String? sessionId}) async {
     state = StateModel.loading();
-    requestWithHandleMessage(() => authApi.clientLogin(phone: phone,sessionId: sessionId), onComplete:(res) {
+    requestWithHandleMessage(() => authApi.clientLogin(phone: phone,sessionId: sessionId,countryCode: countryCode), onComplete:(res) {
       ref.read(clientStateProvider.notifier).setUser(res.data);
     });
   }
@@ -39,9 +39,9 @@ class SignUpUseCase extends StateNotifier<StateModel<ClientAuthResponse>> {
   final AuthApi authApi;
   SignUpUseCase(this.ref, this.authApi) : super(StateModel());
 
-  void signUp({ String? cityId, String? email, String? image, String? name, String? phone, String? sessionId}) async {
+  void signUp({ String? cityId, String? email, String? image, String? name, String? phone, String? countryCode,String? sessionId}) async {
     state = StateModel.loading();
-    requestWithHandleMessage(() => authApi.clientSignup(cityId: cityId,email: email,image: image,name: name,phone: phone,sessionId: sessionId), onComplete:(res) {
+    requestWithHandleMessage(() => authApi.clientSignup(cityId: cityId,email: email,image: image,name: name,phone: phone,sessionId: sessionId,countryCode: countryCode), onComplete:(res) {
       ref.read(clientStateProvider.notifier).setUser(res.data);
     });
   }
@@ -83,9 +83,9 @@ class SendOtpUseCase extends StateNotifier<StateModel<CodeSendResponse>>{
   final PublicAuthApi authApi;
   SendOtpUseCase( this.ref, this.authApi):super(StateModel());
 
-  void sendOtp(String? phone) async {
+  void sendOtp(String? phone,{String? countryCode,}) async {
     state = StateModel.loading();
-    requestWithHandleMessage(() => authApi.codeSendPost(emailOrPhone: phone,accountType : accountType));
+    requestWithHandleMessage(() => authApi.codeSendPost(emailOrPhone: phone,countryCode: countryCode,accountType : accountType));
   }
 }
 

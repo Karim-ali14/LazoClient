@@ -167,24 +167,24 @@ class ReadANotification1200ResponseData {
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is ReadANotification1200ResponseData &&
-     other.createdAt == createdAt &&
-     other.id == id &&
-     other.image == image &&
-     other.imagePath == imagePath &&
-     other.isRead == isRead &&
-     other.orderId == orderId &&
-     other.type == type &&
-     other.notification == notification &&
-     other.notificationAr == notificationAr &&
-     other.notificationEn == notificationEn &&
-     other.provider == provider &&
-     other.providerId == providerId &&
-     other.title == title &&
-     other.titleAr == titleAr &&
-     other.titleEn == titleEn &&
-     other.updatedAt == updatedAt &&
-     other.user == user &&
-     other.userId == userId;
+    other.createdAt == createdAt &&
+    other.id == id &&
+    other.image == image &&
+    other.imagePath == imagePath &&
+    other.isRead == isRead &&
+    other.orderId == orderId &&
+    other.type == type &&
+    other.notification == notification &&
+    other.notificationAr == notificationAr &&
+    other.notificationEn == notificationEn &&
+    other.provider == provider &&
+    other.providerId == providerId &&
+    other.title == title &&
+    other.titleAr == titleAr &&
+    other.titleEn == titleEn &&
+    other.updatedAt == updatedAt &&
+    other.user == user &&
+    other.userId == userId;
 
   @override
   int get hashCode =>
@@ -326,25 +326,17 @@ class ReadANotification1200ResponseData {
 
       return ReadANotification1200ResponseData(
         createdAt: mapValueOfType<String>(json, r'created_at'),
-        id: json[r'id'] == null
-            ? null
-            : num.parse(json[r'id'].toString()),
+        id: num.tryParse('${json[r'id']}'),
         image: mapValueOfType<String>(json, r'image'),
         imagePath: mapValueOfType<String>(json, r'imagePath'),
-        isRead: json[r'is_read'] == null
-            ? null
-            : num.parse(json[r'is_read'].toString()),
-        orderId: json[r'order_id'] == null
-            ? null
-            : num.parse(json[r'order_id'].toString()),
+        isRead: num.tryParse('${json[r'is_read']}'),
+        orderId: num.tryParse('${json[r'order_id']}'),
         type: mapValueOfType<String>(json, r'type'),
         notification: mapValueOfType<String>(json, r'notification'),
         notificationAr: mapValueOfType<String>(json, r'notification_ar'),
         notificationEn: mapValueOfType<String>(json, r'notification_en'),
         provider: ShowNotifications1200ResponseDataInnerProvider.fromJson(json[r'provider']),
-        providerId: json[r'provider_id'] == null
-            ? null
-            : num.parse(json[r'provider_id'].toString()),
+        providerId: num.tryParse('${json[r'provider_id']}'),
         title: mapValueOfType<String>(json, r'title'),
         titleAr: mapValueOfType<String>(json, r'title_ar'),
         titleEn: mapValueOfType<String>(json, r'title_en'),

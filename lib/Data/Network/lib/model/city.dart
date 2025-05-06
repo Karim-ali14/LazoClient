@@ -71,12 +71,12 @@ class City {
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is City &&
-     other.id == id &&
-     other.nameEn == nameEn &&
-     other.nameAr == nameAr &&
-     other.createdAt == createdAt &&
-     other.updatedAt == updatedAt &&
-     other.name == name;
+    other.id == id &&
+    other.nameEn == nameEn &&
+    other.nameAr == nameAr &&
+    other.createdAt == createdAt &&
+    other.updatedAt == updatedAt &&
+    other.name == name;
 
   @override
   int get hashCode =>

@@ -14,6 +14,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:collection/collection.dart';
 import 'package:http/http.dart';
 import 'package:intl/intl.dart';
 import 'package:meta/meta.dart';
@@ -54,6 +55,7 @@ part 'model/cities_response.dart';
 part 'model/city.dart';
 part 'model/client_auth_response.dart';
 part 'model/client_auth_response_data.dart';
+part 'model/client_auth_response_data_client.dart';
 part 'model/client_notification.dart';
 part 'model/client_order_details.dart';
 part 'model/client_order_details_order_items_inner.dart';
@@ -64,8 +66,12 @@ part 'model/code_confirm_request.dart';
 part 'model/code_confirm_response.dart';
 part 'model/code_send_request.dart';
 part 'model/code_send_response.dart';
+part 'model/collection_item.dart';
 part 'model/color.dart';
 part 'model/colors_response.dart';
+part 'model/create_wishlist_collection200_response.dart';
+part 'model/create_wishlist_collection200_response_data.dart';
+part 'model/create_wishlist_collection_request.dart';
 part 'model/filter_top_products_services200_response.dart';
 part 'model/filter_top_products_services200_response_data.dart';
 part 'model/filter_top_products_services200_response_data_products.dart';
@@ -114,6 +120,7 @@ part 'model/provider_order_details_promocode.dart';
 part 'model/provider_order_details_response.dart';
 part 'model/provider_order_details_user.dart';
 part 'model/provider_product.dart';
+part 'model/provider_product_ratings_inner.dart';
 part 'model/provider_profile_show_response.dart';
 part 'model/provider_profile_update_request.dart';
 part 'model/provider_profile_update_response.dart';
@@ -133,7 +140,6 @@ part 'model/reset_code_send_response.dart';
 part 'model/reset_password_request.dart';
 part 'model/reset_password_response.dart';
 part 'model/send_push_notification200_response.dart';
-part 'model/send_push_notification200_response_data.dart';
 part 'model/service_list.dart';
 part 'model/service_list_item.dart';
 part 'model/service_show_data.dart';
@@ -162,6 +168,7 @@ part 'model/show_profile200_response_data.dart';
 part 'model/show_profile200_response_data_city.dart';
 part 'model/show_promocode_details200_response.dart';
 part 'model/show_promocode_details200_response_data.dart';
+part 'model/show_wishlist_collections200_response.dart';
 part 'model/show_wishlist_items_with_search_by_name200_response.dart';
 part 'model/show_wishlist_items_with_search_by_name200_response_data.dart';
 part 'model/showtransactions200_response.dart';
@@ -178,13 +185,19 @@ part 'model/update_cart_item_quantity200_response.dart';
 part 'model/update_cart_item_quantity200_response_data.dart';
 part 'model/upload_files.dart';
 part 'model/upload_files_response.dart';
+part 'model/wishlist_item.dart';
 
+
+/// An [ApiClient] instance that uses the default values obtained from
+/// the OpenAPI specification file.
+var defaultApiClient = ApiClient();
 
 const _delimiters = {'csv': ',', 'ssv': ' ', 'tsv': '\t', 'pipes': '|'};
 const _dateEpochMarker = 'epoch';
+const _deepEquality = DeepCollectionEquality();
 final _dateFormatter = DateFormat('yyyy-MM-dd');
 final _regList = RegExp(r'^List<(.*)>$');
 final _regSet = RegExp(r'^Set<(.*)>$');
 final _regMap = RegExp(r'^Map<String,(.*)>$');
 
-ApiClient defaultApiClient = ApiClient();
+bool _isEpochMarker(String? pattern) => pattern == _dateEpochMarker || pattern == '/$_dateEpochMarker/';

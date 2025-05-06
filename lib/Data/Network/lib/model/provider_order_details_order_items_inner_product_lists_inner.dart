@@ -110,17 +110,17 @@ class ProviderOrderDetailsOrderItemsInnerProductListsInner {
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is ProviderOrderDetailsOrderItemsInnerProductListsInner &&
-     other.createdAt == createdAt &&
-     other.id == id &&
-     other.isMultiSelectable == isMultiSelectable &&
-     other.items == items &&
-     other.maxSelectableItemsNumber == maxSelectableItemsNumber &&
-     other.name == name &&
-     other.nameAr == nameAr &&
-     other.nameEn == nameEn &&
-     other.productId == productId &&
-     other.totalPrice == totalPrice &&
-     other.updatedAt == updatedAt;
+    other.createdAt == createdAt &&
+    other.id == id &&
+    other.isMultiSelectable == isMultiSelectable &&
+    _deepEquality.equals(other.items, items) &&
+    other.maxSelectableItemsNumber == maxSelectableItemsNumber &&
+    other.name == name &&
+    other.nameAr == nameAr &&
+    other.nameEn == nameEn &&
+    other.productId == productId &&
+    other.totalPrice == totalPrice &&
+    other.updatedAt == updatedAt;
 
   @override
   int get hashCode =>
@@ -216,25 +216,15 @@ class ProviderOrderDetailsOrderItemsInnerProductListsInner {
 
       return ProviderOrderDetailsOrderItemsInnerProductListsInner(
         createdAt: mapValueOfType<String>(json, r'created_at'),
-        id: json[r'id'] == null
-            ? null
-            : num.parse(json[r'id'].toString()),
-        isMultiSelectable: json[r'is_multi_selectable'] == null
-            ? null
-            : num.parse(json[r'is_multi_selectable'].toString()),
+        id: num.tryParse('${json[r'id']}'),
+        isMultiSelectable: num.tryParse('${json[r'is_multi_selectable']}'),
         items: ProviderOrderDetailsOrderItemsInnerProductListsInnerItemsInner.listFromJson(json[r'items']),
-        maxSelectableItemsNumber: json[r'max_selectable_items_number'] == null
-            ? null
-            : num.parse(json[r'max_selectable_items_number'].toString()),
+        maxSelectableItemsNumber: num.tryParse('${json[r'max_selectable_items_number']}'),
         name: mapValueOfType<String>(json, r'name'),
         nameAr: mapValueOfType<String>(json, r'name_ar'),
         nameEn: mapValueOfType<String>(json, r'name_en'),
-        productId: json[r'product_id'] == null
-            ? null
-            : num.parse(json[r'product_id'].toString()),
-        totalPrice: json[r'total_price'] == null
-            ? null
-            : num.parse(json[r'total_price'].toString()),
+        productId: num.tryParse('${json[r'product_id']}'),
+        totalPrice: num.tryParse('${json[r'total_price']}'),
         updatedAt: mapValueOfType<String>(json, r'updated_at'),
       );
     }

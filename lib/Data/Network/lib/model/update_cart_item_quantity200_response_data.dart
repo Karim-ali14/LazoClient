@@ -95,16 +95,16 @@ class UpdateCartItemQuantity200ResponseData {
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is UpdateCartItemQuantity200ResponseData &&
-     other.cartItems == cartItems &&
-     other.createdAt == createdAt &&
-     other.id == id &&
-     other.total == total &&
-     other.type == type &&
-     other.updatedAt == updatedAt &&
-     other.userId == userId &&
-     other.sessionId == sessionId &&
-     other.shipmentType == shipmentType &&
-     other.expectedProcessingTime == expectedProcessingTime;
+    _deepEquality.equals(other.cartItems, cartItems) &&
+    other.createdAt == createdAt &&
+    other.id == id &&
+    other.total == total &&
+    other.type == type &&
+    other.updatedAt == updatedAt &&
+    other.userId == userId &&
+    other.sessionId == sessionId &&
+    other.shipmentType == shipmentType &&
+    other.expectedProcessingTime == expectedProcessingTime;
 
   @override
   int get hashCode =>
@@ -195,17 +195,11 @@ class UpdateCartItemQuantity200ResponseData {
       return UpdateCartItemQuantity200ResponseData(
         cartItems: CartItemsInner.listFromJson(json[r'cart_items']),
         createdAt: mapValueOfType<String>(json, r'created_at'),
-        id: json[r'id'] == null
-            ? null
-            : num.parse(json[r'id'].toString()),
-        total: json[r'total'] == null
-            ? null
-            : num.parse(json[r'total'].toString()),
+        id: num.tryParse('${json[r'id']}'),
+        total: num.tryParse('${json[r'total']}'),
         type: mapValueOfType<String>(json, r'type'),
         updatedAt: mapValueOfType<String>(json, r'updated_at'),
-        userId: json[r'user_id'] == null
-            ? null
-            : num.parse(json[r'user_id'].toString()),
+        userId: num.tryParse('${json[r'user_id']}'),
         sessionId: mapValueOfType<String>(json, r'session_id'),
         shipmentType: mapValueOfType<String>(json, r'shipment_type'),
         expectedProcessingTime: mapValueOfType<String>(json, r'expected_processing_time'),

@@ -24,11 +24,13 @@ class PublicAuthApi {
   ///
   /// * [String] emailOrPhone:
   ///
+  /// * [String] countryCode:
+  ///
   /// * [String] confirmCode:
   ///
   /// * [String] accountType:
   ///   client or provider
-  Future<Response> codeConfirmPostWithHttpInfo({ String? emailOrPhone, String? confirmCode, String? accountType, }) async {
+  Future<Response> codeConfirmPostWithHttpInfo({ String? emailOrPhone, String? countryCode, String? confirmCode, String? accountType, }) async {
     // ignore: prefer_const_declarations
     final path = r'/code/confirm';
 
@@ -46,6 +48,10 @@ class PublicAuthApi {
     if (emailOrPhone != null) {
       hasFields = true;
       mp.fields[r'email_or_phone'] = parameterToString(emailOrPhone);
+    }
+    if (countryCode != null) {
+      hasFields = true;
+      mp.fields[r'country_code'] = parameterToString(countryCode);
     }
     if (confirmCode != null) {
       hasFields = true;
@@ -76,12 +82,14 @@ class PublicAuthApi {
   ///
   /// * [String] emailOrPhone:
   ///
+  /// * [String] countryCode:
+  ///
   /// * [String] confirmCode:
   ///
   /// * [String] accountType:
   ///   client or provider
-  Future<CodeConfirmResponse?> codeConfirmPost({ String? emailOrPhone, String? confirmCode, String? accountType, }) async {
-    final response = await codeConfirmPostWithHttpInfo( emailOrPhone: emailOrPhone, confirmCode: confirmCode, accountType: accountType, );
+  Future<CodeConfirmResponse?> codeConfirmPost({ String? emailOrPhone, String? countryCode, String? confirmCode, String? accountType, }) async {
+    final response = await codeConfirmPostWithHttpInfo( emailOrPhone: emailOrPhone, countryCode: countryCode, confirmCode: confirmCode, accountType: accountType, );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -104,7 +112,9 @@ class PublicAuthApi {
   /// * [String] emailOrPhone:
   ///
   /// * [String] accountType:
-  Future<Response> codeSendPostWithHttpInfo({ String? emailOrPhone, String? accountType, }) async {
+  ///
+  /// * [String] countryCode:
+  Future<Response> codeSendPostWithHttpInfo({ String? emailOrPhone, String? accountType, String? countryCode, }) async {
     // ignore: prefer_const_declarations
     final path = r'/code/send';
 
@@ -126,6 +136,10 @@ class PublicAuthApi {
     if (accountType != null) {
       hasFields = true;
       mp.fields[r'account_type'] = parameterToString(accountType);
+    }
+    if (countryCode != null) {
+      hasFields = true;
+      mp.fields[r'country_code'] = parameterToString(countryCode);
     }
     if (hasFields) {
       postBody = mp;
@@ -149,8 +163,10 @@ class PublicAuthApi {
   /// * [String] emailOrPhone:
   ///
   /// * [String] accountType:
-  Future<CodeSendResponse?> codeSendPost({ String? emailOrPhone, String? accountType, }) async {
-    final response = await codeSendPostWithHttpInfo( emailOrPhone: emailOrPhone, accountType: accountType, );
+  ///
+  /// * [String] countryCode:
+  Future<CodeSendResponse?> codeSendPost({ String? emailOrPhone, String? accountType, String? countryCode, }) async {
+    final response = await codeSendPostWithHttpInfo( emailOrPhone: emailOrPhone, accountType: accountType, countryCode: countryCode, );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -630,11 +646,13 @@ class PublicAuthApi {
   ///
   /// * [String] emailOrPhone:
   ///
+  /// * [String] countryCode:
+  ///
   /// * [String] confirmCode:
   ///
   /// * [String] accountType:
   ///   client or provider
-  Future<Response> resetCodeConfirmPostWithHttpInfo({ String? emailOrPhone, String? confirmCode, String? accountType, }) async {
+  Future<Response> resetCodeConfirmPostWithHttpInfo({ String? emailOrPhone, String? countryCode, String? confirmCode, String? accountType, }) async {
     // ignore: prefer_const_declarations
     final path = r'/reset-code/confirm';
 
@@ -652,6 +670,10 @@ class PublicAuthApi {
     if (emailOrPhone != null) {
       hasFields = true;
       mp.fields[r'email_or_phone'] = parameterToString(emailOrPhone);
+    }
+    if (countryCode != null) {
+      hasFields = true;
+      mp.fields[r'country_code'] = parameterToString(countryCode);
     }
     if (confirmCode != null) {
       hasFields = true;
@@ -682,12 +704,14 @@ class PublicAuthApi {
   ///
   /// * [String] emailOrPhone:
   ///
+  /// * [String] countryCode:
+  ///
   /// * [String] confirmCode:
   ///
   /// * [String] accountType:
   ///   client or provider
-  Future<ResetCodeConfirmResponse?> resetCodeConfirmPost({ String? emailOrPhone, String? confirmCode, String? accountType, }) async {
-    final response = await resetCodeConfirmPostWithHttpInfo( emailOrPhone: emailOrPhone, confirmCode: confirmCode, accountType: accountType, );
+  Future<ResetCodeConfirmResponse?> resetCodeConfirmPost({ String? emailOrPhone, String? countryCode, String? confirmCode, String? accountType, }) async {
+    final response = await resetCodeConfirmPostWithHttpInfo( emailOrPhone: emailOrPhone, countryCode: countryCode, confirmCode: confirmCode, accountType: accountType, );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -709,8 +733,10 @@ class PublicAuthApi {
   ///
   /// * [String] emailOrPhone:
   ///
+  /// * [String] countryCode:
+  ///
   /// * [String] accountType:
-  Future<Response> resetCodeSendPostWithHttpInfo({ String? emailOrPhone, String? accountType, }) async {
+  Future<Response> resetCodeSendPostWithHttpInfo({ String? emailOrPhone, String? countryCode, String? accountType, }) async {
     // ignore: prefer_const_declarations
     final path = r'/reset-code/send';
 
@@ -728,6 +754,10 @@ class PublicAuthApi {
     if (emailOrPhone != null) {
       hasFields = true;
       mp.fields[r'email_or_phone'] = parameterToString(emailOrPhone);
+    }
+    if (countryCode != null) {
+      hasFields = true;
+      mp.fields[r'country_code'] = parameterToString(countryCode);
     }
     if (accountType != null) {
       hasFields = true;
@@ -754,9 +784,11 @@ class PublicAuthApi {
   ///
   /// * [String] emailOrPhone:
   ///
+  /// * [String] countryCode:
+  ///
   /// * [String] accountType:
-  Future<ResetCodeSendResponse?> resetCodeSendPost({ String? emailOrPhone, String? accountType, }) async {
-    final response = await resetCodeSendPostWithHttpInfo( emailOrPhone: emailOrPhone, accountType: accountType, );
+  Future<ResetCodeSendResponse?> resetCodeSendPost({ String? emailOrPhone, String? countryCode, String? accountType, }) async {
+    final response = await resetCodeSendPostWithHttpInfo( emailOrPhone: emailOrPhone, countryCode: countryCode, accountType: accountType, );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -778,12 +810,14 @@ class PublicAuthApi {
   ///
   /// * [String] emailOrPhone:
   ///
+  /// * [String] countryCode:
+  ///
   /// * [String] newPassword:
   ///
   /// * [String] confirmNewPassword:
   ///
   /// * [String] accountType:
-  Future<Response> resetPasswordPostWithHttpInfo({ String? emailOrPhone, String? newPassword, String? confirmNewPassword, String? accountType, }) async {
+  Future<Response> resetPasswordPostWithHttpInfo({ String? emailOrPhone, String? countryCode, String? newPassword, String? confirmNewPassword, String? accountType, }) async {
     // ignore: prefer_const_declarations
     final path = r'/reset-password';
 
@@ -801,6 +835,10 @@ class PublicAuthApi {
     if (emailOrPhone != null) {
       hasFields = true;
       mp.fields[r'email_or_phone'] = parameterToString(emailOrPhone);
+    }
+    if (countryCode != null) {
+      hasFields = true;
+      mp.fields[r'country_code'] = parameterToString(countryCode);
     }
     if (newPassword != null) {
       hasFields = true;
@@ -835,13 +873,15 @@ class PublicAuthApi {
   ///
   /// * [String] emailOrPhone:
   ///
+  /// * [String] countryCode:
+  ///
   /// * [String] newPassword:
   ///
   /// * [String] confirmNewPassword:
   ///
   /// * [String] accountType:
-  Future<ResetPasswordResponse?> resetPasswordPost({ String? emailOrPhone, String? newPassword, String? confirmNewPassword, String? accountType, }) async {
-    final response = await resetPasswordPostWithHttpInfo( emailOrPhone: emailOrPhone, newPassword: newPassword, confirmNewPassword: confirmNewPassword, accountType: accountType, );
+  Future<ResetPasswordResponse?> resetPasswordPost({ String? emailOrPhone, String? countryCode, String? newPassword, String? confirmNewPassword, String? accountType, }) async {
+    final response = await resetPasswordPostWithHttpInfo( emailOrPhone: emailOrPhone, countryCode: countryCode, newPassword: newPassword, confirmNewPassword: confirmNewPassword, accountType: accountType, );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }

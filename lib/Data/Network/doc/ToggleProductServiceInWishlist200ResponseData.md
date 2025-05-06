@@ -14,6 +14,8 @@ Name | Type | Description | Notes
 **productId** | **num** |  | [optional] 
 **createdAt** | **String** |  | [optional] 
 **updatedAt** | **String** |  | [optional] 
+**collectionId** | **int** |  | [optional] 
+**collectionName** | **String** |  | [optional] 
 **inWishlist** | **bool** |  | [optional] 
 **categoriesIds** | **List<String>** |  | [optional] [default to const []]
 

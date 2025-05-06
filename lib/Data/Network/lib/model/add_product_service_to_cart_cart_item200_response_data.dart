@@ -104,19 +104,19 @@ class AddProductServiceToCartCartItem200ResponseData {
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is AddProductServiceToCartCartItem200ResponseData &&
-     other.cartItems == cartItems &&
-     other.createdAt == createdAt &&
-     other.id == id &&
-     other.productId == productId &&
-     other.serviceId == serviceId &&
-     other.categoriesIds == categoriesIds &&
-     other.total == total &&
-     other.type == type &&
-     other.updatedAt == updatedAt &&
-     other.userId == userId &&
-     other.sessionId == sessionId &&
-     other.shipmentType == shipmentType &&
-     other.expectedProcessingTime == expectedProcessingTime;
+    _deepEquality.equals(other.cartItems, cartItems) &&
+    other.createdAt == createdAt &&
+    other.id == id &&
+    other.productId == productId &&
+    other.serviceId == serviceId &&
+    _deepEquality.equals(other.categoriesIds, categoriesIds) &&
+    other.total == total &&
+    other.type == type &&
+    other.updatedAt == updatedAt &&
+    other.userId == userId &&
+    other.sessionId == sessionId &&
+    other.shipmentType == shipmentType &&
+    other.expectedProcessingTime == expectedProcessingTime;
 
   @override
   int get hashCode =>
@@ -225,22 +225,16 @@ class AddProductServiceToCartCartItem200ResponseData {
       return AddProductServiceToCartCartItem200ResponseData(
         cartItems: CartItemsInner.listFromJson(json[r'cart_items']),
         createdAt: mapValueOfType<String>(json, r'created_at'),
-        id: json[r'id'] == null
-            ? null
-            : num.parse(json[r'id'].toString()),
+        id: num.tryParse('${json[r'id']}'),
         productId: mapValueOfType<int>(json, r'product_id'),
         serviceId: mapValueOfType<int>(json, r'service_id'),
-        categoriesIds: json[r'categories_ids'] is List
-            ? (json[r'categories_ids'] as List).cast<String>()
+        categoriesIds: json[r'categories_ids'] is Iterable
+            ? (json[r'categories_ids'] as Iterable).cast<String>().toList(growable: false)
             : const [],
-        total: json[r'total'] == null
-            ? null
-            : num.parse(json[r'total'].toString()),
+        total: num.tryParse('${json[r'total']}'),
         type: mapValueOfType<String>(json, r'type'),
         updatedAt: mapValueOfType<String>(json, r'updated_at'),
-        userId: json[r'user_id'] == null
-            ? null
-            : num.parse(json[r'user_id'].toString()),
+        userId: num.tryParse('${json[r'user_id']}'),
         sessionId: mapValueOfType<String>(json, r'session_id'),
         shipmentType: mapValueOfType<String>(json, r'shipment_type'),
         expectedProcessingTime: mapValueOfType<String>(json, r'expected_processing_time'),

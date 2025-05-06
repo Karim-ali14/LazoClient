@@ -71,12 +71,12 @@ class ImageItem {
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is ImageItem &&
-     other.createdAt == createdAt &&
-     other.id == id &&
-     other.image == image &&
-     other.imagePath == imagePath &&
-     other.productId == productId &&
-     other.updatedAt == updatedAt;
+    other.createdAt == createdAt &&
+    other.id == id &&
+    other.image == image &&
+    other.imagePath == imagePath &&
+    other.productId == productId &&
+    other.updatedAt == updatedAt;
 
   @override
   int get hashCode =>
@@ -146,14 +146,10 @@ class ImageItem {
 
       return ImageItem(
         createdAt: mapValueOfType<String>(json, r'created_at'),
-        id: json[r'id'] == null
-            ? null
-            : num.parse(json[r'id'].toString()),
+        id: num.tryParse('${json[r'id']}'),
         image: mapValueOfType<String>(json, r'image'),
         imagePath: mapValueOfType<String>(json, r'imagePath'),
-        productId: json[r'product_id'] == null
-            ? null
-            : num.parse(json[r'product_id'].toString()),
+        productId: num.tryParse('${json[r'product_id']}'),
         updatedAt: mapValueOfType<String>(json, r'updated_at'),
       );
     }

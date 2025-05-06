@@ -116,17 +116,17 @@ class TransactionDetails {
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is TransactionDetails &&
-     other.id == id &&
-     other.providerId == providerId &&
-     other.number == number &&
-     other.amount == amount &&
-     other.createdAt == createdAt &&
-     other.updatedAt == updatedAt &&
-     other.orderId == orderId &&
-     other.receipt == receipt &&
-     other.dateTime == dateTime &&
-     other.status == status &&
-     other.sender == sender;
+    other.id == id &&
+    other.providerId == providerId &&
+    other.number == number &&
+    other.amount == amount &&
+    other.createdAt == createdAt &&
+    other.updatedAt == updatedAt &&
+    other.orderId == orderId &&
+    other.receipt == receipt &&
+    other.dateTime == dateTime &&
+    other.status == status &&
+    other.sender == sender;
 
   @override
   int get hashCode =>
@@ -225,14 +225,12 @@ class TransactionDetails {
       }());
 
       return TransactionDetails(
-        id: json[r'id'] == null
-            ? null
-            : num.parse(json[r'id'].toString()),
+        id: num.tryParse('${json[r'id']}'),
         providerId: mapValueOfType<String>(json, r'provider_id'),
         number: mapValueOfType<String>(json, r'number'),
         amount: mapValueOfType<String>(json, r'amount'),
-        createdAt: mapDateTime(json, r'created_at', ''),
-        updatedAt: mapDateTime(json, r'updated_at', ''),
+        createdAt: mapDateTime(json, r'created_at', r''),
+        updatedAt: mapDateTime(json, r'updated_at', r''),
         orderId: mapValueOfType<String>(json, r'order_id'),
         receipt: mapValueOfType<String>(json, r'receipt'),
         dateTime: mapValueOfType<String>(json, r'date_time'),

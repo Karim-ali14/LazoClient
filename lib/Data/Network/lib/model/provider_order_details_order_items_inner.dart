@@ -224,35 +224,35 @@ class ProviderOrderDetailsOrderItemsInner {
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is ProviderOrderDetailsOrderItemsInner &&
-     other.cardPrice == cardPrice &&
-     other.createdAt == createdAt &&
-     other.id == id &&
-     other.listsTotalPrice == listsTotalPrice &&
-     other.totalPriceBeforeDiscount == totalPriceBeforeDiscount &&
-     other.totalPriceAfterDiscount == totalPriceAfterDiscount &&
-     other.orderId == orderId &&
-     other.price == price &&
-     other.statusId == statusId &&
-     other.cancelledAt == cancelledAt &&
-     other.finishedAt == finishedAt &&
-     other.cancellationReason == cancellationReason &&
-     other.isChecked == isChecked &&
-     other.rating == rating &&
-     other.ratingComment == ratingComment &&
-     other.ratingDate == ratingDate &&
-     other.product == product &&
-     other.productSelectedListIds == productSelectedListIds &&
-     other.productSelectedListItemsIds == productSelectedListItemsIds &&
-     other.serviceSelectedListIds == serviceSelectedListIds &&
-     other.serviceSelectedListItemsIds == serviceSelectedListItemsIds &&
-     other.selectedProductsListItemsNames == selectedProductsListItemsNames &&
-     other.selectedServicesListItemsNames == selectedServicesListItemsNames &&
-     other.productId == productId &&
-     other.providerId == providerId &&
-     other.quantity == quantity &&
-     other.service == service &&
-     other.serviceId == serviceId &&
-     other.updatedAt == updatedAt;
+    other.cardPrice == cardPrice &&
+    other.createdAt == createdAt &&
+    other.id == id &&
+    other.listsTotalPrice == listsTotalPrice &&
+    other.totalPriceBeforeDiscount == totalPriceBeforeDiscount &&
+    other.totalPriceAfterDiscount == totalPriceAfterDiscount &&
+    other.orderId == orderId &&
+    other.price == price &&
+    other.statusId == statusId &&
+    other.cancelledAt == cancelledAt &&
+    other.finishedAt == finishedAt &&
+    other.cancellationReason == cancellationReason &&
+    other.isChecked == isChecked &&
+    other.rating == rating &&
+    other.ratingComment == ratingComment &&
+    other.ratingDate == ratingDate &&
+    other.product == product &&
+    other.productSelectedListIds == productSelectedListIds &&
+    other.productSelectedListItemsIds == productSelectedListItemsIds &&
+    other.serviceSelectedListIds == serviceSelectedListIds &&
+    other.serviceSelectedListItemsIds == serviceSelectedListItemsIds &&
+    _deepEquality.equals(other.selectedProductsListItemsNames, selectedProductsListItemsNames) &&
+    _deepEquality.equals(other.selectedServicesListItemsNames, selectedServicesListItemsNames) &&
+    other.productId == productId &&
+    other.providerId == providerId &&
+    other.quantity == quantity &&
+    other.service == service &&
+    other.serviceId == serviceId &&
+    other.updatedAt == updatedAt;
 
   @override
   int get hashCode =>
@@ -451,36 +451,20 @@ class ProviderOrderDetailsOrderItemsInner {
       }());
 
       return ProviderOrderDetailsOrderItemsInner(
-        cardPrice: json[r'card_price'] == null
-            ? null
-            : num.parse(json[r'card_price'].toString()),
+        cardPrice: num.tryParse('${json[r'card_price']}'),
         createdAt: mapValueOfType<String>(json, r'created_at'),
-        id: json[r'id'] == null
-            ? null
-            : num.parse(json[r'id'].toString()),
-        listsTotalPrice: json[r'lists_total_price'] == null
-            ? null
-            : num.parse(json[r'lists_total_price'].toString()),
-        totalPriceBeforeDiscount: json[r'total_price_before_discount'] == null
-            ? null
-            : num.parse(json[r'total_price_before_discount'].toString()),
-        totalPriceAfterDiscount: json[r'total_price_after_discount'] == null
-            ? null
-            : num.parse(json[r'total_price_after_discount'].toString()),
-        orderId: json[r'order_id'] == null
-            ? null
-            : num.parse(json[r'order_id'].toString()),
-        price: json[r'price'] == null
-            ? null
-            : num.parse(json[r'price'].toString()),
+        id: num.tryParse('${json[r'id']}'),
+        listsTotalPrice: num.tryParse('${json[r'lists_total_price']}'),
+        totalPriceBeforeDiscount: num.tryParse('${json[r'total_price_before_discount']}'),
+        totalPriceAfterDiscount: num.tryParse('${json[r'total_price_after_discount']}'),
+        orderId: num.tryParse('${json[r'order_id']}'),
+        price: num.tryParse('${json[r'price']}'),
         statusId: mapValueOfType<int>(json, r'status_id'),
         cancelledAt: mapValueOfType<String>(json, r'cancelled_at'),
         finishedAt: mapValueOfType<String>(json, r'finished_at'),
         cancellationReason: mapValueOfType<String>(json, r'cancellation_reason'),
         isChecked: mapValueOfType<String>(json, r'is_checked'),
-        rating: json[r'rating'] == null
-            ? null
-            : num.parse(json[r'rating'].toString()),
+        rating: num.tryParse('${json[r'rating']}'),
         ratingComment: mapValueOfType<String>(json, r'rating_comment'),
         ratingDate: mapValueOfType<String>(json, r'rating_date'),
         product: ProviderOrderDetailsOrderItemsInnerProduct.fromJson(json[r'product']),
@@ -488,25 +472,19 @@ class ProviderOrderDetailsOrderItemsInner {
         productSelectedListItemsIds: mapValueOfType<String>(json, r'product_selected_list_items_ids'),
         serviceSelectedListIds: mapValueOfType<String>(json, r'service_selected_list_ids'),
         serviceSelectedListItemsIds: mapValueOfType<String>(json, r'service_selected_list_items_ids'),
-        selectedProductsListItemsNames: json[r'selected_products_list_items_names'] is List
-            ? (json[r'selected_products_list_items_names'] as List).cast<String>()
+        selectedProductsListItemsNames: json[r'selected_products_list_items_names'] is Iterable
+            ? (json[r'selected_products_list_items_names'] as Iterable).cast<String>().toList(growable: false)
             : const [],
-        selectedServicesListItemsNames: json[r'selected_services_list_items_names'] is List
-            ? (json[r'selected_services_list_items_names'] as List).cast<String>()
+        selectedServicesListItemsNames: json[r'selected_services_list_items_names'] is Iterable
+            ? (json[r'selected_services_list_items_names'] as Iterable).cast<String>().toList(growable: false)
             : const [],
         productId: json[r'product_id'] == null
             ? null
-            : num.parse(json[r'product_id'].toString()),
-        providerId: json[r'provider_id'] == null
-            ? null
-            : num.parse(json[r'provider_id'].toString()),
-        quantity: json[r'quantity'] == null
-            ? null
-            : num.parse(json[r'quantity'].toString()),
+            : num.tryParse('${json[r'product_id']}'),
+        providerId: num.tryParse('${json[r'provider_id']}'),
+        quantity: num.tryParse('${json[r'quantity']}'),
         service: ProviderOrderDetailsOrderItemsInnerService.fromJson(json[r'service']),
-        serviceId: json[r'service_id'] == null
-            ? null
-            : num.parse(json[r'service_id'].toString()),
+        serviceId: num.tryParse('${json[r'service_id']}'),
         updatedAt: mapValueOfType<String>(json, r'updated_at'),
       );
     }

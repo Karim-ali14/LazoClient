@@ -23,8 +23,8 @@ class ShowWishlistItemsWithSearchByName200ResponseData {
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is ShowWishlistItemsWithSearchByName200ResponseData &&
-     other.products == products &&
-     other.services == services;
+    _deepEquality.equals(other.products, products) &&
+    _deepEquality.equals(other.services, services);
 
   @override
   int get hashCode =>

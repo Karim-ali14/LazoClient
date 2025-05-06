@@ -14,6 +14,7 @@ class ResetCodeConfirmRequest {
   /// Returns a new [ResetCodeConfirmRequest] instance.
   ResetCodeConfirmRequest({
     this.emailOrPhone,
+    this.countryCode,
     this.confirmCode,
     this.accountType,
   });
@@ -25,6 +26,8 @@ class ResetCodeConfirmRequest {
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
   String? emailOrPhone;
+
+  String? countryCode;
 
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
@@ -45,19 +48,21 @@ class ResetCodeConfirmRequest {
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is ResetCodeConfirmRequest &&
-     other.emailOrPhone == emailOrPhone &&
-     other.confirmCode == confirmCode &&
-     other.accountType == accountType;
+    other.emailOrPhone == emailOrPhone &&
+    other.countryCode == countryCode &&
+    other.confirmCode == confirmCode &&
+    other.accountType == accountType;
 
   @override
   int get hashCode =>
     // ignore: unnecessary_parenthesis
     (emailOrPhone == null ? 0 : emailOrPhone!.hashCode) +
+    (countryCode == null ? 0 : countryCode!.hashCode) +
     (confirmCode == null ? 0 : confirmCode!.hashCode) +
     (accountType == null ? 0 : accountType!.hashCode);
 
   @override
-  String toString() => 'ResetCodeConfirmRequest[emailOrPhone=$emailOrPhone, confirmCode=$confirmCode, accountType=$accountType]';
+  String toString() => 'ResetCodeConfirmRequest[emailOrPhone=$emailOrPhone, countryCode=$countryCode, confirmCode=$confirmCode, accountType=$accountType]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -65,6 +70,11 @@ class ResetCodeConfirmRequest {
       json[r'email_or_phone'] = this.emailOrPhone;
     } else {
       json[r'email_or_phone'] = null;
+    }
+    if (this.countryCode != null) {
+      json[r'country_code'] = this.countryCode;
+    } else {
+      json[r'country_code'] = null;
     }
     if (this.confirmCode != null) {
       json[r'confirm_code'] = this.confirmCode;
@@ -99,6 +109,7 @@ class ResetCodeConfirmRequest {
 
       return ResetCodeConfirmRequest(
         emailOrPhone: mapValueOfType<String>(json, r'email_or_phone'),
+        countryCode: mapValueOfType<String>(json, r'country_code'),
         confirmCode: mapValueOfType<String>(json, r'confirm_code'),
         accountType: mapValueOfType<String>(json, r'account_type'),
       );

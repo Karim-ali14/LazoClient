@@ -24,7 +24,7 @@ class SendPushNotification200Response {
   /// source code must fall back to having a nullable type.
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
-  SendPushNotification200ResponseData? data;
+  CreateWishlistCollectionRequest? data;
 
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
@@ -44,9 +44,9 @@ class SendPushNotification200Response {
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is SendPushNotification200Response &&
-     other.data == data &&
-     other.message == message &&
-     other.status == status;
+    other.data == data &&
+    other.message == message &&
+    other.status == status;
 
   @override
   int get hashCode =>
@@ -97,7 +97,7 @@ class SendPushNotification200Response {
       }());
 
       return SendPushNotification200Response(
-        data: SendPushNotification200ResponseData.fromJson(json[r'data']),
+        data: CreateWishlistCollectionRequest.fromJson(json[r'data']),
         message: mapValueOfType<String>(json, r'message'),
         status: mapValueOfType<bool>(json, r'status'),
       );

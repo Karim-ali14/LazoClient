@@ -80,13 +80,13 @@ class ProviderOrderDetailsGiftBox {
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is ProviderOrderDetailsGiftBox &&
-     other.id == id &&
-     other.name == name &&
-     other.price == price &&
-     other.image == image &&
-     other.createdAt == createdAt &&
-     other.updatedAt == updatedAt &&
-     other.imagePath == imagePath;
+    other.id == id &&
+    other.name == name &&
+    other.price == price &&
+    other.image == image &&
+    other.createdAt == createdAt &&
+    other.updatedAt == updatedAt &&
+    other.imagePath == imagePath;
 
   @override
   int get hashCode =>
@@ -163,9 +163,7 @@ class ProviderOrderDetailsGiftBox {
       return ProviderOrderDetailsGiftBox(
         id: mapValueOfType<String>(json, r'id'),
         name: mapValueOfType<String>(json, r'name'),
-        price: json[r'price'] == null
-            ? null
-            : num.parse(json[r'price'].toString()),
+        price: num.tryParse('${json[r'price']}'),
         image: mapValueOfType<String>(json, r'image'),
         createdAt: mapValueOfType<String>(json, r'created_at'),
         updatedAt: mapValueOfType<String>(json, r'updated_at'),

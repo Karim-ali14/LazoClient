@@ -35,8 +35,8 @@ class Showtransactions200ResponseData {
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is Showtransactions200ResponseData &&
-     other.currentBalance == currentBalance &&
-     other.transactions == transactions;
+    other.currentBalance == currentBalance &&
+    other.transactions == transactions;
 
   @override
   int get hashCode =>

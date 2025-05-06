@@ -8,7 +8,7 @@ import 'package:lazo/api.dart';
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**data** | [**SendPushNotification200ResponseData**](SendPushNotification200ResponseData.md) |  | [optional] 
+**data** | [**CreateWishlistCollectionRequest**](CreateWishlistCollectionRequest.md) |  | [optional] 
 **message** | **String** |  | [optional] 
 **status** | **bool** |  | [optional] 
 

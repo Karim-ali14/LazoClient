@@ -143,20 +143,20 @@ class ShowNotifications1200ResponseDataInnerUser {
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is ShowNotifications1200ResponseDataInnerUser &&
-     other.id == id &&
-     other.name == name &&
-     other.email == email &&
-     other.phone == phone &&
-     other.image == image &&
-     other.imagePath == imagePath &&
-     other.balance == balance &&
-     other.deviceType == deviceType &&
-     other.lang == lang &&
-     other.status == status &&
-     other.createdAt == createdAt &&
-     other.updatedAt == updatedAt &&
-     other.cityId == cityId &&
-     other.fcmToken == fcmToken;
+    other.id == id &&
+    other.name == name &&
+    other.email == email &&
+    other.phone == phone &&
+    other.image == image &&
+    other.imagePath == imagePath &&
+    other.balance == balance &&
+    other.deviceType == deviceType &&
+    other.lang == lang &&
+    other.status == status &&
+    other.createdAt == createdAt &&
+    other.updatedAt == updatedAt &&
+    other.cityId == cityId &&
+    other.fcmToken == fcmToken;
 
   @override
   int get hashCode =>
@@ -273,25 +273,19 @@ class ShowNotifications1200ResponseDataInnerUser {
       }());
 
       return ShowNotifications1200ResponseDataInnerUser(
-        id: json[r'id'] == null
-            ? null
-            : num.parse(json[r'id'].toString()),
+        id: num.tryParse('${json[r'id']}'),
         name: mapValueOfType<String>(json, r'name'),
         email: mapValueOfType<String>(json, r'email'),
         phone: mapValueOfType<String>(json, r'phone'),
         image: mapValueOfType<String>(json, r'image'),
         imagePath: mapValueOfType<String>(json, r'imagePath'),
-        balance: json[r'balance'] == null
-            ? null
-            : num.parse(json[r'balance'].toString()),
+        balance: num.tryParse('${json[r'balance']}'),
         deviceType: mapValueOfType<String>(json, r'device_type'),
         lang: mapValueOfType<String>(json, r'lang'),
         status: mapValueOfType<String>(json, r'status'),
         createdAt: mapValueOfType<String>(json, r'created_at'),
         updatedAt: mapValueOfType<String>(json, r'updated_at'),
-        cityId: json[r'city_id'] == null
-            ? null
-            : num.parse(json[r'city_id'].toString()),
+        cityId: num.tryParse('${json[r'city_id']}'),
         fcmToken: mapValueOfType<String>(json, r'fcm_token'),
       );
     }

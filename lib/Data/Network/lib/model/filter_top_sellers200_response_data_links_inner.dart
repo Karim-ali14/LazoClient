@@ -44,9 +44,9 @@ class FilterTopSellers200ResponseDataLinksInner {
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is FilterTopSellers200ResponseDataLinksInner &&
-     other.url == url &&
-     other.label == label &&
-     other.active == active;
+    other.url == url &&
+    other.label == label &&
+    other.active == active;
 
   @override
   int get hashCode =>

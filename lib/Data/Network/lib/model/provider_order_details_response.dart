@@ -44,9 +44,9 @@ class ProviderOrderDetailsResponse {
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is ProviderOrderDetailsResponse &&
-     other.data == data &&
-     other.status == status &&
-     other.message == message;
+    other.data == data &&
+    other.status == status &&
+    other.message == message;
 
   @override
   int get hashCode =>

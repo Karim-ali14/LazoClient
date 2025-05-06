@@ -5,7 +5,7 @@
 import 'package:lazo/api.dart';
 ```
 
-All URIs are relative to *http://localhost*
+All URIs are relative to *http://}*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -14,7 +14,7 @@ Method | HTTP request | Description
 
 
 # **clientLogin**
-> ClientAuthResponse clientLogin(phone, sessionId)
+> ClientAuthResponse clientLogin(phone, countryCode, sessionId)
 
 client login
 
@@ -26,10 +26,11 @@ import 'package:lazo/api.dart';
 
 final api_instance = AuthApi();
 final phone = phone_example; // String | 
+final countryCode = countryCode_example; // String | 
 final sessionId = sessionId_example; // String | 
 
 try {
-    final result = api_instance.clientLogin(phone, sessionId);
+    final result = api_instance.clientLogin(phone, countryCode, sessionId);
     print(result);
 } catch (e) {
     print('Exception when calling AuthApi->clientLogin: $e\n');
@@ -41,6 +42,7 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **phone** | **String**|  | [optional] 
+ **countryCode** | **String**|  | [optional] 
  **sessionId** | **String**|  | [optional] 
 
 ### Return type
@@ -59,7 +61,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **clientSignup**
-> ClientAuthResponse clientSignup(cityId, email, image, name, phone, sessionId)
+> ClientAuthResponse clientSignup(cityId, email, image, name, phone, countryCode, sessionId)
 
 client signup
 
@@ -75,10 +77,11 @@ final email = email_example; // String | optional
 final image = image_example; // String | optional
 final name = name_example; // String | 
 final phone = phone_example; // String | 
+final countryCode = countryCode_example; // String | 
 final sessionId = sessionId_example; // String | 
 
 try {
-    final result = api_instance.clientSignup(cityId, email, image, name, phone, sessionId);
+    final result = api_instance.clientSignup(cityId, email, image, name, phone, countryCode, sessionId);
     print(result);
 } catch (e) {
     print('Exception when calling AuthApi->clientSignup: $e\n');
@@ -94,6 +97,7 @@ Name | Type | Description  | Notes
  **image** | **String**| optional | [optional] 
  **name** | **String**|  | [optional] 
  **phone** | **String**|  | [optional] 
+ **countryCode** | **String**|  | [optional] 
  **sessionId** | **String**|  | [optional] 
 
 ### Return type
