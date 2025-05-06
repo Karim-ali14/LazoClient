@@ -26,7 +26,7 @@ class ClientAuthResponseData {
   /// source code must fall back to having a nullable type.
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
-  ShowProfile200ResponseData? client;
+  ClientAuthResponseDataClient? client;
 
   String? tokenType;
 
@@ -86,7 +86,7 @@ class ClientAuthResponseData {
 
       return ClientAuthResponseData(
         accessToken: mapValueOfType<String>(json, r'access_token'),
-        client: ShowProfile200ResponseData.fromJson(json[r'client']),
+        client: ClientAuthResponseDataClient.fromJson(json[r'client']),
         tokenType: mapValueOfType<String>(json, r'token_type'),
       );
     }

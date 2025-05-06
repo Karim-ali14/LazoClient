@@ -19,7 +19,7 @@ Method | HTTP request | Description
 
 
 # **codeConfirmPost**
-> CodeConfirmResponse codeConfirmPost(emailOrPhone, confirmCode, accountType)
+> CodeConfirmResponse codeConfirmPost(emailOrPhone, countryCode, confirmCode, accountType)
 
 confirm code
 
@@ -29,11 +29,12 @@ import 'package:lazo/api.dart';
 
 final api_instance = PublicAuthApi();
 final emailOrPhone = emailOrPhone_example; // String | 
+final countryCode = countryCode_example; // String | 
 final confirmCode = confirmCode_example; // String | 
 final accountType = accountType_example; // String | client or provider
 
 try {
-    final result = api_instance.codeConfirmPost(emailOrPhone, confirmCode, accountType);
+    final result = api_instance.codeConfirmPost(emailOrPhone, countryCode, confirmCode, accountType);
     print(result);
 } catch (e) {
     print('Exception when calling PublicAuthApi->codeConfirmPost: $e\n');
@@ -45,6 +46,7 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **emailOrPhone** | **String**|  | [optional] 
+ **countryCode** | **String**|  | [optional] 
  **confirmCode** | **String**|  | [optional] 
  **accountType** | **String**| client or provider | [optional] 
 
@@ -64,7 +66,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **codeSendPost**
-> CodeSendResponse codeSendPost(emailOrPhone, accountType)
+> CodeSendResponse codeSendPost(emailOrPhone, accountType, countryCode)
 
 send code
 
@@ -75,9 +77,10 @@ import 'package:lazo/api.dart';
 final api_instance = PublicAuthApi();
 final emailOrPhone = emailOrPhone_example; // String | 
 final accountType = accountType_example; // String | 
+final countryCode = countryCode_example; // String | 
 
 try {
-    final result = api_instance.codeSendPost(emailOrPhone, accountType);
+    final result = api_instance.codeSendPost(emailOrPhone, accountType, countryCode);
     print(result);
 } catch (e) {
     print('Exception when calling PublicAuthApi->codeSendPost: $e\n');
@@ -90,6 +93,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **emailOrPhone** | **String**|  | [optional] 
  **accountType** | **String**|  | [optional] 
+ **countryCode** | **String**|  | [optional] 
 
 ### Return type
 
@@ -261,7 +265,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **resetCodeConfirmPost**
-> ResetCodeConfirmResponse resetCodeConfirmPost(emailOrPhone, confirmCode, accountType)
+> ResetCodeConfirmResponse resetCodeConfirmPost(emailOrPhone, countryCode, confirmCode, accountType)
 
 confirm reset code
 
@@ -271,11 +275,12 @@ import 'package:lazo/api.dart';
 
 final api_instance = PublicAuthApi();
 final emailOrPhone = emailOrPhone_example; // String | 
+final countryCode = countryCode_example; // String | 
 final confirmCode = confirmCode_example; // String | 
 final accountType = accountType_example; // String | client or provider
 
 try {
-    final result = api_instance.resetCodeConfirmPost(emailOrPhone, confirmCode, accountType);
+    final result = api_instance.resetCodeConfirmPost(emailOrPhone, countryCode, confirmCode, accountType);
     print(result);
 } catch (e) {
     print('Exception when calling PublicAuthApi->resetCodeConfirmPost: $e\n');
@@ -287,6 +292,7 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **emailOrPhone** | **String**|  | [optional] 
+ **countryCode** | **String**|  | [optional] 
  **confirmCode** | **String**|  | [optional] 
  **accountType** | **String**| client or provider | [optional] 
 
@@ -306,7 +312,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **resetCodeSendPost**
-> ResetCodeSendResponse resetCodeSendPost(emailOrPhone, accountType)
+> ResetCodeSendResponse resetCodeSendPost(emailOrPhone, countryCode, accountType)
 
 send reset code
 
@@ -316,10 +322,11 @@ import 'package:lazo/api.dart';
 
 final api_instance = PublicAuthApi();
 final emailOrPhone = emailOrPhone_example; // String | 
+final countryCode = countryCode_example; // String | 
 final accountType = accountType_example; // String | 
 
 try {
-    final result = api_instance.resetCodeSendPost(emailOrPhone, accountType);
+    final result = api_instance.resetCodeSendPost(emailOrPhone, countryCode, accountType);
     print(result);
 } catch (e) {
     print('Exception when calling PublicAuthApi->resetCodeSendPost: $e\n');
@@ -331,6 +338,7 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **emailOrPhone** | **String**|  | [optional] 
+ **countryCode** | **String**|  | [optional] 
  **accountType** | **String**|  | [optional] 
 
 ### Return type
@@ -349,7 +357,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **resetPasswordPost**
-> ResetPasswordResponse resetPasswordPost(emailOrPhone, newPassword, confirmNewPassword, accountType)
+> ResetPasswordResponse resetPasswordPost(emailOrPhone, countryCode, newPassword, confirmNewPassword, accountType)
 
 reset password
 
@@ -359,12 +367,13 @@ import 'package:lazo/api.dart';
 
 final api_instance = PublicAuthApi();
 final emailOrPhone = emailOrPhone_example; // String | 
+final countryCode = countryCode_example; // String | 
 final newPassword = newPassword_example; // String | 
 final confirmNewPassword = confirmNewPassword_example; // String | 
 final accountType = accountType_example; // String | 
 
 try {
-    final result = api_instance.resetPasswordPost(emailOrPhone, newPassword, confirmNewPassword, accountType);
+    final result = api_instance.resetPasswordPost(emailOrPhone, countryCode, newPassword, confirmNewPassword, accountType);
     print(result);
 } catch (e) {
     print('Exception when calling PublicAuthApi->resetPasswordPost: $e\n');
@@ -376,6 +385,7 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **emailOrPhone** | **String**|  | [optional] 
+ **countryCode** | **String**|  | [optional] 
  **newPassword** | **String**|  | [optional] 
  **confirmNewPassword** | **String**|  | [optional] 
  **accountType** | **String**|  | [optional] 

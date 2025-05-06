@@ -210,6 +210,8 @@ class ApiClient {
           return ClientAuthResponse.fromJson(value);
         case 'ClientAuthResponseData':
           return ClientAuthResponseData.fromJson(value);
+        case 'ClientAuthResponseDataClient':
+          return ClientAuthResponseDataClient.fromJson(value);
         case 'ClientNotification':
           return ClientNotification.fromJson(value);
         case 'ClientOrderDetails':

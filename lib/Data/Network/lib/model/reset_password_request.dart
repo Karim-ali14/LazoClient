@@ -14,6 +14,7 @@ class ResetPasswordRequest {
   /// Returns a new [ResetPasswordRequest] instance.
   ResetPasswordRequest({
     this.emailOrPhone,
+    this.countryCode,
     this.newPassword,
     this.confirmNewPassword,
     this.accountType,
@@ -26,6 +27,8 @@ class ResetPasswordRequest {
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
   String? emailOrPhone;
+
+  String? countryCode;
 
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
@@ -54,6 +57,7 @@ class ResetPasswordRequest {
   @override
   bool operator ==(Object other) => identical(this, other) || other is ResetPasswordRequest &&
     other.emailOrPhone == emailOrPhone &&
+    other.countryCode == countryCode &&
     other.newPassword == newPassword &&
     other.confirmNewPassword == confirmNewPassword &&
     other.accountType == accountType;
@@ -62,12 +66,13 @@ class ResetPasswordRequest {
   int get hashCode =>
     // ignore: unnecessary_parenthesis
     (emailOrPhone == null ? 0 : emailOrPhone!.hashCode) +
+    (countryCode == null ? 0 : countryCode!.hashCode) +
     (newPassword == null ? 0 : newPassword!.hashCode) +
     (confirmNewPassword == null ? 0 : confirmNewPassword!.hashCode) +
     (accountType == null ? 0 : accountType!.hashCode);
 
   @override
-  String toString() => 'ResetPasswordRequest[emailOrPhone=$emailOrPhone, newPassword=$newPassword, confirmNewPassword=$confirmNewPassword, accountType=$accountType]';
+  String toString() => 'ResetPasswordRequest[emailOrPhone=$emailOrPhone, countryCode=$countryCode, newPassword=$newPassword, confirmNewPassword=$confirmNewPassword, accountType=$accountType]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -75,6 +80,11 @@ class ResetPasswordRequest {
       json[r'email_or_phone'] = this.emailOrPhone;
     } else {
       json[r'email_or_phone'] = null;
+    }
+    if (this.countryCode != null) {
+      json[r'country_code'] = this.countryCode;
+    } else {
+      json[r'country_code'] = null;
     }
     if (this.newPassword != null) {
       json[r'new_password'] = this.newPassword;
@@ -114,6 +124,7 @@ class ResetPasswordRequest {
 
       return ResetPasswordRequest(
         emailOrPhone: mapValueOfType<String>(json, r'email_or_phone'),
+        countryCode: mapValueOfType<String>(json, r'country_code'),
         newPassword: mapValueOfType<String>(json, r'new_password'),
         confirmNewPassword: mapValueOfType<String>(json, r'confirm_new_password'),
         accountType: mapValueOfType<String>(json, r'account_type'),

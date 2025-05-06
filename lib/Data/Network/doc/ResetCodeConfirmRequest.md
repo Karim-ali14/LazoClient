@@ -9,6 +9,7 @@ import 'package:lazo/api.dart';
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **emailOrPhone** | **String** |  | [optional] 
+**countryCode** | **String** |  | [optional] 
 **confirmCode** | **String** |  | [optional] 
 **accountType** | **String** | client or provider | [optional] 
 

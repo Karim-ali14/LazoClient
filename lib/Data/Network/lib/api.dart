@@ -55,6 +55,7 @@ part 'model/cities_response.dart';
 part 'model/city.dart';
 part 'model/client_auth_response.dart';
 part 'model/client_auth_response_data.dart';
+part 'model/client_auth_response_data_client.dart';
 part 'model/client_notification.dart';
 part 'model/client_order_details.dart';
 part 'model/client_order_details_order_items_inner.dart';

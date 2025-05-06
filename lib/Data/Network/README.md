@@ -182,6 +182,7 @@ Class | Method | HTTP request | Description
  - [City](doc//City.md)
  - [ClientAuthResponse](doc//ClientAuthResponse.md)
  - [ClientAuthResponseData](doc//ClientAuthResponseData.md)
+ - [ClientAuthResponseDataClient](doc//ClientAuthResponseDataClient.md)
  - [ClientNotification](doc//ClientNotification.md)
  - [ClientOrderDetails](doc//ClientOrderDetails.md)
  - [ClientOrderDetailsOrderItemsInner](doc//ClientOrderDetailsOrderItemsInner.md)

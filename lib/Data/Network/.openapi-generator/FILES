@@ -20,6 +20,7 @@ doc/City.md
 doc/ClientApi.md
 doc/ClientAuthResponse.md
 doc/ClientAuthResponseData.md
+doc/ClientAuthResponseDataClient.md
 doc/ClientNotification.md
 doc/ClientOrderDetails.md
 doc/ClientOrderDetailsOrderItemsInner.md
@@ -194,6 +195,7 @@ lib/model/cities_response.dart
 lib/model/city.dart
 lib/model/client_auth_response.dart
 lib/model/client_auth_response_data.dart
+lib/model/client_auth_response_data_client.dart
 lib/model/client_notification.dart
 lib/model/client_order_details.dart
 lib/model/client_order_details_order_items_inner.dart
@@ -325,4 +327,4 @@ lib/model/upload_files.dart
 lib/model/upload_files_response.dart
 lib/model/wishlist_item.dart
 pubspec.yaml
-test/collection_item_test.dart
+test/client_auth_response_data_client_test.dart

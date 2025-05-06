@@ -72,6 +72,11 @@ class _MoreScreenState extends ConsumerState<MoreScreen> {
                   },),
                 )
                 : const SizedBox(),
+            client == null ? Padding(
+              padding: const EdgeInsets.only(top: 16),
+              child: Center(child: Text("Sign in or Create an account and make gifting easier & more special!",
+                style: AppTheme.styleWithTextAppGrey18AdelleSansExtendedFonts14w400,textAlign: TextAlign.center,),),
+            ) : const SizedBox(),
             client != null
                 ? Padding(
                     padding: const EdgeInsets.symmetric(horizontal: defaultPaddingHorizontal),
@@ -91,11 +96,12 @@ class _MoreScreenState extends ConsumerState<MoreScreen> {
                     ),
                   )
                 : Padding(
-                    padding: const EdgeInsets.all(16.0),
+                    padding: const EdgeInsetsDirectional.only(start: defaultPaddingHorizontal,end: defaultPaddingHorizontal,top: defaultPaddingHorizontal),
                     child: Row(
                       children: [
                         Expanded(
                           child: AppButton(
+                            outlined: true,
                             text: context.tr(loginKey),
                             onPress: () {
                               navigateToLogin(TypeOfMode.ViewMode);
@@ -108,9 +114,7 @@ class _MoreScreenState extends ConsumerState<MoreScreen> {
                         ),
                         Expanded(
                           child: AppButton(
-                            backColor: AppTheme.mainAppColor,
-                            outlined: true,
-                            text: context.tr(signUpKey),
+                            text: context.tr(createAccountKey),
                             onPress: () {
                               navigateToSignUp();
                             },
@@ -208,7 +212,7 @@ class _MoreScreenState extends ConsumerState<MoreScreen> {
                 child: MoreItemCard(
                   startIcon: SVGIcons.localSVG(privacyPolicyImg,width: 20,height: 20,),
                   text: context.tr(privacyAndPolicyKey),
-
+                  withDivider: client != null,
                 ),
               ),
             ),

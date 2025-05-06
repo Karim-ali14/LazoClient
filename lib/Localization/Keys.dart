@@ -13,6 +13,7 @@ const phoneNumberKey = "phoneNumber";
 const OTPKey = "OTP";
 const dontHaveAnAccountKey = "dontHaveAnAccount";
 const signUpKey = "signUp";
+const createAccountKey = "createAccount";
 const pleaseEnterTheVerificationCodeYouReceivedFromKey = "pleaseEnterTheVerificationCodeYouReceivedFrom";
 const verificationCodeWillBeSentWithinKey = "verificationCodeWillBeSentWithin";
 const resendVerificationCodeKey = "resendVerificationCode";
