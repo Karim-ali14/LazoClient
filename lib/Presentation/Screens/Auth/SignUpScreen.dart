@@ -1,7 +1,5 @@
 import 'dart:io';
 
-import 'package:country_code_picker/country_code_picker.dart';
-import 'package:country_picker/country_picker.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:fl_country_code_picker/fl_country_code_picker.dart';
 import 'package:flutter/cupertino.dart';
@@ -50,7 +48,8 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
   final CodeCountryController = TextEditingController();
   final countryPicker = const FlCountryCodePicker();
   final formKey = GlobalKey<FormState>();
-  final ValueNotifier<String> code = ValueNotifier("+966");
+  final ValueNotifier<String> code = ValueNotifier("");
+  final ValueNotifier<bool> isCountryCodeEmpty = ValueNotifier(false);
   File? imageFile = null;
   List<City> cities = [];
   List<String?> images = [];
@@ -180,36 +179,49 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                             final country =
                             await countryPicker.showPicker(context: context);
                             if (country != null) {
+                              isCountryCodeEmpty.value = false;
                               code.value = country.dialCode;
                             }
                           },
-                          child: Container(
-                            width: 84,
-                            height: 58,
-                            decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius:
-                                BorderRadius.all(Radius.circular(8))),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                ValueListenableBuilder(
-                                  valueListenable: code,
-                                  builder: ( context, value,  child){
-                                    return Text(
-                                      value,
-                                      style: AppTheme
-                                          .styleWithTextBlackAdelleSansExtendedFonts14w400,
-                                    );
-                                  },
+                          child:ValueListenableBuilder(
+                            valueListenable: isCountryCodeEmpty,
+                            builder: (context,selected,_){
+                              return Container(
+                                width: 84,
+                                height: 58,
+                                decoration: BoxDecoration(
+                                  color: Colors.white ,
+                                  border: Border.all(width: 1,color: selected ? AppTheme.mainAppColorDark : Colors.white ),
+                                  borderRadius: BorderRadius.all(Radius.circular(8)),
                                 ),
-                                SizedBox(
-                                  width: 8,
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    ValueListenableBuilder(
+                                      valueListenable: code,
+                                      builder: (context, value, child) {
+                                        return Text(
+                                          value.isNotEmpty ? value : "+966",
+                                          style: value.isNotEmpty
+                                              ? AppTheme
+                                              .styleWithTextBlackColor2AdelleSansExtendedFonts14w400
+                                              : AppTheme
+                                              .styleWithTextAppGrey18AdelleSansExtendedFonts14w400,
+                                        );
+                                      },
+                                    ),
+                                    SizedBox(
+                                      width: 8,
+                                    ),
+                                    SVGIcons.localSVG(downArrowImg,
+                                        width: 10,
+                                        height: 10,
+                                        color: AppTheme.blackColor2)
+                                  ],
                                 ),
-                                SVGIcons.localSVG(downArrowImg,width: 10,height: 10,color: Colors.black)
-                              ],
-                            ),
+                              );
+                            },
                           ),
                         ),
                         const SizedBox(width: 8),
@@ -242,7 +254,9 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                         onTap: () {
                           showCitesBottomSheet();
                         },
-                        child: SVGIcons.bottomRedArrowIcon()),
+                        child: SVGIcons.bottomRedArrowIcon(
+                          color: Colors.black
+                        )),
                     readOnly: true,
                     textInputType: TextInputType.text,
                     textFieldBorderColor: Colors.white,
@@ -259,13 +273,14 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                     },
                   ),
                   const SizedBox(
-                    height: defaultPaddingHorizontal,
+                    height: 40,
                   ),
                   AppButton(
                     width: context.getScreenSize.width,
                     height: 48,
                     onPress: () {
                       // cityController.text = "sdafsd";
+                      isCountryCodeEmpty.value = code.value.isEmpty;
                       if (formKey.currentState?.validate() == true && images.isNotEmpty) {
                         uploadFiles();
                       }else if(formKey.currentState?.validate() == true){
@@ -291,20 +306,22 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
 
   void signUp() {
     context.push(R_OTP, extra: {
-      "phone": phoneController.text,
+      "phone": phoneController.text.removeFirstChar("0"),
       "name": fullNameController.text,
       "email": emailController.text.isNotEmpty ? emailController.text : null,
       "image": images.isNotEmpty ? images.first : null,
       "cityId": "$cityItemSelected",
       "type": OTPType.SignUp,
       "typeOfMode": widget.typeOfMode,
+      "codeCountry" : code.value.removeFirstChar("+"),
     });
   }
 
   void sendCode() {
     ref
         .read(sendOtpForSignUpStateProvider.notifier)
-        .sendOtp(phoneController.text.toString());
+        .sendOtp(phoneController.text.toString(),countryCode: code.value.removeFirstChar("+")
+    );
   }
 
   void uploadFiles() {

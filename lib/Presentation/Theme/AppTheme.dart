@@ -23,7 +23,7 @@ class AppTheme {
   static const Color appGrey7 = Color(0xFF8088A4);
   static const Color appGrey8 = Color(0xFFE9EAEF);
   static const Color appGrey9 = Color(0xFFF4F5F7);
-  static const Color appGrey10 = Color(0xFFA5ABBF);
+  static const Color appGrey10 = Color(0xFFA5ABB);
   static const Color appGrey11 = Color(0x839B9B9B);
   static const Color appGrey12 = Color(0xFFEBECEF);
   static const Color appGrey13 = Color(0xFF667085);

@@ -244,6 +244,7 @@ class MyApp extends ConsumerWidget {
               email: extra["email"],
               cityId: extra["cityId"],
               otpType: extra["type"],
+              codeCountry: extra["codeCountry"],
               typeOfMode: extra["typeOfMode"] as TypeOfMode,
             );
           }),
