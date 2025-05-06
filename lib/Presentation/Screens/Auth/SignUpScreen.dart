@@ -290,14 +290,16 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
   }
 
   void signUp() {
+    print(code.value.removeFirstChar("+"));
     context.push(R_OTP, extra: {
-      "phone": phoneController.text,
+      "phone": phoneController.text.removeFirstChar("0"),
       "name": fullNameController.text,
       "email": emailController.text.isNotEmpty ? emailController.text : null,
       "image": images.isNotEmpty ? images.first : null,
       "cityId": "$cityItemSelected",
       "type": OTPType.SignUp,
       "typeOfMode": widget.typeOfMode,
+      "codeCountry" : code.value.removeFirstChar("+"),
     });
   }
 

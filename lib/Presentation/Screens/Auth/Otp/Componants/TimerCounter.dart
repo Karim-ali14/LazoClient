@@ -4,51 +4,67 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
-
 import '../../../../../Localization/Keys.dart';
 import '../../../../Theme/AppTheme.dart';
 
 class TimerText extends StatefulWidget {
   final int? durationSeconds;
-  final VoidCallback? onTimerFinish;
-  const TimerText({super.key,this.durationSeconds,this.onTimerFinish});
+  final VoidCallback? onResendOtp;
+  const TimerText({super.key, this.durationSeconds, this.onResendOtp});
 
   @override
   State<TimerText> createState() => TimerTextState();
 }
 
 class TimerTextState extends State<TimerText> {
-
   final StreamController<int> _timerStreamController = StreamController<int>();
   late Timer _timer;
   int _secondsElapsed = 0;
-  int _totalSeconds = 90;
-
+  int _totalSeconds = 10;
+  ValueNotifier<bool> readyToResendOtp = ValueNotifier(false);
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<int>(
       stream: _timerStreamController.stream,
       initialData: _totalSeconds,
       builder: (context, snapshot) {
-        return RichText(
-          text: TextSpan(
-            text: context.tr(verificationCodeWillBeSentWithinKey),
-            style: const TextStyle(
-              color: Colors.black,
-              fontSize: 16.0,
-            ),
-            children: <TextSpan>[
-              TextSpan(
-                text: _formatDuration(snapshot.data!),
-                style: const TextStyle(
-                  color: AppTheme.mainAppColor, // Set the color to green
-                  fontSize: 16.0,
-                  decoration: TextDecoration.underline, // Underline the text
-                ),
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            RichText(
+              text: TextSpan(
+                text: "(${_formatDuration(snapshot.data!)})",
+                style: AppTheme
+                    .styleWithTextAppGrey18AdelleSansExtendedFonts14w400,
+
                 recognizer: TapGestureRecognizer()..onTap = () {},
               ),
-            ],
-          ),
+            ),
+            SizedBox(
+              width: 5,
+            ),
+            InkWell(
+              onTap: () {
+                if (readyToResendOtp.value) {
+                  readyToResendOtp.value = false;
+                  widget.onResendOtp?.call();
+                }
+              },
+              child: ValueListenableBuilder(
+                builder: (context, value, _) {
+                  return Text(" ${context.tr(resendVerificationCodeKey)}",
+                      style: AppTheme
+                          .styleWithTextAppGrey18AdelleSansExtendedFonts14w400
+                          .copyWith(
+                              decoration: TextDecoration.underline,
+                              color: !readyToResendOtp.value
+                                  ? AppTheme.appGrey18
+                                  : AppTheme.mainAppColorDark));
+                },
+                valueListenable: readyToResendOtp,
+              ),
+            )
+          ],
         );
       },
     );
@@ -57,7 +73,7 @@ class TimerTextState extends State<TimerText> {
   @override
   void initState() {
     super.initState();
-    _totalSeconds = widget.durationSeconds ?? 90;
+    _totalSeconds = widget.durationSeconds ?? 10;
     _startTimer();
   }
 
@@ -72,17 +88,17 @@ class TimerTextState extends State<TimerText> {
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       _secondsElapsed++;
       if (_secondsElapsed >= _totalSeconds) {
-        widget.onTimerFinish?.call();
+        readyToResendOtp.value = true;
         _timer.cancel();
       }
       _timerStreamController.sink.add(_totalSeconds - _secondsElapsed);
     });
   }
 
-  void restart(){
+  void restart() {
     setState(() {
       _timer.cancel();
-      _totalSeconds = widget.durationSeconds ?? 90;
+      _totalSeconds = widget.durationSeconds ?? 10;
       _secondsElapsed = 0;
     });
     _startTimer();
@@ -93,5 +109,4 @@ class TimerTextState extends State<TimerText> {
     int remainingSeconds = seconds % 60;
     return '$minutes:${remainingSeconds.toString().padLeft(2, '0')}';
   }
-
 }

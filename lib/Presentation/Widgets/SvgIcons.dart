@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:lazo_client/Presentation/Theme/AppTheme.dart';
 
 import '../../Constants.dart';
 import '../../Constants/Assets.dart';
@@ -67,11 +68,12 @@ class SVGIcons {
     );
   }
 
-  static Widget editIcon({double? width, double? height}) {
+  static Widget editIcon({double? width, double? height , Color color = AppTheme.mainAppColorDark}) {
     return SvgPicture.asset(
       editIconSvg,
       width: width,
       height: height,
+      color: color,
     );
   }
 

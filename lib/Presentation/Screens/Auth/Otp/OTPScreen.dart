@@ -33,8 +33,10 @@ class OTPScreen extends ConsumerStatefulWidget {
   final String? image;
   final String? name;
   final OTPType otpType;
+  final String? codeCountry;
   final TypeOfMode? typeOfMode;
-  const OTPScreen( {super.key,this.typeOfMode = TypeOfMode.ViewMode,required this.phone,required this.otpType,this.cityId, this.email, this.image, this.name});
+
+  const OTPScreen( {super.key,this.typeOfMode = TypeOfMode.ViewMode,required this.phone,required this.otpType,this.cityId, this.email, this.image,  this.codeCountry, this.name});
 
   @override
   ConsumerState<OTPScreen> createState() => _OtpScreenState();
@@ -52,7 +54,7 @@ class _OtpScreenState extends ConsumerState<OTPScreen> {
     });
 
     handleState(confirmResetCodeStateProvider,showToast: true,onSuccess: (state){
-      print("object $state");
+      print("object ${widget.codeCountry}");
       print("object ${state.data?.message}");
       if(widget.otpType == OTPType.Login) {
         login();
@@ -120,7 +122,7 @@ class _OtpScreenState extends ConsumerState<OTPScreen> {
     return Scaffold(
       appBar: CustomAppBar(
           appContext: context,
-          title: context.tr(OTPKey),
+          title: context.tr(phoneVerificationKey),
           navigated: true,
           isCenter: false,
           trailingWidget: Padding(
@@ -135,13 +137,17 @@ class _OtpScreenState extends ConsumerState<OTPScreen> {
               const SizedBox(
                 height: 40,
               ),
-              SVGIcons.appLogoIcon(width: 113, height: 95, color: Colors.black),
-              const SizedBox(
-                height: 25,
-              ),
-              Text(
-              context.tr(pleaseEnterTheVerificationCodeYouKey),
-                style: AppTheme.styleWithTextGray7AdelleSansExtendedFonts16w400,
+              // SVGIcons.appLogoIcon(width: 113, height: 95, color: Colors.black),
+              // const SizedBox(
+              //   height: 25,
+              // ),
+              Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                children: [Text(
+                context.tr(Pleaseenterthedigetcode),
+                  style: AppTheme.styleWithTextGray7AdelleSansExtendedFonts16w400,
+                ),
+        ]
               ),
               const SizedBox(
                 height: 5,
@@ -149,61 +155,54 @@ class _OtpScreenState extends ConsumerState<OTPScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
+                  const SizedBox(
+                    width: 8,
+                  ),
+                  InkWell(child: SVGIcons.editIcon(color: AppTheme.appGrey7),onTap: (){
+                    context.pop();
+                  }),
+                  const SizedBox(
+                    width: 8,
+                  ),
                   RichText(
-                      text: TextSpan(
-                          text: context.tr(receivedFromKey),
+                      text:
+                      TextSpan(
                           style: AppTheme
                               .styleWithTextGray7AdelleSansExtendedFonts16w400,
                           children: <TextSpan>[
                             TextSpan(
+                                text: "+(${widget.codeCountry})",
+                                style: AppTheme
+                                    .styleWithTextBlack4AdelleSansExtendedFonts14w400
+                                .copyWith(
+                              decoration: TextDecoration.underline,) // Underline the text
+                            ),
+                            TextSpan(
                                 text: widget.phone,
                                 style: AppTheme
-                                    .styleWithTextBlackAdelleSansExtendedFonts16w700)
+                                    .styleWithTextBlack4AdelleSansExtendedFonts14w400
+                                    .copyWith(
+                                  decoration: TextDecoration.underline, // Underline the text
+                                ))
                           ])),
-                  const SizedBox(
-                    width: 8,
-                  ),
-                  InkWell(child: SVGIcons.editIcon(),onTap: (){
-                    context.pop();
-                  }),
                 ],
               ),
               const SizedBox(height: 40,),
               OTPFields(key: otpFieldsKeys,),
-              const SizedBox(height: 24,),
+              const SizedBox(height: 16,),
+              Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: TimerText(key: timerKey,onResendOtp: (){
+                    sendOtp();
+                  },)
+              ),
+              const SizedBox(height: 70,),
               Padding(padding : const EdgeInsets.symmetric(horizontal: defaultPaddingHorizontal), child: AppButton(onPress: () {
                 if(otpFieldsKeys.currentState?.formKey.currentState?.validate() == true){
                   verifyPhone(widget.phone,otpFieldsKeys.currentState?.getCode);
                 }
-              } ,text: context.tr(continueKey),height: 48,width: context.getScreenSize.width,)),
-              Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: TimerText(key: timerKey,onTimerFinish: (){
-                    setState(() {
-                      readyToResendOtp = true;
-                    });
-                  },)
-              ),
+              } ,text: context.tr(verifyKey),height: 48,width: context.getScreenSize.width,)),
 
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                child: RichText(
-                  text: TextSpan(
-                    text: context.tr(resendVerificationCodeKey),
-                    style: TextStyle(
-                      color: readyToResendOtp ? AppTheme.mainAppColor : AppTheme.appGrey3, // Set the color to green
-                      fontSize: 16.0,
-                      decoration: TextDecoration.underline, // Underline the text
-                    ),
-                    recognizer: TapGestureRecognizer()..onTap = !readyToResendOtp ? null : (){
-                      sendOtp();
-                      setState(() {
-                        readyToResendOtp = false;
-                      });
-                    },
-                  ),
-                ),
-              ),
             ],
           ),
         ),

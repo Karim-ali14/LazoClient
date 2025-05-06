@@ -59,6 +59,7 @@ class AppTheme {
   static const Color mainBackgroundDarkColor = Color(0xFF0E0314);
   static const Color mainBackgroundSemiDarkColor = Color(0xFF0E0322);
   static const Color blackColor2 = Color(0xFF333333);
+  static const Color blackColor4 = Color(0xFF525252);
   static const Color cardColor = Color(0xFFfcfcfc);
   static const Color lightTextColor = Colors.white;
   static Color? lightDetailTextColor = Colors.grey[200];
@@ -260,6 +261,9 @@ class AppTheme {
 
   static const TextStyle styleWithTextBlackAdelleSansExtendedFonts14w400 = TextStyle(
       color: Colors.black , fontSize: 14, fontWeight: FontWeight.w400);
+
+  static const TextStyle styleWithTextBlack4AdelleSansExtendedFonts14w400 = TextStyle(
+      color: blackColor4 , fontSize: 14, fontWeight: FontWeight.w400);
 
   static const TextStyle styleWithTextAppRedColorAdelleSansExtendedFonts14w400 = TextStyle(
       color: appRedColor , fontSize: 14, fontWeight: FontWeight.w400);

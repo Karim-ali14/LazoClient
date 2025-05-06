@@ -226,7 +226,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     context.push(R_OTP, extra: {
       "phone": phoneController.text.toString(),
       "type": OTPType.Login,
-      "typeOfMode": widget.type
+      "typeOfMode": widget.type,
+      "codeCountry" : code.value.removeFirstChar("+"),
     });
   }
 }

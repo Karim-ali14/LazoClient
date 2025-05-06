@@ -156,3 +156,11 @@ extension TextEllipsize on String{
     }
   }
 }
+extension StringExtension on String {
+  String removeFirstChar(String char) {
+    if (isNotEmpty && this[0] == char) {
+      return substring(1);
+    }
+    return this;
+  }
+}

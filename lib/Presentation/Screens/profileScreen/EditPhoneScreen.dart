@@ -136,6 +136,7 @@ class _EditPhoneScreenState extends ConsumerState<EditPhoneScreen> {
       "phone": phoneTextEditingController.text.toString(),
       "type": OTPType.Update,
       "typeOfMode": TypeOfMode.ViewMode,
+      "codeCountry" : "+966",
     });
   }
 
