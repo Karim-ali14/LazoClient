@@ -245,7 +245,7 @@ class _OtpScreenState extends ConsumerState<OTPScreen> {
   }
 
   void verifyPhone(String phone, String? code) async {
-    ref.read(confirmResetCodeStateProvider.notifier).confirmReset(phone, code);
+    ref.read(confirmResetCodeStateProvider.notifier).confirmReset(phone, code,countryCode: widget.codeCountry);
   }
 
   void initFcmToken() async {
@@ -309,7 +309,7 @@ class _OtpScreenState extends ConsumerState<OTPScreen> {
     ref.read(getCanselOrderStateProvider.notifier).getOrders();
     ref.read(fetchCardDetailsStateNotifies.notifier).getCardDetails();
     ref
-        .read(getWishListProductsStateNotifier.notifier)
+        .read(getWishListItemsStateNotifier.notifier)
         .fetchAllProductsInWishlist();
     ref
         .read(getWishListServicesStateNotifier.notifier)
