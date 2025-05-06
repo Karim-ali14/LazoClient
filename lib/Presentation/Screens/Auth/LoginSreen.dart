@@ -1,4 +1,3 @@
-import 'package:country_picker/country_picker.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:fl_country_code_picker/fl_country_code_picker.dart';
 import 'package:flutter/cupertino.dart';
@@ -35,7 +34,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   final countryPicker = const FlCountryCodePicker();
   final TextEditingController codeController =
       TextEditingController(text: '+966');
-  final ValueNotifier<String> code = ValueNotifier("+966");
+  final ValueNotifier<String> code = ValueNotifier("");
+  final ValueNotifier<bool> isCountryCodeEmpty = ValueNotifier(false);
   @override
   Widget build(BuildContext context) {
     handleState(sendOtpForLoginStateProvider, showLoading: true,
@@ -92,7 +92,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 ),
                 SVGIcons.localSVG(lazoLogoAuth, width: 113, height: 95),
                 const SizedBox(
-                  height: 40,
+                  height: 50,
                 ),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -103,37 +103,49 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                         final country =
                             await countryPicker.showPicker(context: context);
                         if (country != null) {
-                            code.value = country.dialCode;
+                          isCountryCodeEmpty.value = false;
+                          code.value = country.dialCode;
                         }
                       },
-                      child: Container(
-                        width: 84,
-                        height: 58,
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(8))),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            ValueListenableBuilder(
-                              valueListenable: code,
-                              builder: ( context, value,  child){
-                                return Text(
-                                  value,
-
-                                  style: AppTheme
-                                      .styleWithTextAppGrey7AdelleSansExtendedFonts14w400,
-                                );
-                              },
+                      child: ValueListenableBuilder(
+                        valueListenable: isCountryCodeEmpty,
+                        builder: (context,selected,_){
+                          return Container(
+                            width: 84,
+                            height: 58,
+                            decoration: BoxDecoration(
+                              color: Colors.white ,
+                              border: Border.all(width: 1,color: selected ? AppTheme.mainAppColorDark : Colors.white ),
+                              borderRadius: BorderRadius.all(Radius.circular(8)),
                             ),
-                            SizedBox(
-                              width: 8,
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                ValueListenableBuilder(
+                                  valueListenable: code,
+                                  builder: (context, value, child) {
+                                    return Text(
+                                      value.isNotEmpty ? value : "+966",
+                                      style: value.isNotEmpty
+                                          ? AppTheme
+                                          .styleWithTextBlackColor2AdelleSansExtendedFonts14w400
+                                          : AppTheme
+                                          .styleWithTextAppGrey18AdelleSansExtendedFonts14w400,
+                                    );
+                                  },
+                                ),
+                                SizedBox(
+                                  width: 8,
+                                ),
+                                SVGIcons.localSVG(downArrowImg,
+                                    width: 10,
+                                    height: 10,
+                                    color: AppTheme.blackColor2)
+                              ],
                             ),
-                            SVGIcons.localSVG(downArrowImg,width: 10,height: 10,color: AppTheme.appGrey11)
-                          ],
-                        ),
+                          );
+                        },
                       ),
                     ),
                     const SizedBox(width: 8),
@@ -157,7 +169,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   ],
                 ),
                 const SizedBox(
-                  height: 24,
+                  height: 50,
                 ),
                 AppButton(
                   width: context.getScreenSize.width,
@@ -203,10 +215,11 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   }
 
   void sendOtp() async {
-    if (formKey.currentState?.validate() == true) {
-      ref
-          .read(sendOtpForLoginStateProvider.notifier)
-          .sendOtp(phoneController.text.toString(),countryCode: code.value.removeFirstChar("+"));
+    isCountryCodeEmpty.value = code.value.isEmpty;
+    if (formKey.currentState?.validate() == true && code.value.isNotEmpty) {
+      ref.read(sendOtpForLoginStateProvider.notifier).sendOtp(
+          phoneController.text.toString(),
+          countryCode: code.value.removeFirstChar("+"));
     }
   }
 
@@ -219,7 +232,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       "phone": phoneController.text.toString(),
       "type": OTPType.Login,
       "typeOfMode": widget.type,
-      "codeCountry" : code.value.removeFirstChar("+"),
+      "codeCountry": code.value.removeFirstChar("+"),
     });
   }
 }

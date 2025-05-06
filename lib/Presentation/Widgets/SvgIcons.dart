@@ -90,9 +90,9 @@ class SVGIcons {
         width: 24, height: 24, fit: BoxFit.scaleDown);
   }
 
-  static Widget bottomRedArrowIcon() {
+  static Widget bottomRedArrowIcon({Color? color}) {
     return SvgPicture.asset(bottomRedArrowSvg,
-        width: 24, height: 24, fit: BoxFit.scaleDown);
+        width: 24, height: 24, fit: BoxFit.scaleDown,color: color,);
   }
 
   static Widget searchIcon({Color? color}) {
