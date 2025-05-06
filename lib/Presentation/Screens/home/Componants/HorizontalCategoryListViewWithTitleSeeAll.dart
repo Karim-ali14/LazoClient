@@ -52,7 +52,8 @@ class _HorizontalCategoryListViewWithTitleSeeAllState
         /// ListView or GridView based on isGrid
         SizedBox(
           height: widget.isGrid ? 160 : 78, // Adjust height for grid
-          child: widget.isGrid
+          child:
+          widget.isGrid
               ? GridView.builder(
                   scrollDirection: Axis.horizontal,
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(

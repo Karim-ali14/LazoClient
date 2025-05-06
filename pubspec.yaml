@@ -68,8 +68,9 @@ dependencies:
   flutter_rating_bar: ^4.0.1
   webview_flutter: ^4.8.0
   flutter_screenutil: ^5.9.3
-
-
+  country_picker: ^2.0.20
+  country_code_picker: ^3.3.0
+  fl_country_code_picker: ^0.1.9+1
 
 dev_dependencies:
   change_app_package_name: ^1.1.0
@@ -100,6 +101,7 @@ flutter:
   assets:
     - assets/images/
     - assets/translations/
+    - packages/country_code_picker/flags/
 
   #An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

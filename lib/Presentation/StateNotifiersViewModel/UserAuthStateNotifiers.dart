@@ -15,7 +15,7 @@ final signUpStateNotifierProvider = StateNotifierProvider.autoDispose<
 
 final sendOtpForLoginStateProvider = StateNotifierProvider.autoDispose<SendOtpUseCase,
         StateModel<CodeSendResponse>>(
-    (ref) => SendOtpUseCase(ref, ref.read(publicAuthApi)));
+    (ref)  =>SendOtpUseCase(ref, ref.read(publicAuthApi)));
 
 final sendOtpForSignUpStateProvider = StateNotifierProvider.autoDispose<SendOtpUseCase,
         StateModel<CodeSendResponse>>(
@@ -40,5 +40,8 @@ final logoutStateProvider =
 final updateProfileStateProvider =
     StateNotifierProvider.autoDispose<UpdateProfileUseCase, StateModel<ClientAuthResponse>>(
         (ref) => UpdateProfileUseCase(ref,ref.read(clientApi)));
+
+
+final counterCaseStateNotifier = StateNotifierProvider<Counter,int>((ref) => Counter());
 
 

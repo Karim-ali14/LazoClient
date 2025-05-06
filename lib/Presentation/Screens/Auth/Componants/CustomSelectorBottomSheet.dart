@@ -21,6 +21,7 @@ class CustomSelectorBottomSheet extends ConsumerStatefulWidget {
   final String? searchHint;
   final List<ItemSelector> widgetList;
   List<ItemSelector> filterWidgetList = [];
+  bool showRadio ;
   String searchValue = "";
   int? itemSelectedId;
   List<int>? itemSelectedIds;
@@ -31,6 +32,7 @@ class CustomSelectorBottomSheet extends ConsumerStatefulWidget {
   CustomSelectorBottomSheet(
       {super.key,
       required this.context,
+      this.showRadio = true,
       this.enableSearch,
       this.title,required this.btuName,
       required this.widgetList,
@@ -118,7 +120,9 @@ class _CustomSelectorBottomSheetState
                                 children: [
                                   Transform.scale(
                                     scale: 1.2,
-                                    child: Radio(
+                                     child:
+                                     widget.showRadio == true ?
+                                     Radio(
                                         value: list.isNotEmpty
                                             ? list[index].id
                                             : 0,
@@ -139,7 +143,10 @@ class _CustomSelectorBottomSheetState
                                           setState(() {
                                             widget.itemSelectedId = value;
                                           });
-                                        }),
+                                        }):
+                                Container(
+                                  height: 50,
+                                )
                                   ),
                                   const SizedBox(
                                     width: 2,

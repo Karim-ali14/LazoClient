@@ -23,6 +23,15 @@ class SVGIcons {
     );
   }
 
+  static Widget localGIF(String assetPath, {double width = 50, double height = 50 , Color? color}) {
+    return Image.asset(
+      assetPath,
+      width: width,
+      height: height,
+      color: color,
+    );
+  }
+
   static Widget defaultUserIcon(){
     return SvgPicture.asset(
       defaultUserImg,
