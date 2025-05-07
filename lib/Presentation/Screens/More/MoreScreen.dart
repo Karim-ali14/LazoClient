@@ -95,19 +95,24 @@ class _MoreScreenState extends ConsumerState<MoreScreen> {
                         horizontal: defaultPaddingHorizontal),
                     child: Column(
                       children: [
-                        MoreItemCard(
-                          text: "Wallet",
-                          startIcon: SVGIcons.localSVG(
-                            walletIcon,
-                            width: 20,
-                            height: 20,
+                        InkWell(
+                          onTap: (){
+                            navigateToWallet();
+                          },
+                          child: MoreItemCard(
+                            text: "Wallet",
+                            startIcon: SVGIcons.localSVG(
+                              walletIcon,
+                              width: 20,
+                              height: 20,
+                            ),
+                            endWidget: Text(
+                              "${context.tr(sarKey)} ${client.client?.balance}",
+                              style: AppTheme
+                                  .styleWithTextBlack2AdelleSansExtendedFonts12w400,
+                            ),
+                            withDivider: false,
                           ),
-                          endWidget: Text(
-                            "${context.tr(sarKey)} ${client.client?.balance}",
-                            style: AppTheme
-                                .styleWithTextBlack2AdelleSansExtendedFonts12w400,
-                          ),
-                          withDivider: false,
                         ),
                       ],
                     ),
@@ -387,5 +392,9 @@ class _MoreScreenState extends ConsumerState<MoreScreen> {
 
   void changeLang(String lang) {
     ref.read(langProvider.notifier).fetchLocale(lang);
+  }
+
+  void navigateToWallet() {
+    context.push(R_Walletscreen);
   }
 }
