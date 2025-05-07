@@ -20,7 +20,7 @@ class TimerTextState extends State<TimerText> {
   final StreamController<int> _timerStreamController = StreamController<int>();
   late Timer _timer;
   int _secondsElapsed = 0;
-  int _totalSeconds = 10;
+  int _totalSeconds = 90;
   ValueNotifier<bool> readyToResendOtp = ValueNotifier(false);
   @override
   Widget build(BuildContext context) {
@@ -73,7 +73,7 @@ class TimerTextState extends State<TimerText> {
   @override
   void initState() {
     super.initState();
-    _totalSeconds = widget.durationSeconds ?? 10;
+    _totalSeconds = widget.durationSeconds ?? 90;
     _startTimer();
   }
 
@@ -98,7 +98,7 @@ class TimerTextState extends State<TimerText> {
   void restart() {
     setState(() {
       _timer.cancel();
-      _totalSeconds = widget.durationSeconds ?? 10;
+      _totalSeconds = widget.durationSeconds ?? 90  ;
       _secondsElapsed = 0;
     });
     _startTimer();

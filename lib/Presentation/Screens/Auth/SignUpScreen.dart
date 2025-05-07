@@ -9,6 +9,7 @@ import 'package:go_router/go_router.dart';
 import 'package:lazo_client/Constants/Constants.dart';
 import 'package:lazo_client/Doman/CommenProviders/ApiProvider.dart';
 import 'package:lazo_client/Presentation/Screens/Auth/Componants/CustomSelectorCitySheet.dart';
+import 'package:lazo_client/Presentation/Screens/Auth/Componants/phone_field_with_country_code.dart';
 
 import 'package:lazo_client/Presentation/StateNotifiersViewModel/PublicStateNotifiers.dart';
 import 'package:lazo_client/Presentation/Widgets/CircleImagePicker.dart';
@@ -48,8 +49,9 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
   final CodeCountryController = TextEditingController();
   final countryPicker = const FlCountryCodePicker();
   final formKey = GlobalKey<FormState>();
-  final ValueNotifier<String> code = ValueNotifier("");
+  String? countryCode;
   final ValueNotifier<bool> isCountryCodeEmpty = ValueNotifier(false);
+  final ValueNotifier<String> code = ValueNotifier("");
   File? imageFile = null;
   List<City> cities = [];
   List<String?> images = [];
@@ -170,82 +172,10 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                   const SizedBox(
                     height: defaultPaddingHorizontal,
                   ),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        // كود الدولة (TextField + Picker)
-                        GestureDetector(
-                          onTap: () async {
-                            final country =
-                            await countryPicker.showPicker(context: context);
-                            if (country != null) {
-                              isCountryCodeEmpty.value = false;
-                              code.value = country.dialCode;
-                            }
-                          },
-                          child:ValueListenableBuilder(
-                            valueListenable: isCountryCodeEmpty,
-                            builder: (context,selected,_){
-                              return Container(
-                                width: 84,
-                                height: 58,
-                                decoration: BoxDecoration(
-                                  color: Colors.white ,
-                                  border: Border.all(width: 1,color: selected ? AppTheme.mainAppColorDark : Colors.white ),
-                                  borderRadius: BorderRadius.all(Radius.circular(8)),
-                                ),
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    ValueListenableBuilder(
-                                      valueListenable: code,
-                                      builder: (context, value, child) {
-                                        return Text(
-                                          value.isNotEmpty ? value : "+966",
-                                          style: value.isNotEmpty
-                                              ? AppTheme
-                                              .styleWithTextBlackColor2AdelleSansExtendedFonts14w400
-                                              : AppTheme
-                                              .styleWithTextAppGrey18AdelleSansExtendedFonts14w400,
-                                        );
-                                      },
-                                    ),
-                                    SizedBox(
-                                      width: 8,
-                                    ),
-                                    SVGIcons.localSVG(downArrowImg,
-                                        width: 10,
-                                        height: 10,
-                                        color: AppTheme.blackColor2)
-                                  ],
-                                ),
-                              );
-                            },
-                          ),
-                        ),
-                        const SizedBox(width: 8),
-                        Expanded(
-                        child: AppTextField(
-                          textInputType: TextInputType.phone,
-                          textFieldBorderColor: Colors.white,
-                          mode: AutovalidateMode.onUserInteraction,
-                          hint: context.tr(phoneNumberKey),
-                          label: context.tr(phoneNumberKey),
-                          textEditingController: phoneController,
-                          validate: (value) {
-                            if (value?.isEmpty == true) {
-                              return context.tr(enterYourPhoneKey);
-                            } else if (value?.isPhoneValidate == false) {
-                              return "Must start with 5 and be 9 digits long";
-                            } else {
-                              return null;
-                            }
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
+                  PhoneFieldWithCountryCode(phoneController: phoneController, onSelectCountryCode: (codeSelected){
+                    countryCode = codeSelected;
+                    code.value  = codeSelected;
+                  }, isCountryCodeEmpty: isCountryCodeEmpty,),
                   const SizedBox(
                     height: defaultPaddingHorizontal,
                   ),
@@ -279,8 +209,9 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                     width: context.getScreenSize.width,
                     height: 48,
                     onPress: () {
-                      // cityController.text = "sdafsd";
-                      isCountryCodeEmpty.value = code.value.isEmpty;
+                      isCountryCodeEmpty.value = countryCode?.isEmpty ?? true;
+                      print(isCountryCodeEmpty.value);
+                      print(countryCode);
                       if (formKey.currentState?.validate() == true && images.isNotEmpty) {
                         uploadFiles();
                       }else if(formKey.currentState?.validate() == true){
@@ -313,14 +244,14 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
       "cityId": "$cityItemSelected",
       "type": OTPType.SignUp,
       "typeOfMode": widget.typeOfMode,
-      "codeCountry" : code.value.removeFirstChar("+"),
+      "codeCountry" : countryCode?.removeFirstChar("+"),
     });
   }
 
   void sendCode() {
     ref
         .read(sendOtpForSignUpStateProvider.notifier)
-        .sendOtp(phoneController.text.toString(),countryCode: code.value.removeFirstChar("+")
+        .sendOtp(phoneController.text.toString(),countryCode: countryCode?.removeFirstChar("+")
     );
   }
 

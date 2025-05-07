@@ -1,11 +1,13 @@
 import 'dart:io';
 
 import 'package:easy_localization/easy_localization.dart';
+import 'package:fl_country_code_picker/fl_country_code_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lazo_client/Doman/CommenProviders/ApiProvider.dart';
 import 'package:lazo_client/Presentation/Theme/AppTheme.dart';
@@ -17,6 +19,7 @@ import 'package:lazo_client/Utils/Extintions.dart';
 import 'package:lazo_client/Utils/ValidationEx.dart';
 import 'package:lazo_client/main.dart';
 
+import '../../../Constants.dart';
 import '../../../Constants/Constants.dart';
 import '../../../Data/Models/ItemSelector.dart';
 import '../../../Data/Network/lib/api.dart';
@@ -25,6 +28,8 @@ import '../../StateNotifiersViewModel/PublicStateNotifiers.dart';
 import '../../StateNotifiersViewModel/UserAuthStateNotifiers.dart';
 import '../../Widgets/CircleImagePicker.dart';
 import '../Auth/Componants/CustomSelectorBottomSheet.dart';
+import '../Auth/Componants/CustomSelectorCitySheet.dart';
+import '../Auth/Componants/phone_field_with_country_code.dart';
 
 class EditProfileScreen extends ConsumerStatefulWidget {
   const EditProfileScreen({super.key});
@@ -38,6 +43,9 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
   final phoneController = TextEditingController();
   final emailController = TextEditingController();
   final cityController = TextEditingController();
+  final countryPicker = const FlCountryCodePicker();
+  final ValueNotifier<bool> isCountryCodeEmpty = ValueNotifier(false);
+  String? countryCode;
   final formKey = GlobalKey<FormState>();
   File? imageFile = null;
   List<City> cities = [];
@@ -95,7 +103,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                   ),
                   AppTextField(
                     textInputType: TextInputType.name,
-                    textFieldBorderColor: AppTheme.appGrey3,
+                    textFieldBorderColor: Colors.white,
                     mode: AutovalidateMode.onUserInteraction,
                     hint: context.tr(fullNameKey),
                     label: context.tr(fullNameKey),
@@ -113,7 +121,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                   ),
                   AppTextField(
                     textInputType: TextInputType.emailAddress,
-                    textFieldBorderColor: AppTheme.appGrey3,
+                    textFieldBorderColor: Colors.white,
                     mode: AutovalidateMode.onUserInteraction,
                     hint: context.tr(emailAddressOptionalKey),
                     label: context.tr(emailAddressOptionalKey),
@@ -129,15 +137,47 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                   const SizedBox(
                     height: defaultPaddingHorizontal,
                   ),
+                  Stack(
+                    children: [
+                      AbsorbPointer(
+                        absorbing: true, // يعطل كل التفاعلات
+                        child: PhoneFieldWithCountryCode(
+                          initCodeValue: "+${client?.client?.countryCode}",
+                          phoneController: phoneController,
+                          onSelectCountryCode: (code) {
+                            countryCode = code;
+                          },
+                          isCountryCodeEmpty: isCountryCodeEmpty,
+                        ),
+                      ),
+                      PositionedDirectional(
+                          end: 10,
+                          child: InkWell(
+                            onTap: (){
+                              navigateToEditPhone();
+                            },
+                            child: SizedBox(
+                                height: 58.h,
+                                child: const Center(child: Text("Change",style: AppTheme.styleWithTextMainAppColorAdelleSansExtendedFonts14w400,)
+
+                                )),
+                          ))
+                    ],
+                  ),
+                  const SizedBox(
+                    height: defaultPaddingHorizontal,
+                  ),
                   AppTextField(
                     endWidget: InkWell(
                         onTap: () {
                           showCitesBottomSheet();
                         },
-                        child: SVGIcons.bottomRedArrowIcon()),
+                        child: SVGIcons.bottomRedArrowIcon(
+                          color: Colors.black
+                        )),
                     readOnly: true,
                     textInputType: TextInputType.text,
-                    textFieldBorderColor: AppTheme.appGrey3,
+                    textFieldBorderColor:  Colors.white,
                     mode: AutovalidateMode.onUserInteraction,
                     hint: context.tr(chooseCityKey),
                     label: context.tr(chooseCityKey),
@@ -189,15 +229,16 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
             borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(10), topRight: Radius.circular(10))),
         builder: (BuildContext context) {
-          return CustomSelectorBottomSheet(
+          return CustomSelectorCitySheet(
               context: context,
+              showRadio: false,
               btuName: context.tr("Ok"),
-              enableSearch: true,
-              title: context.tr("chooseManufacturingYearsKey"),
+              enableSearch: false,
+              title: context.tr("Select City"),
               widgetList: cities
                   .map((e) => ItemSelector(e.id ?? 0, e.name ?? "", null))
                   .toList(),
-              searchHint: "Search by",
+              searchHint: context.tr(searchByKey),
               itemSelectedId: cityItemIdSelected,
               isSingleSelect: true,
               onSelectMultiItemsCallback: (items) {},
@@ -208,8 +249,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                   cityController.text =
                       cities.firstWhere((item) => item.id == itemid).name ?? "";
                 }
-
-                Navigator.pop(context);
+                // Navigator.pop(context);
               });
         });
   }
@@ -230,7 +270,14 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
       name: fullNameController.text ,
       email: emailController.text ,
       phone: phoneController.text,
+      countryCode: countryCode?.removeFirstChar("+"),
       image: imageLink
     );
+  }
+  void navigateToEditPhone() async{
+    var makeRefresh = await context.push(R_EditPhoneScreen);
+    if(makeRefresh == true){
+      setClientData(ref.watch(clientStateProvider));
+    }
   }
 }
