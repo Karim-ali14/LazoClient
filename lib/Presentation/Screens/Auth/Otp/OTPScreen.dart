@@ -309,6 +309,9 @@ class _OtpScreenState extends ConsumerState<OTPScreen> {
     ref.read(getCanselOrderStateProvider.notifier).getOrders();
     ref.read(fetchCardDetailsStateNotifies.notifier).getCardDetails();
     ref
+        .read(showWishlistCollectionsStateNotifier.notifier)
+        .fetchWishlistCollections();
+    ref
         .read(getWishListItemsStateNotifier.notifier)
         .fetchAllProductsInWishlist();
     ref

@@ -54,23 +54,27 @@ class _ServiceOccasionScreenState extends ConsumerState<ServiceWishlistScreen> {
   Widget build(BuildContext context) {
     final client = ref.watch(clientStateProvider);
 
-    handleState(serviceToggleStateNotifier, showLoading: true,
+    handleState(serviceToggleStateNotifier,
         onSuccess: (res) {
+      print("jhkjhkjhkjhkjhjk${res.data?.data?.serviceId}");
+      // ref
+      //     .read(getSellerDetailsWithServicesStateNotifier.notifier)
+      //     .handleAddServiceToWishList(
+      //         res.data?.data?.serviceId?.toInt() ?? 0,
+      //         res.data?.data?.categoriesIds ?? [],
+      //         res.data?.data?.inWishlist ?? false,res.data?.data?.collectionId);
       ref
-          .read(getSellerDetailsWithServicesStateNotifier.notifier)
-          .handleAddServiceToWishList(
-              res.data?.data?.serviceId?.toInt() ?? 0,
-              res.data?.data?.categoriesIds ?? [],
-              res.data?.data?.inWishlist ?? false,res.data?.data?.collectionId);
-
-      ref.read(getServiceDetails.notifier).handelAddServiceToWishList(
-          res.data?.data?.serviceId ?? 0, res.data?.data?.inWishlist ?? false,res.data?.data?.collectionId);
-
-      ref.read(homeDataStateNotifiers.notifier).handelAddServiceToWishList(
-          res.data?.data?.serviceId ?? 0, res.data?.data?.inWishlist ?? false,res.data?.data?.collectionId);
-
-      ref.read(getServicesStateNotifiers.notifier).handelAddServiceToWishlist(
-          res.data?.data?.serviceId ?? 0, res.data?.data?.inWishlist ?? false,res.data?.data?.collectionId);
+          .read(getWishListServicesStateNotifier.notifier)
+          .deleteServiceItem((res.data?.data?.serviceId??0).toString());
+      //
+      // ref.read(getServiceDetails.notifier).handelAddServiceToWishList(
+      //     res.data?.data?.serviceId ?? 0, res.data?.data?.inWishlist ?? false,res.data?.data?.collectionId);
+      //
+      // ref.read(homeDataStateNotifiers.notifier).handelAddServiceToWishList(
+      //     res.data?.data?.serviceId ?? 0, res.data?.data?.inWishlist ?? false,res.data?.data?.collectionId);
+      //
+      // ref.read(getServicesStateNotifiers.notifier).handelAddServiceToWishlist(
+      //     res.data?.data?.serviceId ?? 0, res.data?.data?.inWishlist ?? false,res.data?.data?.collectionId);
     });
 
     handleState(addServiceToCartUseCaseStateNotifier, showLoading: true,
@@ -82,6 +86,7 @@ class _ServiceOccasionScreenState extends ConsumerState<ServiceWishlistScreen> {
     });
 
     final servicesState = ref.watch(getWishListServicesStateNotifier);
+    print("jhkjhkjhkjhkjhjk : ${servicesState.state}");
 
     return Column(
       children: [

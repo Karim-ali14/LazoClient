@@ -92,7 +92,8 @@ class WishListProductsUseCase extends StateNotifier<
     var data = state.data;
     data?.data?.services = [...?services];
 
-    if (services?.isEmpty == true) {
+    print("jhkjhkjhkjhkjhjk ${services?.isEmpty}");
+    if (services?.isEmpty == true || services == null) {
       state = StateModel.empty(data: data);
     } else {
       state = StateModel.success(data);
@@ -107,6 +108,9 @@ class ShowWishlistCollectionsUseCase
   void fetchWishlistCollections() {
     state = StateModel.loading();
     requestWithHandleMessage(() => wishlistApi.showWishlistCollections());
+  }
+  void clearCollections() {
+    state = StateModel.empty();
   }
 }
 

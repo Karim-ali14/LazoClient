@@ -377,6 +377,10 @@ class _MoreScreenState extends ConsumerState<MoreScreen> {
   void updateMainScreen() {
     ref.read(homeDataStateNotifiers.notifier).getHomeData();
     ref.read(fetchCardDetailsStateNotifies.notifier).getCardDetails();
+    ref
+        .read(showWishlistCollectionsStateNotifier.notifier)
+        .clearCollections();
+
   }
 
   void rebuildMainScreen() {

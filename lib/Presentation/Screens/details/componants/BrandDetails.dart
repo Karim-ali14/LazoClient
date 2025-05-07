@@ -52,7 +52,7 @@ class BrandDetails extends StatelessWidget {
                 onTap: (){
                   onProviderClick.call(provider?.id);
                 },
-                child: Text("By ${provider?.name?.ellipsize(20)}",style: AppTheme.styleWithTextAppGrey21AdelleSansExtendedFonts14w500.copyWith(decoration: TextDecoration.underline),)),
+                child: Text("By ${provider?.name?.ellipsize(18)}",style: AppTheme.styleWithTextAppGrey21AdelleSansExtendedFonts14w500.copyWith(decoration: TextDecoration.underline),)),
             const SizedBox(width: 5,),
             Container(
               width: 5,

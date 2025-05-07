@@ -520,11 +520,12 @@ class _ProductAndServiceDetailsScreenState
                                     showUnreadyGiftDialog(context,productItemState.data?.data?.type == ProductType.ready_made_gifts.name ? ProductTypes.ready_made_gifts : ProductTypes.various_gifts);
                                   },
                                 ),
-                                ItemDetailsRow(
+                                productItemState
+                                    .data?.data?.colors.isNotEmpty == true ? ItemDetailsRow(
                                   title: "Color:",
                                   textValue: productItemState
                                       .data?.data?.colors.first.name,
-                                ),
+                                ) : const SizedBox(),
                                 ItemDetailsRow(
                                   title: "Product Size:",
                                   textValue:
@@ -910,53 +911,41 @@ class _ProductAndServiceDetailsScreenState
                                           height: 24,
                                         ),
                                         IntrinsicHeight(
-                                          child: Container(
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 12.0, vertical: 6),
-                                            clipBehavior: Clip.antiAlias,
-                                            decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(4),
-                                              border: Border.all(
-                                                  color: AppTheme.appGrey8),
-                                              color: Colors.white,
-                                            ),
-                                            child: ProductMultipleSelectItems(
-                                              list: serviceItemState.data?.data
-                                                      ?.lists?[index].items
-                                                      .map((item) =>
-                                                          ItemSelector(
-                                                              item.id?.toInt() ??
-                                                                  0,
-                                                              item.name ?? "",
-                                                              Text(
-                                                                "SAR ${item.price}",
-                                                                style: AppTheme
-                                                                    .styleWithTextAppGrey7AdelleSansExtendedFonts14w400,
-                                                              )))
-                                                      .toList() ??
-                                                  [],
-                                              onItemSelect: (items) {
-                                                var categoryId =
-                                                    serviceItemState.data?.data
-                                                            ?.lists?[index].id
-                                                            ?.toInt() ??
-                                                        0;
+                                          child: ProductMultipleSelectItemsModify(
+                                            list: serviceItemState.data?.data
+                                                    ?.lists?[index].items
+                                                    .map((item) =>
+                                                        ItemSelector(
+                                                            item.id?.toInt() ??
+                                                                0,
+                                                            item.name ?? "",
+                                                            Text(
+                                                              "SAR ${item.price}",
+                                                              style: AppTheme
+                                                                  .styleWithTextAppGrey7AdelleSansExtendedFonts14w400,
+                                                            )))
+                                                    .toList() ??
+                                                [],
+                                            onItemSelect: (items) {
+                                              var categoryId =
+                                                  serviceItemState.data?.data
+                                                          ?.lists?[index].id
+                                                          ?.toInt() ??
+                                                      0;
 
-                                                serviceSelectedItemsIds[
-                                                    categoryId] = items;
-                                              },
-                                              itemSelect: serviceItemState
-                                                      .data
-                                                      ?.data
-                                                      ?.lists?[index]
-                                                      .clientSelectedItemsInCart
-                                                      ?.map((toElement) =>
-                                                          toElement.id
-                                                              .toString())
-                                                      .toList() ??
-                                                  [],
-                                            ),
+                                              serviceSelectedItemsIds[
+                                                  categoryId] = items;
+                                            },
+                                            itemSelect: serviceItemState
+                                                    .data
+                                                    ?.data
+                                                    ?.lists?[index]
+                                                    .clientSelectedItemsInCart
+                                                    ?.map((toElement) =>
+                                                        toElement.id
+                                                            .toString())
+                                                    .toList() ??
+                                                [],
                                           ),
                                         )
                                       ],
