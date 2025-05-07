@@ -1060,7 +1060,7 @@ void (empty response body)
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **updateProfile**
-> ClientAuthResponse updateProfile(cityId, email, image, name, phone)
+> ClientAuthResponse updateProfile(cityId, email, image, name, phone, countryCode)
 
 update profile
 
@@ -1082,9 +1082,10 @@ final email = email_example; // String |
 final image = image_example; // String | 
 final name = name_example; // String | 
 final phone = phone_example; // String | need verification before updating this field here
+final countryCode = countryCode_example; // String | 
 
 try {
-    final result = api_instance.updateProfile(cityId, email, image, name, phone);
+    final result = api_instance.updateProfile(cityId, email, image, name, phone, countryCode);
     print(result);
 } catch (e) {
     print('Exception when calling ClientApi->updateProfile: $e\n');
@@ -1100,6 +1101,7 @@ Name | Type | Description  | Notes
  **image** | **String**|  | [optional] 
  **name** | **String**|  | [optional] 
  **phone** | **String**| need verification before updating this field here | [optional] 
+ **countryCode** | **String**|  | [optional] 
 
 ### Return type
 

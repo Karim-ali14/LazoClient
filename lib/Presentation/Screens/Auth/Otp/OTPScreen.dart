@@ -121,6 +121,7 @@ class _OtpScreenState extends ConsumerState<OTPScreen> {
     handleState(updateProfileStateProvider, onSuccess: (res) {
       var client = ref.watch(clientStateProvider);
       client?.client = res.data?.data?.client;
+      print("client Code ${client?.client?.countryCode}");
       ref.read(clientStateProvider.notifier).setUser(client);
       context.pop();
       context.pop();
@@ -298,7 +299,7 @@ class _OtpScreenState extends ConsumerState<OTPScreen> {
   void updatePhone() {
     ref
         .read(updateProfileStateProvider.notifier)
-        .updateProfile(phone: widget.phone);
+        .updateProfile(phone: widget.phone,countryCode: widget.codeCountry);
   }
 
   void updateMainScreen() {

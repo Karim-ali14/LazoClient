@@ -21,6 +21,7 @@ import '../../Theme/AppTheme.dart';
 import '../../Widgets/AppButton.dart';
 import '../../Widgets/AppTextField.dart';
 import '../../Widgets/SvgIcons.dart';
+import '../Auth/Componants/phone_field_with_country_code.dart';
 
 class EditPhoneScreen extends ConsumerStatefulWidget {
   const EditPhoneScreen({super.key});
@@ -32,17 +33,19 @@ class EditPhoneScreen extends ConsumerStatefulWidget {
 class _EditPhoneScreenState extends ConsumerState<EditPhoneScreen> {
   final formKey = GlobalKey<FormState>();
   final phoneTextEditingController = TextEditingController();
-
+  final ValueNotifier<bool> isCountryCodeEmpty = ValueNotifier(false);
+  String? countryCode;
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((call) {
+      countryCode = ref.watch(clientStateProvider)?.client?.countryCode;
       setClientData(ref.watch(clientStateProvider));
     });
     super.initState();
   }
   @override
   Widget build(BuildContext context) {
-
+    var client = ref.watch(clientStateProvider);
     handleState(sendOtpForLoginStateProvider, showLoading: true,
         onSuccess: (res) {
           if (res.data?.isExist == true) {
@@ -75,23 +78,13 @@ class _EditPhoneScreenState extends ConsumerState<EditPhoneScreen> {
               const SizedBox(
                 height: 24,
               ),
-              AppTextField(
-                textInputType: TextInputType.phone,
-                textFieldBorderColor: AppTheme.appGrey3,
-                mode: AutovalidateMode.onUserInteraction,
-                hint: context.tr(phoneNumberKey),
-                label: context.tr(phoneNumberKey),
-                textEditingController: phoneTextEditingController,
-                style: AppTheme.styleWithTextGray7AdelleSansExtendedFonts16w500.copyWith(color: Colors.black),
-                validate: (value) {
-                  if (value?.isEmpty == true) {
-                    return context.tr(enterYourPhoneKey);
-                  }else if (value?.isPhoneValidate == false) {
-                    return "Must start with 5 and be 9 digits long";
-                  } else {
-                    return null;
-                  }
+              PhoneFieldWithCountryCode(
+                initCodeValue: "+${client?.client?.countryCode}",
+                phoneController: phoneTextEditingController,
+                onSelectCountryCode: (code) {
+                  countryCode = code;
                 },
+                isCountryCodeEmpty: isCountryCodeEmpty,
               ),
               const SizedBox(
                 height: defaultPaddingHorizontal,
@@ -127,16 +120,17 @@ class _EditPhoneScreenState extends ConsumerState<EditPhoneScreen> {
     if (formKey.currentState?.validate() == true) {
       ref
           .read(sendOtpForLoginStateProvider.notifier)
-          .sendOtp(phoneTextEditingController.text.toString());
+          .sendOtp(phoneTextEditingController.text.toString(),countryCode: countryCode);
     }
   }
 
   void completeEditPhone() {
+    print(countryCode?.removeFirstChar("+"));
     context.push(R_OTP, extra: {
       "phone": phoneTextEditingController.text.toString(),
       "type": OTPType.Update,
       "typeOfMode": TypeOfMode.ViewMode,
-      "codeCountry" : "+966",
+      "codeCountry" : countryCode?.removeFirstChar("+"),
     });
   }
 

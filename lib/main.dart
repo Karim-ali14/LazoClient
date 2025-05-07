@@ -38,6 +38,7 @@ import 'Presentation/Screens/Auth/Otp/OTPScreen.dart';
 import 'Presentation/Screens/More/FAQScreen.dart';
 import 'Presentation/Screens/More/MoreScreen.dart';
 import 'Presentation/Screens/Notification/NotificationScreen.dart';
+import 'Presentation/Screens/Wallet/WalletScreen.dart';
 import 'Presentation/Screens/checkout/CheckoutScreen.dart';
 import 'Presentation/Screens/details/ShowAllRatingAndReviewScreen.dart';
 import 'Presentation/Screens/home/HomeScreen.dart';
@@ -223,6 +224,11 @@ class MyApp extends ConsumerWidget {
         path: R_MainScreen,
         builder: (BuildContext context, GoRouterState state) =>
             const MainScreen(),
+      ),
+      GoRoute(
+        path: R_Walletscreen,
+        builder: (BuildContext context, GoRouterState state) =>
+        const Walletscreen(),
       ),
       GoRoute(
         path: R_LoginScreen,

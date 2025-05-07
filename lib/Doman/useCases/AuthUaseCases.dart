@@ -94,9 +94,9 @@ class UpdateProfileUseCase extends StateNotifier<StateModel<ClientAuthResponse>>
   final ClientApi clientApi;
   UpdateProfileUseCase( this.ref, this.clientApi):super(StateModel());
 
-  void updateProfile({ String? cityId, String? email, String? image, String? name, String? phone, }) async {
+  void updateProfile({ String? cityId, String? email, String? image, String? name, String? phone, String? countryCode }) async {
     state = StateModel.loading();
-    requestWithHandleMessage(() => clientApi.updateProfile(cityId: cityId,email: email,image: image,name: name,phone: phone));
+    requestWithHandleMessage(() => clientApi.updateProfile(cityId: cityId,email: email,image: image,name: name,phone: phone,countryCode: countryCode));
   }
 }
 

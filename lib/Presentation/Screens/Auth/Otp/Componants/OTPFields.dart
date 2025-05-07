@@ -64,7 +64,7 @@ class OTPFieldsState extends State<OTPFields> {
                   ),
                   focusedBorder: OutlineInputBorder(
                       borderSide:
-                          BorderSide(color: AppTheme.secondaryAppColorLight),
+                          BorderSide(color: AppTheme.blackColor2),
                       borderRadius: BorderRadius.circular(8)),
                   enabledBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: AppTheme.appGrey6),
@@ -111,7 +111,7 @@ class OTPFieldsState extends State<OTPFields> {
                   ),
                   focusedBorder: OutlineInputBorder(
                       borderSide:
-                      BorderSide(color: AppTheme.secondaryAppColorLight),
+                      BorderSide(color: AppTheme.blackColor2),
                       borderRadius: BorderRadius.circular(8)),
                   enabledBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: AppTheme.appGrey6),
@@ -160,7 +160,7 @@ class OTPFieldsState extends State<OTPFields> {
                   ),
                   focusedBorder: OutlineInputBorder(
                       borderSide:
-                          BorderSide(color: AppTheme.secondaryAppColorLight),
+                          BorderSide(color: AppTheme.blackColor2),
                       borderRadius: BorderRadius.circular(8)),
                   enabledBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: AppTheme.appGrey6),
@@ -209,7 +209,7 @@ class OTPFieldsState extends State<OTPFields> {
                   ),
                   focusedBorder: OutlineInputBorder(
                       borderSide:
-                      BorderSide(color: AppTheme.secondaryAppColorLight),
+                      BorderSide(color: AppTheme.blackColor2),
                       borderRadius: BorderRadius.circular(8)),
                   enabledBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: AppTheme.appGrey6),

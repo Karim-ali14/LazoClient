@@ -1491,7 +1491,9 @@ class ClientApi {
   ///
   /// * [String] phone:
   ///   need verification before updating this field here
-  Future<Response> updateProfileWithHttpInfo({ String? cityId, String? email, String? image, String? name, String? phone, }) async {
+  ///
+  /// * [String] countryCode:
+  Future<Response> updateProfileWithHttpInfo({ String? cityId, String? email, String? image, String? name, String? phone, String? countryCode, }) async {
     // ignore: prefer_const_declarations
     final path = r'/client/profile/update';
 
@@ -1526,6 +1528,10 @@ class ClientApi {
       hasFields = true;
       mp.fields[r'phone'] = parameterToString(phone);
     }
+    if (countryCode != null) {
+      hasFields = true;
+      mp.fields[r'country_code'] = parameterToString(countryCode);
+    }
     if (hasFields) {
       postBody = mp;
     }
@@ -1557,8 +1563,10 @@ class ClientApi {
   ///
   /// * [String] phone:
   ///   need verification before updating this field here
-  Future<ClientAuthResponse?> updateProfile({ String? cityId, String? email, String? image, String? name, String? phone, }) async {
-    final response = await updateProfileWithHttpInfo( cityId: cityId, email: email, image: image, name: name, phone: phone, );
+  ///
+  /// * [String] countryCode:
+  Future<ClientAuthResponse?> updateProfile({ String? cityId, String? email, String? image, String? name, String? phone, String? countryCode, }) async {
+    final response = await updateProfileWithHttpInfo( cityId: cityId, email: email, image: image, name: name, phone: phone, countryCode: countryCode, );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }

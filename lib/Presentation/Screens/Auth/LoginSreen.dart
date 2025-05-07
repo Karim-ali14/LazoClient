@@ -19,6 +19,7 @@ import 'package:lazo_client/Utils/Extintions.dart';
 import '../../../Localization/Keys.dart';
 import '../../../Utils/Snaks.dart';
 import '../../Widgets/LanguageText.dart';
+import 'Componants/phone_field_with_country_code.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
   final TypeOfMode? type;
@@ -34,8 +35,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   final countryPicker = const FlCountryCodePicker();
   final TextEditingController codeController =
       TextEditingController(text: '+966');
-  final ValueNotifier<String> code = ValueNotifier("");
+  final ValueNotifier<String> codeSelected = ValueNotifier("");
   final ValueNotifier<bool> isCountryCodeEmpty = ValueNotifier(false);
+  String? countryCode;
   @override
   Widget build(BuildContext context) {
     handleState(sendOtpForLoginStateProvider, showLoading: true,
@@ -94,80 +96,10 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 const SizedBox(
                   height: 50,
                 ),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // كود الدولة (TextField + Picker)
-                    GestureDetector(
-                      onTap: () async {
-                        final country =
-                            await countryPicker.showPicker(context: context);
-                        if (country != null) {
-                          isCountryCodeEmpty.value = false;
-                          code.value = country.dialCode;
-                        }
-                      },
-                      child: ValueListenableBuilder(
-                        valueListenable: isCountryCodeEmpty,
-                        builder: (context,selected,_){
-                          return Container(
-                            width: 84,
-                            height: 58,
-                            decoration: BoxDecoration(
-                              color: Colors.white ,
-                              border: Border.all(width: 1,color: selected ? AppTheme.mainAppColorDark : Colors.white ),
-                              borderRadius: BorderRadius.all(Radius.circular(8)),
-                            ),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                ValueListenableBuilder(
-                                  valueListenable: code,
-                                  builder: (context, value, child) {
-                                    return Text(
-                                      value.isNotEmpty ? value : "+966",
-                                      style: value.isNotEmpty
-                                          ? AppTheme
-                                          .styleWithTextBlackColor2AdelleSansExtendedFonts14w400
-                                          : AppTheme
-                                          .styleWithTextAppGrey18AdelleSansExtendedFonts14w400,
-                                    );
-                                  },
-                                ),
-                                SizedBox(
-                                  width: 8,
-                                ),
-                                SVGIcons.localSVG(downArrowImg,
-                                    width: 10,
-                                    height: 10,
-                                    color: AppTheme.blackColor2)
-                              ],
-                            ),
-                          );
-                        },
-                      ),
-                    ),
-                    const SizedBox(width: 8),
-                    Expanded(
-                      child: AppTextField(
-                        textInputType: TextInputType.phone,
-                        textFieldBorderColor: Colors.white,
-                        mode: AutovalidateMode.onUserInteraction,
-                        hint: context.tr(phoneNumberKey),
-                        label: context.tr(phoneNumberKey),
-                        textEditingController: phoneController,
-                        validate: (value) {
-                          if (value?.isEmpty == true) {
-                            return context.tr(enterYourPhoneKey);
-                          } else {
-                            return null;
-                          }
-                        },
-                      ),
-                    ),
-                  ],
-                ),
+                PhoneFieldWithCountryCode(phoneController: phoneController, onSelectCountryCode: (code){
+                  countryCode = code;
+                  codeSelected.value = code;
+                }, isCountryCodeEmpty: isCountryCodeEmpty,),
                 const SizedBox(
                   height: 50,
                 ),
@@ -215,11 +147,11 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   }
 
   void sendOtp() async {
-    isCountryCodeEmpty.value = code.value.isEmpty;
-    if (formKey.currentState?.validate() == true && code.value.isNotEmpty) {
+    isCountryCodeEmpty.value = countryCode?.isEmpty ?? true;
+    if (formKey.currentState?.validate() == true && codeSelected.value.isNotEmpty) {
       ref.read(sendOtpForLoginStateProvider.notifier).sendOtp(
           phoneController.text.toString(),
-          countryCode: code.value.removeFirstChar("+"));
+          countryCode: codeSelected.value.removeFirstChar("+"));
     }
   }
 
@@ -228,11 +160,12 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   }
 
   void completeLoginProcess() {
+    print(codeSelected.value);
     context.push(R_OTP, extra: {
       "phone": phoneController.text.toString(),
       "type": OTPType.Login,
       "typeOfMode": widget.type,
-      "codeCountry": code.value.removeFirstChar("+"),
+      "codeCountry": codeSelected.value.removeFirstChar("+"),
     });
   }
 }
