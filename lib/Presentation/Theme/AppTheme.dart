@@ -228,6 +228,9 @@ class AppTheme {
   static const TextStyle styleWithTextBlackAdelleSansFonts17w700 = TextStyle(
       color: Colors.black , fontSize: 17, fontWeight: FontWeight.w700);
 
+  static const TextStyle styleWithTextBlackAdelleSansFonts13w400 = TextStyle(
+      color: Colors.black , fontSize: 13, fontWeight: FontWeight.w400);
+
   static const TextStyle styleWithTextBlackAdelleSansFonts17w400 = TextStyle(
       color: Colors.black , fontSize: 17, fontWeight: FontWeight.w400);
 

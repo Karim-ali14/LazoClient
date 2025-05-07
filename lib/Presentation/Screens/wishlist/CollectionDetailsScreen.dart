@@ -7,6 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lazo_client/Doman/CommenProviders/ApiProvider.dart';
+import 'package:lazo_client/Presentation/Screens/wishlist/widgets/item_menu.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../../Constants.dart';
@@ -314,12 +315,13 @@ class _CollectionDetailsScreenState
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  _buildMenuItem(
+                  ItemMenu(
                       text: 'Delete Collection',
                       style: AppTheme
                           .styleWithTextBlackAdelleSansExtendedFonts14w400
                           .copyWith(color: AppTheme.appRedColor),
                       action: () {
+                        _removeOverlay();
                         deleteCollection();
                       }),
                   Container(
@@ -327,26 +329,30 @@ class _CollectionDetailsScreenState
                     width: 180,
                     color: AppTheme.appGrey19.withOpacity(.5),
                   ),
-                  _buildMenuItem(
+                  ItemMenu(
                       text: 'Edit',
                       style: AppTheme
                           .styleWithTextBlackAdelleSansExtendedFonts14w400
                           .copyWith(color: AppTheme.appRedColor),
                       action: () {
+                        _removeOverlay();
                         showEditCollectionBottomSheet();
-                      }),
+                      }
+                  ),
                   Container(
                     height: 1,
                     width: 180,
                     color: AppTheme.appGrey19.withOpacity(.5),
                   ),
-                  _buildMenuItem(
+                  ItemMenu(
                       text: 'Empty Collection',
                       style: AppTheme
                           .styleWithTextBlackAdelleSansExtendedFonts14w400,
                       action: () {
+                        _removeOverlay();
                         resetCollection();
-                      }),
+                      }
+                  ),
                 ],
               ),
             ),
@@ -356,26 +362,6 @@ class _CollectionDetailsScreenState
     );
 
     Overlay.of(context).insert(_overlayEntry!);
-  }
-
-  Widget _buildMenuItem({String? text, TextStyle? style, Function? action}) {
-    return InkWell(
-      onTap: () {
-        _removeOverlay();
-        action?.call();
-      },
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
-        width: 180,
-        child: Row(
-          children: [
-            Expanded(
-              child: Center(child: Text(text ?? "", style: style)),
-            ),
-          ],
-        ),
-      ),
-    );
   }
 
   void _removeOverlay() {
@@ -468,7 +454,7 @@ class _CollectionDetailsScreenState
   }
 
   void deleteCollection() {
-    showMakeSureDialog(context: context,collectionName:  widget.collectionName ?? "",onDelete: (){
+    showMakeSureDialog(context: context,title:  "Are you sure you want to delete ${widget.collectionName} ?" ?? "",action: (){
       ref.read(deleteWishlistCollectionStateNotifier.notifier).deleteCollection(
         collectionId: widget.collectionId
       );

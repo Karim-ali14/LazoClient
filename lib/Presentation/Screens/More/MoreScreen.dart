@@ -1,4 +1,3 @@
-
 import 'dart:typed_data';
 
 import 'package:easy_localization/easy_localization.dart';
@@ -18,6 +17,7 @@ import '../../../Data/Network/lib/api.dart';
 import '../../../Localization/Keys.dart';
 import '../../../Localization/LanguageProvider.dart';
 import '../../../Localization/LanguageType.dart';
+import '../../../Utils/UtilsExts.dart';
 import '../../StateNotifiersViewModel/ClientStateNotifiers.dart';
 import '../../StateNotifiersViewModel/PublicStateNotifiers.dart';
 import '../../StateNotifiersViewModel/UserAuthStateNotifiers.dart';
@@ -37,24 +37,25 @@ class MoreScreen extends ConsumerStatefulWidget {
 }
 
 class _MoreScreenState extends ConsumerState<MoreScreen> {
-
   @override
   void initState() {
     ref.read(clientStateProvider.notifier).checkIfUserExist();
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
-     final client = ref.watch(clientStateProvider);
-     final isEnglishLang = ref.watch(langProvider.notifier).isEnglish;
+    final client = ref.watch(clientStateProvider);
+    final isEnglishLang = ref.watch(langProvider.notifier).isEnglish;
 
-    handleState(logoutStateProvider,showLoading: true , onSuccess: (res){
+    handleState(logoutStateProvider, showLoading: true, onSuccess: (res) {
       rebuildMainScreen();
       updateMainScreen();
       navigateToHomeScreen();
     });
 
-    handleState(deleteAccountStateProvider,showLoading: true , onSuccess: (res){
+    handleState(deleteAccountStateProvider, showLoading: true,
+        onSuccess: (res) {
       rebuildMainScreen();
       navigateToLogin(TypeOfMode.AuthMode);
     });
@@ -64,27 +65,43 @@ class _MoreScreenState extends ConsumerState<MoreScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            client != null ?
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: defaultPaddingHorizontal,vertical: 24),
-                  child: ClientInfoCard(onTap: (){
-                    navigateToProfileScreen();
-                  },),
-                )
-                : const SizedBox(),
-            client == null ? Padding(
-              padding: const EdgeInsets.only(top: 16),
-              child: Center(child: Text("Sign in or Create an account and make gifting easier & more special!",
-                style: AppTheme.styleWithTextAppGrey18AdelleSansExtendedFonts14w400,textAlign: TextAlign.center,),),
-            ) : const SizedBox(),
             client != null
                 ? Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: defaultPaddingHorizontal),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: defaultPaddingHorizontal, vertical: 24),
+                    child: ClientInfoCard(
+                      onTap: () {
+                        navigateToProfileScreen();
+                      },
+                    ),
+                  )
+                : const SizedBox(),
+            client == null
+                ? Padding(
+                    padding: const EdgeInsets.only(top: 16),
+                    child: Center(
+                      child: Text(
+                        "Sign in or Create an account and make gifting easier & more special!",
+                        style: AppTheme
+                            .styleWithTextAppGrey18AdelleSansExtendedFonts14w400,
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  )
+                : const SizedBox(),
+            client != null
+                ? Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: defaultPaddingHorizontal),
                     child: Column(
                       children: [
                         MoreItemCard(
                           text: "Wallet",
-                          startIcon: SVGIcons.localSVG(walletIcon,width: 20,height: 20,),
+                          startIcon: SVGIcons.localSVG(
+                            walletIcon,
+                            width: 20,
+                            height: 20,
+                          ),
                           endWidget: Text(
                             "${context.tr(sarKey)} ${client.client?.balance}",
                             style: AppTheme
@@ -96,7 +113,10 @@ class _MoreScreenState extends ConsumerState<MoreScreen> {
                     ),
                   )
                 : Padding(
-                    padding: const EdgeInsetsDirectional.only(start: defaultPaddingHorizontal,end: defaultPaddingHorizontal,top: defaultPaddingHorizontal),
+                    padding: const EdgeInsetsDirectional.only(
+                        start: defaultPaddingHorizontal,
+                        end: defaultPaddingHorizontal,
+                        top: defaultPaddingHorizontal),
                     child: Row(
                       children: [
                         Expanded(
@@ -127,23 +147,27 @@ class _MoreScreenState extends ConsumerState<MoreScreen> {
             SizedBox(
               height: 24,
             ),
-
-            client != null ?
+            client != null
+                ? InkWell(
+                    onTap: () {
+                      navigateToProfileScreen();
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: MoreItemCard(
+                        startIcon: SVGIcons.localSVG(
+                          addressIcon,
+                          width: 20,
+                          height: 20,
+                        ),
+                        text: "Addresses",
+                      ),
+                    ),
+                  )
+                : SizedBox(),
             InkWell(
-              onTap: (){
-                navigateToProfileScreen();
-              },
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: MoreItemCard(
-                  startIcon: SVGIcons.localSVG(addressIcon,width: 20,height: 20,),
-                  text: "Addresses",
-                ),
-              ),
-            ):SizedBox(),
-            InkWell(
-              onTap: (){
-                context.showSelectionActionSheet(["ar" , "en"], (lang){
+              onTap: () {
+                context.showSelectionActionSheet(["ar", "en"], (lang) {
                   changeLang(lang == 1 ? LanguageType.en : LanguageType.ar);
                 }, header: "Select language");
               },
@@ -153,8 +177,11 @@ class _MoreScreenState extends ConsumerState<MoreScreen> {
                   startIcon: SVGIcons.langIcon(),
                   text: context.tr(languageKey),
                   endWidget: Text(
-                    isEnglishLang ? context.tr(englishKey) : context.tr(arabicKey),
-                    style: AppTheme.styleWithTextRedAdelleSansExtendedFonts12w400,
+                    isEnglishLang
+                        ? context.tr(englishKey)
+                        : context.tr(arabicKey),
+                    style:
+                        AppTheme.styleWithTextRedAdelleSansExtendedFonts12w400,
                   ),
                 ),
               ),
@@ -181,17 +208,15 @@ class _MoreScreenState extends ConsumerState<MoreScreen> {
                 ),
               ),
             ),
-
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: MoreItemCard(
                 startIcon: SVGIcons.shareImgIcon(),
                 text: context.tr(shareTheAppKey),
-
               ),
             ),
             InkWell(
-              onTap: (){
+              onTap: () {
                 navigateToTermsAndConditions();
               },
               child: Padding(
@@ -199,18 +224,21 @@ class _MoreScreenState extends ConsumerState<MoreScreen> {
                 child: MoreItemCard(
                   startIcon: SVGIcons.termsConditionsImgIcon(),
                   text: context.tr(termsAndConditionsKey),
-
                 ),
               ),
             ),
             InkWell(
-              onTap: (){
+              onTap: () {
                 navigateToPrivacyAndPolicyScreen();
               },
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: MoreItemCard(
-                  startIcon: SVGIcons.localSVG(privacyPolicyImg,width: 20,height: 20,),
+                  startIcon: SVGIcons.localSVG(
+                    privacyPolicyImg,
+                    width: 20,
+                    height: 20,
+                  ),
                   text: context.tr(privacyAndPolicyKey),
                   withDivider: client != null,
                 ),
@@ -219,36 +247,39 @@ class _MoreScreenState extends ConsumerState<MoreScreen> {
             SizedBox(
               height: 24,
             ),
-            client != null ? InkWell(
-              onTap: showSignOutBottomSheet,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: MoreItemCard(
-                  startIcon: SVGIcons.signOutIcon(),
-                  textWidget: Text(
-                    context.tr(signOutKey),
-                    style:
-                        AppTheme.styleWithTextBlack2AdelleSansExtendedFonts12w400,
-                  ),
-
-                ),
-              ),
-            ):SizedBox(),
-            client != null ?InkWell(
-              onTap: showDeleteAccountBottomSheet,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: MoreItemCard(
-                  startIcon: SVGIcons.deleteAccountIcon(),
-                  textWidget: Text(
-                    context.tr(deleteAccountKey),
-                    style:
-                        AppTheme.styleWithTextBlack2AdelleSansExtendedFonts12w400,
-                  ),
-                  withDivider: false,
-                ),
-              ),
-            ):SizedBox(),
+            client != null
+                ? InkWell(
+                    onTap: showSignOutBottomSheet,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: MoreItemCard(
+                        startIcon: SVGIcons.signOutIcon(),
+                        textWidget: Text(
+                          context.tr(signOutKey),
+                          style: AppTheme
+                              .styleWithTextBlack2AdelleSansExtendedFonts12w400,
+                        ),
+                      ),
+                    ),
+                  )
+                : SizedBox(),
+            client != null
+                ? InkWell(
+                    onTap: showDeleteAccountBottomSheet,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: MoreItemCard(
+                        startIcon: SVGIcons.deleteAccountIcon(),
+                        textWidget: Text(
+                          context.tr(deleteAccountKey),
+                          style: AppTheme
+                              .styleWithTextBlack2AdelleSansExtendedFonts12w400,
+                        ),
+                        withDivider: false,
+                      ),
+                    ),
+                  )
+                : SizedBox(),
             SizedBox(
               height: defaultPaddingHorizontal,
             ),
@@ -269,7 +300,14 @@ class _MoreScreenState extends ConsumerState<MoreScreen> {
   }
 
   void showSignOutBottomSheet() {
-    showModalBottomSheet(
+    showMakeSureDialog(
+        context: context,
+        title: "Are you sure you want to logout?" ?? "",
+        action: () {
+          ref.read(logoutStateProvider.notifier).logout();
+        });
+
+    /*showModalBottomSheet(
         context: context,
         shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.only(
@@ -281,11 +319,19 @@ class _MoreScreenState extends ConsumerState<MoreScreen> {
               onPositiveButtonClick: () {
                 ref.read(logoutStateProvider.notifier).logout();
               },
-            ));
+            ));*/
   }
 
   void showDeleteAccountBottomSheet() {
-    showModalBottomSheet(
+    showMakeSureDialog(
+        context: context,
+        title: "Are you sure you want to delete your account?" ?? "",
+        subtitle: "The delete is final, you can’t restore your account again.",
+        action: () {
+          ref.read(deleteAccountStateProvider.notifier).deleteAccount();
+        });
+
+    /*showModalBottomSheet(
         context: context,
         shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.only(
@@ -297,19 +343,19 @@ class _MoreScreenState extends ConsumerState<MoreScreen> {
               onPositiveButtonClick: () {
                 ref.read(deleteAccountStateProvider.notifier).deleteAccount();
               },
-            ));
+            ));*/
   }
 
-  void navigateToLogin(TypeOfMode type) async{
-    if(type == TypeOfMode.AuthMode){
-      context.go(R_LoginScreen,extra: {"type" : type});
-    }else {
-      var extra = await context.push(R_LoginScreen,extra: {"type" : type});
+  void navigateToLogin(TypeOfMode type) async {
+    if (type == TypeOfMode.AuthMode) {
+      context.go(R_LoginScreen, extra: {"type": type});
+    } else {
+      var extra = await context.push(R_LoginScreen, extra: {"type": type});
     }
   }
 
-  void navigateToSignUp() async{
-    context.push(R_SignUp,extra: {"typeOfMode" : TypeOfMode.ViewMode});
+  void navigateToSignUp() async {
+    context.push(R_SignUp, extra: {"typeOfMode": TypeOfMode.ViewMode});
   }
 
   void navigateToTermsAndConditions() {
@@ -328,15 +374,17 @@ class _MoreScreenState extends ConsumerState<MoreScreen> {
     context.go(R_MainScreen);
   }
 
-  void updateMainScreen(){
+  void updateMainScreen() {
     ref.read(homeDataStateNotifiers.notifier).getHomeData();
     ref.read(fetchCardDetailsStateNotifies.notifier).getCardDetails();
   }
 
-  void rebuildMainScreen(){
-    (context.findAncestorStateOfType<MainScreenNavHostState>() as MainScreenNavHostState)
+  void rebuildMainScreen() {
+    (context.findAncestorStateOfType<MainScreenNavHostState>()
+            as MainScreenNavHostState)
         .rebuildMainScreen();
   }
+
   void changeLang(String lang) {
     ref.read(langProvider.notifier).fetchLocale(lang);
   }
