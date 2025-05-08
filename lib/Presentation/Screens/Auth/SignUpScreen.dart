@@ -127,12 +127,13 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                   const SizedBox(
                     height: 24,
                   ),
-                  CircleImgPicker(
-                      size: 88,
-                      placeHolder: SVGIcons.placeHolderForPickImagesSvgIcon(),
-                      onResult: (path, value46) {
-                        imageFile = File(path);
-                      }),
+                  SVGIcons.localSVG(lazoLogoAuth, width: 80, height: 65),
+                  // CircleImgPicker(
+                  //     size: 88,
+                  //     placeHolder: SVGIcons.placeHolderForPickImagesSvgIcon(),
+                  //     onResult: (path, value46) {
+                  //       imageFile = File(path);
+                  //     }),
                   const SizedBox(
                     height: 32,
                   ),
@@ -209,9 +210,9 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                     width: context.getScreenSize.width,
                     height: 48,
                     onPress: () {
-                      isCountryCodeEmpty.value = countryCode?.isEmpty ?? true;
                       print(isCountryCodeEmpty.value);
                       print(countryCode);
+                      isCountryCodeEmpty.value = countryCode?.isEmpty ?? true;
                       if (formKey.currentState?.validate() == true && images.isNotEmpty) {
                         uploadFiles();
                       }else if(formKey.currentState?.validate() == true){
@@ -249,6 +250,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
   }
 
   void sendCode() {
+    if (isCountryCodeEmpty.value) return;
     ref
         .read(sendOtpForSignUpStateProvider.notifier)
         .sendOtp(phoneController.text.toString(),countryCode: countryCode?.removeFirstChar("+")

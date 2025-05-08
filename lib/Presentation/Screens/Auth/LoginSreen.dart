@@ -92,7 +92,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 const SizedBox(
                   height: 32,
                 ),
-                SVGIcons.localSVG(lazoLogoAuth, width: 113, height: 95),
+                SVGIcons.localSVG(lazoLogoAuth, width: 80, height: 65),
                 const SizedBox(
                   height: 50,
                 ),

@@ -114,7 +114,7 @@ class _ProductSearchScreenState extends ConsumerState<ProductWishlistScreen> {
                     paginated: true,
                     gridView: true,
                     childAspectRatio: .79,
-                    heightPresent: .83,
+                    heightPresent: .75.h,
                     loadingHeightPresent: .83,
                     crossAxisSpacing: 18,
                     pageLoading: productsState.state == DataState.MORE_LOADING,

@@ -420,7 +420,8 @@ class SVGIcons {
 
   static Widget downArrowWithBackgroundIcon() {
     return SvgPicture.asset(
-      downArrowWithBackgroundImg,
+      downArrowImg,
+      color: Colors.black,
     );
   }
 
@@ -444,7 +445,8 @@ class SVGIcons {
 
   static Widget upArrowWithBackgroundIcon() {
     return SvgPicture.asset(
-      upArrowWithBackgroundImg,
+      upArrowIcon,
+      color: Colors.black,
     );
   }
 
