@@ -82,8 +82,8 @@ class _PhoneFieldWithCountryCodeState extends State<PhoneFieldWithCountryCode> {
                       width: 8,
                     ),
                     SVGIcons.localSVG(downArrowImg,
-                        width: 10,
-                        height: 10,
+                        width: 16,
+                        height: 16,
                         color: AppTheme.blackColor2)
                   ],
                 ),
