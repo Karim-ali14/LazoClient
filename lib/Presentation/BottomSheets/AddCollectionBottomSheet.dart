@@ -139,6 +139,7 @@ class AddCollectionBottomSheet extends StatelessWidget {
                       if (controller?.text.isNotEmpty == true) {
                         context.pop();
                         onCreateCollection.call(controller?.text ?? "");
+                        controller?.text = "";
                       }
                     }),
                 const SizedBox(

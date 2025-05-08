@@ -48,6 +48,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   int? collectionIdAfterAddedNewCollection;
   int? itemIdAfterAddedNewCollection;
+  OrderItemType? selectedType;
 
   @override
   Widget build(BuildContext context) {
@@ -76,9 +77,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       print("sdf $res");
       collectionIdAfterAddedNewCollection = null;
       itemIdAfterAddedNewCollection = null;
+      selectedType = null;
       showSnackBar(
           isFavorite: res.data?.data?.inWishlist ?? false,
-          productId: res.data?.data?.productId?.toInt() ?? 0,
+          itemId: res.data?.data?.productId?.toInt() ?? 0,
           collectionId: res.data?.data?.collectionId ?? 0,
           collectionName: res.data?.data?.collectionName,
           type: OrderItemType.Product);
@@ -93,7 +95,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         onSuccess: (res) {
       showSnackBar(
           isFavorite: res.data?.data?.inWishlist ?? false,
-          productId: res.data?.data?.serviceId?.toInt() ?? 0,
+          itemId: res.data?.data?.serviceId?.toInt() ?? 0,
           collectionId: res.data?.data?.collectionId ?? 0,
           collectionName: res.data?.data?.collectionName,
           type: OrderItemType.Service);
@@ -107,7 +109,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         showLoading: true, onSuccess: (res) {
       showCollectionsBottomSheet(
           collectionId: collectionIdAfterAddedNewCollection,
-          itemId: itemIdAfterAddedNewCollection);
+          itemId: itemIdAfterAddedNewCollection,type: selectedType);
       updateCollectionList();
     });
 
@@ -604,10 +606,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   void showSnackBar(
       {bool? isFavorite,
-      int? productId,
+      int? itemId,
       int? collectionId,
       String? collectionName,
       OrderItemType? type}) {
+    print("item id : $itemId , collection id : $collectionId type : $type");
+
     final snackBar = SnackBar(
       backgroundColor: AppTheme.blackColor3,
       content: Padding(
@@ -634,8 +638,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             Spacer(),
             isFavorite ?? false ? InkWell(
               onTap: () {
+                print("item id : $itemId , collection id : $collectionId type : $type");
                 showCollectionsBottomSheet(
-                    collectionId: collectionId, itemId: productId, type: type);
+                    collectionId: collectionId, itemId: itemId, type: type);
               },
               child: Text(
                 "Edit",
@@ -652,6 +657,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   void showCollectionsBottomSheet(
       {int? collectionId, int? itemId, OrderItemType? type}) {
+    print("item id : $itemId , collection id : $collectionId type : $type");
 
     showModalBottomSheet(
         isScrollControlled: true,
@@ -664,6 +670,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               onCreateCollection: () {
                 collectionIdAfterAddedNewCollection = collectionId;
                 itemIdAfterAddedNewCollection = itemId;
+                selectedType = type;
                 showCreateNewCollection(
                     context: context,
                     controller: controller,
