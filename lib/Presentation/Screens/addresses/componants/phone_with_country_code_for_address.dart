@@ -17,7 +17,6 @@ class PhoneFieldWithCountryCodeForAddress extends StatefulWidget {
   final bool? withCountryCode;
   final String? initCodeValue;
   final ValueNotifier<bool>? isCountryCodeEmpty;
-
   const PhoneFieldWithCountryCodeForAddress(
       {super.key,
       required this.phoneController,
@@ -49,6 +48,7 @@ class _PhoneFieldWithCountryCodeForAddressState
       cursorColor: AppTheme.blackColor2,
       keyboardType: TextInputType.number,
       autovalidateMode: AutovalidateMode.onUserInteraction,
+      textAlignVertical: TextAlignVertical.center,
       decoration: InputDecoration(
         prefixIcon: widget.withCountryCode == true
             ? GestureDetector(
@@ -123,6 +123,7 @@ class _PhoneFieldWithCountryCodeForAddressState
           color: AppTheme.appGrey6,
         )),
       ),
+
       validator: (value) {
         if (value?.isEmpty == true) {
           return context.tr(enterYourPhoneKey);

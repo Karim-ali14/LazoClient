@@ -4,12 +4,15 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lazo_client/Constants.dart';
+import 'package:lazo_client/Data/Network/lib/api.dart';
+import 'package:lazo_client/Doman/CommenProviders/ApiProvider.dart';
 import 'package:lazo_client/Presentation/Screens/addresses/componants/address_card.dart';
 import 'package:lazo_client/Presentation/Widgets/CustomAppBar.dart';
 import 'package:lazo_client/Presentation/Widgets/EmptyDataPlaceHolder.dart';
 import 'package:lazo_client/Presentation/Widgets/SvgIcons.dart';
 
 import '../../../Constants/Assets.dart';
+import '../../../Utils/UtilsExts.dart';
 import '../../StateNotifiersViewModel/AddressStateNotifiers.dart';
 import '../../Theme/AppTheme.dart';
 import '../../Widgets/AppButton.dart';
@@ -33,24 +36,34 @@ class _AddressesScreenState extends ConsumerState<AddressesScreen> {
   @override
   Widget build(BuildContext context) {
     final addresses = ref.watch(fetchAddressStateNotifiers);
-    return
-      Scaffold(
-            appBar: CustomAppBar(
-              title: "Addresses",
-              appContext: context,
-              navigated: true,
-              isCenter: false,
-            ),
-            body: addresses.data?.data.isEmpty == true ? Expanded(
+
+    handleState(deleteAddressStateNotifiers, showLoading: true,
+        onSuccess: (res) {
+    });
+
+    handleState(fetchAddressStateNotifiers, showLoading: true,
+        onSuccess: (res) {
+    });
+    return Scaffold(
+      appBar: CustomAppBar(
+        title: "Addresses",
+        appContext: context,
+        navigated: true,
+        isCenter: false,
+      ),
+      body: addresses.data?.data.isEmpty == true
+          ? Expanded(
               child: EmptyDataPlaceHolder(
                 onAddOrderClick: () {},
-                icon: SVGIcons.localSVG(addressPlaceHolderIcons,width: 113.w,height: 94.h),
+                icon: SVGIcons.localSVG(addressPlaceHolderIcons,
+                    width: 113.w, height: 94.h),
                 title: "",
                 description: "You haven’t added any delivery\n addresses yet",
                 buttonName: "Add Address",
                 showButton: true,
               ),
-            ): Padding(
+            )
+          : Padding(
               padding: const EdgeInsets.all(16.0),
               child: Column(
                 children: [
@@ -64,7 +77,7 @@ class _AddressesScreenState extends ConsumerState<AddressesScreen> {
                         navigateToAddAddressScreen();
                       }),
                   const Padding(
-                    padding:  EdgeInsets.symmetric(vertical: 16),
+                    padding: EdgeInsets.symmetric(vertical: 16),
                     child: Divider(
                       thickness: 1,
                       height: 1,
@@ -75,7 +88,20 @@ class _AddressesScreenState extends ConsumerState<AddressesScreen> {
                     child: SingleChildScrollView(
                       child: Column(
                         children: [
-                          ...(List.generate(addresses.data?.data.length ?? 0, (index) => AddressCard(addressItem: addresses.data?.data[index],)))
+                          ...(List.generate(
+                              addresses.data?.data.length ?? 0,
+                              (index) => AddressCard(
+                                    addressItem: addresses.data?.data[index],
+                                    onEditClicked: (address) {editAddressItem(address);},
+                                    onDeleteClicked: (address) {
+                                      showMakeSureDialog(
+                                          context: context,
+                                          title: "Are you sure you want to delete this address?" ?? "",
+                                          action: () {
+                                            deleteAddressItem(address);
+                                          });
+                                    },
+                                  )))
                         ],
                       ),
                     ),
@@ -83,10 +109,17 @@ class _AddressesScreenState extends ConsumerState<AddressesScreen> {
                 ],
               ),
             ),
-          );
+    );
   }
 
   void navigateToAddAddressScreen() {
     context.push(R_AddAddressScreen);
+  }
+
+  void editAddressItem(AddressItem addressItem) {
+    context.push(R_AddAddressScreen,extra: {"isEdit" : true, "addressItem" : addressItem});
+  }
+  void deleteAddressItem(AddressItem addressItem) {
+    ref.read(deleteAddressStateNotifiers.notifier).deleteAddresses(addressId: addressItem.id.toString());
   }
 }

@@ -6,11 +6,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:lazo_client/Data/Network/lib/api.dart';
 import 'package:lazo_client/Doman/CommenProviders/ApiProvider.dart';
 import 'package:lazo_client/Presentation/Screens/addresses/componants/phone_with_country_code_for_address.dart';
 import 'package:lazo_client/Presentation/StateNotifiersViewModel/AddressStateNotifiers.dart';
 import 'package:lazo_client/Presentation/Widgets/CustomAppBar.dart';
 import 'package:lazo_client/Presentation/Widgets/SvgIcons.dart';
+import 'package:lazo_client/Utils/Extintions.dart';
 import 'package:lazo_client/Utils/LocationHandler.dart';
 import 'package:lazo_client/main.dart';
 
@@ -20,7 +22,9 @@ import '../../Theme/AppTheme.dart';
 import '../../Widgets/AppButton.dart';
 
 class AddAddressScreen extends ConsumerStatefulWidget {
-  const AddAddressScreen({super.key});
+  final AddressItem? addressItem;
+  final bool? isEdit;
+  const AddAddressScreen({super.key, this.addressItem, this.isEdit = false});
 
   @override
   ConsumerState<AddAddressScreen> createState() => _AddAddressScreenState();
@@ -33,11 +37,36 @@ class _AddAddressScreenState extends ConsumerState<AddAddressScreen> {
   final additionalAddressController = TextEditingController();
   final phoneController = TextEditingController();
   final ValueNotifier<bool> isCountryCodeEmpty = ValueNotifier(false);
-  // Initial location for the map
-  LatLng? _selectedLocation; // San Francisco
+  String? code;
+  LatLng? _selectedLocation;
   Set<Marker> _markers = {};
 
   final formKey = GlobalKey<FormState>();
+
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((callback) {
+      print(widget.isEdit.toString());
+      if (widget.isEdit == true) {
+        nameController.text = widget.addressItem?.recipientName ?? "";
+        phoneController.text = widget.addressItem?.recipientPhone?.split(" ").last ?? "";
+        code = widget.addressItem?.recipientPhone?.split(" ").first ?? "";
+        addressController.text = widget.addressItem?.recipientLandmark ?? "";
+        additionalAddressController.text =
+            widget.addressItem?.recipientAddress ?? "";
+        _selectedLocation = LatLng(double.parse(widget.addressItem?.lat ?? "0"),
+            double.parse(widget.addressItem?.lng ?? "0"));
+        _markers = {
+          Marker(
+            markerId: const MarkerId('1'),
+            position: _selectedLocation!,
+          ),
+        };
+
+      }
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,10 +75,14 @@ class _AddAddressScreenState extends ConsumerState<AddAddressScreen> {
       ref.read(fetchAddressStateNotifiers.notifier).fetchAddresses();
       context.pop();
     });
+    handleState(updateAddressStateNotifiers, showLoading: true,onSuccess: (res){
+      ref.read(fetchAddressStateNotifiers.notifier).fetchAddresses();
+      context.pop();
+    });
     return Scaffold(
       appBar: CustomAppBar(
         appContext: context,
-        title: "Add Address",
+        title: widget.isEdit == true ? "Edit Address" : "Add Address",
         navigated: true,
         isCenter: false,
       ),
@@ -98,7 +131,10 @@ class _AddAddressScreenState extends ConsumerState<AddAddressScreen> {
                     PhoneFieldWithCountryCodeForAddress(
                       phoneController: phoneController,
                       isCountryCodeEmpty: isCountryCodeEmpty,
-                      onSelectCountryCode: (value) {},
+                      initCodeValue: widget.addressItem?.recipientPhone?.split(" ").first ?? "",
+                      onSelectCountryCode: (value) {
+                        code = value;
+                      },
                     ),
                     const SizedBox(
                       height: 16,
@@ -114,7 +150,7 @@ class _AddAddressScreenState extends ConsumerState<AddAddressScreen> {
                         onMapCreated: _onMapCreated,
                         initialCameraPosition: CameraPosition(
                           target:
-                              _selectedLocation ?? LatLng(37.7749, -122.4194),
+                              _selectedLocation ?? const LatLng(37.7749, -122.4194),
                           zoom: 12.0,
                         ),
                         markers: _markers,
@@ -133,7 +169,7 @@ class _AddAddressScreenState extends ConsumerState<AddAddressScreen> {
                       keyboardType: TextInputType.text,
                       cursorColor: AppTheme.blackColor2,
                       decoration: const InputDecoration(
-                          hintText: "Recipient Address*",
+                          hintText: "Recipient Address *",
                           focusedBorder: UnderlineInputBorder(
                               borderSide: BorderSide(
                             color: AppTheme.appGrey6,
@@ -170,13 +206,17 @@ class _AddAddressScreenState extends ConsumerState<AddAddressScreen> {
           alignment: Alignment.bottomCenter,
           child: Container(
             width: double.infinity,
-            decoration: BoxDecoration(color: Colors.white),
+            decoration: const BoxDecoration(color: Colors.white),
             padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 20),
             child: AppButton(
               height: 48,
               text: "Save Address",
               onPress: () {
-                createAddress();
+                if (widget.isEdit == false) {
+                  createAddress();
+                }else{
+                  editAddress();
+                }
               },
             ),
           ),
@@ -187,6 +227,9 @@ class _AddAddressScreenState extends ConsumerState<AddAddressScreen> {
 
   void _onMapCreated(GoogleMapController controller) {
     mapController = controller;
+    if (_selectedLocation != null) {
+      mapController.animateCamera(CameraUpdate.newLatLng(_selectedLocation!));
+    }
   }
 
   void createAddress() async {
@@ -194,14 +237,28 @@ class _AddAddressScreenState extends ConsumerState<AddAddressScreen> {
       var address =
           await LocationHandler.getAddressFromLatLng(_selectedLocation!);
       ref.read(createAddressStateNotifiers.notifier).createAddresses(
-            recipientName: nameController.text,
-            recipientPhone: phoneController.text,
-            recipientLandmark: address,
-            recipientAddress: additionalAddressController.text,
-            lat: "${_selectedLocation!.latitude}",
-            lng: "${_selectedLocation!.longitude}",
-            cityId: "9"
-          );
+          recipientName: nameController.text,
+          recipientPhone: phoneController.text.removeFirstChar("+"),
+          recipientLandmark: address,
+          recipientAddress: additionalAddressController.text,
+          lat: "${_selectedLocation!.latitude}",
+          lng: "${_selectedLocation!.longitude}",
+          cityId: "9");
+    }
+  }
+
+  void editAddress() async{
+    if (formKey.currentState!.validate() && _selectedLocation != null) {
+      var address =
+          await LocationHandler.getAddressFromLatLng(_selectedLocation!);
+      ref.read(updateAddressStateNotifiers.notifier).updateAddresses(
+          recipientName: nameController.text,
+          recipientPhone: "$code ${phoneController.text.removeFirstChar(" + ")}",
+          recipientLandmark: address,
+          recipientAddress: additionalAddressController.text,
+          lat: "${_selectedLocation!.latitude}",
+          lng: "${_selectedLocation!.longitude}",
+          cityId: "9",addressId: widget.addressItem?.id.toString());
     }
   }
 
@@ -225,4 +282,5 @@ class _AddAddressScreenState extends ConsumerState<AddAddressScreen> {
       mapController.animateCamera(CameraUpdate.newLatLng(location));
     }
   }
+
 }

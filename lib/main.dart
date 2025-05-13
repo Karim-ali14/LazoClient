@@ -450,7 +450,8 @@ class MyApp extends ConsumerWidget {
       GoRoute(
           path: R_AddAddressScreen,
           builder: (BuildContext context, GoRouterState state) {
-            return const AddAddressScreen();
+            var extra = state.extra as Map?;
+            return AddAddressScreen(isEdit: extra?["isEdit"] ?? false,addressItem: extra?["addressItem"] as AddressItem?,);
           }),
     ],
   );

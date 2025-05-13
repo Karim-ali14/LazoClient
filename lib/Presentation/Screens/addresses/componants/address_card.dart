@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:lazo_client/Constants/Constants.dart';
 import 'package:lazo_client/Presentation/Widgets/SvgIcons.dart';
 
@@ -8,7 +9,9 @@ import '../../../Theme/AppTheme.dart';
 
 class AddressCard extends StatefulWidget {
   final AddressItem? addressItem;
-  const AddressCard({super.key, required this.addressItem});
+  final Function(AddressItem) onEditClicked;
+  final Function(AddressItem) onDeleteClicked;
+  const AddressCard({super.key, required this.addressItem, required this.onEditClicked, required this.onDeleteClicked});
 
   @override
   State<AddressCard> createState() => _AddressCardState();
@@ -34,22 +37,32 @@ class _AddressCardState extends State<AddressCard> {
                     AppTheme.styleWithTextBlack2AdelleSansExtendedFonts16w500,
               ),
               const Spacer(),
-              Row(
-                children: [
-                  SVGIcons.localSVG(editAddressIcons, width: 11, height: 11),
-                  SizedBox(width: 3,),
-                  Text("Edit",style: AppTheme.styleWithTextBlack2AdelleSansExtendedFonts12w400,)
-                ],
+              InkWell(
+                onTap: (){
+                  widget.onEditClicked.call(widget.addressItem!);
+                },
+                child: Row(
+                  children: [
+                    SVGIcons.localSVG(editAddressIcons, width: 11, height: 11),
+                    SizedBox(width: 3,),
+                    Text("Edit",style: AppTheme.styleWithTextBlack2AdelleSansExtendedFonts12w400,)
+                  ],
+                ),
               ),
               SizedBox(
                 width: 10,
               ),
-              Row(
-                children: [
-                  SVGIcons.localSVG(deleteAddressIcons, width: 11, height: 11),
-                  SizedBox(width: 3,),
-                  Text("Delete",style: AppTheme.styleWithTextBlack2AdelleSansExtendedFonts12w400,)
-                ],
+              InkWell(
+                onTap: (){
+                  widget.onDeleteClicked.call(widget.addressItem!);
+                },
+                child: Row(
+                  children: [
+                    SVGIcons.localSVG(deleteAddressIcons, width: 11, height: 11),
+                    SizedBox(width: 3,),
+                    Text("Delete",style: AppTheme.styleWithTextBlack2AdelleSansExtendedFonts12w400,)
+                  ],
+                ),
               ),
             ],
           ),

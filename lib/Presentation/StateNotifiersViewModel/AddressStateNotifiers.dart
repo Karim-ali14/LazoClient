@@ -14,7 +14,7 @@ final createAddressStateNotifiers = StateNotifierProvider.autoDispose<
 
 final deleteAddressStateNotifiers = StateNotifierProvider.autoDispose<
     DeleteAddressUseCase, StateModel<void>>(
-  (ref) => DeleteAddressUseCase(ref.read(addressApi)));
+  (ref) => DeleteAddressUseCase(ref.read(addressApi),ref));
 
 final updateAddressStateNotifiers = StateNotifierProvider.autoDispose<
     UpdateAddressUseCase, StateModel<UpdateAddress200Response?>>(
