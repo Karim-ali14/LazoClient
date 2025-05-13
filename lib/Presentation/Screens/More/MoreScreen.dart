@@ -155,7 +155,7 @@ class _MoreScreenState extends ConsumerState<MoreScreen> {
             client != null
                 ? InkWell(
                     onTap: () {
-                      navigateToProfileScreen();
+                      navigateToAddresses();
                     },
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -400,5 +400,9 @@ class _MoreScreenState extends ConsumerState<MoreScreen> {
 
   void navigateToWallet() {
     context.push(R_Walletscreen);
+  }
+
+  void navigateToAddresses() {
+    context.push(R_AddressesScreen);
   }
 }

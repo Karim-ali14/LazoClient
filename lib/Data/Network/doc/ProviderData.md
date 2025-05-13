@@ -63,6 +63,7 @@ Name | Type | Description | Notes
 **tags** | [**List<ProviderDataTagsInner>**](ProviderDataTagsInner.md) |  | [optional] [default to const []]
 **categories** | [**List<Category>**](Category.md) |  | [optional] [default to const []]
 **ratings** | [**List<ProviderDataRatingsInner>**](ProviderDataRatingsInner.md) |  | [optional] [default to const []]
+**items** | [**List<CartItemsInner>**](CartItemsInner.md) |  | [optional] [default to const []]
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

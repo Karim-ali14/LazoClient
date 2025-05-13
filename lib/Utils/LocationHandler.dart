@@ -18,4 +18,20 @@ class LocationHandler {
       return '';
     }
   }
+  static Future<Map<String,String>?> getAddressInfo(double latitude, double longitude) async {
+    try {
+      List<Placemark> placemarks = await placemarkFromCoordinates(latitude, longitude);
+      if (placemarks.isNotEmpty) {
+        Placemark place = placemarks[0];
+        var cityName = place.administrativeArea;
+        var address = '${place.name}, ${place.locality}, ${place.postalCode}, ${place.country}';
+        return {
+          cityName??"" : address
+        };
+      }
+    } catch (e) {
+      print("Error: $e");
+    }
+    return null;
+  }
 }

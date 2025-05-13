@@ -11,7 +11,7 @@
 part of openapi.api;
 
 class ApiClient {
-  ApiClient({this.basePath = 'http://}', this.authentication,});
+  ApiClient({this.basePath = 'http://localhost', this.authentication,});
 
   final String basePath;
   final Authentication? authentication;
@@ -186,6 +186,12 @@ class ApiClient {
           return AddProductServiceToCartCartItem200Response.fromJson(value);
         case 'AddProductServiceToCartCartItem200ResponseData':
           return AddProductServiceToCartCartItem200ResponseData.fromJson(value);
+        case 'AddressItem':
+          return AddressItem.fromJson(value);
+        case 'AddressItemCity':
+          return AddressItemCity.fromJson(value);
+        case 'AreaItem':
+          return AreaItem.fromJson(value);
         case 'Banner':
           return Banner.fromJson(value);
         case 'BannersResponse':
@@ -238,6 +244,14 @@ class ApiClient {
           return Color.fromJson(value);
         case 'ColorsResponse':
           return ColorsResponse.fromJson(value);
+        case 'CountriesResponse':
+          return CountriesResponse.fromJson(value);
+        case 'Country':
+          return Country.fromJson(value);
+        case 'CreateAddress200Response':
+          return CreateAddress200Response.fromJson(value);
+        case 'CreateAddress200ResponseData':
+          return CreateAddress200ResponseData.fromJson(value);
         case 'CreateWishlistCollection200Response':
           return CreateWishlistCollection200Response.fromJson(value);
         case 'CreateWishlistCollection200ResponseData':
@@ -394,6 +408,8 @@ class ApiClient {
           return ServicesListResponseData.fromJson(value);
         case 'ShowAProviderDetails200Response':
           return ShowAProviderDetails200Response.fromJson(value);
+        case 'ShowAddresses200Response':
+          return ShowAddresses200Response.fromJson(value);
         case 'ShowAllGiftBoxes200Response':
           return ShowAllGiftBoxes200Response.fromJson(value);
         case 'ShowAllGiftCards200Response':
@@ -404,6 +420,8 @@ class ApiClient {
           return ShowAllProviderSOrders200ResponseData.fromJson(value);
         case 'ShowAllProviderSOrders200ResponseDataLinksInner':
           return ShowAllProviderSOrders200ResponseDataLinksInner.fromJson(value);
+        case 'ShowAreas200Response':
+          return ShowAreas200Response.fromJson(value);
         case 'ShowCartDetails200Response':
           return ShowCartDetails200Response.fromJson(value);
         case 'ShowCartDetails200ResponseData':
@@ -462,6 +480,10 @@ class ApiClient {
           return ToggleProductServiceInWishlist200ResponseData.fromJson(value);
         case 'TransactionDetails':
           return TransactionDetails.fromJson(value);
+        case 'UpdateAddress200Response':
+          return UpdateAddress200Response.fromJson(value);
+        case 'UpdateAddress200ResponseData':
+          return UpdateAddress200ResponseData.fromJson(value);
         case 'UpdateCartItemQuantity200Response':
           return UpdateCartItemQuantity200Response.fromJson(value);
         case 'UpdateCartItemQuantity200ResponseData':

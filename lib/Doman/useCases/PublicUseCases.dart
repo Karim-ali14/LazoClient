@@ -723,49 +723,49 @@ class FetchCardDetailsUseCase
   void getCardDetails({
     String? sessionId,
   }) {
-    state = StateModel.loading();
-    request(() => publicApi.showCartDetails(sessionId: sessionId),
-        onComplete: (res) {
-      print("asdfasdfasdfs${res?.data?.cartItems.isEmpty}");
-      if (res?.data?.cartItems.isEmpty != true) {
-        state = StateModel.empty(data: res?.data);
-      }
-    });
+    // state = StateModel.loading();
+    // request(() => publicApi.showCartDetails(sessionId: sessionId),
+    //     onComplete: (res) {
+    //   print("asdfasdfasdfs${res?.data?.cartItems.isEmpty}");
+    //   if (res?.data?.cartItems.isEmpty != true) {
+    //     state = StateModel.empty(data: res?.data);
+    //   }
+    // });
   }
 
   void updateItem(CartItemsInner cartItem) {
-    final data = state.data;
-    final index =
-        data?.data?.cartItems.indexWhere((item) => item.id == cartItem.id);
-    if (index != null && index != -1) {
-      data?.data?.cartItems[index] = cartItem;
-    }
-    state = StateModel.success(data);
+    // final data = state.data;
+    // final index =
+    //     data?.data?.cartItems.indexWhere((item) => item.id == cartItem.id);
+    // if (index != null && index != -1) {
+    //   data?.data?.cartItems[index] = cartItem;
+    // }
+    // state = StateModel.success(data);
   }
 
   void deleteItem(num cartItemId) {
-    List<CartItemsInner> data =
-        (state.data?.data?.cartItems ?? []).toList(growable: true);
-    final index = data.indexWhere((item) => item.id == cartItemId);
-
-    if (index != -1) {
-      data.removeAt(index);
-    }
-
-    state.data?.data?.cartItems = [...data];
-    state.data?.data?.shipmentType = state.data?.data?.cartItems
-                .where((item) =>
-                    item.product?.type == ProductTypes.various_gifts.name)
-                .toList()
-                .isNotEmpty ==
-            true
-        ? CartItemTypes.unready_made.name
-        : CartItemTypes.ready_made.name;
-    if (state.data?.data?.cartItems.isNotEmpty == true) {
-      state = StateModel.success(state.data);
-    } else {
-      state = StateModel.empty(data: state.data);
-    }
+    // List<CartItemsInner> data =
+    //     (state.data?.data?.cartItems ?? []).toList(growable: true);
+    // final index = data.indexWhere((item) => item.id == cartItemId);
+    //
+    // if (index != -1) {
+    //   data.removeAt(index);
+    // }
+    //
+    // state.data?.data?.cartItems = [...data];
+    // state.data?.data?.shipmentType = state.data?.data?.cartItems
+    //             .where((item) =>
+    //                 item.product?.type == ProductTypes.various_gifts.name)
+    //             .toList()
+    //             .isNotEmpty ==
+    //         true
+    //     ? CartItemTypes.unready_made.name
+    //     : CartItemTypes.ready_made.name;
+    // if (state.data?.data?.cartItems.isNotEmpty == true) {
+    //   state = StateModel.success(state.data);
+    // } else {
+    //   state = StateModel.empty(data: state.data);
+    // }
   }
 }
 

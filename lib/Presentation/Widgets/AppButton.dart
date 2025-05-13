@@ -20,7 +20,7 @@ class AppButton extends StatelessWidget {
       width: width,
       height: height,
       child: FadeTransition(
-        opacity: enabled! ? const AlwaysStoppedAnimation(1.0) : const AlwaysStoppedAnimation(1.0),
+        opacity: enabled! ? const AlwaysStoppedAnimation(1.0) : const AlwaysStoppedAnimation(0.7),
         child: outlined == true ? OutlinedButton(
           onPressed: enabled! ? onPress : null,
           style: OutlinedButton.styleFrom(

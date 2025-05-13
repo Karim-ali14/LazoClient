@@ -17,6 +17,7 @@ class FilterTopSellersRequest {
     this.searchByName,
     this.categoriesIds = const [],
     this.isPromoted,
+    this.cityId,
     this.occasionsIds = const [],
     this.ratings = const [],
   });
@@ -30,6 +31,8 @@ class FilterTopSellersRequest {
   /// 0-not_promoted, 1-promoted
   num? isPromoted;
 
+  String? cityId;
+
   List<String>? occasionsIds;
 
   List<String>? ratings;
@@ -40,6 +43,7 @@ class FilterTopSellersRequest {
     other.searchByName == searchByName &&
     _deepEquality.equals(other.categoriesIds, categoriesIds) &&
     other.isPromoted == isPromoted &&
+    other.cityId == cityId &&
     _deepEquality.equals(other.occasionsIds, occasionsIds) &&
     _deepEquality.equals(other.ratings, ratings);
 
@@ -50,11 +54,12 @@ class FilterTopSellersRequest {
     (searchByName == null ? 0 : searchByName!.hashCode) +
     (categoriesIds == null ? 0 : categoriesIds!.hashCode) +
     (isPromoted == null ? 0 : isPromoted!.hashCode) +
+    (cityId == null ? 0 : cityId!.hashCode) +
     (occasionsIds == null ? 0 : occasionsIds!.hashCode) +
     (ratings == null ? 0 : ratings!.hashCode);
 
   @override
-  String toString() => 'FilterTopSellersRequest[page=$page, searchByName=$searchByName, categoriesIds=$categoriesIds, isPromoted=$isPromoted, occasionsIds=$occasionsIds, ratings=$ratings]';
+  String toString() => 'FilterTopSellersRequest[page=$page, searchByName=$searchByName, categoriesIds=$categoriesIds, isPromoted=$isPromoted, cityId=$cityId, occasionsIds=$occasionsIds, ratings=$ratings]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -77,6 +82,11 @@ class FilterTopSellersRequest {
       json[r'is_promoted'] = this.isPromoted;
     } else {
       json[r'is_promoted'] = null;
+    }
+    if (this.cityId != null) {
+      json[r'city_id'] = this.cityId;
+    } else {
+      json[r'city_id'] = null;
     }
     if (this.occasionsIds != null) {
       json[r'occasions_ids'] = this.occasionsIds;
@@ -112,14 +122,15 @@ class FilterTopSellersRequest {
       return FilterTopSellersRequest(
         page: json[r'page'] == null
             ? null
-            : num.tryParse('${json[r'page']}'),
+            : num.parse('${json[r'page']}'),
         searchByName: mapValueOfType<String>(json, r'search_by_name'),
         categoriesIds: json[r'categories_ids'] is Iterable
             ? (json[r'categories_ids'] as Iterable).cast<String>().toList(growable: false)
             : const [],
         isPromoted: json[r'is_promoted'] == null
             ? null
-            : num.tryParse('${json[r'is_promoted']}'),
+            : num.parse('${json[r'is_promoted']}'),
+        cityId: mapValueOfType<String>(json, r'city_id'),
         occasionsIds: json[r'occasions_ids'] is Iterable
             ? (json[r'occasions_ids'] as Iterable).cast<String>().toList(growable: false)
             : const [],

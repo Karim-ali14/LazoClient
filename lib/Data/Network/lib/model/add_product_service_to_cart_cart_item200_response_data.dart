@@ -28,7 +28,7 @@ class AddProductServiceToCartCartItem200ResponseData {
     this.expectedProcessingTime,
   });
 
-  List<CartItemsInner> cartItems;
+  List<CartItemsInner>? cartItems;
 
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
@@ -121,7 +121,7 @@ class AddProductServiceToCartCartItem200ResponseData {
   @override
   int get hashCode =>
     // ignore: unnecessary_parenthesis
-    (cartItems.hashCode) +
+    (cartItems == null ? 0 : cartItems!.hashCode) +
     (createdAt == null ? 0 : createdAt!.hashCode) +
     (id == null ? 0 : id!.hashCode) +
     (productId == null ? 0 : productId!.hashCode) +
@@ -140,7 +140,11 @@ class AddProductServiceToCartCartItem200ResponseData {
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
+    if (this.cartItems != null) {
       json[r'cart_items'] = this.cartItems;
+    } else {
+      json[r'cart_items'] = null;
+    }
     if (this.createdAt != null) {
       json[r'created_at'] = this.createdAt;
     } else {
@@ -225,16 +229,16 @@ class AddProductServiceToCartCartItem200ResponseData {
       return AddProductServiceToCartCartItem200ResponseData(
         cartItems: CartItemsInner.listFromJson(json[r'cart_items']),
         createdAt: mapValueOfType<String>(json, r'created_at'),
-        id: num.tryParse('${json[r'id']}'),
+        id: num.parse('${json[r'id']}'),
         productId: mapValueOfType<int>(json, r'product_id'),
         serviceId: mapValueOfType<int>(json, r'service_id'),
         categoriesIds: json[r'categories_ids'] is Iterable
             ? (json[r'categories_ids'] as Iterable).cast<String>().toList(growable: false)
             : const [],
-        total: num.tryParse('${json[r'total']}'),
+        total: num.parse('${json[r'total']}'),
         type: mapValueOfType<String>(json, r'type'),
         updatedAt: mapValueOfType<String>(json, r'updated_at'),
-        userId: num.tryParse('${json[r'user_id']}'),
+        userId: num.parse('${json[r'user_id']}'),
         sessionId: mapValueOfType<String>(json, r'session_id'),
         shipmentType: mapValueOfType<String>(json, r'shipment_type'),
         expectedProcessingTime: mapValueOfType<String>(json, r'expected_processing_time'),

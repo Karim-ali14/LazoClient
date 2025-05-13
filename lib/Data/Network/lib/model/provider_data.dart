@@ -68,6 +68,7 @@ class ProviderData {
     this.tags = const [],
     this.categories = const [],
     this.ratings = const [],
+    this.items = const [],
   });
 
   ///
@@ -450,6 +451,8 @@ class ProviderData {
 
   List<ProviderDataRatingsInner>? ratings;
 
+  List<CartItemsInner>? items;
+
   @override
   bool operator ==(Object other) => identical(this, other) || other is ProviderData &&
     other.id == id &&
@@ -506,7 +509,8 @@ class ProviderData {
     _deepEquality.equals(other.locations, locations) &&
     _deepEquality.equals(other.tags, tags) &&
     _deepEquality.equals(other.categories, categories) &&
-    _deepEquality.equals(other.ratings, ratings);
+    _deepEquality.equals(other.ratings, ratings) &&
+    _deepEquality.equals(other.items, items);
 
   @override
   int get hashCode =>
@@ -565,10 +569,11 @@ class ProviderData {
     (locations.hashCode) +
     (tags.hashCode) +
     (categories == null ? 0 : categories!.hashCode) +
-    (ratings == null ? 0 : ratings!.hashCode);
+    (ratings == null ? 0 : ratings!.hashCode) +
+    (items == null ? 0 : items!.hashCode);
 
   @override
-  String toString() => 'ProviderData[id=$id, nameEn=$nameEn, nameAr=$nameAr, bioEn=$bioEn, bioAr=$bioAr, ownerName=$ownerName, email=$email, phone=$phone, image=$image, cityId=$cityId, accountType=$accountType, deviceType=$deviceType, fcmToken=$fcmToken, lang=$lang, status=$status, instagramLink=$instagramLink, snapchatLink=$snapchatLink, tiktokLink=$tiktokLink, xLink=$xLink, hasOfflineStores=$hasOfflineStores, offlineStoresNumber=$offlineStoresNumber, provideDelivery=$provideDelivery, overallRating=$overallRating, ratingsCount=$ratingsCount, isEmailVerified=$isEmailVerified, isPhoneVerified=$isPhoneVerified, businessType=$businessType, commercialRegisterImage=$commercialRegisterImage, selfEmploymentDocument=$selfEmploymentDocument, startTime=$startTime, endTime=$endTime, workingDaysIndices=$workingDaysIndices, workingHours=$workingHours, bankName=$bankName, beneficiaryName=$beneficiaryName, bankAccountNumber=$bankAccountNumber, iban=$iban, ibanImage=$ibanImage, createdAt=$createdAt, updatedAt=$updatedAt, name=$name, bio=$bio, isPromoted=$isPromoted, coverImage=$coverImage, coverImagePath=$coverImagePath, imagePath=$imagePath, workingDaysIndicesList=$workingDaysIndicesList, workingHoursList=$workingHoursList, selfEmploymentDocumentPath=$selfEmploymentDocumentPath, commercialRegisterImagePath=$commercialRegisterImagePath, city=$city, locations=$locations, tags=$tags, categories=$categories, ratings=$ratings]';
+  String toString() => 'ProviderData[id=$id, nameEn=$nameEn, nameAr=$nameAr, bioEn=$bioEn, bioAr=$bioAr, ownerName=$ownerName, email=$email, phone=$phone, image=$image, cityId=$cityId, accountType=$accountType, deviceType=$deviceType, fcmToken=$fcmToken, lang=$lang, status=$status, instagramLink=$instagramLink, snapchatLink=$snapchatLink, tiktokLink=$tiktokLink, xLink=$xLink, hasOfflineStores=$hasOfflineStores, offlineStoresNumber=$offlineStoresNumber, provideDelivery=$provideDelivery, overallRating=$overallRating, ratingsCount=$ratingsCount, isEmailVerified=$isEmailVerified, isPhoneVerified=$isPhoneVerified, businessType=$businessType, commercialRegisterImage=$commercialRegisterImage, selfEmploymentDocument=$selfEmploymentDocument, startTime=$startTime, endTime=$endTime, workingDaysIndices=$workingDaysIndices, workingHours=$workingHours, bankName=$bankName, beneficiaryName=$beneficiaryName, bankAccountNumber=$bankAccountNumber, iban=$iban, ibanImage=$ibanImage, createdAt=$createdAt, updatedAt=$updatedAt, name=$name, bio=$bio, isPromoted=$isPromoted, coverImage=$coverImage, coverImagePath=$coverImagePath, imagePath=$imagePath, workingDaysIndicesList=$workingDaysIndicesList, workingHoursList=$workingHoursList, selfEmploymentDocumentPath=$selfEmploymentDocumentPath, commercialRegisterImagePath=$commercialRegisterImagePath, city=$city, locations=$locations, tags=$tags, categories=$categories, ratings=$ratings, items=$items]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -831,6 +836,11 @@ class ProviderData {
     } else {
       json[r'ratings'] = null;
     }
+    if (this.items != null) {
+      json[r'items'] = this.items;
+    } else {
+      json[r'items'] = null;
+    }
     return json;
   }
 
@@ -875,7 +885,7 @@ class ProviderData {
         hasOfflineStores: mapValueOfType<int>(json, r'has_offline_stores'),
         offlineStoresNumber: mapValueOfType<int>(json, r'offline_stores_number'),
         provideDelivery: mapValueOfType<String>(json, r'provide_delivery'),
-        overallRating: num.tryParse('${json[r'overall_rating']}'),
+        overallRating: num.parse('${json[r'overall_rating']}'),
         ratingsCount: mapValueOfType<int>(json, r'ratings_count'),
         isEmailVerified: mapValueOfType<bool>(json, r'is_email_verified'),
         isPhoneVerified: mapValueOfType<bool>(json, r'is_phone_verified'),
@@ -895,7 +905,7 @@ class ProviderData {
         updatedAt: mapValueOfType<String>(json, r'updated_at'),
         name: mapValueOfType<String>(json, r'name'),
         bio: mapValueOfType<String>(json, r'bio'),
-        isPromoted: num.tryParse('${json[r'is_promoted']}'),
+        isPromoted: num.parse('${json[r'is_promoted']}'),
         coverImage: mapValueOfType<String>(json, r'cover_image'),
         coverImagePath: mapValueOfType<String>(json, r'coverImagePath'),
         imagePath: mapValueOfType<String>(json, r'imagePath'),
@@ -912,6 +922,7 @@ class ProviderData {
         tags: ProviderDataTagsInner.listFromJson(json[r'tags']),
         categories: Category.listFromJson(json[r'categories']),
         ratings: ProviderDataRatingsInner.listFromJson(json[r'ratings']),
+        items: CartItemsInner.listFromJson(json[r'items']),
       );
     }
     return null;

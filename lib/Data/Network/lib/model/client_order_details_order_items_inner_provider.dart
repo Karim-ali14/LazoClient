@@ -731,7 +731,7 @@ class ClientOrderDetailsOrderItemsInnerProvider {
         hasOfflineStores: mapValueOfType<int>(json, r'has_offline_stores'),
         offlineStoresNumber: mapValueOfType<int>(json, r'offline_stores_number'),
         provideDelivery: mapValueOfType<String>(json, r'provide_delivery'),
-        overallRating: num.tryParse('${json[r'overall_rating']}'),
+        overallRating: num.parse('${json[r'overall_rating']}'),
         ratingsCount: mapValueOfType<int>(json, r'ratings_count'),
         isEmailVerified: mapValueOfType<bool>(json, r'is_email_verified'),
         isPhoneVerified: mapValueOfType<bool>(json, r'is_phone_verified'),

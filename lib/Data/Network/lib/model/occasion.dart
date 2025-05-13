@@ -230,7 +230,7 @@ class Occasion {
 
       return Occasion(
         createdAt: mapValueOfType<String>(json, r'created_at'),
-        id: num.tryParse('${json[r'id']}'),
+        id: num.parse('${json[r'id']}'),
         image: mapValueOfType<String>(json, r'image'),
         imagePath: mapValueOfType<String>(json, r'imagePath'),
         coverImage: mapValueOfType<String>(json, r'cover_image'),
@@ -240,7 +240,7 @@ class Occasion {
         nameEn: mapValueOfType<String>(json, r'name_en'),
         updatedAt: mapValueOfType<String>(json, r'updated_at'),
         isChecked: mapValueOfType<bool>(json, r'is_checked'),
-        productsCount: num.tryParse('${json[r'products_count']}'),
+        productsCount: num.parse('${json[r'products_count']}'),
       );
     }
     return null;

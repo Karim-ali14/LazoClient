@@ -13,7 +13,7 @@ part of openapi.api;
 class ShowCartDetails200ResponseData {
   /// Returns a new [ShowCartDetails200ResponseData] instance.
   ShowCartDetails200ResponseData({
-    this.cartItems = const [],
+    this.cartItems,
     this.createdAt,
     this.id,
     this.total,
@@ -24,7 +24,13 @@ class ShowCartDetails200ResponseData {
     this.expectedProcessingTime,
   });
 
-  List<CartItemsInner> cartItems;
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  ProviderData? cartItems;
 
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
@@ -92,7 +98,7 @@ class ShowCartDetails200ResponseData {
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is ShowCartDetails200ResponseData &&
-    _deepEquality.equals(other.cartItems, cartItems) &&
+    other.cartItems == cartItems &&
     other.createdAt == createdAt &&
     other.id == id &&
     other.total == total &&
@@ -105,7 +111,7 @@ class ShowCartDetails200ResponseData {
   @override
   int get hashCode =>
     // ignore: unnecessary_parenthesis
-    (cartItems.hashCode) +
+    (cartItems == null ? 0 : cartItems!.hashCode) +
     (createdAt == null ? 0 : createdAt!.hashCode) +
     (id == null ? 0 : id!.hashCode) +
     (total == null ? 0 : total!.hashCode) +
@@ -120,7 +126,11 @@ class ShowCartDetails200ResponseData {
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
+    if (this.cartItems != null) {
       json[r'cart_items'] = this.cartItems;
+    } else {
+      json[r'cart_items'] = null;
+    }
     if (this.createdAt != null) {
       json[r'created_at'] = this.createdAt;
     } else {
@@ -183,12 +193,12 @@ class ShowCartDetails200ResponseData {
       }());
 
       return ShowCartDetails200ResponseData(
-        cartItems: CartItemsInner.listFromJson(json[r'cart_items']),
+        cartItems: ProviderData.fromJson(json[r'cart_items']),
         createdAt: mapValueOfType<String>(json, r'created_at'),
-        id: num.tryParse('${json[r'id']}'),
-        total: num.tryParse('${json[r'total']}'),
+        id: num.parse('${json[r'id']}'),
+        total: num.parse('${json[r'total']}'),
         updatedAt: mapValueOfType<String>(json, r'updated_at'),
-        userId: num.tryParse('${json[r'user_id']}'),
+        userId: num.parse('${json[r'user_id']}'),
         type: mapValueOfType<String>(json, r'type'),
         shipmentType: mapValueOfType<String>(json, r'shipment_type'),
         expectedProcessingTime: mapValueOfType<String>(json, r'expected_processing_time'),

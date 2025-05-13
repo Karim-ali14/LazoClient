@@ -39,24 +39,35 @@ Please follow the [installation procedure](#installation--usage) and then run th
 ```dart
 import 'package:lazo/api.dart';
 
+// TODO Configure HTTP Bearer authorization: bearerAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('bearerAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('bearerAuth').setAccessToken(yourTokenGeneratorFunction);
 
-final api_instance = AppInfoApi();
+final api_instance = AddressApi();
+final addressId = addressId_example; // String | 
 
 try {
-    final result = api_instance.getAppInfo();
-    print(result);
+    api_instance.clientAddressDeleteDelete(addressId);
 } catch (e) {
-    print('Exception when calling AppInfoApi->getAppInfo: $e\n');
+    print('Exception when calling AddressApi->clientAddressDeleteDelete: $e\n');
 }
 
 ```
 
 ## Documentation for API Endpoints
 
-All URIs are relative to *http://}*
+All URIs are relative to *http://localhost*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
+*AddressApi* | [**clientAddressDeleteDelete**](doc//AddressApi.md#clientaddressdeletedelete) | **DELETE** /client/address/delete | delete address
+*AddressApi* | [**createAddress**](doc//AddressApi.md#createaddress) | **POST** /client/address/create | create address
+*AddressApi* | [**updateAddress**](doc//AddressApi.md#updateaddress) | **POST** /client/address/update | update address
+*AddressesApi* | [**showAddresses**](doc//AddressesApi.md#showaddresses) | **GET** /client/addresses | Show user's addresses
+*AddressesApi* | [**showAreas**](doc//AddressesApi.md#showareas) | **GET** /areas | list of areas
 *AppInfoApi* | [**getAppInfo**](doc//AppInfoApi.md#getappinfo) | **GET** /app-info | get app info
 *AuthApi* | [**clientLogin**](doc//AuthApi.md#clientlogin) | **POST** /client/login | client login
 *AuthApi* | [**clientSignup**](doc//AuthApi.md#clientsignup) | **POST** /client/register | client signup
@@ -68,15 +79,19 @@ Class | Method | HTTP request | Description
 *ClientApi* | [**assignChatNotificationToAProvider**](doc//ClientApi.md#assignchatnotificationtoaprovider) | **POST** /client/chat/notification/assign | Assign chat notification to a provider
 *ClientApi* | [**calculateInstantOrder**](doc//ClientApi.md#calculateinstantorder) | **POST** /client/instant-order/calculate | calculate an instant order
 *ClientApi* | [**clientAccountDeleteGet**](doc//ClientApi.md#clientaccountdeleteget) | **GET** /client/account-delete | client\\'s account deleted successfully
+*ClientApi* | [**clientAddressDeleteDelete**](doc//ClientApi.md#clientaddressdeletedelete) | **DELETE** /client/address/delete | delete address
 *ClientApi* | [**clientLogoutGet**](doc//ClientApi.md#clientlogoutget) | **GET** /client/logout | client logout
 *ClientApi* | [**clientWishlistCollectionDeleteDelete**](doc//ClientApi.md#clientwishlistcollectiondeletedelete) | **DELETE** /client/wishlist/collection/delete | delete collection wishlist
 *ClientApi* | [**clientWishlistCollectionResetGet**](doc//ClientApi.md#clientwishlistcollectionresetget) | **GET** /client/wishlist/collection/reset | reset collection wishlist
 *ClientApi* | [**creatInstantOrder**](doc//ClientApi.md#creatinstantorder) | **POST** /client/instant-order/create | create an instant order
+*ClientApi* | [**createAddress**](doc//ClientApi.md#createaddress) | **POST** /client/address/create | create address
 *ClientApi* | [**createOrder**](doc//ClientApi.md#createorder) | **POST** /client/order/create | Create order
 *ClientApi* | [**createWishlistCollection**](doc//ClientApi.md#createwishlistcollection) | **POST** /client/wishlist/collection/create | create wishlist collection
 *ClientApi* | [**manageOrder**](doc//ClientApi.md#manageorder) | **POST** /client/order/manage | Manage order
 *ClientApi* | [**rateOrder**](doc//ClientApi.md#rateorder) | **POST** /client/order/rating | Rate order
 *ClientApi* | [**readANotification122**](doc//ClientApi.md#readanotification122) | **POST** /client/notification/read | read a notification
+*ClientApi* | [**showAddresses**](doc//ClientApi.md#showaddresses) | **GET** /client/addresses | Show user's addresses
+*ClientApi* | [**showAreas**](doc//ClientApi.md#showareas) | **GET** /areas | list of areas
 *ClientApi* | [**showNotifications2**](doc//ClientApi.md#shownotifications2) | **GET** /client/notifications | show notifications
 *ClientApi* | [**showOrderDetails**](doc//ClientApi.md#showorderdetails) | **GET** /client/order/show | Show order details
 *ClientApi* | [**showOrders**](doc//ClientApi.md#showorders) | **GET** /client/orders | Show orders
@@ -84,6 +99,7 @@ Class | Method | HTTP request | Description
 *ClientApi* | [**showWishlistCollections**](doc//ClientApi.md#showwishlistcollections) | **GET** /client/wishlist/collections | Show wishlist collections
 *ClientApi* | [**showWishlistItemsWithSearchByName**](doc//ClientApi.md#showwishlistitemswithsearchbyname) | **GET** /client/wishlist/show | Show wishlist items (with search by name)
 *ClientApi* | [**toggleProductServiceInWishlist**](doc//ClientApi.md#toggleproductserviceinwishlist) | **POST** /client/wishlist/toggle | Toggle product/service in wishlist
+*ClientApi* | [**updateAddress**](doc//ClientApi.md#updateaddress) | **POST** /client/address/update | update address
 *ClientApi* | [**updateFcmTokenAndDeviceType2**](doc//ClientApi.md#updatefcmtokenanddevicetype2) | **POST** /client/update/device-data | update fcm_token and device_type
 *ClientApi* | [**updateProfile**](doc//ClientApi.md#updateprofile) | **POST** /client/profile/update | update profile
 *ClientApi* | [**updateWishlistCollection**](doc//ClientApi.md#updatewishlistcollection) | **POST** /client/wishlist/collection/update | update wishlist collection
@@ -123,6 +139,7 @@ Class | Method | HTTP request | Description
 *PublicApi* | [**citiesGet**](doc//PublicApi.md#citiesget) | **GET** /cities | show all cities
 *PublicApi* | [**clientLogin**](doc//PublicApi.md#clientlogin) | **POST** /client/login | client login
 *PublicApi* | [**clientSignup**](doc//PublicApi.md#clientsignup) | **POST** /client/register | client signup
+*PublicApi* | [**countriesGet**](doc//PublicApi.md#countriesget) | **GET** /countries | show all countries
 *PublicApi* | [**deleteCartItem**](doc//PublicApi.md#deletecartitem) | **POST** /cart-item/delete | Delete cart item
 *PublicApi* | [**filterTopProductsServices**](doc//PublicApi.md#filtertopproductsservices) | **POST** /top-products-services/filter | Filter top products & services
 *PublicApi* | [**filterTopSellers**](doc//PublicApi.md#filtertopsellers) | **POST** /top-sellers/filter | Filter top sellers
@@ -170,6 +187,9 @@ Class | Method | HTTP request | Description
 
  - [AddProductServiceToCartCartItem200Response](doc//AddProductServiceToCartCartItem200Response.md)
  - [AddProductServiceToCartCartItem200ResponseData](doc//AddProductServiceToCartCartItem200ResponseData.md)
+ - [AddressItem](doc//AddressItem.md)
+ - [AddressItemCity](doc//AddressItemCity.md)
+ - [AreaItem](doc//AreaItem.md)
  - [Banner](doc//Banner.md)
  - [BannersResponse](doc//BannersResponse.md)
  - [CartCalculation200Response](doc//CartCalculation200Response.md)
@@ -196,6 +216,10 @@ Class | Method | HTTP request | Description
  - [CollectionItem](doc//CollectionItem.md)
  - [Color](doc//Color.md)
  - [ColorsResponse](doc//ColorsResponse.md)
+ - [CountriesResponse](doc//CountriesResponse.md)
+ - [Country](doc//Country.md)
+ - [CreateAddress200Response](doc//CreateAddress200Response.md)
+ - [CreateAddress200ResponseData](doc//CreateAddress200ResponseData.md)
  - [CreateWishlistCollection200Response](doc//CreateWishlistCollection200Response.md)
  - [CreateWishlistCollection200ResponseData](doc//CreateWishlistCollection200ResponseData.md)
  - [CreateWishlistCollectionRequest](doc//CreateWishlistCollectionRequest.md)
@@ -274,11 +298,13 @@ Class | Method | HTTP request | Description
  - [ServicesListResponse](doc//ServicesListResponse.md)
  - [ServicesListResponseData](doc//ServicesListResponseData.md)
  - [ShowAProviderDetails200Response](doc//ShowAProviderDetails200Response.md)
+ - [ShowAddresses200Response](doc//ShowAddresses200Response.md)
  - [ShowAllGiftBoxes200Response](doc//ShowAllGiftBoxes200Response.md)
  - [ShowAllGiftCards200Response](doc//ShowAllGiftCards200Response.md)
  - [ShowAllProviderSOrders200Response](doc//ShowAllProviderSOrders200Response.md)
  - [ShowAllProviderSOrders200ResponseData](doc//ShowAllProviderSOrders200ResponseData.md)
  - [ShowAllProviderSOrders200ResponseDataLinksInner](doc//ShowAllProviderSOrders200ResponseDataLinksInner.md)
+ - [ShowAreas200Response](doc//ShowAreas200Response.md)
  - [ShowCartDetails200Response](doc//ShowCartDetails200Response.md)
  - [ShowCartDetails200ResponseData](doc//ShowCartDetails200ResponseData.md)
  - [ShowHome200Response](doc//ShowHome200Response.md)
@@ -308,6 +334,8 @@ Class | Method | HTTP request | Description
  - [ToggleProductServiceInWishlist200Response](doc//ToggleProductServiceInWishlist200Response.md)
  - [ToggleProductServiceInWishlist200ResponseData](doc//ToggleProductServiceInWishlist200ResponseData.md)
  - [TransactionDetails](doc//TransactionDetails.md)
+ - [UpdateAddress200Response](doc//UpdateAddress200Response.md)
+ - [UpdateAddress200ResponseData](doc//UpdateAddress200ResponseData.md)
  - [UpdateCartItemQuantity200Response](doc//UpdateCartItemQuantity200Response.md)
  - [UpdateCartItemQuantity200ResponseData](doc//UpdateCartItemQuantity200ResponseData.md)
  - [UploadFiles](doc//UploadFiles.md)

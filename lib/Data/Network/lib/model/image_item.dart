@@ -146,10 +146,10 @@ class ImageItem {
 
       return ImageItem(
         createdAt: mapValueOfType<String>(json, r'created_at'),
-        id: num.tryParse('${json[r'id']}'),
+        id: num.parse('${json[r'id']}'),
         image: mapValueOfType<String>(json, r'image'),
         imagePath: mapValueOfType<String>(json, r'imagePath'),
-        productId: num.tryParse('${json[r'product_id']}'),
+        productId: num.parse('${json[r'product_id']}'),
         updatedAt: mapValueOfType<String>(json, r'updated_at'),
       );
     }

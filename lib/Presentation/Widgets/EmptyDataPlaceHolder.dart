@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../Constants/Constants.dart';
 import '../Theme/AppTheme.dart';
@@ -8,7 +9,7 @@ import 'SvgIcons.dart';
 
 class EmptyDataPlaceHolder extends StatelessWidget {
   final Widget icon;
-  final String title;
+  final String? title;
   final String description;
   final VoidCallback? onAddOrderClick;
   final bool? showButton;
@@ -31,34 +32,36 @@ class EmptyDataPlaceHolder extends StatelessWidget {
         children: [
           icon,
           const SizedBox(
-            height: defaultPaddingHorizontal,
+            height: 32,
           ),
-          Text(title,
-              style: AppTheme.styleWithTextBlackAdelleSansExtendedFonts18w700),
-          const SizedBox(
-            height: defaultPaddingHorizontal,
+          title?.isNotEmpty == true ? Text(title??"",
+              style: AppTheme.styleWithTextBlackAdelleSansExtendedFonts18w700):const SizedBox(),
+          SizedBox(
+            height: title?.isNotEmpty == true? 32:0,
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 50),
             child: Text(
               description,
-              style: AppTheme.styleWithTextAppGrey7AdelleSansExtendedFonts14w400
+              style: AppTheme.styleWithTextAppGrey18AdelleSansExtendedFonts16w400
                   .copyWith(
-                height: 1.5,
+                height: 1.2,
               ),
               textAlign: TextAlign.center,
             ),
           ),
           const SizedBox(
-            height: defaultPaddingHorizontal,
+            height: 32,
           ),
           showButton == true
               ? Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
                 child: AppButton(
                     width: double.infinity,
-                    height: 40,
+                    height: 48.h,
                     text: buttonName,
+                    backColor: AppTheme.mainAppColorDark,
+                    outlined: true,
                     onPress: () {
                       onAddOrderClick?.call();
                       // navigateToLogin(context);

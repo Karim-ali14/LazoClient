@@ -245,13 +245,13 @@ class Category {
       }());
 
       return Category(
-        id: num.tryParse('${json[r'id']}'),
+        id: num.parse('${json[r'id']}'),
         nameEn: mapValueOfType<String>(json, r'name_en'),
         nameAr: mapValueOfType<String>(json, r'name_ar'),
         name: mapValueOfType<String>(json, r'name'),
         image: mapValueOfType<String>(json, r'image'),
-        servicesCount: num.tryParse('${json[r'services_count']}'),
-        productsCount: num.tryParse('${json[r'products_count']}'),
+        servicesCount: num.parse('${json[r'services_count']}'),
+        productsCount: num.parse('${json[r'products_count']}'),
         imagePath: mapValueOfType<String>(json, r'imagePath'),
         createdAt: mapValueOfType<String>(json, r'created_at'),
         updatedAt: mapValueOfType<String>(json, r'updated_at'),

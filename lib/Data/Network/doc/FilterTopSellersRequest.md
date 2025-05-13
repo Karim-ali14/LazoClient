@@ -12,6 +12,7 @@ Name | Type | Description | Notes
 **searchByName** | **String** |  | [optional] 
 **categoriesIds** | **List<String>** |  | [optional] [default to const []]
 **isPromoted** | **num** | 0-not_promoted, 1-promoted | [optional] 
+**cityId** | **String** |  | [optional] 
 **occasionsIds** | **List<String>** |  | [optional] [default to const []]
 **ratings** | **List<String>** |  | [optional] [default to const []]
 

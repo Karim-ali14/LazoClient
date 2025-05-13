@@ -257,7 +257,9 @@ class PublicApi {
   /// Parameters:
   ///
   /// * [String] lang:
-  Future<Response> citiesGetWithHttpInfo({ String? lang, }) async {
+  ///
+  /// * [String] countryId:
+  Future<Response> citiesGetWithHttpInfo({ String? lang, String? countryId, }) async {
     // ignore: prefer_const_declarations
     final path = r'/cities';
 
@@ -267,6 +269,10 @@ class PublicApi {
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
+
+    if (countryId != null) {
+      queryParams.addAll(_queryParams('', 'country_id', countryId));
+    }
 
     if (lang != null) {
       headerParams[r'lang'] = parameterToString(lang);
@@ -291,8 +297,10 @@ class PublicApi {
   /// Parameters:
   ///
   /// * [String] lang:
-  Future<CitiesResponse?> citiesGet({ String? lang, }) async {
-    final response = await citiesGetWithHttpInfo( lang: lang, );
+  ///
+  /// * [String] countryId:
+  Future<CitiesResponse?> citiesGet({ String? lang, String? countryId, }) async {
+    final response = await citiesGetWithHttpInfo( lang: lang, countryId: countryId, );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -499,6 +507,62 @@ class PublicApi {
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'ClientAuthResponse',) as ClientAuthResponse;
+    
+    }
+    return null;
+  }
+
+  /// show all countries
+  ///
+  /// Note: This method returns the HTTP [Response].
+  ///
+  /// Parameters:
+  ///
+  /// * [String] lang:
+  Future<Response> countriesGetWithHttpInfo({ String? lang, }) async {
+    // ignore: prefer_const_declarations
+    final path = r'/countries';
+
+    // ignore: prefer_final_locals
+    Object? postBody;
+
+    final queryParams = <QueryParam>[];
+    final headerParams = <String, String>{};
+    final formParams = <String, String>{};
+
+    if (lang != null) {
+      headerParams[r'lang'] = parameterToString(lang);
+    }
+
+    const contentTypes = <String>[];
+
+
+    return apiClient.invokeAPI(
+      path,
+      'GET',
+      queryParams,
+      postBody,
+      headerParams,
+      formParams,
+      contentTypes.isEmpty ? null : contentTypes.first,
+    );
+  }
+
+  /// show all countries
+  ///
+  /// Parameters:
+  ///
+  /// * [String] lang:
+  Future<CountriesResponse?> countriesGet({ String? lang, }) async {
+    final response = await countriesGetWithHttpInfo( lang: lang, );
+    if (response.statusCode >= HttpStatus.badRequest) {
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
+    }
+    // When a remote server returns no body with a status of 204, we shall not decode it.
+    // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
+    // FormatException when trying to decode an empty string.
+    if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'CountriesResponse',) as CountriesResponse;
     
     }
     return null;
@@ -1446,7 +1510,11 @@ class PublicApi {
   /// Show home
   ///
   /// Note: This method returns the HTTP [Response].
-  Future<Response> showHomeWithHttpInfo() async {
+  ///
+  /// Parameters:
+  ///
+  /// * [String] cityId:
+  Future<Response> showHomeWithHttpInfo({ String? cityId, }) async {
     // ignore: prefer_const_declarations
     final path = r'/home';
 
@@ -1456,6 +1524,10 @@ class PublicApi {
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
+
+    if (cityId != null) {
+      queryParams.addAll(_queryParams('', 'city_id', cityId));
+    }
 
     const contentTypes = <String>[];
 
@@ -1474,8 +1546,12 @@ class PublicApi {
   /// Show home
   ///
   /// Show home
-  Future<ShowHome200Response?> showHome() async {
-    final response = await showHomeWithHttpInfo();
+  ///
+  /// Parameters:
+  ///
+  /// * [String] cityId:
+  Future<ShowHome200Response?> showHome({ String? cityId, }) async {
+    final response = await showHomeWithHttpInfo( cityId: cityId, );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }

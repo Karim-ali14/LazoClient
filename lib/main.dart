@@ -16,6 +16,7 @@ import 'package:lazo_client/Presentation/Screens/GoogleMapScreen.dart';
 import 'package:lazo_client/Presentation/Screens/More/PrivacyAndPolicyScreen.dart';
 import 'package:lazo_client/Presentation/Screens/More/TermsAndConditionsScreen.dart';
 import 'package:lazo_client/Presentation/Screens/PaymentScreen.dart';
+import 'package:lazo_client/Presentation/Screens/addresses/add_address_screen.dart';
 import 'package:lazo_client/Presentation/Screens/cartScreen/CartScreen.dart';
 import 'package:lazo_client/Presentation/Screens/details/ProductAndServiceDetailsScreen.dart';
 import 'package:lazo_client/Presentation/Screens/details/SellerDetailsScreen.dart';
@@ -39,6 +40,7 @@ import 'Presentation/Screens/More/FAQScreen.dart';
 import 'Presentation/Screens/More/MoreScreen.dart';
 import 'Presentation/Screens/Notification/NotificationScreen.dart';
 import 'Presentation/Screens/Wallet/WalletScreen.dart';
+import 'Presentation/Screens/addresses/addresses_screen.dart';
 import 'Presentation/Screens/checkout/CheckoutScreen.dart';
 import 'Presentation/Screens/details/ShowAllRatingAndReviewScreen.dart';
 import 'Presentation/Screens/home/HomeScreen.dart';
@@ -439,6 +441,16 @@ class MyApp extends ConsumerWidget {
               collectionId: extra["collectionId"],
               collectionName: extra["collectionName"],
             );
+          }),
+      GoRoute(
+          path: R_AddressesScreen,
+          builder: (BuildContext context, GoRouterState state) {
+            return const AddressesScreen();
+          }),
+      GoRoute(
+          path: R_AddAddressScreen,
+          builder: (BuildContext context, GoRouterState state) {
+            return const AddAddressScreen();
           }),
     ],
   );

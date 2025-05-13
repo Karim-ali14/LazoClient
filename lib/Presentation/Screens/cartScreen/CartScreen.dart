@@ -72,7 +72,7 @@ class _CartScreenState extends ConsumerState<CartScreen> {
         getPackagingData();
       }
     }, onEmpty: (res) {
-      print("empty data ${res.data?.data?.cartItems.length}");
+
       promocode = null;
       voucherTextController.clear();
     });
@@ -86,11 +86,11 @@ class _CartScreenState extends ConsumerState<CartScreen> {
 
     handleState(updateCartItemsStateNotifies, showLoading: true,
         onSuccess: (res) {
-      try {
-        ref
-            .read(fetchCardDetailsStateNotifies.notifier)
-            .updateItem(res.data!.data!.cartItems.first);
-      } catch (e) {}
+      // try {
+      //   ref
+      //       .read(fetchCardDetailsStateNotifies.notifier)
+      //       .updateItem(res.data!.data!.cartItems.first);
+      // } catch (e) {}
     });
 
     handleState(deleteItemCartStateNotifies, showLoading: true,
@@ -135,33 +135,33 @@ class _CartScreenState extends ConsumerState<CartScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          ...(List.generate(
-                              cartData.state != DataState.LOADING
-                                  ? cartData.data?.data?.cartItems.length ?? 0
-                                  : listItems.length, (index) {
-                            return Skeletonizer(
-                              enabled: cartData.state == DataState.LOADING,
-                              child: CartItemView(
-                                cartItem: cartData.state != DataState.LOADING
-                                    ? cartData.data?.data?.cartItems[index]
-                                    : listItems[index],
-                                onUpdateQuantity: (cartItemId, quantity) {
-                                  updateItemQuantity(cartItemId, quantity);
-                                },
-                                onDeleteItem: (cartItemId) {
-                                  deleteCartItem(cartItemId);
-                                },
-                                onProductClickListener: (product, cartId) {
-                                  navigateToItemDetails(
-                                      ItemType.Products, product, null, cartId);
-                                },
-                                onServiceClickListener: (service, cartId) {
-                                  navigateToItemDetails(
-                                      ItemType.Services, null, service, cartId);
-                                },
-                              ),
-                            );
-                          })),
+                          // ...(List.generate(
+                          //     cartData.state != DataState.LOADING
+                          //         ? cartData.data?.data?.cartItems.length ?? 0
+                          //         : listItems.length, (index) {
+                          //   return Skeletonizer(
+                          //     enabled: cartData.state == DataState.LOADING,
+                          //     child: CartItemView(
+                          //       cartItem: cartData.state != DataState.LOADING
+                          //           ? cartData.data?.data?.cartItems[index]
+                          //           : listItems[index],
+                          //       onUpdateQuantity: (cartItemId, quantity) {
+                          //         updateItemQuantity(cartItemId, quantity);
+                          //       },
+                          //       onDeleteItem: (cartItemId) {
+                          //         deleteCartItem(cartItemId);
+                          //       },
+                          //       onProductClickListener: (product, cartId) {
+                          //         navigateToItemDetails(
+                          //             ItemType.Products, product, null, cartId);
+                          //       },
+                          //       onServiceClickListener: (service, cartId) {
+                          //         navigateToItemDetails(
+                          //             ItemType.Services, null, service, cartId);
+                          //       },
+                          //     ),
+                          //   );
+                          // })),
                           SizedBox(
                             height: 32,
                           ),

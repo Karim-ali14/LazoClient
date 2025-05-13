@@ -178,11 +178,11 @@ class GiftBox {
 
       return GiftBox(
         createdAt: mapValueOfType<String>(json, r'created_at'),
-        id: num.tryParse('${json[r'id']}'),
+        id: num.parse('${json[r'id']}'),
         image: mapValueOfType<String>(json, r'image'),
         imagePath: mapValueOfType<String>(json, r'imagePath'),
         name: mapValueOfType<String>(json, r'name'),
-        price: num.tryParse('${json[r'price']}'),
+        price: num.parse('${json[r'price']}'),
         updatedAt: mapValueOfType<String>(json, r'updated_at'),
         isChecked: mapValueOfType<bool>(json, r'is_checked'),
       );

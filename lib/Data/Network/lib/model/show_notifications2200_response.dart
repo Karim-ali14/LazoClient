@@ -103,7 +103,7 @@ class ShowNotifications2200Response {
       }());
 
       return ShowNotifications2200Response(
-        code: num.tryParse('${json[r'code']}'),
+        code: num.parse('${json[r'code']}'),
         data: ClientNotification.listFromJson(json[r'data']),
         message: mapValueOfType<String>(json, r'message'),
         status: mapValueOfType<bool>(json, r'status'),

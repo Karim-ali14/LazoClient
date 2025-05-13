@@ -5,22 +5,26 @@
 import 'package:lazo/api.dart';
 ```
 
-All URIs are relative to *http://}*
+All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**assignChatNotificationToAProvider**](ClientApi.md#assignchatnotificationtoaprovider) | **POST** /client/chat/notification/assign | Assign chat notification to a provider
 [**calculateInstantOrder**](ClientApi.md#calculateinstantorder) | **POST** /client/instant-order/calculate | calculate an instant order
 [**clientAccountDeleteGet**](ClientApi.md#clientaccountdeleteget) | **GET** /client/account-delete | client\\'s account deleted successfully
+[**clientAddressDeleteDelete**](ClientApi.md#clientaddressdeletedelete) | **DELETE** /client/address/delete | delete address
 [**clientLogoutGet**](ClientApi.md#clientlogoutget) | **GET** /client/logout | client logout
 [**clientWishlistCollectionDeleteDelete**](ClientApi.md#clientwishlistcollectiondeletedelete) | **DELETE** /client/wishlist/collection/delete | delete collection wishlist
 [**clientWishlistCollectionResetGet**](ClientApi.md#clientwishlistcollectionresetget) | **GET** /client/wishlist/collection/reset | reset collection wishlist
 [**creatInstantOrder**](ClientApi.md#creatinstantorder) | **POST** /client/instant-order/create | create an instant order
+[**createAddress**](ClientApi.md#createaddress) | **POST** /client/address/create | create address
 [**createOrder**](ClientApi.md#createorder) | **POST** /client/order/create | Create order
 [**createWishlistCollection**](ClientApi.md#createwishlistcollection) | **POST** /client/wishlist/collection/create | create wishlist collection
 [**manageOrder**](ClientApi.md#manageorder) | **POST** /client/order/manage | Manage order
 [**rateOrder**](ClientApi.md#rateorder) | **POST** /client/order/rating | Rate order
 [**readANotification122**](ClientApi.md#readanotification122) | **POST** /client/notification/read | read a notification
+[**showAddresses**](ClientApi.md#showaddresses) | **GET** /client/addresses | Show user's addresses
+[**showAreas**](ClientApi.md#showareas) | **GET** /areas | list of areas
 [**showNotifications2**](ClientApi.md#shownotifications2) | **GET** /client/notifications | show notifications
 [**showOrderDetails**](ClientApi.md#showorderdetails) | **GET** /client/order/show | Show order details
 [**showOrders**](ClientApi.md#showorders) | **GET** /client/orders | Show orders
@@ -28,6 +32,7 @@ Method | HTTP request | Description
 [**showWishlistCollections**](ClientApi.md#showwishlistcollections) | **GET** /client/wishlist/collections | Show wishlist collections
 [**showWishlistItemsWithSearchByName**](ClientApi.md#showwishlistitemswithsearchbyname) | **GET** /client/wishlist/show | Show wishlist items (with search by name)
 [**toggleProductServiceInWishlist**](ClientApi.md#toggleproductserviceinwishlist) | **POST** /client/wishlist/toggle | Toggle product/service in wishlist
+[**updateAddress**](ClientApi.md#updateaddress) | **POST** /client/address/update | update address
 [**updateFcmTokenAndDeviceType2**](ClientApi.md#updatefcmtokenanddevicetype2) | **POST** /client/update/device-data | update fcm_token and device_type
 [**updateProfile**](ClientApi.md#updateprofile) | **POST** /client/profile/update | update profile
 [**updateWishlistCollection**](ClientApi.md#updatewishlistcollection) | **POST** /client/wishlist/collection/update | update wishlist collection
@@ -168,6 +173,52 @@ try {
 
 ### Parameters
 This endpoint does not need any parameter.
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **clientAddressDeleteDelete**
+> clientAddressDeleteDelete(addressId)
+
+delete address
+
+### Example
+```dart
+import 'package:lazo/api.dart';
+// TODO Configure HTTP Bearer authorization: bearerAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('bearerAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('bearerAuth').setAccessToken(yourTokenGeneratorFunction);
+
+final api_instance = ClientApi();
+final addressId = addressId_example; // String | 
+
+try {
+    api_instance.clientAddressDeleteDelete(addressId);
+} catch (e) {
+    print('Exception when calling ClientApi->clientAddressDeleteDelete: $e\n');
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **addressId** | **String**|  | [optional] 
 
 ### Return type
 
@@ -379,6 +430,67 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**ClientOrderDetailsResponse**](ClientOrderDetailsResponse.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: multipart/form-data
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **createAddress**
+> CreateAddress200Response createAddress(recipientName, recipientPhone, recipientLandmark, recipientAddress, lat, lng, cityId)
+
+create address
+
+create address
+
+### Example
+```dart
+import 'package:lazo/api.dart';
+// TODO Configure HTTP Bearer authorization: bearerAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('bearerAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('bearerAuth').setAccessToken(yourTokenGeneratorFunction);
+
+final api_instance = ClientApi();
+final recipientName = recipientName_example; // String | 
+final recipientPhone = recipientPhone_example; // String | 
+final recipientLandmark = recipientLandmark_example; // String | 
+final recipientAddress = recipientAddress_example; // String | 
+final lat = lat_example; // String | 
+final lng = lng_example; // String | 
+final cityId = cityId_example; // String | 
+
+try {
+    final result = api_instance.createAddress(recipientName, recipientPhone, recipientLandmark, recipientAddress, lat, lng, cityId);
+    print(result);
+} catch (e) {
+    print('Exception when calling ClientApi->createAddress: $e\n');
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **recipientName** | **String**|  | [optional] 
+ **recipientPhone** | **String**|  | [optional] 
+ **recipientLandmark** | **String**|  | [optional] 
+ **recipientAddress** | **String**|  | [optional] 
+ **lat** | **String**|  | [optional] 
+ **lng** | **String**|  | [optional] 
+ **cityId** | **String**|  | [optional] 
+
+### Return type
+
+[**CreateAddress200Response**](CreateAddress200Response.md)
 
 ### Authorization
 
@@ -658,6 +770,96 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
  - **Content-Type**: multipart/form-data
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **showAddresses**
+> ShowAddresses200Response showAddresses()
+
+Show user's addresses
+
+Show addresses
+
+### Example
+```dart
+import 'package:lazo/api.dart';
+// TODO Configure HTTP Bearer authorization: bearerAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('bearerAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('bearerAuth').setAccessToken(yourTokenGeneratorFunction);
+
+final api_instance = ClientApi();
+
+try {
+    final result = api_instance.showAddresses();
+    print(result);
+} catch (e) {
+    print('Exception when calling ClientApi->showAddresses: $e\n');
+}
+```
+
+### Parameters
+This endpoint does not need any parameter.
+
+### Return type
+
+[**ShowAddresses200Response**](ShowAddresses200Response.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **showAreas**
+> ShowAreas200Response showAreas()
+
+list of areas
+
+Show areas
+
+### Example
+```dart
+import 'package:lazo/api.dart';
+// TODO Configure HTTP Bearer authorization: bearerAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('bearerAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('bearerAuth').setAccessToken(yourTokenGeneratorFunction);
+
+final api_instance = ClientApi();
+
+try {
+    final result = api_instance.showAreas();
+    print(result);
+} catch (e) {
+    print('Exception when calling ClientApi->showAreas: $e\n');
+}
+```
+
+### Parameters
+This endpoint does not need any parameter.
+
+### Return type
+
+[**ShowAreas200Response**](ShowAreas200Response.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -997,6 +1199,69 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**ToggleProductServiceInWishlist200Response**](ToggleProductServiceInWishlist200Response.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: multipart/form-data
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **updateAddress**
+> UpdateAddress200Response updateAddress(addressId, recipientName, recipientPhone, recipientLandmark, recipientAddress, lat, lng, cityId)
+
+update address
+
+update address
+
+### Example
+```dart
+import 'package:lazo/api.dart';
+// TODO Configure HTTP Bearer authorization: bearerAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('bearerAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('bearerAuth').setAccessToken(yourTokenGeneratorFunction);
+
+final api_instance = ClientApi();
+final addressId = addressId_example; // String | 
+final recipientName = recipientName_example; // String | 
+final recipientPhone = recipientPhone_example; // String | 
+final recipientLandmark = recipientLandmark_example; // String | 
+final recipientAddress = recipientAddress_example; // String | 
+final lat = lat_example; // String | 
+final lng = lng_example; // String | 
+final cityId = cityId_example; // String | 
+
+try {
+    final result = api_instance.updateAddress(addressId, recipientName, recipientPhone, recipientLandmark, recipientAddress, lat, lng, cityId);
+    print(result);
+} catch (e) {
+    print('Exception when calling ClientApi->updateAddress: $e\n');
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **addressId** | **String**|  | [optional] 
+ **recipientName** | **String**|  | [optional] 
+ **recipientPhone** | **String**|  | [optional] 
+ **recipientLandmark** | **String**|  | [optional] 
+ **recipientAddress** | **String**|  | [optional] 
+ **lat** | **String**|  | [optional] 
+ **lng** | **String**|  | [optional] 
+ **cityId** | **String**|  | [optional] 
+
+### Return type
+
+[**UpdateAddress200Response**](UpdateAddress200Response.md)
 
 ### Authorization
 

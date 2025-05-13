@@ -188,26 +188,27 @@ class MainScreenNavHostState extends ConsumerState<MainScreenNavHost> {
         backgroundColor: AppTheme.appRedColor,
         child: Stack(
           children: [
-            Align(
-                alignment: Alignment.center,
-                child: SVGIcons.localSVG(cartIconSvg,width: 27,height: 26)),
-            (cartData.data?.data?.cartItems.length??0) > 0 ?PositionedDirectional(
-              top: 9,
-              start: 33,
-              child: Container(
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Colors.white,
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(3),
-                  child: Text(
-                    cartData.data?.data?.cartItems.length.toString() ?? ""
-                    ,style: AppTheme.styleWithTextAppRedColorAdelleSansExtendedFonts8w700,
-                  ),
-                ),
-              ),
-            ) : const SizedBox()
+            // Align(
+            //     alignment: Alignment.center,
+            //     child: SVGIcons.localSVG(cartIconSvg,width: 27,height: 26)),
+            // (cartData.data?.data?.cartItems.length??0) > 0 ?PositionedDirectional(
+            //   top: 9,
+            //   start: 33,
+            //   child: Container(
+            //     decoration: BoxDecoration(
+            //       shape: BoxShape.circle,
+            //       color: Colors.white,
+            //     ),
+            //     child: Padding(
+            //       padding: const EdgeInsets.all(3),
+            //       child: Text(
+            //         cartData.data?.data?.cartItems.length.toString() ?? ""
+            //         ,style: AppTheme.styleWithTextAppRedColorAdelleSansExtendedFonts8w700,
+            //       ),
+            //     ),
+            //   ),
+            // ) :
+            const SizedBox()
           ],
         ),
       ),

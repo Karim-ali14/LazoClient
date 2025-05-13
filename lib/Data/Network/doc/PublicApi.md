@@ -5,7 +5,7 @@
 import 'package:lazo/api.dart';
 ```
 
-All URIs are relative to *http://}*
+All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -14,6 +14,7 @@ Method | HTTP request | Description
 [**citiesGet**](PublicApi.md#citiesget) | **GET** /cities | show all cities
 [**clientLogin**](PublicApi.md#clientlogin) | **POST** /client/login | client login
 [**clientSignup**](PublicApi.md#clientsignup) | **POST** /client/register | client signup
+[**countriesGet**](PublicApi.md#countriesget) | **GET** /countries | show all countries
 [**deleteCartItem**](PublicApi.md#deletecartitem) | **POST** /cart-item/delete | Delete cart item
 [**filterTopProductsServices**](PublicApi.md#filtertopproductsservices) | **POST** /top-products-services/filter | Filter top products & services
 [**filterTopSellers**](PublicApi.md#filtertopsellers) | **POST** /top-sellers/filter | Filter top sellers
@@ -157,7 +158,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **citiesGet**
-> CitiesResponse citiesGet(lang)
+> CitiesResponse citiesGet(lang, countryId)
 
 show all cities
 
@@ -167,9 +168,10 @@ import 'package:lazo/api.dart';
 
 final api_instance = PublicApi();
 final lang = ar; // String | 
+final countryId = countryId_example; // String | 
 
 try {
-    final result = api_instance.citiesGet(lang);
+    final result = api_instance.citiesGet(lang, countryId);
     print(result);
 } catch (e) {
     print('Exception when calling PublicApi->citiesGet: $e\n');
@@ -181,6 +183,7 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **lang** | **String**|  | [optional] 
+ **countryId** | **String**|  | [optional] 
 
 ### Return type
 
@@ -295,6 +298,47 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: multipart/form-data
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **countriesGet**
+> CountriesResponse countriesGet(lang)
+
+show all countries
+
+### Example
+```dart
+import 'package:lazo/api.dart';
+
+final api_instance = PublicApi();
+final lang = ar; // String | 
+
+try {
+    final result = api_instance.countriesGet(lang);
+    print(result);
+} catch (e) {
+    print('Exception when calling PublicApi->countriesGet: $e\n');
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **lang** | **String**|  | [optional] 
+
+### Return type
+
+[**CountriesResponse**](CountriesResponse.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -1025,7 +1069,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **showHome**
-> ShowHome200Response showHome()
+> ShowHome200Response showHome(cityId)
 
 Show home
 
@@ -1042,9 +1086,10 @@ import 'package:lazo/api.dart';
 //defaultApiClient.getAuthentication<HttpBearerAuth>('bearerAuth').setAccessToken(yourTokenGeneratorFunction);
 
 final api_instance = PublicApi();
+final cityId = 9; // String | 
 
 try {
-    final result = api_instance.showHome();
+    final result = api_instance.showHome(cityId);
     print(result);
 } catch (e) {
     print('Exception when calling PublicApi->showHome: $e\n');
@@ -1052,7 +1097,10 @@ try {
 ```
 
 ### Parameters
-This endpoint does not need any parameter.
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **cityId** | **String**|  | [optional] 
 
 ### Return type
 
