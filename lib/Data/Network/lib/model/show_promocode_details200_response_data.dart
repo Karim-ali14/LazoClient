@@ -181,10 +181,10 @@ class ShowPromocodeDetails200ResponseData {
         code: mapValueOfType<String>(json, r'code'),
         createdAt: mapValueOfType<String>(json, r'created_at'),
         expirationDate: mapValueOfType<String>(json, r'expiration_date'),
-        id: num.parse('${json[r'id']}'),
+        id: num.tryParse('${json[r'id']}'),
         type: mapValueOfType<String>(json, r'type'),
         updatedAt: mapValueOfType<String>(json, r'updated_at'),
-        value: num.parse('${json[r'value']}'),
+        value: num.tryParse('${json[r'value']}'),
       );
     }
     return null;

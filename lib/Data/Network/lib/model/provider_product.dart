@@ -511,7 +511,7 @@ class ProviderProduct {
       }());
 
       return ProviderProduct(
-        amount: num.parse('${json[r'amount']}'),
+        amount: num.tryParse('${json[r'amount']}'),
         categories: Category.listFromJson(json[r'categories']),
         categoryMenu: CategoryMenu.listFromJson(json[r'category_menu']),
         colors: Color.listFromJson(json[r'colors']),
@@ -521,7 +521,7 @@ class ProviderProduct {
         descriptionEn: mapValueOfType<String>(json, r'description_en'),
         expectedProcessingTime: mapValueOfType<String>(json, r'expected_processing_time'),
         isVisible: mapValueOfType<int>(json, r'is_visible'),
-        id: num.parse('${json[r'id']}'),
+        id: num.tryParse('${json[r'id']}'),
         images: ImageItem.listFromJson(json[r'images']),
         providerName: mapValueOfType<String>(json, r'provider_name'),
         lists: ProductListItem.listFromJson(json[r'lists']),
@@ -529,9 +529,9 @@ class ProviderProduct {
         nameAr: mapValueOfType<String>(json, r'name_ar'),
         nameEn: mapValueOfType<String>(json, r'name_en'),
         occasions: Occasion.listFromJson(json[r'occasions']),
-        price: num.parse('${json[r'price']}'),
-        priceAfterDiscount: num.parse('${json[r'price_after_discount']}'),
-        providerId: num.parse('${json[r'provider_id']}'),
+        price: num.tryParse('${json[r'price']}'),
+        priceAfterDiscount: num.tryParse('${json[r'price_after_discount']}'),
+        providerId: num.tryParse('${json[r'provider_id']}'),
         sizes: Size.listFromJson(json[r'sizes']),
         type: mapValueOfType<String>(json, r'type'),
         updatedAt: mapValueOfType<String>(json, r'updated_at'),
@@ -540,8 +540,8 @@ class ProviderProduct {
         cartItemQuantity: mapValueOfType<int>(json, r'cart_item_quantity'),
         inWishlist: mapValueOfType<bool>(json, r'in_wishlist'),
         wishlistCollectionId: mapValueOfType<String>(json, r'wishlist_collection_id'),
-        overallRating: num.parse('${json[r'overall_rating']}'),
-        ratingsCount: num.parse('${json[r'ratings_count']}'),
+        overallRating: num.tryParse('${json[r'overall_rating']}'),
+        ratingsCount: num.tryParse('${json[r'ratings_count']}'),
         ratings: ProviderProductRatingsInner.listFromJson(json[r'ratings']),
         provider: ProviderData.fromJson(json[r'provider']),
       );

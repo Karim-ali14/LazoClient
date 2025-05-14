@@ -376,7 +376,7 @@ class ProviderOrderDetailsOrderItemsInnerService {
 
       return ProviderOrderDetailsOrderItemsInnerService(
         cardExpiration: mapValueOfType<String>(json, r'card_expiration'),
-        cardPrice: num.parse('${json[r'card_price']}'),
+        cardPrice: num.tryParse('${json[r'card_price']}'),
         cardType: mapValueOfType<String>(json, r'card_type'),
         coverImagePath: mapValueOfType<String>(json, r'coverImagePath'),
         coverImage: mapValueOfType<String>(json, r'cover_image'),
@@ -385,16 +385,16 @@ class ProviderOrderDetailsOrderItemsInnerService {
         descriptionAr: mapValueOfType<String>(json, r'description_ar'),
         descriptionEn: mapValueOfType<String>(json, r'description_en'),
         duration: mapValueOfType<String>(json, r'duration'),
-        id: num.parse('${json[r'id']}'),
-        isServiceDeliverableOutsideStore: num.parse('${json[r'is_service_deliverable_outside_store']}'),
-        isVisible: num.parse('${json[r'is_visible']}'),
+        id: num.tryParse('${json[r'id']}'),
+        isServiceDeliverableOutsideStore: num.tryParse('${json[r'is_service_deliverable_outside_store']}'),
+        isVisible: num.tryParse('${json[r'is_visible']}'),
         lists: ProviderOrderDetailsOrderItemsInnerServiceListsInner.listFromJson(json[r'lists']),
         name: mapValueOfType<String>(json, r'name'),
         nameAr: mapValueOfType<String>(json, r'name_ar'),
         nameEn: mapValueOfType<String>(json, r'name_en'),
-        price: num.parse('${json[r'price']}'),
-        priceAfterDiscount: num.parse('${json[r'price_after_discount']}'),
-        providerId: num.parse('${json[r'provider_id']}'),
+        price: num.tryParse('${json[r'price']}'),
+        priceAfterDiscount: num.tryParse('${json[r'price_after_discount']}'),
+        providerId: num.tryParse('${json[r'provider_id']}'),
         updatedAt: mapValueOfType<String>(json, r'updated_at'),
       );
     }

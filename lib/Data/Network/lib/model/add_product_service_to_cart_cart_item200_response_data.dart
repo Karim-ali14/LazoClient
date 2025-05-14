@@ -229,16 +229,16 @@ class AddProductServiceToCartCartItem200ResponseData {
       return AddProductServiceToCartCartItem200ResponseData(
         cartItems: CartItemsInner.listFromJson(json[r'cart_items']),
         createdAt: mapValueOfType<String>(json, r'created_at'),
-        id: num.parse('${json[r'id']}'),
+        id: num.tryParse('${json[r'id']}'),
         productId: mapValueOfType<int>(json, r'product_id'),
         serviceId: mapValueOfType<int>(json, r'service_id'),
         categoriesIds: json[r'categories_ids'] is Iterable
             ? (json[r'categories_ids'] as Iterable).cast<String>().toList(growable: false)
             : const [],
-        total: num.parse('${json[r'total']}'),
+        total: num.tryParse('${json[r'total']}'),
         type: mapValueOfType<String>(json, r'type'),
         updatedAt: mapValueOfType<String>(json, r'updated_at'),
-        userId: num.parse('${json[r'user_id']}'),
+        userId: num.tryParse('${json[r'user_id']}'),
         sessionId: mapValueOfType<String>(json, r'session_id'),
         shipmentType: mapValueOfType<String>(json, r'shipment_type'),
         expectedProcessingTime: mapValueOfType<String>(json, r'expected_processing_time'),

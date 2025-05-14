@@ -178,12 +178,12 @@ class ProviderOrderDetailsOrderItemsInnerServiceListsInnerItemsInner {
 
       return ProviderOrderDetailsOrderItemsInnerServiceListsInnerItemsInner(
         createdAt: mapValueOfType<String>(json, r'created_at'),
-        id: num.parse('${json[r'id']}'),
+        id: num.tryParse('${json[r'id']}'),
         name: mapValueOfType<String>(json, r'name'),
         nameAr: mapValueOfType<String>(json, r'name_ar'),
         nameEn: mapValueOfType<String>(json, r'name_en'),
-        price: num.parse('${json[r'price']}'),
-        serviceListId: num.parse('${json[r'service_list_id']}'),
+        price: num.tryParse('${json[r'price']}'),
+        serviceListId: num.tryParse('${json[r'service_list_id']}'),
         updatedAt: mapValueOfType<String>(json, r'updated_at'),
       );
     }

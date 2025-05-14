@@ -365,8 +365,8 @@ class ClientOrderDetailsOrderItemsInnerProduct {
       }());
 
       return ClientOrderDetailsOrderItemsInnerProduct(
-        hasStock: num.parse('${json[r'has_stock']}'),
-        amount: num.parse('${json[r'amount']}'),
+        hasStock: num.tryParse('${json[r'has_stock']}'),
+        amount: num.tryParse('${json[r'amount']}'),
         expectedProcessingTime: mapValueOfType<String>(json, r'expected_processing_time'),
         colors: Color.listFromJson(json[r'colors']),
         sizes: Size.listFromJson(json[r'sizes']),
@@ -376,15 +376,15 @@ class ClientOrderDetailsOrderItemsInnerProduct {
         description: mapValueOfType<String>(json, r'description'),
         descriptionAr: mapValueOfType<String>(json, r'description_ar'),
         descriptionEn: mapValueOfType<String>(json, r'description_en'),
-        id: num.parse('${json[r'id']}'),
-        isVisible: num.parse('${json[r'is_visible']}'),
+        id: num.tryParse('${json[r'id']}'),
+        isVisible: num.tryParse('${json[r'is_visible']}'),
         lists: ProviderOrderDetailsOrderItemsInnerProductListsInner.listFromJson(json[r'lists']),
         name: mapValueOfType<String>(json, r'name'),
         nameAr: mapValueOfType<String>(json, r'name_ar'),
         nameEn: mapValueOfType<String>(json, r'name_en'),
-        price: num.parse('${json[r'price']}'),
-        priceAfterDiscount: num.parse('${json[r'price_after_discount']}'),
-        providerId: num.parse('${json[r'provider_id']}'),
+        price: num.tryParse('${json[r'price']}'),
+        priceAfterDiscount: num.tryParse('${json[r'price_after_discount']}'),
+        providerId: num.tryParse('${json[r'provider_id']}'),
         updatedAt: mapValueOfType<String>(json, r'updated_at'),
         imagePath: mapValueOfType<String>(json, r'imagePath'),
       );

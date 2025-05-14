@@ -113,7 +113,7 @@ class ReadANotification1200Response {
       }());
 
       return ReadANotification1200Response(
-        code: num.parse('${json[r'code']}'),
+        code: num.tryParse('${json[r'code']}'),
         data: ReadANotification1200ResponseData.fromJson(json[r'data']),
         message: mapValueOfType<String>(json, r'message'),
         status: mapValueOfType<bool>(json, r'status'),

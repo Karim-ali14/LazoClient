@@ -262,12 +262,12 @@ class ProviderOrderDetailsUser {
 
       return ProviderOrderDetailsUser(
         balance: mapValueOfType<String>(json, r'balance'),
-        cityId: num.parse('${json[r'city_id']}'),
+        cityId: num.tryParse('${json[r'city_id']}'),
         createdAt: mapValueOfType<String>(json, r'created_at'),
         deviceType: mapValueOfType<Object>(json, r'device_type'),
         email: mapValueOfType<String>(json, r'email'),
         fcmToken: mapValueOfType<Object>(json, r'fcm_token'),
-        id: num.parse('${json[r'id']}'),
+        id: num.tryParse('${json[r'id']}'),
         image: mapValueOfType<String>(json, r'image'),
         imagePath: mapValueOfType<String>(json, r'imagePath'),
         lang: mapValueOfType<String>(json, r'lang'),

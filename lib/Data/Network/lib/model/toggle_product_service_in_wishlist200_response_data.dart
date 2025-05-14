@@ -157,14 +157,14 @@ class ToggleProductServiceInWishlist200ResponseData {
       return ToggleProductServiceInWishlist200ResponseData(
         id: json[r'id'] == null
             ? null
-            : num.parse('${json[r'id']}'),
-        userId: num.parse('${json[r'user_id']}'),
+            : num.tryParse('${json[r'id']}'),
+        userId: num.tryParse('${json[r'user_id']}'),
         serviceId: json[r'service_id'] == null
             ? null
-            : num.parse('${json[r'service_id']}'),
+            : num.tryParse('${json[r'service_id']}'),
         productId: json[r'product_id'] == null
             ? null
-            : num.parse('${json[r'product_id']}'),
+            : num.tryParse('${json[r'product_id']}'),
         createdAt: mapValueOfType<String>(json, r'created_at'),
         updatedAt: mapValueOfType<String>(json, r'updated_at'),
         collectionId: mapValueOfType<int>(json, r'collection_id'),

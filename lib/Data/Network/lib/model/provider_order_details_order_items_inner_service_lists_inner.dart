@@ -216,15 +216,15 @@ class ProviderOrderDetailsOrderItemsInnerServiceListsInner {
 
       return ProviderOrderDetailsOrderItemsInnerServiceListsInner(
         createdAt: mapValueOfType<String>(json, r'created_at'),
-        id: num.parse('${json[r'id']}'),
-        isMultiSelectable: num.parse('${json[r'is_multi_selectable']}'),
+        id: num.tryParse('${json[r'id']}'),
+        isMultiSelectable: num.tryParse('${json[r'is_multi_selectable']}'),
         items: ProviderOrderDetailsOrderItemsInnerServiceListsInnerItemsInner.listFromJson(json[r'items']),
-        maxSelectableItemsNumber: num.parse('${json[r'max_selectable_items_number']}'),
+        maxSelectableItemsNumber: num.tryParse('${json[r'max_selectable_items_number']}'),
         name: mapValueOfType<String>(json, r'name'),
         nameAr: mapValueOfType<String>(json, r'name_ar'),
         nameEn: mapValueOfType<String>(json, r'name_en'),
-        serviceId: num.parse('${json[r'service_id']}'),
-        totalPrice: num.parse('${json[r'total_price']}'),
+        serviceId: num.tryParse('${json[r'service_id']}'),
+        totalPrice: num.tryParse('${json[r'total_price']}'),
         updatedAt: mapValueOfType<String>(json, r'updated_at'),
       );
     }
