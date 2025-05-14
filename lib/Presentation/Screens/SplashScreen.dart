@@ -55,10 +55,18 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
 
       if(client != null){
         initFcmToken();
-        context.go(R_MainScreen);
+        if(prefs.getBool(selectedCityKey) == true){
+          context.go(R_MainScreen);
+        }else{
+          context.push(R_SelectCountriesScreen);
+        }
       }else {
         if(prefs.getBool(doneLandingKey) == true){
-          context.go(R_MainScreen);
+          if(prefs.getBool(selectedCityKey) == true){
+            context.go(R_MainScreen);
+          }else{
+            context.push(R_SelectCountriesScreen);
+          }
         }else {
           context.push(R_OnBoardingScreen);
         }

@@ -14,14 +14,27 @@ import '../../Presentation/StateNotifiersViewModel/PublicStateNotifiers.dart';
 import '../../Presentation/StateNotifiersViewModel/UserAuthStateNotifiers.dart';
 import '../../main.dart';
 
+class CountriesUseCases extends StateNotifier<StateModel<CountriesResponse?>> {
+  final Ref ref;
+  final PublicApi publicApi;
+  CountriesUseCases(this.ref, this.publicApi) : super(StateModel());
+
+  void fetchCountries() async {
+    state = StateModel.loading();
+    request(() => publicApi.countriesGet(lang: "ar"));
+  }
+}
+
 class CitiesUseCases extends StateNotifier<StateModel<CitiesResponse?>> {
   final Ref ref;
   final PublicApi publicApi;
   CitiesUseCases(this.ref, this.publicApi) : super(StateModel());
 
-  void getCities() async {
+  void getCities({
+    String? countryId,
+  }) async {
     state = StateModel.loading();
-    request(() => publicApi.citiesGet(lang: "ar"));
+    request(() => publicApi.citiesGet(lang: "ar",countryId: countryId));
   }
 }
 

@@ -37,6 +37,7 @@ const R_CollectionDetailsScreen = "/collectionDetailsScreen";
 const R_Walletscreen = "/walletscreen";
 const R_AddressesScreen = "/addressesScreen";
 const R_AddAddressScreen = "/addAddressScreen";
+const R_SelectCountriesScreen = "/selectCountriesScreen";
 
 const R_MoreScreen = '/more';
 const R_NotificationScreen = '/notification';

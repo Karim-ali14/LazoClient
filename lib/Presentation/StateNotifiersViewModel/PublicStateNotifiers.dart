@@ -10,6 +10,10 @@ import '../../Doman/useCases/AuthUaseCases.dart';
 import '../../Doman/useCases/UpdateFilterUseCase.dart';
 import '../../Doman/useCases/UpdateListOFCategoryUseCase.dart';
 
+final fetchCountriesStateNotifier = StateNotifierProvider.autoDispose<CountriesUseCases,
+        StateModel<CountriesResponse?>>(
+    (ref) => CountriesUseCases(ref, ref.read(publicApi)));
+
 final getCities = StateNotifierProvider.autoDispose<CitiesUseCases,
         StateModel<CitiesResponse?>>(
     (ref) => CitiesUseCases(ref, ref.read(publicApi)));

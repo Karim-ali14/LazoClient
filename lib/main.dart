@@ -52,6 +52,7 @@ import 'Presentation/Screens/onbaording/OnBordingScreen.dart';
 import 'Presentation/Screens/orders/OrderDetailsScreen.dart';
 import 'Presentation/Screens/profileScreen/EditPhoneScreen.dart';
 import 'Presentation/Screens/profileScreen/ProfileScreen.dart';
+import 'Presentation/Screens/select_countries_screen/select_countries_screen.dart';
 import 'Presentation/Screens/showOccasionsResult/OccasionResultScreen.dart';
 import 'Presentation/Screens/wishlist/WishlistScreen.dart';
 import 'Presentation/counter_screen.dart';
@@ -452,6 +453,11 @@ class MyApp extends ConsumerWidget {
           builder: (BuildContext context, GoRouterState state) {
             var extra = state.extra as Map?;
             return AddAddressScreen(isEdit: extra?["isEdit"] ?? false,addressItem: extra?["addressItem"] as AddressItem?,);
+          }),
+      GoRoute(
+          path: R_SelectCountriesScreen,
+          builder: (BuildContext context, GoRouterState state) {
+            return const SelectCountriesScreen();
           }),
     ],
   );
