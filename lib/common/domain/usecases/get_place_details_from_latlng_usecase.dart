@@ -1,0 +1,29 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../../Data/Models/AddressModel.dart';
+import '../../../Data/Models/StateModel.dart';
+import '../repositories/common_repository.dart';
+
+class GetLatLngFromLatLngUseCase extends StateNotifier<StateModel<Address?>> {
+  final CommonRepository _commonRepository;
+
+  GetLatLngFromLatLngUseCase(this._commonRepository) : super(StateModel());
+
+  Future<void> call(double lat, double lng) async {
+    state = StateModel.loading();
+
+    try {
+      final location = await _commonRepository.getAddressFromLatLng(lat,lng);
+      state = StateModel(
+        state: DataState.SUCCESS,
+        data: location,
+      );
+    } catch (e) {
+      state = StateModel(
+        state: DataState.ERROR,
+        message: e.toString(),
+      );
+    }
+  }
+
+}
+

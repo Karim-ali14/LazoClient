@@ -46,4 +46,5 @@ const R_PrivacyAndPolicyScreen = '/privacyAndPolicyScreen';
 //EXTRAS
 const userKey = "LazoClientKey";
 const sessionIdKey = "LazoClientSessionIdKey";
+const googleApiKey = "AIzaSyAGs2hG1FRi6p1Wy7kxCWlAF9aitl111cg";
 

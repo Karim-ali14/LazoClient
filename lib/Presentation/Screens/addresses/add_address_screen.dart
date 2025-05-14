@@ -238,7 +238,7 @@ class _AddAddressScreenState extends ConsumerState<AddAddressScreen> {
           await LocationHandler.getAddressFromLatLng(_selectedLocation!);
       ref.read(createAddressStateNotifiers.notifier).createAddresses(
           recipientName: nameController.text,
-          recipientPhone: phoneController.text.removeFirstChar("+"),
+          recipientPhone: '$code ${phoneController.text}'.removeFirstChar("+"),
           recipientLandmark: address,
           recipientAddress: additionalAddressController.text,
           lat: "${_selectedLocation!.latitude}",
