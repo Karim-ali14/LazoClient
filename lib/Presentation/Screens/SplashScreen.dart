@@ -1,6 +1,9 @@
+import 'dart:math';
+
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/services.dart';
 import 'package:lazo_client/Constants/Assets.dart';
+import 'package:lazo_client/Data/Network/lib/api.dart';
 import 'package:lazo_client/Presentation/StateNotifiersViewModel/ClientStateNotifiers.dart';
 import 'package:lazo_client/Presentation/StateNotifiersViewModel/UserAuthStateNotifiers.dart';
 import 'package:lazo_client/Utils/Extintions.dart';
@@ -16,6 +19,7 @@ import '../../Doman/CommenProviders/ApiProvider.dart';
 import '../../Localization/Keys.dart';
 import '../../Localization/LanguageProvider.dart';
 import '../../Localization/LanguageType.dart';
+import '../../Utils/HalperMethods.dart';
 import '../../Utils/UtilsExts.dart';
 import '../../main.dart';
 import '../StateNotifiersViewModel/PublicStateNotifiers.dart';
@@ -45,6 +49,8 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
       ref.read(getOccasionsDataStateNotifiers.notifier).getOccasionsData();
 
       ref.read(getAppInfoStateNotifier.notifier).getAppInfo();
+
+      handleGetCities();
 
       UtilsExts.handleStatusBarColorWithIcon(
           statusBarColor: AppTheme.mainAppColor);
@@ -114,5 +120,13 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
   void dispose() {
     super.dispose();
     UtilsExts.handleStatusBarColorWithIcon();
+  }
+
+  void handleGetCities() async{
+    ref.read(fetchCountriesStateNotifier.notifier).fetchCountries();
+    if(prefs.getBool(selectedCityKey) == true){
+      Country countrySelected = await getObject<Country>(countrySelectedKey,(json) => Country.fromJson(json) ?? Country()) ?? Country();
+      ref.read(getCities.notifier).getCities(countryId: countrySelected.id.toString());
+    }
   }
 }

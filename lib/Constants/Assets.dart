@@ -128,3 +128,4 @@ const closeIcons = "assets/images/closeIcons.svg";
 const addressPlaceHolderIcons = "assets/images/address_place_holder.svg";
 const editAddressIcons = "assets/images/edit_address_icon.svg";
 const deleteAddressIcons = "assets/images/delete_address_icon.svg";
+const selectedItemIcons = "assets/images/selected_item_icon.svg";

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:lazo_client/Data/Network/lib/api.dart';
 import 'package:lazo_client/Presentation/Screens/select_countries_screen/componants/place_item.dart';
 import 'package:lazo_client/Presentation/StateNotifiersViewModel/PublicStateNotifiers.dart';
 import 'package:lazo_client/Presentation/Theme/AppTheme.dart';
@@ -14,6 +15,7 @@ import 'package:skeletonizer/skeletonizer.dart';
 import '../../../Constants.dart';
 import '../../../Data/Models/StateModel.dart';
 import '../../../Localization/Keys.dart';
+import '../../../Utils/HalperMethods.dart';
 
 class SelectCountriesScreen extends ConsumerStatefulWidget {
   const SelectCountriesScreen({super.key});
@@ -24,8 +26,8 @@ class SelectCountriesScreen extends ConsumerStatefulWidget {
 }
 
 class _SelectCountriesScreenState extends ConsumerState<SelectCountriesScreen> {
-  String countryId = "";
-  String cityId = "";
+  Country? countrySelected ;
+  City? citySelected;
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -53,7 +55,7 @@ class _SelectCountriesScreenState extends ConsumerState<SelectCountriesScreen> {
           Consumer(builder: (context, ref, child) {
             var countriesState = ref.watch(fetchCountriesStateNotifier);
             return SizedBox(
-              height: MediaQuery.of(context).size.height * 0.3,
+              height: MediaQuery.of(context).size.height * 0.2,
               child: ListView.separated(
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
@@ -67,16 +69,16 @@ class _SelectCountriesScreenState extends ConsumerState<SelectCountriesScreen> {
                     child: PlaceItem(
                       id: country?.id ?? 0,
                       title: "${country?.name}",
-                      isSelect: countryId == country?.id.toString(),
+                      isSelect: countrySelected?.id == country?.id,
                       icon: country?.flag ?? "",
-                      onPress: (country_id) {
+                      onPress: (countryId) {
                         setState(() {
-                          countryId = country_id.toString();
-                          cityId = ""; // Reset city on country change
+                          countrySelected = country;
+                          citySelected = null; // Reset city on country change
                         });
                         ref
                             .read(getCities.notifier)
-                            .getCities(countryId: countryId.toString());
+                            .getCities(countryId: countrySelected?.id.toString());
                       },
                     ),
                   );
@@ -92,8 +94,8 @@ class _SelectCountriesScreenState extends ConsumerState<SelectCountriesScreen> {
                citiesState.state == DataState.SUCCESS || citiesState.state == DataState.LOADING ? Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.all(16.0),
+                    const Padding(
+                      padding: EdgeInsets.all(16.0),
                       child: Text(
                         "Select City of delivery",
                         style: AppTheme
@@ -109,17 +111,17 @@ class _SelectCountriesScreenState extends ConsumerState<SelectCountriesScreen> {
                             ? 10
                             : citiesState.data?.data.length,
                         itemBuilder: (context, index) {
-                          var cities = citiesState.data?.data[index];
+                          var city = citiesState.data?.data[index];
                           return Skeletonizer(
                             enabled: citiesState.state == DataState.LOADING,
                             child: PlaceItem(
-                              id: cities?.id ?? 0,
-                              isSelect: cityId == cities?.id.toString(),
-                              title: "${cities?.name}",
+                              id: city?.id ?? 0,
+                              isSelect: citySelected?.id == city?.id,
+                              title: "${city?.name}",
                               icon: null,
-                              onPress: (city_id) {
+                              onPress: (cityId) {
                                 setState(() {
-                                  cityId = city_id.toString();
+                                  citySelected = city;
                                 });
                               },
                             ),
@@ -134,7 +136,7 @@ class _SelectCountriesScreenState extends ConsumerState<SelectCountriesScreen> {
             padding: const EdgeInsets.all(16.0),
             child: AppButton(
               width: double.infinity,
-              enabled: countryId.isNotEmpty && cityId.isNotEmpty,
+              enabled: countrySelected != null && citySelected != null,
               text: "Continue",
                 height: 48.h,
                 onPress: (){
@@ -148,12 +150,12 @@ class _SelectCountriesScreenState extends ConsumerState<SelectCountriesScreen> {
   }
 
   void savingData() {
-    prefs.setString(countryIdKey, countryId);
-    prefs.setString(cityIdKey, cityId);
+    saveCountrySelected(countrySelected);
+    saveCitySelected(citySelected);
   }
 
   void navigateToHomeScreen() {
-    if (countryId.isNotEmpty && cityId.isNotEmpty) {
+    if (countrySelected != null && citySelected != null) {
       prefs.setBool(selectedCityKey, true);
       context.go(R_MainScreen);
     }

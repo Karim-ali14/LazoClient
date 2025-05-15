@@ -66,9 +66,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
 
   @override
   Widget build(BuildContext context) {
-    handleState(getCities, onSuccess: (res) {
-      cities = res.data?.data ?? [];
-    });
+
 
     handleState(sendOtpForSignUpStateProvider, showLoading: true,
         onSuccess: (res) {

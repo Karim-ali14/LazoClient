@@ -57,6 +57,11 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
     WidgetsBinding.instance.addPostFrameCallback((call) {
       setClientData(ref.watch(clientStateProvider));
       ref.read(getCities.notifier).getCities();
+      cities = ref.read(getCities).data?.data ?? [];
+      var index = cities.indexWhere((city) => city.id == ref.read(clientStateProvider)?.client?.cityId);
+      if(index != -1){
+        cityItemIdSelected = cities[index].id;
+      }
     });
     super.initState();
   }
@@ -64,13 +69,6 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
   @override
   Widget build(BuildContext context) {
     var client = ref.watch(clientStateProvider);
-    handleState(getCities, onSuccess: (res) {
-      cities = res.data?.data ?? [];
-      var index = cities.indexWhere((city) => city.id == client?.client?.cityId);
-      if(index != -1){
-        cityItemIdSelected = cities[index].id;
-      }
-    });
 
     handleState(uploadFilesStateNotifiers, onSuccess: (res) {
       images = res.data?.data ?? [];

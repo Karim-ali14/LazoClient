@@ -9,6 +9,8 @@ import 'package:lazo_client/Data/Models/StateModel.dart';
 import 'package:lazo_client/Doman/CommenProviders/ApiProvider.dart';
 import 'package:lazo_client/Localization/Keys.dart';
 import 'package:lazo_client/Presentation/BottomSheets/AuthenticateBottomSheet.dart';
+import 'package:lazo_client/Presentation/BottomSheets/CityBottomSheet.dart';
+import 'package:lazo_client/Presentation/BottomSheets/CountryBottomSheet.dart';
 import 'package:lazo_client/Presentation/Screens/home/Componants/HorizontalCategoryListViewWithTitleSeeAll.dart';
 import 'package:lazo_client/Presentation/Screens/home/Componants/HorizontalTopServiceListViewWithTitleSeeAll.dart';
 import 'package:lazo_client/Presentation/StateNotifiersViewModel/PublicStateNotifiers.dart';
@@ -20,7 +22,9 @@ import 'package:lazo_client/Presentation/Widgets/SvgIcons.dart';
 import '../../../Constants.dart';
 import '../../../Constants/Eunms.dart';
 import '../../../Data/Network/lib/api.dart';
+import '../../../Utils/HalperMethods.dart';
 import '../../../Utils/UtilsExts.dart';
+import '../../../main.dart';
 import '../../BottomSheets/CollectionsBottomSheet.dart';
 import '../../StateNotifiersViewModel/WishListStateNotifiers.dart';
 import '../../Theme/AppTheme.dart';
@@ -38,10 +42,13 @@ class HomeScreen extends ConsumerStatefulWidget {
 class _HomeScreenState extends ConsumerState<HomeScreen> {
   double _opacity = 0.8;
   final TextEditingController controller = TextEditingController();
+  final ValueNotifier<City> citySelected = ValueNotifier(City(id: 0, name: ""));
+
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       getHomeData();
+      setSelectedCity();
     });
     super.initState();
   }
@@ -52,9 +59,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final countriesState = ref.watch(fetchCountriesStateNotifier);
+    final citiesState = ref.watch(getCities);
     final homeDataState = ref.watch(homeDataStateNotifiers);
     var client = ref.watch(clientStateProvider);
 
+    print(" a asdf asf adsf fds${countriesState.data?.data.length}");
     handleState(addProductToCartUseCaseStateNotifier, showLoading: true,
         onSuccess: (res) {
       var id = res.data?.data?.productId;
@@ -74,7 +84,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
     handleState(productToggleStateNotifier, showLoading: true,
         onSuccess: (res) {
-      print("sdf $res");
       collectionIdAfterAddedNewCollection = null;
       itemIdAfterAddedNewCollection = null;
       selectedType = null;
@@ -100,7 +109,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           collectionName: res.data?.data?.collectionName,
           type: OrderItemType.Service);
       ref.read(homeDataStateNotifiers.notifier).handelAddServiceToWishList(
-          res.data?.data?.serviceId ?? 0, res.data?.data?.inWishlist ?? false,res.data?.data?.collectionId);
+          res.data?.data?.serviceId ?? 0,
+          res.data?.data?.inWishlist ?? false,
+          res.data?.data?.collectionId);
       updateCollectionList();
       makeRefreshForWishListServices();
     });
@@ -109,7 +120,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         showLoading: true, onSuccess: (res) {
       showCollectionsBottomSheet(
           collectionId: collectionIdAfterAddedNewCollection,
-          itemId: itemIdAfterAddedNewCollection,type: selectedType);
+          itemId: itemIdAfterAddedNewCollection,
+          type: selectedType);
       updateCollectionList();
     });
 
@@ -183,10 +195,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                     showLoading: homeDataState.state ==
                                         DataState.LOADING,
                                     itemClick: (occasionItem) {
-                                      // navigateToSeeAllBestProductAndService(
-                                      //     occasionItem.name ?? "",
-                                      //     ItemType.Products,
-                                      //     occasionId: occasionItem.id?.toInt());
                                       navigateToOccasion(
                                           occasionItem.id,
                                           occasionItem.name,
@@ -420,29 +428,39 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       const SizedBox(
                         height: defaultPaddingHorizontal,
                       ),
-                      Row(
-                        children: [
-                          Text(
-                            "Delivery To",
-                            style: AppTheme
-                                .styleWithTextAppGrey17AdelleSansFonts14w350,
-                          ),
-                          SizedBox(
-                            width: 4,
-                          ),
-                          Text(
-                            "Riyadh",
-                            style: AppTheme
-                                .styleWithTextBlackColor2AdelleSansExtendedFonts14w500,
-                          ),
-                          SizedBox(
-                            width: 5,
-                          ),
-                          SVGIcons.localSVG(downArrowImg,
-                              color: AppTheme.blackColor2,
-                              width: 16,
-                              height: 16)
-                        ],
+                      InkWell(
+                        onTap: () {
+                          showSelectedCityBottomSheet(
+                            countries: countriesState.data?.data ?? [],
+                          );
+                        },
+                        child: Row(
+                          children: [
+                            Text(
+                              "Delivery To",
+                              style: AppTheme
+                                  .styleWithTextAppGrey17AdelleSansFonts14w350,
+                            ),
+                            SizedBox(
+                              width: 4,
+                            ),
+                            ValueListenableBuilder(
+                              valueListenable: citySelected,
+                              builder: (context, value, _) => Text(
+                                value.name ?? "",
+                                style: AppTheme
+                                    .styleWithTextBlackColor2AdelleSansExtendedFonts14w500,
+                              ),
+                            ),
+                            SizedBox(
+                              width: 5,
+                            ),
+                            SVGIcons.localSVG(downArrowImg,
+                                color: AppTheme.blackColor2,
+                                width: 16,
+                                height: 16)
+                          ],
+                        ),
                       )
                     ],
                   ),
@@ -636,17 +654,23 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               style: AppTheme.styleWithTextWhiteAdelleSansExtendedFonts14w400,
             ),
             Spacer(),
-            isFavorite ?? false ? InkWell(
-              onTap: () {
-                print("item id : $itemId , collection id : $collectionId type : $type");
-                showCollectionsBottomSheet(
-                    collectionId: collectionId, itemId: itemId, type: type);
-              },
-              child: Text(
-                "Edit",
-                style: AppTheme.styleWithTextWhiteAdelleSansExtendedFonts12w400,
-              ),
-            ) : SizedBox()
+            isFavorite ?? false
+                ? InkWell(
+                    onTap: () {
+                      print(
+                          "item id : $itemId , collection id : $collectionId type : $type");
+                      showCollectionsBottomSheet(
+                          collectionId: collectionId,
+                          itemId: itemId,
+                          type: type);
+                    },
+                    child: Text(
+                      "Edit",
+                      style: AppTheme
+                          .styleWithTextWhiteAdelleSansExtendedFonts12w400,
+                    ),
+                  )
+                : SizedBox()
           ],
         ),
       ),
@@ -699,5 +723,53 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     ref
         .read(createWishlistFromBottomSheetCollectionStateNotifier.notifier)
         .createCollection(name: collectionName);
+  }
+
+  void showSelectedCityBottomSheet(
+      {required List<Country> countries,Country? country}) async{
+    City citySaved = await getObject<City>(citySelectedKey,(json) => City.fromJson(json) ?? City()) ?? City();
+    Country countrySelected = country ?? await getObject<Country>(countrySelectedKey,(json) => Country.fromJson(json) ?? Country()) ?? Country();
+
+    showModalBottomSheet(
+        isScrollControlled: true,
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+                topRight: Radius.circular(10), topLeft: Radius.circular(10))),
+        context: context,
+        builder: (BuildContext context) => CityBottomSheet(
+              cityId: citySaved.id.toString(),
+              country: countrySelected,
+              onCitySelected: (city) {
+                citySelected.value = city;
+                saveCitySelected(city);
+              },
+              onChangeCountry: () {
+                context.pop();
+                showSelectCountryBottomSheet(countries);
+              },
+            ));
+  }
+
+  void showSelectCountryBottomSheet(List<Country> countries) {
+    showModalBottomSheet(
+        isScrollControlled: true,
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+                topRight: Radius.circular(10), topLeft: Radius.circular(10))),
+        context: context,
+        builder: (BuildContext context) => CountryBottomSheet(
+              countries: countries,
+              onCountrySelected: (country) {
+                // saveCountrySelected(country);
+                ref
+                    .read(getCities.notifier)
+                    .getCities(countryId: country.id.toString());
+                showSelectedCityBottomSheet(countries: countries,country: country);
+              },
+            ));
+  }
+
+  void setSelectedCity()async {
+    citySelected.value = await getObject<City>(citySelectedKey,(json) => City.fromJson(json) ?? City()) ?? City();
   }
 }
