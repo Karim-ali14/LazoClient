@@ -429,9 +429,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                         height: defaultPaddingHorizontal,
                       ),
                       InkWell(
-                        onTap: () {
+                        onTap: () async {
+                          Country countrySelected = await getObject<Country>(countrySelectedKey,(json) => Country.fromJson(json) ?? Country()) ?? Country();
                           showSelectedCityBottomSheet(
                             countries: countriesState.data?.data ?? [],
+                            country: countrySelected
                           );
                         },
                         child: Row(
@@ -727,8 +729,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   void showSelectedCityBottomSheet(
       {required List<Country> countries,Country? country}) async{
+
     City citySaved = await getObject<City>(citySelectedKey,(json) => City.fromJson(json) ?? City()) ?? City();
-    Country countrySelected = country ?? await getObject<Country>(countrySelectedKey,(json) => Country.fromJson(json) ?? Country()) ?? Country();
+    ref
+        .read(getCities.notifier)
+        .getCities(countryId: country?.id.toString());
 
     showModalBottomSheet(
         isScrollControlled: true,
@@ -738,15 +743,17 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         context: context,
         builder: (BuildContext context) => CityBottomSheet(
               cityId: citySaved.id.toString(),
-              country: countrySelected,
+              country: country??Country(),
               onCitySelected: (city) {
                 citySelected.value = city;
                 saveCitySelected(city);
+                saveCountrySelected(country);
               },
               onChangeCountry: () {
                 context.pop();
                 showSelectCountryBottomSheet(countries);
               },
+          onClose: (){},
             ));
   }
 

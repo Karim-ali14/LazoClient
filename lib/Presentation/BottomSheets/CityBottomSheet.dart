@@ -19,8 +19,9 @@ class CityBottomSheet extends ConsumerStatefulWidget {
   final String? cityId;
   final Function(City)? onCitySelected;
   final Function()? onChangeCountry;
+  final Function()? onClose;
   const CityBottomSheet(
-      {super.key, required this.country, this.cityId, this.onCitySelected, this.onChangeCountry});
+      {super.key, required this.country, this.cityId, this.onCitySelected, this.onChangeCountry,this.onClose,});
 
   @override
   ConsumerState<CityBottomSheet> createState() => _CityBottomSheetState();
@@ -51,6 +52,7 @@ class _CityBottomSheetState extends ConsumerState<CityBottomSheet> {
                 ),
                 InkWell(
                   onTap: () {
+                    widget.onClose?.call();
                     context.pop();
                   },
                   child: Padding(
