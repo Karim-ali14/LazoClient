@@ -735,7 +735,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     City citySaved = await getObject<City>(
             citySelectedKey, (json) => City.fromJson(json) ?? City()) ??
         City();
-    ref.read(getCities.notifier).getCities(countryId: country?.id.toString());
 
     showModalBottomSheet(
         isScrollControlled: true,
@@ -756,7 +755,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 context.pop();
                 showSelectCountryBottomSheet(countries);
               },
-              onClose: () {},
+              onClose: () {
+                var countrySelectedId = prefs.getInt(selectedCountryIdKey);
+                if (country?.id != countrySelectedId) {
+                  ref.read(getCities.notifier).getCities(countryId: countrySelectedId.toString());
+                }
+              },
             ));
   }
 

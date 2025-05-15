@@ -191,6 +191,7 @@ const String viewAllKey = "viewAll";
 const String doneLandingKey = "doneLanding";
 const String selectedCityKey = "selectedCity";
 const String selectedCityIdKey = "selectedCityId";
+const String selectedCountryIdKey = "selectedCountryId";
 const String countrySelectedKey = "countrySelected";
 const String citySelectedKey = "citySelected";
 const String accountType = "client";

@@ -26,6 +26,8 @@ Future<T?> getObject<T>(String key, T Function(Map<String, dynamic>) fromJson) a
 
 void saveCountrySelected(Country? country) {
   saveObject<Country>(countrySelectedKey, country??Country(), (Country value) => value.toJson());
+  prefs.setInt(selectedCountryIdKey, country?.id ?? 0);
+
 }
 
 void saveCitySelected(City? citySelected) {

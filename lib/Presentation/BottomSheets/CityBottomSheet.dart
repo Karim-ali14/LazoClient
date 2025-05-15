@@ -7,9 +7,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lazo_client/Data/Network/lib/api.dart';
 import 'package:lazo_client/Presentation/Widgets/CircleImage.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../Constants/Assets.dart';
 import '../../Constants/Constants.dart';
+import '../../Data/Models/StateModel.dart';
 import '../StateNotifiersViewModel/PublicStateNotifiers.dart';
 import '../Theme/AppTheme.dart';
 import '../Widgets/SvgIcons.dart';
@@ -122,17 +124,28 @@ class _CityBottomSheetState extends ConsumerState<CityBottomSheet> {
                 itemBuilder: (context, index) => InkWell(
                       child: SizedBox(
                         height: 29.h,
-                        child: Row(
-                          children: [
-                            Text(
-                              cities.data?.data[index].name ?? "",
-                              style: AppTheme
-                                  .styleWithTextBlack2AdelleSansExtendedFonts14w400,
-                            ),
-                            const Spacer(),
-                            widget.cityId == cities.data?.data[index].id.toString()
-                            ? SVGIcons.localSVG(selectedItemIcons, width: 24.w, height: 24.h,) : const SizedBox(),
-                          ],
+                        child: Skeletonizer(
+                          enabled: cities.state == DataState.LOADING,
+                          child: Row(
+                            children: [
+                              Skeleton.replace(
+                                replacement: Container(
+                                  margin: EdgeInsets.symmetric(vertical: 4.h),
+                                  height: 15.h,
+                                  width: 60,
+                                  color: Colors.white,
+                                ),
+                                child: Text(
+                                  cities.data?.data[index].name ?? "",
+                                  style: AppTheme
+                                      .styleWithTextBlack2AdelleSansExtendedFonts14w400,
+                                ),
+                              ),
+                              const Spacer(),
+                              widget.cityId == cities.data?.data[index].id.toString()
+                              ? SVGIcons.localSVG(selectedItemIcons, width: 24.w, height: 24.h,) : const SizedBox(),
+                            ],
+                          ),
                         ),
                       ),
                       onTap: () {
@@ -144,7 +157,7 @@ class _CityBottomSheetState extends ConsumerState<CityBottomSheet> {
                   thickness: 1,
                   color: AppTheme.appGrey6,
                 ),
-                itemCount: cities.data?.data.length ?? 0),
+                itemCount: cities.state == DataState.LOADING ? 5 : cities.data?.data.length ?? 0),
           ),
         ],
       ),
