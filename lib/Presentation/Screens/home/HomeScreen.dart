@@ -47,7 +47,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      getHomeData();
+      getHomeData(cityId: prefs.getInt(selectedCityIdKey).toString());
       setSelectedCity();
     });
     super.initState();
@@ -130,7 +130,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         child: RefreshIndicator(
           triggerMode: RefreshIndicatorTriggerMode.onEdge,
           onRefresh: () {
-            getHomeData();
+            getHomeData(cityId: prefs.getInt(selectedCityIdKey).toString());
             return Future.delayed(const Duration(seconds: 1));
           },
           child: Stack(
@@ -430,11 +430,14 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       ),
                       InkWell(
                         onTap: () async {
-                          Country countrySelected = await getObject<Country>(countrySelectedKey,(json) => Country.fromJson(json) ?? Country()) ?? Country();
+                          Country countrySelected = await getObject<Country>(
+                                  countrySelectedKey,
+                                  (json) =>
+                                      Country.fromJson(json) ?? Country()) ??
+                              Country();
                           showSelectedCityBottomSheet(
-                            countries: countriesState.data?.data ?? [],
-                            country: countrySelected
-                          );
+                              countries: countriesState.data?.data ?? [],
+                              country: countrySelected);
                         },
                         child: Row(
                           children: [
@@ -495,7 +498,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         extra: {"type": type, "title": title, "id": id});
 
     if (makeRefresh == true) {
-      getHomeData();
+      getHomeData(cityId: prefs.getInt(selectedCityIdKey).toString());
     }
     print(
         "filter data -> ${ref.watch(filterForProductStateNotifiers).priceToSelected}");
@@ -597,12 +600,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     var makeRefresh =
         await context.push(R_LoginScreen, extra: {"type": TypeOfMode.ViewMode});
     if (makeRefresh == true) {
-      getHomeData();
+      getHomeData(cityId: prefs.getInt(selectedCityIdKey).toString());
     }
   }
 
-  void getHomeData() {
-    ref.read(homeDataStateNotifiers.notifier).getHomeData();
+  void getHomeData({ String? cityId, }) {
+    ref.read(homeDataStateNotifiers.notifier).getHomeData(cityId: cityId);
   }
 
   void makeRefreshForWishListServices() {
@@ -728,12 +731,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   }
 
   void showSelectedCityBottomSheet(
-      {required List<Country> countries,Country? country}) async{
-
-    City citySaved = await getObject<City>(citySelectedKey,(json) => City.fromJson(json) ?? City()) ?? City();
-    ref
-        .read(getCities.notifier)
-        .getCities(countryId: country?.id.toString());
+      {required List<Country> countries, Country? country}) async {
+    City citySaved = await getObject<City>(
+            citySelectedKey, (json) => City.fromJson(json) ?? City()) ??
+        City();
+    ref.read(getCities.notifier).getCities(countryId: country?.id.toString());
 
     showModalBottomSheet(
         isScrollControlled: true,
@@ -743,17 +745,18 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         context: context,
         builder: (BuildContext context) => CityBottomSheet(
               cityId: citySaved.id.toString(),
-              country: country??Country(),
+              country: country ?? Country(),
               onCitySelected: (city) {
-                citySelected.value = city;
                 saveCitySelected(city);
                 saveCountrySelected(country);
+                citySelected.value = city;
+                getHomeData(cityId: city.id.toString());
               },
               onChangeCountry: () {
                 context.pop();
                 showSelectCountryBottomSheet(countries);
               },
-          onClose: (){},
+              onClose: () {},
             ));
   }
 
@@ -771,12 +774,15 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 ref
                     .read(getCities.notifier)
                     .getCities(countryId: country.id.toString());
-                showSelectedCityBottomSheet(countries: countries,country: country);
+                showSelectedCityBottomSheet(
+                    countries: countries, country: country);
               },
             ));
   }
 
-  void setSelectedCity()async {
-    citySelected.value = await getObject<City>(citySelectedKey,(json) => City.fromJson(json) ?? City()) ?? City();
+  void setSelectedCity() async {
+    citySelected.value = await getObject<City>(
+            citySelectedKey, (json) => City.fromJson(json) ?? City()) ??
+        City();
   }
 }

@@ -67,6 +67,7 @@ class _SelectCountriesScreenState extends ConsumerState<SelectCountriesScreen> {
                   return Skeletonizer(
                     enabled: countriesState.state == DataState.LOADING,
                     child: PlaceItem(
+                      isLoading: countriesState.state == DataState.LOADING,
                       id: country?.id ?? 0,
                       title: "${country?.name}",
                       isSelect: countrySelected?.id == country?.id,
@@ -115,6 +116,7 @@ class _SelectCountriesScreenState extends ConsumerState<SelectCountriesScreen> {
                           return Skeletonizer(
                             enabled: citiesState.state == DataState.LOADING,
                             child: PlaceItem(
+                              isLoading: citiesState.state == DataState.LOADING,
                               id: city?.id ?? 0,
                               isSelect: citySelected?.id == city?.id,
                               title: "${city?.name}",

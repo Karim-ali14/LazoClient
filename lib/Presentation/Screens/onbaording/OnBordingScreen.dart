@@ -192,7 +192,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
   }
 
   void getStarted() {
-    context.go(R_MainScreen);
+    context.go(R_SelectCountriesScreen);
     prefs.setBool(doneLandingKey, true);
   }
   void swipeToNextOnbordingScreen() {

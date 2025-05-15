@@ -30,4 +30,5 @@ void saveCountrySelected(Country? country) {
 
 void saveCitySelected(City? citySelected) {
   saveObject<City>(citySelectedKey, citySelected??City(), (City value) => value.toJson());
+  prefs.setInt(selectedCityIdKey, citySelected?.id ?? 0);
 }

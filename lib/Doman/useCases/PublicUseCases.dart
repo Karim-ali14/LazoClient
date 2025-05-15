@@ -10,6 +10,7 @@ import 'package:lazo_client/Doman/CommenProviders/ApiProvider.dart';
 import 'package:lazo_client/Utils/Extintions.dart';
 
 import '../../Constants/Eunms.dart';
+import '../../Localization/Keys.dart';
 import '../../Presentation/StateNotifiersViewModel/PublicStateNotifiers.dart';
 import '../../Presentation/StateNotifiersViewModel/UserAuthStateNotifiers.dart';
 import '../../main.dart';
@@ -44,9 +45,9 @@ class HomeDataUseCase extends StateNotifier<StateModel<ShowHome200Response>> {
   ShowHome200Response? data;
   HomeDataUseCase(this.ref, this.publicApi) : super(StateModel());
 
-  void getHomeData() async {
+  void getHomeData({ String? cityId, }) async {
     state = StateModel.loading();
-    request(() => publicApi.showHome(), onComplete: (res) {
+    request(() => publicApi.showHome(cityId: cityId), onComplete: (res) {
       data = res;
     });
   }
@@ -214,6 +215,7 @@ class GetTopSellersUseCase
     requestForPagination(
         () => publicApi.filterTopSellers(
             filterTopSellersRequest: FilterTopSellersRequest(
+              cityId: prefs.getInt(selectedCityIdKey).toString(),
                 page: page,
                 searchByName: searchByName,
                 categoriesIds:
@@ -271,6 +273,7 @@ class GetProductsUseCase
         () => publicApi.filterTopProductsServices(
               filterTopProductsServicesRequest:
                   FilterTopProductsServicesRequest(
+                      cityId: prefs.getInt(selectedCityIdKey).toString(),
                       page: page,
                       searchByName: searchByName,
                       categoriesIds: categoriesIds,
@@ -357,6 +360,7 @@ class GetServicesUseCase
     requestForPagination(
         () => publicApi.filterTopProductsServices(
             filterTopProductsServicesRequest: FilterTopProductsServicesRequest(
+                cityId: prefs.getInt(selectedCityIdKey).toString(),
                 page: page,
                 searchByName: searchByName,
                 categoriesIds: categoriesIds,

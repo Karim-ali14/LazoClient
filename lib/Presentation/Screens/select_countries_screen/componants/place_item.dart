@@ -7,12 +7,13 @@ import '../../../Theme/AppTheme.dart';
 import '../../../Widgets/CircleImage.dart';
 
 class PlaceItem extends StatefulWidget {
+  final bool? isLoading;
   final int id;
   final String? icon;
   final String title;
   final bool isSelect;
   final Function(int) onPress;
-  const PlaceItem({super.key, required this.id, this.icon, required this.title, this.isSelect = false, required this.onPress});
+  const PlaceItem({super.key, required this.id, this.icon, required this.title, this.isSelect = false, required this.onPress, this.isLoading});
 
   @override
   State<PlaceItem> createState() => _PlaceItemState();
@@ -29,10 +30,10 @@ class _PlaceItemState extends State<PlaceItem> {
         height: 41.h,
         margin: const EdgeInsets.symmetric(horizontal:5),
         padding: const EdgeInsets.symmetric(horizontal:10),
-        decoration: BoxDecoration(
+        decoration: widget.isLoading == false ? BoxDecoration(
           borderRadius: BorderRadius.circular(8),
           color: widget.isSelect ? AppTheme.mainAppColorLight2 : Colors.white,
-        ),
+        ) :const BoxDecoration(),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
