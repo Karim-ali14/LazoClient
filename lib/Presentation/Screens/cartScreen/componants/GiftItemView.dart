@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lazo_client/Localization/Keys.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
@@ -34,8 +35,8 @@ class GiftItemView extends StatelessWidget {
         onItemSelected.call();
       },
       child: Container(
-        height: 200,
-        width: 146,
+        height: 197.h,
+        width: 146.w,
         clipBehavior: Clip.antiAlias,
         decoration: BoxDecoration(
             color: CupertinoColors.white,
@@ -49,7 +50,7 @@ class GiftItemView extends StatelessWidget {
               Skeleton.replace(
                 replacement: Container(
                   width: double.infinity,
-                  height: 142,
+                  height: 142.h,
                   color: Colors.white,
                 ),
                 child: ImageView(
@@ -82,29 +83,16 @@ class GiftItemView extends StatelessWidget {
                     Text(
                       type == GiftItemType.Card
                           ? "${context.tr(sarKey)} ${giftCard?.price}"
-                          : "${context.tr(sarKey)} ${giftBox?.price}",
+                          : giftBox?.price == 0 ? "Free" : "(+ ${context.tr(sarKey)} ${giftBox?.price})",
                       style: AppTheme
-                          .styleWithTextRedAdelleSansExtendedFonts16w500,
+                          .styleWithTextRedAdelleSansExtendedFonts16w500.copyWith(
+                        color: giftBox?.price == 0 ? AppTheme.mainAppColorDark : AppTheme.appGrey26,
+                      ),
                     )
                   ],
                 ),
               )
             ],
-          ),
-          Skeleton.ignore(
-            child: SizedBox(
-              width: 33,
-              height: 30,
-              child: Align(
-                alignment: AlignmentDirectional.topStart,
-                child: Radio(
-                    value: true,
-                    groupValue: isSelected,
-                    onChanged: (value) {
-                      onItemSelected.call();
-                    }),
-              ),
-            ),
           ),
         ]),
       ),

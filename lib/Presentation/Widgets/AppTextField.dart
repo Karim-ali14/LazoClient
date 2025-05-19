@@ -8,7 +8,7 @@ class AppTextField extends StatefulWidget {
   final FocusNode? focusNode;
   final bool? readOnly;
   final String hint;
-  final String label;
+  final String? label;
   final StringCallBack? value;
   final StringCallBack? changeValueCallback;
   final TextEditingController textEditingController;
@@ -17,6 +17,7 @@ class AppTextField extends StatefulWidget {
   final Color? textFieldColor;
   final Color? textFieldBorderColor;
   final TextInputType? textInputType;
+  final InputBorder? inputBorder;
   final bool? secured;
   final int? minLines;
   final int? maxLines;
@@ -49,7 +50,7 @@ class AppTextField extends StatefulWidget {
       this.changeValueCallback,
       this.mask,
       required this.textEditingController,
-      this.textFieldColor, this.textInputAction, this.textFieldBorderColor, this.disabled, this.onClick, this.endText, this.validate, this.mode, this.readOnly = false, this.endWidget, this.startWidget, this.hintStyle, this.labelStyle, this.focusNode})
+      this.textFieldColor, this.textInputAction, this.textFieldBorderColor, this.disabled, this.onClick, this.endText, this.validate, this.mode, this.readOnly = false, this.endWidget, this.startWidget, this.hintStyle, this.labelStyle, this.focusNode, this.inputBorder})
       : super(key: key);
 
   @override
@@ -92,6 +93,7 @@ class _AppTextFieldState extends State<AppTextField> {
             onFieldSubmitted: (val) =>  widget.value!(val),
             style: widget.style ?? TextStyle(color: Theme.of(context).textTheme.bodyMedium!.color,fontSize: 16),
             decoration: InputDecoration(
+                contentPadding: const EdgeInsets.symmetric(horizontal: 16,vertical: 18),
                 suffixText: widget.endText,
                 labelText: widget.label,
                 hintText: widget.hint,
@@ -119,19 +121,19 @@ class _AppTextFieldState extends State<AppTextField> {
     );
   }
 
-  InputBorder get getBorder => widget.textFieldBorderColor != null ?  OutlineInputBorder(
+  InputBorder get getBorder =>  widget.textFieldBorderColor != null ?  OutlineInputBorder(
     borderSide: BorderSide(color: widget.textFieldBorderColor??Colors.transparent),
     borderRadius: widget.borderRidus?? BorderRadius.circular(8),
   ) : UnderlineInputBorder(
-    borderSide: BorderSide(color:Colors.transparent),
-    borderRadius: widget.borderRidus?? BorderRadius.circular(8),
-  );
+      borderSide: BorderSide(
+        color: AppTheme.appGrey6,
+      ));
 
   InputBorder get getErrBorder => widget.textFieldBorderColor != null ?  OutlineInputBorder(
     borderSide: BorderSide(color: AppTheme.mainAppColorDark),
     borderRadius: widget.borderRidus?? BorderRadius.circular(4),
   ) : UnderlineInputBorder(
-    borderSide: BorderSide(color:Colors.transparent),
-    borderRadius: widget.borderRidus?? BorderRadius.circular(4),
-  );
+      borderSide: BorderSide(
+        color: AppTheme.mainAppColorDark,
+      ));
 }

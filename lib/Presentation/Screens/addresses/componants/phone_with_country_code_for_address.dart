@@ -122,6 +122,10 @@ class _PhoneFieldWithCountryCodeForAddressState
             borderSide: BorderSide(
           color: AppTheme.appGrey6,
         )),
+          enabledBorder: const UnderlineInputBorder(
+              borderSide: BorderSide(
+                color: AppTheme.appGrey20,
+              ))
       ),
 
       validator: (value) {

@@ -117,7 +117,11 @@ class _AddAddressScreenState extends ConsumerState<AddAddressScreen> {
                           focusedBorder: UnderlineInputBorder(
                               borderSide: BorderSide(
                             color: AppTheme.appGrey6,
-                          ))),
+                          )),
+                          enabledBorder: const UnderlineInputBorder(
+                              borderSide: BorderSide(
+                                color: AppTheme.appGrey20,
+                              ))),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Please enter a name';
@@ -173,7 +177,11 @@ class _AddAddressScreenState extends ConsumerState<AddAddressScreen> {
                           focusedBorder: UnderlineInputBorder(
                               borderSide: BorderSide(
                             color: AppTheme.appGrey6,
-                          ))),
+                          )),
+                          enabledBorder: const UnderlineInputBorder(
+                              borderSide: BorderSide(
+                                color: AppTheme.appGrey20,
+                              ))),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Please enter an address';
@@ -194,7 +202,11 @@ class _AddAddressScreenState extends ConsumerState<AddAddressScreen> {
                           focusedBorder: UnderlineInputBorder(
                               borderSide: BorderSide(
                             color: AppTheme.appGrey6,
-                          ))),
+                          )),
+                          enabledBorder: const UnderlineInputBorder(
+                              borderSide: BorderSide(
+                                color: AppTheme.appGrey20,
+                              ))),
                     ),
                   ],
                 ),

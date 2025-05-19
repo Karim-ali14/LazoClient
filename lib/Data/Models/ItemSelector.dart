@@ -21,3 +21,14 @@ class ItemSelected{
 }
 
 
+class ItemSelectorV2{
+  final int id;
+  final String text;
+  final Widget? widget;
+  bool? isChecked;
+
+  ItemSelectorV2({required this.id ,required this.text ,this.isChecked = false, this.widget,});
+}
+
+
+

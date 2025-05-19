@@ -13,7 +13,7 @@ part of openapi.api;
 class UpdateCartItemQuantity200ResponseData {
   /// Returns a new [UpdateCartItemQuantity200ResponseData] instance.
   UpdateCartItemQuantity200ResponseData({
-    this.cartItems,
+    this.cartItems = const [],
     this.createdAt,
     this.id,
     this.total,
@@ -25,13 +25,7 @@ class UpdateCartItemQuantity200ResponseData {
     this.expectedProcessingTime,
   });
 
-  ///
-  /// Please note: This property should have been non-nullable! Since the specification file
-  /// does not include a default value (using the "default:" property), however, the generated
-  /// source code must fall back to having a nullable type.
-  /// Consider adding a "default:" property in the specification file to hide this note.
-  ///
-  ProviderData? cartItems;
+  List<ProviderData> cartItems;
 
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
@@ -101,7 +95,7 @@ class UpdateCartItemQuantity200ResponseData {
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is UpdateCartItemQuantity200ResponseData &&
-    other.cartItems == cartItems &&
+    _deepEquality.equals(other.cartItems, cartItems) &&
     other.createdAt == createdAt &&
     other.id == id &&
     other.total == total &&
@@ -115,7 +109,7 @@ class UpdateCartItemQuantity200ResponseData {
   @override
   int get hashCode =>
     // ignore: unnecessary_parenthesis
-    (cartItems == null ? 0 : cartItems!.hashCode) +
+    (cartItems.hashCode) +
     (createdAt == null ? 0 : createdAt!.hashCode) +
     (id == null ? 0 : id!.hashCode) +
     (total == null ? 0 : total!.hashCode) +
@@ -131,11 +125,7 @@ class UpdateCartItemQuantity200ResponseData {
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-    if (this.cartItems != null) {
       json[r'cart_items'] = this.cartItems;
-    } else {
-      json[r'cart_items'] = null;
-    }
     if (this.createdAt != null) {
       json[r'created_at'] = this.createdAt;
     } else {
@@ -203,7 +193,7 @@ class UpdateCartItemQuantity200ResponseData {
       }());
 
       return UpdateCartItemQuantity200ResponseData(
-        cartItems: ProviderData.fromJson(json[r'cart_items']),
+        cartItems: ProviderData.listFromJson(json[r'cart_items']),
         createdAt: mapValueOfType<String>(json, r'created_at'),
         id: num.tryParse('${json[r'id']}'),
         total: num.tryParse('${json[r'total']}'),

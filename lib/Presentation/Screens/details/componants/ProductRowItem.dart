@@ -1,11 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import '../../../Theme/AppTheme.dart';
 
 class ProductRowItem extends StatelessWidget {
   final String? title;
+  final String? subTitle;
   final TextStyle? titleTextStyle;
   final TextStyle? desTextStyle;
   final String? textValue;
@@ -16,7 +18,7 @@ class ProductRowItem extends StatelessWidget {
       this.title,
       this.textValue,
       this.hasDivider = true,
-      this.endWidget, this.titleTextStyle, this.desTextStyle});
+      this.endWidget, this.titleTextStyle, this.desTextStyle, this.subTitle});
 
   @override
   Widget build(BuildContext context) {
@@ -37,6 +39,10 @@ class ProductRowItem extends StatelessWidget {
                 title ?? "",
                 style: titleTextStyle ?? AppTheme.styleWithTextBlackAdelleSansExtendedFonts14w500,
               ),
+              SizedBox(
+                width: 2.w,
+              ),
+              Text(subTitle ?? "",style: AppTheme.styleWithTextGray13AdelleSansExtendedFonts11w400),
               const Spacer(),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.center,

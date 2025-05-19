@@ -8,7 +8,7 @@ import 'package:lazo/api.dart';
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**cartItems** | [**ProviderData**](ProviderData.md) |  | [optional] 
+**cartItems** | [**List<ProviderData>**](ProviderData.md) |  | [optional] [default to const []]
 **createdAt** | **String** |  | [optional] 
 **id** | **num** |  | [optional] 
 **total** | **num** |  | [optional] 

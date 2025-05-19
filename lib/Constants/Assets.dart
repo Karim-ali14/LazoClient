@@ -129,3 +129,7 @@ const addressPlaceHolderIcons = "assets/images/address_place_holder.svg";
 const editAddressIcons = "assets/images/edit_address_icon.svg";
 const deleteAddressIcons = "assets/images/delete_address_icon.svg";
 const selectedItemIcons = "assets/images/selected_item_icon.svg";
+const favoriteCartItemIcons = "assets/images/favorite_cart_item_icon.svg";
+const unFavoriteCartItemIcons = "assets/images/un_favorite_cart_item_icon.svg";
+const deleteCartItemIcons = "assets/images/delete_cart_item_icon.svg";
+const correctVoucherIcons = "assets/images/correct_voucher.svg";

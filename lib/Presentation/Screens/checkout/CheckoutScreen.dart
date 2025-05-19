@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:lazo_client/Constants.dart';
+import 'package:lazo_client/Data/Models/ItemSelector.dart';
 import 'package:lazo_client/Data/Models/StateModel.dart';
 import 'package:lazo_client/Data/Network/lib/api.dart';
 import 'package:lazo_client/Doman/CommenProviders/ApiProvider.dart';
@@ -17,6 +18,7 @@ import 'package:lazo_client/Utils/LocationHandler.dart';
 import 'package:lazo_client/Utils/OrderExExtra.dart';
 import 'package:lazo_client/Utils/ValidationEx.dart';
 
+import '../../../Constants/Assets.dart';
 import '../../../Constants/Constants.dart';
 import '../../../Constants/Eunms.dart';
 import '../../StateNotifiersViewModel/PublicStateNotifiers.dart';
@@ -24,9 +26,11 @@ import '../../Theme/AppTheme.dart';
 import '../../Widgets/AppButton.dart';
 import '../../Widgets/AppTextField.dart';
 import '../../Widgets/SvgIcons.dart';
+import '../addresses/componants/phone_with_country_code_for_address.dart';
 import '../cartScreen/componants/CustomSwitch.dart';
 import '../details/componants/ProductItemCard.dart';
 import '../details/componants/ProductRowItem.dart';
+import 'componantes/selected_item_bottom_sheet.dart';
 
 class CheckoutScreen extends ConsumerStatefulWidget {
   final CheckoutTypes? type;
@@ -62,16 +66,20 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
   int? selectTypeOfSend;
   int? selectDeliveryTimeOfSend;
   LatLng? selectedLocation;
-  List<SelectionBottomSheetItem> typeSendArray = [
-    SelectionBottomSheetItem(item: "My self"),
-    SelectionBottomSheetItem(item: "Someone")
+  List<ItemSelectorV2> typeSendArray = [
+    ItemSelectorV2(id: 0, text: "My self"),
+    ItemSelectorV2(id: 1, text: "Someone")
   ];
-  List<SelectionBottomSheetItem> deliveryTimeArray = [
-    SelectionBottomSheetItem(item: "9:00 AM to 3:00 PM"),
-    SelectionBottomSheetItem(item: "3:00 PM to 12:00 AM")
+  List<ItemSelectorV2> deliveryTimeArray = [
+    ItemSelectorV2(id: 0, text: "9:00 AM to 3:00 PM"),
+    ItemSelectorV2(id: 0, text: "3:00 PM to 12:00 AM")
   ];
   final formKey = GlobalKey<FormState>();
   final TextEditingController voucherTextController = TextEditingController();
+
+  final ValueNotifier<bool> promoCodeState = ValueNotifier(false);
+  final ValueNotifier<bool> isCountryCodeEmpty = ValueNotifier(false);
+  String? code;
 
   @override
   void initState() {
@@ -95,6 +103,7 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
     handleState(showPromoCodeDetailsForSoftServiceStateNotifies,
         showLoading: true, showToast: true, onSuccess: (res) {
       promocode = res.data?.data?.code;
+      promoCodeState.value = true;
       handleCalculateInstantOrder();
     });
 
@@ -162,35 +171,112 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                         ],
                       )
                     : const SizedBox(),
+                Text(
+                  context.tr(deliveryInfoKey),
+                  style:
+                      AppTheme.styleWithTextBlackAdelleSansExtendedFonts18w700,
+                ),
+                const SizedBox(
+                  height: spaceBetweenItems,
+                ),
                 widget.type == CheckoutTypes.HartCard
-                    ? AppTextField(
-                        endWidget: InkWell(
-                            onTap: () {
-                              print("object");
-                              showSendTypesBottomSheet();
-                            },
-                            child: SVGIcons.bottomRedArrowIcon()),
-                        readOnly: true,
-                        textInputType: TextInputType.text,
-                        textFieldBorderColor: AppTheme.appGrey3,
-                        mode: AutovalidateMode.onUserInteraction,
-                        hint: context.tr(sendToMyselfOrToSomeoneKey),
-                        label: context.tr(sendToMyselfOrToSomeoneKey),
-                        textEditingController: sendTypeController,
-                        validate: (value) {
+                    ? TextFormField(
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
+                        keyboardType: TextInputType.text,
+                        cursorColor: AppTheme.blackColor2,
+                        decoration: InputDecoration(
+                            suffixIcon: InkWell(
+                                onTap: () {
+                                  print("object");
+                                  showSendTypesBottomSheet();
+                                },
+                                child: SVGIcons.bottomRedArrowIcon(
+                                  color: AppTheme.mainAppColorDark,
+                                )),
+                            hintText: context.tr(sendToMyselfOrToSomeoneKey),
+                            focusedBorder: const UnderlineInputBorder(
+                                borderSide: BorderSide(
+                              color: AppTheme.appGrey20,
+                            )),
+                            enabledBorder: const UnderlineInputBorder(
+                                borderSide: BorderSide(
+                              color: AppTheme.appGrey20,
+                            ))),
+                        controller: sendTypeController,
+                        validator: (value) {
                           if (value?.isEmpty == true) {
-                            return context.tr(selectTypeOfSendKey);
+                            return "Select date of send";
                           } else {
                             return null;
                           }
-                        },
-                      )
+                        })
                     : const SizedBox(),
                 widget.type == CheckoutTypes.HartCard
-                    ? const SizedBox(
-                        height: 30,
-                      )
+                    ? const SizedBox(height: spaceBetweenItems)
                     : const SizedBox(),
+                TextFormField(
+                    readOnly: true,
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                    keyboardType: TextInputType.text,
+                    cursorColor: AppTheme.blackColor2,
+                    decoration: InputDecoration(
+                        suffixIcon: InkWell(
+                            onTap: () {
+                              _selectDate(context);
+                            },
+                            child: SVGIcons.calendarImageIcon()),
+                        hintText: context.tr(dateKey),
+                        focusedBorder: const UnderlineInputBorder(
+                            borderSide: BorderSide(
+                          color: AppTheme.appGrey20,
+                        )),
+                        enabledBorder: const UnderlineInputBorder(
+                            borderSide: BorderSide(
+                          color: AppTheme.appGrey20,
+                        ))),
+                    controller: calenderController,
+                    validator: (value) {
+                      if (value?.isEmpty == true) {
+                        return "Select date of send";
+                      } else {
+                        return null;
+                      }
+                    }),
+                const SizedBox(
+                  height: spaceBetweenItems,
+                ),
+                TextFormField(
+                  readOnly: true,
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                  keyboardType: TextInputType.text,
+                  cursorColor: AppTheme.blackColor2,
+                  decoration: InputDecoration(
+                      suffixIcon: InkWell(
+                          onTap: () {
+                            showDeliveryTimeBottomSheet();
+                          },
+                          child: SVGIcons.timeCircleIcon()),
+                      hintText: context.tr(timeKey),
+                      focusedBorder: const UnderlineInputBorder(
+                          borderSide: BorderSide(
+                        color: AppTheme.appGrey20,
+                      )),
+                      enabledBorder: const UnderlineInputBorder(
+                          borderSide: BorderSide(
+                        color: AppTheme.appGrey20,
+                      ))),
+                  controller: timeController,
+                  validator: (value) {
+                    if (value?.isEmpty == true) {
+                      return "Select Time of send";
+                    } else {
+                      return null;
+                    }
+                  },
+                ),
+                const SizedBox(
+                  height: 32,
+                ),
                 Text(
                   selectTypeOfSend == 0 || widget.type == CheckoutTypes.HartCard
                       ? context.tr(locationKey)
@@ -208,10 +294,8 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                 selectTypeOfSend != 0 && widget.type == CheckoutTypes.HartCard
                     ? Container(
                         decoration: BoxDecoration(
-                            color: AppTheme.appGrey9,
-                            borderRadius: BorderRadius.circular(4),
-                            border:
-                                Border.all(color: AppTheme.appGrey6, width: 1)),
+                            color: AppTheme.appGrey28,
+                            borderRadius: BorderRadius.circular(4)),
                         padding: EdgeInsets.all(defaultPaddingHorizontal),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -223,7 +307,7 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                                   style: AppTheme
                                       .styleWithTextBlackAdelleSansExtendedFonts16w500,
                                 ),
-                                Spacer(),
+                                const Spacer(),
                                 CustomSwitch(
                                   value: _enable,
                                   onChanged: (bool val) {
@@ -258,59 +342,78 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                         widget.type == CheckoutTypes.SoftCard
                     ? Column(
                         children: [
-                          AppTextField(
-                            textInputType: TextInputType.text,
-                            textFieldBorderColor: AppTheme.appGrey3,
-                            mode: AutovalidateMode.onUserInteraction,
-                            hint: context.tr(recipientNameKey),
-                            label: context.tr(recipientNameKey),
-                            textEditingController: recipientNameController,
-                            validate: (value) {
-                              if (value?.isEmpty == true) {
-                                return "Select type of send";
-                              } else {
-                                return null;
-                              }
-                            },
+                          Row(
+                            children: [
+                              SizedBox(
+                                width:
+                                    MediaQuery.of(context).size.width / 2 - 25,
+                                child: TextFormField(
+                                  autovalidateMode:
+                                      AutovalidateMode.onUserInteraction,
+                                  keyboardType: TextInputType.text,
+                                  cursorColor: AppTheme.blackColor2,
+                                  decoration: InputDecoration(
+                                      hintText: context.tr(recipientNameKey),
+                                      focusedBorder: const UnderlineInputBorder(
+                                          borderSide: BorderSide(
+                                        color: AppTheme.appGrey20,
+                                      )),
+                                      enabledBorder: const UnderlineInputBorder(
+                                          borderSide: BorderSide(
+                                        color: AppTheme.appGrey20,
+                                      ))),
+                                  controller: recipientNameController,
+                                  validator: (value) {
+                                    if (value?.isEmpty == true) {
+                                      return "Select type of send";
+                                    } else {
+                                      return null;
+                                    }
+                                  },
+                                ),
+                              ),
+                              const SizedBox(
+                                width: defaultPaddingHorizontal,
+                              ),
+                              SizedBox(
+                                width:
+                                    MediaQuery.of(context).size.width / 2 - 25,
+                                child: PhoneFieldWithCountryCodeForAddress(
+                                  phoneController: recipientPhoneController,
+                                  isCountryCodeEmpty: isCountryCodeEmpty,
+                                  onSelectCountryCode: (value) {
+                                    code = value;
+                                  },
+                                ),
+                              ),
+                            ],
                           ),
                           const SizedBox(
-                            height: defaultPaddingHorizontal,
-                          ),
-                          AppTextField(
-                            textInputType: TextInputType.phone,
-                            textFieldBorderColor: AppTheme.appGrey3,
-                            mode: AutovalidateMode.onUserInteraction,
-                            hint: context.tr(recipientPhoneKey),
-                            label: context.tr(recipientPhoneKey),
-                            textEditingController: recipientPhoneController,
-                            validate: (value) {
-                              if (value?.isEmpty == true) {
-                                return context.tr(enterYourPhoneKey);
-                              } else if (value?.isPhoneValidate == false) {
-                                return "Must start with 5 and be 9 digits long";
-                              } else {
-                                return null;
-                              }
-                            },
-                          ),
-                          const SizedBox(
-                            height: defaultPaddingHorizontal,
+                            height: spaceBetweenItems,
                           ),
                           widget.type == CheckoutTypes.HartCard
-                              ? AppTextField(
-                                  endWidget: InkWell(
-                                      onTap: () {
-                                        selectLocation();
-                                      },
-                                      child: SVGIcons.locationIcon()),
-                                  readOnly: true,
-                                  textInputType: TextInputType.text,
-                                  textFieldBorderColor: AppTheme.appGrey3,
-                                  mode: AutovalidateMode.onUserInteraction,
-                                  hint: context.tr(selectLocationOnMapKey),
-                                  label: context.tr(selectLocationOnMapKey),
-                                  textEditingController: locationController,
-                                  validate: (value) {
+                              ? TextFormField(
+                                  keyboardType: TextInputType.text,
+                                  autovalidateMode:
+                                      AutovalidateMode.onUserInteraction,
+                                  decoration: InputDecoration(
+                                      suffixIcon: InkWell(
+                                          onTap: () {
+                                            selectLocation();
+                                          },
+                                          child: SVGIcons.locationIcon()),
+                                      hintText:
+                                          context.tr(selectLocationOnMapKey),
+                                      focusedBorder: const UnderlineInputBorder(
+                                          borderSide: BorderSide(
+                                        color: AppTheme.appGrey20,
+                                      )),
+                                      enabledBorder: const UnderlineInputBorder(
+                                          borderSide: BorderSide(
+                                        color: AppTheme.appGrey20,
+                                      ))),
+                                  controller: locationController,
+                                  validator: (value) {
                                     if (value?.isEmpty == true &&
                                         (!_enable && selectTypeOfSend == 1)) {
                                       return "Select type of send";
@@ -322,18 +425,25 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                               : const SizedBox(),
                           widget.type == CheckoutTypes.HartCard
                               ? const SizedBox(
-                                  height: defaultPaddingHorizontal,
+                                  height: spaceBetweenItems,
                                 )
                               : const SizedBox(),
                           widget.type == CheckoutTypes.HartCard
-                              ? AppTextField(
-                                  textInputType: TextInputType.text,
-                                  textFieldBorderColor: AppTheme.appGrey3,
-                                  mode: AutovalidateMode.onUserInteraction,
-                                  hint: context.tr(addressDetailsKey),
-                                  label: context.tr(addressDetailsKey),
-                                  textEditingController:
-                                      addressDescriptionController,
+                              ? TextFormField(
+                                  keyboardType: TextInputType.text,
+                                  autovalidateMode:
+                                      AutovalidateMode.onUserInteraction,
+                                  decoration: InputDecoration(
+                                      hintText: context.tr(addressDetailsKey),
+                                      focusedBorder: const UnderlineInputBorder(
+                                          borderSide: BorderSide(
+                                        color: AppTheme.appGrey20,
+                                      )),
+                                      enabledBorder: const UnderlineInputBorder(
+                                          borderSide: BorderSide(
+                                        color: AppTheme.appGrey20,
+                                      ))),
+                                  controller: addressDescriptionController,
                                 )
                               : const SizedBox(),
                         ],
@@ -345,96 +455,49 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                 Row(
                   children: [
                     Text(
-                      context.tr(addYourMessageKey),
+                      "Add a personal message",
                       style: AppTheme
                           .styleWithTextBlackAdelleSansExtendedFonts18w700,
                     ),
                     Spacer(),
-                    Text(
-                      context.tr(optionalKey),
-                      style: AppTheme
-                          .styleWithTextAppGrey15AdelleSansExtendedFonts14w400,
-                    )
                   ],
                 ),
                 const SizedBox(
-                  height: defaultPaddingHorizontal,
+                  height: spaceBetweenItems,
                 ),
-                AppTextField(
-                  textInputType: TextInputType.text,
-                  textFieldBorderColor: AppTheme.appGrey3,
-                  mode: AutovalidateMode.onUserInteraction,
-                  hint: context.tr(toKey),
-                  label: context.tr(toKey),
-                  textEditingController: messageToController,
-                ),
-                const SizedBox(
-                  height: defaultPaddingHorizontal,
-                ),
-                AppTextField(
-                  textInputType: TextInputType.text,
-                  textFieldBorderColor: AppTheme.appGrey3,
-                  mode: AutovalidateMode.onUserInteraction,
-                  hint: context.tr(typeYourMessageAndExpressYourFeelingKey),
-                  label: context.tr(typeYourMessageAndExpressYourFeelingKey),
-                  textEditingController: messageController,
+                TextFormField(
+                  keyboardType: TextInputType.text,
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                  decoration: InputDecoration(
+                      hintText: context.tr(toKey),
+                      focusedBorder: const UnderlineInputBorder(
+                          borderSide: BorderSide(
+                        color: AppTheme.appGrey20,
+                      )),
+                      enabledBorder: const UnderlineInputBorder(
+                          borderSide: BorderSide(
+                        color: AppTheme.appGrey20,
+                      ))),
+                  controller: messageToController,
                 ),
                 const SizedBox(
-                  height: defaultPaddingHorizontal,
+                  height: spaceBetweenItems,
                 ),
-                Text(
-                  context.tr(deliveryInfoKey),
-                  style:
-                      AppTheme.styleWithTextBlackAdelleSansExtendedFonts18w700,
-                ),
-                const SizedBox(
-                  height: defaultPaddingHorizontal,
-                ),
-                AppTextField(
-                  // 13/5/2024
-                  endWidget: InkWell(
-                      onTap: () {
-                        _selectDate(context);
-                      },
-                      child: SVGIcons.calendarImageIcon()),
-                  readOnly: true,
-                  textInputType: TextInputType.text,
-                  textFieldBorderColor: AppTheme.appGrey3,
-                  mode: AutovalidateMode.onUserInteraction,
-                  hint: context.tr(dateKey),
-                  label: context.tr(dateKey),
-                  textEditingController: calenderController,
-                  validate: (value) {
-                    if (value?.isEmpty == true) {
-                      return "Select date of send";
-                    } else {
-                      return null;
-                    }
-                  },
-                ),
-                const SizedBox(
-                  height: defaultPaddingHorizontal,
-                ),
-                AppTextField(
-                  endWidget: InkWell(
-                      onTap: () {
-                        showDeliveryTimeBottomSheet();
-                      },
-                      child: SVGIcons.timeCircleIcon()),
-                  readOnly: true,
-                  textInputType: TextInputType.text,
-                  textFieldBorderColor: AppTheme.appGrey3,
-                  mode: AutovalidateMode.onUserInteraction,
-                  hint: context.tr(timeKey),
-                  label: context.tr(timeKey),
-                  textEditingController: timeController,
-                  validate: (value) {
-                    if (value?.isEmpty == true) {
-                      return "Select Time of send";
-                    } else {
-                      return null;
-                    }
-                  },
+                TextFormField(
+                  keyboardType: TextInputType.text,
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                  decoration: InputDecoration(
+                      hintText:
+                          context.tr(typeYourMessageAndExpressYourFeelingKey),
+                      focusedBorder: const UnderlineInputBorder(
+                          borderSide: BorderSide(
+                        color: AppTheme.appGrey20,
+                      )),
+                      enabledBorder: const UnderlineInputBorder(
+                          borderSide: BorderSide(
+                        color: AppTheme.appGrey20,
+                      ))),
+                  controller: messageController,
                 ),
                 const SizedBox(
                   height: 32,
@@ -442,10 +505,8 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                 widget.type == CheckoutTypes.HartCard
                     ? Container(
                         decoration: BoxDecoration(
-                            color: AppTheme.appGrey9,
-                            borderRadius: BorderRadius.circular(4),
-                            border:
-                                Border.all(color: AppTheme.appGrey6, width: 1)),
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(4)),
                         padding: EdgeInsets.all(defaultPaddingHorizontal),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -492,32 +553,76 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                   height: 24,
                 ),
                 widget.type == CheckoutTypes.SoftCard
-                    ? AppTextField(
-                        // XGFSF35
-                        hint: context.tr(enterVoucherCodeKey),
-                        label: context.tr(enterVoucherCodeKey),
-                        textFieldBorderColor: AppTheme.appGrey3,
-                        textEditingController: voucherTextController,
-                        startWidget: SVGIcons.voucherIcon(),
-                        endWidget: InkWell(
-                          onTap: () {
-                            if (voucherTextController.text.isNotEmpty) {
-                              getPromoCodeDetails();
-                            }
-                          },
-                          child: SizedBox(
-                              width: 70,
-                              height: 56,
-                              child: Center(
-                                  child: Text(
-                                context.tr(submitKey),
-                                style: AppTheme
-                                    .styleWithTextMainAppColorAdelleSansExtendedFonts14w400
-                                    .copyWith(
-                                        decoration: TextDecoration.underline),
-                              ))),
-                        ),
-                      )
+                    ? ValueListenableBuilder(
+                        valueListenable: promoCodeState,
+                        builder: (context, value, _) {
+                          return AppTextField(
+                            /*New Money*/
+                            readOnly: value,
+                            hint: context.tr(enterVoucherCodeKey),
+                            label: null,
+                            style: !value
+                                ? TextStyle(
+                                    color: Theme.of(context)
+                                        .textTheme
+                                        .bodyMedium!
+                                        .color,
+                                    fontSize: 16)
+                                : const TextStyle(fontSize: 0),
+                            startWidget: value
+                                ? Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Padding(
+                                        padding:
+                                            const EdgeInsetsDirectional.only(
+                                                start: 16.0, end: 8),
+                                        child: Text(
+                                          "${voucherTextController.text}",
+                                          style: TextStyle(
+                                              color: Theme.of(context)
+                                                  .textTheme
+                                                  .bodyMedium!
+                                                  .color,
+                                              fontSize: 16),
+                                        ),
+                                      ),
+                                      const SizedBox(width: 4),
+                                      SVGIcons.localSVG(
+                                        correctVoucherIcons,
+                                        width: 16,
+                                        height: 16,
+                                      ),
+                                    ],
+                                  )
+                                : null,
+                            textEditingController: voucherTextController,
+                            endWidget: InkWell(
+                              onTap: () {
+                                if (value) {
+                                  voucherTextController.text = "";
+                                  promocode = null;
+                                  promoCodeState.value = false;
+                                } else if (voucherTextController
+                                    .text.isNotEmpty) {
+                                  getPromoCodeDetails();
+                                }
+                              },
+                              child: SizedBox(
+                                  width: 70,
+                                  height: 56,
+                                  child: Center(
+                                      child: Text(
+                                    value ? "Remove" : "Apply",
+                                    style: AppTheme
+                                        .styleWithTextMainAppColorAdelleSansExtendedFonts14w400
+                                        .copyWith(
+                                            decoration:
+                                                TextDecoration.underline),
+                                  ))),
+                            ),
+                          );
+                        })
                     : const SizedBox(),
                 widget.type == CheckoutTypes.SoftCard
                     ? SizedBox(
@@ -661,21 +766,51 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
   }
 
   void showSendTypesBottomSheet() {
-    showBottomSheetSelection(context, context.tr(sendToKey), typeSendArray,
-        (index) {
-      setState(() {
-        selectTypeOfSend = index;
-      });
-      sendTypeController.text = typeSendArray[index].item;
-    }, initialValue: selectTypeOfSend);
+    showModalBottomSheet(
+        isScrollControlled: true,
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+                topRight: Radius.circular(10), topLeft: Radius.circular(10))),
+        context: context,
+        builder: (builder) {
+          return SelectedItemBottomSheet(
+            items: typeSendArray,
+            initSelectedIndex: selectTypeOfSend,
+            title: 'Choose',
+            subTitle: 'Who is this gift for',
+            additionalText:
+                'Choose Myself if the gift is for you, or Someone to send it to a loved one.',
+            onSelect: (index){
+              sendTypeController.text = typeSendArray[index].text;
+              setState(() {
+                selectTypeOfSend = index;
+              });
+            },
+          );
+        });
   }
 
   void showDeliveryTimeBottomSheet() {
-    showBottomSheetSelection(
-        context, context.tr(deliveryTimeKey), deliveryTimeArray, (index) {
-      selectDeliveryTimeOfSend = index;
-      timeController.text = deliveryTimeArray[index].item;
-    }, initialValue: selectDeliveryTimeOfSend);
+
+    showModalBottomSheet(
+        isScrollControlled: true,
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+                topRight: Radius.circular(10), topLeft: Radius.circular(10))),
+        context: context,
+        builder: (builder) {
+          return SelectedItemBottomSheet(
+            items: deliveryTimeArray,
+            initSelectedIndex: selectDeliveryTimeOfSend,
+            title: 'Choose',
+            subTitle: 'Delivery Time',
+            onSelect: (index){
+              selectDeliveryTimeOfSend = index;
+              timeController.text = deliveryTimeArray[index].text;
+            },
+          );
+        });
+
   }
 
   Future<void> _selectDate(BuildContext context) async {
@@ -719,13 +854,15 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
         "receiverAddressDetails : ${addressDescriptionController.text} "
         "receiverPhone : ${recipientPhoneController.text}"
         "deliveryDate : ${_selectedDate?.convertDateToString("dd MMM yyyy")} "
-        "deliveryTime : ${selectDeliveryTimeOfSend != null ? deliveryTimeArray[selectDeliveryTimeOfSend!].item : null}");
+        "deliveryTime : ${selectDeliveryTimeOfSend != null ? deliveryTimeArray[selectDeliveryTimeOfSend!].text : null}");
     if (formKey.currentState?.validate() == true) {
       ref.read(createOrderStateNotifiers.notifier).createOrder(
           isIdentitySecret: _enableIsSecret == true ? "1" : "0",
           giftBoxId: giftBoxId,
           giftCardId: giftCardId,
-          orderType:selectTypeOfSend == 0 ?OrderTypes.self_order.name.toString() :OrderTypes.receiver_order.name.toString(),
+          orderType: selectTypeOfSend == 0
+              ? OrderTypes.self_order.name.toString()
+              : OrderTypes.receiver_order.name.toString(),
           paymentMethod: "Credit Card",
           promocode: promocode,
           latLng: latLng,
@@ -735,7 +872,7 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
           receiverPhone: recipientPhoneController.text,
           deliveryDate: _selectedDate?.convertDateToString("dd MMM yyyy"),
           deliveryTime: selectDeliveryTimeOfSend != null
-              ? deliveryTimeArray[selectDeliveryTimeOfSend!].item
+              ? deliveryTimeArray[selectDeliveryTimeOfSend!].text
               : null);
     }
   }
@@ -772,7 +909,7 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
           cardTo: messageToController.text,
           deliveryDate: _selectedDate?.convertDateToString("dd MMM yyyy"),
           deliveryTime: selectDeliveryTimeOfSend != null
-              ? deliveryTimeArray[selectDeliveryTimeOfSend!].item
+              ? deliveryTimeArray[selectDeliveryTimeOfSend!].text
               : null);
     }
   }

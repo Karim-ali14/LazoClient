@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:lazo_client/Presentation/Theme/AppTheme.dart';
 
@@ -163,6 +164,7 @@ class SVGIcons {
     return SvgPicture.asset(
       locationIconSvg,
       fit: BoxFit.scaleDown,
+      color: AppTheme.mainAppColorDark,
     );
   }
 
@@ -370,6 +372,7 @@ class SVGIcons {
       width: 24,
       height: 24,
       fit: BoxFit.scaleDown,
+      color: AppTheme.mainAppColorDark,
     );
   }
 
@@ -379,6 +382,7 @@ class SVGIcons {
       width: 24,
       height: 24,
       fit: BoxFit.scaleDown,
+      color: AppTheme.mainAppColorDark,
     );
   }
 
@@ -483,12 +487,16 @@ class SVGIcons {
   static Widget incrementButtonSvgIcon() {
     return SvgPicture.asset(
       incrementButtonIconSvg,
+      width: 24.w,
+      height: 24.h,
     );
   }
 
   static Widget decrementButtonSvgIcon() {
     return SvgPicture.asset(
       decrementButtonIconSvg,
+      width: 24.w,
+      height: 24.h,
     );
   }
 

@@ -8674,7 +8674,9 @@ paths:
                     type: object
                     properties:
                       cart_items:
-                        $ref: '#/components/schemas/ProviderData'
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/ProviderData'
                       created_at:
                         type: string
                         example: '2024-05-15T17:59:26.000000Z'
@@ -8928,7 +8930,9 @@ paths:
                     type: object
                     properties:
                       cart_items:
-                        $ref: '#/components/schemas/ProviderData'
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/ProviderData'
                       created_at:
                         type: string
                         example: '2024-05-15T17:59:26.000000Z'

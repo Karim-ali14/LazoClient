@@ -740,14 +740,14 @@ class FetchCardDetailsUseCase
   void getCardDetails({
     String? sessionId,
   }) {
-    // state = StateModel.loading();
-    // request(() => publicApi.showCartDetails(sessionId: sessionId),
-    //     onComplete: (res) {
-    //   print("asdfasdfasdfs${res?.data?.cartItems.isEmpty}");
-    //   if (res?.data?.cartItems.isEmpty != true) {
-    //     state = StateModel.empty(data: res?.data);
-    //   }
-    // });
+    state = StateModel.loading();
+    request(() => publicApi.showCartDetails(sessionId: sessionId),
+        onComplete: (res) {
+      print("asdfasdfasdfs${res?.data?.cartItems.isEmpty}");
+      if (res?.data?.cartItems.isEmpty != true) {
+        state = StateModel.empty(data: res?.data);
+      }
+    });
   }
 
   void updateItem(CartItemsInner cartItem) {

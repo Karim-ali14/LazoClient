@@ -9,6 +9,7 @@ import '../Localization/Keys.dart';
 import '../Presentation/Widgets/SvgIcons.dart';
 
 const defaultPaddingHorizontal = 16.0;
+const double spaceBetweenItems = 8.0;
 
 const signUpUrl = "https://lazo-dashboard.pomac.info/";
 
