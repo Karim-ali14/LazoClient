@@ -19,6 +19,8 @@ class City {
     this.createdAt,
     this.updatedAt,
     this.name,
+    this.lat,
+    this.lng,
   });
 
   ///
@@ -69,6 +71,22 @@ class City {
   ///
   String? name;
 
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  String? lat;
+
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  String? lng;
+
   @override
   bool operator ==(Object other) => identical(this, other) || other is City &&
     other.id == id &&
@@ -76,7 +94,9 @@ class City {
     other.nameAr == nameAr &&
     other.createdAt == createdAt &&
     other.updatedAt == updatedAt &&
-    other.name == name;
+    other.name == name &&
+    other.lat == lat &&
+    other.lng == lng;
 
   @override
   int get hashCode =>
@@ -86,10 +106,12 @@ class City {
     (nameAr == null ? 0 : nameAr!.hashCode) +
     (createdAt == null ? 0 : createdAt!.hashCode) +
     (updatedAt == null ? 0 : updatedAt!.hashCode) +
-    (name == null ? 0 : name!.hashCode);
+    (name == null ? 0 : name!.hashCode) +
+    (lat == null ? 0 : lat!.hashCode) +
+    (lng == null ? 0 : lng!.hashCode);
 
   @override
-  String toString() => 'City[id=$id, nameEn=$nameEn, nameAr=$nameAr, createdAt=$createdAt, updatedAt=$updatedAt, name=$name]';
+  String toString() => 'City[id=$id, nameEn=$nameEn, nameAr=$nameAr, createdAt=$createdAt, updatedAt=$updatedAt, name=$name, lat=$lat, lng=$lng]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -123,6 +145,16 @@ class City {
     } else {
       json[r'name'] = null;
     }
+    if (this.lat != null) {
+      json[r'lat'] = this.lat;
+    } else {
+      json[r'lat'] = null;
+    }
+    if (this.lng != null) {
+      json[r'lng'] = this.lng;
+    } else {
+      json[r'lng'] = null;
+    }
     return json;
   }
 
@@ -151,6 +183,8 @@ class City {
         createdAt: mapValueOfType<String>(json, r'created_at'),
         updatedAt: mapValueOfType<String>(json, r'updated_at'),
         name: mapValueOfType<String>(json, r'name'),
+        lat: mapValueOfType<String>(json, r'lat'),
+        lng: mapValueOfType<String>(json, r'lng'),
       );
     }
     return null;

@@ -77,7 +77,7 @@ class _SelectedItemBottomSheetState extends State<SelectedItemBottomSheet> {
                 offset: const Offset(0, .5), // Shadow position
               ),
             ],
-            borderRadius: BorderRadius.only(
+            borderRadius: const BorderRadius.only(
                 topRight: Radius.circular(8), topLeft: Radius.circular(8)),
           ),
         ),

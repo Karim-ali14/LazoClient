@@ -19,7 +19,9 @@ import 'package:lazo_client/Presentation/Widgets/SvgIcons.dart';
 import 'package:lazo_client/Utils/Extintions.dart';
 import '../../Constants/Assets.dart';
 import '../../Constants/Constants.dart';
+import '../../Data/Network/lib/api.dart';
 import '../../Localization/Keys.dart';
+import '../../Utils/HalperMethods.dart';
 import '../../Utils/LocationHandler.dart';
 import '../../Utils/PermissionsHandler.dart';
 import '../../common/presentation/providers/usecases_providers.dart';
@@ -42,6 +44,8 @@ class _GoogleMapScreenState extends ConsumerState<GoogleMapScreen> {
   LatLng? _currentLatLng;
   Marker? _marker;
   final _controller = TextEditingController();
+  String selectedCityName = "";
+  City? city;
   void _onMapCreated(GoogleMapController _controller) {
     controller.complete(_controller);
     _mapController = _controller;
@@ -59,6 +63,7 @@ class _GoogleMapScreenState extends ConsumerState<GoogleMapScreen> {
   final ValueNotifier<bool> insideArea = ValueNotifier(false);
   @override
   void initState() {
+    initCity();
     super.initState();
   }
 
@@ -77,7 +82,7 @@ class _GoogleMapScreenState extends ConsumerState<GoogleMapScreen> {
       }
     });
 
-    handleState(getLatLngFromLatLngUseCaseProvider, showLoading: true,
+    handleState(getAddressFromLatLngUseCaseProvider, showLoading: true,
         onSuccess: (res) {
       if (res.data != null) {
         print("asdfasdfasdd ${res.data?.description}");
@@ -129,7 +134,8 @@ class _GoogleMapScreenState extends ConsumerState<GoogleMapScreen> {
                   _currentLatLng!.longitude,
                 );
 
-                if (cityInfo?.keys.first.toLowerCase().startsWith("cairo") ==
+                print("selectedCityName :${selectedCityName.toLowerCase()} ${cityInfo?.keys.first.toLowerCase()}");
+                if (cityInfo?.keys.first.toLowerCase().startsWith(selectedCityName.toLowerCase()) ==
                     true) {
                   addressInfo.value = cityInfo!;
                   insideArea.value = true;
@@ -144,13 +150,13 @@ class _GoogleMapScreenState extends ConsumerState<GoogleMapScreen> {
               alignment: Alignment.topCenter,
               child: Container(
                   width: double.infinity,
-                  height: suggestionsState.data?.isNotEmpty == true ? 380.h : 55.h,
+                  height:
+                      suggestionsState.data?.isNotEmpty == true ? 380.h : 55.h,
                   decoration: const BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.all(Radius.circular(8)),
                   ),
-                  padding:
-                      const EdgeInsets.only(left: 8 , right: 8, top: 5),
+                  padding: const EdgeInsets.only(left: 8, right: 8, top: 5),
                   margin:
                       const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
                   child: Column(
@@ -162,7 +168,8 @@ class _GoogleMapScreenState extends ConsumerState<GoogleMapScreen> {
                             enableSearch: true,
                             delay: 1,
                             controller: _controller,
-                            onTextChangeListener: _onSearchChanged, onFilterClick: () {},
+                            onTextChangeListener: _onSearchChanged,
+                            onFilterClick: () {},
                           ),
                           Align(
                             alignment: AlignmentDirectional.centerEnd,
@@ -173,13 +180,19 @@ class _GoogleMapScreenState extends ConsumerState<GoogleMapScreen> {
                               child: Container(
                                   height: 40.h,
                                   width: 60.h,
-                                  child: const Center(child:  Text("Locate Me",style: AppTheme.styleWithTextRedAdelleSansExtendedFonts12w400,))),
+                                  child: const Center(
+                                      child: Text(
+                                    "Locate Me",
+                                    style: AppTheme
+                                        .styleWithTextRedAdelleSansExtendedFonts12w400,
+                                  ))),
                             ),
                           ),
                         ],
                       ),
                       SizedBox(
-                        height: suggestionsState.data?.isNotEmpty == true ? 300 : 0,
+                        height:
+                            suggestionsState.data?.isNotEmpty == true ? 300 : 0,
                         child: ListView.builder(
                           itemCount: suggestionsState.data?.length,
                           itemBuilder: (context, index) {
@@ -187,7 +200,10 @@ class _GoogleMapScreenState extends ConsumerState<GoogleMapScreen> {
                             return ListTile(
                               title: Text(suggestion?['description']),
                               onTap: () {
-                                _controller.text = suggestion?['description'].toString().ellipsize(35) ?? "";
+                                _controller.text = suggestion?['description']
+                                        .toString()
+                                        .ellipsize(35) ??
+                                    "";
                                 print(suggestion);
                                 _onSuggestionTap(suggestion?['place_id']);
                               },
@@ -336,5 +352,17 @@ class _GoogleMapScreenState extends ConsumerState<GoogleMapScreen> {
   void _onCameraUpdate(CameraPosition position) async {
     _currentLatLng = position.target;
     initOrUpdateMarker(position.target);
+  }
+
+  void initCity() async {
+    city = await getObject<City>(
+            citySelectedKey, (json) => City.fromJson(json) ?? City()) ??
+        City();
+    print("selectedCityName : $city");
+   var map = await LocationHandler.getAddressInfo(
+      double.parse(city?.lat ?? "0"),
+      double.parse(city?.lng ?? "0"),
+    );
+    selectedCityName = map?.keys.first ?? "";
   }
 }

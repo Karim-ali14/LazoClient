@@ -18,6 +18,8 @@ import 'package:lazo_client/main.dart';
 
 import '../../../Constants.dart';
 import '../../../Constants/Assets.dart';
+import '../../../Localization/Keys.dart';
+import '../../../Utils/HalperMethods.dart';
 import '../../Theme/AppTheme.dart';
 import '../../Widgets/AppButton.dart';
 
@@ -43,9 +45,11 @@ class _AddAddressScreenState extends ConsumerState<AddAddressScreen> {
 
   final formKey = GlobalKey<FormState>();
 
+  City? city;
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((callback) {
+      initCity();
       print(widget.isEdit.toString());
       if (widget.isEdit == true) {
         nameController.text = widget.addressItem?.recipientName ?? "";
@@ -150,18 +154,22 @@ class _AddAddressScreenState extends ConsumerState<AddAddressScreen> {
                       ),
                       width: double.infinity,
                       height: 147.h,
-                      child: GoogleMap(
-                        onMapCreated: _onMapCreated,
-                        initialCameraPosition: CameraPosition(
-                          target:
-                              _selectedLocation ?? const LatLng(37.7749, -122.4194),
-                          zoom: 12.0,
-                        ),
-                        markers: _markers,
-                        myLocationEnabled: true, // Enable user's location
-                        onTap: (pos) {
-                          navigateToSelectLocationScreen();
-                        },
+                      child: Stack(
+                        children: [
+                          GoogleMap(
+                            onMapCreated: _onMapCreated,
+                            initialCameraPosition: CameraPosition(
+                              target:
+                                  _selectedLocation ?? LatLng(double.parse(city?.lat ?? "0.0"),double.parse(city?.lng ?? "0.0")),
+                              zoom: 12.0,
+                            ),
+                            markers: _markers,
+                            myLocationEnabled: false, // Enable user's location
+                            onTap: (pos) {
+                              navigateToSelectLocationScreen();
+                            },
+                          ),
+                        ],
                       ),
                     ),
                     const SizedBox(
@@ -251,8 +259,8 @@ class _AddAddressScreenState extends ConsumerState<AddAddressScreen> {
       ref.read(createAddressStateNotifiers.notifier).createAddresses(
           recipientName: nameController.text,
           recipientPhone: '$code ${phoneController.text}'.removeFirstChar("+"),
-          recipientLandmark: address,
-          recipientAddress: additionalAddressController.text,
+          recipientLandmark: additionalAddressController.text,
+          recipientAddress: address,
           lat: "${_selectedLocation!.latitude}",
           lng: "${_selectedLocation!.longitude}",
           cityId: "9");
@@ -263,11 +271,12 @@ class _AddAddressScreenState extends ConsumerState<AddAddressScreen> {
     if (formKey.currentState!.validate() && _selectedLocation != null) {
       var address =
           await LocationHandler.getAddressFromLatLng(_selectedLocation!);
+      print(address);
       ref.read(updateAddressStateNotifiers.notifier).updateAddresses(
           recipientName: nameController.text,
           recipientPhone: "$code ${phoneController.text.removeFirstChar(" + ")}",
-          recipientLandmark: address,
-          recipientAddress: additionalAddressController.text,
+          recipientLandmark: additionalAddressController.text,
+          recipientAddress: address,
           lat: "${_selectedLocation!.latitude}",
           lng: "${_selectedLocation!.longitude}",
           cityId: "9",addressId: widget.addressItem?.id.toString());
@@ -293,6 +302,12 @@ class _AddAddressScreenState extends ConsumerState<AddAddressScreen> {
       });
       mapController.animateCamera(CameraUpdate.newLatLng(location));
     }
+  }
+
+  void initCity() async {
+    city = await getObject<City>(
+        citySelectedKey, (json) => City.fromJson(json) ?? City()) ??
+        City();
   }
 
 }

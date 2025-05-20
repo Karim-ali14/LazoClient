@@ -18,7 +18,7 @@ final getLatLngFromPlaceIdUseCaseProvider = StateNotifierProvider.autoDispose<
   return GetLatLngFromPlaceIdUseCase(ref.read(commonRepoProvider));
 });
 
-final getLatLngFromLatLngUseCaseProvider = StateNotifierProvider.autoDispose<
+final getAddressFromLatLngUseCaseProvider = StateNotifierProvider.autoDispose<
     GetLatLngFromLatLngUseCase, StateModel<Address?>>((ref) {
   return GetLatLngFromLatLngUseCase(ref.read(commonRepoProvider));
 });
