@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:lazo_client/Constants.dart';
@@ -11,6 +12,7 @@ import 'package:lazo_client/Data/Network/lib/api.dart';
 import 'package:lazo_client/Doman/CommenProviders/ApiProvider.dart';
 import 'package:lazo_client/Localization/Keys.dart';
 import 'package:lazo_client/Presentation/BottomSheets/SelectionBottomSheet.dart';
+import 'package:lazo_client/Presentation/Screens/checkout/componantes/saved_recipients_addresses.dart';
 import 'package:lazo_client/Presentation/StateNotifiersViewModel/ClientStateNotifiers.dart';
 import 'package:lazo_client/Presentation/Widgets/CustomAppBar.dart';
 import 'package:lazo_client/Utils/Extintions.dart';
@@ -21,11 +23,14 @@ import 'package:lazo_client/Utils/ValidationEx.dart';
 import '../../../Constants/Assets.dart';
 import '../../../Constants/Constants.dart';
 import '../../../Constants/Eunms.dart';
+import '../../../Utils/HalperMethods.dart';
+import '../../StateNotifiersViewModel/AddressStateNotifiers.dart';
 import '../../StateNotifiersViewModel/PublicStateNotifiers.dart';
 import '../../Theme/AppTheme.dart';
 import '../../Widgets/AppButton.dart';
 import '../../Widgets/AppTextField.dart';
 import '../../Widgets/SvgIcons.dart';
+import '../../Widgets/map_view_container.dart';
 import '../addresses/componants/phone_with_country_code_for_address.dart';
 import '../cartScreen/componants/CustomSwitch.dart';
 import '../details/componants/ProductItemCard.dart';
@@ -49,6 +54,7 @@ class CheckoutScreen extends ConsumerStatefulWidget {
 }
 
 class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
+  final ValueNotifier<String> codeNotifier = ValueNotifier("");
   final sendTypeController = TextEditingController();
   final calenderController = TextEditingController();
   final timeController = TextEditingController();
@@ -81,9 +87,13 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
   final ValueNotifier<bool> isCountryCodeEmpty = ValueNotifier(false);
   String? code;
 
+  City? city;
+
   @override
   void initState() {
+    initCity();
     WidgetsBinding.instance.addPostFrameCallback((callback) {
+      ref.read(fetchAddressForCheckoutStateNotifiers.notifier).fetchAddresses();
       if (widget.type == CheckoutTypes.SoftCard) {
         print("calculateData: serviceid : ${widget.service?.id}");
         handleCalculateInstantOrder();
@@ -147,7 +157,7 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                     ? Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          SizedBox(
+                          const SizedBox(
                             height: 16,
                           ),
                           ProductItemCard(
@@ -286,62 +296,69 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                 ),
                 selectTypeOfSend != 0
                     ? const SizedBox(
-                        height: 24,
-                      )
+                  height: 8,
+                )
                     : const SizedBox(
-                        height: 5,
-                      ),
-                selectTypeOfSend != 0 && widget.type == CheckoutTypes.HartCard
+                  height: 5,
+                ),
+                selectTypeOfSend != 0 &&
+                    widget.type == CheckoutTypes.HartCard
                     ? Container(
-                        decoration: BoxDecoration(
-                            color: AppTheme.appGrey28,
-                            borderRadius: BorderRadius.circular(4)),
-                        padding: EdgeInsets.all(defaultPaddingHorizontal),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              children: [
-                                Text(
-                                  context.tr(askTheRecipientForTheAddressKey),
-                                  style: AppTheme
-                                      .styleWithTextBlackAdelleSansExtendedFonts16w500,
-                                ),
-                                const Spacer(),
-                                CustomSwitch(
-                                  value: _enable,
-                                  onChanged: (bool val) {
-                                    print(val);
-                                    setState(() {
-                                      _enable = val;
-                                    });
-                                  },
-                                ),
-                              ],
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Text(
-                              context.tr(
-                                  weWillCollectTheAddressFromTheRecipientKey),
-                              style: AppTheme
-                                  .styleWithTextGray7AdelleSansExtendedFonts12w400
-                                  .copyWith(height: 1.3),
-                            )
-                          ],
-                        ),
+                  decoration: BoxDecoration(
+                      color: AppTheme.appGrey28,
+                      borderRadius: BorderRadius.circular(4)),
+                  padding:
+                  EdgeInsets.all(defaultPaddingHorizontal),
+                  child: Column(
+                    crossAxisAlignment:
+                    CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          Text(
+                            context.tr(
+                                askTheRecipientForTheAddressKey),
+                            style: AppTheme
+                                .styleWithTextBlackAdelleSansExtendedFonts16w500,
+                          ),
+                          const Spacer(),
+                          CustomSwitch(
+                            value: _enable,
+                            onChanged: (bool val) {
+                              print(val);
+                              setState(() {
+                                _enable = val;
+                              });
+                            },
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Text(
+                        context.tr(
+                            weWillCollectTheAddressFromTheRecipientKey),
+                        style: AppTheme
+                            .styleWithTextGray7AdelleSansExtendedFonts12w400
+                            .copyWith(height: 1.3),
                       )
+                    ],
+                  ),
+                )
                     : const SizedBox(),
-                widget.type == CheckoutTypes.HartCard
-                    ? const SizedBox(
-                        height: 24,
-                      )
-                    : const SizedBox(),
+                SizedBox(
+                  height: 8.h,
+                ),
                 selectTypeOfSend != null ||
                         widget.type == CheckoutTypes.SoftCard
                     ? Column(
                         children: [
+                          widget.type == CheckoutTypes.HartCard
+                              ? SavedRecipientsAddresses(onItemPressed: (addressItem) {
+                            autoFillAddress(addressItem);
+                          },)
+                              : const SizedBox(),
                           Row(
                             children: [
                               SizedBox(
@@ -383,11 +400,27 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                                   isCountryCodeEmpty: isCountryCodeEmpty,
                                   onSelectCountryCode: (value) {
                                     code = value;
-                                  },
+                                  }, code: codeNotifier,
                                 ),
                               ),
                             ],
                           ),
+                          SizedBox(
+                            height: 16.h,
+                          ),
+                          const SizedBox(
+                            height: spaceBetweenItems,
+                          ),
+                          widget.type == CheckoutTypes.HartCard
+                              ? MapViewContainer(
+                                  onMapSelectedLocation: (location) {
+                                    selectedLocation = location;
+                                    setAddressName(location);
+                                  },
+                                  city: city,
+                                  selectedLocation: selectedLocation,
+                                )
+                              : const SizedBox(),
                           const SizedBox(
                             height: spaceBetweenItems,
                           ),
@@ -397,11 +430,6 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                                   autovalidateMode:
                                       AutovalidateMode.onUserInteraction,
                                   decoration: InputDecoration(
-                                      suffixIcon: InkWell(
-                                          onTap: () {
-                                            selectLocation();
-                                          },
-                                          child: SVGIcons.locationIcon()),
                                       hintText:
                                           context.tr(selectLocationOnMapKey),
                                       focusedBorder: const UnderlineInputBorder(
@@ -446,6 +474,15 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                                   controller: addressDescriptionController,
                                 )
                               : const SizedBox(),
+
+                          widget.type == CheckoutTypes.HartCard
+                              ? Row(
+                            children: [
+
+                            ],
+                          )
+                              : const SizedBox(),
+
                         ],
                       )
                     : const SizedBox(),
@@ -502,7 +539,7 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                 const SizedBox(
                   height: 32,
                 ),
-                widget.type == CheckoutTypes.HartCard
+                widget.type == CheckoutTypes.HartCard && selectTypeOfSend == 1
                     ? Container(
                         decoration: BoxDecoration(
                             color: Colors.white,
@@ -780,7 +817,7 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
             subTitle: 'Who is this gift for',
             additionalText:
                 'Choose Myself if the gift is for you, or Someone to send it to a loved one.',
-            onSelect: (index){
+            onSelect: (index) {
               sendTypeController.text = typeSendArray[index].text;
               setState(() {
                 selectTypeOfSend = index;
@@ -791,7 +828,6 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
   }
 
   void showDeliveryTimeBottomSheet() {
-
     showModalBottomSheet(
         isScrollControlled: true,
         shape: const RoundedRectangleBorder(
@@ -804,13 +840,12 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
             initSelectedIndex: selectDeliveryTimeOfSend,
             title: 'Choose',
             subTitle: 'Delivery Time',
-            onSelect: (index){
+            onSelect: (index) {
               selectDeliveryTimeOfSend = index;
               timeController.text = deliveryTimeArray[index].text;
             },
           );
         });
-
   }
 
   Future<void> _selectDate(BuildContext context) async {
@@ -825,17 +860,6 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
 
       calenderController.text =
           _selectedDate?.convertDateToString("dd MMM yyyy") ?? "";
-    }
-  }
-
-  void selectLocation() async {
-    var location = await context
-        .push(R_GoogleMapScreen, extra: {"locationSelected": selectedLocation});
-    if (location != null) {
-      selectedLocation = location as LatLng?;
-      var address =
-          await LocationHandler.getAddressFromLatLng(selectedLocation!);
-      locationController.text = address;
     }
   }
 
@@ -945,6 +969,27 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
         .push(R_PaymentScreen, extra: {"paymentLink": paymentLink});
     if (success == true) {
       context.pop(true);
+    }
+  }
+
+  void setAddressName(LatLng location) async {
+    var address = await LocationHandler.getAddressFromLatLng(selectedLocation!);
+    locationController.text = address;
+  }
+
+  void initCity() async {
+    city = await getObject<City>(
+            citySelectedKey, (json) => City.fromJson(json) ?? City()) ??
+        City();
+  }
+
+  void autoFillAddress(AddressItem? addressItem) {
+    if (addressItem != null) {
+      codeNotifier.value = addressItem.recipientPhone?.split(" ").first ?? "";
+      recipientNameController.text = addressItem.recipientName ?? "";
+      recipientPhoneController.text = addressItem.recipientPhone?.split(" ").last ?? "";
+      locationController.text = addressItem.recipientAddress ?? "";
+      addressDescriptionController.text = addressItem.recipientLandmark ?? "";
     }
   }
 }

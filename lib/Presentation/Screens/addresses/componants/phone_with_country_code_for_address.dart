@@ -17,13 +17,14 @@ class PhoneFieldWithCountryCodeForAddress extends StatefulWidget {
   final bool? withCountryCode;
   final String? initCodeValue;
   final ValueNotifier<bool>? isCountryCodeEmpty;
+  final ValueNotifier<String> code;
   const PhoneFieldWithCountryCodeForAddress(
       {super.key,
       required this.phoneController,
       this.onSelectCountryCode,
       this.withCountryCode = true,
       required this.isCountryCodeEmpty,
-      this.initCodeValue});
+      this.initCodeValue, required this.code});
 
   @override
   State<PhoneFieldWithCountryCodeForAddress> createState() =>
@@ -32,12 +33,11 @@ class PhoneFieldWithCountryCodeForAddress extends StatefulWidget {
 
 class _PhoneFieldWithCountryCodeForAddressState
     extends State<PhoneFieldWithCountryCodeForAddress> {
-  final ValueNotifier<String> code = ValueNotifier("");
   final countryPicker = const FlCountryCodePicker();
 
   @override
   void initState() {
-    code.value = widget.initCodeValue ?? "";
+    widget.code.value = widget.initCodeValue ?? "";
     super.initState();
   }
 
@@ -58,7 +58,7 @@ class _PhoneFieldWithCountryCodeForAddressState
                   if (country != null) {
                     widget.isCountryCodeEmpty?.value = false;
                     widget.onSelectCountryCode?.call(country.dialCode);
-                    code.value = country.dialCode;
+                    widget.code.value = country.dialCode;
                   }
                 },
                 child: ValueListenableBuilder(
@@ -86,7 +86,7 @@ class _PhoneFieldWithCountryCodeForAddressState
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             ValueListenableBuilder(
-                              valueListenable: code,
+                              valueListenable: widget.code,
                               builder: (context, value, child) {
                                 return Text(
                                   value.isNotEmpty ? value : "+966",
@@ -131,7 +131,7 @@ class _PhoneFieldWithCountryCodeForAddressState
       validator: (value) {
         if (value?.isEmpty == true) {
           return context.tr(enterYourPhoneKey);
-        }if (code.value.isEmpty) {
+        }if (widget.code.value.isEmpty) {
           return "Select Country Code";
         } else if (value?.isPhoneValidate == false) {
           return "Must start with 5 and be 9 digits long";

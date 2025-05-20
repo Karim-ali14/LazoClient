@@ -8,6 +8,10 @@ final fetchAddressStateNotifiers = StateNotifierProvider.autoDispose<
     FetchAddressesUseCase, StateModel<ShowAddresses200Response?>>(
   (ref) => FetchAddressesUseCase(ref.read(addressesApi)));
 
+final fetchAddressForCheckoutStateNotifiers = StateNotifierProvider<
+    FetchAddressesUseCase, StateModel<ShowAddresses200Response?>>(
+  (ref) => FetchAddressesUseCase(ref.read(addressesApi)));
+
 final createAddressStateNotifiers = StateNotifierProvider.autoDispose<
     CreateAddressUseCase, StateModel<CreateAddress200Response?>>(
   (ref) => CreateAddressUseCase(ref.read(addressApi)));

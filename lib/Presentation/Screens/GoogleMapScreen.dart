@@ -29,7 +29,8 @@ import '../Widgets/SearchWithFilter.dart';
 
 class GoogleMapScreen extends ConsumerStatefulWidget {
   final LatLng? locationSelected;
-  const GoogleMapScreen({super.key, this.locationSelected});
+  final City? city;
+  const GoogleMapScreen( {super.key, this.locationSelected,this.city,});
 
   @override
   ConsumerState<GoogleMapScreen> createState() => _GoogleMapScreenState();
@@ -50,9 +51,10 @@ class _GoogleMapScreenState extends ConsumerState<GoogleMapScreen> {
     controller.complete(_controller);
     _mapController = _controller;
     // Listen to camera movements
-    if (widget.locationSelected != null) {
+    if (widget.locationSelected != null || widget.city != null) {
       _controller
-          .animateCamera(CameraUpdate.newLatLng(widget.locationSelected!));
+          .animateCamera(CameraUpdate.newLatLng(widget.locationSelected ?? LatLng(double.parse(widget.city?.lat ?? "0.0"),
+          double.parse(widget.city?.lng ?? "0.0"))));
     } else {
       _getLocation();
     }
@@ -272,7 +274,7 @@ class _GoogleMapScreenState extends ConsumerState<GoogleMapScreen> {
                                                 10,
                                         height: 35.h,
                                         child: Text(
-                                          "Sorry! We currently deliver in Riyadh only. Stay tuned for more cities soon!",
+                                          "Sorry! We currently deliver in ${city?.name} only. Stay tuned for more cities soon!",
                                           style: AppTheme
                                               .styleWithTextBlack2AdelleSansExtendedFonts14w400,
                                         )),

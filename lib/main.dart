@@ -393,6 +393,7 @@ class MyApp extends ConsumerWidget {
             var extra = state.extra as Map;
             return GoogleMapScreen(
               locationSelected: extra["locationSelected"],
+              city: extra["city"],
             );
           }),
       GoRoute(

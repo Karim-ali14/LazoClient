@@ -22,10 +22,12 @@ import '../../../Localization/Keys.dart';
 import '../../../Utils/HalperMethods.dart';
 import '../../Theme/AppTheme.dart';
 import '../../Widgets/AppButton.dart';
+import '../../Widgets/map_view_container.dart';
 
 class AddAddressScreen extends ConsumerStatefulWidget {
   final AddressItem? addressItem;
   final bool? isEdit;
+
   const AddAddressScreen({super.key, this.addressItem, this.isEdit = false});
 
   @override
@@ -33,6 +35,7 @@ class AddAddressScreen extends ConsumerStatefulWidget {
 }
 
 class _AddAddressScreenState extends ConsumerState<AddAddressScreen> {
+  final ValueNotifier<String> codeNotifier = ValueNotifier("");
   late GoogleMapController mapController;
   final nameController = TextEditingController();
   final addressController = TextEditingController();
@@ -54,7 +57,7 @@ class _AddAddressScreenState extends ConsumerState<AddAddressScreen> {
       if (widget.isEdit == true) {
         nameController.text = widget.addressItem?.recipientName ?? "";
         phoneController.text = widget.addressItem?.recipientPhone?.split(" ").last ?? "";
-        code = widget.addressItem?.recipientPhone?.split(" ").first ?? "";
+        codeNotifier.value = widget.addressItem?.recipientPhone?.split(" ").first ?? "";
         addressController.text = widget.addressItem?.recipientLandmark ?? "";
         additionalAddressController.text =
             widget.addressItem?.recipientAddress ?? "";
@@ -142,36 +145,15 @@ class _AddAddressScreenState extends ConsumerState<AddAddressScreen> {
                       initCodeValue: widget.addressItem?.recipientPhone?.split(" ").first ?? "",
                       onSelectCountryCode: (value) {
                         code = value;
-                      },
+                      }, code: codeNotifier,
                     ),
                     const SizedBox(
                       height: 16,
                     ),
-                    Container(
-                      clipBehavior: Clip.antiAlias,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      width: double.infinity,
-                      height: 147.h,
-                      child: Stack(
-                        children: [
-                          GoogleMap(
-                            onMapCreated: _onMapCreated,
-                            initialCameraPosition: CameraPosition(
-                              target:
-                                  _selectedLocation ?? LatLng(double.parse(city?.lat ?? "0.0"),double.parse(city?.lng ?? "0.0")),
-                              zoom: 12.0,
-                            ),
-                            markers: _markers,
-                            myLocationEnabled: false, // Enable user's location
-                            onTap: (pos) {
-                              navigateToSelectLocationScreen();
-                            },
-                          ),
-                        ],
-                      ),
-                    ),
+                    MapViewContainer(onMapSelectedLocation: (location) {
+                      _selectedLocation = location;
+                      setAddressName(location);
+                    }, city: city,selectedLocation: _selectedLocation,),
                     const SizedBox(
                       height: 16,
                     ),
@@ -245,13 +227,6 @@ class _AddAddressScreenState extends ConsumerState<AddAddressScreen> {
     );
   }
 
-  void _onMapCreated(GoogleMapController controller) {
-    mapController = controller;
-    if (_selectedLocation != null) {
-      mapController.animateCamera(CameraUpdate.newLatLng(_selectedLocation!));
-    }
-  }
-
   void createAddress() async {
     if (formKey.currentState!.validate() && _selectedLocation != null) {
       var address =
@@ -282,32 +257,15 @@ class _AddAddressScreenState extends ConsumerState<AddAddressScreen> {
           cityId: "9",addressId: widget.addressItem?.id.toString());
     }
   }
-
-  void navigateToSelectLocationScreen() async {
-    var location = await context.push(R_GoogleMapScreen,
-        extra: {"locationSelected": _selectedLocation}) as LatLng?;
-    if (location != null) {
-      print(location);
-      addressController.text =
-          await LocationHandler.getAddressFromLatLng(location);
-
-      setState(() {
-        _markers = {
-          Marker(
-            markerId: const MarkerId('1'),
-            position: location,
-          ),
-        };
-        _selectedLocation = location;
-      });
-      mapController.animateCamera(CameraUpdate.newLatLng(location));
-    }
-  }
-
   void initCity() async {
     city = await getObject<City>(
         citySelectedKey, (json) => City.fromJson(json) ?? City()) ??
         City();
+  }
+
+  void setAddressName(LatLng location) async{
+    addressController.text =
+    await LocationHandler.getAddressFromLatLng(location);
   }
 
 }
