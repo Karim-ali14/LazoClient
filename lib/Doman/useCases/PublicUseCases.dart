@@ -11,6 +11,7 @@ import 'package:lazo_client/Utils/Extintions.dart';
 
 import '../../Constants/Eunms.dart';
 import '../../Localization/Keys.dart';
+import '../../Localization/LanguageProvider.dart';
 import '../../Presentation/StateNotifiersViewModel/PublicStateNotifiers.dart';
 import '../../Presentation/StateNotifiersViewModel/UserAuthStateNotifiers.dart';
 import '../../main.dart';
@@ -22,7 +23,7 @@ class CountriesUseCases extends StateNotifier<StateModel<CountriesResponse?>> {
 
   void fetchCountries() async {
     state = StateModel.loading();
-    request(() => publicApi.countriesGet(lang: "ar"));
+    request(() => publicApi.countriesGet(lang: ref.read(langProvider).languageCode));
   }
 }
 
@@ -35,7 +36,7 @@ class CitiesUseCases extends StateNotifier<StateModel<CitiesResponse?>> {
     String? countryId,
   }) async {
     state = StateModel.loading();
-    request(() => publicApi.citiesGet(lang: "ar",countryId: countryId));
+    request(() => publicApi.citiesGet(lang: ref.read(langProvider).languageCode,countryId: countryId));
   }
 }
 

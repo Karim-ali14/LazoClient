@@ -415,6 +415,10 @@ class _CartScreenState extends ConsumerState<CartScreen> {
                                         ),
                                       )
                                     : SizedBox(),
+                                const Divider(
+                                  color: AppTheme.appGrey20,
+                                  thickness: 1,
+                                ),
                                 Padding(
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 12.0),
