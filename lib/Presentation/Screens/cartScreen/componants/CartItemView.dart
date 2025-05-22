@@ -28,6 +28,7 @@ class CartItemView extends StatefulWidget {
   final OnProductClickListener? onProductClickListener;
   final OnServiceClickListener? onServiceClickListener;
   final CartItemsInner? cartItem;
+  final bool? isReadOnlyMode;
 
   const CartItemView(
       {super.key,
@@ -35,7 +36,7 @@ class CartItemView extends StatefulWidget {
       required this.onUpdateQuantity,
       required this.onDeleteItem,
       this.onProductClickListener,
-      this.onServiceClickListener});
+      this.onServiceClickListener, this.isReadOnlyMode});
 
   @override
   State<CartItemView> createState() => _CartItemViewState();
@@ -53,245 +54,233 @@ class _CartItemViewState extends State<CartItemView> {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 6),
-      child: Slidable(
-        endActionPane: ActionPane(motion: const BehindMotion(), children: [
-          SlidableAction(
-            onPressed: (context) {
-              widget.onDeleteItem.call(widget.cartItem?.id ?? 0);
-            },
-            icon: Icons.delete,
-            label: context.tr(deleteKey),
-            backgroundColor: AppTheme.mainAppColor,
-          )
-        ]),
-        child: Container(
-          child: Column(
-            children: [
-              Row(
-                children: [
-                  Container(
-                    clipBehavior: Clip.antiAlias,
-                    decoration:
-                        BoxDecoration(borderRadius: BorderRadius.circular(1)),
-                    child: Skeleton.replace(
+      child: Container(
+        child: Column(
+          children: [
+            Row(
+              children: [
+                Container(
+                  clipBehavior: Clip.antiAlias,
+                  decoration:
+                      BoxDecoration(borderRadius: BorderRadius.circular(1)),
+                  child: Skeleton.replace(
+                    replacement: Container(
+                      width: 87.w,
+                      height: 85.h,
+                      color: Colors.white,
+                    ),
+                    child: InkWell(
+                      onTap: () {
+                        onItemClick(true);
+                      },
+                      child: Container(
+                        clipBehavior: Clip.antiAlias,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                        child: ImageView(
+                          width: 87.w,
+                          height: 85.h,
+                          initialImg: (widget.cartItem?.type ?? "") ==
+                                  CartItemType.Product.name.toLowerCase()
+                              ? widget.cartItem?.product?.imagePath ?? ""
+                              : widget.cartItem?.service?.imagePath ?? "",
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  width: 12,
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Skeleton.replace(
                       replacement: Container(
-                        width: 87.w,
-                        height: 85.h,
+                        width: 120,
+                        height: 10,
                         color: Colors.white,
                       ),
                       child: InkWell(
                         onTap: () {
                           onItemClick(true);
                         },
-                        child: Container(
-                          clipBehavior: Clip.antiAlias,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(4),
-                          ),
-                          child: ImageView(
-                            width: 87.w,
-                            height: 85.h,
-                            initialImg: (widget.cartItem?.type ?? "") ==
-                                    CartItemType.Product.name.toLowerCase()
-                                ? widget.cartItem?.product?.imagePath ?? ""
-                                : widget.cartItem?.service?.imagePath ?? "",
-                          ),
+                        child: Text(
+                          (widget.cartItem?.type ?? "") ==
+                                  CartItemType.Product.name.toLowerCase()
+                              ? widget.cartItem?.product?.name ?? ""
+                              : widget.cartItem?.service?.name ?? "",
+                          style: AppTheme
+                              .styleWithTextBlackAdelleSansExtendedFonts16w500,
                         ),
                       ),
                     ),
-                  ),
-                  SizedBox(
-                    width: 12,
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Skeleton.replace(
-                        replacement: Container(
-                          width: 120,
-                          height: 10,
-                          color: Colors.white,
-                        ),
-                        child: InkWell(
-                          onTap: () {
-                            onItemClick(true);
-                          },
-                          child: Text(
-                            (widget.cartItem?.type ?? "") ==
-                                    CartItemType.Product.name.toLowerCase()
-                                ? widget.cartItem?.product?.name ?? ""
-                                : widget.cartItem?.service?.name ?? "",
-                            style: AppTheme
-                                .styleWithTextBlackAdelleSansExtendedFonts16w500,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 5,
-                      ),
-                      SizedBox(
-                        width: 240,
-                        height: widget.cartItem?.productSelectedListItemsNames
-                                        ?.isNotEmpty ==
-                                    true ||
-                                widget.cartItem?.serviceSelectedListItemsNames
-                                        ?.isNotEmpty ==
-                                    true
-                            ? 25
-                            : 10,
-                        child: Skeleton.replace(
-                          replacement: Container(
-                            width: 120,
-                            height: 20,
-                            color: Colors.white,
-                          ),
-                          child: Text(
-                            (widget.cartItem?.type ?? "") ==
-                                    CartItemType.Product.name.toLowerCase()
-                                ? widget.cartItem
-                                        ?.productSelectedListItemsNames ??
-                                    ""
-                                : widget.cartItem
-                                        ?.serviceSelectedListItemsNames ??
-                                    "",
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 2,
-                            style: AppTheme
-                                .styleWithTextAppGrey7AdelleSansExtendedFonts10w400
-                                .copyWith(height: 1.2),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 7,
-                      ),
-                      Skeleton.replace(
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    SizedBox(
+                      width: 240,
+                      height: widget.cartItem?.productSelectedListItemsNames
+                                      ?.isNotEmpty ==
+                                  true ||
+                              widget.cartItem?.serviceSelectedListItemsNames
+                                      ?.isNotEmpty ==
+                                  true
+                          ? 25
+                          : 10,
+                      child: Skeleton.replace(
                         replacement: Container(
                           width: 120,
                           height: 20,
                           color: Colors.white,
                         ),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Text(
-                              (widget.cartItem?.type ?? "") ==
-                                      CartItemType.Product.name.toLowerCase()
-                                  ? "${context.tr(sarKey)} ${countItemPrice(widget.cartItem?.product?.priceAfterDiscount ?? 0, widget.cartItem?.quantity ?? 1)}"
-                                  : "${context.tr(sarKey)} ${countItemPrice(widget.cartItem?.service?.priceAfterDiscount ?? 0, widget.cartItem?.quantity ?? 1)}",
-                              style: AppTheme
-                                  .styleWithTextMainAppColorAdelleSansExtendedFonts14w400,
-                            ),
-                            (widget.cartItem?.type ?? "") ==
-                                        CartItemType.Product.name
-                                            .toLowerCase() &&
-                                    (widget.cartItem?.product?.price
-                                                ?.toDouble() ??
-                                            0.0) >
-                                        (widget.cartItem?.product
-                                                ?.priceAfterDiscount
-                                                ?.toDouble() ??
-                                            0.0)
-                                ? Row(
-                                    children: [
-                                      const SizedBox(
-                                        width: 6,
-                                      ),
-                                      Text(
-                                        "${context.tr(sarKey)} ${countItemPrice(widget.cartItem?.product?.price ?? 0, widget.cartItem?.quantity ?? 1)}",
-                                        style: AppTheme
-                                            .styleWithTextGray7AdelleSansExtendedFonts12w400
-                                            .copyWith(
-                                                decoration: TextDecoration
-                                                    .lineThrough),
-                                      )
-                                    ],
-                                  )
-                                : const SizedBox(),
-                            (widget.cartItem?.type ?? "") ==
-                                        CartItemType.Service.name
-                                            .toLowerCase() &&
-                                    (widget.cartItem?.service?.price
-                                                ?.toDouble() ??
-                                            0.0) >
-                                        (widget.cartItem?.service
-                                                ?.priceAfterDiscount
-                                                ?.toDouble() ??
-                                            0.0)
-                                ? Row(
-                                    children: [
-                                      SizedBox(
-                                        width: 6,
-                                      ),
-                                      Text(
-                                        "${context.tr(sarKey)} ${countItemPrice(widget.cartItem?.service?.price ?? 0, widget.cartItem?.quantity ?? 1)}",
-                                        style: AppTheme
-                                            .styleWithTextGray7AdelleSansExtendedFonts12w400
-                                            .copyWith(
-                                                decoration: TextDecoration
-                                                    .lineThrough),
-                                      )
-                                    ],
-                                  )
-                                : const SizedBox()
-                          ],
+                        child: Text(
+                          (widget.cartItem?.type ?? "") ==
+                                  CartItemType.Product.name.toLowerCase()
+                              ? widget.cartItem
+                                      ?.productSelectedListItemsNames ??
+                                  ""
+                              : widget.cartItem
+                                      ?.serviceSelectedListItemsNames ??
+                                  "",
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 2,
+                          style: AppTheme
+                              .styleWithTextAppGrey7AdelleSansExtendedFonts10w400
+                              .copyWith(height: 1.2),
                         ),
-                      )
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 7,
+                    ),
+                    Skeleton.replace(
+                      replacement: Container(
+                        width: 120,
+                        height: 20,
+                        color: Colors.white,
+                      ),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(
+                            (widget.cartItem?.type ?? "") ==
+                                    CartItemType.Product.name.toLowerCase()
+                                ? "${context.tr(sarKey)} ${countItemPrice(widget.cartItem?.product?.priceAfterDiscount ?? 0, widget.cartItem?.quantity ?? 1)}"
+                                : "${context.tr(sarKey)} ${countItemPrice(widget.cartItem?.service?.priceAfterDiscount ?? 0, widget.cartItem?.quantity ?? 1)}",
+                            style: AppTheme
+                                .styleWithTextMainAppColorAdelleSansExtendedFonts14w400,
+                          ),
+                          (widget.cartItem?.type ?? "") ==
+                                      CartItemType.Product.name
+                                          .toLowerCase() &&
+                                  (widget.cartItem?.product?.price
+                                              ?.toDouble() ??
+                                          0.0) >
+                                      (widget.cartItem?.product
+                                              ?.priceAfterDiscount
+                                              ?.toDouble() ??
+                                          0.0)
+                              ? Row(
+                                  children: [
+                                    const SizedBox(
+                                      width: 6,
+                                    ),
+                                    Text(
+                                      "${context.tr(sarKey)} ${countItemPrice(widget.cartItem?.product?.price ?? 0, widget.cartItem?.quantity ?? 1)}",
+                                      style: AppTheme
+                                          .styleWithTextGray7AdelleSansExtendedFonts12w400
+                                          .copyWith(
+                                              decoration: TextDecoration
+                                                  .lineThrough),
+                                    )
+                                  ],
+                                )
+                              : const SizedBox(),
+                          (widget.cartItem?.type ?? "") ==
+                                      CartItemType.Service.name
+                                          .toLowerCase() &&
+                                  (widget.cartItem?.service?.price
+                                              ?.toDouble() ??
+                                          0.0) >
+                                      (widget.cartItem?.service
+                                              ?.priceAfterDiscount
+                                              ?.toDouble() ??
+                                          0.0)
+                              ? Row(
+                                  children: [
+                                    SizedBox(
+                                      width: 6,
+                                    ),
+                                    Text(
+                                      "${context.tr(sarKey)} ${countItemPrice(widget.cartItem?.service?.price ?? 0, widget.cartItem?.quantity ?? 1)}",
+                                      style: AppTheme
+                                          .styleWithTextGray7AdelleSansExtendedFonts12w400
+                                          .copyWith(
+                                              decoration: TextDecoration
+                                                  .lineThrough),
+                                    )
+                                  ],
+                                )
+                              : const SizedBox()
+                        ],
+                      ),
+                    )
+                  ],
+                )
+              ],
+            ),
+            SizedBox(
+              height: widget.isReadOnlyMode == false ? 16 : 5,
+            ),
+            widget.isReadOnlyMode == false ? Skeleton.ignore(
+              child: Row(
+                children: [
+                  UpdateItemQuantity(
+                      initQuantity: quantity?.toInt(),
+                      cartItem: widget.cartItem,
+                      onUpdateQuantity: widget.onUpdateQuantity),
+                  const Spacer(),
+                  Row(
+                    children: [
+                      InkWell(
+                        onTap: () {
+                          changeFavoriteItemState();
+                        },
+                        child: SVGIcons.localSVG(
+                          (widget.cartItem?.type ?? "") ==
+                                  CartItemType.Product.name.toLowerCase()
+                              ? widget.cartItem?.product?.inWishlist == true
+                                  ? unFavoriteCartItemIcons
+                                  : favoriteCartItemIcons
+                              : widget.cartItem?.service?.inWishlist == true
+                                  ? unFavoriteCartItemIcons
+                                  : favoriteCartItemIcons,
+                          width: 24.w,
+                          height: 24.h,
+                        ),
+                      ),
+                      const SizedBox(
+                        width: defaultPaddingHorizontal,
+                      ),
+                      InkWell(
+                        onTap: () {
+                          widget.onDeleteItem
+                              .call(widget.cartItem?.id ?? 0);
+                        },
+                        child: SVGIcons.localSVG(
+                          deleteCartItemIcons,
+                          width: 24.w,
+                          height: 24.h,
+                        ),
+                      ),
                     ],
                   )
                 ],
               ),
-              SizedBox(
-                height: 16,
-              ),
-              Skeleton.ignore(
-                child: Row(
-                  children: [
-                    UpdateItemQuantity(
-                        initQuantity: quantity?.toInt(),
-                        cartItem: widget.cartItem,
-                        onUpdateQuantity: widget.onUpdateQuantity),
-                    const Spacer(),
-                    Row(
-                      children: [
-                        InkWell(
-                          onTap: () {
-                            changeFavoriteItemState();
-                          },
-                          child: SVGIcons.localSVG(
-                            (widget.cartItem?.type ?? "") ==
-                                    CartItemType.Product.name.toLowerCase()
-                                ? widget.cartItem?.product?.inWishlist == true
-                                    ? unFavoriteCartItemIcons
-                                    : favoriteCartItemIcons
-                                : widget.cartItem?.service?.inWishlist == true
-                                    ? unFavoriteCartItemIcons
-                                    : favoriteCartItemIcons,
-                            width: 24.w,
-                            height: 24.h,
-                          ),
-                        ),
-                        const SizedBox(
-                          width: defaultPaddingHorizontal,
-                        ),
-                        InkWell(
-                          onTap: () {
-                            widget.onDeleteItem
-                                .call(widget.cartItem?.id ?? 0);
-                          },
-                          child: SVGIcons.localSVG(
-                            deleteCartItemIcons,
-                            width: 24.w,
-                            height: 24.h,
-                          ),
-                        ),
-                      ],
-                    )
-                  ],
-                ),
-              )
-            ],
-          ),
+            ) : const SizedBox()
+          ],
         ),
       ),
     );

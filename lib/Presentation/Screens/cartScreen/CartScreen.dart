@@ -27,6 +27,7 @@ import '../mainScreen/MainScreenNavHost.dart';
 import 'componants/CartItemView.dart';
 import 'componants/GiftBoxListView.dart';
 import 'componants/GiftCardListView.dart';
+import 'componants/cart_items_with_notes.dart';
 
 class CartScreen extends ConsumerStatefulWidget {
   const CartScreen({super.key});
@@ -40,19 +41,7 @@ class _CartScreenState extends ConsumerState<CartScreen> {
   GiftCard? giftCartSelected;
   GiftBox? giftBoxSelected;
   String? promocode;
-  String? deleteCartItemId;
   bool thereIsAnyData = false;
-  List<ProviderData> listItems = [
-    ProviderData(
-      items: [
-        CartItemsInner(),
-        CartItemsInner(),
-        CartItemsInner(),
-        CartItemsInner(),
-        CartItemsInner()
-      ]
-    )
-  ];
   final ValueNotifier<bool> promoCodeState = ValueNotifier(false);
   @override
   void initState() {
@@ -102,16 +91,6 @@ class _CartScreenState extends ConsumerState<CartScreen> {
       // } catch (e) {}
     });
 
-    handleState(deleteItemCartStateNotifies, showLoading: true,
-        onSuccess: (res) {
-      try {
-        ref
-            .read(fetchCardDetailsStateNotifies.notifier)
-            .deleteItem(num.parse(deleteCartItemId ?? "0"));
-        deleteCartItemId = null;
-      } catch (e) {}
-    });
-
     return Scaffold(
       appBar: CustomAppBar(
         appContext: context,
@@ -144,86 +123,7 @@ class _CartScreenState extends ConsumerState<CartScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text(
-                            "Please note that unready gifts come with customizable packaging before delivery.",
-                            style: AppTheme
-                                .styleWithTextGray27AdelleSansExtendedFonts12w400,
-                          ),
-                          const Padding(
-                            padding: EdgeInsets.symmetric(vertical: 16),
-                            child:  Divider(
-                              thickness: 1,
-                              color: AppTheme.appGrey6,
-                            ),
-                          ),
-                          ...(List.generate(
-                              cartData.state != DataState.LOADING
-                                  ? cartData.data?.data?.cartItems.length ?? 0
-                                  : listItems.length, (index) {
-                            return Skeletonizer(
-                              enabled: cartData.state == DataState.LOADING,
-                              child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      cartData.data?.data?.cartItems[index]
-                                              .name ??
-                                          "",
-                                      style: AppTheme
-                                          .styleWithTextBlackColor2AdelleSansExtendedFonts14w500,
-                                    ),
-                                    const SizedBox(
-                                      height: defaultPaddingHorizontal,
-                                    ),
-                                    ...(List.generate(
-                                        cartData.state != DataState.LOADING
-                                            ? cartData
-                                                    .data
-                                                    ?.data
-                                                    ?.cartItems[index]
-                                                    .items
-                                                    ?.length ??
-                                                0
-                                            : listItems[index].items?.length ??
-                                                0, (cartIndex) {
-                                      return CartItemView(
-                                        cartItem:
-                                            cartData.state != DataState.LOADING
-                                                ? cartData
-                                                    .data
-                                                    ?.data
-                                                    ?.cartItems[index]
-                                                    .items![cartIndex]
-                                                : listItems[index].items?[cartIndex],
-                                        onUpdateQuantity:
-                                            (cartItemId, quantity) {
-                                          updateItemQuantity(
-                                              cartItemId, quantity);
-                                        },
-                                        onDeleteItem: (cartItemId) {
-                                          deleteCartItem(cartItemId);
-                                        },
-                                        onProductClickListener:
-                                            (product, cartId) {
-                                          navigateToItemDetails(
-                                              ItemType.Products,
-                                              product,
-                                              null,
-                                              cartId);
-                                        },
-                                        onServiceClickListener:
-                                            (service, cartId) {
-                                          navigateToItemDetails(
-                                              ItemType.Services,
-                                              null,
-                                              service,
-                                              cartId);
-                                        },
-                                      );
-                                    }))
-                                  ]),
-                            );
-                          })),
+                          const CartItemsWithNotes(),
                           const SizedBox(
                             height: 32,
                           ),
@@ -561,38 +461,6 @@ class _CartScreenState extends ConsumerState<CartScreen> {
     ref
         .read(showPromoCodeDetailsForHardServiceStateNotifies.notifier)
         .showPromoCodeDetails(code: voucherTextController.text);
-  }
-
-  void updateItemQuantity(num cartItemId, num quantity) {
-    ref.read(updateCartItemsStateNotifies.notifier).updateCartItems(
-        cartItemId: cartItemId.toString(), quantity: quantity.toString());
-  }
-
-  void deleteCartItem(num cartItemId) {
-    deleteCartItemId = cartItemId.toString();
-    ref
-        .read(deleteItemCartStateNotifies.notifier)
-        .deleteItemCart(cartItemId: cartItemId.toString());
-  }
-
-  void navigateToItemDetails(ItemType itemType, ProductDetails? product,
-      ServiceShowData? service, int? cartId) {
-    var itemId = itemType == ItemType.Products ? product?.id : service?.id;
-    var itemName =
-        itemType == ItemType.Products ? product?.name : service?.name;
-    var categoriesIds = itemType == ItemType.Products
-        ? product?.categories.map((item) => (item.id ?? 0).toInt()).toList() ??
-            []
-        : service?.categories.map((item) => (item.id ?? 0).toInt()).toList() ??
-            [];
-    context.push("$R_ProductAndServiceDetails/${itemId.toString()}", extra: {
-      "type": itemType,
-      "name": itemName,
-      "categoryIds": categoriesIds,
-      "product": cartId == null ? null : product,
-      "service": cartId == null ? null : service,
-      "cartId": cartId
-    });
   }
 
   void checkout() async {

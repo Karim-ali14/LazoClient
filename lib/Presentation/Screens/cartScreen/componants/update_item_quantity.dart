@@ -41,7 +41,7 @@ class _UpdateItemQuantityState extends State<UpdateItemQuantity> {
                   setState(() {
                     quantity = (quantity ?? 1) + 1;
                   });
-                  delayedAction.startTimer(Duration(seconds: 2),
+                  delayedAction.startTimer(const Duration(seconds: 2),
                           () {
                         widget.onUpdateQuantity.call(
                             (widget.cartItem?.id ?? 0),
