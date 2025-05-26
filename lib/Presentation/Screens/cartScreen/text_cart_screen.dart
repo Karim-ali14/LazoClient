@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import 'componants/stepper_indicator.dart';
+import 'componants/custom_stepper/stepper_indicator.dart';
 
 class TextCartScreen extends StatefulWidget {
   const TextCartScreen({super.key});

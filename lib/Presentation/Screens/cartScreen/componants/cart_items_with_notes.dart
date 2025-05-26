@@ -49,98 +49,102 @@ class _CartItemsWithNotesState extends ConsumerState<CartItemsWithNotes> {
             deleteCartItemId = null;
           } catch (e) {}
         });
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Text(
-          "Please note that unready gifts come with customizable packaging before delivery.",
-          style: AppTheme
-              .styleWithTextGray27AdelleSansExtendedFonts12w400,
-        ),
-        const Padding(
-          padding: EdgeInsets.only(top: 16),
-          child:  Divider(
-            thickness: 1,
-            color: AppTheme.appGrey6,
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 16),
+      color: Colors.white,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text(
+            "Please note that unready gifts come with customizable packaging before delivery.",
+            style: AppTheme
+                .styleWithTextGray27AdelleSansExtendedFonts12w400,
           ),
-        ),
-        ...(List.generate(
-            cartData.state != DataState.LOADING
-                ? cartData.data?.data?.cartItems.length ?? 0
-                : listItems.length, (index) {
-          return Skeletonizer(
-            enabled: cartData.state == DataState.LOADING,
-            child: Padding(
-              padding: const EdgeInsets.only(top: 16),
-              child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      cartData.data?.data?.cartItems[index]
-                          .name ??
-                          "",
-                      style: AppTheme
-                          .styleWithTextBlackColor2AdelleSansExtendedFonts14w500,
-                    ),
-                    const SizedBox(
-                      height: defaultPaddingHorizontal,
-                    ),
-                    ...(List.generate(
-                        cartData.state != DataState.LOADING
-                            ? cartData
-                            .data
-                            ?.data
-                            ?.cartItems[index]
-                            .items
-                            ?.length ??
-                            0
-                            : listItems[index].items?.length ??
-                            0, (cartIndex) {
-                      return CartItemView(
-                        isReadOnlyMode: widget.isReadOnlyMode ?? false,
-                        cartItem:
-                        cartData.state != DataState.LOADING
-                            ? cartData
-                            .data
-                            ?.data
-                            ?.cartItems[index]
-                            .items![cartIndex]
-                            : listItems[index].items?[cartIndex],
-                        onUpdateQuantity:
-                            (cartItemId, quantity) {
-                          updateItemQuantity(
-                              cartItemId, quantity);
-                        },
-                        onDeleteItem: (cartItemId) {
-                          deleteCartItem(cartItemId);
-                        },
-                        onProductClickListener:
-                            (product, cartId) {
-                          navigateToItemDetails(
-                              ItemType.Products,
-                              product,
-                              null,
-                              cartId);
-                        },
-                        onServiceClickListener:
-                            (service, cartId) {
-                          navigateToItemDetails(
-                              ItemType.Services,
-                              null,
-                              service,
-                              cartId);
-                        },
-                      );
-                    })),
-                    (cartData.data?.data?.cartItems.length??0) - 1 != index ? const Divider(
-                      thickness: 1,
-                      color: AppTheme.appGrey6,
-                    ) : const SizedBox()
-                  ]),
+          const Padding(
+            padding: EdgeInsets.only(top: 16),
+            child:  Divider(
+              thickness: 1,
+              color: AppTheme.appGrey6,
             ),
-          );
-        })),
-      ],
+          ),
+          ...(List.generate(
+              cartData.state != DataState.LOADING
+                  ? cartData.data?.data?.cartItems.length ?? 0
+                  : listItems.length, (index) {
+            return Skeletonizer(
+              enabled: cartData.state == DataState.LOADING,
+              child: Padding(
+                padding: const EdgeInsets.only(top: 16),
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        cartData.data?.data?.cartItems[index]
+                            .name ??
+                            "",
+                        style: AppTheme
+                            .styleWithTextBlackColor2AdelleSansExtendedFonts14w500,
+                      ),
+                      const SizedBox(
+                        height: defaultPaddingHorizontal,
+                      ),
+                      ...(List.generate(
+                          cartData.state != DataState.LOADING
+                              ? cartData
+                              .data
+                              ?.data
+                              ?.cartItems[index]
+                              .items
+                              ?.length ??
+                              0
+                              : listItems[index].items?.length ??
+                              0, (cartIndex) {
+                        return CartItemView(
+                          isReadOnlyMode: widget.isReadOnlyMode ?? false,
+                          cartItem:
+                          cartData.state != DataState.LOADING
+                              ? cartData
+                              .data
+                              ?.data
+                              ?.cartItems[index]
+                              .items![cartIndex]
+                              : listItems[index].items?[cartIndex],
+                          onUpdateQuantity:
+                              (cartItemId, quantity) {
+                            updateItemQuantity(
+                                cartItemId, quantity);
+                          },
+                          onDeleteItem: (cartItemId) {
+                            deleteCartItem(cartItemId);
+                          },
+                          onProductClickListener:
+                              (product, cartId) {
+                            navigateToItemDetails(
+                                ItemType.Products,
+                                product,
+                                null,
+                                cartId);
+                          },
+                          onServiceClickListener:
+                              (service, cartId) {
+                            navigateToItemDetails(
+                                ItemType.Services,
+                                null,
+                                service,
+                                cartId);
+                          },
+                        );
+                      })),
+                      (cartData.data?.data?.cartItems.length??0) - 1 != index ? const Divider(
+                        thickness: 1,
+                        color: AppTheme.appGrey6,
+                      ) : const SizedBox()
+                    ]),
+              ),
+            );
+          })),
+        ],
+      ),
     );
   }
 

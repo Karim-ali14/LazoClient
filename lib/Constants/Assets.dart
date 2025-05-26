@@ -133,3 +133,5 @@ const favoriteCartItemIcons = "assets/images/favorite_cart_item_icon.svg";
 const unFavoriteCartItemIcons = "assets/images/un_favorite_cart_item_icon.svg";
 const deleteCartItemIcons = "assets/images/delete_cart_item_icon.svg";
 const correctVoucherIcons = "assets/images/correct_voucher.svg";
+const markerIcons = "assets/images/marker_icon.svg";
+const stepperSpacerIcons = "assets/images/stepper_spacer_icon.svg";

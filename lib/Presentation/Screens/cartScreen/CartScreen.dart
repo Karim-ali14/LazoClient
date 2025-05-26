@@ -30,19 +30,24 @@ import 'componants/GiftCardListView.dart';
 import 'componants/cart_items_with_notes.dart';
 
 class CartScreen extends ConsumerStatefulWidget {
+
   const CartScreen({super.key});
 
   @override
-  ConsumerState<CartScreen> createState() => _CartScreenState();
+  ConsumerState<CartScreen> createState() => CartScreenState();
 }
 
-class _CartScreenState extends ConsumerState<CartScreen> {
+class CartScreenState extends ConsumerState<CartScreen> {
   final TextEditingController voucherTextController = TextEditingController();
   GiftCard? giftCartSelected;
   GiftBox? giftBoxSelected;
   String? promocode;
   bool thereIsAnyData = false;
   final ValueNotifier<bool> promoCodeState = ValueNotifier(false);
+
+  final GlobalKey _key = GlobalKey();
+  double? _height;
+
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((callback) {
@@ -51,6 +56,7 @@ class _CartScreenState extends ConsumerState<CartScreen> {
           .read(getSessionHandlerStateNotifier.notifier)
           .checkIfSessionIdExist();
       getCartDetails(sessionId);
+      calculateHeight();
     });
     super.initState();
   }
@@ -92,10 +98,10 @@ class _CartScreenState extends ConsumerState<CartScreen> {
     });
 
     return Scaffold(
-      appBar: CustomAppBar(
-        appContext: context,
-        navigated: true,
-      ),
+      // appBar: CustomAppBar(
+      //   appContext: context,
+      //   navigated: true,
+      // ),
       body: SafeArea(
         child: cartData.state == DataState.EMPTY ||
                 cartData.state == DataState.ERROR
@@ -121,6 +127,7 @@ class _CartScreenState extends ConsumerState<CartScreen> {
                     child: Skeletonizer(
                       enabled: cartData.state == DataState.LOADING,
                       child: Column(
+                        key: _key,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           const CartItemsWithNotes(),
@@ -342,79 +349,23 @@ class _CartScreenState extends ConsumerState<CartScreen> {
                             ),
                           ),
                           SizedBox(
-                            height: 16,
+                            height: 16.h,
                           ),
-                          Row(
-                            children: [
-                              // SVGIcons.localSVG(paymentTypesIcons,width: 132.w,height: 21.h)
-                            ],
-                          ),
-                          SizedBox(
-                            height: 32,
-                          ),
-                          AppButton(
-                              text: "Check Out",
-                              width: double.infinity,
-                              height: 46,
-                              onPress: () {
-                                if (ref
-                                        .read(clientStateProvider.notifier)
-                                        .checkIfUserExist() !=
-                                    null) {
-                                  if (giftBoxSelected != null &&
-                                      cartData.data?.data?.shipmentType ==
-                                          CartItemTypes.unready_made.name
-                                              .toLowerCase()) {
-                                    var data = {
-                                      giftBoxIdKey:
-                                          giftBoxSelected?.id.toString() ?? "",
-                                      orderTypeKey:
-                                          OrderTypes.receiver_order.name
-                                    };
-                                    if (giftCartSelected != null &&
-                                        cartData.data?.data?.shipmentType ==
-                                            CartItemTypes.unready_made.name
-                                                .toLowerCase()) {
-                                      data[giftCardIdKey] =
-                                          giftCartSelected?.id?.toString() ??
-                                              "";
-                                    }
-                                    if (promocode?.isNotEmpty == true) {
-                                      data[promocodeKey] = promocode ?? "";
-                                    }
-                                    ref
-                                        .read(cartDateSelectedStateNotifiers
-                                            .notifier)
-                                        .setCartDataSelection(data);
-                                    checkout();
-                                  } else if (cartData
-                                          .data?.data?.shipmentType ==
-                                      CartItemTypes.ready_made.name) {
-                                    var data = {
-                                      orderTypeKey:
-                                          OrderTypes.receiver_order.name
-                                    };
-
-                                    if (promocode?.isNotEmpty == true) {
-                                      data[promocodeKey] = promocode ?? "";
-                                    }
-                                    ref
-                                        .read(cartDateSelectedStateNotifiers
-                                            .notifier)
-                                        .setCartDataSelection(data);
-                                    checkout();
-                                  } else {
-                                    ScaffoldMessenger.of(context)
-                                        .showSnackBar(SnackBar(
-                                      content: Text(
-                                        "Please select a gift box",
-                                      ),
-                                    ));
-                                  }
-                                } else {
-                                  showAuthenticated();
-                                }
-                              })
+                          // Row(
+                          //   children: [
+                          //     // SVGIcons.localSVG(paymentTypesIcons,width: 132.w,height: 21.h)
+                          //   ],
+                          // ),
+                          // SizedBox(
+                          //   height: 32,
+                          // ),
+                          // AppButton(
+                          //     text: "Check Out",
+                          //     width: double.infinity,
+                          //     height: 46,
+                          //     onPress: () {
+                          //
+                          //     })
                         ],
                       ),
                     ),
@@ -488,5 +439,70 @@ class _CartScreenState extends ConsumerState<CartScreen> {
   void getPackagingData() {
     ref.read(fetchAllGiftBoxStateNotifies.notifier).fetchAllGiftBox();
     ref.read(fetchAllGiftCardsStateNotifies.notifier).fetchAllGiftCards();
+  }
+
+  void calculateHeight() {
+    var box = _key.currentContext?.findRenderObject() as RenderBox;
+    setState(() {
+      _height = box.size.height;
+    });
+  }
+
+  void actionClick({Function? afterPassConditions,Function? onCannotPassConditions}){
+    var cartData = ref.watch(fetchCardDetailsStateNotifies);
+    if (ref
+        .read(clientStateProvider.notifier)
+        .checkIfUserExist() !=
+        null) {
+      if (giftBoxSelected != null &&
+          cartData.data?.data?.shipmentType ==
+              CartItemTypes.unready_made.name
+                  .toLowerCase()) {
+        var data = {
+          giftBoxIdKey:
+          giftBoxSelected?.id.toString() ?? "",
+          orderTypeKey:
+          OrderTypes.receiver_order.name
+        };
+        if (giftCartSelected != null &&
+            cartData.data?.data?.shipmentType ==
+                CartItemTypes.unready_made.name
+                    .toLowerCase()) {
+          data[giftCardIdKey] =
+              giftCartSelected?.id?.toString() ??
+                  "";
+        }
+        if (promocode?.isNotEmpty == true) {
+          data[promocodeKey] = promocode ?? "";
+        }
+        ref
+            .read(cartDateSelectedStateNotifiers
+            .notifier)
+            .setCartDataSelection(data);
+        // checkout();
+        afterPassConditions?.call();
+      } else if (cartData
+          .data?.data?.shipmentType ==
+          CartItemTypes.ready_made.name) {
+        var data = {
+          orderTypeKey:
+          OrderTypes.receiver_order.name
+        };
+
+        if (promocode?.isNotEmpty == true) {
+          data[promocodeKey] = promocode ?? "";
+        }
+        ref
+            .read(cartDateSelectedStateNotifiers
+            .notifier)
+            .setCartDataSelection(data);
+        afterPassConditions?.call();
+        // checkout();
+      } else {
+        onCannotPassConditions?.call();
+      }
+    } else {
+      showAuthenticated();
+    }
   }
 }

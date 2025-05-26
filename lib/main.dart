@@ -41,6 +41,7 @@ import 'Presentation/Screens/More/MoreScreen.dart';
 import 'Presentation/Screens/Notification/NotificationScreen.dart';
 import 'Presentation/Screens/Wallet/WalletScreen.dart';
 import 'Presentation/Screens/addresses/addresses_screen.dart';
+import 'Presentation/Screens/cartScreen/order_process_screen.dart';
 import 'Presentation/Screens/checkout/CheckoutScreen.dart';
 import 'Presentation/Screens/details/ShowAllRatingAndReviewScreen.dart';
 import 'Presentation/Screens/home/HomeScreen.dart';
@@ -375,7 +376,7 @@ class MyApp extends ConsumerWidget {
       GoRoute(
           path: R_CartScreen,
           builder: (BuildContext context, GoRouterState state) =>
-              const CartScreen()),
+              OrderProcessScreen(initCurrentPage: 0,)),
       GoRoute(
           path: R_CheckoutScreen,
           builder: (BuildContext context, GoRouterState state) {
