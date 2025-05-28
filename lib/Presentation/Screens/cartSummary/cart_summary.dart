@@ -14,16 +14,20 @@ import 'package:lazo_client/Presentation/Theme/AppTheme.dart';
 import 'package:lazo_client/Presentation/Widgets/SvgIcons.dart';
 import '../../../Constants/Eunms.dart';
 import '../../../Data/Models/PaymentMethod.dart';
+import '../../../Data/Models/StateModel.dart';
 import '../../../Localization/Keys.dart';
 import '../../../Utils/LocationHandler.dart';
 import '../../StateNotifiersViewModel/ClientStateNotifiers.dart';
 import '../../StateNotifiersViewModel/PublicStateNotifiers.dart';
 import '../cartScreen/componants/card_summary_details.dart';
+import '../cartScreen/componants/service_info_view.dart';
 
 class CartSummaryScreen extends ConsumerStatefulWidget {
   final CheckoutTypes? type;
-
-  CartSummaryScreen({super.key, this.type});
+  final ServiceShowData? service;
+  final String? serviceSelectedListIds;
+  final String? serviceSelectedListItemsIds;
+  const CartSummaryScreen( {super.key, this.type,this.service, this.serviceSelectedListIds, this.serviceSelectedListItemsIds,});
 
   @override
   ConsumerState<CartSummaryScreen> createState() => CartSummaryScreenState();
@@ -57,75 +61,103 @@ class CartSummaryScreenState extends ConsumerState<CartSummaryScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var calculateSoftService = ref.watch(calculateInstantOrderStateProvider);
+    var cartSelectionData = ref.watch(cartDateSelectedStateNotifiers);
+
     return Scaffold(
       body: Container(
         height: MediaQuery.of(context).size.height,
         child: SingleChildScrollView(
           child: Column(
             children: [
-              AddressSummaryCart(
-                addressItem: AddressItem(
-                  recipientAddress: address,
-                  city: AddressItemCity(name: cityName),
-                ),
-              ),
-              Consumer(builder: (context, ref, _) {
-                var cartData = ref.watch(fetchCardDetailsStateNotifies);
-                return ValueListenableBuilder(
-                    valueListenable: expandedCardItem,
-                    builder: (context, expanded, _) {
-                      return Column(
-                        children: [
-                          InkWell(
-                            onTap:(){
-                              expandedCardItem.value = !expanded;
-                            },
-                            child: Container(
-                              padding: const EdgeInsetsDirectional.symmetric(
-                                  horizontal: 16,vertical: 20),
-                              color: expanded
-                                  ? AppTheme.mainAppColorLight2
-                                  : Colors.white,
-                              child: Row(
-                                children: [
-                                  Text(
-                                    "View your order",
-                                    style: AppTheme
-                                        .styleWithTextBlackColor2AdelleSansExtendedFonts16w400,
+              widget.type == CheckoutTypes.SoftCard &&
+                  calculateSoftService.state == DataState.SUCCESS
+                  ? Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(
+                    height: 16,
+                  ),
+                  ServiceInfoView(
+                    item: widget.service,
+                    selectedServicesListItemsNames: cartSelectionData[serviceSelectedListItemsNamesKey]?.toString() ?? "",
+                  ),
+                  SizedBox(
+                    height: 16,
+                  ),
+                ],
+              )
+                  :
+              Column(
+                children: [
+                  AddressSummaryCart(
+                    addressItem: AddressItem(
+                      recipientAddress: address,
+                      city: AddressItemCity(name: cityName),
+                    ),
+                  ),
+                  Consumer(builder: (context, ref, _) {
+                    var cartData = ref.watch(fetchCardDetailsStateNotifies);
+                    return ValueListenableBuilder(
+                        valueListenable: expandedCardItem,
+                        builder: (context, expanded, _) {
+                          return Column(
+                            children: [
+                              InkWell(
+                                onTap:(){
+                                  expandedCardItem.value = !expanded;
+                                },
+                                child: Container(
+                                  padding: const EdgeInsetsDirectional.symmetric(
+                                      horizontal: 16,vertical: 20),
+                                  color: expanded
+                                      ? AppTheme.mainAppColorLight2
+                                      : Colors.white,
+                                  child: Row(
+                                    children: [
+                                      Text(
+                                        "View your order",
+                                        style: AppTheme
+                                            .styleWithTextBlackColor2AdelleSansExtendedFonts16w400,
+                                      ),
+                                      Spacer(),
+                                      Text(
+                                        "(${calculateItemInCart(cartData.data?.data?.cartItems)} Items)",
+                                        style: AppTheme
+                                            .styleWithTextBlack2AdelleSansExtendedFonts11w400,
+                                      ),
+                                      SizedBox(
+                                        width: 8,
+                                      ),
+                                      SVGIcons.localSVG(
+                                          expanded ? upArrowIcon : downArrowIcon,
+                                          width: 24,
+                                          height: 24,
+                                          color: AppTheme.mainAppColorDark)
+                                    ],
                                   ),
-                                  Spacer(),
-                                  Text(
-                                    "(${calculateItemInCart(cartData.data?.data?.cartItems)} Items)",
-                                    style: AppTheme
-                                        .styleWithTextBlack2AdelleSansExtendedFonts11w400,
-                                  ),
-                                  SizedBox(
-                                    width: 8,
-                                  ),
-                                  SVGIcons.localSVG(
-                                      expanded ? upArrowIcon : downArrowIcon,
-                                      width: 24,
-                                      height: 24,
-                                      color: AppTheme.mainAppColorDark)
-                                ],
+                                ),
                               ),
-                            ),
-                          ),
-                          expanded ? Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                            child: const CartItemsWithNotes(isReadOnlyMode: true,),
-                          ) : const SizedBox()
-                        ],
-                      );
-                    });
-              }),
+                              expanded ? Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                                child: const CartItemsWithNotes(isReadOnlyMode: true,),
+                              ) : const SizedBox()
+                            ],
+                          );
+                        });
+                  }),
+                ],
+              ),
               PaymentMethodSelector(
                   methods: paymentMethods, onSelected: (methodId) {}),
               SizedBox(
                 height: 24,
               ),
-              CardSummaryDetails(
-                type: widget.type,
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: CardSummaryDetails(
+                  type: widget.type,
+                ),
               ),
             ],
           ),
@@ -223,6 +255,7 @@ class CartSummaryScreenState extends ConsumerState<CartSummaryScreen> {
         deliveryTime: cartSelectionData[deliveryTimeKey]?.toString());
   }
   void createOrder(){
+    print("lksjdfljasldf ${widget.type}");
     if(widget.type == CheckoutTypes.HartCard){
       createOrderHardType();
     }else if(widget.type == CheckoutTypes.SoftCard){

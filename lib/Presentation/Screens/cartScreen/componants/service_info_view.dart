@@ -15,7 +15,8 @@ typedef OnItemClick = Function(int);
 class ServiceInfoView extends StatefulWidget {
   final ServiceShowData? item;
   final String? selectedServicesListItemsNames;
-  const ServiceInfoView({super.key, this.item, this.selectedServicesListItemsNames});
+  const ServiceInfoView(
+      {super.key, this.item, this.selectedServicesListItemsNames});
 
   @override
   State<ServiceInfoView> createState() => _ServiceInfoViewState();
@@ -78,24 +79,20 @@ class _ServiceInfoViewState extends State<ServiceInfoView> {
                         ),
                       ),
 
-                              widget.selectedServicesListItemsNames
-                                      ?.isNotEmpty ==
-                                  true
-                          ? const SizedBox(
+                      const SizedBox(
                               height: 5,
+                            ),
+                      widget.selectedServicesListItemsNames?.isNotEmpty == true && widget.selectedServicesListItemsNames != "null"
+                          ? SizedBox(
+                              width: MediaQuery.of(context).size.width - 160,
+                              child: Text(
+                                "${widget.selectedServicesListItemsNames}",
+                                style: AppTheme
+                                    .styleWithTextAppGrey7AdelleSansExtendedFonts10w400,
+                              ),
                             )
-                          : const SizedBox(),
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width - 160,
-                        child: Text(
-                          "${widget.selectedServicesListItemsNames}",
-                          style: AppTheme
-                              .styleWithTextAppGrey7AdelleSansExtendedFonts10w400,
-                        ),
-                      ),
-                              widget.selectedServicesListItemsNames
-                                      ?.isNotEmpty ==
-                                  true
+                          : SizedBox(),
+                      widget.selectedServicesListItemsNames?.isNotEmpty == true && widget.selectedServicesListItemsNames != "null"
                           ? const SizedBox(
                               height: 5,
                             )

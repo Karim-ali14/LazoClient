@@ -1466,6 +1466,8 @@ components:
           type: string
         lng:
           type: string
+        country_id:
+          type: string
 
     Tag:
       type: object
@@ -3795,6 +3797,8 @@ components:
           cart_id:
             type: number
             example: 2
+          city_id:
+            type: string
           created_at:
             type: string
             example: '2024-05-15T17:59:26.000000Z'
@@ -8632,6 +8636,9 @@ paths:
                 session_id:
                   type: string
                   nullable: true
+                city_id:
+                  type: string
+                  nullable: true
 
       responses:
         '200':
@@ -8726,6 +8733,9 @@ paths:
             schema:
               type: object
               properties:
+                city_id:
+                  type: string
+                  nullable: true
                 session_id:
                   type: string
                   nullable: true
@@ -9008,6 +9018,9 @@ paths:
               type: object
               properties:
                 session_id:
+                  type: string
+                  nullable: true
+                cart_id:
                   type: string
                   nullable: true
 
@@ -10418,6 +10431,11 @@ paths:
       summary: Show user's addresses
       description: Show addresses
       operationId: showAddresses
+      parameters:
+        - name: city_id
+          in: query
+          schema:
+            type: string
       responses:
         '200':
           description: Show user's addresses

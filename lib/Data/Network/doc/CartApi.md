@@ -17,7 +17,7 @@ Method | HTTP request | Description
 
 
 # **addProductServiceToCartCartItem**
-> AddProductServiceToCartCartItem200Response addProductServiceToCartCartItem(sessionId, productId, productQuantity, productSelectedListIds, productSelectedListItemsIds, serviceId, serviceQuantity, serviceSelectedListIds, serviceSelectedListItemsIds)
+> AddProductServiceToCartCartItem200Response addProductServiceToCartCartItem(cityId, sessionId, productId, productQuantity, productSelectedListIds, productSelectedListItemsIds, serviceId, serviceQuantity, serviceSelectedListIds, serviceSelectedListItemsIds)
 
 Add product/service to cart (cart-item)
 
@@ -34,6 +34,7 @@ import 'package:lazo/api.dart';
 //defaultApiClient.getAuthentication<HttpBearerAuth>('bearerAuth').setAccessToken(yourTokenGeneratorFunction);
 
 final api_instance = CartApi();
+final cityId = cityId_example; // String | 
 final sessionId = sessionId_example; // String | 
 final productId = productId_example; // String | Optional (insert a product or a service)
 final productQuantity = productQuantity_example; // String | Required with product_id
@@ -45,7 +46,7 @@ final serviceSelectedListIds = serviceSelectedListIds_example; // String | Optio
 final serviceSelectedListItemsIds = serviceSelectedListItemsIds_example; // String | Optional, but required with service_id if provided
 
 try {
-    final result = api_instance.addProductServiceToCartCartItem(sessionId, productId, productQuantity, productSelectedListIds, productSelectedListItemsIds, serviceId, serviceQuantity, serviceSelectedListIds, serviceSelectedListItemsIds);
+    final result = api_instance.addProductServiceToCartCartItem(cityId, sessionId, productId, productQuantity, productSelectedListIds, productSelectedListItemsIds, serviceId, serviceQuantity, serviceSelectedListIds, serviceSelectedListItemsIds);
     print(result);
 } catch (e) {
     print('Exception when calling CartApi->addProductServiceToCartCartItem: $e\n');
@@ -56,6 +57,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
+ **cityId** | **String**|  | [optional] 
  **sessionId** | **String**|  | [optional] 
  **productId** | **String**| Optional (insert a product or a service) | [optional] 
  **productQuantity** | **String**| Required with product_id | [optional] 
@@ -130,7 +132,7 @@ void (empty response body)
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **resetCartForClient**
-> resetCartForClient(sessionId)
+> resetCartForClient(sessionId, cartId)
 
 Reset cart for client
 
@@ -148,9 +150,10 @@ import 'package:lazo/api.dart';
 
 final api_instance = CartApi();
 final sessionId = sessionId_example; // String | 
+final cartId = cartId_example; // String | 
 
 try {
-    api_instance.resetCartForClient(sessionId);
+    api_instance.resetCartForClient(sessionId, cartId);
 } catch (e) {
     print('Exception when calling CartApi->resetCartForClient: $e\n');
 }
@@ -161,6 +164,7 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **sessionId** | **String**|  | [optional] 
+ **cartId** | **String**|  | [optional] 
 
 ### Return type
 
@@ -178,7 +182,7 @@ void (empty response body)
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **showCartDetails**
-> ShowCartDetails200Response showCartDetails(sessionId)
+> ShowCartDetails200Response showCartDetails(sessionId, cityId)
 
 show cart details
 
@@ -196,9 +200,10 @@ import 'package:lazo/api.dart';
 
 final api_instance = CartApi();
 final sessionId = sessionId_example; // String | 
+final cityId = cityId_example; // String | 
 
 try {
-    final result = api_instance.showCartDetails(sessionId);
+    final result = api_instance.showCartDetails(sessionId, cityId);
     print(result);
 } catch (e) {
     print('Exception when calling CartApi->showCartDetails: $e\n');
@@ -210,6 +215,7 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **sessionId** | **String**|  | [optional] 
+ **cityId** | **String**|  | [optional] 
 
 ### Return type
 

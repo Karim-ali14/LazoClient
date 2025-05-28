@@ -820,7 +820,7 @@ class _ProductAndServiceDetailsScreenState
                                                                   )))
                                                           .toList() ??
                                                       [],
-                                                  onItemSelect: (items) {
+                                                  onItemSelect: (items,itemsNames) {
                                                     var categoryId =
                                                         productItemState
                                                                 .data
@@ -926,7 +926,7 @@ class _ProductAndServiceDetailsScreenState
                                                             )))
                                                     .toList() ??
                                                 [],
-                                            onItemSelect: (items) {
+                                            onItemSelect: (itemsIds,itemsNames) {
                                               var categoryId =
                                                   serviceItemState.data?.data
                                                           ?.lists?[index].id
@@ -934,7 +934,9 @@ class _ProductAndServiceDetailsScreenState
                                                       0;
 
                                               serviceSelectedItemsIds[
-                                                  categoryId] = items;
+                                                  categoryId] = itemsIds;
+                                              serviceSelectedItemsNames[
+                                                  categoryId] = itemsNames;
                                             },
                                             itemSelect: serviceItemState
                                                     .data
@@ -1433,10 +1435,15 @@ class _ProductAndServiceDetailsScreenState
     if (ref.read(clientStateProvider.notifier).checkIfUserExist() != null) {
       String? parentItemIds;
       String? childItemIds;
+      String? childItemNames;
       if (serviceSelectedItemsIds.isNotEmpty) {
         parentItemIds =
             serviceSelectedItemsIds.keys.map((key) => key.toString()).join(",");
         childItemIds = serviceSelectedItemsIds.values
+            .map((value) => value.join(","))
+            .join("|");
+
+        childItemNames = serviceSelectedItemsNames.values
             .map((value) => value.join(","))
             .join("|");
       }
@@ -1445,6 +1452,7 @@ class _ProductAndServiceDetailsScreenState
         serviceIdKey: id.toString(),
         serviceSelectedListIdsKey: parentItemIds.toString(),
         serviceSelectedListItemsIdsKey: childItemIds.toString(),
+        serviceSelectedListItemsNamesKey: childItemNames.toString(),
       });
 
       context.push(R_CartScreen, extra: {

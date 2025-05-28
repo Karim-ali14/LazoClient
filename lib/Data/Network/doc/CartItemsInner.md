@@ -10,6 +10,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **cardPrice** | **num** |  | [optional] 
 **cartId** | **num** |  | [optional] 
+**cityId** | **String** |  | [optional] 
 **createdAt** | **String** |  | [optional] 
 **id** | **num** |  | [optional] 
 **listsTotalPrice** | **num** |  | [optional] 

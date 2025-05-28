@@ -5,7 +5,7 @@ import 'package:lazo_client/Presentation/Screens/details/componants/ProductRowIt
 import '../../../../Data/Models/ItemSelector.dart';
 import '../../../Theme/AppTheme.dart';
 
-typedef OnItemSelect = Function(List<String>);
+typedef OnItemSelect = Function(List<String>,List<String>,);
 
 class ProductMultipleSelectItemsModify extends StatefulWidget {
   final List<ItemSelector> list;
@@ -22,11 +22,12 @@ class ProductMultipleSelectItemsModify extends StatefulWidget {
 class _ProductMultipleSelectItemsModifyState
     extends State<ProductMultipleSelectItemsModify> {
 
-  List<String> listItemSelect = [];
+  List<String> listItemSelectIds = [];
+  List<String> listItemSelectNames = [];
 
   @override
   void initState() {
-    listItemSelect = widget.itemSelect ?? [];
+    listItemSelectIds = widget.itemSelect ?? [];
     super.initState();
   }
   @override
@@ -37,16 +38,19 @@ class _ProductMultipleSelectItemsModifyState
           (itemIndex) => Container(
             child: InkWell(
               onTap: () {
-                    print(listItemSelect.contains(widget.list[itemIndex].id.toString()).toString());
-                    print(listItemSelect.toString());
+                    print(listItemSelectIds.contains(widget.list[itemIndex].id.toString()).toString());
+                    print(listItemSelectIds.toString());
                     setState(() {
-                      if (!listItemSelect.contains(widget.list[itemIndex].id.toString())) {
-                        listItemSelect.add(widget.list[itemIndex].id.toString());
+                      if (!listItemSelectIds.contains(widget.list[itemIndex].id.toString())) {
+                        listItemSelectIds.add(widget.list[itemIndex].id.toString());
+                        listItemSelectNames.add(widget.list[itemIndex].text.toString());
                       } else {
-                        listItemSelect.remove(widget.list[itemIndex].id.toString());
+                        listItemSelectIds.remove(widget.list[itemIndex].id.toString());
+                        listItemSelectNames.remove(widget.list[itemIndex].text.toString());
+
                       }
                     });
-                    widget.onItemSelect.call(listItemSelect);
+                    widget.onItemSelect.call(listItemSelectIds,listItemSelectNames);
                   },
               child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -86,17 +90,19 @@ class _ProductMultipleSelectItemsModifyState
                                       return Colors.white;
                                     }),
                                 value:
-                                listItemSelect.contains(widget.list[itemIndex].id.toString()),
+                                listItemSelectIds.contains(widget.list[itemIndex].id.toString()),
                                 onChanged: (bool? value) {
                                   setState(() {
-                                    if (!listItemSelect
+                                    if (!listItemSelectIds
                                         .contains(widget.list[itemIndex].id.toString())) {
-                                      listItemSelect.add(widget.list[itemIndex].id.toString());
+                                      listItemSelectIds.add(widget.list[itemIndex].id.toString());
+                                      listItemSelectNames.add(widget.list[itemIndex].text.toString());
                                     } else {
-                                      listItemSelect.remove(widget.list[itemIndex].id.toString());
+                                      listItemSelectIds.remove(widget.list[itemIndex].id.toString());
+                                      listItemSelectNames.remove(widget.list[itemIndex].text.toString());
                                     }
                                   });
-                                  widget.onItemSelect.call(listItemSelect);
+                                  widget.onItemSelect.call(listItemSelectIds,listItemSelectNames);
                                 },
                               ),
                             ),

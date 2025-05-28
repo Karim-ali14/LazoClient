@@ -67,6 +67,9 @@ class _OrderProcessScreenState extends ConsumerState<OrderProcessScreen> {
         ),
         CartSummaryScreen(
           type: widget.type,
+          service: widget.service,
+          serviceSelectedListIds: widget.serviceSelectedListIds,
+          serviceSelectedListItemsIds: widget.serviceSelectedListItemsIds,
           key: _keys[2],
         )
       ];
@@ -78,9 +81,6 @@ class _OrderProcessScreenState extends ConsumerState<OrderProcessScreen> {
         CheckoutScreen(
           key: _keys[1],
           type: widget.type,
-          service: widget.service,
-          serviceSelectedListIds: widget.serviceSelectedListIds,
-          serviceSelectedListItemsIds: widget.serviceSelectedListItemsIds,
           withInStepper: true,
         ),
         CartSummaryScreen(
@@ -147,6 +147,7 @@ class _OrderProcessScreenState extends ConsumerState<OrderProcessScreen> {
                   curve: Curves.easeInOut,
                   height: MediaQuery.of(context).size.height - (widget.type == CheckoutTypes.HartCard ? 270.h : 0.h),
                   child: PageView(
+                    physics: NeverScrollableScrollPhysics(),  // Disable user swipe
                     controller: _pageController,
                     children: screens,
                   ),

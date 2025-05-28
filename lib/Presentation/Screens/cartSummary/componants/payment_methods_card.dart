@@ -31,36 +31,48 @@ class _PaymentMethodSelectorState extends State<PaymentMethodSelector> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsetsDirectional.all(16),
+      padding: const EdgeInsetsDirectional.symmetric(horizontal: 16,vertical: 8),
       margin: const EdgeInsetsDirectional.all(16),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(8)
+        borderRadius: BorderRadius.circular(8),
       ),
       child: Column(
-        children: widget.methods.map((method) {
-          final isSelected = method.id == selectedId;
+        children: widget.methods.asMap().entries.map((entry) {
+          final method = entry.value;
+          final isLast = entry.key == widget.methods.length - 1;
 
-          return ListTile(
-            leading: Radio<String>(
-              value: method.id,
-              groupValue: selectedId,
-              onChanged: (value) {
-                setState(() {
-                  selectedId = value;
-                });
-                widget.onSelected(value!);
-              },
-              activeColor: Colors.red,
-            ),
-            title: Text(method.name),
-            trailing: Icon(method.icon),
-            onTap: () {
-              setState(() {
-                selectedId = method.id;
-              });
-              widget.onSelected(method.id);
-            },
+          return Column(
+            children: [
+              ListTile(
+                contentPadding: EdgeInsets.zero, // Remove extra padding
+                leading: Radio<String>(
+                  materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                  value: method.id,
+                  groupValue: selectedId,
+                  onChanged: (value) {
+                    setState(() {
+                      selectedId = value;
+                    });
+                    widget.onSelected(value!);
+                  },
+                  activeColor: Colors.red,
+                ),
+                title: Text(method.name),
+                trailing: Icon(method.icon),
+                onTap: () {
+                  setState(() {
+                    selectedId = method.id;
+                  });
+                  widget.onSelected(method.id);
+                },
+              ),
+              if (!isLast)
+                Divider(
+                  color: Colors.grey[300], // Customize the color and thickness
+                  thickness: 1,
+                ),
+            ],
           );
         }).toList(),
       ),

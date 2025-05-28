@@ -21,6 +21,7 @@ class City {
     this.name,
     this.lat,
     this.lng,
+    this.countryId,
   });
 
   ///
@@ -87,6 +88,14 @@ class City {
   ///
   String? lng;
 
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  String? countryId;
+
   @override
   bool operator ==(Object other) => identical(this, other) || other is City &&
     other.id == id &&
@@ -96,7 +105,8 @@ class City {
     other.updatedAt == updatedAt &&
     other.name == name &&
     other.lat == lat &&
-    other.lng == lng;
+    other.lng == lng &&
+    other.countryId == countryId;
 
   @override
   int get hashCode =>
@@ -108,10 +118,11 @@ class City {
     (updatedAt == null ? 0 : updatedAt!.hashCode) +
     (name == null ? 0 : name!.hashCode) +
     (lat == null ? 0 : lat!.hashCode) +
-    (lng == null ? 0 : lng!.hashCode);
+    (lng == null ? 0 : lng!.hashCode) +
+    (countryId == null ? 0 : countryId!.hashCode);
 
   @override
-  String toString() => 'City[id=$id, nameEn=$nameEn, nameAr=$nameAr, createdAt=$createdAt, updatedAt=$updatedAt, name=$name, lat=$lat, lng=$lng]';
+  String toString() => 'City[id=$id, nameEn=$nameEn, nameAr=$nameAr, createdAt=$createdAt, updatedAt=$updatedAt, name=$name, lat=$lat, lng=$lng, countryId=$countryId]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -155,6 +166,11 @@ class City {
     } else {
       json[r'lng'] = null;
     }
+    if (this.countryId != null) {
+      json[r'country_id'] = this.countryId;
+    } else {
+      json[r'country_id'] = null;
+    }
     return json;
   }
 
@@ -185,6 +201,7 @@ class City {
         name: mapValueOfType<String>(json, r'name'),
         lat: mapValueOfType<String>(json, r'lat'),
         lng: mapValueOfType<String>(json, r'lng'),
+        countryId: mapValueOfType<String>(json, r'country_id'),
       );
     }
     return null;

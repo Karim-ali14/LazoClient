@@ -1121,7 +1121,11 @@ class ClientApi {
   /// Show addresses
   ///
   /// Note: This method returns the HTTP [Response].
-  Future<Response> showAddressesWithHttpInfo() async {
+  ///
+  /// Parameters:
+  ///
+  /// * [String] cityId:
+  Future<Response> showAddressesWithHttpInfo({ String? cityId, }) async {
     // ignore: prefer_const_declarations
     final path = r'/client/addresses';
 
@@ -1131,6 +1135,10 @@ class ClientApi {
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
+
+    if (cityId != null) {
+      queryParams.addAll(_queryParams('', 'city_id', cityId));
+    }
 
     const contentTypes = <String>[];
 
@@ -1149,8 +1157,12 @@ class ClientApi {
   /// Show user's addresses
   ///
   /// Show addresses
-  Future<ShowAddresses200Response?> showAddresses() async {
-    final response = await showAddressesWithHttpInfo();
+  ///
+  /// Parameters:
+  ///
+  /// * [String] cityId:
+  Future<ShowAddresses200Response?> showAddresses({ String? cityId, }) async {
+    final response = await showAddressesWithHttpInfo( cityId: cityId, );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }

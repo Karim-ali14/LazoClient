@@ -211,6 +211,7 @@ const String deliveryDateKey = "deliveryDate";
 const String serviceIdKey = "serviceId";
 const String serviceSelectedListIdsKey = "serviceSelectedListIds";
 const String serviceSelectedListItemsIdsKey = "serviceSelectedListItemsIds";
+const String serviceSelectedListItemsNamesKey = "serviceSelectedListItemsNames";
 const String paymentMethodKey = "paymentMethod";
 const String receiverPhoneNumberKey = "receiverPhoneNumber";
 const String receiverNameKey = "receiverName";

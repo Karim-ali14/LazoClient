@@ -14,7 +14,7 @@ Method | HTTP request | Description
 
 
 # **showAddresses**
-> ShowAddresses200Response showAddresses()
+> ShowAddresses200Response showAddresses(cityId)
 
 Show user's addresses
 
@@ -31,9 +31,10 @@ import 'package:lazo/api.dart';
 //defaultApiClient.getAuthentication<HttpBearerAuth>('bearerAuth').setAccessToken(yourTokenGeneratorFunction);
 
 final api_instance = AddressesApi();
+final cityId = cityId_example; // String | 
 
 try {
-    final result = api_instance.showAddresses();
+    final result = api_instance.showAddresses(cityId);
     print(result);
 } catch (e) {
     print('Exception when calling AddressesApi->showAddresses: $e\n');
@@ -41,7 +42,10 @@ try {
 ```
 
 ### Parameters
-This endpoint does not need any parameter.
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **cityId** | **String**|  | [optional] 
 
 ### Return type
 

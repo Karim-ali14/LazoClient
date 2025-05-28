@@ -68,6 +68,7 @@ class CheckoutScreenState extends ConsumerState<CheckoutScreen> {
   final recipientPhoneController = TextEditingController();
   final addressDescriptionController = TextEditingController();
   final messageToController = TextEditingController();
+  final messageFromController = TextEditingController();
   final messageController = TextEditingController();
   bool _enable = false;
   bool _enableIsSecret = false;
@@ -154,7 +155,8 @@ class CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                           height: 16,
                         ),
                         ServiceInfoView(
-                          item: widget.service
+                          item: widget.service,
+                          selectedServicesListItemsNames: cartSelectionData[serviceSelectedListItemsNamesKey]?.toString() ?? "",
                         ),
                         SizedBox(
                           height: 16,
@@ -529,7 +531,7 @@ class CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                     keyboardType: TextInputType.text,
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                     decoration: InputDecoration(
-                        hintText: context.tr(toKey),
+                        hintText:"To Fatma (Optional)",
                         focusedBorder: const UnderlineInputBorder(
                             borderSide: BorderSide(
                               color: AppTheme.appGrey20,
@@ -547,8 +549,7 @@ class CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                     keyboardType: TextInputType.text,
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                     decoration: InputDecoration(
-                        hintText:
-                        context.tr(typeYourMessageAndExpressYourFeelingKey),
+                        hintText:"Eg: Get well soon*",
                         focusedBorder: const UnderlineInputBorder(
                             borderSide: BorderSide(
                               color: AppTheme.appGrey20,
@@ -560,14 +561,30 @@ class CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                     controller: messageController,
                   ),
                   const SizedBox(
-                    height: 32,
+                    height: spaceBetweenItems,
                   ),
+                  TextFormField(
+                    keyboardType: TextInputType.text,
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                    decoration: InputDecoration(
+                        hintText:"From Sara (Optional)",
+                        focusedBorder: const UnderlineInputBorder(
+                            borderSide: BorderSide(
+                              color: AppTheme.appGrey20,
+                            )),
+                        enabledBorder: const UnderlineInputBorder(
+                            borderSide: BorderSide(
+                              color: AppTheme.appGrey20,
+                            ))),
+                    controller: messageFromController,
+                  ),
+
                   widget.type == CheckoutTypes.HartCard && selectTypeOfSend == 1
                       ? Container(
                     decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(4)),
-                    padding: EdgeInsets.all(defaultPaddingHorizontal),
+                    padding: const EdgeInsetsDirectional.only(start: defaultPaddingHorizontal,end: defaultPaddingHorizontal,top: 24),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -600,13 +617,6 @@ class CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                         )
                       ],
                     ),
-                  )
-                      : const SizedBox(),
-                  widget.type == CheckoutTypes.SoftCard
-                      ? Text(
-                    context.tr(saveOnYourOrderKey),
-                    style: AppTheme
-                        .styleWithTextBlackAdelleSansExtendedFonts18w700,
                   )
                       : const SizedBox(),
                   ])),
@@ -698,16 +708,16 @@ class CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                   type: widget.type,
                 ),
               ),
-              const SizedBox(
-                height: 32,
+              SizedBox(
+                height: widget.type == CheckoutTypes.SoftCard? 200:0,
               ),
-              widget.withInStepper == true
-                  ? const SizedBox()
-                  : AppButton(
-                      text: context.tr(checkoutKey),
-                      width: double.infinity,
-                      height: 46,
-                      onPress: () {})
+              // widget.withInStepper == true
+              //     ? const SizedBox()
+              //     : AppButton(
+              //         text: context.tr(checkoutKey),
+              //         width: double.infinity,
+              //         height: 46,
+              //         onPress: () {})
             ],
           ),
         ),
@@ -787,17 +797,6 @@ class CheckoutScreenState extends ConsumerState<CheckoutScreen> {
   }
 
   void navigateToPaymentOrder({Function? afterPassConditions}) {
-    // print("isIdentitySecret : ${_enableIsSecret == true ? "1" : "0"} "
-    //     "giftBoxId : $giftBoxId "
-    //     "giftCardId : $giftCardId "
-    //     "promocode: $promocode "
-    //     "latLng: $latLng "
-    //     "receiverAddress : ${locationController.text} "
-    //     "receiverAddressDetails : ${addressDescriptionController.text} "
-    //     "receiverPhone : ${recipientPhoneController.text}"
-    //     "deliveryDate : ${_selectedDate?.convertDateToString("dd MMM yyyy")} "
-    //     "deliveryTime : ${selectDeliveryTimeOfSend != null ? deliveryTimeArray[selectDeliveryTimeOfSend!].text : null}");
-
     if (formKey.currentState?.validate() == true) {
       var cartSelectionData = ref.read(cartDateSelectedStateNotifiers);
       cartSelectionData[selectTypeOfSendKey] = selectTypeOfSend.toString();
@@ -831,7 +830,10 @@ class CheckoutScreenState extends ConsumerState<CheckoutScreen> {
       cartSelectionData[receiverNameKey] = recipientNameController.text;
       cartSelectionData[cardMessageKey] = messageController.text;
       cartSelectionData[cardToKey] = messageToController.text;
-      cartSelectionData[deliveryDateKey] = selectDeliveryTimeOfSend != null
+      cartSelectionData[cardFromKey] = messageFromController.text;
+      cartSelectionData[deliveryDateKey] =
+          _selectedDate?.convertDateToString("dd MMM yyyy") ?? "";
+      cartSelectionData[deliveryTimeKey] = selectDeliveryTimeOfSend != null
           ? deliveryTimeArray[selectDeliveryTimeOfSend!].text
           : null;
       ref

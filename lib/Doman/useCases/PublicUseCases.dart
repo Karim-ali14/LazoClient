@@ -685,6 +685,7 @@ class AddToCartUseCase extends StateNotifier<
     state = StateModel.loading();
     requestWithHandleMessage(
         () => publicApi.addProductServiceToCartCartItem(
+          cityId: prefs.getInt(selectedCityIdKey).toString(),
             sessionId: sessionId,
             productId: productId,
             productQuantity: productQuantity,
@@ -741,8 +742,9 @@ class FetchCardDetailsUseCase
   void getCardDetails({
     String? sessionId,
   }) {
+
     state = StateModel.loading();
-    request(() => publicApi.showCartDetails(sessionId: sessionId),
+    request(() => publicApi.showCartDetails(sessionId: sessionId,cityId: prefs.getInt(selectedCityIdKey).toString()),
         onComplete: (res) {
       print("asdfasdfasdfs${res?.data?.cartItems.isEmpty}");
       if (res?.data?.cartItems.isEmpty != true) {

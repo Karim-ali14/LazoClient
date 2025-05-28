@@ -24,6 +24,8 @@ class CartApi {
   ///
   /// Parameters:
   ///
+  /// * [String] cityId:
+  ///
   /// * [String] sessionId:
   ///
   /// * [String] productId:
@@ -49,7 +51,7 @@ class CartApi {
   ///
   /// * [String] serviceSelectedListItemsIds:
   ///   Optional, but required with service_id if provided
-  Future<Response> addProductServiceToCartCartItemWithHttpInfo({ String? sessionId, String? productId, String? productQuantity, String? productSelectedListIds, String? productSelectedListItemsIds, String? serviceId, String? serviceQuantity, String? serviceSelectedListIds, String? serviceSelectedListItemsIds, }) async {
+  Future<Response> addProductServiceToCartCartItemWithHttpInfo({ String? cityId, String? sessionId, String? productId, String? productQuantity, String? productSelectedListIds, String? productSelectedListItemsIds, String? serviceId, String? serviceQuantity, String? serviceSelectedListIds, String? serviceSelectedListItemsIds, }) async {
     // ignore: prefer_const_declarations
     final path = r'/cart/create';
 
@@ -64,6 +66,10 @@ class CartApi {
 
     bool hasFields = false;
     final mp = MultipartRequest('POST', Uri.parse(path));
+    if (cityId != null) {
+      hasFields = true;
+      mp.fields[r'city_id'] = parameterToString(cityId);
+    }
     if (sessionId != null) {
       hasFields = true;
       mp.fields[r'session_id'] = parameterToString(sessionId);
@@ -121,6 +127,8 @@ class CartApi {
   ///
   /// Parameters:
   ///
+  /// * [String] cityId:
+  ///
   /// * [String] sessionId:
   ///
   /// * [String] productId:
@@ -146,8 +154,8 @@ class CartApi {
   ///
   /// * [String] serviceSelectedListItemsIds:
   ///   Optional, but required with service_id if provided
-  Future<AddProductServiceToCartCartItem200Response?> addProductServiceToCartCartItem({ String? sessionId, String? productId, String? productQuantity, String? productSelectedListIds, String? productSelectedListItemsIds, String? serviceId, String? serviceQuantity, String? serviceSelectedListIds, String? serviceSelectedListItemsIds, }) async {
-    final response = await addProductServiceToCartCartItemWithHttpInfo( sessionId: sessionId, productId: productId, productQuantity: productQuantity, productSelectedListIds: productSelectedListIds, productSelectedListItemsIds: productSelectedListItemsIds, serviceId: serviceId, serviceQuantity: serviceQuantity, serviceSelectedListIds: serviceSelectedListIds, serviceSelectedListItemsIds: serviceSelectedListItemsIds, );
+  Future<AddProductServiceToCartCartItem200Response?> addProductServiceToCartCartItem({ String? cityId, String? sessionId, String? productId, String? productQuantity, String? productSelectedListIds, String? productSelectedListItemsIds, String? serviceId, String? serviceQuantity, String? serviceSelectedListIds, String? serviceSelectedListItemsIds, }) async {
+    final response = await addProductServiceToCartCartItemWithHttpInfo( cityId: cityId, sessionId: sessionId, productId: productId, productQuantity: productQuantity, productSelectedListIds: productSelectedListIds, productSelectedListItemsIds: productSelectedListItemsIds, serviceId: serviceId, serviceQuantity: serviceQuantity, serviceSelectedListIds: serviceSelectedListIds, serviceSelectedListItemsIds: serviceSelectedListItemsIds, );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -227,7 +235,9 @@ class CartApi {
   /// Parameters:
   ///
   /// * [String] sessionId:
-  Future<Response> resetCartForClientWithHttpInfo({ String? sessionId, }) async {
+  ///
+  /// * [String] cartId:
+  Future<Response> resetCartForClientWithHttpInfo({ String? sessionId, String? cartId, }) async {
     // ignore: prefer_const_declarations
     final path = r'/cart/delete';
 
@@ -246,6 +256,10 @@ class CartApi {
       hasFields = true;
       mp.fields[r'session_id'] = parameterToString(sessionId);
     }
+    if (cartId != null) {
+      hasFields = true;
+      mp.fields[r'cart_id'] = parameterToString(cartId);
+    }
     if (hasFields) {
       postBody = mp;
     }
@@ -268,8 +282,10 @@ class CartApi {
   /// Parameters:
   ///
   /// * [String] sessionId:
-  Future<void> resetCartForClient({ String? sessionId, }) async {
-    final response = await resetCartForClientWithHttpInfo( sessionId: sessionId, );
+  ///
+  /// * [String] cartId:
+  Future<void> resetCartForClient({ String? sessionId, String? cartId, }) async {
+    final response = await resetCartForClientWithHttpInfo( sessionId: sessionId, cartId: cartId, );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -284,7 +300,9 @@ class CartApi {
   /// Parameters:
   ///
   /// * [String] sessionId:
-  Future<Response> showCartDetailsWithHttpInfo({ String? sessionId, }) async {
+  ///
+  /// * [String] cityId:
+  Future<Response> showCartDetailsWithHttpInfo({ String? sessionId, String? cityId, }) async {
     // ignore: prefer_const_declarations
     final path = r'/cart/show';
 
@@ -303,6 +321,10 @@ class CartApi {
       hasFields = true;
       mp.fields[r'session_id'] = parameterToString(sessionId);
     }
+    if (cityId != null) {
+      hasFields = true;
+      mp.fields[r'city_id'] = parameterToString(cityId);
+    }
     if (hasFields) {
       postBody = mp;
     }
@@ -325,8 +347,10 @@ class CartApi {
   /// Parameters:
   ///
   /// * [String] sessionId:
-  Future<ShowCartDetails200Response?> showCartDetails({ String? sessionId, }) async {
-    final response = await showCartDetailsWithHttpInfo( sessionId: sessionId, );
+  ///
+  /// * [String] cityId:
+  Future<ShowCartDetails200Response?> showCartDetails({ String? sessionId, String? cityId, }) async {
+    final response = await showCartDetailsWithHttpInfo( sessionId: sessionId, cityId: cityId, );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }

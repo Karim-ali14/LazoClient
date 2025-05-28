@@ -15,6 +15,7 @@ class CartItemsInner {
   CartItemsInner({
     this.cardPrice,
     this.cartId,
+    this.cityId,
     this.createdAt,
     this.id,
     this.listsTotalPrice,
@@ -46,6 +47,14 @@ class CartItemsInner {
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
   num? cartId;
+
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  String? cityId;
 
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
@@ -157,6 +166,7 @@ class CartItemsInner {
   bool operator ==(Object other) => identical(this, other) || other is CartItemsInner &&
     other.cardPrice == cardPrice &&
     other.cartId == cartId &&
+    other.cityId == cityId &&
     other.createdAt == createdAt &&
     other.id == id &&
     other.listsTotalPrice == listsTotalPrice &&
@@ -183,6 +193,7 @@ class CartItemsInner {
     // ignore: unnecessary_parenthesis
     (cardPrice == null ? 0 : cardPrice!.hashCode) +
     (cartId == null ? 0 : cartId!.hashCode) +
+    (cityId == null ? 0 : cityId!.hashCode) +
     (createdAt == null ? 0 : createdAt!.hashCode) +
     (id == null ? 0 : id!.hashCode) +
     (listsTotalPrice == null ? 0 : listsTotalPrice!.hashCode) +
@@ -205,7 +216,7 @@ class CartItemsInner {
     (updatedAt == null ? 0 : updatedAt!.hashCode);
 
   @override
-  String toString() => 'CartItemsInner[cardPrice=$cardPrice, cartId=$cartId, createdAt=$createdAt, id=$id, listsTotalPrice=$listsTotalPrice, price=$price, product=$product, productId=$productId, quantity=$quantity, type=$type, cartItemTotalBeforeDiscount=$cartItemTotalBeforeDiscount, cartItemTotalAfterDiscount=$cartItemTotalAfterDiscount, productSelectedListIds=$productSelectedListIds, productSelectedListItemsIds=$productSelectedListItemsIds, serviceSelectedListIds=$serviceSelectedListIds, serviceSelectedListItemsIds=$serviceSelectedListItemsIds, productSelectedListItemsNames=$productSelectedListItemsNames, clientSelectedItemsInCart=$clientSelectedItemsInCart, serviceSelectedListItemsNames=$serviceSelectedListItemsNames, service=$service, serviceId=$serviceId, updatedAt=$updatedAt]';
+  String toString() => 'CartItemsInner[cardPrice=$cardPrice, cartId=$cartId, cityId=$cityId, createdAt=$createdAt, id=$id, listsTotalPrice=$listsTotalPrice, price=$price, product=$product, productId=$productId, quantity=$quantity, type=$type, cartItemTotalBeforeDiscount=$cartItemTotalBeforeDiscount, cartItemTotalAfterDiscount=$cartItemTotalAfterDiscount, productSelectedListIds=$productSelectedListIds, productSelectedListItemsIds=$productSelectedListItemsIds, serviceSelectedListIds=$serviceSelectedListIds, serviceSelectedListItemsIds=$serviceSelectedListItemsIds, productSelectedListItemsNames=$productSelectedListItemsNames, clientSelectedItemsInCart=$clientSelectedItemsInCart, serviceSelectedListItemsNames=$serviceSelectedListItemsNames, service=$service, serviceId=$serviceId, updatedAt=$updatedAt]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -218,6 +229,11 @@ class CartItemsInner {
       json[r'cart_id'] = this.cartId;
     } else {
       json[r'cart_id'] = null;
+    }
+    if (this.cityId != null) {
+      json[r'city_id'] = this.cityId;
+    } else {
+      json[r'city_id'] = null;
     }
     if (this.createdAt != null) {
       json[r'created_at'] = this.createdAt;
@@ -345,6 +361,7 @@ class CartItemsInner {
             ? null
             : num.tryParse('${json[r'card_price']}'),
         cartId: num.tryParse('${json[r'cart_id']}'),
+        cityId: mapValueOfType<String>(json, r'city_id'),
         createdAt: mapValueOfType<String>(json, r'created_at'),
         id: num.tryParse('${json[r'id']}'),
         listsTotalPrice: num.tryParse('${json[r'lists_total_price']}'),
