@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:lazo_client/Constants/Eunms.dart';
 import 'package:lazo_client/Presentation/Screens/cartScreen/CartScreen.dart';
 import 'package:lazo_client/Presentation/Screens/home/HomeScreen.dart';
 import 'package:lazo_client/Presentation/Screens/orders/OrdersScreen.dart';
@@ -183,7 +184,7 @@ class MainScreenNavHostState extends ConsumerState<MainScreenNavHost> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          context.push(R_CartScreen);
+          context.push(R_CartScreen,extra: {"type":CheckoutTypes.HartCard});
         },
         backgroundColor: AppTheme.appRedColor,
         child: Stack(

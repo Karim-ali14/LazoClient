@@ -183,27 +183,29 @@ class MyApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return ThemeProvider(
-      initTheme: Theme.of(context),
-      duration: const Duration(milliseconds: 500),
-      child: ScreenUtilInit(
-        designSize: material.Size(MediaQuery.of(context).size.width, MediaQuery.of(context).size.height), // Adjust to your design size
-        minTextAdapt: true,
-        splitScreenMode: true,
-        builder: (context, child) {
-          return MaterialApp.router(
-          debugShowCheckedModeBanner: false,
-          title: 'Lazo',
-          themeMode: ThemeMode.light,
-          theme: AppTheme.lightTheme,
-          darkTheme: AppTheme.darkTheme,
-          localizationsDelegates: context.localizationDelegates,
-          supportedLocales: context.supportedLocales,
-          locale: ref.watch(langProvider),
-          routerDelegate: _router.routerDelegate,
-          routeInformationProvider: _router.routeInformationProvider,
-          routeInformationParser: _router.routeInformationParser,
-        );
-        },));
+        initTheme: Theme.of(context),
+        duration: const Duration(milliseconds: 500),
+        child: ScreenUtilInit(
+          designSize: material.Size(MediaQuery.of(context).size.width,
+              MediaQuery.of(context).size.height), // Adjust to your design size
+          minTextAdapt: true,
+          splitScreenMode: true,
+          builder: (context, child) {
+            return MaterialApp.router(
+              debugShowCheckedModeBanner: false,
+              title: 'Lazo',
+              themeMode: ThemeMode.light,
+              theme: AppTheme.lightTheme,
+              darkTheme: AppTheme.darkTheme,
+              localizationsDelegates: context.localizationDelegates,
+              supportedLocales: context.supportedLocales,
+              locale: ref.watch(langProvider),
+              routerDelegate: _router.routerDelegate,
+              routeInformationProvider: _router.routeInformationProvider,
+              routeInformationParser: _router.routeInformationParser,
+            );
+          },
+        ));
   }
 
   final GoRouter _router = GoRouter(
@@ -232,7 +234,7 @@ class MyApp extends ConsumerWidget {
       GoRoute(
         path: R_Walletscreen,
         builder: (BuildContext context, GoRouterState state) =>
-        const Walletscreen(),
+            const Walletscreen(),
       ),
       GoRoute(
         path: R_LoginScreen,
@@ -375,8 +377,16 @@ class MyApp extends ConsumerWidget {
               const EditPhoneScreen()),
       GoRoute(
           path: R_CartScreen,
-          builder: (BuildContext context, GoRouterState state) =>
-              OrderProcessScreen(initCurrentPage: 0,)),
+          builder: (BuildContext context, GoRouterState state) {
+            var extra = state.extra as Map;
+            return OrderProcessScreen(
+                initCurrentPage: 0,
+                type: extra["type"] as CheckoutTypes,
+                service: extra["service"] as ServiceShowData?,
+                serviceSelectedListIds: extra[serviceSelectedListIdsKey],
+                serviceSelectedListItemsIds:
+                    extra[serviceSelectedListItemsIdsKey]);
+          }),
       GoRoute(
           path: R_CheckoutScreen,
           builder: (BuildContext context, GoRouterState state) {
@@ -454,7 +464,10 @@ class MyApp extends ConsumerWidget {
           path: R_AddAddressScreen,
           builder: (BuildContext context, GoRouterState state) {
             var extra = state.extra as Map?;
-            return AddAddressScreen(isEdit: extra?["isEdit"] ?? false,addressItem: extra?["addressItem"] as AddressItem?,);
+            return AddAddressScreen(
+              isEdit: extra?["isEdit"] ?? false,
+              addressItem: extra?["addressItem"] as AddressItem?,
+            );
           }),
       GoRoute(
           path: R_SelectCountriesScreen,

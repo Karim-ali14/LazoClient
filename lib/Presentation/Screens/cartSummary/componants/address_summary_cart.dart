@@ -13,12 +13,17 @@ class AddressSummaryCart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return Container(
+      height: 130.h,
+      width: double.infinity,
       padding: const EdgeInsets.all(16),
+      margin: const EdgeInsets.all(16),
       clipBehavior: Clip.antiAlias,
       decoration: BoxDecoration(
           color: CupertinoColors.white, borderRadius: BorderRadius.circular(8)),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Text(
             "Address",
@@ -28,9 +33,11 @@ class AddressSummaryCart extends StatelessWidget {
             height: 16.h,
           ),
           Container(
+            height: 62.h,
+            padding: EdgeInsets.symmetric(horizontal: 16,vertical: 9),
             decoration: BoxDecoration(
               color: AppTheme.appGrey28,
-              borderRadius: BorderRadius.circular(1)
+              borderRadius: BorderRadius.circular(1),
             ),
             width: double.infinity,
             child: Row(

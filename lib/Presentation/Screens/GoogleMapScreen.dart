@@ -219,7 +219,7 @@ class _GoogleMapScreenState extends ConsumerState<GoogleMapScreen> {
               ? Align(
                   alignment: AlignmentDirectional.bottomCenter,
                   child: Container(
-                    height: 150.h,
+                    height: 152.h,
                     width: double.infinity,
                     color: Colors.white,
                     padding: const EdgeInsets.symmetric(
@@ -230,7 +230,7 @@ class _GoogleMapScreenState extends ConsumerState<GoogleMapScreen> {
                             valueListenable: insideArea,
                             builder: (context, inArea, _) {
                               return SizedBox(
-                                height: 38.h,
+                                height: 45.h,
                                 child: inArea
                                     ? Row(
                                         crossAxisAlignment:

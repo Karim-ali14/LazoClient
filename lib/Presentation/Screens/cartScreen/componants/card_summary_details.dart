@@ -61,6 +61,23 @@ class CardSummaryDetails extends StatelessWidget {
               ),
             )
                 : SizedBox(),
+            cartInfo.data?.data?.packagingFee != null &&
+                cartInfo.data?.data?.packagingFee != 0
+                ? Padding(
+              padding: const EdgeInsets.symmetric(
+                  horizontal: 12.0),
+              child: ProductRowItem(
+                hasDivider: false,
+                title: "Package Fees",
+                textValue:
+                "SAR ${(cartInfo.data?.data?.packagingFee ?? 0)}",
+                titleTextStyle: AppTheme
+                    .styleWithTextBlack2AdelleSansExtendedFonts14w400,
+                desTextStyle: AppTheme
+                    .styleWithTextBlack2AdelleSansExtendedFonts14w400,
+              ),
+            )
+                : SizedBox(),
             (cartInfo.data?.data?.discountTotal != null &&
                 cartInfo.data?.data?.discountTotal != 0) ||
                 (calculateSoftService.data?.data?.discount !=

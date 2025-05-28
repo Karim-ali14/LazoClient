@@ -1447,7 +1447,7 @@ class _ProductAndServiceDetailsScreenState
         serviceSelectedListItemsIdsKey: childItemIds.toString(),
       });
 
-      context.push(R_CheckoutScreen, extra: {
+      context.push(R_CartScreen, extra: {
         "type": CheckoutTypes.SoftCard,
         "service": service,
         serviceSelectedListIdsKey: parentItemIds.toString(),

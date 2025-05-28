@@ -787,10 +787,11 @@ class FetchCardDetailsUseCase
   }
 }
 
-class CartSelectionInfo extends StateNotifier<Map<String, Object>> {
+class CartSelectionInfo extends StateNotifier<Map<String, Object?>> {
   CartSelectionInfo() : super({});
 
-  void setCartDataSelection(Map<String, Object> dateSelection) {
+  void setCartDataSelection(Map<String, Object?> dateSelection) {
+    state = {};
     state = dateSelection;
   }
 }

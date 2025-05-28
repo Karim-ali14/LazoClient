@@ -4,6 +4,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
+import 'package:lazo_client/Doman/CommenProviders/ApiProvider.dart';
 import 'package:lazo_client/Presentation/Dialogs/LoadingDialog.dart';
 import 'package:lazo_client/Presentation/Screens/cartScreen/CartScreen.dart';
 import 'package:lazo_client/Presentation/Screens/cartScreen/componants/custom_stepper/stepper_indicator.dart';
@@ -12,22 +14,29 @@ import 'package:lazo_client/Presentation/Screens/checkout/CheckoutScreen.dart';
 import 'package:lazo_client/Presentation/Theme/AppTheme.dart';
 import 'package:lazo_client/Presentation/Widgets/CustomAppBar.dart';
 
+import '../../../Constants.dart';
 import '../../../Constants/Eunms.dart';
+import '../../../Data/Network/lib/api.dart';
+import '../../StateNotifiersViewModel/ClientStateNotifiers.dart';
 import '../../StateNotifiersViewModel/PublicStateNotifiers.dart';
 import '../../StateNotifiersViewModel/UserAuthStateNotifiers.dart';
 import '../../Widgets/AppButton.dart';
 
 class OrderProcessScreen extends ConsumerStatefulWidget {
   final int? initCurrentPage;
-  const OrderProcessScreen({super.key, required this.initCurrentPage});
+  final CheckoutTypes? type;
+  final ServiceShowData? service;
+  final String? serviceSelectedListIds;
+  final String? serviceSelectedListItemsIds;
+  const OrderProcessScreen( {super.key, required this.initCurrentPage,this.type,this.service, this.serviceSelectedListIds, this.serviceSelectedListItemsIds,});
 
   @override
   ConsumerState<OrderProcessScreen> createState() => _OrderProcessScreenState();
 }
 
 class _OrderProcessScreenState extends ConsumerState<OrderProcessScreen> {
-  final steps = ['Customize', 'Delivery', 'Payment'];
-  final screens = [
+  List<String> steps = ['Customize', 'Delivery', 'Payment'];
+  List<Widget> screens = [
     const CartScreen(),
     const CheckoutScreen(
       withInStepper: true,
@@ -45,6 +54,42 @@ class _OrderProcessScreenState extends ConsumerState<OrderProcessScreen> {
 
   @override
   void initState() {
+    if(widget.type == CheckoutTypes.SoftCard){
+      steps =['Delivery', 'Payment'];
+      screens = [
+        CheckoutScreen(
+          key: _keys[1],
+          type: widget.type,
+          service: widget.service,
+          serviceSelectedListIds: widget.serviceSelectedListIds,
+          serviceSelectedListItemsIds: widget.serviceSelectedListItemsIds,
+          withInStepper: true,
+        ),
+        CartSummaryScreen(
+          type: widget.type,
+          key: _keys[2],
+        )
+      ];
+    }else{
+      screens = [
+        CartScreen(
+          key: _keys[0],
+        ),
+        CheckoutScreen(
+          key: _keys[1],
+          type: widget.type,
+          service: widget.service,
+          serviceSelectedListIds: widget.serviceSelectedListIds,
+          serviceSelectedListItemsIds: widget.serviceSelectedListItemsIds,
+          withInStepper: true,
+        ),
+        CartSummaryScreen(
+          type: widget.type,
+          key: _keys[2],
+        )
+      ];
+    }
+    print("asdfjkaskfjslak ${ widget.type}");
     super.initState();
   }
 
@@ -53,12 +98,35 @@ class _OrderProcessScreenState extends ConsumerState<OrderProcessScreen> {
     var cartData = ref.watch(fetchCardDetailsStateNotifies);
     var cartInfo = ref.watch(cartCalculationStateNotifies);
 
+    handleState(createOrderStateNotifiers, showLoading: true, showToast: true,
+        onSuccess: (res) {
+          print(
+              "create order Response payment link : ${res.data?.data?.paymentLink}");
+          ref.watch(fetchCardDetailsStateNotifies);
+          if (res.data?.data?.paymentLink != null) {
+            navigateToPaymentScreen(res.data?.data?.paymentLink ?? "");
+          } else {
+            context.pop(true);
+          }
+        });
+
     return Scaffold(
       appBar: CustomAppBar(
         appContext: context,
-        title: "Cart",
+        title: _currentPage == 0
+            ? "Cart"
+            : _currentPage == 1
+            ? "Checkout"
+            : "Summary",
         isCenter: false,
         navigated: true,
+        customCallBack: (){
+          if(_currentPage != 0){
+            navigateToPage(--_currentPage);
+          }else {
+            context.pop();
+          }
+        },
       ),
       body: Stack(
         children: [
@@ -66,32 +134,21 @@ class _OrderProcessScreenState extends ConsumerState<OrderProcessScreen> {
               child: SingleChildScrollView(
             child: Column(
               children: [
-                Container(
+                widget.type == CheckoutTypes.HartCard ? Container(
                   padding: const EdgeInsetsDirectional.symmetric(
                       vertical: 20, horizontal: 16),
                   child: StepperIndicator(
                     currentStep: _currentPage ?? 0,
                     steps: steps,
                   ),
-                ),
-                AnimatedContainer(
+                ):const SizedBox(),
+                 AnimatedContainer(
                   duration: const Duration(milliseconds: 300),
                   curve: Curves.easeInOut,
-                  height: MediaQuery.of(context).size.height - 270.h,
+                  height: MediaQuery.of(context).size.height - (widget.type == CheckoutTypes.HartCard ? 270.h : 0.h),
                   child: PageView(
                     controller: _pageController,
-                    children: [
-                      CartScreen(
-                        key: _keys[0],
-                      ),
-                      CheckoutScreen(
-                        key: _keys[1],
-                        withInStepper: true,
-                      ),
-                      CartSummaryScreen(
-                        key: _keys[2],
-                      )
-                    ],
+                    children: screens,
                   ),
                 )
               ],
@@ -120,15 +177,15 @@ class _OrderProcessScreenState extends ConsumerState<OrderProcessScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          "SAR ${cartInfo.data?.data?.totalAfter}",
+                          widget.type == CheckoutTypes.HartCard ? "${cartData.data?.data?.cartItems.length} items" : "1 Item",
+                          style: AppTheme
+                              .styleWithTextGray7AdelleSansExtendedFonts12w400,
+                        ),
+                        Text(
+                          "SAR ${widget.type == CheckoutTypes.HartCard ? cartInfo.data?.data?.totalAfter : widget.service?.priceAfterDiscount}",
                           style: AppTheme
                               .styleWithTextBlackAdelleSansExtendedFonts18w500,
                         ),
-                        Text(
-                          "${cartData.data?.data?.cartItems.length} items",
-                          style: AppTheme
-                              .styleWithTextGray7AdelleSansExtendedFonts12w400,
-                        )
                       ],
                     ),
                   ),
@@ -138,24 +195,25 @@ class _OrderProcessScreenState extends ConsumerState<OrderProcessScreen> {
                   Expanded(
                     child: AppButton(
                       onPress: () {
-                        if (_currentPage == 0) {
+                        if (_currentPage == 0 && widget.type == CheckoutTypes.HartCard) {
                           (_keys[0].currentState as CartScreenState)
                               .actionClick(afterPassConditions: () {
-                            setState(() {
-                              _currentPage = (_currentPage ?? 0) + 1;
-                              _pageController.animateToPage(
-                                _currentPage, // رقم الصفحة (مثلاً الصفحة 3)
-                                duration: Duration(milliseconds: 300),
-                                curve: Curves.easeInOut,
-                              );
-                            });
+                            navigateToPage(++_currentPage);
                           }, onCannotPassConditions: () {
-                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                               content: Text(
                                 "Please select a gift box",
                               ),
                             ));
                           });
+                        }
+                        else if(_currentPage == 1 || (_currentPage == 0 && widget.type == CheckoutTypes.SoftCard) ){
+                          (_keys[1].currentState as CheckoutScreenState).continueToPayment(afterPassConditions: (){
+                            navigateToPage(++_currentPage);
+                          });
+                        }
+                        else if(_currentPage == 2 || (_currentPage == 1 && widget.type == CheckoutTypes.SoftCard)){
+                          (_keys[2].currentState as CartSummaryScreenState).createOrder();
                         }
                       },
                       text: _currentPage == 0
@@ -176,5 +234,22 @@ class _OrderProcessScreenState extends ConsumerState<OrderProcessScreen> {
     );
   }
 
-  void cartClick() {}
+  void navigateToPaymentScreen(String paymentLink) async {
+    var success = await context
+        .push(R_PaymentScreen, extra: {"paymentLink": paymentLink});
+    if (success == true) {
+      context.pop(true);
+    }
+  }
+
+  void navigateToPage(int page) {
+    setState(() {
+      _currentPage = page;
+      _pageController.animateToPage(
+        _currentPage,
+        duration: Duration(milliseconds: 300),
+        curve: Curves.easeInOut,
+      );
+    });
+  }
 }

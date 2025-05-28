@@ -34,14 +34,16 @@ class _ProductItemCardState extends State<ProductItemCard> {
       },
       child: IntrinsicHeight(
         child: Container(
-            decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(8),
-                border: Border.all(color: AppTheme.appGrey8, width: 1)),
+            decoration: const BoxDecoration(
+                color: Colors.white,),
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                Text(widget.item?.provider?.name ?? "",style: AppTheme.styleWithTextBlack2AdelleSansExtendedFonts14w400,),
+                const SizedBox(
+                  height: 16,
+                ),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -78,13 +80,6 @@ class _ProductItemCardState extends State<ProductItemCard> {
                                     : widget.item?.service?.name ?? "",
                                 style: AppTheme
                                     .styleWithTextBlackAdelleSansExtendedFonts16w500,
-                              ),
-                              const Spacer(),
-                              Text(
-                                widget.item?.id?.toString() ?? "",
-                                style: AppTheme
-                                    .styleWithTextAppGrey7AdelleSansExtendedFonts14w400,
-                                textAlign: TextAlign.end,
                               ),
                             ],
                           ),
@@ -139,55 +134,55 @@ class _ProductItemCardState extends State<ProductItemCard> {
                             //                   TextDecoration.lineThrough))
                           ],
                         ),
-                        SizedBox(
-                          height: 7,
-                        ),
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width - 160,
-                          child: Row(
-                            children: [
-                              widget.item?.provider != null
-                                  ? Text(
-                                      context.tr(soldByKey),
-                                      style: AppTheme
-                                          .styleWithTextAppGrey7AdelleSansExtendedFonts10w700,
-                                    )
-                                  : SizedBox(),
-                              SizedBox(
-                                width: 5,
-                              ),
-                              widget.item?.provider != null
-                                  ? Text(
-                                      "${widget.item?.provider?.name}",
-                                      style: AppTheme
-                                          .styleWithTextBlackAdelleSansExtendedFonts10w700,
-                                    )
-                                  : const SizedBox(),
-                              const Spacer(),
-                              widget.item?.statusId == 11
-                                  ? Row(
-                                      children: [
-                                        Container(
-                                          width: 5,
-                                          height: 5,
-                                          decoration: const BoxDecoration(
-                                              color: AppTheme.mainAppColor,
-                                              shape: BoxShape.circle),
-                                        ),
-                                        SizedBox(
-                                          width: 5,
-                                        ),
-                                        Text(
-                                          context.tr(cancelledKey),
-                                          style: AppTheme
-                                              .styleWithTextMainAppColorAdelleSansExtendedFonts10w400,
-                                        )
-                                      ],
-                                    )
-                                  : const SizedBox()
-                            ],
-                          ),
-                        )
+                        // SizedBox(
+                        //   height: 7,
+                        // ),
+                        // SizedBox(
+                        //   width: MediaQuery.of(context).size.width - 160,
+                        //   child: Row(
+                        //     children: [
+                        //       widget.item?.provider != null
+                        //           ? Text(
+                        //               context.tr(soldByKey),
+                        //               style: AppTheme
+                        //                   .styleWithTextAppGrey7AdelleSansExtendedFonts10w700,
+                        //             )
+                        //           : SizedBox(),
+                        //       SizedBox(
+                        //         width: 5,
+                        //       ),
+                        //       widget.item?.provider != null
+                        //           ? Text(
+                        //               "${widget.item?.provider?.name}",
+                        //               style: AppTheme
+                        //                   .styleWithTextBlackAdelleSansExtendedFonts10w700,
+                        //             )
+                        //           : const SizedBox(),
+                        //       const Spacer(),
+                        //       widget.item?.statusId == 11
+                        //           ? Row(
+                        //               children: [
+                        //                 Container(
+                        //                   width: 5,
+                        //                   height: 5,
+                        //                   decoration: const BoxDecoration(
+                        //                       color: AppTheme.mainAppColor,
+                        //                       shape: BoxShape.circle),
+                        //                 ),
+                        //                 SizedBox(
+                        //                   width: 5,
+                        //                 ),
+                        //                 Text(
+                        //                   context.tr(cancelledKey),
+                        //                   style: AppTheme
+                        //                       .styleWithTextMainAppColorAdelleSansExtendedFonts10w400,
+                        //                 )
+                        //               ],
+                        //             )
+                        //           : const SizedBox()
+                        //     ],
+                        //   ),
+                        // )
                       ],
                     )
                   ],
