@@ -3,6 +3,8 @@ import 'package:lazo_client/Data/Models/StateModel.dart';
 import 'package:lazo_client/Doman/CommenProviders/ApiProvider.dart';
 import '../../Constants/Eunms.dart';
 import '../../Data/Network/lib/api.dart';
+import '../../Localization/Keys.dart';
+import '../../main.dart';
 
 class CreateOrderUseCase
     extends StateNotifier<StateModel<ClientOrderDetailsResponse?>> {
@@ -11,6 +13,7 @@ class CreateOrderUseCase
   CreateOrderUseCase(this._ref, this._clientApi) : super(StateModel());
 
   void createOrder({
+    bool? saveAddress,
     String? deliveryDate,
     String? deliveryTime,
     String? giftBoxId,
@@ -27,6 +30,8 @@ class CreateOrderUseCase
   }) {
     state = StateModel.loading();
     requestWithHandleMessage(() => _clientApi.createOrder(
+      saveAddress: saveAddress,
+        cityId: prefs.getInt(selectedCityIdKey).toString(),
         deliveryDate: deliveryDate,
         deliveryTime: deliveryTime,
         giftBoxId: giftBoxId,

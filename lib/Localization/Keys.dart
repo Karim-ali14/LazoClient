@@ -72,6 +72,7 @@ const String orderPriceKey = "orderPrice";
 const String shippingFeesKey = "shippingFees";
 const String discountKey = "discount";
 const String deliveryTimeKey = "deliveryTime";
+const String saveAddressKey = "saveAddress";
 const String shippingFeeKey = "shippingFee";
 const String yesKey = "yes";
 const String noKey = "no";

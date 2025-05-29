@@ -149,7 +149,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **createOrder**
-> ClientOrderDetailsResponse createOrder(deliveryDate, deliveryTime, giftBoxId, giftCardId, isIdentitySecret, orderType, paymentMethod, promocode, receiverAddress, latLng, receiverName, receiverAddressDetails, receiverPhone)
+> ClientOrderDetailsResponse createOrder(cityId, deliveryDate, deliveryTime, giftBoxId, giftCardId, isIdentitySecret, orderType, paymentMethod, promocode, receiverAddress, latLng, receiverName, receiverAddressDetails, receiverPhone, saveAddress)
 
 Create order
 
@@ -166,6 +166,7 @@ import 'package:lazo/api.dart';
 //defaultApiClient.getAuthentication<HttpBearerAuth>('bearerAuth').setAccessToken(yourTokenGeneratorFunction);
 
 final api_instance = OrdersApi();
+final cityId = cityId_example; // String | 
 final deliveryDate = deliveryDate_example; // String | Format: eg: 13 Nov 2024
 final deliveryTime = deliveryTime_example; // String | Format: eg: 06:00 PM
 final giftBoxId = giftBoxId_example; // String | Optional
@@ -179,9 +180,10 @@ final latLng = latLng_example; // String |
 final receiverName = receiverName_example; // String | 
 final receiverAddressDetails = receiverAddressDetails_example; // String | 
 final receiverPhone = receiverPhone_example; // String | 
+final saveAddress = true; // bool | 
 
 try {
-    final result = api_instance.createOrder(deliveryDate, deliveryTime, giftBoxId, giftCardId, isIdentitySecret, orderType, paymentMethod, promocode, receiverAddress, latLng, receiverName, receiverAddressDetails, receiverPhone);
+    final result = api_instance.createOrder(cityId, deliveryDate, deliveryTime, giftBoxId, giftCardId, isIdentitySecret, orderType, paymentMethod, promocode, receiverAddress, latLng, receiverName, receiverAddressDetails, receiverPhone, saveAddress);
     print(result);
 } catch (e) {
     print('Exception when calling OrdersApi->createOrder: $e\n');
@@ -192,6 +194,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
+ **cityId** | **String**|  | [optional] 
  **deliveryDate** | **String**| Format: eg: 13 Nov 2024 | [optional] 
  **deliveryTime** | **String**| Format: eg: 06:00 PM | [optional] 
  **giftBoxId** | **String**| Optional | [optional] 
@@ -205,6 +208,7 @@ Name | Type | Description  | Notes
  **receiverName** | **String**|  | [optional] 
  **receiverAddressDetails** | **String**|  | [optional] 
  **receiverPhone** | **String**|  | [optional] 
+ **saveAddress** | **bool**|  | [optional] 
 
 ### Return type
 

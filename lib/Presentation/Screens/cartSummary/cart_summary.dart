@@ -27,7 +27,13 @@ class CartSummaryScreen extends ConsumerStatefulWidget {
   final ServiceShowData? service;
   final String? serviceSelectedListIds;
   final String? serviceSelectedListItemsIds;
-  const CartSummaryScreen( {super.key, this.type,this.service, this.serviceSelectedListIds, this.serviceSelectedListItemsIds,});
+  const CartSummaryScreen({
+    super.key,
+    this.type,
+    this.service,
+    this.serviceSelectedListIds,
+    this.serviceSelectedListItemsIds,
+  });
 
   @override
   ConsumerState<CartSummaryScreen> createState() => CartSummaryScreenState();
@@ -41,19 +47,20 @@ class CartSummaryScreenState extends ConsumerState<CartSummaryScreen> {
     PaymentMethod(
         id: 'card', name: 'Debit/Credit Card', icon: Icons.credit_card),
   ];
-  String? address,cityName;
+  String? address, cityName;
   @override
   void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((_){
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       var cartSelectionData = ref.read(cartDateSelectedStateNotifiers);
 
-      List<String>? parts = (cartSelectionData[cartLatLngKey] as String?)?.split(',');
-      double? latitude = double.tryParse(parts?[0].trim()??"");
-      double? longitude = double.tryParse(parts?[1].trim()??"");
+      List<String>? parts =
+          (cartSelectionData[cartLatLngKey] as String?)?.split(',');
+      double? latitude = double.tryParse(parts?[0].trim() ?? "");
+      double? longitude = double.tryParse(parts?[1].trim() ?? "");
 
       print("$latitude, $longitude");
-      if(longitude != null && latitude != null){
-        initAddress(latitude,longitude);
+      if (longitude != null && latitude != null) {
+        initAddress(latitude, longitude);
       }
     });
     super.initState();
@@ -71,83 +78,95 @@ class CartSummaryScreenState extends ConsumerState<CartSummaryScreen> {
           child: Column(
             children: [
               widget.type == CheckoutTypes.SoftCard &&
-                  calculateSoftService.state == DataState.SUCCESS
+                      calculateSoftService.state == DataState.SUCCESS
                   ? Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(
-                    height: 16,
-                  ),
-                  ServiceInfoView(
-                    item: widget.service,
-                    selectedServicesListItemsNames: cartSelectionData[serviceSelectedListItemsNamesKey]?.toString() ?? "",
-                  ),
-                  SizedBox(
-                    height: 16,
-                  ),
-                ],
-              )
-                  :
-              Column(
-                children: [
-                  AddressSummaryCart(
-                    addressItem: AddressItem(
-                      recipientAddress: address,
-                      city: AddressItemCity(name: cityName),
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const SizedBox(
+                          height: 16,
+                        ),
+                        ServiceInfoView(
+                          item: widget.service,
+                          selectedServicesListItemsNames: cartSelectionData[
+                                      serviceSelectedListItemsNamesKey]
+                                  ?.toString() ??
+                              "",
+                        ),
+                        SizedBox(
+                          height: 16,
+                        ),
+                      ],
+                    )
+                  : Column(
+                      children: [
+                        AddressSummaryCart(
+                          addressItem: AddressItem(
+                            recipientAddress: address,
+                            city: AddressItemCity(name: cityName),
+                          ),
+                        ),
+                        Consumer(builder: (context, ref, _) {
+                          var cartData =
+                              ref.watch(fetchCardDetailsStateNotifies);
+                          return ValueListenableBuilder(
+                              valueListenable: expandedCardItem,
+                              builder: (context, expanded, _) {
+                                return Column(
+                                  children: [
+                                    InkWell(
+                                      onTap: () {
+                                        expandedCardItem.value = !expanded;
+                                      },
+                                      child: Container(
+                                        padding: const EdgeInsetsDirectional
+                                            .symmetric(
+                                            horizontal: 16, vertical: 20),
+                                        color: expanded
+                                            ? AppTheme.mainAppColorLight2
+                                            : Colors.white,
+                                        child: Row(
+                                          children: [
+                                            Text(
+                                              "View your order",
+                                              style: AppTheme
+                                                  .styleWithTextBlackColor2AdelleSansExtendedFonts16w400,
+                                            ),
+                                            Spacer(),
+                                            Text(
+                                              "(${calculateItemInCart(cartData.data?.data?.cartItems)} Items)",
+                                              style: AppTheme
+                                                  .styleWithTextBlack2AdelleSansExtendedFonts11w400,
+                                            ),
+                                            SizedBox(
+                                              width: 8,
+                                            ),
+                                            SVGIcons.localSVG(
+                                                expanded
+                                                    ? upArrowIcon
+                                                    : downArrowIcon,
+                                                width: 24,
+                                                height: 24,
+                                                color:
+                                                    AppTheme.mainAppColorDark)
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                    expanded
+                                        ? Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 16.0),
+                                            child: const CartItemsWithNotes(
+                                              isReadOnlyMode: true,
+                                            ),
+                                          )
+                                        : const SizedBox()
+                                  ],
+                                );
+                              });
+                        }),
+                      ],
                     ),
-                  ),
-                  Consumer(builder: (context, ref, _) {
-                    var cartData = ref.watch(fetchCardDetailsStateNotifies);
-                    return ValueListenableBuilder(
-                        valueListenable: expandedCardItem,
-                        builder: (context, expanded, _) {
-                          return Column(
-                            children: [
-                              InkWell(
-                                onTap:(){
-                                  expandedCardItem.value = !expanded;
-                                },
-                                child: Container(
-                                  padding: const EdgeInsetsDirectional.symmetric(
-                                      horizontal: 16,vertical: 20),
-                                  color: expanded
-                                      ? AppTheme.mainAppColorLight2
-                                      : Colors.white,
-                                  child: Row(
-                                    children: [
-                                      Text(
-                                        "View your order",
-                                        style: AppTheme
-                                            .styleWithTextBlackColor2AdelleSansExtendedFonts16w400,
-                                      ),
-                                      Spacer(),
-                                      Text(
-                                        "(${calculateItemInCart(cartData.data?.data?.cartItems)} Items)",
-                                        style: AppTheme
-                                            .styleWithTextBlack2AdelleSansExtendedFonts11w400,
-                                      ),
-                                      SizedBox(
-                                        width: 8,
-                                      ),
-                                      SVGIcons.localSVG(
-                                          expanded ? upArrowIcon : downArrowIcon,
-                                          width: 24,
-                                          height: 24,
-                                          color: AppTheme.mainAppColorDark)
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              expanded ? Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                                child: const CartItemsWithNotes(isReadOnlyMode: true,),
-                              ) : const SizedBox()
-                            ],
-                          );
-                        });
-                  }),
-                ],
-              ),
               PaymentMethodSelector(
                   methods: paymentMethods, onSelected: (methodId) {}),
               SizedBox(
@@ -170,7 +189,7 @@ class CartSummaryScreenState extends ConsumerState<CartSummaryScreen> {
     return cartItems?.fold(0, (sum, store) => sum + (store.items?.length ?? 0));
   }
 
-  void initAddress(double latitude, double longitude) async{
+  void initAddress(double latitude, double longitude) async {
     var map = await LocationHandler.getAddressInfo(
       latitude,
       longitude,
@@ -181,24 +200,21 @@ class CartSummaryScreenState extends ConsumerState<CartSummaryScreen> {
     });
   }
 
-  void createInstantOrder(){
+  void createInstantOrder() {
     var cartSelectionData = ref.read(cartDateSelectedStateNotifiers);
 
     ref.read(createOrderStateNotifiers.notifier).createInstantOrder(
         serviceId: cartSelectionData.containsKey(serviceIdKey)
             ? cartSelectionData[serviceIdKey].toString()
             : null,
-        serviceSelectedListItemsIds: cartSelectionData
-            .containsKey(serviceSelectedListItemsIdsKey)
-            ? cartSelectionData[
-        serviceSelectedListItemsIdsKey]
-            .toString()
-            : null,
-        serviceSelectedListIds: cartSelectionData
-            .containsKey(serviceSelectedListIdsKey)
-            ? cartSelectionData[serviceSelectedListIdsKey]
-            .toString()
-            : null,
+        serviceSelectedListItemsIds:
+            cartSelectionData.containsKey(serviceSelectedListItemsIdsKey)
+                ? cartSelectionData[serviceSelectedListItemsIdsKey].toString()
+                : null,
+        serviceSelectedListIds:
+            cartSelectionData.containsKey(serviceSelectedListIdsKey)
+                ? cartSelectionData[serviceSelectedListIdsKey].toString()
+                : null,
         promocode: cartSelectionData.containsKey(promocodeKey)
             ? cartSelectionData[promocodeKey].toString()
             : null,
@@ -206,9 +222,10 @@ class CartSummaryScreenState extends ConsumerState<CartSummaryScreen> {
         paymentMethod: cartSelectionData.containsKey(paymentMethodKey)
             ? cartSelectionData[paymentMethodKey].toString()
             : null,
-        receiverPhoneNumber: cartSelectionData.containsKey(receiverPhoneNumberKey)
-            ? cartSelectionData[receiverPhoneNumberKey].toString()
-            : null,
+        receiverPhoneNumber:
+            cartSelectionData.containsKey(receiverPhoneNumberKey)
+                ? cartSelectionData[receiverPhoneNumberKey].toString()
+                : null,
         receiverName: cartSelectionData.containsKey(receiverNameKey)
             ? cartSelectionData[receiverNameKey].toString()
             : null,
@@ -228,20 +245,28 @@ class CartSummaryScreenState extends ConsumerState<CartSummaryScreen> {
             ? cartSelectionData[deliveryTimeKey].toString()
             : null);
   }
-  void createOrderHardType(){
+
+  void createOrderHardType() {
     var cartSelectionData = ref.read(cartDateSelectedStateNotifiers);
 
     ref.read(createOrderStateNotifiers.notifier).createOrder(
-        isIdentitySecret: bool.parse(cartSelectionData[enableIsSecretKey]?.toString() ?? "false") == true ? "1" : "0",
+        isIdentitySecret: bool.parse(
+                    cartSelectionData[enableIsSecretKey]?.toString() ??
+                        "false") ==
+                true
+            ? "1"
+            : "0",
         giftBoxId: cartSelectionData.containsKey(giftBoxIdKey)
-    ? cartSelectionData[giftBoxIdKey].toString()
-        : null,
+            ? cartSelectionData[giftBoxIdKey].toString()
+            : null,
         giftCardId: cartSelectionData.containsKey(giftCardIdKey)
-    ? cartSelectionData[giftCardIdKey].toString()
-        : null,
-        orderType: int.parse((cartSelectionData[selectTypeOfSendKey]??"0").toString()) == 0
-            ? OrderTypes.self_order.name.toString()
-            : OrderTypes.receiver_order.name.toString(),
+            ? cartSelectionData[giftCardIdKey].toString()
+            : null,
+        orderType:
+            int.parse((cartSelectionData[selectTypeOfSendKey] ?? "0").toString()) ==
+                    0
+                ? OrderTypes.self_order.name.toString()
+                : OrderTypes.receiver_order.name.toString(),
         paymentMethod: "Credit Card",
         promocode: cartSelectionData.containsKey(promocodeKey)
             ? cartSelectionData[promocodeKey].toString()
@@ -249,19 +274,24 @@ class CartSummaryScreenState extends ConsumerState<CartSummaryScreen> {
         latLng: cartSelectionData[cartLatLngKey].toString(),
         receiverName: cartSelectionData[receiverNameKey].toString(),
         receiverAddress: cartSelectionData[receiverAddressKey].toString(),
-        receiverAddressDetails: cartSelectionData[receiverAddressDetailsKey].toString(),
+        receiverAddressDetails:
+            cartSelectionData[receiverAddressDetailsKey].toString(),
         receiverPhone: cartSelectionData[receiverPhoneKey].toString(),
         deliveryDate: cartSelectionData[deliveryDateKey]?.toString(),
-        deliveryTime: cartSelectionData[deliveryTimeKey]?.toString());
+        deliveryTime: cartSelectionData[deliveryTimeKey]?.toString(),
+        saveAddress: bool.parse(
+            cartSelectionData[saveAddressKey]?.toString() ?? "false"));
   }
-  void createOrder(){
+
+  void createOrder() {
     print("lksjdfljasldf ${widget.type}");
-    if(widget.type == CheckoutTypes.HartCard){
+    if (widget.type == CheckoutTypes.HartCard) {
       createOrderHardType();
-    }else if(widget.type == CheckoutTypes.SoftCard){
+    } else if (widget.type == CheckoutTypes.SoftCard) {
       createInstantOrder();
     }
   }
+
   @override
   void dispose() {
     resetCartSelectionData();

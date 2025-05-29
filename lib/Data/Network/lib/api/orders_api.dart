@@ -282,6 +282,8 @@ class OrdersApi {
   ///
   /// Parameters:
   ///
+  /// * [String] cityId:
+  ///
   /// * [String] deliveryDate:
   ///   Format: eg: 13 Nov 2024
   ///
@@ -316,7 +318,9 @@ class OrdersApi {
   /// * [String] receiverAddressDetails:
   ///
   /// * [String] receiverPhone:
-  Future<Response> createOrderWithHttpInfo({ String? deliveryDate, String? deliveryTime, String? giftBoxId, String? giftCardId, String? isIdentitySecret, String? orderType, String? paymentMethod, String? promocode, String? receiverAddress, String? latLng, String? receiverName, String? receiverAddressDetails, String? receiverPhone, }) async {
+  ///
+  /// * [bool] saveAddress:
+  Future<Response> createOrderWithHttpInfo({ String? cityId, String? deliveryDate, String? deliveryTime, String? giftBoxId, String? giftCardId, String? isIdentitySecret, String? orderType, String? paymentMethod, String? promocode, String? receiverAddress, String? latLng, String? receiverName, String? receiverAddressDetails, String? receiverPhone, bool? saveAddress, }) async {
     // ignore: prefer_const_declarations
     final path = r'/client/order/create';
 
@@ -331,6 +335,10 @@ class OrdersApi {
 
     bool hasFields = false;
     final mp = MultipartRequest('POST', Uri.parse(path));
+    if (cityId != null) {
+      hasFields = true;
+      mp.fields[r'city_id'] = parameterToString(cityId);
+    }
     if (deliveryDate != null) {
       hasFields = true;
       mp.fields[r'delivery_date'] = parameterToString(deliveryDate);
@@ -383,6 +391,10 @@ class OrdersApi {
       hasFields = true;
       mp.fields[r'receiver_phone'] = parameterToString(receiverPhone);
     }
+    if (saveAddress != null) {
+      hasFields = true;
+      mp.fields[r'save_address'] = parameterToString(saveAddress);
+    }
     if (hasFields) {
       postBody = mp;
     }
@@ -403,6 +415,8 @@ class OrdersApi {
   /// Create order
   ///
   /// Parameters:
+  ///
+  /// * [String] cityId:
   ///
   /// * [String] deliveryDate:
   ///   Format: eg: 13 Nov 2024
@@ -438,8 +452,10 @@ class OrdersApi {
   /// * [String] receiverAddressDetails:
   ///
   /// * [String] receiverPhone:
-  Future<ClientOrderDetailsResponse?> createOrder({ String? deliveryDate, String? deliveryTime, String? giftBoxId, String? giftCardId, String? isIdentitySecret, String? orderType, String? paymentMethod, String? promocode, String? receiverAddress, String? latLng, String? receiverName, String? receiverAddressDetails, String? receiverPhone, }) async {
-    final response = await createOrderWithHttpInfo( deliveryDate: deliveryDate, deliveryTime: deliveryTime, giftBoxId: giftBoxId, giftCardId: giftCardId, isIdentitySecret: isIdentitySecret, orderType: orderType, paymentMethod: paymentMethod, promocode: promocode, receiverAddress: receiverAddress, latLng: latLng, receiverName: receiverName, receiverAddressDetails: receiverAddressDetails, receiverPhone: receiverPhone, );
+  ///
+  /// * [bool] saveAddress:
+  Future<ClientOrderDetailsResponse?> createOrder({ String? cityId, String? deliveryDate, String? deliveryTime, String? giftBoxId, String? giftCardId, String? isIdentitySecret, String? orderType, String? paymentMethod, String? promocode, String? receiverAddress, String? latLng, String? receiverName, String? receiverAddressDetails, String? receiverPhone, bool? saveAddress, }) async {
+    final response = await createOrderWithHttpInfo( cityId: cityId, deliveryDate: deliveryDate, deliveryTime: deliveryTime, giftBoxId: giftBoxId, giftCardId: giftCardId, isIdentitySecret: isIdentitySecret, orderType: orderType, paymentMethod: paymentMethod, promocode: promocode, receiverAddress: receiverAddress, latLng: latLng, receiverName: receiverName, receiverAddressDetails: receiverAddressDetails, receiverPhone: receiverPhone, saveAddress: saveAddress, );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }

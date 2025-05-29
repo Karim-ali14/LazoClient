@@ -479,17 +479,23 @@ class CheckoutScreenState extends ConsumerState<CheckoutScreen>  with AutomaticK
                                 ValueListenableBuilder(
                                     valueListenable: saveAddressValueNotifier,
                                     builder: (context, value, _) {
-                                      return Checkbox(
-                                        value: value,
-                                        onChanged: (newValue) {
-                                          saveAddressValueNotifier.value =
-                                              newValue ?? false;
-                                        },
-                                        materialTapTargetSize:
-                                        MaterialTapTargetSize.shrinkWrap,
-                                        visualDensity: VisualDensity.compact,
-                                        checkColor: Colors
-                                            .white, // color of tick Mark
+                                      return Transform.scale(
+                                        scale: 1,
+                                        child: Checkbox(
+                                          visualDensity: VisualDensity(horizontal: -4),
+                                          activeColor: AppTheme.mainAppColor,
+                                          fillColor: MaterialStateProperty.resolveWith((states) {
+                                            if (states.contains(MaterialState.selected)) {
+                                              return AppTheme.mainAppColor;
+                                            }
+                                            return Colors.white;
+                                          }),
+                                          onChanged: (newValue) {
+                                            saveAddressValueNotifier.value =
+                                                newValue ?? false;
+                                          },
+                                          value: value,
+                                        ),
                                       );
                                     }),
                                 SizedBox(
@@ -816,6 +822,7 @@ class CheckoutScreenState extends ConsumerState<CheckoutScreen>  with AutomaticK
       cartSelectionData[deliveryTimeKey] = selectDeliveryTimeOfSend != null
           ? deliveryTimeArray[selectDeliveryTimeOfSend!].text
           : null;
+      cartSelectionData[saveAddressKey] = saveAddressValueNotifier.value;
 
       ref
           .read(cartDateSelectedStateNotifiers.notifier)

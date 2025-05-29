@@ -9369,6 +9369,8 @@ paths:
             schema:
               type: object
               properties:
+                city_id:
+                  type: string
                 delivery_date:
                   description: 'Format: eg: 13 Nov 2024'
                   type: string
@@ -9415,6 +9417,9 @@ paths:
                 receiver_phone:
                   type: string
                   example: '509295069'
+                save_address:
+                  type: boolean
+                  nullable: true
       responses:
         '200':
           description: Successfully created order
