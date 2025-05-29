@@ -76,7 +76,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     if (!navigated && leadingWidget == null) {
       return 0;
     } else if (navigated) {
-      return 25;
+      return 30;
     } else if (isHomeScreen) {
       return 120;
     }

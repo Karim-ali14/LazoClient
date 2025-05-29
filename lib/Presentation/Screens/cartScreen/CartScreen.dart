@@ -37,7 +37,7 @@ class CartScreen extends ConsumerStatefulWidget {
   ConsumerState<CartScreen> createState() => CartScreenState();
 }
 
-class CartScreenState extends ConsumerState<CartScreen> {
+class CartScreenState extends ConsumerState<CartScreen> with AutomaticKeepAliveClientMixin{
   final TextEditingController voucherTextController = TextEditingController();
   GiftCard? giftCartSelected;
   GiftBox? giftBoxSelected;
@@ -51,7 +51,6 @@ class CartScreenState extends ConsumerState<CartScreen> {
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((callback) {
-      print("object");
       var sessionId = ref
           .read(getSessionHandlerStateNotifier.notifier)
           .checkIfSessionIdExist();
@@ -60,9 +59,12 @@ class CartScreenState extends ConsumerState<CartScreen> {
     });
     super.initState();
   }
+  @override
+  bool get wantKeepAlive => true; // This keeps the screen alive
 
   @override
   Widget build(BuildContext context) {
+    super.build(context); // Required to call in widgets with AutomaticKeepAliveClientMixin
     var cartData = ref.watch(fetchCardDetailsStateNotifies);
     var cartInfo = ref.watch(cartCalculationStateNotifies);
     var giftBox = ref.watch(fetchAllGiftBoxStateNotifies);
@@ -90,11 +92,11 @@ class CartScreenState extends ConsumerState<CartScreen> {
 
     handleState(updateCartItemsStateNotifies, showLoading: true,
         onSuccess: (res) {
-      // try {
-      //   ref
-      //       .read(fetchCardDetailsStateNotifies.notifier)
-      //       .updateItem(res.data!.data!.cartItems.first);
-      // } catch (e) {}
+      try {
+        // ref
+        //     .read(fetchCardDetailsStateNotifies.notifier)
+        //     .updateItem(res.data!.data!.cartItems.first);
+      } catch (e) {}
     });
 
     return Scaffold(

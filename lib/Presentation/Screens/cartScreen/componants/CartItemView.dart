@@ -1,6 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:lazo_client/Constants/Constants.dart';
@@ -16,15 +19,18 @@ import '../../../../Constants/Eunms.dart';
 import '../../../../Data/Network/lib/api.dart';
 import '../../../../Localization/Keys.dart';
 import '../../../../Utils/Snaks.dart';
+import '../../../StateNotifiersViewModel/WishListStateNotifiers.dart';
 
 typedef OnUpdateQuantity = Function(num, num);
 typedef OnDeleteItem = Function(num);
+typedef ToggleItem = Function(CartItemType,num);
 typedef OnProductClickListener = Function(ProductDetails?, int?);
 typedef OnServiceClickListener = Function(ServiceShowData?, int?);
 
-class CartItemView extends StatefulWidget {
+class CartItemView extends ConsumerStatefulWidget {
   final OnUpdateQuantity onUpdateQuantity;
   final OnDeleteItem onDeleteItem;
+  final ToggleItem toggleItem;
   final OnProductClickListener? onProductClickListener;
   final OnServiceClickListener? onServiceClickListener;
   final CartItemsInner? cartItem;
@@ -36,13 +42,13 @@ class CartItemView extends StatefulWidget {
       required this.onUpdateQuantity,
       required this.onDeleteItem,
       this.onProductClickListener,
-      this.onServiceClickListener, this.isReadOnlyMode});
+      this.onServiceClickListener, this.isReadOnlyMode,required this.toggleItem, });
 
   @override
-  State<CartItemView> createState() => _CartItemViewState();
+  ConsumerState<CartItemView> createState() => _CartItemViewState();
 }
 
-class _CartItemViewState extends State<CartItemView> {
+class _CartItemViewState extends ConsumerState<CartItemView> {
   num? quantity = 1;
   @override
   void initState() {
@@ -252,11 +258,11 @@ class _CartItemViewState extends State<CartItemView> {
                           (widget.cartItem?.type ?? "") ==
                                   CartItemType.Product.name.toLowerCase()
                               ? widget.cartItem?.product?.inWishlist == true
-                                  ? unFavoriteCartItemIcons
-                                  : favoriteCartItemIcons
+                                  ? favoriteCartItemIcons
+                                  : unFavoriteCartItemIcons
                               : widget.cartItem?.service?.inWishlist == true
-                                  ? unFavoriteCartItemIcons
-                                  : favoriteCartItemIcons,
+                                  ? favoriteCartItemIcons
+                                  : unFavoriteCartItemIcons,
                           width: 24.w,
                           height: 24.h,
                         ),
@@ -314,15 +320,16 @@ class _CartItemViewState extends State<CartItemView> {
   }
 
   void changeFavoriteItemState() {
-    // if ((widget.cartItem?.type ?? "") ==
-    //     CartItemType.Product.name.toLowerCase()) {
-    //   widget.cartItem?.product?.inWishlist =
-    //       !(widget.cartItem?.product?.inWishlist ?? false);
-    //   widget.onUpdateQuantity.call(widget.cartItem?.product?.id ?? 0, 1);
-    // } else {
-    //   widget.cartItem?.service?.inWishlist =
-    //       !(widget.cartItem?.service?.inWishlist ?? false);
-    //   widget.onUpdateQuantity.call(widget.cartItem?.service?.id ?? 0, 1);
-    // }
+    if ((widget.cartItem?.type ?? "") ==
+        CartItemType.Product.name.toLowerCase()) {
+      // widget.cartItem?.product?.inWishlist =
+      //     !(widget.cartItem?.product?.inWishlist ?? false);
+      widget.toggleItem.call(CartItemType.Product,widget.cartItem?.product?.id??0);
+    } else {
+      // widget.cartItem?.service?.inWishlist =
+      //     !(widget.cartItem?.service?.inWishlist ?? false);
+
+      widget.toggleItem.call(CartItemType.Service,widget.cartItem?.service?.id??0);
+    }
   }
 }

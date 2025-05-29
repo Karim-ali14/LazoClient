@@ -57,7 +57,7 @@ class CheckoutScreen extends ConsumerStatefulWidget {
   ConsumerState<CheckoutScreen> createState() => CheckoutScreenState();
 }
 
-class CheckoutScreenState extends ConsumerState<CheckoutScreen> {
+class CheckoutScreenState extends ConsumerState<CheckoutScreen>  with AutomaticKeepAliveClientMixin{
   final ValueNotifier<String> codeNotifier = ValueNotifier("");
   final ValueNotifier<bool> saveAddressValueNotifier = ValueNotifier(false);
   final sendTypeController = TextEditingController();
@@ -109,7 +109,10 @@ class CheckoutScreenState extends ConsumerState<CheckoutScreen> {
   }
 
   @override
+  bool get wantKeepAlive => true; // This keeps the screen alive
+  @override
   Widget build(BuildContext context) {
+    super.build(context); // Required to call in widgets with AutomaticKeepAliveClientMixin
     var calculateSoftService = ref.watch(calculateInstantOrderStateProvider);
     var cartInfo = widget.type == CheckoutTypes.HartCard
         ? ref.watch(cartCalculationStateNotifies)

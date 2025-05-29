@@ -13,6 +13,7 @@ import '../../../../Constants/Eunms.dart';
 import '../../../../Data/Models/StateModel.dart';
 import '../../../../Data/Network/lib/api.dart';
 import '../../../StateNotifiersViewModel/PublicStateNotifiers.dart';
+import '../../../StateNotifiersViewModel/WishListStateNotifiers.dart';
 import '../../../Theme/AppTheme.dart';
 import 'CartItemView.dart';
 
@@ -40,6 +41,18 @@ class _CartItemsWithNotesState extends ConsumerState<CartItemsWithNotes> {
   @override
   Widget build(BuildContext context) {
     var cartData = ref.watch(fetchCardDetailsStateNotifies);
+
+
+    handleState(productToggleStateNotifier, showLoading: true,
+        onSuccess: (res) {
+          ref.read(fetchCardDetailsStateNotifies.notifier).toggleWishlistStatusByItemId(res.data?.data?.productId ?? 0,CartItemType.Product,res.data?.data?.collectionId);
+        });
+
+    handleState(serviceToggleStateNotifier, showLoading: true,
+        onSuccess: (res) {
+          ref.read(fetchCardDetailsStateNotifies.notifier).toggleWishlistStatusByItemId(res.data?.data?.serviceId ?? 0,CartItemType.Service,res.data?.data?.collectionId);
+        });
+    
     handleState(deleteItemCartStateNotifies, showLoading: true,
         onSuccess: (res) {
           try {
@@ -132,7 +145,9 @@ class _CartItemsWithNotesState extends ConsumerState<CartItemsWithNotes> {
                                 null,
                                 service,
                                 cartId);
-                          },
+                          }, toggleItem: (type , id ) {
+                            toggleItem(type,id.toInt());
+                        },
                         );
                       })),
                       (cartData.data?.data?.cartItems.length??0) - 1 != index ? const Divider(
@@ -179,5 +194,23 @@ class _CartItemsWithNotesState extends ConsumerState<CartItemsWithNotes> {
       "service": cartId == null ? null : service,
       "cartId": cartId
     });
+  }
+
+  void toggleItem(CartItemType type, int id) {
+    if(type == CartItemType.Product){
+      productWishlistToggle(id);
+    }else{
+      serviceWishlistToggle(id.toString());
+    }
+  }
+  
+  void productWishlistToggle(int id) {
+    ref
+        .read(productToggleStateNotifier.notifier)
+        .toggle(productId: id.toString());
+  }
+  
+  void serviceWishlistToggle(String serviceId) {
+    ref.read(serviceToggleStateNotifier.notifier).toggle(serviceId: serviceId);
   }
 }

@@ -23,7 +23,8 @@ class CountriesUseCases extends StateNotifier<StateModel<CountriesResponse?>> {
 
   void fetchCountries() async {
     state = StateModel.loading();
-    request(() => publicApi.countriesGet(lang: ref.read(langProvider).languageCode));
+    request(() =>
+        publicApi.countriesGet(lang: ref.read(langProvider).languageCode));
   }
 }
 
@@ -36,7 +37,8 @@ class CitiesUseCases extends StateNotifier<StateModel<CitiesResponse?>> {
     String? countryId,
   }) async {
     state = StateModel.loading();
-    request(() => publicApi.citiesGet(lang: ref.read(langProvider).languageCode,countryId: countryId));
+    request(() => publicApi.citiesGet(
+        lang: ref.read(langProvider).languageCode, countryId: countryId));
   }
 }
 
@@ -46,7 +48,9 @@ class HomeDataUseCase extends StateNotifier<StateModel<ShowHome200Response>> {
   ShowHome200Response? data;
   HomeDataUseCase(this.ref, this.publicApi) : super(StateModel());
 
-  void getHomeData({ String? cityId, }) async {
+  void getHomeData({
+    String? cityId,
+  }) async {
     state = StateModel.loading();
     request(() => publicApi.showHome(cityId: cityId), onComplete: (res) {
       data = res;
@@ -75,26 +79,29 @@ class HomeDataUseCase extends StateNotifier<StateModel<ShowHome200Response>> {
     }
   }
 
-  void handleAddProductToWishList(num productId, bool inWishlist,int? collectionId) {
+  void handleAddProductToWishList(
+      num productId, bool inWishlist, int? collectionId) {
     if (data != null) {
       var index = data?.data?.topRatedProducts
           .indexWhere((product) => productId == product.id);
       if (index != null && index != -1) {
         data?.data?.topRatedProducts.getSafe(index)?.inWishlist = inWishlist;
-        data?.data?.topRatedProducts.getSafe(index)?.wishlistCollectionId = collectionId?.toString();
+        data?.data?.topRatedProducts.getSafe(index)?.wishlistCollectionId =
+            collectionId?.toString();
       }
       state = StateModel.success(data);
     }
   }
 
-  void handelAddServiceToWishList(num serviceId, bool inWishlist,int? collectionId) {
+  void handelAddServiceToWishList(
+      num serviceId, bool inWishlist, int? collectionId) {
     if (data != null) {
       var index = data?.data?.topRatedServices
           .indexWhere((product) => serviceId == product.id);
       if (index != null && index != -1) {
         data?.data?.topRatedServices.getSafe(index)?.inWishlist = inWishlist;
-        data?.data?.topRatedProducts.getSafe(index)?.wishlistCollectionId = collectionId?.toString();
-
+        data?.data?.topRatedProducts.getSafe(index)?.wishlistCollectionId =
+            collectionId?.toString();
       }
       state = StateModel.success(data);
     }
@@ -216,7 +223,7 @@ class GetTopSellersUseCase
     requestForPagination(
         () => publicApi.filterTopSellers(
             filterTopSellersRequest: FilterTopSellersRequest(
-              cityId: prefs.getInt(selectedCityIdKey).toString(),
+                cityId: prefs.getInt(selectedCityIdKey).toString(),
                 page: page,
                 searchByName: searchByName,
                 categoriesIds:
@@ -245,19 +252,18 @@ class GetProductsUseCase
   final PublicApi publicApi;
   GetProductsUseCase(this.ref, this.publicApi) : super(StateModel());
 
-  void getProductsData({
-    int page = 1,
-    String? searchByName,
-    List<num>? categoriesIds,
-    List<num>? occasionsIds,
-    String? priceFrom,
-    String? priceTo,
-    List<String>? ratings,
-    String? type,
-    String? productId,
-    num? providerId,
-    String? shipmentType
-  }) async {
+  void getProductsData(
+      {int page = 1,
+      String? searchByName,
+      List<num>? categoriesIds,
+      List<num>? occasionsIds,
+      String? priceFrom,
+      String? priceTo,
+      List<String>? ratings,
+      String? type,
+      String? productId,
+      num? providerId,
+      String? shipmentType}) async {
     String? priceFromValue = priceFrom;
     if (priceTo != null && priceFrom == null) {
       priceFromValue = "0";
@@ -283,7 +289,8 @@ class GetProductsUseCase
                       priceTo: num.tryParse(priceTo ?? ""),
                       ratings: ratings,
                       type: type ?? ItemType.Products.name.toLowerCase(),
-                      providerId: providerId,shipmentType: shipmentType),
+                      providerId: providerId,
+                      shipmentType: shipmentType),
             ), onComplete: (res) {
       if (page != 1) {
         List<ProviderProduct> list = state.data?.data?.products?.data ?? [];
@@ -324,14 +331,16 @@ class GetProductsUseCase
     }
   }
 
-  void handleAddProductToWishList(num productId, bool inWishList,int? collectionId) {
+  void handleAddProductToWishList(
+      num productId, bool inWishList, int? collectionId) {
     if (state.data != null) {
       final data = state.data;
       var index = data?.data?.products?.data
           .indexWhere((product) => productId == product.id);
       if (index != null && index != -1) {
         data?.data?.products?.data.getSafe(index)?.inWishlist = inWishList;
-        data?.data?.products?.data.getSafe(index)?.wishlistCollectionId = collectionId?.toString();
+        data?.data?.products?.data.getSafe(index)?.wishlistCollectionId =
+            collectionId?.toString();
       }
       state = StateModel.success(data);
     }
@@ -409,15 +418,16 @@ class GetServicesUseCase
     }
   }
 
-  void handelAddServiceToWishlist(num serviceId, bool inWishlist,int? collectionId) {
+  void handelAddServiceToWishlist(
+      num serviceId, bool inWishlist, int? collectionId) {
     if (state.data != null) {
       final data = state.data;
       var index = data?.data?.services?.data
           .indexWhere((product) => serviceId == product.id);
       if (index != null && index != -1) {
         data?.data?.services?.data.getSafe(index)?.inWishlist = inWishlist;
-        data?.data?.services?.data.getSafe(index)?.wishlistCollectionId = collectionId?.toString();
-
+        data?.data?.services?.data.getSafe(index)?.wishlistCollectionId =
+            collectionId?.toString();
       }
       state = StateModel.success(data);
     }
@@ -450,14 +460,14 @@ class FilterDataUseCase extends StateNotifier<FilterData> {
     state = FilterData();
   }
 }
+
 class FilterNumberCountUseCase extends StateNotifier<int> {
   final Ref ref;
   FilterNumberCountUseCase(this.ref) : super(0);
 
-  void updateNumber(
-      {int? number}) {
+  void updateNumber({int? number}) {
     print("number : $number");
-    state = number??0;
+    state = number ?? 0;
   }
 }
 
@@ -485,7 +495,8 @@ class GetProductDetailsUseCase
     state = StateModel.success(data);
   }
 
-  void handelAddProductToWishList(num productId, bool inWishlist,int? collectionId) {
+  void handelAddProductToWishList(
+      num productId, bool inWishlist, int? collectionId) {
     final data = state.data;
     data?.data?.inWishlist = inWishlist;
     data?.data?.wishlistCollectionId = collectionId?.toString();
@@ -522,7 +533,8 @@ class GetServiceDetailsUseCase
     state = StateModel.success(data);
   }
 
-  void handelAddServiceToWishList(num serviceId, bool inWishList,int? collectionId) {
+  void handelAddServiceToWishList(
+      num serviceId, bool inWishList, int? collectionId) {
     final data = state.data;
     data?.data?.inWishlist = inWishList;
     data?.data?.wishlistCollectionId = collectionId?.toString();
@@ -594,7 +606,7 @@ class GetSellerDetailsUseCase
   }
 
   void handleAddProductToWishList(
-      int id, List<String> categories, bool inWishlist,int? collectionId) {
+      int id, List<String> categories, bool inWishlist, int? collectionId) {
     final data = state.data;
     for (var categoryId in categories) {
       for (int i = 0; i < (data?.data?.categories?.length ?? 0); i++) {
@@ -604,7 +616,8 @@ class GetSellerDetailsUseCase
               n++) {
             if (data?.data?.categories?[i].products?[n].id == id) {
               data?.data?.categories?[i].products?[n].inWishlist = inWishlist;
-              data?.data?.categories?[i].products?[n].wishlistCollectionId = collectionId?.toString();
+              data?.data?.categories?[i].products?[n].wishlistCollectionId =
+                  collectionId?.toString();
             }
           }
         }
@@ -632,7 +645,7 @@ class GetSellerDetailsUseCase
   }
 
   void handleAddServiceToWishList(
-      int id, List<String> categories, bool inWishList,int? collectionId) {
+      int id, List<String> categories, bool inWishList, int? collectionId) {
     final data = state.data;
     for (var categoryId in categories) {
       for (int i = 0; i < (data?.data?.categories?.length ?? 0); i++) {
@@ -642,8 +655,9 @@ class GetSellerDetailsUseCase
               n++) {
             if (data?.data?.categories?[i].services?[n].id == id) {
               data?.data?.categories?[i].services?[n].inWishlist = inWishList;
-              if(collectionId != null){
-                data?.data?.categories?[i].services?[n].wishlistCollectionId = collectionId.toString();
+              if (collectionId != null) {
+                data?.data?.categories?[i].services?[n].wishlistCollectionId =
+                    collectionId.toString();
               }
             }
           }
@@ -685,7 +699,7 @@ class AddToCartUseCase extends StateNotifier<
     state = StateModel.loading();
     requestWithHandleMessage(
         () => publicApi.addProductServiceToCartCartItem(
-          cityId: prefs.getInt(selectedCityIdKey).toString(),
+            cityId: prefs.getInt(selectedCityIdKey).toString(),
             sessionId: sessionId,
             productId: productId,
             productQuantity: productQuantity,
@@ -742,9 +756,11 @@ class FetchCardDetailsUseCase
   void getCardDetails({
     String? sessionId,
   }) {
-
     state = StateModel.loading();
-    request(() => publicApi.showCartDetails(sessionId: sessionId,cityId: prefs.getInt(selectedCityIdKey).toString()),
+    request(
+        () => publicApi.showCartDetails(
+            sessionId: sessionId,
+            cityId: prefs.getInt(selectedCityIdKey).toString()),
         onComplete: (res) {
       print("asdfasdfasdfs${res?.data?.cartItems.isEmpty}");
       if (res?.data?.cartItems.isEmpty != true) {
@@ -753,39 +769,146 @@ class FetchCardDetailsUseCase
     });
   }
 
-  void updateItem(CartItemsInner cartItem) {
-    // final data = state.data;
-    // final index =
-    //     data?.data?.cartItems.indexWhere((item) => item.id == cartItem.id);
-    // if (index != null && index != -1) {
-    //   data?.data?.cartItems[index] = cartItem;
-    // }
-    // state = StateModel.success(data);
+  void updateItem(CartItemsInner updatedItem) {
+    final providers =
+        (state.data?.data?.cartItems ?? []).toList(growable: true);
+
+    int? providerIndex;
+    int? cartItemIndex;
+
+    // Find the provider and item index
+    for (int pIndex = 0; pIndex < providers.length; pIndex++) {
+      final provider = providers[pIndex];
+      final items = provider.items;
+
+      final iIndex = items?.indexWhere((item) => item.id == updatedItem.id);
+      if (iIndex != -1) {
+        providerIndex = pIndex;
+        cartItemIndex = iIndex;
+        break;
+      }
+    }
+
+    if (providerIndex != null && cartItemIndex != null) {
+      providers[providerIndex!].items?[cartItemIndex!] = updatedItem;
+
+      state.data?.data?.cartItems = providers;
+
+      state = StateModel.success(state.data);
+
+      // Optionally, print or log the indices
+      print(
+          'Updated item at providerIndex: $providerIndex, cartItemIndex: $cartItemIndex');
+    }
+  }
+
+  void toggleWishlistStatusByItemId(num itemId, CartItemType type, int? collectionId) {
+    print("object");
+    final providers = (state.data?.data?.cartItems ?? []).toList(growable: true);
+
+    int? providerIndex;
+    int? itemIndex;
+
+    // Search for the item by ID and type inside each provider
+    for (int pIndex = 0; pIndex < providers.length; pIndex++) {
+      final provider = providers[pIndex];
+      final items = provider.items;
+
+      final iIndex = items?.indexWhere((item) {
+        print("object itemId : $itemId selectedItemId :${item.id} itemType :$type selectedType :${item.type}");
+        if(item.type == type.name.toLowerCase().toString()){
+          if (item.type == CartItemType.Product.name.toLowerCase().toString()) {
+            return item.product?.id == itemId;
+          } else if (item.type == CartItemType.Service.name.toLowerCase().toString()) {
+            return item.service?.id == itemId;
+          }
+        }
+       return false;
+      }); // Filter by both id and type
+
+      if (iIndex != null && iIndex != -1) {
+        providerIndex = pIndex;
+        itemIndex = iIndex;
+        break;
+      }
+    }
+    print("object providerIndex : $providerIndex , itemIndex : $itemIndex");
+
+    if (providerIndex != null && itemIndex != null) {
+      final item = providers[providerIndex!].items![itemIndex!];
+
+      // Toggle the wishlist flag
+      if (item.type == CartItemType.Product.name.toLowerCase().toString()) {
+        item.product?.inWishlist = !(item.product?.inWishlist ?? false);
+        item.product?.wishlistCollectionId = collectionId.toString();
+      } else if (item.type == CartItemType.Service.name.toLowerCase().toString()) {
+        item.service?.inWishlist = !(item.service?.inWishlist ?? false);
+        item.service?.wishlistCollectionId = collectionId.toString();
+      }
+
+      // Reassign to trigger UI/state updates if needed
+      providers[providerIndex!].items![itemIndex!] = item;
+
+      // Update state
+      var data = state.data;
+      data?.data?.cartItems = providers;
+      state = StateModel.success(data);
+
+      print(
+          'Toggled wishlist for item at providerIndex: $providerIndex, itemIndex: $itemIndex');
+    }
   }
 
   void deleteItem(num cartItemId) {
-    // List<CartItemsInner> data =
-    //     (state.data?.data?.cartItems ?? []).toList(growable: true);
-    // final index = data.indexWhere((item) => item.id == cartItemId);
-    //
-    // if (index != -1) {
-    //   data.removeAt(index);
-    // }
-    //
-    // state.data?.data?.cartItems = [...data];
-    // state.data?.data?.shipmentType = state.data?.data?.cartItems
-    //             .where((item) =>
-    //                 item.product?.type == ProductTypes.various_gifts.name)
-    //             .toList()
-    //             .isNotEmpty ==
-    //         true
-    //     ? CartItemTypes.unready_made.name
-    //     : CartItemTypes.ready_made.name;
-    // if (state.data?.data?.cartItems.isNotEmpty == true) {
-    //   state = StateModel.success(state.data);
-    // } else {
-    //   state = StateModel.empty(data: state.data);
-    // }
+    final providers =
+        (state.data?.data?.cartItems ?? []).toList(growable: true);
+
+    int? providerIndex;
+    int? cartItemIndex;
+
+    for (int pIndex = 0; pIndex < providers.length; pIndex++) {
+      final provider = providers[pIndex];
+      final items = provider.items;
+
+      final iIndex = items?.indexWhere((item) {
+        print("object itemId : $cartItemId selectedItemId :${item.id}");
+
+        return item.id == cartItemId;
+      } );
+      if (iIndex != -1) {
+        providerIndex = pIndex;
+        cartItemIndex = iIndex;
+        break;
+      }
+    }
+
+
+    print(
+        'Deleted item at providerIndex: $providerIndex, cartItemIndex: $cartItemIndex');
+
+    if (providerIndex != null && cartItemIndex != null) {
+      var list = providers[providerIndex].items?.toList(growable: true);
+
+      list?.removeAt(cartItemIndex);
+
+      providers[providerIndex].items = list;
+      if (providers[providerIndex].items?.isEmpty == true) {
+        providers.removeAt(providerIndex);
+      }
+
+      var data = state.data;
+      data?.data?.cartItems = providers;
+
+      if (data?.data?.cartItems.isNotEmpty == true) {
+        state = StateModel.success(data);
+      } else {
+        state = StateModel.empty(data: data);
+      }
+
+      // Optionally, print or log the indices
+      print(
+          'Deleted item at providerIndex: $providerIndex, cartItemIndex: $cartItemIndex');
+    }
   }
 }
 
