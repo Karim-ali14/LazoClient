@@ -58,9 +58,9 @@ class _AddAddressScreenState extends ConsumerState<AddAddressScreen> {
         nameController.text = widget.addressItem?.recipientName ?? "";
         phoneController.text = widget.addressItem?.recipientPhone?.split(" ").last ?? "";
         codeNotifier.value = widget.addressItem?.recipientPhone?.split(" ").first ?? "";
-        addressController.text = widget.addressItem?.recipientLandmark ?? "";
+        addressController.text = widget.addressItem?.recipientAddress ?? "";
         additionalAddressController.text =
-            widget.addressItem?.recipientAddress ?? "";
+            widget.addressItem?.recipientLandmark ?? "";
         _selectedLocation = LatLng(double.parse(widget.addressItem?.lat ?? "0"),
             double.parse(widget.addressItem?.lng ?? "0"));
         _markers = {

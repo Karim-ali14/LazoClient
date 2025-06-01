@@ -1,7 +1,9 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lazo_client/Data/Models/StateModel.dart';
 import 'package:lazo_client/Doman/CommenProviders/ApiProvider.dart';
+import 'package:lazo_client/main.dart';
 import '../../Data/Network/lib/api.dart';
+import '../../Localization/Keys.dart';
 import '../../Presentation/StateNotifiersViewModel/AddressStateNotifiers.dart';
 
 class FetchAddressesUseCase
@@ -11,7 +13,9 @@ class FetchAddressesUseCase
 
   void fetchAddresses() async {
     state = StateModel.loading();
-    request(() => api.showAddresses());
+    request(() => api.showAddresses(
+        cityId: prefs.getInt(selectedCityIdKey).toString()
+    ));
   }
 
   void deleteAddresses({
