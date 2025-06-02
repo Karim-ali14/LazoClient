@@ -516,7 +516,7 @@ class CheckoutScreenState extends ConsumerState<CheckoutScreen>  with AutomaticK
               const SizedBox(
                 height: 16,
               ),
-            Container(
+              selectTypeOfSend == 1 ? Container(
               padding: const EdgeInsets.symmetric(
                   horizontal: defaultPaddingHorizontal, vertical: 24),
               color: Colors.white,
@@ -628,7 +628,7 @@ class CheckoutScreenState extends ConsumerState<CheckoutScreen>  with AutomaticK
                     ),
                   )
                       : const SizedBox(),
-                  ])),
+                  ])) :const SizedBox(),
               SizedBox(
                 height: 16,
               ),
@@ -791,11 +791,25 @@ class CheckoutScreenState extends ConsumerState<CheckoutScreen>  with AutomaticK
   }
 
   Future<void> _selectDate(BuildContext context) async {
+    var cart = ref.read(fetchCardDetailsStateNotifies);
+    final DateTime now = DateTime.now();
+    final int disabledDays = widget.type == CheckoutTypes.HartCard ? int.parse(cart.data?.data?.expectedProcessingTime ?? "0") : 1; // Number of days to disable from today
+
     final DateTime? pickedDate = await showDatePicker(
       context: context,
-      initialDate: _selectedDate ?? DateTime.now(),
-      firstDate: DateTime.now(),
+      initialDate: _selectedDate ?? now.add(Duration(days: disabledDays)),
+      firstDate: now,
       lastDate: DateTime(7200),
+      selectableDayPredicate: (DateTime day) {
+
+        final DateTime allowedFrom = now.add(Duration(days: disabledDays - 1));
+
+        if (day.isBefore(allowedFrom)) {
+          return false;
+        }
+
+        return true; // الباقي مسموح
+      },
     );
     if (pickedDate != null && pickedDate != _selectedDate) {
       _selectedDate = pickedDate;
@@ -822,7 +836,7 @@ class CheckoutScreenState extends ConsumerState<CheckoutScreen>  with AutomaticK
       cartSelectionData[deliveryTimeKey] = selectDeliveryTimeOfSend != null
           ? deliveryTimeArray[selectDeliveryTimeOfSend!].text
           : null;
-      cartSelectionData[saveAddressKey] = saveAddressValueNotifier.value;
+      cartSelectionData[saveAddressKey] = saveAddressValueNotifier.value.toString();
 
       ref
           .read(cartDateSelectedStateNotifiers.notifier)

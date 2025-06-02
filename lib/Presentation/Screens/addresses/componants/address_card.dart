@@ -32,7 +32,7 @@ class _AddressCardState extends State<AddressCard> {
           Row(
             children: [
               Text(
-                "${widget.addressItem?.recipientName},Riyadh",
+                "${widget.addressItem?.recipientName},${widget.addressItem?.city?.name}",
                 style:
                     AppTheme.styleWithTextBlack2AdelleSansExtendedFonts16w500,
               ),

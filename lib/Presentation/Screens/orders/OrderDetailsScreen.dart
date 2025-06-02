@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lazo_client/Constants.dart';
 import 'package:lazo_client/Constants/Eunms.dart';
@@ -14,8 +15,10 @@ import 'package:lazo_client/Presentation/Widgets/AppButton.dart';
 import 'package:lazo_client/Utils/DateUtils.dart';
 import 'package:lazo_client/Utils/OrderExExtra.dart';
 import '../../../../Data/Network/lib/api.dart';
+import '../../../Constants/Assets.dart';
 import '../../../Constants/Constants.dart';
 import '../../../Data/Models/StateModel.dart';
+import '../../../Utils/UtilsExts.dart';
 import '../../BottomSheets/CancelOrderBottomSheet.dart';
 import '../../StateNotifiersViewModel/ClientStateNotifiers.dart';
 import '../../Theme/AppTheme.dart';
@@ -80,24 +83,25 @@ class _OrderDetailsScreenState extends ConsumerState<OrderDetailsScreen> {
         isCenter: false,
         title: context.tr(orderDetailsKey),
         appContext: context,
-        trailingWidget: orderDetails.data?.data?.isUserCanCancelOrder() == true
-            ? InkWell(
-                onTap: () {
-                  actionType = ButtonsClickType.Cancel;
-                  showCancellationBottomSheet(orderDetails.data?.data?.id.toString() ?? "", "14");
-                },
-                child: Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Center(
-                    child: Text(
-                      context.tr(cancelKey),
-                      style: AppTheme
-                          .styleWithTextRedAdelleSansExtendedFonts16w500,
-                    ),
-                  ),
-                ),
-              )
-            : const SizedBox(),
+        // trailingWidget: orderDetails.data?.data?.isUserCanCancelOrder() == true
+        //     ? InkWell(
+        //         onTap: () {
+        //           actionType = ButtonsClickType.Cancel;
+        //           showCancellationBottomSheet(
+        //               orderDetails.data?.data?.id.toString() ?? "", "14");
+        //         },
+        //         child: Padding(
+        //           padding: EdgeInsets.all(8.0),
+        //           child: Center(
+        //             child: Text(
+        //               context.tr(cancelKey),
+        //               style: AppTheme
+        //                   .styleWithTextRedAdelleSansExtendedFonts16w500,
+        //             ),
+        //           ),
+        //         ),
+        //       )
+        //     : const SizedBox(),
       ),
       body: Column(
         children: [
@@ -108,86 +112,125 @@ class _OrderDetailsScreenState extends ConsumerState<OrderDetailsScreen> {
           orderDetails.state == DataState.SUCCESS
               ? Expanded(
                   child: SingleChildScrollView(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: defaultPaddingHorizontal),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          SizedBox(
-                            height: 32,
-                          ),
-                          orderDetails.data?.data?.rejectedOrderItems
-                                      ?.isEmpty ==
-                                  false
-                              ? ProductOutOfStockCardView(
-                                  backgroundColor: Colors.white,
-                                  description:
-                                      "${orderDetails.data?.data?.getCancellationItemsNames()} ${context.tr(outOfStockKeepOtherItemsAndCompleteOrderOrCancelKey)}",
-                                  onButtonClickListener: (type) {
-                                    if (ButtonsClickType.CompleteOrder ==
-                                        type) {
-                                      handleOnButtonsClicks(
-                                          ButtonsClickType.CompleteOrder,
-                                          orderDetails.data?.data);
-                                    } else if (ButtonsClickType.Cancel ==
-                                        type) {
-                                      handleOnButtonsClicks(
-                                          ButtonsClickType.Cancel,
-                                          orderDetails.data?.data);
-                                    }
-                                  },
-                                )
-                              : const SizedBox(),
-                          orderDetails.data?.data?.rejectedOrderItems
-                                      ?.isEmpty ==
-                                  false
-                              ? const SizedBox(height: 24)
-                              : const SizedBox(),
-                          Container(
-                              decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(8),
-                                  border: Border.all(
-                                      color: AppTheme.appGrey8, width: 1)),
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 16, vertical: 24),
-                              child: Column(children: [
-                                OrderUserInformationWithOrderStatus(
-                                  clientImage:
-                                      orderDetails.data?.data?.getStoreImage(),
-                                  clientName:
-                                      orderDetails.data?.data?.getStoreName(),
-                                  stateId: orderDetails.data?.data?.statusId
-                                      .toString(),
-                                ),
-                                orderDetails.data?.data?.isFinishedOrder() ==
-                                            true &&
-                                        orderDetails.data?.data?.rating == null
-                                    ? const SizedBox(
-                                        height: 24,
-                                      )
-                                    : const SizedBox(),
-                                orderDetails.data?.data?.isFinishedOrder() ==
-                                            true &&
-                                        orderDetails.data?.data?.rating == null
-                                    ? AppButton(
-                                        width: double.infinity,
-                                        text: context.tr(rateProductsKey),
-                                        height: 40,
-                                        onPress: () {
-                                          navigateToRatingOrderScreen(
-                                              orderDetails.data?.data);
-                                        })
-                                    : const SizedBox()
-                              ])),
-                          const SizedBox(
-                            height: 32,
-                          ),
-                          orderDetails.data?.data?.isCanceledOrder() == true &&
-                                  orderDetails.data?.data?.isSingleProvider() ==
-                                      true
-                              ? Column(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(
+                          height: 16,
+                        ),
+                        orderDetails.data?.data?.rejectedOrderItems?.isEmpty ==
+                                false
+                            ? const SizedBox(height: 24)
+                            : const SizedBox(),
+                        Container(
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(8)),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 16, vertical: 16),
+                            margin: const EdgeInsets.symmetric(horizontal: 16),
+                            child: Column(children: [
+                              OrderUserInformationWithOrderStatus(
+                                clientImage:
+                                    orderDetails.data?.data?.getStoreImage(),
+                                clientName:
+                                    orderDetails.data?.data?.getStoreName(),
+                                stateId: orderDetails.data?.data?.statusId
+                                    .toString(),
+                              ),
+                              orderDetails.data?.data?.rejectedOrderItems
+                                          ?.isEmpty ==
+                                      false
+                                  ? Padding(
+                                      padding: const EdgeInsets.only(top: 16),
+                                      child: ProductOutOfStockCardView(
+                                        backgroundColor: AppTheme.appGrey28,
+                                        description:
+                                            "${orderDetails.data?.data?.getCancellationItemsNames()} ${context.tr(outOfStockKeepOtherItemsAndCompleteOrderOrCancelKey)}",
+                                        onButtonClickListener: (type) {
+                                          if (ButtonsClickType.CompleteOrder ==
+                                              type) {
+                                            handleOnButtonsClicks(
+                                                ButtonsClickType.CompleteOrder,
+                                                orderDetails.data?.data);
+                                          } else if (ButtonsClickType.Cancel ==
+                                              type) {
+                                            handleOnButtonsClicks(
+                                                ButtonsClickType.Cancel,
+                                                orderDetails.data?.data);
+                                          }
+                                        },
+                                      ),
+                                    )
+                                  : const SizedBox(),
+                              orderDetails.data?.data?.isFinishedOrder() ==
+                                          true &&
+                                      orderDetails.data?.data?.rating == null
+                                  ? const SizedBox(
+                                      height: 24,
+                                    )
+                                  : const SizedBox(),
+                              orderDetails.data?.data?.isFinishedOrder() ==
+                                          true &&
+                                      orderDetails.data?.data?.rating == null
+                                  ? InkWell(
+                                      onTap: () {
+                                        navigateToRatingOrderScreen(
+                                            orderDetails.data?.data);
+                                      },
+                                      child: Container(
+                                        height: 48.h,
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 16),
+                                        margin: const EdgeInsets.only(top: 16),
+                                        decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(8),
+                                            border: Border.all(
+                                                color: AppTheme.appGrey19,
+                                                width: 1)),
+                                        child: Row(
+                                          children: [
+                                            SVGIcons.localSVG(likeIcons,
+                                                width: 24.w, height: 24.h),
+                                            SizedBox(
+                                              width: 8.w,
+                                            ),
+                                            Text(
+                                              context.tr(rateProductsKey),
+                                              style: AppTheme
+                                                  .styleWithTextMainAppColorAdelleSansExtendedFonts14w400,
+                                            ),
+                                            const Spacer(),
+                                            SVGIcons.localSVG(enterArrowIcons,
+                                                width: 8.w, height: 14.h),
+                                          ],
+                                        ),
+                                      ),
+                                    )
+                                  // AppButton(
+                                  //         width: double.infinity,
+                                  //         text: context.tr(rateProductsKey),
+                                  //         height: 40,
+                                  //         onPress: () {
+                                  //           navigateToRatingOrderScreen(
+                                  //               orderDetails.data?.data);
+                                  //         })
+                                  : const SizedBox()
+                            ])),
+                        const SizedBox(
+                          height: 16,
+                        ),
+                        orderDetails.data?.data?.isCanceledOrder() == true &&
+                                orderDetails.data?.data?.isSingleProvider() ==
+                                    true
+                            ? Container(
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(8),
+                                    color: Colors.white),
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 16, vertical: 24),
+                                child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(context.tr(canceledOnKey),
@@ -205,31 +248,57 @@ class _OrderDetailsScreenState extends ConsumerState<OrderDetailsScreen> {
                                               width: 1),
                                           color: Colors.white),
                                       padding: const EdgeInsetsDirectional.only(
-                                          start: 16,end: 16 ,  top: 20),
+                                          start: 16, end: 16, top: 20),
                                       child: Column(
                                         children: [
                                           InformationRowItem(
-                                            icon: SVGIcons.calendarIcon(),
+                                            titleStyle: AppTheme
+                                                .styleWithTextAppGrey18AdelleSansExtendedFonts14w400,
                                             title: context.tr(dateAndTimeKey),
                                             value:
                                                 "${(orderDetails.data?.data?.createdAt ?? "").hhMm()}, ${(orderDetails.data?.data?.createdAt ?? "").ddMmYyyy()}",
+                                            valueStyle: AppTheme
+                                                .styleWithTextBlack2AdelleSansExtendedFonts14w400,
+                                            hasDivider: false,
                                           ),
                                           const SizedBox(height: 16),
                                           InformationRowItem(
-                                            icon: SVGIcons.redTriangleIcon(),
+                                            titleStyle: AppTheme
+                                                .styleWithTextAppGrey18AdelleSansExtendedFonts14w400,
                                             title: context.tr(cancelledByKey),
                                             value:
                                                 "${orderDetails.data?.data?.cancelledBy}",
-                                          ),
-                                          orderDetails.data?.data?.cancellationReason?.isNotEmpty == true? const SizedBox(height: 16):const SizedBox(),
-                                          orderDetails.data?.data?.cancellationReason?.isNotEmpty == true? InformationRowItem(
-                                            icon: SVGIcons.redTriangleIcon(),
-                                            title: context.tr(reasonForCancellationKey),
+                                            valueStyle: AppTheme
+                                                .styleWithTextBlack2AdelleSansExtendedFonts14w400,
                                             hasDivider: false,
-                                            ifSetValueInNewLine: true,
-                                            value:
-                                                "${orderDetails.data?.data?.cancellationReason}}",
-                                          ): const SizedBox(),
+                                          ),
+                                          orderDetails
+                                                      .data
+                                                      ?.data
+                                                      ?.cancellationReason
+                                                      ?.isNotEmpty ==
+                                                  true
+                                              ? const SizedBox(height: 16)
+                                              : const SizedBox(),
+                                          orderDetails
+                                                      .data
+                                                      ?.data
+                                                      ?.cancellationReason
+                                                      ?.isNotEmpty ==
+                                                  true
+                                              ? InformationRowItem(
+                                                  titleStyle: AppTheme
+                                                      .styleWithTextAppGrey18AdelleSansExtendedFonts14w400,
+                                                  title: context.tr(
+                                                      reasonForCancellationKey),
+                                                  valueStyle: AppTheme
+                                                      .styleWithTextBlack2AdelleSansExtendedFonts14w400,
+                                                  hasDivider: false,
+                                                  ifSetValueInNewLine: true,
+                                                  value:
+                                                      "${orderDetails.data?.data?.cancellationReason}}",
+                                                )
+                                              : const SizedBox(),
                                         ],
                                       ),
                                     ),
@@ -237,262 +306,334 @@ class _OrderDetailsScreenState extends ConsumerState<OrderDetailsScreen> {
                                       height: 24,
                                     ),
                                   ],
-                                )
-                              : const SizedBox(),
-                          Text(context.tr(orderInfoKey),
-                              style: AppTheme
-                                  .styleWithTextBlackAdelleSansExtendedFonts18w700),
-                          const SizedBox(
-                            height: 24,
-                          ),
-                          Container(
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(8),
-                                border: Border.all(
-                                    color: AppTheme.appGrey8, width: 1),
-                                color: Colors.white),
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 16, vertical: 24),
-                            child: Column(
-                              children: [
-                                InformationRowItem(
-                                  icon: SVGIcons.totalPriceIcon(),
-                                  title: context.tr(totalPriceKey),
-                                  value:
-                                      "${context.tr(sarKey)} ${orderDetails.data?.data?.totalWithShippingFee ?? 0}",
                                 ),
-                                const SizedBox(height: 16),
-                                InformationRowItem(
-                                  icon: SVGIcons.documentIcon(),
-                                  title: context.tr(orderIdKey),
-                                  value: "${orderDetails.data?.data?.id}",
-                                ),
-                                const SizedBox(height: 16),
-                                InformationRowItem(
-                                  icon: SVGIcons.numberOfItemsIcon(),
-                                  title: context.tr(noOfItemsKey),
-                                  value:
-                                      "${orderDetails.data?.data?.orderItems.length} ${context.tr(itemsKey)}",
-                                ),
-                                const SizedBox(height: 16),
-                                InformationRowItem(
-                                  icon: SVGIcons.calendarIcon(),
-                                  title: context.tr(dateAndTimeKey),
-                                  value:
-                                      "${(orderDetails.data?.data?.createdAt ?? "").hhMm()}, ${(orderDetails.data?.data?.createdAt ?? "").ddMmYyyy()}",
-                                  hasDivider: false,
-                                ),
-                              ],
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 32,
-                          ),
-                          Text(context.tr(recipientInfoKey),
-                              style: AppTheme
-                                  .styleWithTextBlackAdelleSansExtendedFonts18w700),
-                          const SizedBox(
-                            height: 24,
-                          ),
-                          Container(
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(8),
-                                border: Border.all(
-                                    color: AppTheme.appGrey8, width: 1),
-                                color: Colors.white),
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 16, vertical: 24),
-                            child: Column(
-                              children: [
-                                InformationRowItem(
-                                  // icon: SVGIcons.totalPriceIcon(),
-                                  title: context.tr(recipientNameKey),
-                                  value:
-                                      "${orderDetails.data?.data?.receiverName}",
-                                ),
-                                const SizedBox(height: 16),
-                                InformationRowItem(
-                                  // icon: SVGIcons.documentIcon(),
-                                  title:context.tr(phoneNumberKey),
-                                  value:
-                                      "${orderDetails.data?.data?.receiverPhoneNumber}",
-                                  hasDivider: orderDetails.data?.data
-                                          ?.receiverAddress?.isNotEmpty ==
-                                      true,
-                                ),
-                                orderDetails.data?.data?.receiverAddress
-                                                ?.isNotEmpty ==
-                                            true ||
-                                        orderDetails
-                                                .data
-                                                ?.data
-                                                ?.receiverAddressDetails
-                                                ?.isNotEmpty ==
-                                            true
-                                    ? const SizedBox(height: 16)
-                                    : const SizedBox(),
-                                orderDetails.data?.data?.receiverAddress
-                                                ?.isNotEmpty ==
-                                            true ||
-                                        orderDetails
-                                                .data
-                                                ?.data
-                                                ?.receiverAddressDetails
-                                                ?.isNotEmpty ==
-                                            true
-                                    ? InformationRowItem(
-                                        // icon: SVGIcons.calendarIcon(),
-                                        title: context.tr(locationKey),
-                                        value:
-                                            "${orderDetails.data?.data?.receiverAddress ?? orderDetails.data?.data?.receiverAddressDetails}",
-                                        hasDivider: false,
-                                        ifSetValueInNewLine: true)
-                                    : SizedBox(),
-                              ],
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 32,
-                          ),
-                          orderDetails.data?.data?.orderItems.isNotEmpty == true
-                              ? Text(
-                                  orderDetails.data?.data?.orderItems.first
-                                              .product !=
-                                          null
-                                      ? context.tr(productKey)
-                                      : context.tr(serviceKey),
+                              )
+                            : const SizedBox(),
+                        Container(
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8),
+                              color: Colors.white),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 16, vertical: 24),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(context.tr(orderInfoKey),
                                   style: AppTheme
-                                      .styleWithTextBlackAdelleSansExtendedFonts18w700)
-                              : const SizedBox(),
-                          const SizedBox(
-                            height: 18,
+                                      .styleWithTextBlackAdelleSansExtendedFonts18w700),
+                              const SizedBox(
+                                height: 24,
+                              ),
+                              InformationRowItem(
+                                title: context.tr(totalPriceKey),
+                                titleStyle: AppTheme
+                                    .styleWithTextAppGrey18AdelleSansExtendedFonts14w400,
+                                value:
+                                    "${context.tr(sarKey)} ${orderDetails.data?.data?.totalWithShippingFee ?? 0}",
+                                valueStyle: AppTheme
+                                    .styleWithTextBlack2AdelleSansExtendedFonts14w400,
+                                hasDivider: false,
+                              ),
+                              const SizedBox(height: 16),
+                              InformationRowItem(
+                                title: context.tr(orderIdKey),
+                                titleStyle: AppTheme
+                                    .styleWithTextAppGrey18AdelleSansExtendedFonts14w400,
+                                value: "${orderDetails.data?.data?.id}",
+                                valueStyle: AppTheme
+                                    .styleWithTextBlack2AdelleSansExtendedFonts14w400,
+                                hasDivider: false,
+                              ),
+                              const SizedBox(height: 16),
+                              InformationRowItem(
+                                title: context.tr(noOfItemsKey),
+                                titleStyle: AppTheme
+                                    .styleWithTextAppGrey18AdelleSansExtendedFonts14w400,
+                                value:
+                                    "${orderDetails.data?.data?.orderItems.length} ${context.tr(itemsKey)}",
+                                valueStyle: AppTheme
+                                    .styleWithTextBlack2AdelleSansExtendedFonts14w400,
+                                hasDivider: false,
+                              ),
+                              const SizedBox(height: 16),
+                              InformationRowItem(
+                                title: context.tr(dateAndTimeKey),
+                                titleStyle: AppTheme
+                                    .styleWithTextAppGrey18AdelleSansExtendedFonts14w400,
+                                value:
+                                    "${(orderDetails.data?.data?.createdAt ?? "").hhMm()}, ${(orderDetails.data?.data?.createdAt ?? "").ddMmYyyy()}",
+                                valueStyle: AppTheme
+                                    .styleWithTextBlack2AdelleSansExtendedFonts14w400,
+                                hasDivider: false,
+                              ),
+                            ],
                           ),
-                          ...(List.generate(
-                              orderDetails.data?.data?.orderItems.length ?? 0,
-                              (index) => Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 8.0),
-                                    child: ProductItemCard(
-                                      item: orderDetails
-                                          .data?.data!.orderItems[index],
-                                      onItemClick: (itemId) {
-                                        navigateToDetails(
-                                            itemId,
-                                            orderDetails.data?.data?.orderItems
-                                                        .first.product !=
-                                                    null
-                                                ? OrderItemType.Product
-                                                : OrderItemType.Service);
-                                      },
-                                    ),
-                                  ))),
-                          SizedBox(
-                            height: 24,
+                        ),
+                        const SizedBox(
+                          height: 32,
+                        ),
+                        Container(
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8),
+                              color: Colors.white),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 16, vertical: 24),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(context.tr(recipientInfoKey),
+                                  style: AppTheme
+                                      .styleWithTextBlackAdelleSansExtendedFonts18w700),
+                              const SizedBox(
+                                height: 24,
+                              ),
+                              Text(
+                                "${orderDetails.data?.data?.receiverName}",
+                                style: AppTheme
+                                    .styleWithTextBlack2AdelleSansExtendedFonts14w400,
+                              ),
+                              // InformationRowItem(
+                              //   title: context.tr(recipientNameKey),
+                              //   titleStyle: AppTheme
+                              //       .styleWithTextAppGrey18AdelleSansExtendedFonts14w400,
+                              //   value:
+                              //       "${orderDetails.data?.data?.receiverName}",
+                              //   valueStyle: AppTheme
+                              //       .styleWithTextBlack2AdelleSansExtendedFonts14w400,
+                              //   hasDivider: false,
+                              // ),
+                              const SizedBox(height: 16),
+                              Text(
+                                "${orderDetails.data?.data?.receiverPhoneNumber}",
+                                style: AppTheme
+                                    .styleWithTextBlack2AdelleSansExtendedFonts14w400,
+                              ),
+                              // InformationRowItem(
+                              //   // icon: SVGIcons.documentIcon(),
+                              //   title: context.tr(phoneNumberKey),
+                              //   titleStyle: AppTheme
+                              //       .styleWithTextAppGrey18AdelleSansExtendedFonts14w400,
+                              //   value:
+                              //       "${orderDetails.data?.data?.receiverPhoneNumber}",
+                              //   valueStyle: AppTheme
+                              //       .styleWithTextBlack2AdelleSansExtendedFonts14w400,
+                              //   hasDivider: false,
+                              // ),
+                              orderDetails.data?.data?.receiverAddress
+                                              ?.isNotEmpty ==
+                                          true ||
+                                      orderDetails
+                                              .data
+                                              ?.data
+                                              ?.receiverAddressDetails
+                                              ?.isNotEmpty ==
+                                          true
+                                  ? const SizedBox(height: 16)
+                                  : const SizedBox(),
+                              orderDetails.data?.data?.receiverAddress
+                                              ?.isNotEmpty ==
+                                          true ||
+                                      orderDetails
+                                              .data
+                                              ?.data
+                                              ?.receiverAddressDetails
+                                              ?.isNotEmpty ==
+                                          true
+                                  ? Text(
+                                      "${orderDetails.data?.data?.receiverAddress ?? orderDetails.data?.data?.receiverAddressDetails}",
+                                      style: AppTheme
+                                          .styleWithTextBlack2AdelleSansExtendedFonts14w400,
+                                    )
+                                  // InformationRowItem(
+                                  //         // icon: SVGIcons.calendarIcon(),
+                                  //         title: context.tr(locationKey),
+                                  //         titleStyle: AppTheme
+                                  //             .styleWithTextAppGrey18AdelleSansExtendedFonts14w400,
+                                  //         value:
+                                  //             "${orderDetails.data?.data?.receiverAddress ?? orderDetails.data?.data?.receiverAddressDetails}",
+                                  //         valueStyle: AppTheme
+                                  //             .styleWithTextBlack2AdelleSansExtendedFonts14w400,
+                                  //         hasDivider: false,
+                                  //         ifSetValueInNewLine: true)
+                                  : SizedBox(),
+                            ],
                           ),
-                          Text(
-                            context.tr(paymentDetailsKey),
-                            style: AppTheme
-                                .styleWithTextBlackAdelleSansExtendedFonts18w700,
-                          ),
-                          SizedBox(
-                            height: 24,
-                          ),
-                          Container(
-                            padding: EdgeInsets.symmetric(vertical: 5),
-                            clipBehavior: Clip.antiAlias,
+                        ),
+                        const SizedBox(
+                          height: 32,
+                        ),
+                        Container(
                             decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(4),
-                              border: Border.all(color: AppTheme.appGrey8),
-                              color: Colors.white,
-                            ),
+                                borderRadius: BorderRadius.circular(8),
+                                color: Colors.white),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 16, vertical: 24),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 12.0),
-                                  child: ProductRowItem(
-                                    title: context.tr(paymentMethodKey),
-                                    textValue:
-                                        "${orderDetails.data?.data?.paymentMethod}",
-                                    titleTextStyle: AppTheme
-                                        .styleWithTextBlackColorAdelleSansExtendedFonts12w500,
-                                    desTextStyle: AppTheme
-                                        .styleWithTextGray7AdelleSansExtendedFonts12w400,
-                                  ),
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Text("Order Summary",
+                                        style: AppTheme
+                                            .styleWithTextBlackAdelleSansExtendedFonts18w700),
+                                    Spacer(),
+                                    orderDetails.data?.data
+                                                ?.isUserCanCancelOrder() ==
+                                            true
+                                        ? InkWell(
+                                            onTap: () {
+                                              actionType =
+                                                  ButtonsClickType.Cancel;
+                                              showCancellationBottomSheet(
+                                                  orderDetails.data?.data?.id
+                                                          .toString() ??
+                                                      "",
+                                                  "14");
+                                            },
+                                            child: Container(
+                                              width: 88.w,
+                                              height: 33.h,
+                                              decoration: BoxDecoration(
+                                                  color: AppTheme
+                                                      .mainAppColorLight2,
+                                                  borderRadius:
+                                                      BorderRadius.circular(8)),
+                                              child: Center(
+                                                child: Text(
+                                                  context.tr(cancelOrderKey),
+                                                  style: AppTheme
+                                                      .styleWithTextGray7AdelleSansExtendedFonts12w400
+                                                      .copyWith(
+                                                          color: AppTheme
+                                                              .mainAppColorDark),
+                                                ),
+                                              ),
+                                            ),
+                                          )
+                                        : const SizedBox()
+                                  ],
                                 ),
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 12.0),
-                                  child: ProductRowItem(
-                                    title: context.tr(orderPriceKey),
-                                    textValue:
-                                        "${context.tr(sarKey)} ${(orderDetails.data?.data?.totalBeforeDiscount ?? 0)}",
-                                    titleTextStyle: AppTheme
-                                        .styleWithTextBlackColorAdelleSansExtendedFonts12w500,
-                                    desTextStyle: AppTheme
-                                        .styleWithTextGray7AdelleSansExtendedFonts12w400,
-                                  ),
+                                const SizedBox(
+                                  height: 18,
                                 ),
-                                orderDetails.data?.data?.shippingFee != null &&
-                                        orderDetails.data?.data?.shippingFee !=
-                                            0
-                                    ? Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 12.0),
-                                        child: ProductRowItem(
-                                          title: context.tr(shippingFeeKey),
-                                          textValue:
-                                              "${context.tr(sarKey)} ${(orderDetails.data?.data?.shippingFee ?? 0)}",
-                                          titleTextStyle: AppTheme
-                                              .styleWithTextBlackColorAdelleSansExtendedFonts12w500,
-                                          desTextStyle: AppTheme
-                                              .styleWithTextGray7AdelleSansExtendedFonts12w400,
-                                        ),
-                                      )
-                                    : SizedBox(),
-                                orderDetails.data?.data?.discount != null &&
-                                        orderDetails.data?.data?.discount != 0
-                                    ? Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 12.0),
-                                        child: ProductRowItem(
-                                          title: context.tr(discountKey),
-                                          textValue:
-                                              "${context.tr(sarKey)} ${(orderDetails.data?.data?.discount ?? 0)}",
-                                          titleTextStyle: AppTheme
-                                              .styleWithTextBlackColorAdelleSansExtendedFonts12w500
-                                              .copyWith(
-                                                  color: AppTheme.mainAppColor),
-                                          desTextStyle: AppTheme
-                                              .styleWithTextGray7AdelleSansExtendedFonts12w400
-                                              .copyWith(
-                                                  color: AppTheme.mainAppColor),
-                                        ),
-                                      )
-                                    : SizedBox(),
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 12.0),
-                                  child: ProductRowItem(
-                                    title: context.tr(totalPriceKey),
-                                    textValue:
-                                        "${context.tr(sarKey)} ${(orderDetails.data?.data?.totalWithShippingFee ?? 0)}",
-                                    titleTextStyle: AppTheme
-                                        .styleWithTextBlackAdelleSansExtendedFonts16w700,
-                                    desTextStyle: AppTheme
-                                        .styleWithTextBlackAdelleSansExtendedFonts16w700,
-                                    hasDivider: false,
-                                  ),
-                                ),
+                                ...(List.generate(
+                                    orderDetails
+                                            .data?.data?.orderItems.length ??
+                                        0,
+                                    (index) => Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 8.0),
+                                          child: ProductItemCard(
+                                            item: orderDetails
+                                                .data?.data!.orderItems[index],
+                                            onItemClick: (itemId) {
+                                              navigateToDetails(
+                                                  itemId,
+                                                  orderDetails
+                                                              .data
+                                                              ?.data
+                                                              ?.orderItems
+                                                              .first
+                                                              .product !=
+                                                          null
+                                                      ? OrderItemType.Product
+                                                      : OrderItemType.Service);
+                                            },
+                                          ),
+                                        ))),
                               ],
-                            ),
+                            )),
+                        SizedBox(
+                          height: 24,
+                        ),
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 16.0, vertical: 16),
+                          clipBehavior: Clip.antiAlias,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(4),
+                            color: Colors.white,
                           ),
-                          SizedBox(
-                            height: 25,
-                          )
-                        ],
-                      ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                context.tr(paymentDetailsKey),
+                                style: AppTheme
+                                    .styleWithTextBlackAdelleSansExtendedFonts18w700,
+                              ),
+                              SizedBox(
+                                height: 24,
+                              ),
+                              ProductRowItem(
+                                title: context.tr(paymentMethodKey),
+                                textValue:
+                                    "${orderDetails.data?.data?.paymentMethod}",
+                                titleTextStyle: AppTheme
+                                    .styleWithTextBlack2AdelleSansExtendedFonts14w400,
+                                desTextStyle: AppTheme
+                                    .styleWithTextAppGrey26AdelleSansExtendedFonts14w400,
+                                hasDivider: false,
+                              ),
+                              ProductRowItem(
+                                title: context.tr(orderPriceKey),
+                                textValue:
+                                    "${context.tr(sarKey)} ${(orderDetails.data?.data?.totalBeforeDiscount ?? 0)}",
+                                titleTextStyle: AppTheme
+                                    .styleWithTextBlack2AdelleSansExtendedFonts14w400,
+                                desTextStyle: AppTheme
+                                    .styleWithTextAppGrey26AdelleSansExtendedFonts14w400,
+                                hasDivider: false,
+                              ),
+                              orderDetails.data?.data?.shippingFee != null &&
+                                      orderDetails.data?.data?.shippingFee != 0
+                                  ? ProductRowItem(
+                                      title: context.tr(shippingFeeKey),
+                                      textValue:
+                                          "${context.tr(sarKey)} ${(orderDetails.data?.data?.shippingFee ?? 0)}",
+                                      titleTextStyle: AppTheme
+                                          .styleWithTextBlack2AdelleSansExtendedFonts14w400,
+                                      desTextStyle: AppTheme
+                                          .styleWithTextAppGrey26AdelleSansExtendedFonts14w400,
+                                      hasDivider: false,
+                                    )
+                                  : SizedBox(),
+                              orderDetails.data?.data?.discount != null &&
+                                      orderDetails.data?.data?.discount != 0
+                                  ? ProductRowItem(
+                                      title: context.tr(discountKey),
+                                      textValue:
+                                          "-${context.tr(sarKey)} ${(orderDetails.data?.data?.discount ?? 0)}",
+                                      titleTextStyle: AppTheme
+                                          .styleColorCode167D2DFonts14w500,
+                                      desTextStyle: AppTheme
+                                          .styleColorCode167D2DFonts14w500,
+                                      hasDivider: false,
+                                    )
+                                  : SizedBox(),
+                              Divider(
+                                color: AppTheme.appGrey9,
+                                thickness: 1,
+                              ),
+                              ProductRowItem(
+                                title: context.tr(totalPriceKey),
+                                subTitle: "(Incl. VAT)",
+                                textValue:
+                                    "${context.tr(sarKey)} ${(orderDetails.data?.data?.totalWithShippingFee ?? 0)}",
+                                titleTextStyle: AppTheme
+                                    .styleWithTextAppBlackAdelleSansExtendedFonts14w700,
+                                desTextStyle: AppTheme
+                                    .styleWithTextAppBlackAdelleSansExtendedFonts14w700,
+                                hasDivider: false,
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          height: 25,
+                        )
+                      ],
                     ),
                   ),
                 )
@@ -584,21 +725,28 @@ class _OrderDetailsScreenState extends ConsumerState<OrderDetailsScreen> {
   }
 
   void showCancellationBottomSheet(String orderId, String statusId) {
-    showModalBottomSheet(
-        isScrollControlled: true,
+    showMakeSureDialog(
         context: context,
-        shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(10), topRight: Radius.circular(10))),
-        builder: (BuildContext builder) => Padding(
-              padding: EdgeInsets.only(
-                  bottom: MediaQuery.of(context).viewInsets.bottom),
-              child: CancelOrderBottomSheet(onOrderCancel: () {
-                ref
-                    .read(manageOrderStateProvider.notifier)
-                    .updateOrderState(orderId: orderId, statusId: statusId);
-              }),
-            ));
+        title: "Are you sure you want to cancel order?",
+        action: () {
+          ref
+              .read(manageOrderStateProvider.notifier)
+              .updateOrderState(orderId: orderId, statusId: statusId);
+        });
+
+    // showModalBottomSheet(
+    //     isScrollControlled: true,
+    //     context: context,
+    //     shape: const RoundedRectangleBorder(
+    //         borderRadius: BorderRadius.only(
+    //             topLeft: Radius.circular(10), topRight: Radius.circular(10))),
+    //     builder: (BuildContext builder) => Padding(
+    //           padding: EdgeInsets.only(
+    //               bottom: MediaQuery.of(context).viewInsets.bottom),
+    //           child: CancelOrderBottomSheet(onOrderCancel: () {
+    //
+    //           }),
+    //         ));
   }
 
   void navigateToDetails(int itemId, OrderItemType type) {

@@ -51,12 +51,12 @@ class AddressSummaryCart extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      addressItem.recipientAddress?.ellipsize(50) ?? "",
+                      addressItem.recipientAddress?.ellipsize(40) ?? "",
                       style: AppTheme
                           .styleWithTextGray18AdelleSansExtendedFonts12w400,
                     ),
                     const Spacer(),
-                    Text(addressItem.city?.name ?? "",style: AppTheme.styleWithTextBlack2AdelleSansExtendedFonts14w400,)
+                    Text(addressItem.city?.name?.ellipsize(37) ?? "",style: AppTheme.styleWithTextBlack2AdelleSansExtendedFonts14w400,)
                   ],
                 ),
                 const Spacer(),

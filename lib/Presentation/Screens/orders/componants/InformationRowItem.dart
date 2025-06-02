@@ -8,7 +8,9 @@ import '../../../Theme/AppTheme.dart';
 class InformationRowItem extends StatelessWidget {
   final Widget? icon;
   final String? title;
+  final TextStyle? titleStyle;
   final String? value;
+  final TextStyle? valueStyle;
   final bool? hasDivider;
   final bool? ifSetValueInNewLine;
   const InformationRowItem(
@@ -17,7 +19,7 @@ class InformationRowItem extends StatelessWidget {
       this.title,
       this.value,
       this.hasDivider = true,
-      this.ifSetValueInNewLine = false});
+      this.ifSetValueInNewLine = false, this.titleStyle, this.valueStyle});
 
   @override
   Widget build(BuildContext context) {
@@ -33,13 +35,13 @@ class InformationRowItem extends StatelessWidget {
             icon == null ? SizedBox() : const SizedBox(width: 12),
             Text(
               title ?? "",
-              style: AppTheme.styleWithTextBlackAdelleSansExtendedFonts14w500,
+              style: titleStyle ?? AppTheme.styleWithTextBlackAdelleSansExtendedFonts14w500,
             ),
             const Spacer(),
             ifSetValueInNewLine == false
                 ? Text(
                     "$value",
-                    style: AppTheme
+                    style: valueStyle ?? AppTheme
                         .styleWithTextAppGrey7AdelleSansExtendedFonts14w400,textAlign: TextAlign.end,
                   )
                 : SizedBox()
@@ -54,7 +56,7 @@ class InformationRowItem extends StatelessWidget {
           width: MediaQuery.of(context).size.width,
               child: Text(
                         "$value",
-                        style: AppTheme
+                        style: valueStyle ?? AppTheme
                 .styleWithTextAppGrey7AdelleSansExtendedFonts14w400,textAlign: TextAlign.start,
                       ),
             )

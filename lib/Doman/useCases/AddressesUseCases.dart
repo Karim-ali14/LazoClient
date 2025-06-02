@@ -50,7 +50,6 @@ class CreateAddressUseCase
     String? recipientAddress,
     String? lat,
     String? lng,
-    String? cityId,
   }) async {
     state = StateModel.loading();
     request(() => api.createAddress(
@@ -60,7 +59,7 @@ class CreateAddressUseCase
           recipientAddress: recipientAddress,
           lat: lat,
           lng: lng,
-          cityId: cityId,
+          cityId: prefs.getInt(selectedCityIdKey).toString() ,
         ));
   }
 }

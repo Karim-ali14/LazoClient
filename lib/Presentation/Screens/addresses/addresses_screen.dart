@@ -54,7 +54,9 @@ class _AddressesScreenState extends ConsumerState<AddressesScreen> {
       body: addresses.data?.data.isEmpty == true
           ? Expanded(
               child: EmptyDataPlaceHolder(
-                onAddOrderClick: () {},
+                onAddOrderClick: () {
+                  navigateToAddAddressScreen();
+                },
                 icon: SVGIcons.localSVG(addressPlaceHolderIcons,
                     width: 113.w, height: 94.h),
                 title: "",

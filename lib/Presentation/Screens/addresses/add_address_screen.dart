@@ -237,8 +237,7 @@ class _AddAddressScreenState extends ConsumerState<AddAddressScreen> {
           recipientLandmark: additionalAddressController.text,
           recipientAddress: address,
           lat: "${_selectedLocation!.latitude}",
-          lng: "${_selectedLocation!.longitude}",
-          cityId: "9");
+          lng: "${_selectedLocation!.longitude}");
     }
   }
 

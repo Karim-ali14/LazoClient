@@ -19,38 +19,33 @@ class OrderUserInformationWithOrderStatus extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return IntrinsicHeight(
-      child: Row(
+      child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Skeleton.replace(
-              replacement: const Icon(Icons.abc,size: 42,),
-              child: clientImage != null
-                  ? ClipRRect(
-                      borderRadius: BorderRadius.circular(50),
-                      child: Image.network(
-                        fit: BoxFit.cover,
-                        clientImage ?? "",
-                        width: 42,
-                        height: 42,
-                        errorBuilder: (
-                            BuildContext context,
-                            Object error,
-                            StackTrace? stackTrace,
-                        ) {
-                          return SVGIcons.appIcon();
-                        },
-                      ),
-                    )
-                  : SVGIcons.appIcon(),),
-          const SizedBox(width: 8),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Text(
-                context.tr(storeNameKey),
-                style: AppTheme.styleWithTextGray7AdelleSansExtendedFonts12w400,
-              ),
-              const SizedBox(height: 6),
+              Skeleton.replace(
+                  replacement: const Icon(Icons.abc,size: 42,),
+                  child: clientImage != null
+                      ? ClipRRect(
+                          borderRadius: BorderRadius.circular(3.3),
+                          child: Image.network(
+                            fit: BoxFit.cover,
+                            clientImage ?? "",
+                            width: 42,
+                            height: 42,
+                            errorBuilder: (
+                                BuildContext context,
+                                Object error,
+                                StackTrace? stackTrace,
+                            ) {
+                              return SVGIcons.appIcon();
+                            },
+                          ),
+                        )
+                      : SVGIcons.appIcon(),),
+              const SizedBox(width: 8),
               Skeleton.replace(
                 child: Text(
                   clientName ?? "",
@@ -59,24 +54,24 @@ class OrderUserInformationWithOrderStatus extends StatelessWidget {
                 replacement: const Text("Mohamed Farag",
                   style: AppTheme.styleWithTextBlackAdelleSansExtendedFonts16w700,),
               ),
+              const Spacer(),
+              Skeleton.leaf(
+                child: DecoratedBox(
+                  decoration: BoxDecoration(
+                    color: "${stateId}".getOrderStatusColor(context).withOpacity(0.1),
+                    borderRadius: BorderRadius.circular(60),
+                  ),
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 11, vertical: 6),
+                    child: Text(
+                      "${stateId}".getOrderStatus(context),
+                      style: AppTheme.styleWithTextGray7AdelleSansExtendedFonts12w400.copyWith(color: "${stateId}".getOrderStatusColor(context)),
+                    ),
+                  ),
+                ),
+              )
             ],
           ),
-          const Spacer(),
-          Skeleton.leaf(
-            child: DecoratedBox(
-              decoration: BoxDecoration(
-                color: "${stateId}".getOrderStatusColor(context).withOpacity(0.1),
-                borderRadius: BorderRadius.circular(2),
-              ),
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 11, vertical: 6),
-                child: Text(
-                  "${stateId}".getOrderStatus(context),
-                  style: AppTheme.styleWithTextGray7AdelleSansExtendedFonts12w400.copyWith(color: "${stateId}".getOrderStatusColor(context)),
-                ),
-              ),
-            ),
-          )
         ],
       ),
     );

@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lazo_client/Presentation/Theme/AppTheme.dart';
 
 import '../../../../Constants/Constants.dart';
@@ -24,14 +25,10 @@ class _ProductOutOfStockCardViewState extends State<ProductOutOfStockCardView> {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12,vertical: 16),
-      height: 122,
+      height: 120.h,
       decoration: BoxDecoration(
         color: widget.backgroundColor ?? CupertinoColors.white,
         borderRadius: BorderRadius.circular(4),
-        border: Border.all(
-          color: AppTheme.appGrey6,
-          width: 1
-        ),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -41,41 +38,46 @@ class _ProductOutOfStockCardViewState extends State<ProductOutOfStockCardView> {
           SizedBox(
             height: defaultPaddingHorizontal,
           ),
-          Row(
-            children: [
-              Expanded(
-                  child: AppButton(
-                    height: 40,
-                    onPress: () {
-                      widget.onButtonClickListener
-                          ?.call(ButtonsClickType.CompleteOrder);
-                    },
-                    child: Center(
-                        child: Text(
-                          context.tr(completeOrderKey),
-                          style: AppTheme
-                              .styleWithTextGray7AdelleSansExtendedFonts12w400
-                              .copyWith(color: Colors.white),
-                        )),
-                  )),
-              SizedBox(width: 8),
-              Expanded(
-                  child: AppButton(
-                    height: 40,
-                    onPress: () {
-                      widget.onButtonClickListener
-                          ?.call(ButtonsClickType.Cancel);
-                    },
-                    backColor: AppTheme.mainAppColorLight2,
-                    child: Center(
-                        child: Text(
-                          context.tr(cancelOrderKey),
-                          style: AppTheme
-                              .styleWithTextGray7AdelleSansExtendedFonts12w400
-                              .copyWith(color: AppTheme.mainAppColor),
-                        )),
-                  ))
-            ],
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24.0),
+            child: Row(
+              children: [
+                Expanded(
+                    child: AppButton(
+                      height: 33.h,
+                      onPress: () {
+                        widget.onButtonClickListener
+                            ?.call(ButtonsClickType.Cancel);
+                      },
+                      backColor: AppTheme.mainAppColorDark,
+                      outlined: true,
+                      child: Center(
+                          child: Text(
+                            context.tr(cancelOrderKey),
+                            style: AppTheme
+                                .styleWithTextGray7AdelleSansExtendedFonts12w400
+                                .copyWith(color: AppTheme.mainAppColorDark),
+                          )),
+                    )),
+                SizedBox(width: 11),
+                Expanded(
+                    child: AppButton(
+                      height: 33.h,
+                      onPress: () {
+                        widget.onButtonClickListener
+                            ?.call(ButtonsClickType.CompleteOrder);
+                      },
+                      backColor: AppTheme.mainAppColorLight2,
+                      child: Center(
+                          child: Text(
+                            context.tr(completeOrderKey),
+                            style: AppTheme
+                                .styleWithTextGray7AdelleSansExtendedFonts12w400
+                                .copyWith(color: AppTheme.mainAppColorDark),
+                          )),
+                    ))
+              ],
+            ),
           )
         ],
       ),
