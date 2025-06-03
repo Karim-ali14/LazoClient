@@ -400,7 +400,7 @@ class SVGIcons {
 
   static Widget appIcon() {
     return SvgPicture.asset(
-      appIconSvg,
+      lazoOrderIcons,
     );
   }
 

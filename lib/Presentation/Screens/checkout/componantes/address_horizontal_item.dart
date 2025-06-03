@@ -20,7 +20,7 @@ class AddressHorizontalItem extends StatelessWidget {
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 8),
         width: 163.w,
-        height: 84.h,
+        height: 85.h,
         decoration: BoxDecoration(
           color: AppTheme.appGrey29,
           border: Border.all(color: isSelected ? AppTheme.mainAppColorDark : AppTheme.appGrey19,width: 1),
@@ -39,7 +39,7 @@ class AddressHorizontalItem extends StatelessWidget {
             SizedBox(
               height: 8.h,
             ),
-            Text(addressItem?.recipientAddress?.ellipsize(25) ?? "",style: AppTheme.styleWithTextGray18AdelleSansExtendedFonts12w400,),
+            Text(addressItem?.recipientAddress?.ellipsize(45) ?? "",style: AppTheme.styleWithTextGray18AdelleSansExtendedFonts12w400.copyWith(height: 1),),
           ],
         ),
       ),

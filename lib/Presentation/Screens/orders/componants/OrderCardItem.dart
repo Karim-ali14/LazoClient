@@ -80,34 +80,49 @@ class _OrderCardItemState extends ConsumerState<OrderCardItem> {
                     : const SizedBox(),
                 const SizedBox(height: 24),
                 InformationRowItem(
-                  icon: SVGIcons.totalPriceIcon(),
                   title: context.tr(totalPriceKey),
+                  titleStyle: AppTheme
+                      .styleWithTextAppGrey18AdelleSansExtendedFonts14w400,
                   value:
                       "${context.tr(sarKey)} ${widget.orderModel?.totalWithShippingFee ?? 0}",
+                  valueStyle: AppTheme
+                      .styleWithTextBlack2AdelleSansExtendedFonts14w400,
+                  hasDivider: false,
                 ),
                 const SizedBox(height: 16),
                 InformationRowItem(
-                  icon: SVGIcons.documentIcon(),
+                  titleStyle: AppTheme
+                      .styleWithTextAppGrey18AdelleSansExtendedFonts14w400,
                   title: context.tr(orderIdKey),
                   value: "${widget.orderModel?.id}",
+                  valueStyle: AppTheme
+                    .styleWithTextBlack2AdelleSansExtendedFonts14w400,
+                  hasDivider: false,
                 ),
                 const SizedBox(height: 16),
                 InformationRowItem(
-                  icon: SVGIcons.numberOfItemsIcon(),
+                  titleStyle: AppTheme
+                      .styleWithTextAppGrey18AdelleSansExtendedFonts14w400,
                   title: context.tr(noOfItemsKey),
                   value: ""
                       "${widget.orderModel?.orderItems.length} ${context.tr(itemsKey)}",
+                  valueStyle: AppTheme
+                      .styleWithTextBlack2AdelleSansExtendedFonts14w400,
+                  hasDivider: false,
                 ),
                 const SizedBox(height: 16),
                 InformationRowItem(
-                  icon: SVGIcons.calendarIcon(),
+                  titleStyle: AppTheme
+                      .styleWithTextAppGrey18AdelleSansExtendedFonts14w400,
                   title: context.tr(dateAndTimeKey),
                   value:
                       "${widget.orderModel?.createdAt?.hhMm()}, ${widget.orderModel?.createdAt?.ddMmYyyy()}",
+                  valueStyle: AppTheme
+                      .styleWithTextBlack2AdelleSansExtendedFonts14w400,
                   hasDivider: false,
                 ),
                 const SizedBox(
-                  height: 24,
+                  height: 10,
                 ),
                 Skeleton.leaf(
                     child: OrderButtons(

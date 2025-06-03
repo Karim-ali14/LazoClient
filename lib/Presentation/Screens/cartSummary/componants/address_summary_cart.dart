@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lazo_client/Data/Network/lib/api.dart';
 import 'package:lazo_client/Presentation/Theme/AppTheme.dart';
@@ -9,7 +10,8 @@ import '../../../../Constants/Assets.dart';
 
 class AddressSummaryCart extends StatelessWidget {
   final AddressItem addressItem;
-  const AddressSummaryCart({super.key, required this.addressItem});
+  final Function changeAddressAction;
+  const AddressSummaryCart({super.key, required this.addressItem, required this.changeAddressAction});
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +62,9 @@ class AddressSummaryCart extends StatelessWidget {
                   ],
                 ),
                 const Spacer(),
-                const Text("Change",style: AppTheme.styleWithTextMainAppColorAdelleSansExtendedFonts12w400,)
+                InkWell(
+                    onTap: (){changeAddressAction.call();},
+                    child: const Text("Change",style: AppTheme.styleWithTextMainAppColorAdelleSansExtendedFonts12w400,))
               ],
             ),
           )

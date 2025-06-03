@@ -28,9 +28,8 @@ class InformationRowItem extends StatelessWidget {
         Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Skeleton.replace(
+            Skeleton.ignore(
               child: icon ?? SizedBox(),
-              replacement: Icon(Icons.ac_unit, size: 20),
             ),
             icon == null ? SizedBox() : const SizedBox(width: 12),
             Text(
@@ -68,7 +67,7 @@ class InformationRowItem extends StatelessWidget {
         if (hasDivider == true)
           const Divider(color: AppTheme.appGrey8, height: 1)
         else
-          const SizedBox()
+          const SizedBox(height: 3,)
       ]),
     );
   }

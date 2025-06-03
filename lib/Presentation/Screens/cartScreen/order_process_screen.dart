@@ -47,7 +47,7 @@ class _OrderProcessScreenState extends ConsumerState<OrderProcessScreen> {
     const CheckoutScreen(
       withInStepper: true,
     ),
-    CartSummaryScreen(),
+    CartSummaryScreen(changeAddressAction: (){},),
   ];
   final PageController _pageController = PageController();
   final List<GlobalKey> _keys = [
@@ -79,6 +79,10 @@ class _OrderProcessScreenState extends ConsumerState<OrderProcessScreen> {
           serviceSelectedListIds: widget.serviceSelectedListIds,
           serviceSelectedListItemsIds: widget.serviceSelectedListItemsIds,
           key: _keys[2],
+          changeAddressAction: (){
+            print("object");
+            context.pop();
+          },
         ),
       ];
     } else {
@@ -91,7 +95,11 @@ class _OrderProcessScreenState extends ConsumerState<OrderProcessScreen> {
         ),
         CartSummaryScreen(
           type: widget.type,
-          key: _keys[2],
+          key: _keys[2], changeAddressAction: (){
+
+          print("object");
+          navigateToPage(--_currentPage);
+        },
         ),
       ];
     }

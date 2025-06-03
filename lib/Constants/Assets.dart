@@ -137,3 +137,5 @@ const markerIcons = "assets/images/marker_icon.svg";
 const stepperSpacerIcons = "assets/images/stepper_spacer_icon.svg";
 const likeIcons = "assets/images/like_icon.svg";
 const enterArrowIcons = "assets/images/enter_arrow_icon.svg";
+const noOrderIcons = "assets/images/no_order_icon.svg";
+const lazoOrderIcons = "assets/images/lazo_order_icon.svg";

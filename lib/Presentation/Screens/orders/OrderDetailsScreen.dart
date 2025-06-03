@@ -70,9 +70,9 @@ class _OrderDetailsScreenState extends ConsumerState<OrderDetailsScreen> {
         ref
             .read(getNewOrderStateProvider.notifier)
             .deleteOrder(res.data!.data!);
-        ref
-            .read(getCanselOrderStateProvider.notifier)
-            .updateList(res.data!.data!);
+        // ref
+        //     .read(getCanselOrderStateProvider.notifier)
+        //     .updateList(res.data!.data!);
       }
       actionType = null;
     });

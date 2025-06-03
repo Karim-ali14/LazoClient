@@ -22,8 +22,8 @@ class _SavedRecipientsAddressesState
   @override
   Widget build(BuildContext context) {
     final addressItem = ref.watch(fetchAddressForCheckoutStateNotifiers);
-    print("asfasdfasdfsd ${addressItem.data?.data.length}");
-    return Container(
+    return addressItem.data?.data.isNotEmpty == true ? Container(
+      width: double.infinity,
       decoration: BoxDecoration(
           color: AppTheme.appGrey28, borderRadius: BorderRadius.circular(4)),
       padding: EdgeInsets.all(defaultPaddingHorizontal),
@@ -38,7 +38,7 @@ class _SavedRecipientsAddressesState
             height: 10,
           ),
           SizedBox(
-            height: 90,
+            height: 96.h,
             child: ListView.separated(
               shrinkWrap: true,
               itemCount: addressItem.data?.data.length ?? 0,
@@ -60,6 +60,6 @@ class _SavedRecipientsAddressesState
           )
         ],
       ),
-    );
+    ):const SizedBox();
   }
 }

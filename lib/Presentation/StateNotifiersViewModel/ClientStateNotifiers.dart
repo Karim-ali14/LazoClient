@@ -11,19 +11,19 @@ final createOrderStateNotifiers =
 
 final getNewOrderStateProvider = StateNotifierProvider.autoDispose<OrderUseCase,
     StateModel<ShowOrders200Response?>>(
-        (ref) => OrderUseCase(MainOrderStatus.New, ref, ref.read(clientApi)));
+        (ref) => OrderUseCase(MainOrderStatus.Pending, ref, ref.read(clientApi)));
 
 final getCurrentOrderStateProvider = StateNotifierProvider.autoDispose<
     OrderUseCase, StateModel<ShowOrders200Response?>>(
-        (ref) => OrderUseCase(MainOrderStatus.Current, ref, ref.read(clientApi)));
+        (ref) => OrderUseCase(MainOrderStatus.Completed, ref, ref.read(clientApi)));
 
-final getFinishOrderStateProvider = StateNotifierProvider.autoDispose<
-    OrderUseCase, StateModel<ShowOrders200Response?>>(
-        (ref) => OrderUseCase(MainOrderStatus.Finished, ref, ref.read(clientApi)));
-
-final getCanselOrderStateProvider = StateNotifierProvider.autoDispose<
-    OrderUseCase, StateModel<ShowOrders200Response?>>(
-        (ref) => OrderUseCase(MainOrderStatus.Cancelled, ref, ref.read(clientApi)));
+// final getFinishOrderStateProvider = StateNotifierProvider.autoDispose<
+//     OrderUseCase, StateModel<ShowOrders200Response?>>(
+//         (ref) => OrderUseCase(MainOrderStatus.Finished, ref, ref.read(clientApi)));
+//
+// final getCanselOrderStateProvider = StateNotifierProvider.autoDispose<
+//     OrderUseCase, StateModel<ShowOrders200Response?>>(
+//         (ref) => OrderUseCase(MainOrderStatus.Cancelled, ref, ref.read(clientApi)));
 
 final manageOrderStateProvider = StateNotifierProvider.autoDispose<
     ManageOrderUseCase, StateModel<ClientOrderDetailsResponse?>>(

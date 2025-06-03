@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lazo_client/Presentation/Theme/AppTheme.dart';
 
 typedef ItemBuilder<T> = Widget Function(T item);
 typedef OnRefreshScreen = Function();
@@ -153,7 +154,9 @@ class DataListView<T> extends StatelessWidget {
               alignment: Alignment.bottomCenter,
               child: Padding(
                 padding: const EdgeInsets.all(10.0),
-                child: loadingWidget ?? const CircularProgressIndicator(),
+                child: loadingWidget ?? const CircularProgressIndicator(
+                  color: AppTheme.mainAppColorDark,
+                ),
               ),
             ),
         ],

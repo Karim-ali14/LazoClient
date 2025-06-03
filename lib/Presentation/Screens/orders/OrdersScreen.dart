@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lazo_client/Data/Network/lib/api.dart';
 import 'package:lazo_client/Doman/CommenProviders/ApiProvider.dart';
@@ -13,6 +14,7 @@ import 'package:lazo_client/Presentation/Widgets/SvgIcons.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../../Constants.dart';
+import '../../../Constants/Assets.dart';
 import '../../../Constants/Eunms.dart';
 import '../../../Data/Models/StateModel.dart';
 import '../../../Localization/Keys.dart';
@@ -61,8 +63,8 @@ class _OrdersScreenState extends ConsumerState<OrdersScreen>
     final manageOrderState = ref.watch(manageOrderStateProvider);
     final newOrders = ref.watch(getNewOrderStateProvider);
     final currentOrders = ref.watch(getCurrentOrderStateProvider);
-    final finishOrders = ref.watch(getFinishOrderStateProvider);
-    final cancelOrders = ref.watch(getCanselOrderStateProvider);
+    // final finishOrders = ref.watch(getFinishOrderStateProvider);
+    // final cancelOrders = ref.watch(getCanselOrderStateProvider);
 
     handleState(manageOrderStateProvider, showLoading: true, showToast: true,
         onSuccess: (res) {
@@ -74,9 +76,9 @@ class _OrdersScreenState extends ConsumerState<OrdersScreen>
         ref
             .read(getNewOrderStateProvider.notifier)
             .deleteOrder(res.data!.data!);
-        ref
-            .read(getCanselOrderStateProvider.notifier)
-            .updateList(res.data!.data!);
+        // ref
+        //     .read(getCanselOrderStateProvider.notifier)
+        //     .updateList(res.data!.data!);
       }
       actionType = null;
     });
@@ -84,6 +86,7 @@ class _OrdersScreenState extends ConsumerState<OrdersScreen>
     return Scaffold(
       body: SafeArea(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             TabBar(
                 labelPadding: const EdgeInsetsDirectional.only(end: 10),
@@ -94,22 +97,22 @@ class _OrdersScreenState extends ConsumerState<OrdersScreen>
                 controller: tabController,
                 tabs: [
                   Padding(
-                    padding: const EdgeInsetsDirectional.fromSTEB(16, 0, 0, 0),
+                    padding: const EdgeInsetsDirectional.only(start: 16),
                     child: Tab(
                       child: Container(
                         width: 150,
                         height: 40,
                         padding: const EdgeInsets.all(10),
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(4),
+                          borderRadius: BorderRadius.circular(60),
                           border: Border.all(
                             color: activeTabIndex == 0
-                                ? AppTheme.mainAppColor
-                                : AppTheme.appGrey8,
+                                ? AppTheme.mainAppColorDark
+                                : AppTheme.appGrey19,
                           ),
                           color: activeTabIndex == 0
-                              ? AppTheme.mainAppColor
-                              : AppTheme.appGrey9,
+                              ? AppTheme.mainAppColorDark
+                              : Colors.white,
                         ),
                         child: Center(
                           child: Text(
@@ -119,7 +122,7 @@ class _OrdersScreenState extends ConsumerState<OrdersScreen>
                                     .styleWithTextWhiteAdelleSansExtendedFonts14w400
                                 : AppTheme
                                     .styleWithTextWhiteAdelleSansExtendedFonts14w400
-                                    .copyWith(color: AppTheme.appGrey10),
+                                    .copyWith(color: AppTheme.appGrey18),
                           ),
                         ),
                       ),
@@ -131,15 +134,15 @@ class _OrdersScreenState extends ConsumerState<OrdersScreen>
                       height: 40,
                       padding: EdgeInsets.all(10),
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(4),
+                        borderRadius: BorderRadius.circular(60),
                         border: Border.all(
                           color: activeTabIndex == 1
-                              ? AppTheme.mainAppColor
-                              : AppTheme.appGrey8,
+                              ? AppTheme.mainAppColorDark
+                              : AppTheme.appGrey19,
                         ),
                         color: activeTabIndex == 1
-                            ? AppTheme.mainAppColor
-                            : AppTheme.appGrey9,
+                            ? AppTheme.mainAppColorDark
+                            : Colors.white,
                       ),
                       child: Center(
                         child: Text(
@@ -149,72 +152,72 @@ class _OrdersScreenState extends ConsumerState<OrdersScreen>
                                   .styleWithTextWhiteAdelleSansExtendedFonts14w400
                               : AppTheme
                                   .styleWithTextWhiteAdelleSansExtendedFonts14w400
-                                  .copyWith(color: AppTheme.appGrey10),
+                                  .copyWith(color: AppTheme.appGrey18),
                         ),
                       ),
                     ),
                   ),
-                  Tab(
-                    child: Container(
-                      width: 150,
-                      height: 40,
-                      padding: EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(4),
-                        border: Border.all(
-                          color: activeTabIndex == 2
-                              ? AppTheme.mainAppColor
-                              : AppTheme.appGrey8,
-                        ),
-                        color: activeTabIndex == 2
-                            ? AppTheme.mainAppColor
-                            : AppTheme.appGrey9,
-                      ),
-                      child: Center(
-                        child: Text(
-                          "Finish Order",
-                          style: activeTabIndex == 2
-                              ? AppTheme
-                                  .styleWithTextWhiteAdelleSansExtendedFonts14w400
-                              : AppTheme
-                                  .styleWithTextWhiteAdelleSansExtendedFonts14w400
-                                  .copyWith(color: AppTheme.appGrey10),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Tab(
-                    child: Container(
-                      width: 150,
-                      height: 40,
-                      padding: EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(4),
-                        border: Border.all(
-                          color: activeTabIndex == 3
-                              ? AppTheme.mainAppColor
-                              : AppTheme.appGrey8,
-                        ),
-                        color: activeTabIndex == 3
-                            ? AppTheme.mainAppColor
-                            : AppTheme.appGrey9,
-                      ),
-                      child: Center(
-                        child: Text(
-                          "Cancelled Order",
-                          style: activeTabIndex == 3
-                              ? AppTheme
-                                  .styleWithTextWhiteAdelleSansExtendedFonts14w400
-                              : AppTheme
-                                  .styleWithTextWhiteAdelleSansExtendedFonts14w400
-                                  .copyWith(color: AppTheme.appGrey10),
-                        ),
-                      ),
-                    ),
-                  ),
+                  // Tab(
+                  //   child: Container(
+                  //     width: 150,
+                  //     height: 40,
+                  //     padding: EdgeInsets.all(10),
+                  //     decoration: BoxDecoration(
+                  //       borderRadius: BorderRadius.circular(4),
+                  //       border: Border.all(
+                  //         color: activeTabIndex == 2
+                  //             ? AppTheme.mainAppColor
+                  //             : AppTheme.appGrey8,
+                  //       ),
+                  //       color: activeTabIndex == 2
+                  //           ? AppTheme.mainAppColor
+                  //           : AppTheme.appGrey9,
+                  //     ),
+                  //     child: Center(
+                  //       child: Text(
+                  //         "Finish Order",
+                  //         style: activeTabIndex == 2
+                  //             ? AppTheme
+                  //                 .styleWithTextWhiteAdelleSansExtendedFonts14w400
+                  //             : AppTheme
+                  //                 .styleWithTextWhiteAdelleSansExtendedFonts14w400
+                  //                 .copyWith(color: AppTheme.appGrey10),
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
+                  // Tab(
+                  //   child: Container(
+                  //     width: 150,
+                  //     height: 40,
+                  //     padding: EdgeInsets.all(10),
+                  //     decoration: BoxDecoration(
+                  //       borderRadius: BorderRadius.circular(4),
+                  //       border: Border.all(
+                  //         color: activeTabIndex == 3
+                  //             ? AppTheme.mainAppColor
+                  //             : AppTheme.appGrey8,
+                  //       ),
+                  //       color: activeTabIndex == 3
+                  //           ? AppTheme.mainAppColor
+                  //           : AppTheme.appGrey9,
+                  //     ),
+                  //     child: Center(
+                  //       child: Text(
+                  //         "Cancelled Order",
+                  //         style: activeTabIndex == 3
+                  //             ? AppTheme
+                  //                 .styleWithTextWhiteAdelleSansExtendedFonts14w400
+                  //             : AppTheme
+                  //                 .styleWithTextWhiteAdelleSansExtendedFonts14w400
+                  //                 .copyWith(color: AppTheme.appGrey10),
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
                 ]),
-            const SizedBox(
-              height: 20,
+            SizedBox(
+              height: 10.h,
             ),
             Expanded(
                 child: RefreshIndicator(
@@ -248,10 +251,9 @@ class _OrdersScreenState extends ConsumerState<OrdersScreen>
                                       MediaQuery.of(context).size.height - 190,
                                   child: EmptyDataPlaceHolder(
                                     onAddOrderClick: () {},
-                                    icon: SVGIcons.basketGifIcon(),
-                                    title: context.tr(noOrdersAddedKey),
-                                    description:
-                                        context.tr(whenYouMakeAnyOrderItWillAppearHereKey),
+                                    icon: SVGIcons.localSVG(noOrderIcons,width: 113.w,height: 92.h),
+                                    title: null,
+                                    description: "No orders found.",
                                   ),
                                 ),
                               ),
@@ -272,8 +274,7 @@ class _OrdersScreenState extends ConsumerState<OrdersScreen>
                                         ]
                                       : []),
                               paginated: true,
-                              pageLoading: currentPageForNewOrder <
-                                  (newOrders.data?.data?.lastPage ?? 0),
+                              pageLoading:newOrders.state == DataState.MORE_LOADING,
                               onBottomReached: () {
                                 if (currentPageForNewOrder <
                                     (newOrders.data?.data?.lastPage ?? 0)) {
@@ -335,10 +336,9 @@ class _OrdersScreenState extends ConsumerState<OrdersScreen>
                                       MediaQuery.of(context).size.height - 190,
                                   child: EmptyDataPlaceHolder(
                                     onAddOrderClick: () {},
-                                    icon: SVGIcons.basketGifIcon(),
-                                    title: context.tr(noOrdersAddedKey),
-                                    description:
-                                        context.tr(whenYouMakeAnyOrderItWillAppearHereKey),
+                                    icon: SVGIcons.localSVG(noOrderIcons,width: 113.w,height: 92.h),
+                                    title: null,
+                                    description: "No orders found.",
                                   ),
                                 ),
                               ),
@@ -357,8 +357,8 @@ class _OrdersScreenState extends ConsumerState<OrdersScreen>
                                         ]
                                       : []),
                               paginated: true,
-                              pageLoading: currentPageForCurrentOrder <
-                                  (currentOrders.data?.data?.lastPage ?? 0),
+                              pageLoading: currentOrders.state ==
+                                  DataState.MORE_LOADING,
                               onBottomReached: () {
                                 if (currentPageForCurrentOrder <
                                     (currentOrders.data?.data?.lastPage ?? 0)) {
@@ -398,140 +398,140 @@ class _OrdersScreenState extends ConsumerState<OrdersScreen>
                                       orderModel: item,
                                     ),
                                   )),
-                  user == null
-                      ? EmptyDataPlaceHolder(
-                          onAddOrderClick: () {
-                            navigateToLogin();
-                          },
-                          icon: SVGIcons.existGifIcon(),
-                          title: context.tr(youNeedYouLoginFirstKey),
-                          description:
-                              context.tr(youCanSeeYourOrdersWhenYouLoginKey),
-                          showButton: true,
-                        )
-                      : finishOrders.state == DataState.EMPTY
-                          ? RefreshIndicator(
-                              onRefresh: () {
-                                getOrdersData();
-                                return Future.delayed(
-                                    const Duration(seconds: 1));
-                              },
-                              child: SingleChildScrollView(
-                                child: SizedBox(
-                                  height:
-                                      MediaQuery.of(context).size.height - 190,
-                                  child: EmptyDataPlaceHolder(
-                                    onAddOrderClick: () {},
-                                    icon: SVGIcons.basketGifIcon(),
-                                    title: context.tr(noOrdersAddedKey),
-                                    description:
-                                        context.tr(whenYouMakeAnyOrderItWillAppearHereKey),
-                                  ),
-                                ),
-                              ),
-                            )
-                          : DataListView<ClientOrderDetails>(
-                              enableSwipe: true,
-                              onRefreshScreen: () {
-                                getOrdersData();
-                              },
-                              dataList: finishOrders.data?.data?.data ??
-                                  (finishOrders.state == DataState.LOADING
-                                      ? [
-                                          ...List.generate(5,
-                                              (index) => ClientOrderDetails())
-                                        ]
-                                      : []),
-                              paginated: true,
-                              pageLoading: currentPageForFinishOrder <
-                                  (finishOrders.data?.data?.lastPage ?? 0),
-                              onBottomReached: () {
-                                if (currentPageForFinishOrder <
-                                    (finishOrders.data?.data?.lastPage ?? 0)) {
-                                  ref
-                                      .read(
-                                          getFinishOrderStateProvider.notifier)
-                                      .getOrders(
-                                          page: ++currentPageForFinishOrder);
-                                }
-                              },
-                              builder: (item) => Skeletonizer(
-                                    enabled:
-                                        finishOrders.state == DataState.LOADING,
-                                    child: OrderCardItem(
-                                      onOrderItemClick: (orderId) {
-                                        navigateToOrderDetails(orderId);
-                                      },
-                                      orderModel: item,
-                                    ),
-                                  )),
-                  user == null
-                      ? EmptyDataPlaceHolder(
-                          onAddOrderClick: () {
-                            navigateToLogin();
-                          },
-                          icon: SVGIcons.existGifIcon(),
-                          title: context.tr(youNeedYouLoginFirstKey),
-                          description:
-                              context.tr(youCanSeeYourOrdersWhenYouLoginKey),
-                          showButton: true,
-                        )
-                      : cancelOrders.state == DataState.EMPTY
-                          ? RefreshIndicator(
-                              onRefresh: () {
-                                getOrdersData();
-                                return Future.delayed(
-                                    const Duration(seconds: 1));
-                              },
-                              child: SingleChildScrollView(
-                                child: SizedBox(
-                                  height:
-                                      MediaQuery.of(context).size.height - 190,
-                                  child: EmptyDataPlaceHolder(
-                                    onAddOrderClick: () {},
-                                    icon: SVGIcons.basketGifIcon(),
-                                    title: context.tr(noOrdersAddedKey),
-                                    description:
-                                        context.tr(whenYouMakeAnyOrderItWillAppearHereKey),
-                                  ),
-                                ),
-                              ),
-                            )
-                          : DataListView<ClientOrderDetails>(
-                              enableSwipe: true,
-                              onRefreshScreen: () {
-                                getOrdersData();
-                              },
-                              dataList: cancelOrders.data?.data?.data ??
-                                  (cancelOrders.state == DataState.LOADING
-                                      ? [
-                                          ...List.generate(5,
-                                              (index) => ClientOrderDetails())
-                                        ]
-                                      : []),
-                              paginated: true,
-                              pageLoading: currentPageForCanceledOrder <
-                                  (cancelOrders.data?.data?.lastPage ?? 0),
-                              onBottomReached: () {
-                                if (currentPageForCanceledOrder <
-                                    (cancelOrders.data?.data?.lastPage ?? 0)) {
-                                  ref
-                                      .read(
-                                          getCanselOrderStateProvider.notifier)
-                                      .getOrders(
-                                          page: ++currentPageForCanceledOrder);
-                                }
-                              },
-                              builder: (item) => Skeletonizer(
-                                    enabled:
-                                        cancelOrders.state == DataState.LOADING,
-                                    child: OrderCardItem(
-                                      onOrderItemClick: (orderId) {
-                                        navigateToOrderDetails(orderId);
-                                      },
-                                      orderModel: item,
-                                    ),
-                                  )),
+                  // user == null
+                  //     ? EmptyDataPlaceHolder(
+                  //         onAddOrderClick: () {
+                  //           navigateToLogin();
+                  //         },
+                  //         icon: SVGIcons.existGifIcon(),
+                  //         title: context.tr(youNeedYouLoginFirstKey),
+                  //         description:
+                  //             context.tr(youCanSeeYourOrdersWhenYouLoginKey),
+                  //         showButton: true,
+                  //       )
+                  //     : finishOrders.state == DataState.EMPTY
+                  //         ? RefreshIndicator(
+                  //             onRefresh: () {
+                  //               getOrdersData();
+                  //               return Future.delayed(
+                  //                   const Duration(seconds: 1));
+                  //             },
+                  //             child: SingleChildScrollView(
+                  //               child: SizedBox(
+                  //                 height:
+                  //                     MediaQuery.of(context).size.height - 190,
+                  //                 child: EmptyDataPlaceHolder(
+                  //                   onAddOrderClick: () {},
+                  //                   icon: SVGIcons.basketGifIcon(),
+                  //                   title: context.tr(noOrdersAddedKey),
+                  //                   description:
+                  //                       context.tr(whenYouMakeAnyOrderItWillAppearHereKey),
+                  //                 ),
+                  //               ),
+                  //             ),
+                  //           )
+                  //         : DataListView<ClientOrderDetails>(
+                  //             enableSwipe: true,
+                  //             onRefreshScreen: () {
+                  //               getOrdersData();
+                  //             },
+                  //             dataList: finishOrders.data?.data?.data ??
+                  //                 (finishOrders.state == DataState.LOADING
+                  //                     ? [
+                  //                         ...List.generate(5,
+                  //                             (index) => ClientOrderDetails())
+                  //                       ]
+                  //                     : []),
+                  //             paginated: true,
+                  //             pageLoading: currentPageForFinishOrder <
+                  //                 (finishOrders.data?.data?.lastPage ?? 0),
+                  //             onBottomReached: () {
+                  //               if (currentPageForFinishOrder <
+                  //                   (finishOrders.data?.data?.lastPage ?? 0)) {
+                  //                 ref
+                  //                     .read(
+                  //                         getFinishOrderStateProvider.notifier)
+                  //                     .getOrders(
+                  //                         page: ++currentPageForFinishOrder);
+                  //               }
+                  //             },
+                  //             builder: (item) => Skeletonizer(
+                  //                   enabled:
+                  //                       finishOrders.state == DataState.LOADING,
+                  //                   child: OrderCardItem(
+                  //                     onOrderItemClick: (orderId) {
+                  //                       navigateToOrderDetails(orderId);
+                  //                     },
+                  //                     orderModel: item,
+                  //                   ),
+                  //                 )),
+                  // user == null
+                  //     ? EmptyDataPlaceHolder(
+                  //         onAddOrderClick: () {
+                  //           navigateToLogin();
+                  //         },
+                  //         icon: SVGIcons.existGifIcon(),
+                  //         title: context.tr(youNeedYouLoginFirstKey),
+                  //         description:
+                  //             context.tr(youCanSeeYourOrdersWhenYouLoginKey),
+                  //         showButton: true,
+                  //       )
+                  //     : cancelOrders.state == DataState.EMPTY
+                  //         ? RefreshIndicator(
+                  //             onRefresh: () {
+                  //               getOrdersData();
+                  //               return Future.delayed(
+                  //                   const Duration(seconds: 1));
+                  //             },
+                  //             child: SingleChildScrollView(
+                  //               child: SizedBox(
+                  //                 height:
+                  //                     MediaQuery.of(context).size.height - 190,
+                  //                 child: EmptyDataPlaceHolder(
+                  //                   onAddOrderClick: () {},
+                  //                   icon: SVGIcons.basketGifIcon(),
+                  //                   title: context.tr(noOrdersAddedKey),
+                  //                   description:
+                  //                       context.tr(whenYouMakeAnyOrderItWillAppearHereKey),
+                  //                 ),
+                  //               ),
+                  //             ),
+                  //           )
+                  //         : DataListView<ClientOrderDetails>(
+                  //             enableSwipe: true,
+                  //             onRefreshScreen: () {
+                  //               getOrdersData();
+                  //             },
+                  //             dataList: cancelOrders.data?.data?.data ??
+                  //                 (cancelOrders.state == DataState.LOADING
+                  //                     ? [
+                  //                         ...List.generate(5,
+                  //                             (index) => ClientOrderDetails())
+                  //                       ]
+                  //                     : []),
+                  //             paginated: true,
+                  //             pageLoading: currentPageForCanceledOrder <
+                  //                 (cancelOrders.data?.data?.lastPage ?? 0),
+                  //             onBottomReached: () {
+                  //               if (currentPageForCanceledOrder <
+                  //                   (cancelOrders.data?.data?.lastPage ?? 0)) {
+                  //                 ref
+                  //                     .read(
+                  //                         getCanselOrderStateProvider.notifier)
+                  //                     .getOrders(
+                  //                         page: ++currentPageForCanceledOrder);
+                  //               }
+                  //             },
+                  //             builder: (item) => Skeletonizer(
+                  //                   enabled:
+                  //                       cancelOrders.state == DataState.LOADING,
+                  //                   child: OrderCardItem(
+                  //                     onOrderItemClick: (orderId) {
+                  //                       navigateToOrderDetails(orderId);
+                  //                     },
+                  //                     orderModel: item,
+                  //                   ),
+                  //                 )),
                 ],
               ),
             ))
@@ -575,8 +575,8 @@ class _OrdersScreenState extends ConsumerState<OrdersScreen>
     if (ref.read(clientStateProvider.notifier).checkIfUserExist() != null) {
       ref.read(getNewOrderStateProvider.notifier).getOrders();
       ref.read(getCurrentOrderStateProvider.notifier).getOrders();
-      ref.read(getFinishOrderStateProvider.notifier).getOrders();
-      ref.read(getCanselOrderStateProvider.notifier).getOrders();
+      // ref.read(getFinishOrderStateProvider.notifier).getOrders();
+      // ref.read(getCanselOrderStateProvider.notifier).getOrders();
     }
   }
 }

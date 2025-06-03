@@ -27,12 +27,13 @@ class CartSummaryScreen extends ConsumerStatefulWidget {
   final ServiceShowData? service;
   final String? serviceSelectedListIds;
   final String? serviceSelectedListItemsIds;
-  const CartSummaryScreen({
+  final Function changeAddressAction;
+  const CartSummaryScreen( {
     super.key,
     this.type,
     this.service,
     this.serviceSelectedListIds,
-    this.serviceSelectedListItemsIds,
+    this.serviceSelectedListItemsIds, required this.changeAddressAction,
   });
 
   @override
@@ -103,7 +104,7 @@ class CartSummaryScreenState extends ConsumerState<CartSummaryScreen> {
                           addressItem: AddressItem(
                             recipientAddress: address,
                             city: AddressItemCity(name: cityName),
-                          ),
+                          ), changeAddressAction: widget.changeAddressAction,
                         ),
                         Consumer(builder: (context, ref, _) {
                           var cartData =
@@ -195,8 +196,8 @@ class CartSummaryScreenState extends ConsumerState<CartSummaryScreen> {
       longitude,
     );
     setState(() {
-      address = map?.keys.first ?? "";
-      cityName = map?.values.first ?? "";
+      address = map?.values.first ?? "";
+      cityName = map?.keys.first ?? "";
     });
   }
 

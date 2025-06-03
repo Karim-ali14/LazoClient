@@ -36,6 +36,29 @@ class _UpdateItemQuantityState extends State<UpdateItemQuantity> {
         children: <Widget>[
           InkWell(
               onTap: () {
+                if ((quantity ?? 1) > 1) {
+                  setState(() {
+                    quantity = (quantity ?? 1) - 1;
+                  });
+                  delayedAction.startTimer(const Duration(seconds: 2),
+                          () {
+                        widget.onUpdateQuantity.call(
+                            (widget.cartItem?.id ?? 0),
+                            (quantity ?? 1));
+                      });
+                }
+              },
+              child: SVGIcons.decrementButtonSvgIcon()),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 14),
+            child: Text(
+              quantity?.toString() ?? "",
+              style: AppTheme
+                  .styleWithTextBlackColor2AdelleSansExtendedFonts16w400,
+            ),
+          ),
+          InkWell(
+              onTap: () {
                 var amount = widget.cartItem?.product?.amount ?? 0;
                 if((quantity??0) < amount) {
                   setState(() {
@@ -54,29 +77,6 @@ class _UpdateItemQuantityState extends State<UpdateItemQuantity> {
                 }
               },
               child: SVGIcons.incrementButtonSvgIcon()),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 14),
-            child: Text(
-              quantity?.toString() ?? "",
-              style: AppTheme
-                  .styleWithTextBlackColor2AdelleSansExtendedFonts16w400,
-            ),
-          ),
-          InkWell(
-              onTap: () {
-                if ((quantity ?? 1) > 1) {
-                  setState(() {
-                    quantity = (quantity ?? 1) - 1;
-                  });
-                  delayedAction.startTimer(const Duration(seconds: 2),
-                          () {
-                        widget.onUpdateQuantity.call(
-                            (widget.cartItem?.id ?? 0),
-                            (quantity ?? 1));
-                      });
-                }
-              },
-              child: SVGIcons.decrementButtonSvgIcon()),
         ],
       );
   }
