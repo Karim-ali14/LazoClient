@@ -64,7 +64,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     final homeDataState = ref.watch(homeDataStateNotifiers);
     var client = ref.watch(clientStateProvider);
 
-    print(" a asdf asf adsf fds${countriesState.data?.data.length}");
     handleState(addProductToCartUseCaseStateNotifier, showLoading: true,
         onSuccess: (res) {
       var id = res.data?.data?.productId;
@@ -750,6 +749,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 saveCountrySelected(country);
                 citySelected.value = city;
                 getHomeData(cityId: city.id.toString());
+                updateCart();
               },
               onChangeCountry: () {
                 context.pop();
@@ -788,5 +788,15 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     citySelected.value = await getObject<City>(
             citySelectedKey, (json) => City.fromJson(json) ?? City()) ??
         City();
+  }
+
+
+  void updateCart() {
+    var sessionId = ref
+        .read(getSessionHandlerStateNotifier.notifier)
+        .checkIfSessionIdExist();
+    ref
+        .read(fetchCardDetailsStateNotifies.notifier)
+        .getCardDetails(sessionId: sessionId);
   }
 }

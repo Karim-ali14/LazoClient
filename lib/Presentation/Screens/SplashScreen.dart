@@ -84,6 +84,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
         if(client == null && sessionId?.isNotEmpty == true){
           ref.read(apiClient).defaultHeaderMap["session_id"] = sessionId??"";
         }
+        getCartDetails(sessionId);
       });
     });
     super.initState();
@@ -115,6 +116,14 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
       backgroundColor: AppTheme.mainBackgroundLightColor,
     );
   }
+
+
+  void getCartDetails(String? sessionId) {
+    ref
+        .read(fetchCardDetailsStateNotifies.notifier)
+        .getCardDetails(sessionId: sessionId);
+  }
+
 
   @override
   void dispose() {
