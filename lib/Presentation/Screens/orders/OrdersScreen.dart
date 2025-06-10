@@ -115,8 +115,7 @@ class _OrdersScreenState extends ConsumerState<OrdersScreen>
                               : Colors.white,
                         ),
                         child: Center(
-                          child: Text(
-                            context.tr(newOrderKey),
+                          child: Text("In progress",
                             style: activeTabIndex == 0
                                 ? AppTheme
                                     .styleWithTextWhiteAdelleSansExtendedFonts14w400
@@ -146,7 +145,7 @@ class _OrdersScreenState extends ConsumerState<OrdersScreen>
                       ),
                       child: Center(
                         child: Text(
-                          "Current Order",
+                          "Completed",
                           style: activeTabIndex == 1
                               ? AppTheme
                                   .styleWithTextWhiteAdelleSansExtendedFonts14w400

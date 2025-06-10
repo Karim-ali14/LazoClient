@@ -281,7 +281,7 @@ class _OtpScreenState extends ConsumerState<OTPScreen> {
           name: widget.name,
           phone: widget.phone,
           email: widget.email?.isNotEmpty == true ? widget.email : null,
-          cityId: "${widget.cityId}",
+          // cityId: "${widget.cityId}",
           sessionId: sessionId,
           countryCode: widget.codeCountry);
     } else {
@@ -290,7 +290,7 @@ class _OtpScreenState extends ConsumerState<OTPScreen> {
             name: widget.name,
             phone: widget.phone,
             email: widget.email?.isNotEmpty == true ? widget.email : null,
-            cityId: "${widget.cityId}",
+            // cityId: "${widget.cityId}",
             countryCode: widget.codeCountry,
           );
     }

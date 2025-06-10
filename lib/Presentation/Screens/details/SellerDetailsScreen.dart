@@ -793,10 +793,14 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
         builder: (BuildContext context) => AuthenticateBottomSheet(
               onLoginClicked: () {
                 navigateToLogin();
-              },
+              }, onSignUpClicked: () {
+                navigateToSignUp();
+        },
             ));
   }
-
+  void navigateToSignUp() async {
+    context.push(R_SignUp, extra: {"typeOfMode": TypeOfMode.ViewMode});
+  }
   void showReviewsBottomSheet() {
     print(
         "${ref.watch(getSellerDetailsWithReviewsStateNotifier).data?.data?.name}");

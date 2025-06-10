@@ -21,6 +21,8 @@ import '../../../Constants/Assets.dart';
 import '../../../Constants/Constants.dart';
 import '../../../Data/Models/StateModel.dart';
 import '../../../Localization/Keys.dart';
+import '../../../main.dart';
+import '../../BottomSheets/AuthenticateBottomSheet.dart';
 import '../../Widgets/AppButton.dart';
 import '../../Widgets/SvgIcons.dart';
 import '../More/MoreScreen.dart';
@@ -104,10 +106,14 @@ class MainScreenNavHostState extends ConsumerState<MainScreenNavHost> {
                 ),
                 MaterialButton(
                   onPressed: () {
-                    setState(() {
-                      currentTab = 1;
-                      currentScreen = const OrdersScreen();
-                    });
+                    if(client != null) {
+                      setState(() {
+                        currentTab = 1;
+                        currentScreen = const OrdersScreen();
+                      });
+                    }else{
+                      showAuthenticated();
+                    }
                   },
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -129,10 +135,14 @@ class MainScreenNavHostState extends ConsumerState<MainScreenNavHost> {
                 ),
                 MaterialButton(
                   onPressed: () {
-                    setState(() {
-                      currentScreen = const WishListScreen();
-                      currentTab = 2;
-                    });
+                    if(client != null) {
+                      setState(() {
+                        currentScreen = const WishListScreen();
+                        currentTab = 2;
+                      });
+                    }else{
+                      showAuthenticated();
+                    }
                   },
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -234,6 +244,35 @@ class MainScreenNavHostState extends ConsumerState<MainScreenNavHost> {
       }
       currentTab = tabIndex;
     });
+  }
+
+  void showAuthenticated() {
+    showModalBottomSheet(
+        isScrollControlled: true,
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+                topRight: Radius.circular(10), topLeft: Radius.circular(10))),
+        context: context,
+        builder: (BuildContext context) => AuthenticateBottomSheet(
+          onLoginClicked: () {
+            navigateToLogin();
+          }, onSignUpClicked: () {
+          navigateToSignUp();
+        },
+        ));
+  }
+  void navigateToSignUp() async {
+    context.push(R_SignUp, extra: {"typeOfMode": TypeOfMode.ViewMode});
+  }
+  void navigateToLogin() async {
+    var makeRefresh =
+    await context.push(R_LoginScreen, extra: {"type": TypeOfMode.ViewMode});
+    if (makeRefresh == true) {
+      getHomeData(cityId: prefs.getInt(selectedCityIdKey).toString());
+    }
+  }
+  void getHomeData({ String? cityId, }) {
+    ref.read(homeDataStateNotifiers.notifier).getHomeData(cityId: cityId);
   }
 }
 

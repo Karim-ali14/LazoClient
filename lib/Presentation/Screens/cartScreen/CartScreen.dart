@@ -388,7 +388,9 @@ class CartScreenState extends ConsumerState<CartScreen> with AutomaticKeepAliveC
         builder: (BuildContext context) => AuthenticateBottomSheet(
               onLoginClicked: () {
                 navigateToLogin();
-              },
+              }, onSignUpClicked: () {
+                navigateToSignUp();
+        },
             ));
   }
 
@@ -399,7 +401,9 @@ class CartScreenState extends ConsumerState<CartScreen> with AutomaticKeepAliveC
       getCartDetails(null);
     }
   }
-
+  void navigateToSignUp() async {
+    context.push(R_SignUp, extra: {"typeOfMode": TypeOfMode.ViewMode});
+  }
   void calculateCartItems({String? cartId}) {
     print(
         "cartId :$cartId giftCardId: ${giftCartSelected?.id} giftBoxId: ${giftBoxSelected?.id}");

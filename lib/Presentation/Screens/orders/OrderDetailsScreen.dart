@@ -225,11 +225,11 @@ class _OrderDetailsScreenState extends ConsumerState<OrderDetailsScreen> {
                                 orderDetails.data?.data?.isSingleProvider() ==
                                     true
                             ? Container(
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(8),
-                                    color: Colors.white),
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 16, vertical: 24),
+                                decoration: BoxDecoration(color: Colors.white),
+                                padding: const EdgeInsetsDirectional.symmetric(
+                                    horizontal: 16, vertical: 16),
+                                margin: const EdgeInsetsDirectional.only(
+                                     bottom: 16),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -239,71 +239,57 @@ class _OrderDetailsScreenState extends ConsumerState<OrderDetailsScreen> {
                                     const SizedBox(
                                       height: 24,
                                     ),
-                                    Container(
-                                      decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(8),
-                                          border: Border.all(
-                                              color: AppTheme.appGrey8,
-                                              width: 1),
-                                          color: Colors.white),
-                                      padding: const EdgeInsetsDirectional.only(
-                                          start: 16, end: 16, top: 20),
-                                      child: Column(
-                                        children: [
-                                          InformationRowItem(
-                                            titleStyle: AppTheme
-                                                .styleWithTextAppGrey18AdelleSansExtendedFonts14w400,
-                                            title: context.tr(dateAndTimeKey),
-                                            value:
-                                                "${(orderDetails.data?.data?.createdAt ?? "").hhMm()}, ${(orderDetails.data?.data?.createdAt ?? "").ddMmYyyy()}",
-                                            valueStyle: AppTheme
-                                                .styleWithTextBlack2AdelleSansExtendedFonts14w400,
-                                            hasDivider: false,
-                                          ),
-                                          const SizedBox(height: 16),
-                                          InformationRowItem(
-                                            titleStyle: AppTheme
-                                                .styleWithTextAppGrey18AdelleSansExtendedFonts14w400,
-                                            title: context.tr(cancelledByKey),
-                                            value:
-                                                "${orderDetails.data?.data?.cancelledBy}",
-                                            valueStyle: AppTheme
-                                                .styleWithTextBlack2AdelleSansExtendedFonts14w400,
-                                            hasDivider: false,
-                                          ),
-                                          orderDetails
-                                                      .data
-                                                      ?.data
-                                                      ?.cancellationReason
-                                                      ?.isNotEmpty ==
-                                                  true
-                                              ? const SizedBox(height: 16)
-                                              : const SizedBox(),
-                                          orderDetails
-                                                      .data
-                                                      ?.data
-                                                      ?.cancellationReason
-                                                      ?.isNotEmpty ==
-                                                  true
-                                              ? InformationRowItem(
-                                                  titleStyle: AppTheme
-                                                      .styleWithTextAppGrey18AdelleSansExtendedFonts14w400,
-                                                  title: context.tr(
-                                                      reasonForCancellationKey),
-                                                  valueStyle: AppTheme
-                                                      .styleWithTextBlack2AdelleSansExtendedFonts14w400,
-                                                  hasDivider: false,
-                                                  ifSetValueInNewLine: true,
-                                                  value:
-                                                      "${orderDetails.data?.data?.cancellationReason}}",
-                                                )
-                                              : const SizedBox(),
-                                        ],
-                                      ),
-                                    ),
-                                    const SizedBox(
-                                      height: 24,
+                                    Column(
+                                      children: [
+                                        InformationRowItem(
+                                          titleStyle: AppTheme
+                                              .styleWithTextAppGrey18AdelleSansExtendedFonts14w400,
+                                          title: context.tr(dateAndTimeKey),
+                                          value:
+                                              "${(orderDetails.data?.data?.createdAt ?? "").hhMm()}, ${(orderDetails.data?.data?.createdAt ?? "").ddMmYyyy()}",
+                                          valueStyle: AppTheme
+                                              .styleWithTextBlack2AdelleSansExtendedFonts14w400,
+                                          hasDivider: false,
+                                        ),
+                                        const SizedBox(height: 16),
+                                        InformationRowItem(
+                                          titleStyle: AppTheme
+                                              .styleWithTextAppGrey18AdelleSansExtendedFonts14w400,
+                                          title: context.tr(cancelledByKey),
+                                          value:
+                                              "${orderDetails.data?.data?.cancelledBy}",
+                                          valueStyle: AppTheme
+                                              .styleWithTextBlack2AdelleSansExtendedFonts14w400,
+                                          hasDivider: false,
+                                        ),
+                                        orderDetails
+                                                    .data
+                                                    ?.data
+                                                    ?.cancellationReason
+                                                    ?.isNotEmpty ==
+                                                true
+                                            ? const SizedBox(height: 16)
+                                            : const SizedBox(),
+                                        orderDetails
+                                                    .data
+                                                    ?.data
+                                                    ?.cancellationReason
+                                                    ?.isNotEmpty ==
+                                                true
+                                            ? InformationRowItem(
+                                                titleStyle: AppTheme
+                                                    .styleWithTextAppGrey18AdelleSansExtendedFonts14w400,
+                                                title: context.tr(
+                                                    reasonForCancellationKey),
+                                                valueStyle: AppTheme
+                                                    .styleWithTextBlack2AdelleSansExtendedFonts14w400,
+                                                hasDivider: false,
+                                                ifSetValueInNewLine: true,
+                                                value:
+                                                    "${orderDetails.data?.data?.cancellationReason}}",
+                                              )
+                                            : const SizedBox(),
+                                      ],
                                     ),
                                   ],
                                 ),
@@ -314,7 +300,7 @@ class _OrderDetailsScreenState extends ConsumerState<OrderDetailsScreen> {
                               borderRadius: BorderRadius.circular(8),
                               color: Colors.white),
                           padding: const EdgeInsets.symmetric(
-                              horizontal: 16, vertical: 24),
+                              horizontal: 16, vertical: 10),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [

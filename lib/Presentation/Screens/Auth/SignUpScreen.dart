@@ -45,7 +45,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
   final fullNameController = TextEditingController();
   final phoneController = TextEditingController();
   final emailController = TextEditingController();
-  final cityController = TextEditingController();
+  // final cityController = TextEditingController();
   final CodeCountryController = TextEditingController();
   final countryPicker = const FlCountryCodePicker();
   final formKey = GlobalKey<FormState>();
@@ -178,32 +178,32 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                   const SizedBox(
                     height: defaultPaddingHorizontal,
                   ),
-                  AppTextField(
-                    endWidget: InkWell(
-                        onTap: () {
-                          showCitesBottomSheet();
-                        },
-                        child: SVGIcons.bottomRedArrowIcon(
-                          color: Colors.black
-                        )),
-                    readOnly: true,
-                    textInputType: TextInputType.text,
-                    textFieldBorderColor: Colors.white,
-                    mode: AutovalidateMode.onUserInteraction,
-                    hint: context.tr(chooseCityKey),
-                    label: context.tr(chooseCityKey),
-                    textEditingController: cityController,
-                    validate: (value) {
-                      if (value?.isEmpty == true) {
-                        return context.tr(selectYourCityKey);
-                      } else {
-                        return null;
-                      }
-                    },
-                  ),
-                  const SizedBox(
-                    height: 40,
-                  ),
+                  // AppTextField(
+                  //   endWidget: InkWell(
+                  //       onTap: () {
+                  //         showCitesBottomSheet();
+                  //       },
+                  //       child: SVGIcons.bottomRedArrowIcon(
+                  //         color: Colors.black
+                  //       )),
+                  //   readOnly: true,
+                  //   textInputType: TextInputType.text,
+                  //   textFieldBorderColor: Colors.white,
+                  //   mode: AutovalidateMode.onUserInteraction,
+                  //   hint: context.tr(chooseCityKey),
+                  //   label: context.tr(chooseCityKey),
+                  //   textEditingController: cityController,
+                  //   validate: (value) {
+                  //     if (value?.isEmpty == true) {
+                  //       return context.tr(selectYourCityKey);
+                  //     } else {
+                  //       return null;
+                  //     }
+                  //   },
+                  // ),
+                  // const SizedBox(
+                  //   height: 40,
+                  // ),
                   AppButton(
                     width: context.getScreenSize.width,
                     height: 48,
@@ -240,7 +240,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
       "name": fullNameController.text,
       "email": emailController.text.isNotEmpty ? emailController.text : null,
       "image": images.isNotEmpty ? images.first : null,
-      "cityId": "$cityItemSelected",
+      // "cityId": "$cityItemSelected",
       "type": OTPType.SignUp,
       "typeOfMode": widget.typeOfMode,
       "codeCountry" : countryCode?.removeFirstChar("+"),
@@ -282,10 +282,10 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
               onSelectItemCallback: (itemid) {
                 cityItemSelected = itemid;
 
-                if (cityItemSelected != null) {
-                  cityController.text =
-                      cities.firstWhere((item) => item.id == itemid).name ?? "";
-                }
+                // if (cityItemSelected != null) {
+                //   cityController.text =
+                //       cities.firstWhere((item) => item.id == itemid).name ?? "";
+                // }
                // Navigator.pop(context);
               });
         });

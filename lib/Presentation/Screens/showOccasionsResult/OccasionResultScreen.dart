@@ -512,10 +512,14 @@ class _OccasionResultScreenState extends ConsumerState<OccasionResultScreen>
         builder: (BuildContext context) => AuthenticateBottomSheet(
               onLoginClicked: () {
                 navigateToLogin();
-              },
+              }, onSignUpClicked: () {
+                navigateToSignUp();
+        },
             ));
   }
-
+  void navigateToSignUp() async {
+    context.push(R_SignUp, extra: {"typeOfMode": TypeOfMode.ViewMode});
+  }
   void navigateToLogin() async {
     var makeRefresh =
         await context.push(R_LoginScreen, extra: {"type": TypeOfMode.ViewMode});

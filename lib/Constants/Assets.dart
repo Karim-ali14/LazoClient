@@ -78,6 +78,7 @@ const incrementButtonIconSvg = "assets/images/increment_button.svg";
 const voucherIconSvg = "assets/images/voucher_ic.svg";
 const cartIconSvg = "assets/images/cart_icon.svg";
 const noCartItems = "assets/images/no_cart_items.gif";
+const loadingAppIcon = "assets/images/loading_app_icon.gif";
 const calendarImage = "assets/images/calendar_image.svg";
 const timeCircle = "assets/images/time_circle.svg";
 const buy = "assets/images/buy.svg";
