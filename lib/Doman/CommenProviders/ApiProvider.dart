@@ -243,13 +243,13 @@ extension RequestHandle<T> on ConsumerState {
       print("User Request Here $next");
       next.handelStateWithoutWidget(
           onSuccess: (state) {
-         if (showLoading == true && context.isThereCurrentDialogShowing()) {
-          try {
-            context.pop();
-          } catch (e) {
-            print("NAV cannont pop");
-          }
-        }
+          if (showLoading == true && context.isThereCurrentDialogShowing()) {
+              try {
+                DialogManager.tryPopDialog(context);
+              } catch (e) {
+                print("NAV cannot pop");
+              }
+            }
         if (showToast == true) {
           AppSnackBar.showSnackBar(context,
               isSuccess: true, message: state.message ?? "Success !");
@@ -287,7 +287,7 @@ extension RequestHandle<T> on ConsumerState {
       },
           onLoading: (state) {
         onLoading?.call(state as StateModel<T>);
-        showLoading == true ? context.showLoadingDialog() : print("loading");
+        showLoading == true && !context.isThereCurrentDialogShowing() ? context.showLoadingDialog() : print("loading");
       },
           onEmpty: (state){
         onEmpty?.call(state as StateModel<T>);
@@ -307,6 +307,7 @@ extension RequestHandle2<T> on ConsumerWidget {
       Function(StateModel<T>)? onFail}) {
     ref.listen(provider, (previous, next) {
       print("User Request Here $next");
+      print("User Request Here ${showLoading == true && context.isThereCurrentDialogShowing()}");
       next.handelStateWithoutWidget(
           onSuccess: (state) {
             if (context.isThereCurrentDialogShowing()) {
@@ -347,7 +348,7 @@ extension RequestHandle2<T> on ConsumerWidget {
 
             onFail?.call(state as StateModel<T>);
           },
-          onLoading: (state) => showLoading == true
+          onLoading: (state) => showLoading == true && !context.isThereCurrentDialogShowing()
               ? context.showLoadingDialog()
               : print("loading"));
     });

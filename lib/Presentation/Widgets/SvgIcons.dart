@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:lazo_client/Presentation/Theme/AppTheme.dart';
+import 'package:lottie/lottie.dart';
 
 import '../../Constants.dart';
 import '../../Constants/Assets.dart';
@@ -31,6 +32,15 @@ class SVGIcons {
       width: width,
       height: height,
       color: color,
+    );
+  }
+
+  static Widget localJson(String assetPath, {double width = 50, double height = 50,AnimationController? controller}) {
+    return Lottie.asset(
+      assetPath,
+      width: width,
+      height: height,
+      controller: controller
     );
   }
 

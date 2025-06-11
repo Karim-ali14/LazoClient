@@ -12,6 +12,7 @@ import 'package:lazo_client/Data/Models/UpdateDataModel.dart';
 import 'package:lazo_client/Data/Network/lib/api.dart';
 import 'package:lazo_client/Doman/CommenProviders/ApiProvider.dart';
 import 'package:lazo_client/Localization/Keys.dart';
+import 'package:lazo_client/Presentation/Dialogs/LoadingDialog.dart';
 import 'package:lazo_client/Presentation/Screens/details/componants/ItemDetailsRow.dart';
 import 'package:lazo_client/Presentation/Screens/details/componants/ProductMultipleSelectItems.dart';
 import 'package:lazo_client/Presentation/Screens/details/componants/ProductMultipleSelectItemsModify.dart';
@@ -80,6 +81,7 @@ class _ProductAndServiceDetailsScreenState
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((callback) {
+      context.showLoadingDialog();
       if (widget.itemType == ItemType.Products) {
         if (widget.productDetails == null) {
           getDetailsForProduct();
@@ -114,7 +116,14 @@ class _ProductAndServiceDetailsScreenState
     final relatedServiceData = ref.watch(getRelatedServicesStateNotifiers);
     final sellerReview = ref.watch(getSellerDetailsToShowReviewsStateNotifier);
 
-    handleState(getProductDetails, showLoading: false, onSuccess: (res) {
+    handleState(getProductDetails,
+        onFail: (res){
+          DialogManager.tryPopDialog(context);
+        },
+        onEmpty: (res){
+          DialogManager.tryPopDialog(context);
+        },
+        onSuccess: (res) {
       res.data?.data?.lists?.forEach((item) {
         if (item.clientSelectedItemsInCart?.isNotEmpty == true) {
           productSelectedItemsIds[int.tryParse((item.id ?? 0).toString()) ??
@@ -126,7 +135,17 @@ class _ProductAndServiceDetailsScreenState
       });
       print(
           "productSelectedItemsIds : $productSelectedItemsIds , productSelectedMultipleItems : $productSelectedMultipleItems");
+      DialogManager.tryPopDialog(context);
     });
+
+    handleState(getServiceDetails, onSuccess: (res) {
+      DialogManager.tryPopDialog(context);
+    },onFail: (res){
+      DialogManager.tryPopDialog(context);
+    },
+      onEmpty: (res){
+        DialogManager.tryPopDialog(context);
+      },);
 
     handleState(updateCartItemsStateNotifies, showLoading: true,
         onSuccess: (res) {
