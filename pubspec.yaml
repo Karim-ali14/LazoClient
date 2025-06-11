@@ -103,6 +103,20 @@ flutter:
     - assets/translations/
     - packages/country_code_picker/flags/
 
+  fonts:
+    - family: tajawal
+      fonts:
+        - asset: assets/fonts/tajawal_bold.ttf
+          weight: 700
+        - asset: assets/fonts/tajawal_medium.ttf
+          weight: 500
+    - family: montserrat
+      fonts:
+        - asset: assets/fonts/montserrat_alternates_semi_bold.ttf
+          weight: 700
+        - asset: assets/fonts/montserrat_alternates_medium.ttf
+          weight: 500
+
   #An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
 

@@ -360,7 +360,7 @@ class _LoadingWidgetState extends State<LoadingWidget>
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: widget.backgroundColor ?? Colors.black.withOpacity(0.2),
+      color: widget.backgroundColor ?? Colors.white.withOpacity(0),
       child: Center(
         child: SVGIcons.localJson(jsonLoadingAppIcon,controller: _controller),
       ),
