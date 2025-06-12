@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lazo_client/Constants.dart';
 import 'package:lazo_client/Data/Models/ItemSelector.dart';
@@ -28,6 +29,7 @@ import '../../BottomSheets/FilterBottomSheet.dart';
 import '../../StateNotifiersViewModel/PublicStateNotifiers.dart';
 import '../../Widgets/EmptyDataView.dart';
 import '../../Widgets/SearchWithFilter.dart';
+import '../../Widgets/TextWithoutPadding.dart';
 
 class ShowTopSellers extends ConsumerStatefulWidget {
   final CategoryType type;
@@ -150,8 +152,8 @@ class _ShowTopSellersState extends ConsumerState<ShowTopSellers> {
                               scrollDirection: Axis.horizontal,
                               itemBuilder: (context, index) {
                                 return CategoryItemCard(
-                                  height: 45,
-                                  width: 127,
+                                  height: 45.h,
+                                  width: 127.w,
                                   category: categoryState[index],
                                   onSelectCategory: (item) {
                                     ref
@@ -226,14 +228,13 @@ class _ShowTopSellersState extends ConsumerState<ShowTopSellers> {
                                 padding: const EdgeInsetsDirectional.only(
                                     top: 8, bottom: 8, start: 16),
                                 child: SizedBox(
-                                  height: 35,
+                                  height: 35.h,
                                   child: Row(
                                     children: [
                                       Container(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 15),
                                         clipBehavior: Clip.antiAlias,
-                                        height: 32,
+                                        height: 32.h,
+                                        width: 80.w,
                                         decoration: BoxDecoration(
                                           borderRadius: BorderRadius.circular(20),
                                           border: Border.all(
@@ -249,7 +250,7 @@ class _ShowTopSellersState extends ConsumerState<ShowTopSellers> {
                                               fetchSellers(currentPage);
                                             },
                                             child: const Center(
-                                                child: Text("Clear All",
+                                                child: TextWithoutPadding("Clear All",
                                                     style: AppTheme
                                                         .styleWithTextBlackColor2AdelleSansExtendedFonts13w400))),
                                       ),
@@ -257,52 +258,52 @@ class _ShowTopSellersState extends ConsumerState<ShowTopSellers> {
                                         color: AppTheme.appGrey20,
                                         thickness: 1,
                                       ),
-                                      SizedBox(
-                                        height: 35,
-                                        width:
-                                            MediaQuery.of(context).size.width * .7,
-                                        child: ListView.separated(
-                                            scrollDirection: Axis.horizontal,
-                                            itemBuilder: (context, index) {
-                                              return CategoryFilterItemCard(
-                                                height: 32,
-                                                item: categorySelectedState[index],
-                                                onSelectCategory: (item) {
-                                                  if(item?.type == FilterTypes.Categories){
-                                                    print("sdfasdfasdfasdfsdf ${sellerFilterData?.categoriesIdsSelected}");
-                                                    sellerFilterData?.categoriesIdsSelected?.remove(item?.id);
-                                                    print("sdfasdfasdfasdfsdf ${sellerFilterData?.categoriesIdsSelected}");
+                                      Expanded(
+                                        child: SizedBox(
+                                          height: 35,
+                                          child: ListView.separated(
+                                              scrollDirection: Axis.horizontal,
+                                              itemBuilder: (context, index) {
+                                                return CategoryFilterItemCard(
+                                                  height: 32,
+                                                  item: categorySelectedState[index],
+                                                  onSelectCategory: (item) {
+                                                    if(item?.type == FilterTypes.Categories){
+                                                      print("sdfasdfasdfasdfsdf ${sellerFilterData?.categoriesIdsSelected}");
+                                                      sellerFilterData?.categoriesIdsSelected?.remove(item?.id);
+                                                      print("sdfasdfasdfasdfsdf ${sellerFilterData?.categoriesIdsSelected}");
+                                                      ref
+                                                          .read(
+                                                          updateListOfCategoryStateNotifiers
+                                                              .notifier)
+                                                          .removeSelected(item?.id);
+                                                      updateNumberOfSelectedItems(sellerFilterData);
+                                                    } else if(item?.type == FilterTypes.Occasions){
+                                                      sellerFilterData?.occasionsIdsSelected?.remove(item?.id);
+                                                      updateNumberOfSelectedItems(sellerFilterData);
+                                                    } else if(item?.type == FilterTypes.Rating){
+                                                      sellerFilterData?.ratingValueSelected?.remove(item?.id);
+                                                      updateNumberOfSelectedItems(sellerFilterData);
+                                                    }
+
                                                     ref
                                                         .read(
-                                                        updateListOfCategoryStateNotifiers
-                                                            .notifier)
-                                                        .removeSelected(item?.id);
-                                                    updateNumberOfSelectedItems(sellerFilterData);
-                                                  } else if(item?.type == FilterTypes.Occasions){
-                                                    sellerFilterData?.occasionsIdsSelected?.remove(item?.id);
-                                                    updateNumberOfSelectedItems(sellerFilterData);
-                                                  } else if(item?.type == FilterTypes.Rating){
-                                                    sellerFilterData?.ratingValueSelected?.remove(item?.id);
-                                                    updateNumberOfSelectedItems(sellerFilterData);
-                                                  }
-
-                                                  ref
-                                                      .read(
-                                                          updateListOfFilterSelectedStateNotifiers
-                                                              .notifier)
-                                                      .removeItem(item);
-                                                  //
-                                                  currentPage = 1;
-                                                  fetchSellers(currentPage);
-                                                },
-                                              );
-                                            },
-                                            separatorBuilder: (context, index) =>
-                                                const SizedBox(
-                                                  width: 12,
-                                                ),
-                                            itemCount:
-                                                categorySelectedState.length),
+                                                            updateListOfFilterSelectedStateNotifiers
+                                                                .notifier)
+                                                        .removeItem(item);
+                                                    //
+                                                    currentPage = 1;
+                                                    fetchSellers(currentPage);
+                                                  },
+                                                );
+                                              },
+                                              separatorBuilder: (context, index) =>
+                                                  const SizedBox(
+                                                    width: 12,
+                                                  ),
+                                              itemCount:
+                                                  categorySelectedState.length),
+                                        ),
                                       ),
                                     ],
                                   ),

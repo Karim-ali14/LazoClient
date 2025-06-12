@@ -8,6 +8,7 @@ import 'package:lazo_client/Utils/Extintions.dart';
 import '../../../../Constants/Assets.dart';
 import '../../../Theme/AppTheme.dart';
 import '../../../Widgets/SvgIcons.dart';
+import '../../../Widgets/TextWithoutPadding.dart';
 
 class BrandDetails extends StatelessWidget {
   final ProviderData? provider;
@@ -20,7 +21,7 @@ class BrandDetails extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
+        TextWithoutPadding(
           "Brand Details",
           style: AppTheme
               .styleWithTextBlackColor2AdelleSansExtendedFonts16w400,
@@ -52,7 +53,7 @@ class BrandDetails extends StatelessWidget {
                 onTap: (){
                   onProviderClick.call(provider?.id);
                 },
-                child: Text("By ${provider?.name?.ellipsize(18)}",style: AppTheme.styleWithTextAppGrey21AdelleSansExtendedFonts14w500.copyWith(decoration: TextDecoration.underline),)),
+                child: TextWithoutPadding("By ${(provider?.name??"").ellipsize(18)}",style: AppTheme.styleWithTextAppGrey21AdelleSansExtendedFonts14w500.copyWith(decoration: TextDecoration.underline),)),
             const SizedBox(width: 5,),
             Container(
               width: 5,
@@ -63,8 +64,8 @@ class BrandDetails extends StatelessWidget {
               ),
             ),
             const SizedBox(width: 5,),
-            Text("${provider?.overallRating}",style: AppTheme.styleWithTextAppGrey21AdelleSansExtendedFonts14w400,),
-            SizedBox(width: 5,),
+            TextWithoutPadding("${provider?.overallRating??""}",style: AppTheme.styleWithTextAppGrey21AdelleSansExtendedFonts14w400,),
+            const SizedBox(width: 5,),
             RatingBar(
               initialRating: (provider?.overallRating ??
                   0).toDouble(),
@@ -87,8 +88,8 @@ class BrandDetails extends StatelessWidget {
               onTap: (){
                 onReviewClick.call(provider?.id);
               },
-              child: Text(
-                "(${provider?.ratingsCount}) Reviews",
+              child: TextWithoutPadding(
+                "(${provider?.ratingsCount??""}) Reviews",
                 style:  AppTheme
                     .styleWithTextAppGrey21AdelleSansExtendedFonts14w500
                     .copyWith(

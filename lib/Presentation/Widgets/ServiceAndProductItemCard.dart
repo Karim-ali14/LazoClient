@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lazo_client/Localization/Keys.dart';
 import 'package:lazo_client/Presentation/Widgets/SvgIcons.dart';
+import 'package:lazo_client/Presentation/Widgets/TextWithoutPadding.dart';
 import 'package:lazo_client/Utils/Extintions.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import '../../Constants/Assets.dart';
@@ -116,7 +117,7 @@ class _ServiceAndProductItemCardHorizontalState
                             child: Row(
                               mainAxisSize: MainAxisSize.min,
                               children: [
-                                Text(
+                                TextWithoutPadding(
                                   widget.type == ItemType.Products
                                       ? "${widget.product?.overallRating}"
                                       : "${widget.service?.overallRating}",
@@ -127,7 +128,7 @@ class _ServiceAndProductItemCardHorizontalState
                                   width: 4,
                                 ),
                                 SVGIcons.smallStarIcon(size: 12),
-                                Text(
+                                TextWithoutPadding(
                                   " (${"${widget.type == ItemType.Products ? "${widget.product?.ratingsCount}" : "${widget.service?.ratingsCount}"}"})",
                                   style: AppTheme
                                       .styleWithTextWhiteAdelleSansExtendedFonts12w400,

@@ -15,6 +15,7 @@ import '../../../../Data/Network/lib/api.dart';
 import '../../../StateNotifiersViewModel/PublicStateNotifiers.dart';
 import '../../../StateNotifiersViewModel/WishListStateNotifiers.dart';
 import '../../../Theme/AppTheme.dart';
+import '../../../Widgets/TextWithoutPadding.dart';
 import 'CartItemView.dart';
 
 class CartItemsWithNotes extends ConsumerStatefulWidget {
@@ -68,7 +69,7 @@ class _CartItemsWithNotesState extends ConsumerState<CartItemsWithNotes> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
+          const TextWithoutPadding(
             "Please note that unready gifts come with customizable packaging before delivery.",
             style: AppTheme
                 .styleWithTextGray27AdelleSansExtendedFonts12w400,
@@ -91,7 +92,7 @@ class _CartItemsWithNotesState extends ConsumerState<CartItemsWithNotes> {
                 child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
+                      TextWithoutPadding(
                         cartData.data?.data?.cartItems[index]
                             .name ??
                             "",

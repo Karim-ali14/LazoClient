@@ -10,6 +10,7 @@ import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../Data/Network/lib/api.dart';
 import 'AppButton.dart';
+import 'TextWithoutPadding.dart';
 
 typedef OnSellerClickListener = Function(int);
 
@@ -75,7 +76,7 @@ class _SellerItemCardState extends State<SellerItemCard> {
                           child: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              Text(
+                              TextWithoutPadding(
                                 widget.providerData?.overallRating?.toString() ??
                                     "",
                                 style: AppTheme
@@ -88,7 +89,7 @@ class _SellerItemCardState extends State<SellerItemCard> {
                               SizedBox(width:
                               widget.providerData?.ratingsCount != null && widget.providerData?.ratingsCount != 0 ?5:0,),
                               widget.providerData?.ratingsCount != null && widget.providerData?.ratingsCount != 0 ?
-                              Text(
+                              TextWithoutPadding(
                                 "(${widget.providerData?.ratingsCount?.toString()})" ??
                                     "",
                                 style: AppTheme
@@ -116,7 +117,7 @@ class _SellerItemCardState extends State<SellerItemCard> {
                         height: 15,
                         color: Colors.white,
                       ),
-                      child: Text(widget.providerData?.name ?? "",
+                      child: TextWithoutPadding(widget.providerData?.name ?? "",
                           style: AppTheme
                               .styleWithTextBlackColor2AdelleSansExtendedFonts14w400
                               .copyWith(overflow: TextOverflow.ellipsis),

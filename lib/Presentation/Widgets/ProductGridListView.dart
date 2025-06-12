@@ -48,9 +48,7 @@ class _ProductGridListviewWithCategoryNameState
             onClickOnSeeAll: () {},
           ),
         ),
-        SizedBox(
-          height: 16,
-        ),
+
         GridView.builder(
             itemCount: widget.list?.length,
             shrinkWrap: true,

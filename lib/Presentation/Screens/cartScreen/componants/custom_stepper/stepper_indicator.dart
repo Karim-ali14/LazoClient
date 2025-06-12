@@ -4,6 +4,8 @@ import 'package:lazo_client/Presentation/Screens/cartScreen/componants/custom_st
 import 'package:lazo_client/Presentation/Screens/cartScreen/componants/custom_stepper/step_item_view.dart';
 import 'package:lazo_client/Presentation/Theme/AppTheme.dart';
 
+import '../../../../Widgets/TextWithoutPadding.dart';
+
 class StepperIndicator extends StatelessWidget {
   final int currentStep;
   final List<String> steps;
@@ -20,7 +22,7 @@ class StepperIndicator extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: steps
-              .map((e) => Text(
+              .map((e) => TextWithoutPadding(
             e,
             style: AppTheme
                 .styleWithTextAppMainAppColor15AdelleSansExtendedFonts14w400,

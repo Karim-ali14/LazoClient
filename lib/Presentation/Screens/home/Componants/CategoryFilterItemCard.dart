@@ -7,6 +7,7 @@ import 'package:lazo_client/Presentation/Widgets/SvgIcons.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import '../../../Theme/AppTheme.dart';
 import '../../../Widgets/CircleImage.dart';
+import '../../../Widgets/TextWithoutPadding.dart';
 
 typedef OnSelectCategory = Function(ItemSelected?);
 
@@ -46,7 +47,7 @@ class _CategoryFilterItemCardState extends State<CategoryFilterItemCard> {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(widget.item?.text ?? "",
+              TextWithoutPadding(widget.item?.text ?? "",
                   style: AppTheme.styleWithTextBlackColor2AdelleSansExtendedFonts13w400
                       .copyWith(overflow: TextOverflow.ellipsis),
                   maxLines: 1,

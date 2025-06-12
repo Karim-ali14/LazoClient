@@ -4,6 +4,7 @@ import 'package:lazo_client/Data/Network/lib/api.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import '../../../Theme/AppTheme.dart';
 import '../../../Widgets/CircleImage.dart';
+import '../../../Widgets/TextWithoutPadding.dart';
 
 typedef OnSelectCategory = Function(Category?);
 class CategoryItemCard extends StatefulWidget {
@@ -78,7 +79,7 @@ class _CategoryItemCardState extends State<CategoryItemCard> {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Text(widget.category?.name??"",
+                      TextWithoutPadding(widget.category?.name??"",
                           style: AppTheme
                               .styleWithTextWhiteColor15PoppinsFonts14w500
                               .copyWith(overflow: TextOverflow.ellipsis),

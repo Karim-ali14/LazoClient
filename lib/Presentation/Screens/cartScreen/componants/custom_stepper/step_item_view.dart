@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../Theme/AppTheme.dart';
+import '../../../../Widgets/TextWithoutPadding.dart';
 
 class StepItemView extends StatelessWidget {
   final int currentStep;
@@ -25,7 +26,7 @@ class StepItemView extends StatelessWidget {
           duration: const Duration(milliseconds: 300),
           transitionBuilder: (child, animation) =>
               ScaleTransition(scale: animation, child: child),
-          child: Text(
+          child: TextWithoutPadding(
             index < currentStep ? "✓" : '${index + 1}',
             key: ValueKey(index < currentStep),
             style: TextStyle(

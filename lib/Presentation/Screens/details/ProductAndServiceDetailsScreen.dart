@@ -36,6 +36,7 @@ import '../../StateNotifiersViewModel/WishListStateNotifiers.dart';
 import '../../Widgets/BannerCardItems.dart';
 import '../../Widgets/ServiceAndProductItemCard.dart';
 import '../../Widgets/SvgIcons.dart';
+import '../../Widgets/TextWithoutPadding.dart';
 import '../../Widgets/TruncatedText.dart';
 import 'componants/BrandDetails.dart';
 import 'componants/ProductRowItem.dart';
@@ -349,7 +350,7 @@ class _ProductAndServiceDetailsScreenState
                                         BorderRadius.all(Radius.circular(50))),
                                 child: Row(
                                   children: [
-                                    Text(
+                                    TextWithoutPadding(
                                       widget.itemType == ItemType.Products
                                           ? (productItemState.data?.data
                                                       ?.overallRating ??
@@ -373,7 +374,7 @@ class _ProductAndServiceDetailsScreenState
                                                 ? FilterScreenTypes.Products
                                                 : FilterScreenTypes.Services);
                                       },
-                                      child: Text(
+                                      child: TextWithoutPadding(
                                           "(${widget.itemType == ItemType.Products ? (productItemState.data?.data?.ratingsCount ?? 0).toString() : (serviceItemState.data?.data?.ratingsCount ?? 0).toString()}) Reviews",
                                           style: AppTheme
                                               .styleWithTextBlackColor2ColorAdelleSansExtendedFonts13w500
@@ -406,9 +407,9 @@ class _ProductAndServiceDetailsScreenState
                             children: [
                               TruncatedText(
                                   text:
-                                      "${widget.itemType == ItemType.Products ? productItemState.data?.data?.name : serviceItemState.data?.data?.name} ",
+                                      "${widget.itemType == ItemType.Products ? productItemState.data?.data?.name??"" : serviceItemState.data?.data?.name??""} ",
                                   style: AppTheme
-                                      .styleWithTextBlackColor2AdelleSansExtendedFonts20w500,
+                                      .styleWithTextBlackColor2AdelleSansExtendedFonts20w700,
                                   maxLength: 30),
                               Spacer(),
                               widget.itemType == ItemType.Products
@@ -420,7 +421,7 @@ class _ProductAndServiceDetailsScreenState
                                       child: Padding(
                                         padding: const EdgeInsets.symmetric(
                                             horizontal: 10, vertical: 4),
-                                        child: Text(
+                                        child: TextWithoutPadding(
                                           "${productItemState.data?.data?.amount ?? 0} In Stock",
                                           style: AppTheme
                                               .styleWithTextBlackColor2ColorAdelleSansExtendedFonts13w400,
@@ -433,7 +434,7 @@ class _ProductAndServiceDetailsScreenState
                           SizedBox(
                             height: 10,
                           ),
-                          Text(
+                          TextWithoutPadding(
                             "By ${productItemState.data?.data?.provider?.name ?? ""}",
                             style: AppTheme
                                 .styleWithTextAppGrey18ColorAdelleSansExtendedFonts16w400,
@@ -444,7 +445,7 @@ class _ProductAndServiceDetailsScreenState
                           Row(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              Text(
+                              TextWithoutPadding(
                                 "SAR ${widget.itemType == ItemType.Products ? productItemState.data?.data?.priceAfterDiscount ?? "" : serviceItemState.data?.data?.priceAfterDiscount ?? ""}",
                                 style: AppTheme
                                     .styleWithTextAppRedColorAdelleSansExtendedFonts16w400,
@@ -456,7 +457,7 @@ class _ProductAndServiceDetailsScreenState
                                   ? productItemState
                                               .data?.data?.priceAfterDiscount !=
                                           productItemState.data?.data?.price
-                                      ? Text(
+                                      ? TextWithoutPadding(
                                           "SAR ${productItemState.data?.data?.price ?? ""}",
                                           style: AppTheme
                                               .styleWithTextAppGrey18ColorAdelleSansExtendedFonts16w400
@@ -468,7 +469,7 @@ class _ProductAndServiceDetailsScreenState
                                   : serviceItemState
                                               .data?.data?.priceAfterDiscount !=
                                           serviceItemState.data?.data?.price
-                                      ? Text(
+                                      ? TextWithoutPadding(
                                           "SAR ${serviceItemState.data?.data?.price ?? ""}",
                                           style: AppTheme
                                               .styleWithTextAppGrey7AdelleSansExtendedFonts14w400
@@ -492,7 +493,7 @@ class _ProductAndServiceDetailsScreenState
                           SizedBox(
                             height: 16,
                           ),
-                          Text(
+                          TextWithoutPadding(
                             "Description",
                             style: AppTheme
                                 .styleWithTextBlackColor2AdelleSansExtendedFonts16w400,
@@ -502,7 +503,7 @@ class _ProductAndServiceDetailsScreenState
                           ),
                           ExpandedText(
                             textValue:
-                                "${widget.itemType == ItemType.Products ? productItemState.data?.data?.description : serviceItemState.data?.data?.description} ",
+                                "${widget.itemType == ItemType.Products ? productItemState.data?.data?.description??"" : serviceItemState.data?.data?.description??""} ",
                             textStyle: AppTheme
                                 .styleWithTextAppGrey18AdelleSansExtendedFonts14w400
                                 .copyWith(height: 1.5),
@@ -515,7 +516,7 @@ class _ProductAndServiceDetailsScreenState
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(
+                                TextWithoutPadding(
                                   "About Product",
                                   style: AppTheme
                                       .styleWithTextBlackColor2AdelleSansExtendedFonts16w400,
@@ -523,7 +524,7 @@ class _ProductAndServiceDetailsScreenState
                                 ItemDetailsRow(
                                   title: "Type:",
                                   textValue:
-                                      "${productItemState.data?.data?.type}",
+                                      "${productItemState.data?.data?.type ?? ""}",
                                   valueTextStyle: AppTheme
                                       .styleWithTextAppGrey21AdelleSansExtendedFonts14w400
                                       .copyWith(
@@ -543,12 +544,12 @@ class _ProductAndServiceDetailsScreenState
                                     .data?.data?.colors.isNotEmpty == true ? ItemDetailsRow(
                                   title: "Color:",
                                   textValue: productItemState
-                                      .data?.data?.colors.first.name,
+                                      .data?.data?.colors.first.name ?? "",
                                 ) : const SizedBox(),
                                 ItemDetailsRow(
                                   title: "Product Size:",
                                   textValue:
-                                      "${productItemState.data?.data?.sizes.first.name}",
+                                      productItemState.data?.data?.sizes.first.name ?? "",
                                 ),
                                 // ProductRowItem(
                                 //   title: "Categories",
@@ -567,7 +568,7 @@ class _ProductAndServiceDetailsScreenState
                                 ItemDetailsRow(
                                   title: "Time for processing:",
                                   textValue:
-                                      "${productItemState.data?.data?.expectedProcessingTime}"
+                                      (productItemState.data?.data?.expectedProcessingTime ?? "")
                                           .ellipsize(28),
                                 ),
                               ],
@@ -579,26 +580,26 @@ class _ProductAndServiceDetailsScreenState
                                 final List<Widget> itemDetails = [
                                   ItemDetailsRow(
                                     title: "Service Duration",
-                                    textValue: serviceItemState
-                                        .data?.data?.duration
+                                    textValue: (serviceItemState
+                                        .data?.data?.duration??"")
                                         ?.ellipsize(28),
                                   ),
                                   ItemDetailsRow(
                                     title: "Card Type",
                                     textValue:
-                                        "${serviceItemState.data?.data?.cardType}",
+                                        serviceItemState.data?.data?.cardType??"",
                                   ),
                                   if (serviceItemState.data?.data?.cardPrice !=
                                       null)
                                     ItemDetailsRow(
                                       title: "Price for hard card",
                                       textValue:
-                                          "SAR ${serviceItemState.data?.data?.cardPrice}",
+                                          "SAR ${serviceItemState.data?.data?.cardPrice??""}",
                                     ),
                                   ItemDetailsRow(
                                     title: "Card Duration",
                                     textValue:
-                                        "${serviceItemState.data?.data?.cardExpiration}"
+                                        (serviceItemState.data?.data?.cardExpiration??"")
                                             .ellipsize(28),
                                   ),
                                   ItemDetailsRow(
@@ -620,7 +621,7 @@ class _ProductAndServiceDetailsScreenState
                                 return Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text(
+                                    TextWithoutPadding(
                                       "About Service",
                                       style: AppTheme
                                           .styleWithTextBlackAdelleSansExtendedFonts16w500,
@@ -642,7 +643,7 @@ class _ProductAndServiceDetailsScreenState
                                           child: Padding(
                                             padding:
                                                 const EdgeInsets.only(top: 8.0),
-                                            child: Text(
+                                            child: TextWithoutPadding(
                                               showAll
                                                   ? "Show Less"
                                                   : "Show More",
@@ -713,7 +714,7 @@ class _ProductAndServiceDetailsScreenState
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
                                           children: [
-                                            Text(
+                                            TextWithoutPadding(
                                               "${productItemState.data?.data!.lists?[index].name}",
                                               style: AppTheme
                                                   .styleWithTextBlackColor2AdelleSansExtendedFonts16w400,
@@ -730,7 +731,7 @@ class _ProductAndServiceDetailsScreenState
                                                     const EdgeInsets.symmetric(
                                                         horizontal: 10,
                                                         vertical: 4),
-                                                child: Text(
+                                                child: TextWithoutPadding(
                                                   "Optional",
                                                   style: AppTheme
                                                       .styleWithTextBlackColor2ColorAdelleSansExtendedFonts13w400,
@@ -739,7 +740,7 @@ class _ProductAndServiceDetailsScreenState
                                             )
                                           ],
                                         ),
-                                        Text(
+                                        TextWithoutPadding(
                                           productItemState
                                                       .data
                                                       ?.data
@@ -773,7 +774,7 @@ class _ProductAndServiceDetailsScreenState
                                                                       0,
                                                                   item.name ??
                                                                       "",
-                                                                  Text(
+                                                                  TextWithoutPadding(
                                                                     "(+SAR ${item.price})",
                                                                     style: AppTheme
                                                                         .styleWithTextAppGrey18AdelleSansExtendedFonts14w400,
@@ -832,7 +833,7 @@ class _ProductAndServiceDetailsScreenState
                                                                       0,
                                                                   item.name ??
                                                                       "",
-                                                                  Text(
+                                                                  TextWithoutPadding(
                                                                     "(+SAR ${item.price})",
                                                                     style: AppTheme
                                                                         .styleWithTextAppGrey18AdelleSansExtendedFonts14w400,
@@ -888,7 +889,7 @@ class _ProductAndServiceDetailsScreenState
                                           crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                           children: [
-                                            Text(
+                                            TextWithoutPadding(
                                               "${serviceItemState.data?.data!.lists?[index].name}",
                                               style: AppTheme
                                                   .styleWithTextBlackColor2AdelleSansExtendedFonts16w400,
@@ -905,7 +906,7 @@ class _ProductAndServiceDetailsScreenState
                                                 const EdgeInsets.symmetric(
                                                     horizontal: 10,
                                                     vertical: 4),
-                                                child: Text(
+                                                child: TextWithoutPadding(
                                                   "Optional",
                                                   style: AppTheme
                                                       .styleWithTextBlackColor2ColorAdelleSansExtendedFonts13w400,
@@ -914,7 +915,7 @@ class _ProductAndServiceDetailsScreenState
                                             )
                                           ],
                                         ),
-                                        Text(
+                                        TextWithoutPadding(
                                           serviceItemState
                                               .data
                                               ?.data
@@ -938,7 +939,7 @@ class _ProductAndServiceDetailsScreenState
                                                             item.id?.toInt() ??
                                                                 0,
                                                             item.name ?? "",
-                                                            Text(
+                                                            TextWithoutPadding(
                                                               "SAR ${item.price}",
                                                               style: AppTheme
                                                                   .styleWithTextAppGrey7AdelleSansExtendedFonts14w400,
@@ -990,7 +991,7 @@ class _ProductAndServiceDetailsScreenState
                                   relatedServiceData
                                           .data?.data?.products?.data.length !=
                                       0
-                              ? Text(
+                              ? TextWithoutPadding(
                                   "You may also like",
                                   style: AppTheme
                                       .styleWithTextBlackAdelleSansExtendedFonts18w700,
@@ -1129,12 +1130,12 @@ class _ProductAndServiceDetailsScreenState
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
+                          TextWithoutPadding(
                             "SAR ${widget.itemType == ItemType.Products ? productItemState.data?.data?.priceAfterDiscount ?? "" : serviceItemState.data?.data?.priceAfterDiscount ?? ""}",
                             style: AppTheme
                                 .styleWithTextBlackAdelleSansExtendedFonts18w500,
                           ),
-                          Text(
+                          TextWithoutPadding(
                             "Vat. included",
                             style: AppTheme
                                 .styleWithTextGray7AdelleSansExtendedFonts12w400,
@@ -1553,7 +1554,7 @@ class _ProductAndServiceDetailsScreenState
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Spacer(),
-                                    Text(
+                                    TextWithoutPadding(
                                       type == ProductTypes.ready_made_gifts
                                           ? "Ready Gift"
                                           : "Unready Gift",
@@ -1571,7 +1572,7 @@ class _ProductAndServiceDetailsScreenState
                                   ],
                                 ),
                                 SizedBox(height: 16),
-                                Text(
+                                TextWithoutPadding(
                                   type == ProductTypes.ready_made_gifts
                                       ? "These gift will be delivered\nwith no packaging."
                                       : "These gift come with\ncustomizable packaging\nbefore delivery!",

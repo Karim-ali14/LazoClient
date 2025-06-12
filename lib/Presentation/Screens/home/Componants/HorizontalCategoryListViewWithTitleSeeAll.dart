@@ -62,7 +62,7 @@ class _HorizontalCategoryListViewWithTitleSeeAllState
                     mainAxisSpacing: 10,
                     childAspectRatio: .6, // Adjust for better fit
                   ),
-                  itemCount: widget.showLoading ? 5 : widget.list.length,
+                  itemCount: widget.showLoading ? 6 : widget.list.length,
                   itemBuilder: (context, index) {
                     return Skeletonizer(
                       enabled: widget.showLoading,

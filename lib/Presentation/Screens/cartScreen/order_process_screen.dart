@@ -19,6 +19,7 @@ import '../../StateNotifiersViewModel/ClientStateNotifiers.dart';
 import '../../StateNotifiersViewModel/PublicStateNotifiers.dart';
 import '../../StateNotifiersViewModel/UserAuthStateNotifiers.dart';
 import '../../Widgets/AppButton.dart';
+import '../../Widgets/TextWithoutPadding.dart';
 
 class OrderProcessScreen extends ConsumerStatefulWidget {
   final int? initCurrentPage;
@@ -165,7 +166,7 @@ class _OrderProcessScreenState extends ConsumerState<OrderProcessScreen> {
               ),
             ),
           ),
-          Align(
+          cartData.data?.data?.cartItems.isNotEmpty == true ? Align(
             alignment: Alignment.bottomCenter,
             child: Container(
               decoration: BoxDecoration(
@@ -187,14 +188,14 @@ class _OrderProcessScreenState extends ConsumerState<OrderProcessScreen> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
+                        TextWithoutPadding(
                           widget.type == CheckoutTypes.HartCard
-                              ? "${cartData.data?.data?.cartItems.length} items"
+                              ? "${cartData.data?.data?.cartItems.length ?? 0} items"
                               : "1 Item",
                           style: AppTheme.styleWithTextGray7AdelleSansExtendedFonts12w400,
                         ),
-                        Text(
-                          "SAR ${widget.type == CheckoutTypes.HartCard ? cartInfo.data?.data?.totalAfter : widget.service?.priceAfterDiscount}",
+                        TextWithoutPadding(
+                          "SAR ${widget.type == CheckoutTypes.HartCard ? cartInfo.data?.data?.totalAfter ?? 0 : widget.service?.priceAfterDiscount ?? 0}",
                           style: AppTheme.styleWithTextBlackAdelleSansExtendedFonts18w500,
                         ),
                       ],
@@ -209,7 +210,7 @@ class _OrderProcessScreenState extends ConsumerState<OrderProcessScreen> {
                             navigateToPage(++_currentPage);
                           }, onCannotPassConditions: () {
                             ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                              content: Text("Please select a gift box"),
+                              content: TextWithoutPadding("Please select a gift box"),
                             ));
                           });
                         } else if (_currentPage == 1 || (_currentPage == 0 && widget.type == CheckoutTypes.SoftCard)) {
@@ -232,7 +233,7 @@ class _OrderProcessScreenState extends ConsumerState<OrderProcessScreen> {
                 ],
               ),
             ),
-          ),
+          ):const SizedBox(),
         ],
       ),
     );

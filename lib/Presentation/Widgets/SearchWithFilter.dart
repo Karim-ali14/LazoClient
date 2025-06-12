@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lazo_client/Constants/Assets.dart';
 import 'package:lazo_client/Presentation/Widgets/AppTextField.dart';
 import 'package:lazo_client/Presentation/Widgets/SvgIcons.dart';
@@ -11,6 +12,7 @@ import 'package:lazo_client/Utils/Extintions.dart';
 import '../../Localization/Keys.dart';
 import '../Theme/AppTheme.dart';
 import 'AppButton.dart';
+import 'TextWithoutPadding.dart';
 
 typedef OnTextChangeListener = Function(String);
 
@@ -136,17 +138,17 @@ class _AppSearchBarWithFilterState extends State<AppSearchBarWithFilter> {
                                         ),
                                         (widget.numberOfFilterItems ?? 0) > 0
                                             ? Container(
-                                                decoration: const BoxDecoration(
+                                          width: 17.w,
+                                          height: 17.h,
+                                          decoration: const BoxDecoration(
                                                   shape: BoxShape.circle,
                                                   color: AppTheme.appRedColor,
                                                 ),
-                                                child: Padding(
-                                                  padding:
-                                                      const EdgeInsets.all(5.5),
-                                                  child: Text(
+                                                child: Center(
+                                                  child: TextWithoutPadding(
                                                     "${widget.numberOfFilterItems}",
                                                     style: AppTheme
-                                                        .styleWithTextWhiteAdelleSansExtendedFonts10w400,
+                                                        .styleWithTextWhiteAdelleSansExtendedFonts10w400
                                                   ),
                                                 ),
                                               )

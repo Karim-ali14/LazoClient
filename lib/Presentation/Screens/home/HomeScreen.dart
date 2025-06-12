@@ -29,6 +29,7 @@ import '../../../main.dart';
 import '../../BottomSheets/CollectionsBottomSheet.dart';
 import '../../StateNotifiersViewModel/WishListStateNotifiers.dart';
 import '../../Theme/AppTheme.dart';
+import '../../Widgets/TextWithoutPadding.dart';
 import 'Componants/HorizontalOccasionsListViewWithTitleSeeAll.dart';
 import 'Componants/HorizontalTopProductListViewWithTitleSeeAll.dart';
 import 'Componants/HorizontalTopSellersListViewWithTitleSeeAll.dart';
@@ -242,9 +243,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                           CategoryType.Search);
                                     },
                                   ),
-                                  SizedBox(
-                                    height: defaultPaddingHorizontal,
-                                  ),
                                 ],
                               ),
                         (homeDataState.state == DataState.SUCCESS &&
@@ -262,6 +260,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                                 .toList() ??
                                             []
                                         : [
+                                            Category(),
                                             Category(),
                                             Category(),
                                             Category(),
@@ -330,9 +329,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                     itemWidth: 160,
                                     title: context.tr(bestProductsKey),
                                   ),
-                                  SizedBox(
-                                    height: defaultPaddingHorizontal,
-                                  )
                                 ],
                               ),
                         (homeDataState.state == DataState.SUCCESS &&
@@ -441,7 +437,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                         },
                         child: Row(
                           children: [
-                            Text(
+                            TextWithoutPadding(
                               "Delivery To",
                               style: AppTheme
                                   .styleWithTextAppGrey17AdelleSansFonts14w350,
@@ -451,7 +447,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                             ),
                             ValueListenableBuilder(
                               valueListenable: citySelected,
-                              builder: (context, value, _) => Text(
+                              builder: (context, value, _) => TextWithoutPadding(
                                 value.name ?? "",
                                 style: AppTheme
                                     .styleWithTextBlackColor2AdelleSansExtendedFonts14w500,
@@ -656,7 +652,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             SizedBox(
               width: 3.5,
             ),
-            Text(
+            TextWithoutPadding(
               (isFavorite ?? false)
                   ? "Added to $collectionName"
                   : "Removed from wishlist",
@@ -673,7 +669,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                           itemId: itemId,
                           type: type);
                     },
-                    child: Text(
+                    child: TextWithoutPadding(
                       "Edit",
                       style: AppTheme
                           .styleWithTextWhiteAdelleSansExtendedFonts12w400,

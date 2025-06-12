@@ -11,6 +11,7 @@ import 'package:go_router/go_router.dart';
 import '../Theme/AppTheme.dart';
 import '../Widgets/AppButton.dart';
 import '../Widgets/FlatAppButton.dart';
+import '../Widgets/TextWithoutPadding.dart';
 
 Future<dynamic> showAppDialog(BuildContext context, Widget dialog,
     {bool? dismissible}) async {
@@ -76,7 +77,7 @@ extension Dialogs on BuildContext {
               ),
               Align(
                   alignment: Alignment.centerLeft,
-                  child: Text(
+                  child: TextWithoutPadding(
                     message ?? "Success!" "✅",
                     style: Theme.of(this)
                         .textTheme
@@ -87,7 +88,7 @@ extension Dialogs on BuildContext {
               const SizedBox(
                 height: 8,
               ),
-              Text(
+              TextWithoutPadding(
                 textAlign: TextAlign.start,
                 description,
                 style:
@@ -156,7 +157,7 @@ extension Dialogs on BuildContext {
               const SizedBox(
                 height: 20,
               ),
-              Text(
+              TextWithoutPadding(
                 message,
                 style: Theme.of(this)
                     .textTheme

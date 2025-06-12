@@ -19,6 +19,7 @@ import '../../../Localization/Keys.dart';
 import '../../../Utils/LocationHandler.dart';
 import '../../StateNotifiersViewModel/ClientStateNotifiers.dart';
 import '../../StateNotifiersViewModel/PublicStateNotifiers.dart';
+import '../../Widgets/TextWithoutPadding.dart';
 import '../cartScreen/componants/card_summary_details.dart';
 import '../cartScreen/componants/service_info_view.dart';
 
@@ -127,13 +128,13 @@ class CartSummaryScreenState extends ConsumerState<CartSummaryScreen> {
                                             : Colors.white,
                                         child: Row(
                                           children: [
-                                            Text(
+                                            TextWithoutPadding(
                                               "View your order",
                                               style: AppTheme
                                                   .styleWithTextBlackColor2AdelleSansExtendedFonts16w400,
                                             ),
                                             Spacer(),
-                                            Text(
+                                            TextWithoutPadding(
                                               "(${calculateItemInCart(cartData.data?.data?.cartItems)} Items)",
                                               style: AppTheme
                                                   .styleWithTextBlack2AdelleSansExtendedFonts11w400,

@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../Data/Models/PaymentMethod.dart';
+import '../../../Widgets/TextWithoutPadding.dart';
 
 class PaymentMethodSelector extends StatefulWidget {
   final List<PaymentMethod> methods;
@@ -58,7 +59,7 @@ class _PaymentMethodSelectorState extends State<PaymentMethodSelector> {
                   },
                   activeColor: Colors.red,
                 ),
-                title: Text(method.name),
+                title: TextWithoutPadding(method.name),
                 trailing: Icon(method.icon),
                 onTap: () {
                   setState(() {

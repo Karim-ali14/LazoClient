@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 
+import 'TextWithoutPadding.dart';
+
 class TruncatedText extends StatelessWidget {
   final String text;
   final int maxLength;
@@ -17,7 +19,7 @@ class TruncatedText extends StatelessWidget {
         ? '${text.substring(0, maxLength)}...'
         : text;
 
-    return Text(
+    return TextWithoutPadding(
       truncatedText,
       style: style,
     );

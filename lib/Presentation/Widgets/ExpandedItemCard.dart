@@ -5,6 +5,7 @@ import 'package:lazo_client/Constants/Assets.dart';
 import '../../Constants/Constants.dart';
 import '../Theme/AppTheme.dart';
 import 'SvgIcons.dart';
+import 'TextWithoutPadding.dart';
 
 class ExpandedItemCard extends StatefulWidget {
   final String title;
@@ -42,7 +43,7 @@ class _ExpandedItemCardState extends State<ExpandedItemCard> {
                   children: [
                     SizedBox(
                       width: 295,
-                      child: Text(
+                      child: TextWithoutPadding(
                         widget.title,
                         style: AppTheme.styleWithTextAppBlackAdelleSansExtendedFonts14w700,
                       ),

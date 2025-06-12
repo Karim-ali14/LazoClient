@@ -32,6 +32,7 @@ import '../../StateNotifiersViewModel/UserAuthStateNotifiers.dart';
 import '../../StateNotifiersViewModel/WishListStateNotifiers.dart';
 import '../../Widgets/CircleImage.dart';
 import '../../Widgets/SvgIcons.dart';
+import '../../Widgets/TextWithoutPadding.dart';
 
 class SellerDetailsScreen extends ConsumerStatefulWidget {
   final int sellerId;
@@ -188,7 +189,7 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
                         width: 10,
                         height: MediaQuery.of(context).size.height * .07,
                       ),
-                      Text(
+                      TextWithoutPadding(
                         sellerProducts.data?.data?.name?.ellipsize(20) ?? '',
                         style: AppTheme
                             .styleWithTextBlackAdelleSansExtendedFonts18w700,
@@ -257,7 +258,7 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(
+                                TextWithoutPadding(
                                   sellerProducts.data?.data?.name
                                           ?.ellipsize(28) ??
                                       "",
@@ -293,7 +294,7 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
                                     SizedBox(
                                       width: 3,
                                     ),
-                                    Text(
+                                    TextWithoutPadding(
                                       "${sellerProducts.data?.data?.overallRating ?? 0}",
                                       style: AppTheme
                                           .styleWithTextBlackColor2AdelleSansExtendedFonts14w400,
@@ -301,7 +302,7 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
                                     SizedBox(
                                       width: 5,
                                     ),
-                                    Text(
+                                    TextWithoutPadding(
                                       "(${sellerProducts.data?.data?.ratingsCount ?? 0})",
                                       style: AppTheme
                                           .styleWithTextBlackColor2AdelleSansExtendedFonts14w400,
@@ -322,7 +323,7 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
                                       SizedBox(
                                         width: 5,
                                       ),
-                                      Text(
+                                      TextWithoutPadding(
                                         "Reviews (${(sellerProducts.data?.data?.ratingsCount ?? 0)})",
                                         style: AppTheme
                                             .styleWithTextBlackColor2AdelleSansExtendedFonts14w400
@@ -342,7 +343,7 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
                         ),
                         Row(
                           children: [
-                            Text(
+                            TextWithoutPadding(
                               (sellerProducts.data?.data?.bio ?? "")
                                   .ellipsize(40),
                               style: AppTheme
@@ -353,7 +354,7 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
                                     onTap: () {
                                       showAllDescriptionBottomSheet();
                                     },
-                                    child: Text(
+                                    child: TextWithoutPadding(
                                       "See more",
                                       style: AppTheme
                                           .styleWithTextBlackColor2AdelleSansExtendedFonts14w400
@@ -379,7 +380,7 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
                               tabs: [
                                 if(sellerProducts.data?.data?.categories?.isNotEmpty == true)
                                   Tab(
-                                    child: Text(
+                                    child: TextWithoutPadding(
                                       context.tr(productsKey),
                                       style: value == 0
                                           ? AppTheme
@@ -393,7 +394,7 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
                                   ,
                                 if(sellerServices.data?.data?.categories?.isNotEmpty == true)
                                   Tab(
-                                  child: Text(
+                                  child: TextWithoutPadding(
                                     context.tr(servicesKey),
                                     style: (sellerProducts.data?.data?.categories?.isNotEmpty == false ? value == 0  : value == 1)
                                         ? AppTheme
@@ -437,7 +438,7 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
                       productCategoryTabs =
                           sellerProducts.data!.data!.categories!
                               .map((e) => Tab(
-                                      child: Text(
+                                      child: TextWithoutPadding(
                                     e.name ?? "",
                                     style: AppTheme
                                         .styleWithTextBlackColorAdelleSansExtendedFonts12w500,
@@ -498,7 +499,7 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
                         serviceCategoryTabs =
                             sellerServices.data!.data!.categories!
                                 .map((e) => Tab(
-                                        child: Text(
+                                        child: TextWithoutPadding(
                                       e.name ?? "",
                                       style: AppTheme
                                           .styleWithTextBlackColorAdelleSansExtendedFonts12w500,

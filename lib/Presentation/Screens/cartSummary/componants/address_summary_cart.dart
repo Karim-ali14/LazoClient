@@ -7,6 +7,7 @@ import 'package:lazo_client/Presentation/Widgets/SvgIcons.dart';
 import 'package:lazo_client/Utils/Extintions.dart';
 
 import '../../../../Constants/Assets.dart';
+import '../../../Widgets/TextWithoutPadding.dart';
 
 class AddressSummaryCart extends StatelessWidget {
   final AddressItem addressItem;
@@ -27,7 +28,7 @@ class AddressSummaryCart extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
+          const TextWithoutPadding(
             "Address",
             style: AppTheme.styleWithTextBlack2AdelleSansExtendedFonts16w500,
           ),
@@ -52,19 +53,19 @@ class AddressSummaryCart extends StatelessWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
+                    TextWithoutPadding(
                       addressItem.recipientAddress?.ellipsize(40) ?? "",
                       style: AppTheme
                           .styleWithTextGray18AdelleSansExtendedFonts12w400,
                     ),
                     const Spacer(),
-                    Text(addressItem.city?.name?.ellipsize(37) ?? "",style: AppTheme.styleWithTextBlack2AdelleSansExtendedFonts14w400,)
+                    TextWithoutPadding(addressItem.city?.name?.ellipsize(37) ?? "",style: AppTheme.styleWithTextBlack2AdelleSansExtendedFonts14w400,)
                   ],
                 ),
                 const Spacer(),
                 InkWell(
                     onTap: (){changeAddressAction.call();},
-                    child: const Text("Change",style: AppTheme.styleWithTextMainAppColorAdelleSansExtendedFonts12w400,))
+                    child: const TextWithoutPadding("Change",style: AppTheme.styleWithTextMainAppColorAdelleSansExtendedFonts12w400,))
               ],
             ),
           )

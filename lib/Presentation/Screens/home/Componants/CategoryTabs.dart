@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../../Theme/AppTheme.dart';
+import '../../../Widgets/TextWithoutPadding.dart';
 
 class CategoryTabs extends StatefulWidget {
   final List<String> list;
@@ -33,7 +34,7 @@ class _CategoryTabsState extends State<CategoryTabs> {
                   border: activeTabProductCategoryIndex == index ? const Border(bottom: BorderSide(color: AppTheme.appRedColor,width: 2)) : const Border()
               ),
               child: Center(
-                child: Text(
+                child: TextWithoutPadding(
                     widget.list[index] ?? ""
                 ),
               ),

@@ -20,6 +20,7 @@ import '../../../../Data/Network/lib/api.dart';
 import '../../../../Localization/Keys.dart';
 import '../../../../Utils/Snaks.dart';
 import '../../../StateNotifiersViewModel/WishListStateNotifiers.dart';
+import '../../../Widgets/TextWithoutPadding.dart';
 
 typedef OnUpdateQuantity = Function(num, num);
 typedef OnDeleteItem = Function(num);
@@ -112,7 +113,7 @@ class _CartItemViewState extends ConsumerState<CartItemView> {
                         onTap: () {
                           onItemClick(true);
                         },
-                        child: Text(
+                        child: TextWithoutPadding(
                           (widget.cartItem?.type ?? "") ==
                                   CartItemType.Product.name.toLowerCase()
                               ? widget.cartItem?.product?.name ?? ""
@@ -141,7 +142,7 @@ class _CartItemViewState extends ConsumerState<CartItemView> {
                           height: 20,
                           color: Colors.white,
                         ),
-                        child: Text(
+                        child: TextWithoutPadding(
                           (widget.cartItem?.type ?? "") ==
                                   CartItemType.Product.name.toLowerCase()
                               ? widget.cartItem
@@ -170,7 +171,7 @@ class _CartItemViewState extends ConsumerState<CartItemView> {
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Text(
+                          TextWithoutPadding(
                             (widget.cartItem?.type ?? "") ==
                                     CartItemType.Product.name.toLowerCase()
                                 ? "${context.tr(sarKey)} ${countItemPrice(widget.cartItem?.product?.priceAfterDiscount ?? 0, widget.cartItem?.quantity ?? 1)}"
@@ -193,7 +194,7 @@ class _CartItemViewState extends ConsumerState<CartItemView> {
                                     const SizedBox(
                                       width: 6,
                                     ),
-                                    Text(
+                                    TextWithoutPadding(
                                       "${context.tr(sarKey)} ${countItemPrice(widget.cartItem?.product?.price ?? 0, widget.cartItem?.quantity ?? 1)}",
                                       style: AppTheme
                                           .styleWithTextGray7AdelleSansExtendedFonts12w400
@@ -219,7 +220,7 @@ class _CartItemViewState extends ConsumerState<CartItemView> {
                                     SizedBox(
                                       width: 6,
                                     ),
-                                    Text(
+                                    TextWithoutPadding(
                                       "${context.tr(sarKey)} ${countItemPrice(widget.cartItem?.service?.price ?? 0, widget.cartItem?.quantity ?? 1)}",
                                       style: AppTheme
                                           .styleWithTextGray7AdelleSansExtendedFonts12w400

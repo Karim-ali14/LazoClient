@@ -4,6 +4,7 @@ import 'package:lazo_client/Constants/Eunms.dart';
 
 import '../../Utils/SearchStorage.dart';
 import '../Theme/AppTheme.dart';
+import 'TextWithoutPadding.dart';
 
 typedef OnItemSearchClick = Function(String);
 
@@ -35,7 +36,7 @@ class _RecentScreenState extends State<RecentScreen> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text("Recent Searches",
+                TextWithoutPadding("Recent Searches",
                     style:
                         TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
                 TextButton(
@@ -48,7 +49,7 @@ class _RecentScreenState extends State<RecentScreen> {
                                 : SearchStorage.seller_key);
                     widget.onClearBtuClick.call();
                   },
-                  child: Text("Clear All"),
+                  child: TextWithoutPadding("Clear All"),
                 ),
               ],
             ),
@@ -58,7 +59,7 @@ class _RecentScreenState extends State<RecentScreen> {
               itemCount: widget.recentSearches.length,
               itemBuilder: (context, index) {
                 return ListTile(
-                  title: Text(widget.recentSearches[index]),
+                  title: TextWithoutPadding(widget.recentSearches[index]),
                   leading: const Icon(Icons.search),
                   onTap: () {
                     widget.itemSearchClick(widget.recentSearches[index]);

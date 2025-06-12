@@ -6,6 +6,7 @@ import 'package:lazo_client/Presentation/Widgets/SvgIcons.dart';
 import '../../../../Constants/Assets.dart';
 import '../../../../Data/Network/lib/api.dart';
 import '../../../Theme/AppTheme.dart';
+import '../../../Widgets/TextWithoutPadding.dart';
 
 class AddressCard extends StatefulWidget {
   final AddressItem? addressItem;
@@ -31,7 +32,7 @@ class _AddressCardState extends State<AddressCard> {
         children: [
           Row(
             children: [
-              Text(
+              TextWithoutPadding(
                 "${widget.addressItem?.recipientName},${widget.addressItem?.city?.name}",
                 style:
                     AppTheme.styleWithTextBlack2AdelleSansExtendedFonts16w500,
@@ -45,7 +46,7 @@ class _AddressCardState extends State<AddressCard> {
                   children: [
                     SVGIcons.localSVG(editAddressIcons, width: 11, height: 11),
                     SizedBox(width: 3,),
-                    Text("Edit",style: AppTheme.styleWithTextBlack2AdelleSansExtendedFonts12w400,)
+                    TextWithoutPadding("Edit",style: AppTheme.styleWithTextBlack2AdelleSansExtendedFonts12w400,)
                   ],
                 ),
               ),
@@ -60,7 +61,7 @@ class _AddressCardState extends State<AddressCard> {
                   children: [
                     SVGIcons.localSVG(deleteAddressIcons, width: 11, height: 11),
                     SizedBox(width: 3,),
-                    Text("Delete",style: AppTheme.styleWithTextBlack2AdelleSansExtendedFonts12w400,)
+                    TextWithoutPadding("Delete",style: AppTheme.styleWithTextBlack2AdelleSansExtendedFonts12w400,)
                   ],
                 ),
               ),
@@ -69,15 +70,15 @@ class _AddressCardState extends State<AddressCard> {
           SizedBox(
             height: 8,
           ),
-          Text(widget.addressItem?.recipientAddress ?? "",style: AppTheme.styleWithTextBlack2AdelleSansExtendedFonts12w400,),
+          TextWithoutPadding(widget.addressItem?.recipientAddress ?? "",style: AppTheme.styleWithTextBlack2AdelleSansExtendedFonts12w400,),
           SizedBox(
             height: 8,
           ),
-          Text("Name : ${widget.addressItem?.recipientName ?? ""}",style: AppTheme.styleWithTextBlack2AdelleSansExtendedFonts12w400,),
+          TextWithoutPadding("Name : ${widget.addressItem?.recipientName ?? ""}",style: AppTheme.styleWithTextBlack2AdelleSansExtendedFonts12w400,),
           SizedBox(
             height: 8,
           ),
-          Text("Phone : ${widget.addressItem?.recipientPhone ?? ""}",style: AppTheme.styleWithTextBlack2AdelleSansExtendedFonts12w400,),
+          TextWithoutPadding("Phone : ${widget.addressItem?.recipientPhone ?? ""}",style: AppTheme.styleWithTextBlack2AdelleSansExtendedFonts12w400,),
 
         ],
       ),

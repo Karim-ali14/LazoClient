@@ -5,6 +5,8 @@ import 'package:lazo_client/Presentation/Theme/AppTheme.dart';
 import 'package:lazo_client/Presentation/Widgets/CircleImage.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
+import 'TextWithoutPadding.dart';
+
 class CategoryItemCart extends StatelessWidget {
   final String image;
   final String title;
@@ -65,7 +67,7 @@ class CategoryItemCart extends StatelessWidget {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text(title,
+                    TextWithoutPadding(title,
                         style: AppTheme.styleWithTextWhiteColor15PoppinsFonts14w500
                             .copyWith(overflow: TextOverflow.ellipsis),
                         maxLines: 1,
