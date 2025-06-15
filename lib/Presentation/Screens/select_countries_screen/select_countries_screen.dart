@@ -41,7 +41,7 @@ class _SelectCountriesScreenState extends ConsumerState<SelectCountriesScreen> {
     final citiesState = ref.watch(getCities);
     return Scaffold(
       appBar: CustomAppBar(
-          appContext: context, title: "", navigated: true, isCenter: false),
+          appContext: context, title: "", navigated: false, isCenter: false),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

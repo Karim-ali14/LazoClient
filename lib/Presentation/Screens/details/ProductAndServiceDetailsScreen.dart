@@ -1568,7 +1568,7 @@ class _ProductAndServiceDetailsScreenState
                                         fontWeight: FontWeight.bold,
                                         fontSize: 18,
                                         color: Colors.black,
-                                      ),
+                                      )
                                     ),
                                     Spacer(),
                                     GestureDetector(
@@ -1579,6 +1579,7 @@ class _ProductAndServiceDetailsScreenState
                                 ),
                                 SizedBox(height: 16),
                                 TextWithoutPadding(
+                                  height: 1.5,
                                   type == ProductTypes.ready_made_gifts
                                       ? "These gift will be delivered\nwith no packaging."
                                       : "These gift come with\ncustomizable packaging\nbefore delivery!",

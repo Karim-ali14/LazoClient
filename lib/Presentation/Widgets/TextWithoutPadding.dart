@@ -6,7 +6,8 @@ class TextWithoutPadding extends StatelessWidget {
   final int? maxLines;
   final TextAlign? textAlign;
   final TextOverflow? overflow;
-  const TextWithoutPadding(this.text,{super.key, this.style, this.maxLines, this.textAlign, this.overflow});
+  final double? height;
+  const TextWithoutPadding(this.text,{super.key, this.style, this.maxLines, this.textAlign, this.overflow, this.height = .7});
 
   @override
   Widget build(BuildContext context) {
@@ -14,9 +15,9 @@ class TextWithoutPadding extends StatelessWidget {
         maxLines: maxLines,
         textAlign: textAlign,
         overflow: overflow,
-        strutStyle: const StrutStyle(
+        strutStyle: StrutStyle(
         forceStrutHeight: true,
-        height: .7
+        height: height
     ));
   }
 }

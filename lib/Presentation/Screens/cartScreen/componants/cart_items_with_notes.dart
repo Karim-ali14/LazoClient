@@ -73,6 +73,7 @@ class _CartItemsWithNotesState extends ConsumerState<CartItemsWithNotes> {
             "Please note that unready gifts come with customizable packaging before delivery.",
             style: AppTheme
                 .styleWithTextGray27AdelleSansExtendedFonts12w400,
+            height: 1.2,
           ),
           const Padding(
             padding: EdgeInsets.only(top: 16),
