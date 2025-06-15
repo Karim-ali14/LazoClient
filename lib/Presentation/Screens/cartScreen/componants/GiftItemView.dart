@@ -35,7 +35,6 @@ class GiftItemView extends StatelessWidget {
         onItemSelected.call();
       },
       child: Container(
-        height: 197.h,
         width: 146.w,
         clipBehavior: Clip.antiAlias,
         decoration: BoxDecoration(
@@ -44,57 +43,56 @@ class GiftItemView extends StatelessWidget {
             border: Border.all(
                 color: isSelected ? AppTheme.mainAppColor : AppTheme.appGrey6,
                 width: 1)),
-        child: Stack(children: [
-          Column(
-            children: [
-              Skeleton.replace(
-                replacement: Container(
-                  width: double.infinity,
-                  height: 142.h,
-                  color: Colors.white,
-                ),
-                child: ImageView(
-                  width: double.infinity,
-                  height: 142,
-                  initialImg: type == GiftItemType.Card
-                      ? "${giftCard?.imagePath}"
-                      : "${giftBox?.imagePath}"
-                ),
+        child: Column(
+          children: [
+            Skeleton.replace(
+              replacement: Container(
+                width: double.infinity,
+                height: 142.h,
+                color: Colors.white,
               ),
-              Padding(
-                padding: EdgeInsets.symmetric(vertical: 12, horizontal: 8),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(
-                        width: 130,
-                        child: Text(
-                          type == GiftItemType.Card
-                              ? giftCard?.name ?? ""
-                              : giftBox?.name ?? "",
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: AppTheme
-                              .styleWithTextGray7AdelleSansExtendedFonts12w400,
-                        )),
-                    SizedBox(
-                      height: 7,
+              child: ImageView(
+                width: double.infinity,
+                height: 142,
+                initialImg: type == GiftItemType.Card
+                    ? "${giftCard?.imagePath}"
+                    : "${giftBox?.imagePath}"
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 12, horizontal: 8),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(
+                      width: 130.w,
+                      child: Text(
+                        type == GiftItemType.Card
+                            ? giftCard?.name ?? ""
+                            : giftBox?.name ?? "",
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: AppTheme
+                            .styleWithTextGray7AdelleSansExtendedFonts12w400,
+                      )),
+                  SizedBox(
+                    height: 7.h,
+                  ),
+                  Text(
+                    type == GiftItemType.Card
+                        ? "${context.tr(sarKey)} ${giftCard?.price}"
+                        : giftBox?.price == 0 ? "Free" : "(+ ${context.tr(sarKey)} ${giftBox?.price})",
+                    style: AppTheme
+                        .styleWithTextRedAdelleSansExtendedFonts16w500.copyWith(
+                      color: giftBox?.price == 0 ? AppTheme.mainAppColorDark : AppTheme.appGrey26,
                     ),
-                    Text(
-                      type == GiftItemType.Card
-                          ? "${context.tr(sarKey)} ${giftCard?.price}"
-                          : giftBox?.price == 0 ? "Free" : "(+ ${context.tr(sarKey)} ${giftBox?.price})",
-                      style: AppTheme
-                          .styleWithTextRedAdelleSansExtendedFonts16w500.copyWith(
-                        color: giftBox?.price == 0 ? AppTheme.mainAppColorDark : AppTheme.appGrey26,
-                      ),
-                    )
-                  ],
-                ),
-              )
-            ],
-          ),
-        ]),
+                  )
+                ],
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

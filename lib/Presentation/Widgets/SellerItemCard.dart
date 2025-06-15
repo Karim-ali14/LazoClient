@@ -117,7 +117,7 @@ class _SellerItemCardState extends State<SellerItemCard> {
                         height: 15,
                         color: Colors.white,
                       ),
-                      child: TextWithoutPadding(widget.providerData?.name ?? "",
+                      child: Text(widget.providerData?.name ?? "",
                           style: AppTheme
                               .styleWithTextBlackColor2AdelleSansExtendedFonts14w400
                               .copyWith(overflow: TextOverflow.ellipsis),

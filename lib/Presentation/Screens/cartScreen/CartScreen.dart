@@ -162,7 +162,7 @@ class CartScreenState extends ConsumerState<CartScreen> with AutomaticKeepAliveC
                               ? Skeleton.replace(
                                   replacement: SizedBox(),
                                   child: SizedBox(
-                                    height: 208,
+                                    height: 210,
                                     child: GiftBoxListView(
                                         data: giftBox.data?.data,
                                         isLoading: giftBox.state ==

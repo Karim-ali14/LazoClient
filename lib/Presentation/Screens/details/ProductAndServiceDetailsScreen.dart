@@ -406,12 +406,11 @@ class _ProductAndServiceDetailsScreenState
                           Row(
                             children: [
                               Expanded(
-                                child: TruncatedText(
-                                    text:
+                                child: Text(
                                         "${widget.itemType == ItemType.Products ? productItemState.data?.data?.name??"" : serviceItemState.data?.data?.name??""} ",
                                     style: AppTheme
                                         .styleWithTextBlackColor2AdelleSansExtendedFonts20w700,
-                                    maxLength: 29),
+                                    maxLines: 1,overflow: TextOverflow.ellipsis,),
                               ),
                               widget.itemType == ItemType.Products
                                   ? Container(
