@@ -8,7 +8,7 @@ CustomTransitionPage<T> buildPageWithPushStyle<T>({
   return CustomTransitionPage<T>(
     key: key,
     child: child,
-    transitionDuration: const Duration(milliseconds: 1000), 
+    transitionDuration: const Duration(milliseconds: 600),
     transitionsBuilder: (context, animation, secondaryAnimation, child) {
       const curve = Curves.easeInOut;
 
