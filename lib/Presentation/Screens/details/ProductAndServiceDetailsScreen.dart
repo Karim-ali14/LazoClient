@@ -405,13 +405,14 @@ class _ProductAndServiceDetailsScreenState
                           ),
                           Row(
                             children: [
-                              TruncatedText(
-                                  text:
-                                      "${widget.itemType == ItemType.Products ? productItemState.data?.data?.name??"" : serviceItemState.data?.data?.name??""} ",
-                                  style: AppTheme
-                                      .styleWithTextBlackColor2AdelleSansExtendedFonts20w700,
-                                  maxLength: 30),
-                              Spacer(),
+                              Expanded(
+                                child: TruncatedText(
+                                    text:
+                                        "${widget.itemType == ItemType.Products ? productItemState.data?.data?.name??"" : serviceItemState.data?.data?.name??""} ",
+                                    style: AppTheme
+                                        .styleWithTextBlackColor2AdelleSansExtendedFonts20w700,
+                                    maxLength: 29),
+                              ),
                               widget.itemType == ItemType.Products
                                   ? Container(
                                       decoration: BoxDecoration(
@@ -505,9 +506,9 @@ class _ProductAndServiceDetailsScreenState
                             textValue:
                                 "${widget.itemType == ItemType.Products ? productItemState.data?.data?.description??"" : serviceItemState.data?.data?.description??""} ",
                             textStyle: AppTheme
-                                .styleWithTextAppGrey18AdelleSansExtendedFonts14w400
-                                .copyWith(height: 1.5),
+                                .styleWithTextAppGrey18AdelleSansExtendedFonts14w400,
                             maxLength: 200,
+                            height: 1.25,
                           ),
                           SizedBox(
                             height: 24,
@@ -520,6 +521,9 @@ class _ProductAndServiceDetailsScreenState
                                   "About Product",
                                   style: AppTheme
                                       .styleWithTextBlackColor2AdelleSansExtendedFonts16w400,
+                                ),
+                                SizedBox(
+                                  height: 5.h,
                                 ),
                                 ItemDetailsRow(
                                   title: "Type:",
@@ -625,6 +629,9 @@ class _ProductAndServiceDetailsScreenState
                                       "About Service",
                                       style: AppTheme
                                           .styleWithTextBlackAdelleSansExtendedFonts16w500,
+                                    ),
+                                    SizedBox(
+                                      height: 5.h,
                                     ),
                                     ...(!showAll
                                         ? itemDetails.take(3)

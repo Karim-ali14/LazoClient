@@ -44,7 +44,7 @@ class DescriptionBottomSheet extends StatelessWidget {
             ],
           ),
         ),
-        Padding(padding: EdgeInsetsDirectional.all(16),child: Text("Cupiditate exercitationem aut ullam maiores tempore animi. Consequatur vel Cupiditate exercitationem aut ullam maiores. Cupiditate exercitationem aut ullam maiores tempore animi. Consequatur vel Cupiditate exercitationem aut ullam maiores.",style: AppTheme.styleWithTextAppGrey18AdelleSansExtendedFonts12w400.copyWith(height: 1.5),),)
+        Padding(padding: EdgeInsetsDirectional.all(16),child: Text(description??"",style: AppTheme.styleWithTextAppGrey18AdelleSansExtendedFonts12w400.copyWith(height: 1.5),),)
       ],
     );
   }

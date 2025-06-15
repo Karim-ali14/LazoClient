@@ -60,6 +60,8 @@ import 'Presentation/counter_screen.dart';
 import 'Utils/NotificationsUtils.dart';
 import 'package:flutter/material.dart' as material;
 
+import 'Utils/TransitionHelper.dart';
+
 late SharedPreferences prefs;
 
 Future<void> _firebaseMessagingHandler(RemoteMessage message) async {
@@ -212,268 +214,433 @@ class MyApp extends ConsumerWidget {
     navigatorKey: navigatorKey,
     routes: <GoRoute>[
       GoRoute(
-        path: R_splashScreenRout,
-        builder: (BuildContext context, GoRouterState state) =>
-            const SplashScreen(),
-      ),
+          path: R_splashScreenRout,
+          pageBuilder: (context, state) => buildPageWithPushStyle(
+                key: state.pageKey,
+                child: const SplashScreen(),
+              )),
       GoRoute(
-        path: R_OnBoardingScreen,
-        builder: (BuildContext context, GoRouterState state) =>
-            const OnBoardingScreen(),
-      ),
+          path: R_OnBoardingScreen,
+          pageBuilder: (context, state) => buildPageWithPushStyle(
+                key: state.pageKey,
+                child: const OnBoardingScreen(),
+              )),
       GoRoute(
         path: R_HomeScreen,
-        builder: (BuildContext context, GoRouterState state) =>
-            const HomeScreen(),
+        pageBuilder: (context, state) =>
+            buildPageWithPushStyle(key: state.pageKey, child: const HomeScreen()),
       ),
       GoRoute(
         path: R_MainScreen,
-        builder: (BuildContext context, GoRouterState state) =>
-            const MainScreen(),
+        pageBuilder: (context, state) =>
+            buildPageWithPushStyle(key: state.pageKey, child: const MainScreen()),
       ),
       GoRoute(
         path: R_Walletscreen,
-        builder: (BuildContext context, GoRouterState state) =>
-            const Walletscreen(),
+        pageBuilder: (context, state) =>
+            buildPageWithPushStyle(key: state.pageKey, child: const Walletscreen()),
       ),
       GoRoute(
         path: R_LoginScreen,
-        builder: (BuildContext context, GoRouterState state) {
+        pageBuilder: (BuildContext context, GoRouterState state) {
           var extra = state.extra as Map;
-          return LoginScreen(
-            type: extra["type"] as TypeOfMode,
+          return buildPageWithPushStyle(
+            key: state.pageKey,
+            child: LoginScreen(
+              type: extra["type"] as TypeOfMode,
+            ),
           );
         },
       ),
       GoRoute(
           path: R_OTP,
-          builder: (BuildContext context, GoRouterState state) {
+          pageBuilder: (BuildContext context, GoRouterState state) {
             var extra = state.extra as Map;
-            return OTPScreen(
-              phone: extra["phone"],
-              image: extra["image"],
-              name: extra["name"],
-              email: extra["email"],
-              cityId: extra["cityId"],
-              otpType: extra["type"],
-              codeCountry: extra["codeCountry"],
-              typeOfMode: extra["typeOfMode"] as TypeOfMode,
+            return buildPageWithPushStyle(
+              key: state.pageKey,
+              child: OTPScreen(
+                phone: extra["phone"],
+                image: extra["image"],
+                name: extra["name"],
+                email: extra["email"],
+                cityId: extra["cityId"],
+                otpType: extra["type"],
+                codeCountry: extra["codeCountry"],
+                typeOfMode: extra["typeOfMode"] as TypeOfMode,
+              ),
             );
           }),
       GoRoute(
           path: R_SignUp,
-          builder: (BuildContext context, GoRouterState state) {
+          pageBuilder: (BuildContext context, GoRouterState state) {
             var extra = state.extra as Map;
-            return SignUpScreen(
-              typeOfMode: extra["typeOfMode"] as TypeOfMode,
+            return buildPageWithPushStyle(
+              key: state.pageKey,
+              child: SignUpScreen(
+                typeOfMode: extra["typeOfMode"] as TypeOfMode,
+              ),
             );
           }),
       GoRoute(
           path: R_SeeAllCategoryOrOccasion,
-          builder: (BuildContext context, GoRouterState state) {
+          pageBuilder: (BuildContext context, GoRouterState state) {
             var extra = state.extra as Map;
-            return ShowAllCategoryAndOccasionsData(
-                type: extra["type"] as CategoryType);
+            return buildPageWithPushStyle(
+              key: state.pageKey,
+              child: ShowAllCategoryAndOccasionsData(
+                type: extra["type"] as CategoryType,
+              ),
+            );
           }),
       GoRoute(
           path: R_SeeAllProductOrService,
-          builder: (BuildContext context, GoRouterState state) {
+          pageBuilder: (BuildContext context, GoRouterState state) {
             var extra = state.extra as Map;
-            return SearchScreen(
+            return buildPageWithPushStyle(
+              key: state.pageKey,
+              child: SearchScreen(
                 title: extra["title"],
                 id: extra["id"],
-                type: extra["type"] as CategoryType);
+                type: extra["type"] as CategoryType,
+              ),
+            );
           }),
       GoRoute(
           path: R_SeeAllSeller,
-          builder: (BuildContext context, GoRouterState state) {
+          pageBuilder: (BuildContext context, GoRouterState state) {
             var extra = state.extra as Map;
-            return ShowTopSellers(extra["type"] as CategoryType,
-                extra["categoryId"], extra["title"]);
+            return buildPageWithPushStyle(
+              key: state.pageKey,
+              child: ShowTopSellers(
+                extra["type"] as CategoryType,
+                extra["categoryId"],
+                extra["title"],
+              ),
+            );
           }),
       GoRoute(
-          path: R_ShowBestProductOrService,
-          builder: (BuildContext context, GoRouterState state) {
-            var extra = state.extra as Map;
-            return ShowBestProductAndServiceScreen(
+        path: R_ShowBestProductOrService,
+        pageBuilder: (context, state) {
+          var extra = state.extra as Map;
+          return buildPageWithPushStyle(
+            
+            key: state.pageKey,
+            child: ShowBestProductAndServiceScreen(
               extra["title"],
               extra["type"] as ItemType,
               occasionId: extra["occasionId"],
               categoryId: extra["categoryId"],
               providerId: extra["providerId"],
-            );
-          }),
+            ),
+          );
+        },
+      ),
       GoRoute(
-          path: R_FilterScreen,
-          builder: (BuildContext context, GoRouterState state) {
-            var extra = state.extra as Map;
-            return FilterScreen(
+        path: R_FilterScreen,
+        pageBuilder: (context, state) {
+          var extra = state.extra as Map;
+          return buildPageWithPushStyle(
+            
+            key: state.pageKey,
+            child: FilterScreen(
               type: extra["type"] as FilterScreenTypes,
               searchValue: extra["searchValue"],
               categoryId: extra["categoryId"],
               occasionId: extra["occasionId"],
-            );
-          }),
+            ),
+          );
+        },
+      ),
       GoRoute(
-          path: "$R_ProductAndServiceDetails/:id",
-          builder: (BuildContext context, GoRouterState status) {
-            var extra = status.extra as Map;
-            return ProductAndServiceDetailsScreen(
+        path: "$R_ProductAndServiceDetails/:id",
+        pageBuilder: (context, state) {
+          var extra = state.extra as Map;
+          return buildPageWithPushStyle(
+            
+            key: state.pageKey,
+            child: ProductAndServiceDetailsScreen(
               name: extra["name"],
-              id: status.pathParameters["id"],
+              id: state.pathParameters["id"],
               relatedCategoriesIds: extra["categoryIds"] as List<int>,
               itemType: extra["type"] as ItemType,
               productDetails: extra["product"],
               serviceShowData: extra["service"],
               cartId: extra["cartId"],
-            );
-          }),
+            ),
+          );
+        },
+      ),
       GoRoute(
-          path: R_ShowAllReviews,
-          builder: (BuildContext context, GoRouterState status) {
-            var extra = status.extra as Map;
-            return ShowAllRatingAndReviewScreen(
+        path: R_ShowAllReviews,
+        pageBuilder: (context, state) {
+          var extra = state.extra as Map;
+          return buildPageWithPushStyle(
+            
+            key: state.pageKey,
+            child: ShowAllRatingAndReviewScreen(
               id: extra["id"],
               itemType: extra["type"] as ItemType,
-            );
-          }),
+            ),
+          );
+        },
+      ),
       GoRoute(
-          path: R_SellerDetails,
-          builder: (BuildContext context, GoRouterState status) {
-            var extra = status.extra as Map;
-            return SellerDetailsScreen(sellerId: extra["sellerId"]);
-          }),
+        path: R_SellerDetails,
+        pageBuilder: (context, state) {
+          var extra = state.extra as Map;
+          return buildPageWithPushStyle(
+            
+            key: state.pageKey,
+            child: SellerDetailsScreen(sellerId: extra["sellerId"]),
+          );
+        },
+      ),
       GoRoute(
-          path: R_MoreScreen,
-          builder: (BuildContext context, GoRouterState state) =>
-              const MoreScreen()),
+        path: R_MoreScreen,
+        pageBuilder: (context, state) {
+          return buildPageWithPushStyle(
+            
+            key: state.pageKey,
+            child: const MoreScreen(),
+          );
+        },
+      ),
       GoRoute(
-          path: R_NotificationScreen,
-          builder: (BuildContext context, GoRouterState state) =>
-              const NotificationScreen()),
+        path: R_NotificationScreen,
+        pageBuilder: (context, state) {
+          return buildPageWithPushStyle(
+            
+            key: state.pageKey,
+            child: const NotificationScreen(),
+          );
+        },
+      ),
       GoRoute(
-          path: R_FAQScreen,
-          builder: (BuildContext context, GoRouterState state) =>
-              const FAQScreen()),
+        path: R_FAQScreen,
+        pageBuilder: (context, state) {
+          return buildPageWithPushStyle(
+            
+            key: state.pageKey,
+            child: const FAQScreen(),
+          );
+        },
+      ),
       GoRoute(
-          path: R_TermsAndConditionsScreen,
-          builder: (BuildContext context, GoRouterState state) =>
-              const TermsAndConditionsScreen()),
+        path: R_TermsAndConditionsScreen,
+        pageBuilder: (context, state) {
+          return buildPageWithPushStyle(
+            
+            key: state.pageKey,
+            child: const TermsAndConditionsScreen(),
+          );
+        },
+      ),
       GoRoute(
-          path: R_PrivacyAndPolicyScreen,
-          builder: (BuildContext context, GoRouterState state) =>
-              const PrivacyAndPolicyScreen()),
+        path: R_PrivacyAndPolicyScreen,
+        pageBuilder: (context, state) {
+          return buildPageWithPushStyle(
+            
+            key: state.pageKey,
+            child: const PrivacyAndPolicyScreen(),
+          );
+        },
+      ),
       GoRoute(
-          path: R_ProfileScreen,
-          builder: (BuildContext context, GoRouterState state) =>
-              const ProfileScreen()),
+        path: R_ProfileScreen,
+        pageBuilder: (context, state) {
+          return buildPageWithPushStyle(
+            
+            key: state.pageKey,
+            child: const ProfileScreen(),
+          );
+        },
+      ),
       GoRoute(
-          path: R_EditProfileScreen,
-          builder: (BuildContext context, GoRouterState state) =>
-              const EditProfileScreen()),
+        path: R_EditProfileScreen,
+        pageBuilder: (context, state) {
+          return buildPageWithPushStyle(
+            
+            key: state.pageKey,
+            child: const EditProfileScreen(),
+          );
+        },
+      ),
       GoRoute(
-          path: R_EditPhoneScreen,
-          builder: (BuildContext context, GoRouterState state) =>
-              const EditPhoneScreen()),
+        path: R_EditPhoneScreen,
+        pageBuilder: (context, state) {
+          return buildPageWithPushStyle(
+            
+            key: state.pageKey,
+            child: const EditPhoneScreen(),
+          );
+        },
+      ),
       GoRoute(
-          path: R_CartScreen,
-          builder: (BuildContext context, GoRouterState state) {
-            var extra = state.extra as Map;
-            return OrderProcessScreen(
-                initCurrentPage: 0,
-                type: extra["type"] as CheckoutTypes,
-                service: extra["service"] as ServiceShowData?,
-                serviceSelectedListIds: extra[serviceSelectedListIdsKey],
-                serviceSelectedListItemsIds:
-                    extra[serviceSelectedListItemsIdsKey]);
-          }),
+        path: R_CartScreen,
+        pageBuilder: (context, state) {
+          var extra = state.extra as Map;
+          return buildPageWithPushStyle(
+            
+            key: state.pageKey,
+            child: OrderProcessScreen(
+              initCurrentPage: 0,
+              type: extra["type"] as CheckoutTypes,
+              service: extra["service"] as ServiceShowData?,
+              serviceSelectedListIds: extra[serviceSelectedListIdsKey],
+              serviceSelectedListItemsIds: extra[serviceSelectedListItemsIdsKey],
+            ),
+          );
+        },
+      ),
       GoRoute(
-          path: R_CheckoutScreen,
-          builder: (BuildContext context, GoRouterState state) {
-            var extra = state.extra as Map;
-            return CheckoutScreen(
-                type: extra["type"] as CheckoutTypes,
-                service: extra["service"] as ServiceShowData?,
-                serviceSelectedListIds: extra[serviceSelectedListIdsKey],
-                serviceSelectedListItemsIds:
-                    extra[serviceSelectedListItemsIdsKey]);
-          }),
+        path: R_CheckoutScreen,
+        pageBuilder: (context, state) {
+          var extra = state.extra as Map;
+          return buildPageWithPushStyle(
+            
+            key: state.pageKey,
+            child: CheckoutScreen(
+              type: extra["type"] as CheckoutTypes,
+              service: extra["service"] as ServiceShowData?,
+              serviceSelectedListIds: extra[serviceSelectedListIdsKey],
+              serviceSelectedListItemsIds: extra[serviceSelectedListItemsIdsKey],
+            ),
+          );
+        },
+      ),
       GoRoute(
-          path: R_GoogleMapScreen,
-          builder: (BuildContext context, GoRouterState state) {
-            var extra = state.extra as Map;
-            return GoogleMapScreen(
+        path: R_GoogleMapScreen,
+        pageBuilder: (context, state) {
+          var extra = state.extra as Map;
+          return buildPageWithPushStyle(
+            
+            key: state.pageKey,
+            child: GoogleMapScreen(
               locationSelected: extra["locationSelected"],
               city: extra["city"],
-            );
-          }),
+            ),
+          );
+        },
+      ),
       GoRoute(
-          path: R_WishListScreen,
-          builder: (BuildContext context, GoRouterState state) {
-            return const WishListScreen();
-          }),
+        path: R_WishListScreen,
+        pageBuilder: (context, state) {
+          return buildPageWithPushStyle(
+            
+            key: state.pageKey,
+            child: const WishListScreen(),
+          );
+        },
+      ),
       GoRoute(
-          path: R_OrdersScreen,
-          builder: (BuildContext context, GoRouterState state) {
-            return const OrdersScreen();
-          }),
+        path: R_OrdersScreen,
+        pageBuilder: (context, state) {
+          return buildPageWithPushStyle(
+            
+            key: state.pageKey,
+            child: const OrdersScreen(),
+          );
+        },
+      ),
       GoRoute(
-          path: R_OrderDetails,
-          builder: (BuildContext context, GoRouterState state) {
-            var extra = state.extra as Map;
-            return OrderDetailsScreen(orderId: extra[orderIdKey]);
-          }),
+        path: R_OrderDetails,
+        pageBuilder: (context, state) {
+          var extra = state.extra as Map;
+          return buildPageWithPushStyle(
+            
+            key: state.pageKey,
+            child: OrderDetailsScreen(orderId: extra[orderIdKey]),
+          );
+        },
+      ),
       GoRoute(
-          path: R_RatingOrder,
-          builder: (BuildContext context, GoRouterState state) {
-            var extra = state.extra as Map;
-            return RatingOrderItemsScreen(
-                order: extra[orderKey] as ClientOrderDetails);
-          }),
+        path: R_RatingOrder,
+        pageBuilder: (context, state) {
+          var extra = state.extra as Map;
+          return buildPageWithPushStyle(
+            
+            key: state.pageKey,
+            child: RatingOrderItemsScreen(
+              order: extra[orderKey] as ClientOrderDetails,
+            ),
+          );
+        },
+      ),
       GoRoute(
-          path: R_PaymentScreen,
-          builder: (BuildContext context, GoRouterState state) {
-            var extra = state.extra as Map;
-            return PaymentScreen(paymentLink: extra["paymentLink"]);
-          }),
+        path: R_PaymentScreen,
+        pageBuilder: (context, state) {
+          var extra = state.extra as Map;
+          return buildPageWithPushStyle(
+            
+            key: state.pageKey,
+            child: PaymentScreen(paymentLink: extra["paymentLink"]),
+          );
+        },
+      ),
       GoRoute(
-          path: R_OccasionResultScreen,
-          builder: (BuildContext context, GoRouterState state) {
-            var extra = state.extra as Map;
-            return OccasionResultScreen(
+        path: R_OccasionResultScreen,
+        pageBuilder: (context, state) {
+          var extra = state.extra as Map;
+          return buildPageWithPushStyle(
+            
+            key: state.pageKey,
+            child: OccasionResultScreen(
               occasionId: extra["occasionId"],
               title: extra["title"],
               image: extra["image"],
-            );
-          }),
+            ),
+          );
+        },
+      ),
       GoRoute(
-          path: R_CollectionDetailsScreen,
-          builder: (BuildContext context, GoRouterState state) {
-            var extra = state.extra as Map;
-            return CollectionDetailsScreen(
+        path: R_CollectionDetailsScreen,
+        pageBuilder: (context, state) {
+          var extra = state.extra as Map;
+          return buildPageWithPushStyle(
+            
+            key: state.pageKey,
+            child: CollectionDetailsScreen(
               collectionId: extra["collectionId"],
               collectionName: extra["collectionName"],
-            );
-          }),
+            ),
+          );
+        },
+      ),
       GoRoute(
-          path: R_AddressesScreen,
-          builder: (BuildContext context, GoRouterState state) {
-            return const AddressesScreen();
-          }),
+        path: R_AddressesScreen,
+        pageBuilder: (context, state) {
+          return buildPageWithPushStyle(
+            
+            key: state.pageKey,
+            child: const AddressesScreen(),
+          );
+        },
+      ),
       GoRoute(
-          path: R_AddAddressScreen,
-          builder: (BuildContext context, GoRouterState state) {
-            var extra = state.extra as Map?;
-            return AddAddressScreen(
+        path: R_AddAddressScreen,
+        pageBuilder: (context, state) {
+          var extra = state.extra as Map?;
+          return buildPageWithPushStyle(
+            
+            key: state.pageKey,
+            child: AddAddressScreen(
               isEdit: extra?["isEdit"] ?? false,
               addressItem: extra?["addressItem"] as AddressItem?,
-            );
-          }),
+            ),
+          );
+        },
+      ),
       GoRoute(
-          path: R_SelectCountriesScreen,
-          builder: (BuildContext context, GoRouterState state) {
-            return const SelectCountriesScreen();
-          }),
+        path: R_SelectCountriesScreen,
+        pageBuilder: (context, state) {
+          return buildPageWithPushStyle(
+            
+            key: state.pageKey,
+            child: const SelectCountriesScreen(),
+          );
+        },
+      ),
+
     ],
   );
 }

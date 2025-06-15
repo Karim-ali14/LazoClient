@@ -345,11 +345,11 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
                           children: [
                             TextWithoutPadding(
                               (sellerProducts.data?.data?.bio ?? "")
-                                  .ellipsize(40),
+                                  .ellipsize(30),
                               style: AppTheme
                                   .styleWithTextAppGrey7AdelleSansExtendedFonts14w400,
                             ),
-                            (sellerProducts.data?.data?.bio?.length ?? 0) > 40
+                            (sellerProducts.data?.data?.bio?.length ?? 0) > 30
                                 ? InkWell(
                                     onTap: () {
                                       showAllDescriptionBottomSheet();

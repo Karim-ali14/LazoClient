@@ -5,6 +5,7 @@ import 'package:lazo_client/Presentation/Theme/AppTheme.dart';
 typedef OnExpandChangeStatus = Function(bool);
 
 class ExpandedText extends StatefulWidget {
+  final double? height;
   final String textValue;
   final TextStyle textStyle;
   final int maxLength;
@@ -20,7 +21,7 @@ class ExpandedText extends StatefulWidget {
       this.showMoreText = " Show More",
       this.showLessText = " Show Less",
       this.defaultExpandedValue = false,
-      this.onExpandChangeStatus});
+      this.onExpandChangeStatus, this.height = .7});
 
   @override
   State<ExpandedText> createState() => _ExpandedTextState();
@@ -59,6 +60,6 @@ class _ExpandedTextState extends State<ExpandedText> {
                     });
                   })
         ]),
-        strutStyle: const StrutStyle(forceStrutHeight: true, height: .7));
+        strutStyle: StrutStyle(forceStrutHeight: true, height: widget.height));
   }
 }
