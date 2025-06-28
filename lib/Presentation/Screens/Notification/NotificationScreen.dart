@@ -37,8 +37,8 @@ class _NotificationScreenState extends ConsumerState<NotificationScreen> {
     handleState(makeNotificationReadStateNotifiers, showLoading: true,
         onSuccess: (res) {
       if (res.data?.data?.type == "order") {
-        ref.read(showNotificationStateNotifiers.notifier).getNotification();
         navigateToOrderDetails(res.data?.data?.orderId.toString() ?? "");
+        ref.read(showNotificationStateNotifiers.notifier).updateNotificationAsReadLocally(res.data?.data);
       }
     });
 

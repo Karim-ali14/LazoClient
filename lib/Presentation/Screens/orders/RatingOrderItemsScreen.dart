@@ -87,10 +87,11 @@ class _RatingOrderItemsScreenState extends ConsumerState<RatingOrderItemsScreen>
 
                 return Padding(
                   padding: const EdgeInsets.all(16.0),
-                  child: OrderRatingItem(
+                  child: /*OrderRatingItem(
                     item: orderItem,
                     onUpdate: _onUpdateRating,
-                  ),
+                  )*/
+                  SizedBox()
                 );
               },
               itemCount: widget.order?.orderItems.length ?? 0,

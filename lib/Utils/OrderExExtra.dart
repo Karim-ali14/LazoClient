@@ -5,7 +5,7 @@ import '../Data/Network/lib/api.dart';
 extension OrderExe on ClientOrderDetails{
   String getStoreName(){
 
-    return isSingleProvider() ? orderItems.first.provider?.name ?? "" : "More stores" ;
+    return isSingleProvider() ? orderItems.first.name ?? "" : "More stores" ;
   }
 
   String getCancellationItemsNames(){
@@ -17,7 +17,7 @@ extension OrderExe on ClientOrderDetails{
 
   String? getStoreImage(){
 
-    return isSingleProvider() ? orderItems.first.provider?.imagePath : null ;
+    return isSingleProvider() ? orderItems.first.imagePath : null ;
   }
 
   bool isCanceledOrder(){

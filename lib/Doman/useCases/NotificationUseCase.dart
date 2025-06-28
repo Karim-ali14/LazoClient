@@ -16,7 +16,7 @@ class GetNotificationStateNotifiers extends StateNotifier<StateModel<ShowNotific
   final NotificationsApi notifications1api;
   GetNotificationStateNotifiers(this.ref, this.notifications1api):super(StateModel());
 
-  void getNotification() async {
+  void getNotification() async  {
     state = StateModel.loading();
     requestWithHandleMessage(() => notifications1api.showNotifications2(),onComplete: (res){
       print("notification size :${res.data.length}");
@@ -64,6 +64,16 @@ class GetNotificationStateNotifiers extends StateNotifier<StateModel<ShowNotific
         : date;
   }
 
+  void updateNotificationAsReadLocally(ClientNotification? notification) {
+    final index = notificationList.indexWhere((n) => n.id == notification?.id);
+    if (index != -1 && notificationList[index].isRead != 1) {
+      notificationList[index].isRead = 1;
+
+      // spiltNotificationsDates();
+
+      state = StateModel.success(state.data);
+    }
+  }
 }
 
 class MakeNotificationRead extends StateNotifier<StateModel<ReadANotification122200Response>>{

@@ -14,6 +14,7 @@ import 'package:lazo_client/Presentation/StateNotifiersViewModel/UserAuthStateNo
 import 'package:lazo_client/Presentation/Widgets/AppButton.dart';
 import 'package:lazo_client/Utils/DateUtils.dart';
 import 'package:lazo_client/Utils/OrderExExtra.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 import '../../../../Data/Network/lib/api.dart';
 import '../../../Constants/Assets.dart';
 import '../../../Constants/Constants.dart';
@@ -24,6 +25,8 @@ import '../../StateNotifiersViewModel/ClientStateNotifiers.dart';
 import '../../Theme/AppTheme.dart';
 import '../../Widgets/CustomAppBar.dart';
 import '../../Widgets/SvgIcons.dart';
+import '../../Widgets/TextWithoutPadding.dart';
+import '../cartScreen/componants/CartItemView.dart';
 import '../details/componants/ProductRowItem.dart';
 import 'componants/InformationRowItem.dart';
 import 'componants/OrderUserInfromationWithOrderStatus.dart';
@@ -54,8 +57,9 @@ class _OrderDetailsScreenState extends ConsumerState<OrderDetailsScreen> {
 
     user = ref.read(clientStateProvider.notifier).checkIfUserExist();
 
-    handleState(getOrderDetailsStateProvider, onSuccess: (res) {
+    handleState(getOrderDetailsStateProvider,showLoading: true, onSuccess: (res) {
       // actionType = res.data?.data?.statusId?.toString().getOrderAction();
+      print("sdlfkjslakdjflksd ${res.data?.data?.orderItems?.first.orderItems}");
     });
 
     handleState(manageOrderStateProvider, showLoading: true, showToast: true,
@@ -105,10 +109,6 @@ class _OrderDetailsScreenState extends ConsumerState<OrderDetailsScreen> {
       ),
       body: Column(
         children: [
-          orderDetails.state == DataState.LOADING
-              ? const Expanded(
-                  child: Center(child: CircularProgressIndicator()))
-              : const SizedBox(),
           orderDetails.state == DataState.SUCCESS
               ? Expanded(
                   child: SingleChildScrollView(
@@ -503,7 +503,92 @@ class _OrderDetailsScreenState extends ConsumerState<OrderDetailsScreen> {
                                 const SizedBox(
                                   height: 18,
                                 ),
+
                                 ...(List.generate(
+                                    orderDetails.state != DataState.LOADING
+                                        ? orderDetails.data?.data?.orderItems.length ?? 0
+                                        : [].length, (index) {
+                                  return Skeletonizer(
+                                    enabled: orderDetails.state == DataState.LOADING,
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(top: 16),
+                                      child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            TextWithoutPadding(
+                                             orderDetails.data?.data?.orderItems[index]
+                                                  .name ??
+                                                  "",
+                                              style: AppTheme
+                                                  .styleWithTextBlackColor2AdelleSansExtendedFonts14w500,
+                                            ),
+                                            const SizedBox(
+                                              height: defaultPaddingHorizontal,
+                                            ),
+                                            ...(List.generate(
+                                                orderDetails.state != DataState.LOADING
+                                                    ? orderDetails
+                                                    .data
+                                                    ?.data
+                                                    ?.orderItems[index]
+                                                    .orderItems
+                                                    ?.length ??
+                                                    0
+                                                    : [][index].items?.length ??
+                                                    0, (cartIndex) {
+                                              return CartItemView(
+                                                isReadOnlyMode: true,
+                                                orderItem:
+                                                orderDetails.state != DataState.LOADING
+                                                    ? orderDetails
+                                                    .data
+                                                    ?.data
+                                                    ?.orderItems[index]
+                                                    .orderItems![cartIndex]
+                                                    : [][index].items?[cartIndex],
+                                                onUpdateQuantity:
+                                                    (cartItemId, quantity) {
+                                                  // updateItemQuantity(
+                                                  //     cartItemId, quantity);
+                                                },
+                                                onDeleteItem: (cartItemId) {
+                                                  // deleteCartItem(cartItemId);
+                                                },
+                                                onProductClickListener:
+                                                    (product, cartId) {
+                                                      // navigateToDetails(
+                                                      //     product,
+                                                      //     orderDetails
+                                                      //         .data
+                                                      //         ?.data
+                                                      //         ?.orderItems
+                                                      //         .first
+                                                      //         .product !=
+                                                      //         null
+                                                      //         ? OrderItemType.Product
+                                                      //         : OrderItemType.Service);
+                                                },
+                                                onServiceClickListener:
+                                                    (service, cartId) {
+                                                  // navigateToItemDetails(
+                                                  //     ItemType.Services,
+                                                  //     null,
+                                                  //     service,
+                                                  //     cartId);
+                                                }, toggleItem: (type , id ) {
+                                                // toggleItem(type,id.toInt());
+                                              }, cartItem: null,
+                                              );
+                                            })),
+                                            (orderDetails.data?.data?.orderItems.length??0) - 1 != index ? const Divider(
+                                              thickness: 1,
+                                              color: AppTheme.appGrey6,
+                                            ) : const SizedBox()
+                                          ]),
+                                    ),
+                                  );
+                                }))
+                                /*...(List.generate(
                                     orderDetails
                                             .data?.data?.orderItems.length ??
                                         0,
@@ -514,20 +599,20 @@ class _OrderDetailsScreenState extends ConsumerState<OrderDetailsScreen> {
                                             item: orderDetails
                                                 .data?.data!.orderItems[index],
                                             onItemClick: (itemId) {
-                                              navigateToDetails(
-                                                  itemId,
-                                                  orderDetails
-                                                              .data
-                                                              ?.data
-                                                              ?.orderItems
-                                                              .first
-                                                              .product !=
-                                                          null
-                                                      ? OrderItemType.Product
-                                                      : OrderItemType.Service);
+                                              // navigateToDetails(
+                                              //     itemId,
+                                              //     orderDetails
+                                              //                 .data
+                                              //                 ?.data
+                                              //                 ?.orderItems
+                                              //                 .first
+                                              //                 .product !=
+                                              //             null
+                                              //         ? OrderItemType.Product
+                                              //         : OrderItemType.Service);
                                             },
                                           ),
-                                        ))),
+                                        ))),*/
                               ],
                             )),
                         SizedBox(

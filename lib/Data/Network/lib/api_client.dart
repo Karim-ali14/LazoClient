@@ -222,12 +222,6 @@ class ApiClient {
           return ClientNotification.fromJson(value);
         case 'ClientOrderDetails':
           return ClientOrderDetails.fromJson(value);
-        case 'ClientOrderDetailsOrderItemsInner':
-          return ClientOrderDetailsOrderItemsInner.fromJson(value);
-        case 'ClientOrderDetailsOrderItemsInnerProduct':
-          return ClientOrderDetailsOrderItemsInnerProduct.fromJson(value);
-        case 'ClientOrderDetailsOrderItemsInnerProvider':
-          return ClientOrderDetailsOrderItemsInnerProvider.fromJson(value);
         case 'ClientOrderDetailsResponse':
           return ClientOrderDetailsResponse.fromJson(value);
         case 'CodeConfirmRequest':
@@ -294,6 +288,8 @@ class ApiClient {
           return Occasion.fromJson(value);
         case 'OccasionsResponse':
           return OccasionsResponse.fromJson(value);
+        case 'OrderItemsInner':
+          return OrderItemsInner.fromJson(value);
         case 'ProductDetails':
           return ProductDetails.fromJson(value);
         case 'ProductDetailsRatingsInner':

@@ -21,7 +21,7 @@ Name | Type | Description | Notes
 **rejectedOrderItems** | **String** |  | [optional] 
 **paymentLink** | **String** |  | [optional] 
 **isMultiProviders** | **bool** |  | [optional] 
-**orderItems** | [**List<ClientOrderDetailsOrderItemsInner>**](ClientOrderDetailsOrderItemsInner.md) |  | [optional] [default to const []]
+**orderItems** | [**List<ProviderData>**](ProviderData.md) |  | [optional] [default to const []]
 **packagingProviderId** | **num** |  | [optional] 
 **paymentMethod** | **String** |  | [optional] 
 **promocode** | [**ProviderOrderDetailsPromocode**](ProviderOrderDetailsPromocode.md) |  | [optional] 

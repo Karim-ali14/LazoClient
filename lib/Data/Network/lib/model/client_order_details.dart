@@ -105,7 +105,7 @@ class ClientOrderDetails {
 
   bool? isMultiProviders;
 
-  List<ClientOrderDetailsOrderItemsInner> orderItems;
+  List<ProviderData> orderItems;
 
   num? packagingProviderId;
 
@@ -608,7 +608,7 @@ class ClientOrderDetails {
         rejectedOrderItems: mapValueOfType<String>(json, r'rejected_order_items'),
         paymentLink: mapValueOfType<String>(json, r'payment_link'),
         isMultiProviders: mapValueOfType<bool>(json, r'is_multi_providers'),
-        orderItems: ClientOrderDetailsOrderItemsInner.listFromJson(json[r'order_items']),
+        orderItems: ProviderData.listFromJson(json[r'order_items']),
         packagingProviderId: json[r'packaging_provider_id'] == null
             ? null
             : num.tryParse('${json[r'packaging_provider_id']}'),

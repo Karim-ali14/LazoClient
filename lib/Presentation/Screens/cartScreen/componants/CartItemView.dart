@@ -24,7 +24,7 @@ import '../../../Widgets/TextWithoutPadding.dart';
 
 typedef OnUpdateQuantity = Function(num, num);
 typedef OnDeleteItem = Function(num);
-typedef ToggleItem = Function(CartItemType,num);
+typedef ToggleItem = Function(CartItemType, num);
 typedef OnProductClickListener = Function(ProductDetails?, int?);
 typedef OnServiceClickListener = Function(ServiceShowData?, int?);
 
@@ -35,15 +35,22 @@ class CartItemView extends ConsumerStatefulWidget {
   final OnProductClickListener? onProductClickListener;
   final OnServiceClickListener? onServiceClickListener;
   final CartItemsInner? cartItem;
+  final OrderItemsInner? orderItem;
   final bool? isReadOnlyMode;
+  final bool? isOrderMode;
 
-  const CartItemView(
-      {super.key,
-      required this.cartItem,
-      required this.onUpdateQuantity,
-      required this.onDeleteItem,
-      this.onProductClickListener,
-      this.onServiceClickListener, this.isReadOnlyMode,required this.toggleItem, });
+  const CartItemView({
+    super.key,
+    required this.cartItem,
+    required this.orderItem,
+    required this.onUpdateQuantity,
+    required this.onDeleteItem,
+    this.onProductClickListener,
+    this.onServiceClickListener,
+    this.isReadOnlyMode,
+    required this.toggleItem,
+    this.isOrderMode,
+  });
 
   @override
   ConsumerState<CartItemView> createState() => _CartItemViewState();
@@ -54,6 +61,7 @@ class _CartItemViewState extends ConsumerState<CartItemView> {
   @override
   void initState() {
     quantity = widget.cartItem?.quantity;
+    print("asdfasdfsda ${widget.cartItem.toString()}");
     super.initState();
   }
 
@@ -88,10 +96,15 @@ class _CartItemViewState extends ConsumerState<CartItemView> {
                         child: ImageView(
                           width: 87.w,
                           height: 85.h,
-                          initialImg: (widget.cartItem?.type ?? "") ==
-                                  CartItemType.Product.name.toLowerCase()
-                              ? widget.cartItem?.product?.imagePath ?? ""
-                              : widget.cartItem?.service?.imagePath ?? "",
+                          initialImg: widget.isOrderMode == true
+                              ? (widget.orderItem?.type ?? "") ==
+                                      CartItemType.Product.name.toLowerCase()
+                                  ? widget.orderItem?.product?.imagePath ?? ""
+                                  : widget.orderItem?.service?.imagePath ?? ""
+                              : (widget.cartItem?.type ?? "") ==
+                                      CartItemType.Product.name.toLowerCase()
+                                  ? widget.cartItem?.product?.imagePath ?? ""
+                                  : widget.cartItem?.service?.imagePath ?? "",
                         ),
                       ),
                     ),
@@ -114,10 +127,15 @@ class _CartItemViewState extends ConsumerState<CartItemView> {
                           onItemClick(true);
                         },
                         child: TextWithoutPadding(
-                          (widget.cartItem?.type ?? "") ==
-                                  CartItemType.Product.name.toLowerCase()
-                              ? widget.cartItem?.product?.name ?? ""
-                              : widget.cartItem?.service?.name ?? "",
+                          widget.isOrderMode == true
+                              ? (widget.orderItem?.type ?? "") ==
+                                      CartItemType.Product.name.toLowerCase()
+                                  ? widget.orderItem?.product?.name ?? ""
+                                  : widget.orderItem?.service?.name ?? ""
+                              : (widget.cartItem?.type ?? "") ==
+                                      CartItemType.Product.name.toLowerCase()
+                                  ? widget.cartItem?.product?.name ?? ""
+                                  : widget.cartItem?.service?.name ?? "",
                           style: AppTheme
                               .styleWithTextBlackAdelleSansExtendedFonts16w500,
                         ),
@@ -128,14 +146,25 @@ class _CartItemViewState extends ConsumerState<CartItemView> {
                     ),
                     SizedBox(
                       width: 240,
-                      height: widget.cartItem?.productSelectedListItemsNames
-                                      ?.isNotEmpty ==
-                                  true ||
-                              widget.cartItem?.serviceSelectedListItemsNames
-                                      ?.isNotEmpty ==
-                                  true
-                          ? 25
-                          : 10,
+                      height: widget.isOrderMode == true
+                          ? widget.orderItem?.selectedProductsListItemsNames
+                                          ?.isNotEmpty ==
+                                      true ||
+                                  widget
+                                          .orderItem
+                                          ?.selectedServicesListItemsNames
+                                          ?.isNotEmpty ==
+                                      true
+                              ? 25
+                              : 10
+                          : widget.cartItem?.productSelectedListItemsNames
+                                          ?.isNotEmpty ==
+                                      true ||
+                                  widget.cartItem?.serviceSelectedListItemsNames
+                                          ?.isNotEmpty ==
+                                      true
+                              ? 25
+                              : 10,
                       child: Skeleton.replace(
                         replacement: Container(
                           width: 120,
@@ -143,14 +172,23 @@ class _CartItemViewState extends ConsumerState<CartItemView> {
                           color: Colors.white,
                         ),
                         child: TextWithoutPadding(
-                          (widget.cartItem?.type ?? "") ==
-                                  CartItemType.Product.name.toLowerCase()
-                              ? widget.cartItem
-                                      ?.productSelectedListItemsNames ??
-                                  ""
-                              : widget.cartItem
-                                      ?.serviceSelectedListItemsNames ??
-                                  "",
+                          widget.isOrderMode == true
+                              ? (widget.orderItem?.type ?? "") ==
+                                      CartItemType.Product.name.toLowerCase()
+                                  ? widget.orderItem
+                                          ?.selectedProductsListItemsNames ??
+                                      ""
+                                  : widget.orderItem
+                                          ?.selectedServicesListItemsNames ??
+                                      ""
+                              : (widget.cartItem?.type ?? "") ==
+                                      CartItemType.Product.name.toLowerCase()
+                                  ? widget.cartItem
+                                          ?.productSelectedListItemsNames ??
+                                      ""
+                                  : widget.cartItem
+                                          ?.serviceSelectedListItemsNames ??
+                                      "",
                           overflow: TextOverflow.ellipsis,
                           maxLines: 2,
                           style: AppTheme
@@ -172,20 +210,25 @@ class _CartItemViewState extends ConsumerState<CartItemView> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           TextWithoutPadding(
-                            (widget.cartItem?.type ?? "") ==
-                                    CartItemType.Product.name.toLowerCase()
-                                ? "${context.tr(sarKey)} ${countItemPrice(widget.cartItem?.product?.priceAfterDiscount ?? 0, widget.cartItem?.quantity ?? 1)}"
-                                : "${context.tr(sarKey)} ${countItemPrice(widget.cartItem?.service?.priceAfterDiscount ?? 0, widget.cartItem?.quantity ?? 1)}",
+                            widget.isOrderMode == true
+                                ? (widget.orderItem?.type ?? "") ==
+                                        CartItemType.Product.name.toLowerCase()
+                                    ? "${context.tr(sarKey)} ${countItemPrice(widget.orderItem?.product?.priceAfterDiscount ?? 0, widget.cartItem?.quantity ?? 1)}"
+                                    : "${context.tr(sarKey)} ${countItemPrice(widget.orderItem?.service?.priceAfterDiscount ?? 0, widget.cartItem?.quantity ?? 1)}"
+                                : (widget.cartItem?.type ?? "") ==
+                                        CartItemType.Product.name.toLowerCase()
+                                    ? "${context.tr(sarKey)} ${countItemPrice(widget.cartItem?.product?.priceAfterDiscount ?? 0, widget.cartItem?.quantity ?? 1)}"
+                                    : "${context.tr(sarKey)} ${countItemPrice(widget.cartItem?.service?.priceAfterDiscount ?? 0, widget.cartItem?.quantity ?? 1)}",
                             style: AppTheme
                                 .styleWithTextMainAppColorAdelleSansExtendedFonts14w400,
                           ),
-                          (widget.cartItem?.type ?? "") ==
-                                      CartItemType.Product.name
-                                          .toLowerCase() &&
-                                  (widget.cartItem?.product?.price
+                          widget.isOrderMode == true ?
+                          (widget.orderItem?.type ?? "") ==
+                                      CartItemType.Product.name.toLowerCase() &&
+                                  (widget.orderItem?.product?.price
                                               ?.toDouble() ??
                                           0.0) >
-                                      (widget.cartItem?.product
+                                      (widget.orderItem?.product
                                               ?.priceAfterDiscount
                                               ?.toDouble() ??
                                           0.0)
@@ -195,23 +238,47 @@ class _CartItemViewState extends ConsumerState<CartItemView> {
                                       width: 6,
                                     ),
                                     TextWithoutPadding(
-                                      "${context.tr(sarKey)} ${countItemPrice(widget.cartItem?.product?.price ?? 0, widget.cartItem?.quantity ?? 1)}",
+                                      "${context.tr(sarKey)} ${countItemPrice(widget.orderItem?.product?.price ?? 0, widget.orderItem?.quantity ?? 1)}",
                                       style: AppTheme
                                           .styleWithTextGray7AdelleSansExtendedFonts12w400
                                           .copyWith(
-                                              decoration: TextDecoration
-                                                  .lineThrough),
+                                              decoration:
+                                                  TextDecoration.lineThrough),
                                     )
                                   ],
                                 )
+                              : const SizedBox() : (widget.cartItem?.type ?? "") ==
+                              CartItemType.Product.name.toLowerCase() &&
+                              (widget.cartItem?.product?.price
+                                  ?.toDouble() ??
+                                  0.0) >
+                                  (widget.cartItem?.product
+                                      ?.priceAfterDiscount
+                                      ?.toDouble() ??
+                                      0.0)
+                              ? Row(
+                            children: [
+                              const SizedBox(
+                                width: 6,
+                              ),
+                              TextWithoutPadding(
+                                "${context.tr(sarKey)} ${countItemPrice(widget.cartItem?.product?.price ?? 0, widget.cartItem?.quantity ?? 1)}",
+                                style: AppTheme
+                                    .styleWithTextGray7AdelleSansExtendedFonts12w400
+                                    .copyWith(
+                                    decoration:
+                                    TextDecoration.lineThrough),
+                              )
+                            ],
+                          )
                               : const SizedBox(),
-                          (widget.cartItem?.type ?? "") ==
-                                      CartItemType.Service.name
-                                          .toLowerCase() &&
-                                  (widget.cartItem?.service?.price
+                          widget.isOrderMode == true ?
+                          (widget.orderItem?.type ?? "") ==
+                                      CartItemType.Service.name.toLowerCase() &&
+                                  (widget.orderItem?.service?.price
                                               ?.toDouble() ??
                                           0.0) >
-                                      (widget.cartItem?.service
+                                      (widget.orderItem?.service
                                               ?.priceAfterDiscount
                                               ?.toDouble() ??
                                           0.0)
@@ -221,15 +288,39 @@ class _CartItemViewState extends ConsumerState<CartItemView> {
                                       width: 6,
                                     ),
                                     TextWithoutPadding(
-                                      "${context.tr(sarKey)} ${countItemPrice(widget.cartItem?.service?.price ?? 0, widget.cartItem?.quantity ?? 1)}",
+                                      "${context.tr(sarKey)} ${countItemPrice(widget.orderItem?.service?.price ?? 0, widget.orderItem?.quantity ?? 1)}",
                                       style: AppTheme
                                           .styleWithTextGray7AdelleSansExtendedFonts12w400
                                           .copyWith(
-                                              decoration: TextDecoration
-                                                  .lineThrough),
+                                              decoration:
+                                                  TextDecoration.lineThrough),
                                     )
                                   ],
                                 )
+                              : const SizedBox() : (widget.cartItem?.type ?? "") ==
+                              CartItemType.Service.name.toLowerCase() &&
+                              (widget.cartItem?.service?.price
+                                  ?.toDouble() ??
+                                  0.0) >
+                                  (widget.cartItem?.service
+                                      ?.priceAfterDiscount
+                                      ?.toDouble() ??
+                                      0.0)
+                              ? Row(
+                            children: [
+                              SizedBox(
+                                width: 6,
+                              ),
+                              TextWithoutPadding(
+                                "${context.tr(sarKey)} ${countItemPrice(widget.cartItem?.service?.price ?? 0, widget.cartItem?.quantity ?? 1)}",
+                                style: AppTheme
+                                    .styleWithTextGray7AdelleSansExtendedFonts12w400
+                                    .copyWith(
+                                    decoration:
+                                    TextDecoration.lineThrough),
+                              )
+                            ],
+                          )
                               : const SizedBox()
                         ],
                       ),
@@ -241,52 +332,56 @@ class _CartItemViewState extends ConsumerState<CartItemView> {
             SizedBox(
               height: widget.isReadOnlyMode == false ? 16 : 5,
             ),
-            widget.isReadOnlyMode == false ? Skeleton.ignore(
-              child: Row(
-                children: [
-                  UpdateItemQuantity(
-                      initQuantity: quantity?.toInt(),
-                      cartItem: widget.cartItem,
-                      onUpdateQuantity: widget.onUpdateQuantity),
-                  const Spacer(),
-                  Row(
-                    children: [
-                      InkWell(
-                        onTap: () {
-                          changeFavoriteItemState();
-                        },
-                        child: SVGIcons.localSVG(
-                          (widget.cartItem?.type ?? "") ==
-                                  CartItemType.Product.name.toLowerCase()
-                              ? widget.cartItem?.product?.inWishlist == true
-                                  ? favoriteCartItemIcons
-                                  : unFavoriteCartItemIcons
-                              : widget.cartItem?.service?.inWishlist == true
-                                  ? favoriteCartItemIcons
-                                  : unFavoriteCartItemIcons,
-                          width: 24.w,
-                          height: 24.h,
-                        ),
-                      ),
-                      const SizedBox(
-                        width: defaultPaddingHorizontal,
-                      ),
-                      InkWell(
-                        onTap: () {
-                          widget.onDeleteItem
-                              .call(widget.cartItem?.id ?? 0);
-                        },
-                        child: SVGIcons.localSVG(
-                          deleteCartItemIcons,
-                          width: 24.w,
-                          height: 24.h,
-                        ),
-                      ),
-                    ],
+            widget.isReadOnlyMode == false
+                ? Skeleton.ignore(
+                    child: Row(
+                      children: [
+                        UpdateItemQuantity(
+                            initQuantity: quantity?.toInt(),
+                            cartItem: widget.cartItem,
+                            onUpdateQuantity: widget.onUpdateQuantity),
+                        const Spacer(),
+                        Row(
+                          children: [
+                            InkWell(
+                              onTap: () {
+                                changeFavoriteItemState();
+                              },
+                              child: SVGIcons.localSVG(
+                                (widget.cartItem?.type ?? "") ==
+                                        CartItemType.Product.name.toLowerCase()
+                                    ? widget.cartItem?.product?.inWishlist ==
+                                            true
+                                        ? favoriteCartItemIcons
+                                        : unFavoriteCartItemIcons
+                                    : widget.cartItem?.service?.inWishlist ==
+                                            true
+                                        ? favoriteCartItemIcons
+                                        : unFavoriteCartItemIcons,
+                                width: 24.w,
+                                height: 24.h,
+                              ),
+                            ),
+                            const SizedBox(
+                              width: defaultPaddingHorizontal,
+                            ),
+                            InkWell(
+                              onTap: () {
+                                widget.onDeleteItem
+                                    .call(widget.cartItem?.id ?? 0);
+                              },
+                              child: SVGIcons.localSVG(
+                                deleteCartItemIcons,
+                                width: 24.w,
+                                height: 24.h,
+                              ),
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
                   )
-                ],
-              ),
-            ) : const SizedBox()
+                : const SizedBox()
           ],
         ),
       ),
@@ -325,12 +420,14 @@ class _CartItemViewState extends ConsumerState<CartItemView> {
         CartItemType.Product.name.toLowerCase()) {
       // widget.cartItem?.product?.inWishlist =
       //     !(widget.cartItem?.product?.inWishlist ?? false);
-      widget.toggleItem.call(CartItemType.Product,widget.cartItem?.product?.id??0);
+      widget.toggleItem
+          .call(CartItemType.Product, widget.cartItem?.product?.id ?? 0);
     } else {
       // widget.cartItem?.service?.inWishlist =
       //     !(widget.cartItem?.service?.inWishlist ?? false);
 
-      widget.toggleItem.call(CartItemType.Service,widget.cartItem?.service?.id??0);
+      widget.toggleItem
+          .call(CartItemType.Service, widget.cartItem?.service?.id ?? 0);
     }
   }
 }

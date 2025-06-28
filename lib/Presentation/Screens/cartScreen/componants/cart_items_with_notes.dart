@@ -149,7 +149,7 @@ class _CartItemsWithNotesState extends ConsumerState<CartItemsWithNotes> {
                                 cartId);
                           }, toggleItem: (type , id ) {
                             toggleItem(type,id.toInt());
-                        },
+                        }, orderItem: null,
                         );
                       })),
                       (cartData.data?.data?.cartItems.length??0) - 1 != index ? const Divider(

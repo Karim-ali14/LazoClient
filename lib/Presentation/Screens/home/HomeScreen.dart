@@ -417,8 +417,18 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                           const SizedBox(
                             width: 6,
                           ),
-                          SVGIcons.localSVG(
-                              notificationIconWithPinkBackgroundSvg),
+                          InkWell(
+                            onTap: () {
+                              if (client != null) {
+                                context.push(R_NotificationScreen);
+                              } else {
+                                showAuthenticated();
+                              }
+                              context.push(R_NotificationScreen);
+                            },
+                            child: SVGIcons.localSVG(
+                                notificationIconWithPinkBackgroundSvg),
+                          ),
                         ],
                       ),
                       const SizedBox(
@@ -447,7 +457,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                             ),
                             ValueListenableBuilder(
                               valueListenable: citySelected,
-                              builder: (context, value, _) => TextWithoutPadding(
+                              builder: (context, value, _) =>
+                                  TextWithoutPadding(
                                 value.name ?? "",
                                 style: AppTheme
                                     .styleWithTextBlackColor2AdelleSansExtendedFonts14w500,
@@ -588,14 +599,17 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         builder: (BuildContext context) => AuthenticateBottomSheet(
               onLoginClicked: () {
                 navigateToLogin();
-              }, onSignUpClicked: () {
+              },
+              onSignUpClicked: () {
                 navigateToSignUp();
-        },
+              },
             ));
   }
+
   void navigateToSignUp() async {
     context.push(R_SignUp, extra: {"typeOfMode": TypeOfMode.ViewMode});
   }
+
   void navigateToLogin() async {
     var makeRefresh =
         await context.push(R_LoginScreen, extra: {"type": TypeOfMode.ViewMode});
@@ -604,7 +618,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     }
   }
 
-  void getHomeData({ String? cityId, }) {
+  void getHomeData({
+    String? cityId,
+  }) {
     ref.read(homeDataStateNotifiers.notifier).getHomeData(cityId: cityId);
   }
 
@@ -759,7 +775,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               onClose: () {
                 var countrySelectedId = prefs.getInt(selectedCountryIdKey);
                 if (country?.id != countrySelectedId) {
-                  ref.read(getCities.notifier).getCities(countryId: countrySelectedId.toString());
+                  ref
+                      .read(getCities.notifier)
+                      .getCities(countryId: countrySelectedId.toString());
                 }
               },
             ));
@@ -790,7 +808,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             citySelectedKey, (json) => City.fromJson(json) ?? City()) ??
         City();
   }
-
 
   void updateCart() {
     var sessionId = ref
