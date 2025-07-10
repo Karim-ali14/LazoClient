@@ -23,6 +23,7 @@ import '../../../Utils/UtilsExts.dart';
 import '../../BottomSheets/CancelOrderBottomSheet.dart';
 import '../../StateNotifiersViewModel/ClientStateNotifiers.dart';
 import '../../Theme/AppTheme.dart';
+import '../../Widgets/AppScaffold.dart';
 import '../../Widgets/CustomAppBar.dart';
 import '../../Widgets/SvgIcons.dart';
 import '../../Widgets/TextWithoutPadding.dart';
@@ -81,7 +82,7 @@ class _OrderDetailsScreenState extends ConsumerState<OrderDetailsScreen> {
       actionType = null;
     });
 
-    return Scaffold(
+    return AppScaffold(
       appBar: CustomAppBar(
         navigated: true,
         isCenter: false,

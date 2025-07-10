@@ -33,6 +33,7 @@ import '../../BottomSheets/AuthenticateBottomSheet.dart';
 import '../../BottomSheets/RatingBottomSheet.dart';
 import '../../StateNotifiersViewModel/UserAuthStateNotifiers.dart';
 import '../../StateNotifiersViewModel/WishListStateNotifiers.dart';
+import '../../Widgets/AppScaffold.dart';
 import '../../Widgets/BannerCardItems.dart';
 import '../../Widgets/ServiceAndProductItemCard.dart';
 import '../../Widgets/SvgIcons.dart';
@@ -253,7 +254,7 @@ class _ProductAndServiceDetailsScreenState
     final imageHeight = 400.h;
     return WillPopScope(
       onWillPop: _onWillPop,
-      child: Scaffold(
+      child: AppScaffold(
         body: Stack(
           children: [
             CustomScrollView(
@@ -1113,128 +1114,246 @@ class _ProductAndServiceDetailsScreenState
                 ),
               ],
             ),
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.1), // Shadow color
-                      offset: Offset(0, -1), // Negative Y for top shadow
-                      blurRadius: 6, // How soft the shadow is
-                      spreadRadius: 0, // Optional: how much it spreads
-                    ),
-                  ],
-                ),
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-                child: Row(
+            // Align(
+            //   alignment: Alignment.bottomCenter,
+            //   child: Container(
+            //     decoration: BoxDecoration(
+            //       color: Colors.white,
+            //       boxShadow: [
+            //         BoxShadow(
+            //           color: Colors.black.withOpacity(0.1), // Shadow color
+            //           offset: Offset(0, -1), // Negative Y for top shadow
+            //           blurRadius: 6, // How soft the shadow is
+            //           spreadRadius: 0, // Optional: how much it spreads
+            //         ),
+            //       ],
+            //     ),
+            //     padding:
+            //         const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+            //     child: Row(
+            //       children: [
+            //         SizedBox(
+            //           height: 46,
+            //           child: Column(
+            //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //             children: [
+            //               TextWithoutPadding(
+            //                 "SAR ${widget.itemType == ItemType.Products ? productItemState.data?.data?.priceAfterDiscount ?? "" : serviceItemState.data?.data?.priceAfterDiscount ?? ""}",
+            //                 style: AppTheme
+            //                     .styleWithTextBlackAdelleSansExtendedFonts18w500,
+            //               ),
+            //               TextWithoutPadding(
+            //                 "Vat. included",
+            //                 style: AppTheme
+            //                     .styleWithTextGray7AdelleSansExtendedFonts12w400,
+            //               )
+            //             ],
+            //           ),
+            //         ),
+            //         SizedBox(
+            //           width: 26,
+            //         ),
+            //         Expanded(
+            //           child: AppButton(
+            //             onPress: () {
+            //               print("${productItemState.data?.data!.inCart}");
+            //               if (widget.itemType == ItemType.Products) {
+            //                 if (widget.productDetails != null ||
+            //                     (productItemState.data?.data!.inCart == true &&
+            //                         productItemState.data?.data!.cartItemId !=
+            //                             null)) {
+            //                   print(
+            //                       "cartId : ${productItemState.data?.data!.cartItemId}");
+            //
+            //                   editProductToCart(int.parse(productItemState
+            //                           .data?.data!.cartItemId
+            //                           .toString() ??
+            //                       "0"));
+            //                 } else if (productItemState.data?.data?.id !=
+            //                         null &&
+            //                     productItemState.data?.data?.amount != 0 &&
+            //                     productItemState.data?.data!.inCart == false) {
+            //                   addProductToCart(int.parse(
+            //                       productItemState.data?.data?.id!.toString() ??
+            //                           ""));
+            //                 }
+            //               } else {
+            //                 if (serviceItemState.data?.data?.cardType ==
+            //                         ServiceTypes.soft_card.name &&
+            //                     serviceItemState.data?.data?.id != null) {
+            //                   calculateSoftService(serviceItemState
+            //                           .data?.data?.priceAfterDiscount ??
+            //                       0);
+            //                   makeCheckoutForSoftService(
+            //                       int.parse(serviceItemState.data?.data?.id!
+            //                               .toString() ??
+            //                           ""),
+            //                       serviceItemState.data?.data);
+            //                 } else if (serviceItemState.data?.data!.inCart ==
+            //                         true &&
+            //                     serviceItemState.data?.data!.cartItemId !=
+            //                         null) {
+            //                   print(
+            //                       "cartId : ${serviceItemState.data?.data!.cartItemId}");
+            //
+            //                   editServiceCart(int.parse(serviceItemState
+            //                           .data?.data?.cartItemId
+            //                           .toString() ??
+            //                       "0"));
+            //                 } else if (serviceItemState.data?.data?.id !=
+            //                         null &&
+            //                     serviceItemState.data?.data!.inCart != true) {
+            //                   addServiceToCart(int.parse(
+            //                       serviceItemState.data?.data?.id!.toString() ??
+            //                           ""));
+            //                 }
+            //               }
+            //             },
+            //             text: widget.itemType == ItemType.Products
+            //                 ? widget.productDetails != null
+            //                     // || productItemState.data?.data!.inCart == true
+            //                     ? "Edit Product"
+            //                     : productItemState.data?.data!.inCart == true
+            //                         ? "Added"
+            //                         : productItemState.data?.data?.amount == 0
+            //                             ? "Out of stock"
+            //                             : "Add to cart"
+            //                 : widget.serviceShowData != null
+            //                     ? "Edit Service"
+            //                     : serviceItemState.data?.data?.cardType ==
+            //                             ServiceTypes.soft_card.name
+            //                         ? "Checkout"
+            //                         : serviceItemState.data?.data!.inCart ==
+            //                                 true
+            //                             ? "Added"
+            //                             : "Add to cart",
+            //             height: 48,
+            //             backColor: AppTheme.mainAppColorDark,
+            //           ),
+            //         ),
+            //       ],
+            //     ),
+            //   ),
+            // )
+          ],
+        ),
+        bottomNavigationBar: Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.1), // Shadow color
+                offset: Offset(0, -1), // Negative Y for top shadow
+                blurRadius: 6, // How soft the shadow is
+                spreadRadius: 0, // Optional: how much it spreads
+              ),
+            ],
+          ),
+          padding:
+          const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+          child: Row(
+            children: [
+              SizedBox(
+                height: 35.h,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    SizedBox(
-                      height: 46,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          TextWithoutPadding(
-                            "SAR ${widget.itemType == ItemType.Products ? productItemState.data?.data?.priceAfterDiscount ?? "" : serviceItemState.data?.data?.priceAfterDiscount ?? ""}",
-                            style: AppTheme
-                                .styleWithTextBlackAdelleSansExtendedFonts18w500,
-                          ),
-                          TextWithoutPadding(
-                            "Vat. included",
-                            style: AppTheme
-                                .styleWithTextGray7AdelleSansExtendedFonts12w400,
-                          )
-                        ],
-                      ),
+                    TextWithoutPadding(
+                      "SAR ${widget.itemType == ItemType.Products ? productItemState.data?.data?.priceAfterDiscount ?? "" : serviceItemState.data?.data?.priceAfterDiscount ?? ""}",
+                      style: AppTheme
+                          .styleWithTextBlackAdelleSansExtendedFonts18w500,
                     ),
-                    SizedBox(
-                      width: 26,
-                    ),
-                    Expanded(
-                      child: AppButton(
-                        onPress: () {
-                          print("${productItemState.data?.data!.inCart}");
-                          if (widget.itemType == ItemType.Products) {
-                            if (widget.productDetails != null ||
-                                (productItemState.data?.data!.inCart == true &&
-                                    productItemState.data?.data!.cartItemId !=
-                                        null)) {
-                              print(
-                                  "cartId : ${productItemState.data?.data!.cartItemId}");
-
-                              editProductToCart(int.parse(productItemState
-                                      .data?.data!.cartItemId
-                                      .toString() ??
-                                  "0"));
-                            } else if (productItemState.data?.data?.id !=
-                                    null &&
-                                productItemState.data?.data?.amount != 0 &&
-                                productItemState.data?.data!.inCart == false) {
-                              addProductToCart(int.parse(
-                                  productItemState.data?.data?.id!.toString() ??
-                                      ""));
-                            }
-                          } else {
-                            if (serviceItemState.data?.data?.cardType ==
-                                    ServiceTypes.soft_card.name &&
-                                serviceItemState.data?.data?.id != null) {
-                              calculateSoftService(serviceItemState
-                                      .data?.data?.priceAfterDiscount ??
-                                  0);
-                              makeCheckoutForSoftService(
-                                  int.parse(serviceItemState.data?.data?.id!
-                                          .toString() ??
-                                      ""),
-                                  serviceItemState.data?.data);
-                            } else if (serviceItemState.data?.data!.inCart ==
-                                    true &&
-                                serviceItemState.data?.data!.cartItemId !=
-                                    null) {
-                              print(
-                                  "cartId : ${serviceItemState.data?.data!.cartItemId}");
-
-                              editServiceCart(int.parse(serviceItemState
-                                      .data?.data?.cartItemId
-                                      .toString() ??
-                                  "0"));
-                            } else if (serviceItemState.data?.data?.id !=
-                                    null &&
-                                serviceItemState.data?.data!.inCart != true) {
-                              addServiceToCart(int.parse(
-                                  serviceItemState.data?.data?.id!.toString() ??
-                                      ""));
-                            }
-                          }
-                        },
-                        text: widget.itemType == ItemType.Products
-                            ? widget.productDetails != null
-                                // || productItemState.data?.data!.inCart == true
-                                ? "Edit Product"
-                                : productItemState.data?.data!.inCart == true
-                                    ? "Added"
-                                    : productItemState.data?.data?.amount == 0
-                                        ? "Out of stock"
-                                        : "Add to cart"
-                            : widget.serviceShowData != null
-                                ? "Edit Service"
-                                : serviceItemState.data?.data?.cardType ==
-                                        ServiceTypes.soft_card.name
-                                    ? "Checkout"
-                                    : serviceItemState.data?.data!.inCart ==
-                                            true
-                                        ? "Added"
-                                        : "Add to cart",
-                        height: 48,
-                        backColor: AppTheme.mainAppColorDark,
-                      ),
-                    ),
+                    TextWithoutPadding(
+                      "Vat. included",
+                      style: AppTheme
+                          .styleWithTextGray7AdelleSansExtendedFonts12w400,
+                    )
                   ],
                 ),
               ),
-            )
-          ],
+              SizedBox(
+                width: 26,
+              ),
+              Expanded(
+                child: AppButton(
+                  onPress: () {
+                    print("${productItemState.data?.data!.inCart}");
+                    if (widget.itemType == ItemType.Products) {
+                      if (widget.productDetails != null ||
+                          (productItemState.data?.data!.inCart == true &&
+                              productItemState.data?.data!.cartItemId !=
+                                  null)) {
+                        print(
+                            "cartId : ${productItemState.data?.data!.cartItemId}");
+
+                        editProductToCart(int.parse(productItemState
+                            .data?.data!.cartItemId
+                            .toString() ??
+                            "0"));
+                      } else if (productItemState.data?.data?.id !=
+                          null &&
+                          productItemState.data?.data?.amount != 0 &&
+                          productItemState.data?.data!.inCart == false) {
+                        addProductToCart(int.parse(
+                            productItemState.data?.data?.id!.toString() ??
+                                ""));
+                      }
+                    } else {
+                      if (serviceItemState.data?.data?.cardType ==
+                          ServiceTypes.soft_card.name &&
+                          serviceItemState.data?.data?.id != null) {
+                        calculateSoftService(serviceItemState
+                            .data?.data?.priceAfterDiscount ??
+                            0);
+                        makeCheckoutForSoftService(
+                            int.parse(serviceItemState.data?.data?.id!
+                                .toString() ??
+                                ""),
+                            serviceItemState.data?.data);
+                      } else if (serviceItemState.data?.data!.inCart ==
+                          true &&
+                          serviceItemState.data?.data!.cartItemId !=
+                              null) {
+                        print(
+                            "cartId : ${serviceItemState.data?.data!.cartItemId}");
+
+                        editServiceCart(int.parse(serviceItemState
+                            .data?.data?.cartItemId
+                            .toString() ??
+                            "0"));
+                      } else if (serviceItemState.data?.data?.id !=
+                          null &&
+                          serviceItemState.data?.data!.inCart != true) {
+                        addServiceToCart(int.parse(
+                            serviceItemState.data?.data?.id!.toString() ??
+                                ""));
+                      }
+                    }
+                  },
+                  text: widget.itemType == ItemType.Products
+                      ? widget.productDetails != null
+                  // || productItemState.data?.data!.inCart == true
+                      ? "Edit Product"
+                      : productItemState.data?.data!.inCart == true
+                      ? "Added"
+                      : productItemState.data?.data?.amount == 0
+                      ? "Out of stock"
+                      : "Add to cart"
+                      : widget.serviceShowData != null
+                      ? "Edit Service"
+                      : serviceItemState.data?.data?.cardType ==
+                      ServiceTypes.soft_card.name
+                      ? "Checkout"
+                      : serviceItemState.data?.data!.inCart ==
+                      true
+                      ? "Added"
+                      : "Add to cart",
+                  height: 48,
+                  backColor: AppTheme.mainAppColorDark,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

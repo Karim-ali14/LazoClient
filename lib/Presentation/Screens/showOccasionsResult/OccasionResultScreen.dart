@@ -18,6 +18,7 @@ import '../../BottomSheets/AuthenticateBottomSheet.dart';
 import '../../BottomSheets/FilterBottomSheet.dart';
 import '../../StateNotifiersViewModel/PublicStateNotifiers.dart';
 import '../../Theme/AppTheme.dart';
+import '../../Widgets/AppScaffold.dart';
 import '../../Widgets/CircleImage.dart';
 import '../../Widgets/CustomAppBar.dart';
 import '../../Widgets/SearchWithFilter.dart';
@@ -102,7 +103,7 @@ class _OccasionResultScreenState extends ConsumerState<OccasionResultScreen>
         ref.watch(filterForUnReadyGiftProductStateNotifiers);
     return WillPopScope(
       onWillPop: _onWillPop,
-      child: Scaffold(
+      child: AppScaffold(
         body: SingleChildScrollView(
           child: SizedBox(
             height: MediaQuery.of(context).size.height,

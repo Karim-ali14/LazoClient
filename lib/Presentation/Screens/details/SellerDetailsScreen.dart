@@ -30,6 +30,7 @@ import '../../BottomSheets/DescriptionBottomSheet.dart';
 import '../../StateNotifiersViewModel/PublicStateNotifiers.dart';
 import '../../StateNotifiersViewModel/UserAuthStateNotifiers.dart';
 import '../../StateNotifiersViewModel/WishListStateNotifiers.dart';
+import '../../Widgets/AppScaffold.dart';
 import '../../Widgets/CircleImage.dart';
 import '../../Widgets/SvgIcons.dart';
 import '../../Widgets/TextWithoutPadding.dart';
@@ -165,7 +166,7 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
           res.data?.data?.productId ?? 0, res.data?.data?.inWishlist ?? false,res.data?.data?.collectionId);
     });
 
-    return Scaffold(
+    return AppScaffold(
       body: CustomScrollView(controller: _scrollController, slivers: [
         SliverAppBar(
           expandedHeight: 280.h,

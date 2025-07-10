@@ -27,6 +27,7 @@ import '../../../Data/Models/FilterData.dart';
 import '../../../Utils/FilterUtils.dart';
 import '../../BottomSheets/FilterBottomSheet.dart';
 import '../../StateNotifiersViewModel/PublicStateNotifiers.dart';
+import '../../Widgets/AppScaffold.dart';
 import '../../Widgets/EmptyDataView.dart';
 import '../../Widgets/SearchWithFilter.dart';
 import '../../Widgets/TextWithoutPadding.dart';
@@ -103,7 +104,7 @@ class _ShowTopSellersState extends ConsumerState<ShowTopSellers> {
   Widget build(BuildContext context) {
     final topSellerState = ref.watch(getTopBestSellersDataStateNotifiers);
     final categoryState = ref.watch(updateListOfCategoryStateNotifiers);
-    return Scaffold(
+    return AppScaffold(
       appBar: CustomAppBar(
         appContext: context,
         title: widget.type == CategoryType.Categories

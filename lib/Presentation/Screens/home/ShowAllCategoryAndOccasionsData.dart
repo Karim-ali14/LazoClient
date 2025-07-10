@@ -14,6 +14,7 @@ import '../../../Constants.dart';
 import '../../../Constants/Assets.dart';
 import '../../../Constants/Eunms.dart';
 import '../../../Data/Network/lib/api.dart';
+import '../../Widgets/AppScaffold.dart';
 import '../../Widgets/CategoryItemCart.dart';
 import '../../Widgets/SearchWithFilter.dart';
 
@@ -52,7 +53,7 @@ class _ShowAllCategoryAndOccasionsDataState
 
     final double itemWidth = size.width / 2;
 
-    return Scaffold(
+    return AppScaffold(
       appBar: CustomAppBar(
         appContext: context,
         title:

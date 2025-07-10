@@ -1,3 +1,7 @@
+import 'package:lazo_client/Presentation/Widgets/TextWithoutPadding.dart';
+
+import 'package:lazo_client/Presentation/Widgets/TextWithoutPadding.dart';
+
 import '../../../../../Presentation/Theme/AppTheme.dart';
 import 'package:flutter/material.dart';
 
@@ -27,7 +31,7 @@ class AppButton extends StatelessWidget {
             side: BorderSide(color: backColor??AppTheme.mainAppColorDark,width: strokeWidth??1),
             shape: RoundedRectangleBorder(borderRadius: radius??BorderRadius.circular(8),)
           ),
-          child: child?? Text(
+          child: child?? TextWithoutPadding(
               text!,
               style: TextStyle(color: outlined == true ? backColor : Colors.white, fontSize: 14)),
         ) : ElevatedButton(
@@ -38,7 +42,7 @@ class AppButton extends StatelessWidget {
             )),
             backgroundColor: MaterialStateProperty.all(backColor ?? (enabled == true ? AppTheme.mainAppColorDark : AppTheme.appGrey7)),
           ),
-          child: child ?? Text(
+          child: child ?? TextWithoutPadding(
               text!,
               style: const TextStyle(color: Colors.white, fontSize: 14)),
         ),

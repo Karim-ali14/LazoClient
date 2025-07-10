@@ -34,6 +34,7 @@ import '../../StateNotifiersViewModel/SearchLocalStoragStateNotifiers.dart';
 import '../../StateNotifiersViewModel/UserAuthStateNotifiers.dart';
 import '../../StateNotifiersViewModel/WishListStateNotifiers.dart';
 import '../../Theme/AppTheme.dart';
+import '../../Widgets/AppScaffold.dart';
 import '../../Widgets/DataListView.dart';
 import '../../Widgets/EmptyDataView.dart';
 import '../../Widgets/SearchWithFilter.dart';
@@ -119,7 +120,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
 
     return WillPopScope(
       onWillPop: _onWillPop,
-      child: Scaffold(
+      child: AppScaffold(
         body: SafeArea(
           child: SingleChildScrollView(
             child: SizedBox(

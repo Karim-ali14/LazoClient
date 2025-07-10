@@ -51,10 +51,10 @@ class CartScreenState extends ConsumerState<CartScreen> with AutomaticKeepAliveC
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((callback) {
-      var sessionId = ref
-          .read(getSessionHandlerStateNotifier.notifier)
-          .checkIfSessionIdExist();
-      getCartDetails(sessionId);
+      // var sessionId = ref
+      //     .read(getSessionHandlerStateNotifier.notifier)
+      //     .checkIfSessionIdExist();
+      // getCartDetails(sessionId);
       calculateHeight();
     });
     super.initState();

@@ -24,6 +24,7 @@ import '../../StateNotifiersViewModel/PublicStateNotifiers.dart';
 import '../../StateNotifiersViewModel/UserAuthStateNotifiers.dart';
 import '../../StateNotifiersViewModel/WishListStateNotifiers.dart';
 import '../../Theme/AppTheme.dart';
+import '../../Widgets/AppScaffold.dart';
 import '../../Widgets/DataListView.dart';
 import '../../Widgets/EmptyDataView.dart';
 import '../../Widgets/SearchWithFilter.dart';
@@ -125,7 +126,7 @@ class _ShowProductAndServiceScreenState
           res.data?.data?.serviceId ?? 0, res.data?.data?.inWishlist ?? false,res.data?.data?.collectionId);
     });
 
-    return Scaffold(
+    return AppScaffold(
       appBar: CustomAppBar(
         appContext: context,
         title: widget.title,
