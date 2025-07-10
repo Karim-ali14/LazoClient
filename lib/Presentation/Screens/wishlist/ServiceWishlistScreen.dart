@@ -136,7 +136,7 @@ class _ServiceOccasionScreenState extends ConsumerState<ServiceWishlistScreen> {
                     onAddItemToCart: (id) {
                       addServiceToCart(id);
                     },
-                    onAddItemToWishList: (id,collectionId) {
+                    onAddItemToWishList: (id,collectionId,inWishlist) {
                       if (client != null) {
                         serviceWishlistToggle(id.toString());
                       } else {

@@ -591,7 +591,7 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
                           showLoading:
                           sellerProducts.state == DataState.LOADING,
                           onAddItemToCart: (id) => addProductToCart(id),
-                          onAddItemToWishList: (id,collectionId) => client != null
+                          onAddItemToWishList: (id,collectionId,inWishlist) => client != null
                               ? productWishlistToggle(id)
                               : showAuthenticated(),
                           onItemClick: (itemId, itemName, categoryIds) {
@@ -646,7 +646,7 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
                             onAddItemToCart: (id) {
                               addServiceToCart(id);
                             },
-                            onAddItemToWishList: (id,collectionId) {
+                            onAddItemToWishList: (id,collectionId,inWishlist) {
                               if (client != null) {
                                 serviceWishlistToggle(id.toString());
                               } else {

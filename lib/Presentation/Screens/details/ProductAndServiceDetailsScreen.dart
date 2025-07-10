@@ -1026,9 +1026,13 @@ class _ProductAndServiceDetailsScreenState
                                         onAddItemToCart: (id) {
                                           addProductToCart(id);
                                         },
-                                        onAddItemToWishList: (id,collectionId) {
+                                        onAddItemToWishList: (id,collectionId,inWishlist) {
                                           if (client != null) {
-                                            productWishlistToggle(id);
+                                            if(inWishlist) {
+                                              productWishlistToggle(id);
+                                            }else{
+
+                                            }
                                           } else {
                                             showAuthenticated();
                                           }
@@ -1074,7 +1078,7 @@ class _ProductAndServiceDetailsScreenState
                                         onAddItemToCart: (id) {
                                           addServiceToCart(id);
                                         },
-                                        onAddItemToWishList: (id,collectionId) {
+                                        onAddItemToWishList: (id,collectionId,inWishlist) {
                                           if (client != null) {
                                             serviceWishlistToggle(
                                                 id.toString());

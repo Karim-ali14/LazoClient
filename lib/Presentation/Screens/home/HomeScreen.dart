@@ -314,9 +314,16 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                     onAddItemToCart: (id) {
                                       addProductToCart(id);
                                     },
-                                    onAddItemToWishList: (id, collectionId) {
+                                    onAddItemToWishList: (id, collectionId,inWishlist) {
                                       if (client != null) {
-                                        productWishlistToggle(id, collectionId);
+                                        if(inWishlist){
+                                          productWishlistToggle(id, collectionId);
+                                        }else{
+                                          showCollectionsBottomSheet(
+                                              collectionId: int.parse(collectionId??"0") ,
+                                              itemId: id,
+                                              type: OrderItemType.Product);
+                                        }
                                       } else {
                                         showAuthenticated();
                                       }
@@ -362,11 +369,18 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                     onAddItemToCart: (id) {
                                       addServiceToCart(id);
                                     },
-                                    onAddItemToWishList: (id, collectionId) {
+                                    onAddItemToWishList: (id, collectionId,inWishlist) {
                                       print("object");
                                       if (client != null) {
-                                        serviceWishlistToggle(
-                                            id.toString(), collectionId);
+                                        if(inWishlist) {
+                                          serviceWishlistToggle(
+                                              id.toString(), collectionId);
+                                        }else{
+                                          showCollectionsBottomSheet(
+                                              collectionId: int.parse(collectionId??"0") ,
+                                              itemId: id,
+                                              type: OrderItemType.Service);
+                                        }
                                       } else {
                                         showAuthenticated();
                                       }
@@ -561,6 +575,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   void productWishlistToggle(int id, String? collectionId) {
     print("product id : $id $collectionId");
+
     ref
         .read(productToggleStateNotifier.notifier)
         .toggle(productId: id.toString(), collectionId: collectionId);

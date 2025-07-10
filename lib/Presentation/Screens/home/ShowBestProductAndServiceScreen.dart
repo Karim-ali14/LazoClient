@@ -339,7 +339,7 @@ class _ShowProductAndServiceScreenState
                                       onAddItemToCart: (id) {
                                         addProductToCart(id);
                                       },
-                                      onAddItemToWishList: (id,collectionId) {
+                                      onAddItemToWishList: (id,collectionId,inWishlist) {
                                         if (client != null) {
                                           productWishlistToggle(id);
                                         } else {
@@ -399,7 +399,7 @@ class _ShowProductAndServiceScreenState
                                       onAddItemToCart: (id) {
                                         addServiceToCart(id);
                                       },
-                                      onAddItemToWishList: (id,collectionId) {
+                                      onAddItemToWishList: (id,collectionId,inWishlist) {
                                         if (client != null) {
                                           serviceWishlistToggle(id.toString());
                                         } else {

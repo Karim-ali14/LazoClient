@@ -69,8 +69,8 @@ class _ServiceGridListviewWithCategoryNameState
                       onAddItemToCart: (id) {
                         widget.onAddItemToCart(id);
                       },
-                      onAddItemToWishList: (id,collectionId) {
-                        widget.onAddItemToWishList(id,collectionId);
+                      onAddItemToWishList: (id,collectionId,inWishlist) {
+                        widget.onAddItemToWishList(id,collectionId,inWishlist);
                       },
                       onItemClick: (id, name, categoriesIds) {
                         widget.onItemClick.call(id, name, categoriesIds);

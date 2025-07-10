@@ -26,6 +26,7 @@ class AppScaffold extends StatelessWidget {
       bottomNavigationBar: bottomNavigationBar,
       floatingActionButton: Consumer(builder: (context,ref,_){
         final cartData = ref.watch(fetchCardDetailsStateNotifies);
+
         return (cartData.data?.data?.cartItems.length??0) > 0 ? FloatingActionButton(
           onPressed: () {
             context.push(R_CartScreen,extra: {"type":CheckoutTypes.HartCard});
@@ -47,7 +48,7 @@ class AppScaffold extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.all(3),
                     child: TextWithoutPadding(
-                      (cartData.data?.data?.cartItems.map((items) => items.orderItems?.length ?? 0).fold(0, (prev,curr) => prev + curr)??0).toString() ?? ""
+                      (cartData.data?.data?.cartItems.map((items) => items.items?.length ?? 0).fold(0, (prev,curr) => prev + curr)??0).toString() ?? ""
                       ,style: AppTheme.styleWithTextAppRedColorAdelleSansExtendedFonts8w700,
                     ),
                   ),

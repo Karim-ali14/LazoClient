@@ -56,8 +56,8 @@ class _CollectionItemInBottomSheetState extends State<CollectionItemInBottomShee
             InkWell(
                 onTap: (){
                   if(widget.isSelected == false){
-                    widget.onChangeCollection.call((widget.collectionItem?.id??0).toString());
                     context.pop();
+                    widget.onChangeCollection.call((widget.collectionItem?.id??0).toString());
                   }
                 },
                 child: SVGIcons.localSVG(widget.isSelected == true ? plusFullIcon : plusEmptyIcon,width: 20,height: 20))

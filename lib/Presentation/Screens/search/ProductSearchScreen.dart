@@ -298,7 +298,7 @@ class _ProductSearchScreenState extends ConsumerState<ProductSearchScreen> {
                                   onAddItemToCart: (id) {
                                     addProductToCart(id);
                                   },
-                                  onAddItemToWishList: (id,collectionId) {
+                                  onAddItemToWishList: (id,collectionId,inWishlist) {
                                     if (client != null) {
                                       productWishlistToggle(id,collectionId);
                                     } else {

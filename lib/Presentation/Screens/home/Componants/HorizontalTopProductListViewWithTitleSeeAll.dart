@@ -61,8 +61,8 @@ class _HorizontalTopProductListViewWithTitleSeeAll extends State<HorizontalTopPr
                     product: widget.list[index],
                     type: ItemType.Products, onAddItemToCart: (id ) {
                     widget.onAddItemToCart.call(id);
-                  }, onAddItemToWishList: (id,collectionId) {
-                    widget.onAddItemToWishList.call(id,collectionId);
+                  }, onAddItemToWishList: (id,collectionId,inWishlist) {
+                    widget.onAddItemToWishList.call(id,collectionId,inWishlist);
                   }, onItemClick: (id,name,categoriesIds ) {
                     widget.itemClick.call(id,name,categoriesIds);
                   },
