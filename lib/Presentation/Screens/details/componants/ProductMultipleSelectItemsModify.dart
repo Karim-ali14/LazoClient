@@ -5,10 +5,10 @@ import 'package:lazo_client/Presentation/Screens/details/componants/ProductRowIt
 import '../../../../Data/Models/ItemSelector.dart';
 import '../../../Theme/AppTheme.dart';
 
-typedef OnItemSelect = Function(List<String>,List<String>,);
+typedef OnItemSelect = Function(List<String> ids, List<String> names, double totalExtraPrice);
 
 class ProductMultipleSelectItemsModify extends StatefulWidget {
-  final List<ItemSelector> list;
+  final List<ItemSelectorV3> list;
   final OnItemSelect onItemSelect;
   List<String>? itemSelect = [];
   ProductMultipleSelectItemsModify(
@@ -21,6 +21,7 @@ class ProductMultipleSelectItemsModify extends StatefulWidget {
 
 class _ProductMultipleSelectItemsModifyState
     extends State<ProductMultipleSelectItemsModify> {
+  double extraPrice = 0.0;
 
   List<String> listItemSelectIds = [];
   List<String> listItemSelectNames = [];
@@ -37,21 +38,7 @@ class _ProductMultipleSelectItemsModifyState
           widget.list.length ?? 0,
           (itemIndex) => Container(
             child: InkWell(
-              onTap: () {
-                    print(listItemSelectIds.contains(widget.list[itemIndex].id.toString()).toString());
-                    print(listItemSelectIds.toString());
-                    setState(() {
-                      if (!listItemSelectIds.contains(widget.list[itemIndex].id.toString())) {
-                        listItemSelectIds.add(widget.list[itemIndex].id.toString());
-                        listItemSelectNames.add(widget.list[itemIndex].text.toString());
-                      } else {
-                        listItemSelectIds.remove(widget.list[itemIndex].id.toString());
-                        listItemSelectNames.remove(widget.list[itemIndex].text.toString());
-
-                      }
-                    });
-                    widget.onItemSelect.call(listItemSelectIds,listItemSelectNames);
-                  },
+              onTap: () => _handleSelection(widget.list[itemIndex]),
               child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -69,7 +56,7 @@ class _ProductMultipleSelectItemsModifyState
                               crossAxisAlignment: CrossAxisAlignment.center,
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                widget.list[itemIndex].widget ?? SizedBox()
+                                widget.list[itemIndex].widget ?? const SizedBox()
                               ],
                             ),
                             Transform.scale(
@@ -91,19 +78,7 @@ class _ProductMultipleSelectItemsModifyState
                                     }),
                                 value:
                                 listItemSelectIds.contains(widget.list[itemIndex].id.toString()),
-                                onChanged: (bool? value) {
-                                  setState(() {
-                                    if (!listItemSelectIds
-                                        .contains(widget.list[itemIndex].id.toString())) {
-                                      listItemSelectIds.add(widget.list[itemIndex].id.toString());
-                                      listItemSelectNames.add(widget.list[itemIndex].text.toString());
-                                    } else {
-                                      listItemSelectIds.remove(widget.list[itemIndex].id.toString());
-                                      listItemSelectNames.remove(widget.list[itemIndex].text.toString());
-                                    }
-                                  });
-                                  widget.onItemSelect.call(listItemSelectIds,listItemSelectNames);
-                                },
+                                onChanged: (bool? value) => _handleSelection(widget.list[itemIndex]),
                               ),
                             ),
                           ],
@@ -112,5 +87,24 @@ class _ProductMultipleSelectItemsModifyState
             ),
           )))
     ]);
+  }
+  void _handleSelection(ItemSelectorV3 item) {
+    setState(() {
+      final id = item.id.toString();
+      final name = item.text.toString();
+      final price = item.price ?? 0.0;
+
+      if (!listItemSelectIds.contains(id)) {
+        listItemSelectIds.add(id);
+        listItemSelectNames.add(name);
+        extraPrice += price;
+      } else {
+        listItemSelectIds.remove(id);
+        listItemSelectNames.remove(name);
+        extraPrice -= price;
+      }
+    });
+
+    widget.onItemSelect.call(listItemSelectIds, listItemSelectNames,extraPrice);
   }
 }

@@ -31,4 +31,15 @@ class ItemSelectorV2{
 }
 
 
+class ItemSelectorV3{
+  final int id;
+  final String text;
+  final Widget? widget;
+  bool? isChecked;
+  final double? price;
+
+  ItemSelectorV3({required this.id ,required this.text ,this.isChecked = false, this.widget,this.price,});
+}
+
+
 

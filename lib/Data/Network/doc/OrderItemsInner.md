@@ -9,6 +9,9 @@ import 'package:lazo/api.dart';
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **cardPrice** | **num** |  | [optional] 
+**isOutsideDelivery** | **int** |  | [optional] 
+**deliveryPrice** | **num** |  | [optional] 
+**cardType** | **String** |  | [optional] 
 **orderId** | **num** |  | [optional] 
 **cityId** | **String** |  | [optional] 
 **createdAt** | **String** |  | [optional] 

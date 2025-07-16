@@ -89,22 +89,61 @@ class _CartItemViewState extends ConsumerState<CartItemView> {
                         onItemClick(true);
                       },
                       child: Container(
+                        width: 87.w,
+                        height: 85.h,
                         clipBehavior: Clip.antiAlias,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(4),
                         ),
-                        child: ImageView(
-                          width: 87.w,
-                          height: 85.h,
-                          initialImg: widget.isOrderMode == true
-                              ? (widget.orderItem?.type ?? "") ==
-                                      CartItemType.Product.name.toLowerCase()
-                                  ? widget.orderItem?.product?.imagePath ?? ""
-                                  : widget.orderItem?.service?.imagePath ?? ""
-                              : (widget.cartItem?.type ?? "") ==
-                                      CartItemType.Product.name.toLowerCase()
-                                  ? widget.cartItem?.product?.imagePath ?? ""
-                                  : widget.cartItem?.service?.imagePath ?? "",
+                        child: Stack(
+                          children: [
+                            ImageView(
+                              width: 87.w,
+                              height: 85.h,
+                              initialImg: widget.isOrderMode == true
+                                  ? (widget.orderItem?.type ?? "") ==
+                                  CartItemType.Product.name
+                                      .toLowerCase()
+                                  ? widget.orderItem?.product?.imagePath ??
+                                  ""
+                                  : widget.orderItem?.service?.imagePath ??
+                                  ""
+                                  : (widget.cartItem?.type ?? "") ==
+                                  CartItemType.Product.name
+                                      .toLowerCase()
+                                  ? widget.cartItem?.product?.imagePath ??
+                                  ""
+                                  : widget.cartItem?.service?.imagePath ??
+                                  "",
+                            ),
+                            widget.cartItem?.product != null && widget.cartItem?.product?.type ==
+                                ProductTypes.ready_made_gifts.name ? Align(
+                              alignment: Alignment.topCenter,
+                              child: Container(
+                                margin: EdgeInsets.only(top: 3),
+                                padding: EdgeInsets.symmetric(horizontal: 4,vertical: 4),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(8),
+                                  color: Colors.black.withOpacity(0.5),
+                                ),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    SVGIcons.localSVG(giftBoxIcon,
+                                        width: 11, height: 11),
+                                    SizedBox(
+                                      width: 4,
+                                    ),
+                                    TextWithoutPadding(
+                                      "Ready Gift",
+                                      style: AppTheme
+                                          .styleWithTextWhiteAdelleSansExtendedFonts12w400.copyWith(fontSize: 10.sp),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ):const SizedBox(),
+                          ],
                         ),
                       ),
                     ),
@@ -217,111 +256,117 @@ class _CartItemViewState extends ConsumerState<CartItemView> {
                                     : "${context.tr(sarKey)} ${countItemPrice(widget.orderItem?.service?.priceAfterDiscount ?? 0, widget.cartItem?.quantity ?? 1)}"
                                 : (widget.cartItem?.type ?? "") ==
                                         CartItemType.Product.name.toLowerCase()
-                                    ? "${context.tr(sarKey)} ${countItemPrice(widget.cartItem?.product?.priceAfterDiscount ?? 0, widget.cartItem?.quantity ?? 1)}"
-                                    : "${context.tr(sarKey)} ${countItemPrice(widget.cartItem?.service?.priceAfterDiscount ?? 0, widget.cartItem?.quantity ?? 1)}",
+                                    ? "${context.tr(sarKey)} ${countItemPrice(widget.cartItem?.cartItemTotalAfterDiscount ?? 0, widget.cartItem?.quantity ?? 1)}"
+                                    : "${context.tr(sarKey)} ${countItemPrice(widget.cartItem?.cartItemTotalAfterDiscount ?? 0, widget.cartItem?.quantity ?? 1)}",
                             style: AppTheme
                                 .styleWithTextMainAppColorAdelleSansExtendedFonts14w400,
                           ),
-                          widget.isOrderMode == true ?
-                          (widget.orderItem?.type ?? "") ==
-                                      CartItemType.Product.name.toLowerCase() &&
-                                  (widget.orderItem?.product?.price
-                                              ?.toDouble() ??
-                                          0.0) >
-                                      (widget.orderItem?.product
-                                              ?.priceAfterDiscount
-                                              ?.toDouble() ??
-                                          0.0)
-                              ? Row(
-                                  children: [
-                                    const SizedBox(
-                                      width: 6,
-                                    ),
-                                    TextWithoutPadding(
-                                      "${context.tr(sarKey)} ${countItemPrice(widget.orderItem?.product?.price ?? 0, widget.orderItem?.quantity ?? 1)}",
-                                      style: AppTheme
-                                          .styleWithTextGray7AdelleSansExtendedFonts12w400
-                                          .copyWith(
-                                              decoration:
-                                                  TextDecoration.lineThrough),
+                          widget.isOrderMode == true
+                              ? (widget.orderItem?.type ?? "") ==
+                                          CartItemType.Product.name
+                                              .toLowerCase() &&
+                                      (widget.orderItem?.product?.price
+                                                  ?.toDouble() ??
+                                              0.0) >
+                                          (widget.orderItem?.product
+                                                  ?.priceAfterDiscount
+                                                  ?.toDouble() ??
+                                              0.0)
+                                  ? Row(
+                                      children: [
+                                        const SizedBox(
+                                          width: 6,
+                                        ),
+                                        TextWithoutPadding(
+                                          "${context.tr(sarKey)} ${countItemPrice(widget.orderItem?.product?.price ?? 0, widget.orderItem?.quantity ?? 1)}",
+                                          style: AppTheme
+                                              .styleWithTextGray7AdelleSansExtendedFonts12w400
+                                              .copyWith(
+                                                  decoration: TextDecoration
+                                                      .lineThrough),
+                                        )
+                                      ],
                                     )
-                                  ],
-                                )
-                              : const SizedBox() : (widget.cartItem?.type ?? "") ==
-                              CartItemType.Product.name.toLowerCase() &&
-                              (widget.cartItem?.product?.price
-                                  ?.toDouble() ??
-                                  0.0) >
-                                  (widget.cartItem?.product
-                                      ?.priceAfterDiscount
-                                      ?.toDouble() ??
-                                      0.0)
-                              ? Row(
-                            children: [
-                              const SizedBox(
-                                width: 6,
-                              ),
-                              TextWithoutPadding(
-                                "${context.tr(sarKey)} ${countItemPrice(widget.cartItem?.product?.price ?? 0, widget.cartItem?.quantity ?? 1)}",
-                                style: AppTheme
-                                    .styleWithTextGray7AdelleSansExtendedFonts12w400
-                                    .copyWith(
-                                    decoration:
-                                    TextDecoration.lineThrough),
-                              )
-                            ],
-                          )
-                              : const SizedBox(),
-                          widget.isOrderMode == true ?
-                          (widget.orderItem?.type ?? "") ==
-                                      CartItemType.Service.name.toLowerCase() &&
-                                  (widget.orderItem?.service?.price
-                                              ?.toDouble() ??
-                                          0.0) >
-                                      (widget.orderItem?.service
-                                              ?.priceAfterDiscount
-                                              ?.toDouble() ??
-                                          0.0)
-                              ? Row(
-                                  children: [
-                                    SizedBox(
-                                      width: 6,
-                                    ),
-                                    TextWithoutPadding(
-                                      "${context.tr(sarKey)} ${countItemPrice(widget.orderItem?.service?.price ?? 0, widget.orderItem?.quantity ?? 1)}",
-                                      style: AppTheme
-                                          .styleWithTextGray7AdelleSansExtendedFonts12w400
-                                          .copyWith(
-                                              decoration:
-                                                  TextDecoration.lineThrough),
+                                  : const SizedBox()
+                              : (widget.cartItem?.type ?? "") ==
+                                          CartItemType.Product.name
+                                              .toLowerCase() &&
+                                      (widget.cartItem?.product?.price
+                                                  ?.toDouble() ??
+                                              0.0) >
+                                          (widget.cartItem?.product
+                                                  ?.priceAfterDiscount
+                                                  ?.toDouble() ??
+                                              0.0)
+                                  ? Row(
+                                      children: [
+                                        const SizedBox(
+                                          width: 6,
+                                        ),
+                                        TextWithoutPadding(
+                                          "${context.tr(sarKey)} ${countItemPrice(widget.cartItem?.product?.price ?? 0, widget.cartItem?.quantity ?? 1)}",
+                                          style: AppTheme
+                                              .styleWithTextGray7AdelleSansExtendedFonts12w400
+                                              .copyWith(
+                                                  decoration: TextDecoration
+                                                      .lineThrough),
+                                        )
+                                      ],
                                     )
-                                  ],
-                                )
-                              : const SizedBox() : (widget.cartItem?.type ?? "") ==
-                              CartItemType.Service.name.toLowerCase() &&
-                              (widget.cartItem?.service?.price
-                                  ?.toDouble() ??
-                                  0.0) >
-                                  (widget.cartItem?.service
-                                      ?.priceAfterDiscount
-                                      ?.toDouble() ??
-                                      0.0)
-                              ? Row(
-                            children: [
-                              SizedBox(
-                                width: 6,
-                              ),
-                              TextWithoutPadding(
-                                "${context.tr(sarKey)} ${countItemPrice(widget.cartItem?.service?.price ?? 0, widget.cartItem?.quantity ?? 1)}",
-                                style: AppTheme
-                                    .styleWithTextGray7AdelleSansExtendedFonts12w400
-                                    .copyWith(
-                                    decoration:
-                                    TextDecoration.lineThrough),
-                              )
-                            ],
-                          )
-                              : const SizedBox()
+                                  : const SizedBox(),
+                          widget.isOrderMode == true
+                              ? (widget.orderItem?.type ?? "") ==
+                                          CartItemType.Service.name
+                                              .toLowerCase() &&
+                                      (widget.orderItem?.service?.price
+                                                  ?.toDouble() ??
+                                              0.0) >
+                                          (widget.orderItem?.service
+                                                  ?.priceAfterDiscount
+                                                  ?.toDouble() ??
+                                              0.0)
+                                  ? Row(
+                                      children: [
+                                        SizedBox(
+                                          width: 6,
+                                        ),
+                                        TextWithoutPadding(
+                                          "${context.tr(sarKey)} ${countItemPrice(widget.orderItem?.service?.price ?? 0, widget.orderItem?.quantity ?? 1)}",
+                                          style: AppTheme
+                                              .styleWithTextGray7AdelleSansExtendedFonts12w400
+                                              .copyWith(
+                                                  decoration: TextDecoration
+                                                      .lineThrough),
+                                        )
+                                      ],
+                                    )
+                                  : const SizedBox()
+                              : (widget.cartItem?.type ?? "") ==
+                                          CartItemType.Service.name
+                                              .toLowerCase() &&
+                                      (widget.cartItem?.service?.price
+                                                  ?.toDouble() ??
+                                              0.0) >
+                                          (widget.cartItem?.service
+                                                  ?.priceAfterDiscount
+                                                  ?.toDouble() ??
+                                              0.0)
+                                  ? Row(
+                                      children: [
+                                        SizedBox(
+                                          width: 6,
+                                        ),
+                                        TextWithoutPadding(
+                                          "${context.tr(sarKey)} ${countItemPrice(widget.cartItem?.service?.price ?? 0, widget.cartItem?.quantity ?? 1)}",
+                                          style: AppTheme
+                                              .styleWithTextGray7AdelleSansExtendedFonts12w400
+                                              .copyWith(
+                                                  decoration: TextDecoration
+                                                      .lineThrough),
+                                        )
+                                      ],
+                                    )
+                                  : const SizedBox()
                         ],
                       ),
                     )

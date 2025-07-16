@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lazo_client/Localization/Keys.dart';
 import 'package:lazo_client/Presentation/Widgets/SvgIcons.dart';
+import 'package:lazo_client/Presentation/Widgets/TextPrice.dart';
 import 'package:lazo_client/Presentation/Widgets/TextWithoutPadding.dart';
 import 'package:lazo_client/Utils/Extintions.dart';
 import 'package:skeletonizer/skeletonizer.dart';
@@ -193,7 +195,7 @@ class _ServiceAndProductItemCardHorizontalState
                                 : const SizedBox(),
                       ),
                       SizedBox(
-                        height: 4,
+                        height: 8.h,
                       ),
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -204,8 +206,10 @@ class _ServiceAndProductItemCardHorizontalState
                               height: 20,
                               color: Colors.white,
                             ),
-                            child: Text(
-                              "SAR ${widget.type == ItemType.Products ? widget.product?.priceAfterDiscount ?? "" : widget.service?.priceAfterDiscount ?? ""}",
+                            child: TextPrice(
+                              showCurrency: !(widget.type == ItemType.Products && widget.product?.amount == 0),
+                              widget.type == ItemType.Products && widget.product?.amount == 0 ? "Out of stock" :
+                              "${widget.type == ItemType.Products ? widget.product?.priceAfterDiscount ?? "" : widget.service?.priceAfterDiscount ?? ""}",
                               style: AppTheme
                                   .styleWithTextAppRedColorAdelleSansExtendedFonts14w400,
                             ),
@@ -213,12 +217,13 @@ class _ServiceAndProductItemCardHorizontalState
                           SizedBox(
                             width: 4,
                           ),
-                          widget.type == ItemType.Products
+                          widget.type == ItemType.Products && widget.product?.amount != 0
                               ? widget.product?.priceAfterDiscount !=
                                       widget.product?.price
                                   ? Skeleton.ignore(
-                                      child: Text(
-                                        "SAR ${widget.product?.price}",
+                                      child: TextPrice(
+                                        showCurrency: false,
+                                        "${widget.product?.price}",
                                         style: AppTheme
                                             .styleWithTextAppGrey18AdelleSansExtendedFonts14w400
                                             .copyWith(
@@ -230,8 +235,9 @@ class _ServiceAndProductItemCardHorizontalState
                               : widget.service?.priceAfterDiscount !=
                                       widget.service?.price
                                   ? Skeleton.ignore(
-                                      child: Text(
-                                        "SAR ${widget.service?.price}",
+                                      child: TextPrice(
+                                        showCurrency: false,
+                                        "${widget.service?.price}",
                                         style: AppTheme
                                             .styleWithTextGray7AdelleSansExtendedFonts11w400
                                             .copyWith(

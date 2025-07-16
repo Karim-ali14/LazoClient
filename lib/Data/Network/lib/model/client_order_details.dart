@@ -48,6 +48,7 @@ class ClientOrderDetails {
     this.discount,
     this.total,
     this.totalWithShippingFee,
+    this.totalDeliveryPrice,
     this.type,
     this.updatedAt,
     this.userId,
@@ -257,6 +258,8 @@ class ClientOrderDetails {
   ///
   num? totalWithShippingFee;
 
+  num? totalDeliveryPrice;
+
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
   /// does not include a default value (using the "default:" property), however, the generated
@@ -322,6 +325,7 @@ class ClientOrderDetails {
     other.discount == discount &&
     other.total == total &&
     other.totalWithShippingFee == totalWithShippingFee &&
+    other.totalDeliveryPrice == totalDeliveryPrice &&
     other.type == type &&
     other.updatedAt == updatedAt &&
     other.userId == userId &&
@@ -366,6 +370,7 @@ class ClientOrderDetails {
     (discount == null ? 0 : discount!.hashCode) +
     (total == null ? 0 : total!.hashCode) +
     (totalWithShippingFee == null ? 0 : totalWithShippingFee!.hashCode) +
+    (totalDeliveryPrice == null ? 0 : totalDeliveryPrice!.hashCode) +
     (type == null ? 0 : type!.hashCode) +
     (updatedAt == null ? 0 : updatedAt!.hashCode) +
     (userId == null ? 0 : userId!.hashCode) +
@@ -373,7 +378,7 @@ class ClientOrderDetails {
     (giftCard == null ? 0 : giftCard!.hashCode);
 
   @override
-  String toString() => 'ClientOrderDetails[cancellationReason=$cancellationReason, cancelledBy=$cancelledBy, createdAt=$createdAt, deliveryDate=$deliveryDate, deliveryTime=$deliveryTime, finishedAt=$finishedAt, cancelledAt=$cancelledAt, id=$id, orderFamily=$orderFamily, rejectedProvidersIds=$rejectedProvidersIds, rejectedOrderItems=$rejectedOrderItems, paymentLink=$paymentLink, isMultiProviders=$isMultiProviders, orderItems=$orderItems, packagingProviderId=$packagingProviderId, paymentMethod=$paymentMethod, promocode=$promocode, promocodeDiscountType=$promocodeDiscountType, promocodeDiscountValue=$promocodeDiscountValue, promocodeId=$promocodeId, rating=$rating, ratingComment=$ratingComment, receiverAddress=$receiverAddress, receiverAddressDetails=$receiverAddressDetails, receiverName=$receiverName, latLng=$latLng, receiverPhoneNumber=$receiverPhoneNumber, referenceNumber=$referenceNumber, shippingFee=$shippingFee, packagingFee=$packagingFee, statusId=$statusId, totalBeforeDiscount=$totalBeforeDiscount, discount=$discount, total=$total, totalWithShippingFee=$totalWithShippingFee, type=$type, updatedAt=$updatedAt, userId=$userId, giftBox=$giftBox, giftCard=$giftCard]';
+  String toString() => 'ClientOrderDetails[cancellationReason=$cancellationReason, cancelledBy=$cancelledBy, createdAt=$createdAt, deliveryDate=$deliveryDate, deliveryTime=$deliveryTime, finishedAt=$finishedAt, cancelledAt=$cancelledAt, id=$id, orderFamily=$orderFamily, rejectedProvidersIds=$rejectedProvidersIds, rejectedOrderItems=$rejectedOrderItems, paymentLink=$paymentLink, isMultiProviders=$isMultiProviders, orderItems=$orderItems, packagingProviderId=$packagingProviderId, paymentMethod=$paymentMethod, promocode=$promocode, promocodeDiscountType=$promocodeDiscountType, promocodeDiscountValue=$promocodeDiscountValue, promocodeId=$promocodeId, rating=$rating, ratingComment=$ratingComment, receiverAddress=$receiverAddress, receiverAddressDetails=$receiverAddressDetails, receiverName=$receiverName, latLng=$latLng, receiverPhoneNumber=$receiverPhoneNumber, referenceNumber=$referenceNumber, shippingFee=$shippingFee, packagingFee=$packagingFee, statusId=$statusId, totalBeforeDiscount=$totalBeforeDiscount, discount=$discount, total=$total, totalWithShippingFee=$totalWithShippingFee, totalDeliveryPrice=$totalDeliveryPrice, type=$type, updatedAt=$updatedAt, userId=$userId, giftBox=$giftBox, giftCard=$giftCard]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -548,6 +553,11 @@ class ClientOrderDetails {
     } else {
       json[r'total_with_shipping_fee'] = null;
     }
+    if (this.totalDeliveryPrice != null) {
+      json[r'total_delivery_price'] = this.totalDeliveryPrice;
+    } else {
+      json[r'total_delivery_price'] = null;
+    }
     if (this.type != null) {
       json[r'type'] = this.type;
     } else {
@@ -634,6 +644,9 @@ class ClientOrderDetails {
         discount: num.tryParse('${json[r'discount']}'),
         total: num.tryParse('${json[r'total']}'),
         totalWithShippingFee: num.tryParse('${json[r'total_with_shipping_fee']}'),
+        totalDeliveryPrice: json[r'total_delivery_price'] == null
+            ? null
+            : num.tryParse('${json[r'total_delivery_price']}'),
         type: mapValueOfType<String>(json, r'type'),
         updatedAt: mapValueOfType<String>(json, r'updated_at'),
         userId: num.tryParse('${json[r'user_id']}'),

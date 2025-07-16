@@ -51,7 +51,10 @@ class PublicApi {
   ///
   /// * [String] serviceSelectedListItemsIds:
   ///   Optional, but required with service_id if provided
-  Future<Response> addProductServiceToCartCartItemWithHttpInfo({ String? cityId, String? sessionId, String? productId, String? productQuantity, String? productSelectedListIds, String? productSelectedListItemsIds, String? serviceId, String? serviceQuantity, String? serviceSelectedListIds, String? serviceSelectedListItemsIds, }) async {
+  ///
+  /// * [int] isOutsideDelivery:
+  ///   Optional, but required with service_id if provided
+  Future<Response> addProductServiceToCartCartItemWithHttpInfo({ String? cityId, String? sessionId, String? productId, String? productQuantity, String? productSelectedListIds, String? productSelectedListItemsIds, String? serviceId, String? serviceQuantity, String? serviceSelectedListIds, String? serviceSelectedListItemsIds, int? isOutsideDelivery, }) async {
     // ignore: prefer_const_declarations
     final path = r'/cart/create';
 
@@ -106,6 +109,10 @@ class PublicApi {
       hasFields = true;
       mp.fields[r'service_selected_list_items_ids'] = parameterToString(serviceSelectedListItemsIds);
     }
+    if (isOutsideDelivery != null) {
+      hasFields = true;
+      mp.fields[r'is_outside_delivery'] = parameterToString(isOutsideDelivery);
+    }
     if (hasFields) {
       postBody = mp;
     }
@@ -154,8 +161,11 @@ class PublicApi {
   ///
   /// * [String] serviceSelectedListItemsIds:
   ///   Optional, but required with service_id if provided
-  Future<AddProductServiceToCartCartItem200Response?> addProductServiceToCartCartItem({ String? cityId, String? sessionId, String? productId, String? productQuantity, String? productSelectedListIds, String? productSelectedListItemsIds, String? serviceId, String? serviceQuantity, String? serviceSelectedListIds, String? serviceSelectedListItemsIds, }) async {
-    final response = await addProductServiceToCartCartItemWithHttpInfo( cityId: cityId, sessionId: sessionId, productId: productId, productQuantity: productQuantity, productSelectedListIds: productSelectedListIds, productSelectedListItemsIds: productSelectedListItemsIds, serviceId: serviceId, serviceQuantity: serviceQuantity, serviceSelectedListIds: serviceSelectedListIds, serviceSelectedListItemsIds: serviceSelectedListItemsIds, );
+  ///
+  /// * [int] isOutsideDelivery:
+  ///   Optional, but required with service_id if provided
+  Future<AddProductServiceToCartCartItem200Response?> addProductServiceToCartCartItem({ String? cityId, String? sessionId, String? productId, String? productQuantity, String? productSelectedListIds, String? productSelectedListItemsIds, String? serviceId, String? serviceQuantity, String? serviceSelectedListIds, String? serviceSelectedListItemsIds, int? isOutsideDelivery, }) async {
+    final response = await addProductServiceToCartCartItemWithHttpInfo( cityId: cityId, sessionId: sessionId, productId: productId, productQuantity: productQuantity, productSelectedListIds: productSelectedListIds, productSelectedListItemsIds: productSelectedListItemsIds, serviceId: serviceId, serviceQuantity: serviceQuantity, serviceSelectedListIds: serviceSelectedListIds, serviceSelectedListItemsIds: serviceSelectedListItemsIds, isOutsideDelivery: isOutsideDelivery, );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }

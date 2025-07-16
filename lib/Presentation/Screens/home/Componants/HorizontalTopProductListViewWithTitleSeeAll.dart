@@ -49,7 +49,7 @@ class _HorizontalTopProductListViewWithTitleSeeAll extends State<HorizontalTopPr
           height: 16,
         ),
         SizedBox(
-          height: MediaQuery.of(context).size.height * 0.3,
+          height: MediaQuery.of(context).size.height * 0.31,
           child: ListView.separated(
               scrollDirection: Axis.horizontal,
               itemBuilder: (context, index) {

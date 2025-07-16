@@ -18,12 +18,12 @@ class WishlistCard extends StatelessWidget {
       children: [
         Skeleton.replace(
           replacement: Container(
-            height: 160.h,
+            height: 157.h,
             width: double.infinity,
             color: Colors.white,
           ),
           child: Container(
-            height: 160.h,
+            height: 157.h,
             clipBehavior: Clip.antiAlias,
             decoration: const BoxDecoration(
               borderRadius: BorderRadius.all(Radius.circular(4)),

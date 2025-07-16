@@ -44,7 +44,7 @@ Method | HTTP request | Description
 
 
 # **addProductServiceToCartCartItem**
-> AddProductServiceToCartCartItem200Response addProductServiceToCartCartItem(cityId, sessionId, productId, productQuantity, productSelectedListIds, productSelectedListItemsIds, serviceId, serviceQuantity, serviceSelectedListIds, serviceSelectedListItemsIds)
+> AddProductServiceToCartCartItem200Response addProductServiceToCartCartItem(cityId, sessionId, productId, productQuantity, productSelectedListIds, productSelectedListItemsIds, serviceId, serviceQuantity, serviceSelectedListIds, serviceSelectedListItemsIds, isOutsideDelivery)
 
 Add product/service to cart (cart-item)
 
@@ -71,9 +71,10 @@ final serviceId = serviceId_example; // String | Optional (insert a product or a
 final serviceQuantity = serviceQuantity_example; // String | Required with service_id
 final serviceSelectedListIds = serviceSelectedListIds_example; // String | Optional, but required with service_id if provided
 final serviceSelectedListItemsIds = serviceSelectedListItemsIds_example; // String | Optional, but required with service_id if provided
+final isOutsideDelivery = 56; // int | Optional, but required with service_id if provided
 
 try {
-    final result = api_instance.addProductServiceToCartCartItem(cityId, sessionId, productId, productQuantity, productSelectedListIds, productSelectedListItemsIds, serviceId, serviceQuantity, serviceSelectedListIds, serviceSelectedListItemsIds);
+    final result = api_instance.addProductServiceToCartCartItem(cityId, sessionId, productId, productQuantity, productSelectedListIds, productSelectedListItemsIds, serviceId, serviceQuantity, serviceSelectedListIds, serviceSelectedListItemsIds, isOutsideDelivery);
     print(result);
 } catch (e) {
     print('Exception when calling PublicApi->addProductServiceToCartCartItem: $e\n');
@@ -94,6 +95,7 @@ Name | Type | Description  | Notes
  **serviceQuantity** | **String**| Required with service_id | [optional] 
  **serviceSelectedListIds** | **String**| Optional, but required with service_id if provided | [optional] 
  **serviceSelectedListItemsIds** | **String**| Optional, but required with service_id if provided | [optional] 
+ **isOutsideDelivery** | **int**| Optional, but required with service_id if provided | [optional] 
 
 ### Return type
 

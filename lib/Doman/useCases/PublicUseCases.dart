@@ -482,9 +482,12 @@ class GetProductDetailsUseCase
     request(() => publicApi.showProductDetails(productId: productId),
         onComplete: (res) {
       if (product != null) {
-        print("sadkfjakdjsl${product.lists}");
+        print("sadkfjakdjsl${product.cartItemId}");
+        print("sadkfjakdjsl${res.data?.cartItemId}");
         res.data?.inCart = true;
+        res.data?.cartItemId = product.cartItemId;
         res.data?.lists = [...?product.lists];
+        state = StateModel.success(res);
       }
     });
   }
@@ -522,7 +525,9 @@ class GetServiceDetailsUseCase
         onComplete: (res) {
       if (service != null) {
         res.data?.inCart = true;
+        res.data?.cartItemId = service.cartItemId;
         res.data?.lists = [...?service.lists];
+        state = StateModel.success(res);
       }
     });
   }
@@ -608,16 +613,25 @@ class GetSellerDetailsUseCase
   void handleAddProductToWishList(
       int id, List<String> categories, bool inWishlist, int? collectionId) {
     final data = state.data;
+
+    print("before ${data?.data?.categories} categories $categories");
+
     for (var categoryId in categories) {
+      print("processing categoryId $categoryId");
       for (int i = 0; i < (data?.data?.categories?.length ?? 0); i++) {
+        print("processing checking ${data?.data?.categories?[i].id} == $categoryId");
         if (data?.data?.categories?[i].id == int.parse(categoryId)) {
           for (int n = 0;
               n < (data?.data?.categories?[i].products?.length ?? 0);
               n++) {
+            print("processing checking ${data?.data?.categories?[i].products?[n].id} == $id");
+
             if (data?.data?.categories?[i].products?[n].id == id) {
               data?.data?.categories?[i].products?[n].inWishlist = inWishlist;
               data?.data?.categories?[i].products?[n].wishlistCollectionId =
                   collectionId?.toString();
+              print("processing  after checking ${data?.data?.categories?.first.products?.first.inWishlist} categories $collectionId");
+
             }
           }
         }
@@ -695,6 +709,7 @@ class AddToCartUseCase extends StateNotifier<
     String? serviceQuantity = "1",
     String? serviceSelectedListIds,
     String? serviceSelectedListItemsIds,
+    int? isOutsideDelivery,
   }) {
     state = StateModel.loading();
     requestWithHandleMessage(
@@ -708,7 +723,10 @@ class AddToCartUseCase extends StateNotifier<
             serviceId: serviceId,
             serviceQuantity: serviceQuantity,
             serviceSelectedListIds: serviceSelectedListIds,
-            serviceSelectedListItemsIds: serviceSelectedListItemsIds),
+            serviceSelectedListItemsIds: serviceSelectedListItemsIds,
+            isOutsideDelivery : isOutsideDelivery
+        ),
+
         onComplete: (res) {
       if (ref.read(clientStateProvider.notifier).checkIfUserExist() == null) {
         ref

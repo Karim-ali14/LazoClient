@@ -43,6 +43,7 @@ Name | Type | Description | Notes
 **discount** | **num** |  | [optional] 
 **total** | **num** |  | [optional] 
 **totalWithShippingFee** | **num** |  | [optional] 
+**totalDeliveryPrice** | **num** |  | [optional] 
 **type** | **String** |  | [optional] 
 **updatedAt** | **String** |  | [optional] 
 **userId** | **num** |  | [optional] 

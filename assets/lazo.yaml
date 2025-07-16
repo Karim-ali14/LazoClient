@@ -2576,6 +2576,10 @@ components:
         total_with_shipping_fee:
           type: number
           example: 329.44
+        total_delivery_price:
+          type: number
+          nullable: true
+          example: 10.00
         type:
           type: string
           example: self_order
@@ -2835,6 +2839,10 @@ components:
         is_service_deliverable_outside_store:
           type: number
           example: 1
+        delivery_price:
+          type: number
+          nullable: true
+          example: 10.00
         is_visible:
           type: number
           example: 1
@@ -3211,6 +3219,18 @@ components:
             type: number
             nullable: true
             example: null
+          is_outside_delivery:
+            type: integer
+            nullable: true
+            example: 1
+          delivery_price:
+            type: number
+            nullable: true
+            example: 10.00
+          card_type:
+            type: string
+            nullable: true
+            example: soft_card
           cart_id:
             type: number
             example: 2
@@ -3290,6 +3310,18 @@ components:
             type: number
             nullable: true
             example: null
+          is_outside_delivery:
+            type: integer
+            nullable: true
+            example: 1
+          delivery_price:
+            type: number
+            nullable: true
+            example: 10.00
+          card_type:
+            type: string
+            nullable: true
+            example: soft_card
           order_id:
             type: number
             example: 2
@@ -8281,6 +8313,11 @@ paths:
                   description: 'Optional, but required with service_id if provided'
                   type: string
                   example: '1|2,3'
+                is_outside_delivery:
+                  nullable: true
+                  description: 'Optional, but required with service_id if provided'
+                  type: integer
+                  example: 1
       responses:
         '200':
           description: Successfully added product/service to cart
@@ -10774,7 +10811,10 @@ paths:
                 delivery_time:
                   nullable: true
                   type: string
-
+                is_outside_delivery:
+                  nullable: true
+                  type: integer
+                  example: 1
 
       responses:
         '200':

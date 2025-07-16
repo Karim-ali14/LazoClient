@@ -24,6 +24,7 @@ Name | Type | Description | Notes
 **images** | [**List<ImageItem>**](ImageItem.md) |  | [optional] [default to const []]
 **imagePath** | **String** |  | [optional] 
 **isServiceDeliverableOutsideStore** | **num** |  | [optional] 
+**deliveryPrice** | **num** |  | [optional] 
 **isVisible** | **num** |  | [optional] 
 **lists** | [**List<ServiceList>**](ServiceList.md) |  | [optional] [default to const []]
 **name** | **String** |  | [optional] 

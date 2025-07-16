@@ -138,7 +138,7 @@ class _CartItemsWithNotesState extends ConsumerState<CartItemsWithNotes> {
                                 ItemType.Products,
                                 product,
                                 null,
-                                cartId);
+                                cartId,null);
                           },
                           onServiceClickListener:
                               (service, cartId) {
@@ -146,7 +146,11 @@ class _CartItemsWithNotesState extends ConsumerState<CartItemsWithNotes> {
                                 ItemType.Services,
                                 null,
                                 service,
-                                cartId);
+                                cartId,cartData
+                                .data
+                                ?.data
+                                ?.cartItems[index]
+                                .items![cartIndex].isOutsideDelivery);
                           }, toggleItem: (type , id ) {
                             toggleItem(type,id.toInt());
                         }, orderItem: null,
@@ -179,7 +183,12 @@ class _CartItemsWithNotesState extends ConsumerState<CartItemsWithNotes> {
   }
 
   void navigateToItemDetails(ItemType itemType, ProductDetails? product,
-      ServiceShowData? service, int? cartId) {
+      ServiceShowData? service, int? cartId,int? isOutsideDelivery) {
+    if(itemType == ItemType.Products){
+      product?.cartItemId = cartId.toString();
+    }else{
+      service?.cartItemId = cartId.toString();
+    }
     var itemId = itemType == ItemType.Products ? product?.id : service?.id;
     var itemName =
     itemType == ItemType.Products ? product?.name : service?.name;
@@ -194,7 +203,8 @@ class _CartItemsWithNotesState extends ConsumerState<CartItemsWithNotes> {
       "categoryIds": categoriesIds,
       "product": cartId == null ? null : product,
       "service": cartId == null ? null : service,
-      "cartId": cartId
+      "cartId": cartId,
+      "isOutsideDelivery":isOutsideDelivery
     });
   }
 

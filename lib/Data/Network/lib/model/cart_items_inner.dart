@@ -14,6 +14,9 @@ class CartItemsInner {
   /// Returns a new [CartItemsInner] instance.
   CartItemsInner({
     this.cardPrice,
+    this.isOutsideDelivery,
+    this.deliveryPrice,
+    this.cardType,
     this.cartId,
     this.cityId,
     this.createdAt,
@@ -39,6 +42,12 @@ class CartItemsInner {
   });
 
   num? cardPrice;
+
+  int? isOutsideDelivery;
+
+  num? deliveryPrice;
+
+  String? cardType;
 
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
@@ -165,6 +174,9 @@ class CartItemsInner {
   @override
   bool operator ==(Object other) => identical(this, other) || other is CartItemsInner &&
     other.cardPrice == cardPrice &&
+    other.isOutsideDelivery == isOutsideDelivery &&
+    other.deliveryPrice == deliveryPrice &&
+    other.cardType == cardType &&
     other.cartId == cartId &&
     other.cityId == cityId &&
     other.createdAt == createdAt &&
@@ -192,6 +204,9 @@ class CartItemsInner {
   int get hashCode =>
     // ignore: unnecessary_parenthesis
     (cardPrice == null ? 0 : cardPrice!.hashCode) +
+    (isOutsideDelivery == null ? 0 : isOutsideDelivery!.hashCode) +
+    (deliveryPrice == null ? 0 : deliveryPrice!.hashCode) +
+    (cardType == null ? 0 : cardType!.hashCode) +
     (cartId == null ? 0 : cartId!.hashCode) +
     (cityId == null ? 0 : cityId!.hashCode) +
     (createdAt == null ? 0 : createdAt!.hashCode) +
@@ -216,7 +231,7 @@ class CartItemsInner {
     (updatedAt == null ? 0 : updatedAt!.hashCode);
 
   @override
-  String toString() => 'CartItemsInner[cardPrice=$cardPrice, cartId=$cartId, cityId=$cityId, createdAt=$createdAt, id=$id, listsTotalPrice=$listsTotalPrice, price=$price, product=$product, productId=$productId, quantity=$quantity, type=$type, cartItemTotalBeforeDiscount=$cartItemTotalBeforeDiscount, cartItemTotalAfterDiscount=$cartItemTotalAfterDiscount, productSelectedListIds=$productSelectedListIds, productSelectedListItemsIds=$productSelectedListItemsIds, serviceSelectedListIds=$serviceSelectedListIds, serviceSelectedListItemsIds=$serviceSelectedListItemsIds, productSelectedListItemsNames=$productSelectedListItemsNames, clientSelectedItemsInCart=$clientSelectedItemsInCart, serviceSelectedListItemsNames=$serviceSelectedListItemsNames, service=$service, serviceId=$serviceId, updatedAt=$updatedAt]';
+  String toString() => 'CartItemsInner[cardPrice=$cardPrice, isOutsideDelivery=$isOutsideDelivery, deliveryPrice=$deliveryPrice, cardType=$cardType, cartId=$cartId, cityId=$cityId, createdAt=$createdAt, id=$id, listsTotalPrice=$listsTotalPrice, price=$price, product=$product, productId=$productId, quantity=$quantity, type=$type, cartItemTotalBeforeDiscount=$cartItemTotalBeforeDiscount, cartItemTotalAfterDiscount=$cartItemTotalAfterDiscount, productSelectedListIds=$productSelectedListIds, productSelectedListItemsIds=$productSelectedListItemsIds, serviceSelectedListIds=$serviceSelectedListIds, serviceSelectedListItemsIds=$serviceSelectedListItemsIds, productSelectedListItemsNames=$productSelectedListItemsNames, clientSelectedItemsInCart=$clientSelectedItemsInCart, serviceSelectedListItemsNames=$serviceSelectedListItemsNames, service=$service, serviceId=$serviceId, updatedAt=$updatedAt]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -224,6 +239,21 @@ class CartItemsInner {
       json[r'card_price'] = this.cardPrice;
     } else {
       json[r'card_price'] = null;
+    }
+    if (this.isOutsideDelivery != null) {
+      json[r'is_outside_delivery'] = this.isOutsideDelivery;
+    } else {
+      json[r'is_outside_delivery'] = null;
+    }
+    if (this.deliveryPrice != null) {
+      json[r'delivery_price'] = this.deliveryPrice;
+    } else {
+      json[r'delivery_price'] = null;
+    }
+    if (this.cardType != null) {
+      json[r'card_type'] = this.cardType;
+    } else {
+      json[r'card_type'] = null;
     }
     if (this.cartId != null) {
       json[r'cart_id'] = this.cartId;
@@ -360,6 +390,11 @@ class CartItemsInner {
         cardPrice: json[r'card_price'] == null
             ? null
             : num.tryParse('${json[r'card_price']}'),
+        isOutsideDelivery: mapValueOfType<int>(json, r'is_outside_delivery'),
+        deliveryPrice: json[r'delivery_price'] == null
+            ? null
+            : num.tryParse('${json[r'delivery_price']}'),
+        cardType: mapValueOfType<String>(json, r'card_type'),
         cartId: num.tryParse('${json[r'cart_id']}'),
         cityId: mapValueOfType<String>(json, r'city_id'),
         createdAt: mapValueOfType<String>(json, r'created_at'),

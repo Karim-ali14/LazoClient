@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lazo_client/Constants/Assets.dart';
 import 'package:lazo_client/Constants/Constants.dart';
@@ -65,6 +66,14 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     final citiesState = ref.watch(getCities);
     final homeDataState = ref.watch(homeDataStateNotifiers);
     var client = ref.watch(clientStateProvider);
+
+    handleState(handelAddItemToWishListStateNotifier,onSuccess: (res){
+      showCollectionsBottomSheet(
+        collectionId: res.data?.collectionId ?? 0,
+        itemId: res.data?.itemId ?? 0,
+        type: res.data?.type ?? OrderItemType.Product
+      );
+    });
 
     handleState(addProductToCartUseCaseStateNotifier, showLoading: true,
         onSuccess: (res) {
@@ -333,7 +342,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                           context.tr(bestProductsKey),
                                           ItemType.Products);
                                     },
-                                    itemWidth: 160,
+                                    itemWidth: 160.h,
                                     title: context.tr(bestProductsKey),
                                   ),
                                 ],

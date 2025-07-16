@@ -91,10 +91,11 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
     });
     super.initState();
   }
-    void scrollToCategory(int index, FilterScreenTypes type) {
+
+  void scrollToCategory(int index, FilterScreenTypes type) {
     final RenderBox renderBox = (type == FilterScreenTypes.Products
-        ? _categoryForProductKeys[index].currentContext
-        : _categoryForServiceKeys[index].currentContext)
+            ? _categoryForProductKeys[index].currentContext
+            : _categoryForServiceKeys[index].currentContext)
         ?.findRenderObject() as RenderBox;
     final position = renderBox.localToGlobal(Offset.zero,
         ancestor: context.findRenderObject());
@@ -149,21 +150,29 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
 
     handleState(productToggleStateNotifier, showLoading: true,
         onSuccess: (res) {
+      print("product details after toggle : ${sellerProducts.data?.data?.categories}");
       ref
           .read(getSellerDetailsWithProductStateNotifier.notifier)
           .handleAddProductToWishList(
               res.data?.data?.productId?.toInt() ?? 0,
               res.data?.data?.categoriesIds ?? [],
-              res.data?.data?.inWishlist ?? false,res.data?.data?.collectionId);
+              res.data?.data?.inWishlist ?? false,
+              res.data?.data?.collectionId);
 
       ref.read(getProductDetails.notifier).handelAddProductToWishList(
-          res.data?.data?.productId ?? 0, res.data?.data?.inWishlist ?? false,res.data?.data?.collectionId);
+          res.data?.data?.productId ?? 0,
+          res.data?.data?.inWishlist ?? false,
+          res.data?.data?.collectionId);
 
       ref.read(homeDataStateNotifiers.notifier).handleAddProductToWishList(
-          res.data?.data?.productId ?? 0, res.data?.data?.inWishlist ?? false,res.data?.data?.collectionId);
+          res.data?.data?.productId ?? 0,
+          res.data?.data?.inWishlist ?? false,
+          res.data?.data?.collectionId);
 
       ref.read(getProductsStateNotifiers.notifier).handleAddProductToWishList(
-          res.data?.data?.productId ?? 0, res.data?.data?.inWishlist ?? false,res.data?.data?.collectionId);
+          res.data?.data?.productId ?? 0,
+          res.data?.data?.inWishlist ?? false,
+          res.data?.data?.collectionId);
     });
 
     return AppScaffold(
@@ -372,43 +381,58 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
                         ValueListenableBuilder(
                           valueListenable: activeTabIndex,
                           builder: (context, value, child) {
-                            return sellerProducts.state == DataState.SUCCESS && sellerServices.state == DataState.SUCCESS ? TabBar(
-                              indicatorWeight: 1,
-                              labelColor: Colors.transparent,
-                              unselectedLabelColor: Colors.transparent,
-                              indicatorPadding: EdgeInsets.zero,
-                              indicatorColor: AppTheme.appRedColor,
-                              tabs: [
-                                if(sellerProducts.data?.data?.categories?.isNotEmpty == true)
-                                  Tab(
-                                    child: TextWithoutPadding(
-                                      context.tr(productsKey),
-                                      style: value == 0
-                                          ? AppTheme
-                                          .styleWithTextBlackColor2AdelleSansExtendedFonts14w400
-                                          : AppTheme
-                                          .styleWithTextAppGrey7AdelleSansExtendedFonts14w400
-                                          .copyWith(
-                                          color: AppTheme.appGrey19),
-                                    ),
+                            return sellerProducts.state == DataState.SUCCESS &&
+                                    sellerServices.state == DataState.SUCCESS
+                                ? TabBar(
+                                    indicatorWeight: 1,
+                                    labelColor: Colors.transparent,
+                                    unselectedLabelColor: Colors.transparent,
+                                    indicatorPadding: EdgeInsets.zero,
+                                    indicatorColor: AppTheme.appRedColor,
+                                    tabs: [
+                                      if (sellerProducts.data?.data?.categories
+                                              ?.isNotEmpty ==
+                                          true)
+                                        Tab(
+                                          child: TextWithoutPadding(
+                                            context.tr(productsKey),
+                                            style: value == 0
+                                                ? AppTheme
+                                                    .styleWithTextBlackColor2AdelleSansExtendedFonts14w400
+                                                : AppTheme
+                                                    .styleWithTextAppGrey7AdelleSansExtendedFonts14w400
+                                                    .copyWith(
+                                                        color:
+                                                            AppTheme.appGrey19),
+                                          ),
+                                        ),
+                                      if (sellerServices.data?.data?.categories
+                                              ?.isNotEmpty ==
+                                          true)
+                                        Tab(
+                                          child: TextWithoutPadding(
+                                            context.tr(servicesKey),
+                                            style: (sellerProducts
+                                                            .data
+                                                            ?.data
+                                                            ?.categories
+                                                            ?.isNotEmpty ==
+                                                        false
+                                                    ? value == 0
+                                                    : value == 1)
+                                                ? AppTheme
+                                                    .styleWithTextBlackColor2AdelleSansExtendedFonts14w400
+                                                : AppTheme
+                                                    .styleWithTextAppGrey7AdelleSansExtendedFonts14w400
+                                                    .copyWith(
+                                                        color:
+                                                            AppTheme.appGrey19),
+                                          ),
+                                        ),
+                                    ],
+                                    controller: tabController,
                                   )
-                                  ,
-                                if(sellerServices.data?.data?.categories?.isNotEmpty == true)
-                                  Tab(
-                                  child: TextWithoutPadding(
-                                    context.tr(servicesKey),
-                                    style: (sellerProducts.data?.data?.categories?.isNotEmpty == false ? value == 0  : value == 1)
-                                        ? AppTheme
-                                            .styleWithTextBlackColor2AdelleSansExtendedFonts14w400
-                                        : AppTheme
-                                            .styleWithTextAppGrey7AdelleSansExtendedFonts14w400
-                                            .copyWith(
-                                                color: AppTheme.appGrey19),
-                                  ),
-                                ),
-                              ],
-                              controller: tabController,
-                            ):SizedBox();
+                                : SizedBox();
                           },
                         ),
                       ],
@@ -428,7 +452,8 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
         ValueListenableBuilder<int>(
           valueListenable: activeTabIndex,
           builder: (context, value, child) {
-            return value == 0 && sellerProducts.data?.data?.categories?.isNotEmpty == true
+            return value == 0 &&
+                    sellerProducts.data?.data?.categories?.isNotEmpty == true
                 ? Consumer(builder: (context, ref, child) {
                     if (sellerProducts.state == DataState.SUCCESS) {
                       categoryForProductTabController = TabController(
@@ -489,7 +514,8 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
         ValueListenableBuilder<int>(
             valueListenable: activeTabIndex,
             builder: (context, value, child) {
-              return value == 1 && sellerProducts.data?.data?.categories?.isNotEmpty == true
+              return value == 1 &&
+                      sellerProducts.data?.data?.categories?.isNotEmpty == true
                   ? Consumer(builder: (context, ref, child) {
                       if (sellerServices.state == DataState.SUCCESS) {
                         categoryForServiceTabController = TabController(
@@ -546,133 +572,142 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
                       child: SizedBox(),
                     );
             }),
-        ValueListenableBuilder<int>(valueListenable: activeTabIndex,
-            builder: (context,value,child){
-              return value == 0 && sellerProducts.data?.data?.categories?.isNotEmpty == true
+        ValueListenableBuilder<int>(
+            valueListenable: activeTabIndex,
+            builder: (context, value, child) {
+              return value == 0 &&
+                      sellerProducts.data?.data?.categories?.isNotEmpty == true
                   ? Consumer(builder: (context, ref, child) {
-                if (_categoryForProductKeys.isEmpty &&
-                    sellerProducts.data?.data?.categories != null) {
-                  _categoryForProductKeys = sellerProducts
-                      .data!.data!.categories!
-                      .map((e) => GlobalKey())
-                      .toList();
-                }
-                return SliverToBoxAdapter(
-                  child: Column(
-                    children: List.generate(
-                      sellerProducts.state == DataState.LOADING
-                          ? 5
-                          : sellerProducts.data?.data?.categories?.length ?? 0,
-                          (index) => Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 16.0, vertical: 9),
-                        child: ProductGridListviewWithCategoryName(
-                          showSeeMore: false,
-                          key: sellerProducts.state == DataState.LOADING
-                              ? GlobalKey()
-                              : _categoryForProductKeys[index],
-                          title: sellerProducts
-                              .data?.data?.categories?[index].name ??
-                              "",
-                          rootId: sellerProducts
-                              .data?.data?.categories?[index].id
-                              ?.toInt(),
-                          list: sellerProducts.state == DataState.LOADING
-                              ? [
-                            ProviderProduct(),
-                            ProviderProduct(),
-                            ProviderProduct(),
-                            ProviderProduct(),
-                            ProviderProduct(),
-                          ]
-                              : sellerProducts.data?.data?.categories?[index]
-                              .products ??
-                              [],
-                          showLoading:
-                          sellerProducts.state == DataState.LOADING,
-                          onAddItemToCart: (id) => addProductToCart(id),
-                          onAddItemToWishList: (id,collectionId,inWishlist) => client != null
-                              ? productWishlistToggle(id)
-                              : showAuthenticated(),
-                          onItemClick: (itemId, itemName, categoryIds) {
-                            navigateToItemDetails(ItemType.Products, itemId,
-                                itemName, categoryIds);
-                          },
+                      if (_categoryForProductKeys.isEmpty &&
+                          sellerProducts.data?.data?.categories != null) {
+                        _categoryForProductKeys = sellerProducts
+                            .data!.data!.categories!
+                            .map((e) => GlobalKey())
+                            .toList();
+                      }
+                      return SliverToBoxAdapter(
+                        child: Column(
+                          children: List.generate(
+                            sellerProducts.state == DataState.LOADING
+                                ? 5
+                                : sellerProducts
+                                        .data?.data?.categories?.length ??
+                                    0,
+                            (index) => Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 16.0, vertical: 9),
+                              child: ProductGridListviewWithCategoryName(
+                                showSeeMore: false,
+                                key: sellerProducts.state == DataState.LOADING
+                                    ? GlobalKey()
+                                    : _categoryForProductKeys[index],
+                                title: sellerProducts
+                                        .data?.data?.categories?[index].name ??
+                                    "",
+                                rootId: sellerProducts
+                                    .data?.data?.categories?[index].id
+                                    ?.toInt(),
+                                list: sellerProducts.state == DataState.LOADING
+                                    ? [
+                                        ProviderProduct(),
+                                        ProviderProduct(),
+                                        ProviderProduct(),
+                                        ProviderProduct(),
+                                        ProviderProduct(),
+                                      ]
+                                    : sellerProducts.data?.data
+                                            ?.categories?[index].products ??
+                                        [],
+                                showLoading:
+                                    sellerProducts.state == DataState.LOADING,
+                                onAddItemToCart: (id) => addProductToCart(id),
+                                onAddItemToWishList:
+                                    (id, collectionId, inWishlist) =>
+                                        client != null
+                                            ? productWishlistToggle(id)
+                                            : showAuthenticated(),
+                                onItemClick: (itemId, itemName, categoryIds) {
+                                  navigateToItemDetails(ItemType.Products,
+                                      itemId, itemName, categoryIds);
+                                },
+                              ),
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
-                  ),
-                );
-              })
+                      );
+                    })
                   : Consumer(builder: (context, ref, child) {
-                if (_categoryForServiceKeys.isEmpty &&
-                    sellerServices.data?.data?.categories != null) {
-                  _categoryForServiceKeys = sellerServices
-                      .data!.data!.categories!
-                      .map((e) => GlobalKey())
-                      .toList();
-                }
-                return SliverToBoxAdapter(
-                  child: Column(
-                    children: List.generate(
-                      sellerServices.state == DataState.LOADING
-                          ? 5
-                          : sellerServices.data?.data?.categories?.length ?? 0,
-                          (index) => Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 16.0, vertical: 9),
-                          child: ServiceGridListviewWithCategoryName(
-                            showSeeMore: false,
-                            key: sellerServices.state == DataState.LOADING
-                                ? GlobalKey()
-                                : _categoryForServiceKeys[index],
-                            list: sellerServices.state == DataState.LOADING
-                                ? [
-                              ServiceShowData(),
-                              ServiceShowData(),
-                              ServiceShowData(),
-                              ServiceShowData(),
-                              ServiceShowData(),
-                            ]
-                                : sellerServices.data?.data?.categories?[index]
-                                .services ??
-                                [],
-                            showLoading:
-                            sellerServices.state == DataState.LOADING,
-                            onItemClick: (itemId, itemName, categoryIds) {
-                              navigateToItemDetails(ItemType.Services, itemId,
-                                  itemName, categoryIds);
-                            },
-                            onAddItemToCart: (id) {
-                              addServiceToCart(id);
-                            },
-                            onAddItemToWishList: (id,collectionId,inWishlist) {
-                              if (client != null) {
-                                serviceWishlistToggle(id.toString());
-                              } else {
-                                showAuthenticated();
-                              }
-                            },
-                            title: sellerServices
-                                .data?.data?.categories?[index].name ??
-                                "",
-                            rootId: sellerServices
-                                .data?.data?.categories?[index].id
-                                ?.toInt() ??
-                                0,
-                          )),
-                    ),
-                  ),
-                );
-              });
-            }
-        )
-        ,
+                      if (_categoryForServiceKeys.isEmpty &&
+                          sellerServices.data?.data?.categories != null) {
+                        _categoryForServiceKeys = sellerServices
+                            .data!.data!.categories!
+                            .map((e) => GlobalKey())
+                            .toList();
+                      }
+                      return SliverToBoxAdapter(
+                        child: Column(
+                          children: List.generate(
+                            sellerServices.state == DataState.LOADING
+                                ? 5
+                                : sellerServices
+                                        .data?.data?.categories?.length ??
+                                    0,
+                            (index) => Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 16.0, vertical: 9),
+                                child: ServiceGridListviewWithCategoryName(
+                                  showSeeMore: false,
+                                  key: sellerServices.state == DataState.LOADING
+                                      ? GlobalKey()
+                                      : _categoryForServiceKeys[index],
+                                  list:
+                                      sellerServices.state == DataState.LOADING
+                                          ? [
+                                              ServiceShowData(),
+                                              ServiceShowData(),
+                                              ServiceShowData(),
+                                              ServiceShowData(),
+                                              ServiceShowData(),
+                                            ]
+                                          : sellerServices
+                                                  .data
+                                                  ?.data
+                                                  ?.categories?[index]
+                                                  .services ??
+                                              [],
+                                  showLoading:
+                                      sellerServices.state == DataState.LOADING,
+                                  onItemClick: (itemId, itemName, categoryIds) {
+                                    navigateToItemDetails(ItemType.Services,
+                                        itemId, itemName, categoryIds);
+                                  },
+                                  onAddItemToCart: (id) {
+                                    addServiceToCart(id);
+                                  },
+                                  onAddItemToWishList:
+                                      (id, collectionId, inWishlist) {
+                                    if (client != null) {
+                                      serviceWishlistToggle(id.toString());
+                                    } else {
+                                      showAuthenticated();
+                                    }
+                                  },
+                                  title: sellerServices.data?.data
+                                          ?.categories?[index].name ??
+                                      "",
+                                  rootId: sellerServices
+                                          .data?.data?.categories?[index].id
+                                          ?.toInt() ??
+                                      0,
+                                )),
+                          ),
+                        ),
+                      );
+                    });
+            }),
       ]),
     );
   }
-
-
 
   void getProducts() {
     ref
@@ -795,14 +830,17 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
         builder: (BuildContext context) => AuthenticateBottomSheet(
               onLoginClicked: () {
                 navigateToLogin();
-              }, onSignUpClicked: () {
+              },
+              onSignUpClicked: () {
                 navigateToSignUp();
-        },
+              },
             ));
   }
+
   void navigateToSignUp() async {
     context.push(R_SignUp, extra: {"typeOfMode": TypeOfMode.ViewMode});
   }
+
   void showReviewsBottomSheet() {
     print(
         "${ref.watch(getSellerDetailsWithReviewsStateNotifier).data?.data?.name}");

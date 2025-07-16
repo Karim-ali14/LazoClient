@@ -76,7 +76,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **creatInstantOrder**
-> ClientOrderDetailsResponse creatInstantOrder(serviceId, serviceQuantity, serviceSelectedListIds, serviceSelectedListItemsIds, paymentMethod, promocode, receiverName, receiverPhoneNumber, cardMessage, cardFrom, cardTo, deliveryDate, deliveryTime)
+> ClientOrderDetailsResponse creatInstantOrder(serviceId, serviceQuantity, serviceSelectedListIds, serviceSelectedListItemsIds, paymentMethod, promocode, receiverName, receiverPhoneNumber, cardMessage, cardFrom, cardTo, deliveryDate, deliveryTime, isOutsideDelivery)
 
 create an instant order
 
@@ -106,9 +106,10 @@ final cardFrom = cardFrom_example; // String |
 final cardTo = cardTo_example; // String | 
 final deliveryDate = deliveryDate_example; // String | 
 final deliveryTime = deliveryTime_example; // String | 
+final isOutsideDelivery = 56; // int | 
 
 try {
-    final result = api_instance.creatInstantOrder(serviceId, serviceQuantity, serviceSelectedListIds, serviceSelectedListItemsIds, paymentMethod, promocode, receiverName, receiverPhoneNumber, cardMessage, cardFrom, cardTo, deliveryDate, deliveryTime);
+    final result = api_instance.creatInstantOrder(serviceId, serviceQuantity, serviceSelectedListIds, serviceSelectedListItemsIds, paymentMethod, promocode, receiverName, receiverPhoneNumber, cardMessage, cardFrom, cardTo, deliveryDate, deliveryTime, isOutsideDelivery);
     print(result);
 } catch (e) {
     print('Exception when calling OrdersApi->creatInstantOrder: $e\n');
@@ -132,6 +133,7 @@ Name | Type | Description  | Notes
  **cardTo** | **String**|  | [optional] 
  **deliveryDate** | **String**|  | [optional] 
  **deliveryTime** | **String**|  | [optional] 
+ **isOutsideDelivery** | **int**|  | [optional] 
 
 ### Return type
 

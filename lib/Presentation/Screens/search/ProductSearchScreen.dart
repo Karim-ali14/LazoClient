@@ -300,7 +300,15 @@ class _ProductSearchScreenState extends ConsumerState<ProductSearchScreen> {
                                   },
                                   onAddItemToWishList: (id,collectionId,inWishlist) {
                                     if (client != null) {
-                                      productWishlistToggle(id,collectionId);
+                                      if (inWishlist) {
+                                        productWishlistToggle(id,collectionId);
+                                      }else{
+                                        ref.read(handelAddItemToWishListStateNotifier.notifier).addItemToWishList(
+                                            itemId: id,
+                                            collectionId: int.tryParse(collectionId??"0"),
+                                            type: OrderItemType.Product
+                                        );
+                                      }
                                     } else {
                                       widget.showAuthenticated?.call();
                                     }

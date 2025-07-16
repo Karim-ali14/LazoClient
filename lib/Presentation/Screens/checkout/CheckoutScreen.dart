@@ -513,10 +513,7 @@ class CheckoutScreenState extends ConsumerState<CheckoutScreen>  with AutomaticK
                         )
                             : const SizedBox(),
                       ])),
-              const SizedBox(
-                height: 16,
-              ),
-              selectTypeOfSend == 1 ? Container(
+              /*selectTypeOfSend == 1 ?*/ Container(
               padding: const EdgeInsets.symmetric(
                   horizontal: defaultPaddingHorizontal, vertical: 24),
               color: Colors.white,
@@ -568,6 +565,13 @@ class CheckoutScreenState extends ConsumerState<CheckoutScreen>  with AutomaticK
                               color: AppTheme.appGrey20,
                             ))),
                     controller: messageController,
+                    validator: (value) {
+                      if (value?.isEmpty == true) {
+                        return "Enter message";
+                      } else {
+                        return null;
+                      }
+                    },
                   ),
                   const SizedBox(
                     height: spaceBetweenItems,
@@ -628,7 +632,7 @@ class CheckoutScreenState extends ConsumerState<CheckoutScreen>  with AutomaticK
                     ),
                   )
                       : const SizedBox(),
-                  ])) :const SizedBox(),
+                  ])) /*:const SizedBox()*/,
               SizedBox(
                 height: 16,
               ),

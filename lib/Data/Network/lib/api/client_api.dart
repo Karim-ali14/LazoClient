@@ -435,7 +435,9 @@ class ClientApi {
   /// * [String] deliveryDate:
   ///
   /// * [String] deliveryTime:
-  Future<Response> creatInstantOrderWithHttpInfo({ String? serviceId, String? serviceQuantity, String? serviceSelectedListIds, String? serviceSelectedListItemsIds, String? paymentMethod, String? promocode, String? receiverName, String? receiverPhoneNumber, String? cardMessage, String? cardFrom, String? cardTo, String? deliveryDate, String? deliveryTime, }) async {
+  ///
+  /// * [int] isOutsideDelivery:
+  Future<Response> creatInstantOrderWithHttpInfo({ String? serviceId, String? serviceQuantity, String? serviceSelectedListIds, String? serviceSelectedListItemsIds, String? paymentMethod, String? promocode, String? receiverName, String? receiverPhoneNumber, String? cardMessage, String? cardFrom, String? cardTo, String? deliveryDate, String? deliveryTime, int? isOutsideDelivery, }) async {
     // ignore: prefer_const_declarations
     final path = r'/client/instant-order/create';
 
@@ -502,6 +504,10 @@ class ClientApi {
       hasFields = true;
       mp.fields[r'delivery_time'] = parameterToString(deliveryTime);
     }
+    if (isOutsideDelivery != null) {
+      hasFields = true;
+      mp.fields[r'is_outside_delivery'] = parameterToString(isOutsideDelivery);
+    }
     if (hasFields) {
       postBody = mp;
     }
@@ -548,8 +554,10 @@ class ClientApi {
   /// * [String] deliveryDate:
   ///
   /// * [String] deliveryTime:
-  Future<ClientOrderDetailsResponse?> creatInstantOrder({ String? serviceId, String? serviceQuantity, String? serviceSelectedListIds, String? serviceSelectedListItemsIds, String? paymentMethod, String? promocode, String? receiverName, String? receiverPhoneNumber, String? cardMessage, String? cardFrom, String? cardTo, String? deliveryDate, String? deliveryTime, }) async {
-    final response = await creatInstantOrderWithHttpInfo( serviceId: serviceId, serviceQuantity: serviceQuantity, serviceSelectedListIds: serviceSelectedListIds, serviceSelectedListItemsIds: serviceSelectedListItemsIds, paymentMethod: paymentMethod, promocode: promocode, receiverName: receiverName, receiverPhoneNumber: receiverPhoneNumber, cardMessage: cardMessage, cardFrom: cardFrom, cardTo: cardTo, deliveryDate: deliveryDate, deliveryTime: deliveryTime, );
+  ///
+  /// * [int] isOutsideDelivery:
+  Future<ClientOrderDetailsResponse?> creatInstantOrder({ String? serviceId, String? serviceQuantity, String? serviceSelectedListIds, String? serviceSelectedListItemsIds, String? paymentMethod, String? promocode, String? receiverName, String? receiverPhoneNumber, String? cardMessage, String? cardFrom, String? cardTo, String? deliveryDate, String? deliveryTime, int? isOutsideDelivery, }) async {
+    final response = await creatInstantOrderWithHttpInfo( serviceId: serviceId, serviceQuantity: serviceQuantity, serviceSelectedListIds: serviceSelectedListIds, serviceSelectedListItemsIds: serviceSelectedListItemsIds, paymentMethod: paymentMethod, promocode: promocode, receiverName: receiverName, receiverPhoneNumber: receiverPhoneNumber, cardMessage: cardMessage, cardFrom: cardFrom, cardTo: cardTo, deliveryDate: deliveryDate, deliveryTime: deliveryTime, isOutsideDelivery: isOutsideDelivery, );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }

@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -17,18 +18,21 @@ import 'package:lazo_client/Presentation/Screens/details/componants/ItemDetailsR
 import 'package:lazo_client/Presentation/Screens/details/componants/ProductMultipleSelectItems.dart';
 import 'package:lazo_client/Presentation/Screens/details/componants/ProductMultipleSelectItemsModify.dart';
 import 'package:lazo_client/Presentation/Screens/details/componants/ProductSingleSelectItems.dart';
+import 'package:lazo_client/Presentation/Screens/details/componants/service_cart_types_selector.dart';
 import 'package:lazo_client/Presentation/StateNotifiersViewModel/PublicStateNotifiers.dart';
 import 'package:lazo_client/Presentation/Theme/AppTheme.dart';
 import 'package:lazo_client/Presentation/Widgets/AppButton.dart';
 import 'package:lazo_client/Presentation/Widgets/CircleImage.dart';
 import 'package:lazo_client/Presentation/Widgets/CustomAppBar.dart';
 import 'package:lazo_client/Presentation/Widgets/SeeMoreAndLessTextView.dart';
+import 'package:lazo_client/Presentation/Widgets/TextPrice.dart';
 import 'package:lazo_client/Utils/Extintions.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../../Constants/Assets.dart';
 import '../../../Constants/Constants.dart';
 import '../../../Constants/Eunms.dart';
+import '../../../Utils/Snaks.dart';
 import '../../BottomSheets/AuthenticateBottomSheet.dart';
 import '../../BottomSheets/RatingBottomSheet.dart';
 import '../../StateNotifiersViewModel/UserAuthStateNotifiers.dart';
@@ -51,6 +55,7 @@ class ProductAndServiceDetailsScreen extends ConsumerStatefulWidget {
   final ProductDetails? productDetails;
   final ServiceShowData? serviceShowData;
   final int? cartId;
+  final int? isOutsideDelivery;
   const ProductAndServiceDetailsScreen(
       {this.name,
       this.id,
@@ -58,7 +63,7 @@ class ProductAndServiceDetailsScreen extends ConsumerStatefulWidget {
       this.itemType,
       this.productDetails,
       this.serviceShowData,
-      this.cartId,
+      this.cartId,this.isOutsideDelivery,
       super.key});
 
   @override
@@ -80,14 +85,25 @@ class _ProductAndServiceDetailsScreenState
   final Map<int, List<String>> productSelectedMultipleItems = {};
   final Map<int, List<String>> serviceSelectedItemsIds = {};
   final Map<int, List<String>> serviceSelectedItemsNames = {};
+
+  final ValueNotifier<String> priceStateNotifier = ValueNotifier("");
+  Map<int, double> extraPricesPerCategory = {};
+  double extraPriceForSingleOption = 0;
+  double serviceExtraPrice = 0;
+  double serviceLocationPrice = 0;
+
+  ItemSelectorV3? cartTypeSelector;
+  ItemSelectorV3? serviceLocationSelector;
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((callback) {
       context.showLoadingDialog();
       if (widget.itemType == ItemType.Products) {
         if (widget.productDetails == null) {
+          print("sdafasdfasdf : ${widget.productDetails?.cartItemId}");
           getDetailsForProduct();
         } else {
+          handleItemPrice();
           ref.read(getProductDetails.notifier).getProductDetails(
               productId: widget.id, product: widget.productDetails);
         }
@@ -109,6 +125,7 @@ class _ProductAndServiceDetailsScreenState
 
   bool showAll = false;
 
+
   @override
   Widget build(BuildContext context) {
     final client = ref.watch(clientStateProvider);
@@ -118,36 +135,73 @@ class _ProductAndServiceDetailsScreenState
     final relatedServiceData = ref.watch(getRelatedServicesStateNotifiers);
     final sellerReview = ref.watch(getSellerDetailsToShowReviewsStateNotifier);
 
-    handleState(getProductDetails,
-        onFail: (res){
-          DialogManager.tryPopDialog(context);
-        },
-        onEmpty: (res){
-          DialogManager.tryPopDialog(context);
-        },
-        onSuccess: (res) {
+    handleState(getProductDetails, onFail: (res) {
+      DialogManager.tryPopDialog(context);
+    }, onEmpty: (res) {
+      DialogManager.tryPopDialog(context);
+    }, onSuccess: (res) {
       res.data?.data?.lists?.forEach((item) {
         if (item.clientSelectedItemsInCart?.isNotEmpty == true) {
-          productSelectedItemsIds[int.tryParse((item.id ?? 0).toString()) ??
-              0] = item.clientSelectedItemsInCart
-                  ?.map((item) => item.id.toString())
-                  .toList() ??
-              [];
+          final itemId = int.tryParse((item.id ?? 0).toString()) ?? 0;
+          productSelectedItemsIds[itemId] = item.clientSelectedItemsInCart
+              ?.map((e) {
+            final price = double.tryParse("${e.price ?? 0}");
+            if (price != null) {
+              extraPricesPerCategory[itemId] = price;
+            }
+            return e.id.toString();
+          })
+              .toList() ?? [];
         }
       });
+      double totalExtra =
+      extraPricesPerCategory
+          .values
+          .fold(0.0, (sum, price) => sum + price);
+
+      priceStateNotifier.value =
+      "${(totalExtra + double.parse((res.data?.data?.priceAfterDiscount ?? 0).toString())).toStringAsFixed(2)}";
+
       print(
           "productSelectedItemsIds : $productSelectedItemsIds , productSelectedMultipleItems : $productSelectedMultipleItems");
       DialogManager.tryPopDialog(context);
     });
 
-    handleState(getServiceDetails, onSuccess: (res) {
-      DialogManager.tryPopDialog(context);
-    },onFail: (res){
-      DialogManager.tryPopDialog(context);
-    },
-      onEmpty: (res){
+    handleState(
+      getServiceDetails,
+      onSuccess: (res) {
+        res.data?.data?.lists?.forEach((item) {
+          debugPrint("alkdjsfalksdjfskj ${item.clientSelectedItemsInCart}");
+          if (item.clientSelectedItemsInCart?.isNotEmpty == true) {
+            final itemId = int.tryParse((item.id ?? 0).toString()) ?? 0;
+
+            serviceSelectedItemsIds[itemId] = item.clientSelectedItemsInCart
+                ?.map((e) {
+              final price = double.tryParse("${e.price ?? 0}");
+              if (price != null) {
+                extraPricesPerCategory[itemId] = price;
+              }
+              return e.id.toString();
+            })
+                .toList() ?? [];
+          }
+        });
+        double totalExtra = getExtraPrice();
+        serviceExtraPrice = res.data?.data?.cardType == ServiceTypes.hard_card.name ? (res.data?.data?.cardPrice ?? 0).toDouble() : 0;
+
+        handleUpdatePrice(totalExtra : totalExtra,price:  double.parse((res.data?.data?.priceAfterDiscount ?? 0).toString()));
+        print(
+            "productSelectedItemsIds : $productSelectedItemsIds , productSelectedMultipleItems : $productSelectedMultipleItems");
+
         DialogManager.tryPopDialog(context);
-      },);
+      },
+      onFail: (res) {
+        DialogManager.tryPopDialog(context);
+      },
+      onEmpty: (res) {
+        DialogManager.tryPopDialog(context);
+      },
+    );
 
     handleState(updateCartItemsStateNotifies, showLoading: true,
         onSuccess: (res) {
@@ -155,8 +209,11 @@ class _ProductAndServiceDetailsScreenState
       context.pop();
     });
 
-    handleState(getSellerDetailsToShowReviewsStateNotifier, showLoading: true,onSuccess: (res) {
-      showReviewsBottomSheet(type: FilterScreenTypes.Sellers,sellerRatingsList: res.data?.data?.ratings);
+    handleState(getSellerDetailsToShowReviewsStateNotifier, showLoading: true,
+        onSuccess: (res) {
+      showReviewsBottomSheet(
+          type: FilterScreenTypes.Sellers,
+          sellerRatingsList: res.data?.data?.ratings);
     });
 
     handleState(addProductToCartUseCaseStateNotifier,
@@ -202,21 +259,30 @@ class _ProductAndServiceDetailsScreenState
           .handleAddProductToWishList(
               res.data?.data?.productId?.toInt() ?? 0,
               res.data?.data?.categoriesIds ?? [],
-              res.data?.data?.inWishlist ?? false,res.data?.data?.collectionId);
+              res.data?.data?.inWishlist ?? false,
+              res.data?.data?.collectionId);
 
       ref.read(getProductDetails.notifier).handelAddProductToWishList(
-          res.data?.data?.productId ?? 0, res.data?.data?.inWishlist ?? false,res.data?.data?.collectionId);
+          res.data?.data?.productId ?? 0,
+          res.data?.data?.inWishlist ?? false,
+          res.data?.data?.collectionId);
 
       ref.read(homeDataStateNotifiers.notifier).handleAddProductToWishList(
-          res.data?.data?.productId ?? 0, res.data?.data?.inWishlist ?? false,res.data?.data?.collectionId);
+          res.data?.data?.productId ?? 0,
+          res.data?.data?.inWishlist ?? false,
+          res.data?.data?.collectionId);
 
       ref.read(getProductsStateNotifiers.notifier).handleAddProductToWishList(
-          res.data?.data?.productId ?? 0, res.data?.data?.inWishlist ?? false,res.data?.data?.collectionId);
+          res.data?.data?.productId ?? 0,
+          res.data?.data?.inWishlist ?? false,
+          res.data?.data?.collectionId);
 
       ref
           .read(getRelatedProductsStateNotifiers.notifier)
-          .handleAddProductToWishList(res.data?.data?.productId ?? 0,
-              res.data?.data?.inWishlist ?? false,res.data?.data?.collectionId);
+          .handleAddProductToWishList(
+              res.data?.data?.productId ?? 0,
+              res.data?.data?.inWishlist ?? false,
+              res.data?.data?.collectionId);
     });
 
     handleState(serviceToggleStateNotifier, showLoading: true,
@@ -226,28 +292,41 @@ class _ProductAndServiceDetailsScreenState
           .handleAddServiceToWishList(
               res.data?.data?.serviceId?.toInt() ?? 0,
               res.data?.data?.categoriesIds ?? [],
-              res.data?.data?.inWishlist ?? false,res.data?.data?.collectionId);
+              res.data?.data?.inWishlist ?? false,
+              res.data?.data?.collectionId);
 
       ref.read(getServiceDetails.notifier).handelAddServiceToWishList(
-          res.data?.data?.serviceId ?? 0, res.data?.data?.inWishlist ?? false,res.data?.data?.collectionId);
+          res.data?.data?.serviceId ?? 0,
+          res.data?.data?.inWishlist ?? false,
+          res.data?.data?.collectionId);
 
       ref.read(homeDataStateNotifiers.notifier).handelAddServiceToWishList(
-          res.data?.data?.serviceId ?? 0, res.data?.data?.inWishlist ?? false,res.data?.data?.collectionId);
+          res.data?.data?.serviceId ?? 0,
+          res.data?.data?.inWishlist ?? false,
+          res.data?.data?.collectionId);
 
       ref.read(getServicesStateNotifiers.notifier).handelAddServiceToWishlist(
-          res.data?.data?.serviceId ?? 0, res.data?.data?.inWishlist ?? false,res.data?.data?.collectionId);
+          res.data?.data?.serviceId ?? 0,
+          res.data?.data?.inWishlist ?? false,
+          res.data?.data?.collectionId);
 
       ref
           .read(getRelatedServicesStateNotifiers.notifier)
-          .handelAddServiceToWishlist(res.data?.data?.serviceId ?? 0,
-              res.data?.data?.inWishlist ?? false,res.data?.data?.collectionId);
+          .handelAddServiceToWishlist(
+              res.data?.data?.serviceId ?? 0,
+              res.data?.data?.inWishlist ?? false,
+              res.data?.data?.collectionId);
     });
 
     handleState(getProductReviews, showLoading: true, onSuccess: (res) {
-      showReviewsBottomSheet(type : FilterScreenTypes.Products,productAndServiceRatingsList: res.data?.data?.ratings);
+      showReviewsBottomSheet(
+          type: FilterScreenTypes.Products,
+          productAndServiceRatingsList: res.data?.data?.ratings);
     });
     handleState(getServiceReviews, showLoading: true, onSuccess: (res) {
-      showReviewsBottomSheet(productAndServiceRatingsList:res.data?.data?.ratings,type: FilterScreenTypes.Services);
+      showReviewsBottomSheet(
+          productAndServiceRatingsList: res.data?.data?.ratings,
+          type: FilterScreenTypes.Services);
     });
 
     final expandedHeight = 380.h;
@@ -281,14 +360,10 @@ class _ProductAndServiceDetailsScreenState
                             onTap: () {
                               if (client != null) {
                                 widget.itemType == ItemType.Products
-                                    ? productWishlistToggle(productItemState
-                                            .data?.data?.id
-                                            ?.toInt() ??
-                                        0)
-                                    : serviceWishlistToggle(serviceItemState
-                                            .data?.data?.id
-                                            ?.toString() ??
-                                        "");
+                                    ? handleAddProductToWishList(
+                                        productItemState.data?.data)
+                                    : handleAddServiceToWishList(
+                                        serviceItemState.data?.data);
                               } else {
                                 showAuthenticated();
                               }
@@ -408,10 +483,12 @@ class _ProductAndServiceDetailsScreenState
                             children: [
                               Expanded(
                                 child: Text(
-                                        "${widget.itemType == ItemType.Products ? productItemState.data?.data?.name??"" : serviceItemState.data?.data?.name??""} ",
-                                    style: AppTheme
-                                        .styleWithTextBlackColor2AdelleSansExtendedFonts20w700,
-                                    maxLines: 1,overflow: TextOverflow.ellipsis,),
+                                  "${widget.itemType == ItemType.Products ? productItemState.data?.data?.name ?? "" : serviceItemState.data?.data?.name ?? ""} ",
+                                  style: AppTheme
+                                      .styleWithTextBlackColor2AdelleSansExtendedFonts20w700,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
                               ),
                               widget.itemType == ItemType.Products
                                   ? Container(
@@ -446,8 +523,8 @@ class _ProductAndServiceDetailsScreenState
                           Row(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              TextWithoutPadding(
-                                "SAR ${widget.itemType == ItemType.Products ? productItemState.data?.data?.priceAfterDiscount ?? "" : serviceItemState.data?.data?.priceAfterDiscount ?? ""}",
+                              TextPrice(
+                                "${widget.itemType == ItemType.Products ? productItemState.data?.data?.priceAfterDiscount ?? "" : serviceItemState.data?.data?.priceAfterDiscount ?? ""}",
                                 style: AppTheme
                                     .styleWithTextAppRedColorAdelleSansExtendedFonts16w400,
                               ),
@@ -458,8 +535,8 @@ class _ProductAndServiceDetailsScreenState
                                   ? productItemState
                                               .data?.data?.priceAfterDiscount !=
                                           productItemState.data?.data?.price
-                                      ? TextWithoutPadding(
-                                          "SAR ${productItemState.data?.data?.price ?? ""}",
+                                      ? TextPrice(
+                                          "${productItemState.data?.data?.price ?? ""}",
                                           style: AppTheme
                                               .styleWithTextAppGrey18ColorAdelleSansExtendedFonts16w400
                                               .copyWith(
@@ -470,8 +547,8 @@ class _ProductAndServiceDetailsScreenState
                                   : serviceItemState
                                               .data?.data?.priceAfterDiscount !=
                                           serviceItemState.data?.data?.price
-                                      ? TextWithoutPadding(
-                                          "SAR ${serviceItemState.data?.data?.price ?? ""}",
+                                      ? TextPrice(
+                                          "${serviceItemState.data?.data?.price ?? ""}",
                                           style: AppTheme
                                               .styleWithTextAppGrey7AdelleSansExtendedFonts14w400
                                               .copyWith(
@@ -504,7 +581,7 @@ class _ProductAndServiceDetailsScreenState
                           ),
                           ExpandedText(
                             textValue:
-                                "${widget.itemType == ItemType.Products ? productItemState.data?.data?.description??"" : serviceItemState.data?.data?.description??""} ",
+                                "${widget.itemType == ItemType.Products ? productItemState.data?.data?.description ?? "" : serviceItemState.data?.data?.description ?? ""} ",
                             textStyle: AppTheme
                                 .styleWithTextAppGrey18AdelleSansExtendedFonts14w400,
                             maxLength: 200,
@@ -534,27 +611,50 @@ class _ProductAndServiceDetailsScreenState
                                       .copyWith(
                                           decoration: TextDecoration.underline),
                                   extraWidget: InkWell(
-                                    onTap: (){
-                                      showUnreadyGiftDialog(context,productItemState.data?.data?.type == ProductType.ready_made_gifts.name ? ProductTypes.ready_made_gifts : ProductTypes.various_gifts);
+                                    onTap: () {
+                                      showUnreadyGiftDialog(
+                                          context,
+                                          productItemState.data?.data?.type ==
+                                                  ProductType
+                                                      .ready_made_gifts.name
+                                              ? ProductTypes.ready_made_gifts
+                                              : ProductTypes.various_gifts);
                                     },
                                     child: SVGIcons.localSVG(giftIconIcon,
                                         width: 18, height: 18),
                                   ),
                                   onValueClick: () {
-                                    showUnreadyGiftDialog(context,productItemState.data?.data?.type == ProductType.ready_made_gifts.name ? ProductTypes.ready_made_gifts : ProductTypes.various_gifts);
+                                    showUnreadyGiftDialog(
+                                        context,
+                                        productItemState.data?.data?.type ==
+                                                ProductType
+                                                    .ready_made_gifts.name
+                                            ? ProductTypes.ready_made_gifts
+                                            : ProductTypes.various_gifts);
                                   },
                                 ),
                                 productItemState
-                                    .data?.data?.colors.isNotEmpty == true ? ItemDetailsRow(
-                                  title: "Color:",
-                                  textValue: productItemState
-                                      .data?.data?.colors.first.name ?? "",
-                                ) : const SizedBox(),
-                                ItemDetailsRow(
-                                  title: "Product Size:",
-                                  textValue:
-                                      productItemState.data?.data?.sizes.first.name ?? "",
-                                ),
+                                            .data?.data?.colors.isNotEmpty ==
+                                        true
+                                    ? ItemDetailsRow(
+                                        title: "Color:",
+                                        textValue: productItemState.data?.data
+                                                ?.colors.first.name ??
+                                            "",
+                                      )
+                                    : const SizedBox(),
+                                productItemState.data?.data?.sizes.isNotEmpty ==
+                                        true
+                                    ? ItemDetailsRow(
+                                        title: "Product Size:",
+                                        textValue: productItemState.data?.data
+                                                    ?.sizes.isNotEmpty ==
+                                                true
+                                            ? productItemState
+                                                .data?.data?.sizes.first.name
+                                            : " -----",
+                                      )
+                                    : const SizedBox(),
                                 // ProductRowItem(
                                 //   title: "Categories",
                                 //   textValue:
@@ -571,9 +671,10 @@ class _ProductAndServiceDetailsScreenState
                                 // ),
                                 ItemDetailsRow(
                                   title: "Time for processing:",
-                                  textValue:
-                                      (productItemState.data?.data?.expectedProcessingTime ?? "")
-                                          .ellipsize(28),
+                                  textValue: (productItemState.data?.data
+                                              ?.expectedProcessingTime ??
+                                          "")
+                                      .ellipsize(28),
                                 ),
                               ],
                             )
@@ -585,26 +686,29 @@ class _ProductAndServiceDetailsScreenState
                                   ItemDetailsRow(
                                     title: "Service Duration",
                                     textValue: (serviceItemState
-                                        .data?.data?.duration??"")
+                                                .data?.data?.duration ??
+                                            "")
                                         ?.ellipsize(28),
                                   ),
                                   ItemDetailsRow(
                                     title: "Card Type",
                                     textValue:
-                                        serviceItemState.data?.data?.cardType??"",
+                                        serviceItemState.data?.data?.cardType ??
+                                            "",
                                   ),
                                   if (serviceItemState.data?.data?.cardPrice !=
-                                      null)
+                                      null && serviceItemState.data?.data?.cardType == ServiceTypes.hard_card.name)
                                     ItemDetailsRow(
                                       title: "Price for hard card",
                                       textValue:
-                                          "SAR ${serviceItemState.data?.data?.cardPrice??""}",
+                                          "SAR ${serviceItemState.data?.data?.cardPrice ?? ""}",
                                     ),
                                   ItemDetailsRow(
                                     title: "Card Duration",
-                                    textValue:
-                                        (serviceItemState.data?.data?.cardExpiration??"")
-                                            .ellipsize(28),
+                                    textValue: (serviceItemState
+                                                .data?.data?.cardExpiration ??
+                                            "")
+                                        .ellipsize(28),
                                   ),
                                   ItemDetailsRow(
                                     title: "Out of the store",
@@ -706,6 +810,22 @@ class _ProductAndServiceDetailsScreenState
                               color: AppTheme.appGrey20,
                             ),
                           ),
+
+                          if(widget.itemType == ItemType.Services )
+                            ServiceCartTypesSelector(
+                              initialServiceLocationSelectedId: widget.isOutsideDelivery,
+                              initialCartTypeSelectedId: widget.serviceShowData != null ? 1 : null,
+                              onCartTypeSelect: (item , id , price ) {
+                                cartTypeSelector = item;
+                                serviceExtraPrice = price;
+                              handleUpdatePrice(totalExtra: getExtraPrice(), price: double.parse((serviceItemState.data?.data?.priceAfterDiscount ?? 0).toString()));
+                            },
+                              onServiceLocationSelect: (item , id , price ) {
+                                serviceLocationSelector = item;
+                                serviceLocationPrice = price;
+                                handleUpdatePrice(totalExtra: getExtraPrice(), price: double.parse((serviceItemState.data?.data?.priceAfterDiscount ?? 0).toString()));
+                            },),
+
                           if (widget.itemType == ItemType.Products)
                             ...(List.generate(
                                 productItemState.data?.data?.lists?.length ?? 0,
@@ -737,7 +857,7 @@ class _ProductAndServiceDetailsScreenState
                                                 padding:
                                                     const EdgeInsets.symmetric(
                                                         horizontal: 10,
-                                                        vertical: 4),
+                                                        vertical: 6),
                                                 child: TextWithoutPadding(
                                                   "Optional",
                                                   style: AppTheme
@@ -776,19 +896,27 @@ class _ProductAndServiceDetailsScreenState
                                                           ?.lists?[index]
                                                           .items
                                                           .map((item) =>
-                                                              ItemSelector(
-                                                                  item.id?.toInt() ??
+                                                              ItemSelectorV3(
+                                                                  id: item.id
+                                                                          ?.toInt() ??
                                                                       0,
-                                                                  item.name ??
-                                                                      "",
-                                                                  TextWithoutPadding(
+                                                                  text:
+                                                                      item.name ??
+                                                                          "",
+                                                                  widget:
+                                                                      TextWithoutPadding(
                                                                     "(+SAR ${item.price})",
                                                                     style: AppTheme
                                                                         .styleWithTextAppGrey18AdelleSansExtendedFonts14w400,
-                                                                  )))
+                                                                  ),
+                                                                  price: item
+                                                                          .price
+                                                                          ?.toDouble() ??
+                                                                      0.0))
                                                           .toList() ??
                                                       [],
-                                                  onItemSelect: (item, id) {
+                                                  onItemSelect:
+                                                      (item, id, extraPrice) {
                                                     var categoryId =
                                                         productItemState
                                                                 .data
@@ -797,6 +925,13 @@ class _ProductAndServiceDetailsScreenState
                                                                 .id
                                                                 ?.toInt() ??
                                                             0;
+
+                                                    extraPricesPerCategory[
+                                                            categoryId] =
+                                                        extraPrice;
+                                                    double totalExtra = getExtraPrice();
+
+                                                    handleUpdatePrice(totalExtra: totalExtra, price: double.parse((productItemState.data?.data?.priceAfterDiscount ?? 0).toString()));
                                                     if (item != null) {
                                                       productSelectedItemsIds[
                                                           categoryId] = ["$id"];
@@ -835,19 +970,28 @@ class _ProductAndServiceDetailsScreenState
                                                           ?.lists?[index]
                                                           .items
                                                           .map((item) =>
-                                                              ItemSelector(
-                                                                  item.id?.toInt() ??
+                                                              ItemSelectorV3(
+                                                                  id: item.id
+                                                                          ?.toInt() ??
                                                                       0,
-                                                                  item.name ??
-                                                                      "",
-                                                                  TextWithoutPadding(
+                                                                  text:
+                                                                      item.name ??
+                                                                          "",
+                                                                  widget:
+                                                                      TextWithoutPadding(
                                                                     "(+SAR ${item.price})",
                                                                     style: AppTheme
                                                                         .styleWithTextAppGrey18AdelleSansExtendedFonts14w400,
-                                                                  )))
+                                                                  ),
+                                                                  price: item
+                                                                          .price
+                                                                          ?.toDouble() ??
+                                                                      0.0))
                                                           .toList() ??
                                                       [],
-                                                  onItemSelect: (items,itemsNames) {
+                                                  onItemSelect: (items,
+                                                      itemsNames, extraPrice) {
+                                                    print(extraPrice);
                                                     var categoryId =
                                                         productItemState
                                                                 .data
@@ -856,6 +1000,13 @@ class _ProductAndServiceDetailsScreenState
                                                                 .id
                                                                 ?.toInt() ??
                                                             0;
+                                                    extraPricesPerCategory[
+                                                    categoryId] =
+                                                        extraPrice;
+                                                    double totalExtra = getExtraPrice();
+
+                                                    handleUpdatePrice(totalExtra: totalExtra, price: double.parse((productItemState.data?.data?.priceAfterDiscount ?? 0).toString()));
+
                                                     if (items.isEmpty) {
                                                       if (productSelectedItemsIds
                                                           .containsKey(
@@ -894,7 +1045,7 @@ class _ProductAndServiceDetailsScreenState
                                         ),
                                         Row(
                                           crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                              CrossAxisAlignment.start,
                                           children: [
                                             TextWithoutPadding(
                                               "${serviceItemState.data?.data!.lists?[index].name}",
@@ -906,13 +1057,13 @@ class _ProductAndServiceDetailsScreenState
                                               decoration: BoxDecoration(
                                                 color: AppTheme.appPink,
                                                 borderRadius:
-                                                BorderRadius.circular(7),
+                                                    BorderRadius.circular(7),
                                               ),
                                               child: Padding(
                                                 padding:
-                                                const EdgeInsets.symmetric(
-                                                    horizontal: 10,
-                                                    vertical: 4),
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 10,
+                                                        vertical: 6),
                                                 child: TextWithoutPadding(
                                                   "Optional",
                                                   style: AppTheme
@@ -924,11 +1075,11 @@ class _ProductAndServiceDetailsScreenState
                                         ),
                                         TextWithoutPadding(
                                           serviceItemState
-                                              .data
-                                              ?.data
-                                              ?.lists?[index]
-                                              .isMultiSelectable ==
-                                              0
+                                                      .data
+                                                      ?.data
+                                                      ?.lists?[index]
+                                                      .isMultiSelectable ==
+                                                  0
                                               ? "(Choose 1)"
                                               : "(Choose items from the list)",
                                           style: AppTheme
@@ -938,27 +1089,46 @@ class _ProductAndServiceDetailsScreenState
                                           height: 24,
                                         ),
                                         IntrinsicHeight(
-                                          child: ProductMultipleSelectItemsModify(
+                                          child:
+                                              ProductMultipleSelectItemsModify(
                                             list: serviceItemState.data?.data
                                                     ?.lists?[index].items
                                                     .map((item) =>
-                                                        ItemSelector(
-                                                            item.id?.toInt() ??
+                                                        ItemSelectorV3(
+                                                            id: item.id
+                                                                    ?.toInt() ??
                                                                 0,
-                                                            item.name ?? "",
-                                                            TextWithoutPadding(
-                                                              "SAR ${item.price}",
+                                                            text:
+                                                                item.name ?? "",
+                                                            widget:
+                                                                TextPrice(
+                                                              "${item.price}",
                                                               style: AppTheme
                                                                   .styleWithTextAppGrey7AdelleSansExtendedFonts14w400,
-                                                            )))
+                                                            ),
+                                                            price: item.price
+                                                                    ?.toDouble() ??
+                                                                0.0))
                                                     .toList() ??
                                                 [],
-                                            onItemSelect: (itemsIds,itemsNames) {
-                                              var categoryId =
-                                                  serviceItemState.data?.data
-                                                          ?.lists?[index].id
-                                                          ?.toInt() ??
-                                                      0;
+                                            onItemSelect: (itemsIds, itemsNames,
+                                                extraPrice) {
+
+                                            var categoryId = serviceItemState
+                                                      .data
+                                                      ?.data
+                                                      ?.lists?[index]
+                                                      .id
+                                                      ?.toInt() ??
+                                                  0;
+
+                                              extraPricesPerCategory[
+                                              categoryId] =
+                                                  extraPrice;
+
+                                            double totalExtra = getExtraPrice();
+
+                                            handleUpdatePrice(totalExtra: totalExtra, price: double.parse((serviceItemState.data?.data?.priceAfterDiscount ?? 0).toString()));
 
                                               serviceSelectedItemsIds[
                                                   categoryId] = itemsIds;
@@ -971,8 +1141,7 @@ class _ProductAndServiceDetailsScreenState
                                                     ?.lists?[index]
                                                     .clientSelectedItemsInCart
                                                     ?.map((toElement) =>
-                                                        toElement.id
-                                                            .toString())
+                                                        toElement.id.toString())
                                                     .toList() ??
                                                 [],
                                           ),
@@ -1026,12 +1195,24 @@ class _ProductAndServiceDetailsScreenState
                                         onAddItemToCart: (id) {
                                           addProductToCart(id);
                                         },
-                                        onAddItemToWishList: (id,collectionId,inWishlist) {
+                                        onAddItemToWishList:
+                                            (id, collectionId, inWishlist) {
                                           if (client != null) {
-                                            if(inWishlist) {
+                                            if (inWishlist) {
                                               productWishlistToggle(id);
-                                            }else{
-
+                                            } else {
+                                              ref
+                                                  .read(
+                                                      handelAddItemToWishListStateNotifier
+                                                          .notifier)
+                                                  .addItemToWishList(
+                                                      itemId: id,
+                                                      collectionId:
+                                                          int.tryParse(
+                                                              collectionId ??
+                                                                  "0"),
+                                                      type: OrderItemType
+                                                          .Product);
                                             }
                                           } else {
                                             showAuthenticated();
@@ -1076,12 +1257,35 @@ class _ProductAndServiceDetailsScreenState
                                             .data?.data?.services?.data[index],
                                         type: ItemType.Services,
                                         onAddItemToCart: (id) {
-                                          addServiceToCart(id);
+                                          print("objectsdfas ${serviceItemState.data?.data?.cardType == ServiceTypes.both.name && cartTypeSelector == null} $cartTypeSelector");
+                                          if(serviceItemState.data?.data?.cardType == ServiceTypes.both.name && cartTypeSelector == null){
+                                            AppSnackBar.showSnackBar(context, isSuccess: false ,message:  "Please select cart type");
+                                          }else if(serviceItemState.data?.data?.isServiceDeliverableOutsideStore == 1 && serviceLocationSelector == null){
+                                            AppSnackBar.showSnackBar(context, isSuccess: false ,message:  "Please select service location");
+                                          }else{
+                                            addServiceToCart(id);
+                                          }
                                         },
-                                        onAddItemToWishList: (id,collectionId,inWishlist) {
+                                        onAddItemToWishList:
+                                            (id, collectionId, inWishlist) {
                                           if (client != null) {
-                                            serviceWishlistToggle(
-                                                id.toString());
+                                            if (inWishlist) {
+                                              serviceWishlistToggle(
+                                                  id.toString());
+                                            } else {
+                                              ref
+                                                  .read(
+                                                      handelAddItemToWishListStateNotifier
+                                                          .notifier)
+                                                  .addItemToWishList(
+                                                      itemId: id,
+                                                      collectionId:
+                                                          int.tryParse(
+                                                              collectionId ??
+                                                                  "0"),
+                                                      type: OrderItemType
+                                                          .Service);
+                                            }
                                           } else {
                                             showAuthenticated();
                                           }
@@ -1118,127 +1322,6 @@ class _ProductAndServiceDetailsScreenState
                 ),
               ],
             ),
-            // Align(
-            //   alignment: Alignment.bottomCenter,
-            //   child: Container(
-            //     decoration: BoxDecoration(
-            //       color: Colors.white,
-            //       boxShadow: [
-            //         BoxShadow(
-            //           color: Colors.black.withOpacity(0.1), // Shadow color
-            //           offset: Offset(0, -1), // Negative Y for top shadow
-            //           blurRadius: 6, // How soft the shadow is
-            //           spreadRadius: 0, // Optional: how much it spreads
-            //         ),
-            //       ],
-            //     ),
-            //     padding:
-            //         const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-            //     child: Row(
-            //       children: [
-            //         SizedBox(
-            //           height: 46,
-            //           child: Column(
-            //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            //             children: [
-            //               TextWithoutPadding(
-            //                 "SAR ${widget.itemType == ItemType.Products ? productItemState.data?.data?.priceAfterDiscount ?? "" : serviceItemState.data?.data?.priceAfterDiscount ?? ""}",
-            //                 style: AppTheme
-            //                     .styleWithTextBlackAdelleSansExtendedFonts18w500,
-            //               ),
-            //               TextWithoutPadding(
-            //                 "Vat. included",
-            //                 style: AppTheme
-            //                     .styleWithTextGray7AdelleSansExtendedFonts12w400,
-            //               )
-            //             ],
-            //           ),
-            //         ),
-            //         SizedBox(
-            //           width: 26,
-            //         ),
-            //         Expanded(
-            //           child: AppButton(
-            //             onPress: () {
-            //               print("${productItemState.data?.data!.inCart}");
-            //               if (widget.itemType == ItemType.Products) {
-            //                 if (widget.productDetails != null ||
-            //                     (productItemState.data?.data!.inCart == true &&
-            //                         productItemState.data?.data!.cartItemId !=
-            //                             null)) {
-            //                   print(
-            //                       "cartId : ${productItemState.data?.data!.cartItemId}");
-            //
-            //                   editProductToCart(int.parse(productItemState
-            //                           .data?.data!.cartItemId
-            //                           .toString() ??
-            //                       "0"));
-            //                 } else if (productItemState.data?.data?.id !=
-            //                         null &&
-            //                     productItemState.data?.data?.amount != 0 &&
-            //                     productItemState.data?.data!.inCart == false) {
-            //                   addProductToCart(int.parse(
-            //                       productItemState.data?.data?.id!.toString() ??
-            //                           ""));
-            //                 }
-            //               } else {
-            //                 if (serviceItemState.data?.data?.cardType ==
-            //                         ServiceTypes.soft_card.name &&
-            //                     serviceItemState.data?.data?.id != null) {
-            //                   calculateSoftService(serviceItemState
-            //                           .data?.data?.priceAfterDiscount ??
-            //                       0);
-            //                   makeCheckoutForSoftService(
-            //                       int.parse(serviceItemState.data?.data?.id!
-            //                               .toString() ??
-            //                           ""),
-            //                       serviceItemState.data?.data);
-            //                 } else if (serviceItemState.data?.data!.inCart ==
-            //                         true &&
-            //                     serviceItemState.data?.data!.cartItemId !=
-            //                         null) {
-            //                   print(
-            //                       "cartId : ${serviceItemState.data?.data!.cartItemId}");
-            //
-            //                   editServiceCart(int.parse(serviceItemState
-            //                           .data?.data?.cartItemId
-            //                           .toString() ??
-            //                       "0"));
-            //                 } else if (serviceItemState.data?.data?.id !=
-            //                         null &&
-            //                     serviceItemState.data?.data!.inCart != true) {
-            //                   addServiceToCart(int.parse(
-            //                       serviceItemState.data?.data?.id!.toString() ??
-            //                           ""));
-            //                 }
-            //               }
-            //             },
-            //             text: widget.itemType == ItemType.Products
-            //                 ? widget.productDetails != null
-            //                     // || productItemState.data?.data!.inCart == true
-            //                     ? "Edit Product"
-            //                     : productItemState.data?.data!.inCart == true
-            //                         ? "Added"
-            //                         : productItemState.data?.data?.amount == 0
-            //                             ? "Out of stock"
-            //                             : "Add to cart"
-            //                 : widget.serviceShowData != null
-            //                     ? "Edit Service"
-            //                     : serviceItemState.data?.data?.cardType ==
-            //                             ServiceTypes.soft_card.name
-            //                         ? "Checkout"
-            //                         : serviceItemState.data?.data!.inCart ==
-            //                                 true
-            //                             ? "Added"
-            //                             : "Add to cart",
-            //             height: 48,
-            //             backColor: AppTheme.mainAppColorDark,
-            //           ),
-            //         ),
-            //       ],
-            //     ),
-            //   ),
-            // )
           ],
         ),
         bottomNavigationBar: Container(
@@ -1253,8 +1336,7 @@ class _ProductAndServiceDetailsScreenState
               ),
             ],
           ),
-          padding:
-          const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
           child: Row(
             children: [
               SizedBox(
@@ -1262,11 +1344,15 @@ class _ProductAndServiceDetailsScreenState
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    TextWithoutPadding(
-                      "SAR ${widget.itemType == ItemType.Products ? productItemState.data?.data?.priceAfterDiscount ?? "" : serviceItemState.data?.data?.priceAfterDiscount ?? ""}",
-                      style: AppTheme
-                          .styleWithTextBlackAdelleSansExtendedFonts18w500,
-                    ),
+                    ValueListenableBuilder(
+                        valueListenable: priceStateNotifier,
+                        builder: (context, value, child) {
+                          return TextPrice(
+                            "$value",
+                            style: AppTheme
+                                .styleWithTextBlackAdelleSansExtendedFonts18w500,
+                          );
+                        }),
                     TextWithoutPadding(
                       "Vat. included",
                       style: AppTheme
@@ -1290,68 +1376,68 @@ class _ProductAndServiceDetailsScreenState
                         print(
                             "cartId : ${productItemState.data?.data!.cartItemId}");
 
-                        editProductToCart(int.parse(productItemState
-                            .data?.data!.cartItemId
-                            .toString() ??
+                        editProductToCart(int.parse((productItemState
+                                .data?.data?.cartItemId ?? "0")
+                                .toString() ??
                             "0"));
-                      } else if (productItemState.data?.data?.id !=
-                          null &&
+                      } else if (productItemState.data?.data?.id != null &&
                           productItemState.data?.data?.amount != 0 &&
                           productItemState.data?.data!.inCart == false) {
                         addProductToCart(int.parse(
-                            productItemState.data?.data?.id!.toString() ??
-                                ""));
+                            productItemState.data?.data?.id!.toString() ?? ""));
                       }
                     } else {
                       if (serviceItemState.data?.data?.cardType ==
-                          ServiceTypes.soft_card.name &&
+                              ServiceTypes.soft_card.name &&
                           serviceItemState.data?.data?.id != null) {
-                        calculateSoftService(serviceItemState
-                            .data?.data?.priceAfterDiscount ??
-                            0);
+                        calculateSoftService(
+                            serviceItemState.data?.data?.priceAfterDiscount ??
+                                0);
                         makeCheckoutForSoftService(
-                            int.parse(serviceItemState.data?.data?.id!
-                                .toString() ??
-                                ""),
+                            int.parse(
+                                serviceItemState.data?.data?.id!.toString() ??
+                                    ""),
                             serviceItemState.data?.data);
-                      } else if (serviceItemState.data?.data!.inCart ==
-                          true &&
-                          serviceItemState.data?.data!.cartItemId !=
-                              null) {
+                      }
+                      else if (serviceItemState.data?.data!.inCart == true &&
+                          serviceItemState.data?.data!.cartItemId != null) {
                         print(
-                            "cartId : ${serviceItemState.data?.data!.cartItemId}");
+                            "cartId : ${serviceItemState.data?.data?.cartItemId}");
 
                         editServiceCart(int.parse(serviceItemState
-                            .data?.data?.cartItemId
-                            .toString() ??
+                                .data?.data?.cartItemId
+                                .toString() ??
                             "0"));
-                      } else if (serviceItemState.data?.data?.id !=
-                          null &&
+                      } else if (serviceItemState.data?.data?.id != null &&
                           serviceItemState.data?.data!.inCart != true) {
-                        addServiceToCart(int.parse(
-                            serviceItemState.data?.data?.id!.toString() ??
-                                ""));
+                        if(serviceItemState.data?.data?.cardType == ServiceTypes.both.name && cartTypeSelector == null){
+                          AppSnackBar.showSnackBar(context, isSuccess: false ,message:  "Please select cart type");
+                        }else if(serviceItemState.data?.data?.isServiceDeliverableOutsideStore == 1 && serviceLocationSelector == null){
+                          AppSnackBar.showSnackBar(context, isSuccess: false ,message:  "Please select service location");
+                        }else{
+                          addServiceToCart(int.parse(
+                              serviceItemState.data?.data?.id!.toString() ?? ""));
+                        }
                       }
                     }
                   },
                   text: widget.itemType == ItemType.Products
                       ? widget.productDetails != null
-                  // || productItemState.data?.data!.inCart == true
-                      ? "Edit Product"
-                      : productItemState.data?.data!.inCart == true
-                      ? "Added"
-                      : productItemState.data?.data?.amount == 0
-                      ? "Out of stock"
-                      : "Add to cart"
+                          // || productItemState.data?.data!.inCart == true
+                          ? "Edit Product"
+                          : productItemState.data?.data!.inCart == true
+                              ? "Added"
+                              : productItemState.data?.data?.amount == 0
+                                  ? "Out of stock"
+                                  : "Add to cart"
                       : widget.serviceShowData != null
-                      ? "Edit Service"
-                      : serviceItemState.data?.data?.cardType ==
-                      ServiceTypes.soft_card.name
-                      ? "Checkout"
-                      : serviceItemState.data?.data!.inCart ==
-                      true
-                      ? "Added"
-                      : "Add to cart",
+                          ? "Edit Service"
+                          : serviceItemState.data?.data?.cardType ==
+                                  ServiceTypes.soft_card.name
+                              ? "Checkout"
+                              : serviceItemState.data?.data!.inCart == true
+                                  ? "Added"
+                                  : "Add to cart",
                   height: 48,
                   backColor: AppTheme.mainAppColorDark,
                 ),
@@ -1363,6 +1449,11 @@ class _ProductAndServiceDetailsScreenState
     );
   }
 
+  void handleUpdatePrice(
+      {required double totalExtra,required double price}) {
+    priceStateNotifier.value =
+        (totalExtra + serviceExtraPrice + serviceLocationPrice + price).toStringAsFixed(2);
+  }
   void navigateToSellerDetails(
     int sellerId,
   ) {
@@ -1471,12 +1562,16 @@ class _ProductAndServiceDetailsScreenState
           serviceId: id.toString(),
           sessionId: sessionId,
           serviceSelectedListIds: parentItemIds,
-          serviceSelectedListItemsIds: childItemIds);
+          serviceSelectedListItemsIds: childItemIds,
+          isOutsideDelivery: serviceLocationSelector?.id
+      );
     } else {
       ref.read(addServiceToCartUseCaseStateNotifier.notifier).addToCart(
           serviceId: id.toString(),
           serviceSelectedListIds: parentItemIds,
-          serviceSelectedListItemsIds: childItemIds);
+          serviceSelectedListItemsIds: childItemIds,
+          isOutsideDelivery: serviceLocationSelector?.id
+      );
     }
   }
 
@@ -1491,6 +1586,7 @@ class _ProductAndServiceDetailsScreenState
           .join("|");
     }
 
+    print("parentItemIds $parentItemIds childItemIds $childItemIds");
     ref.read(updateCartItemsStateNotifies.notifier).updateCartItems(
         cartItemId: id.toString(),
         serviceSelectedListIds: parentItemIds,
@@ -1517,14 +1613,17 @@ class _ProductAndServiceDetailsScreenState
         builder: (BuildContext context) => AuthenticateBottomSheet(
               onLoginClicked: () {
                 navigateToLogin();
-              }, onSignUpClicked: () {
+              },
+              onSignUpClicked: () {
                 navigateToSignUp();
-        },
+              },
             ));
   }
+
   void navigateToSignUp() async {
     context.push(R_SignUp, extra: {"typeOfMode": TypeOfMode.ViewMode});
   }
+
   void navigateToLogin() async {
     var makeRefresh =
         await context.push(R_LoginScreen, extra: {"type": TypeOfMode.ViewMode});
@@ -1625,6 +1724,10 @@ class _ProductAndServiceDetailsScreenState
         .calculateSoftItemForCheckout(totalPrice: price);
   }
 
+  double getExtraPrice() {
+    return extraPricesPerCategory.values.fold(0.0, (sum, price) => sum + price);
+  }
+
   void showReviewsBottomSheet(
       {List<ProductDetailsRatingsInner>? productAndServiceRatingsList,
       List<ProviderDataRatingsInner>? sellerRatingsList,
@@ -1637,11 +1740,10 @@ class _ProductAndServiceDetailsScreenState
         context: context,
         builder: (BuildContext context) => RatingBottomSheet(
               productRatingsList: productAndServiceRatingsList,
-              type: type??FilterScreenTypes.Products,
+              type: type ?? FilterScreenTypes.Products,
               providerRatingsList: sellerRatingsList,
             ));
   }
-
 
   void showUnreadyGiftDialog(BuildContext context, ProductTypes type) {
     showDialog(
@@ -1664,8 +1766,7 @@ class _ProductAndServiceDetailsScreenState
                     width: 280.w,
                     height: 160.h,
                     color: Colors.white.withOpacity(0.45),
-                    child:
-                    Padding(
+                    child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 25.0),
                       child: Stack(
                         children: [
@@ -1684,19 +1785,19 @@ class _ProductAndServiceDetailsScreenState
                                   children: [
                                     Spacer(),
                                     TextWithoutPadding(
-                                      type == ProductTypes.ready_made_gifts
-                                          ? "Ready Gift"
-                                          : "Unready Gift",
-                                      style: const TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 18,
-                                        color: Colors.black,
-                                      )
-                                    ),
+                                        type == ProductTypes.ready_made_gifts
+                                            ? "Ready Gift"
+                                            : "Unready Gift",
+                                        style: const TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 18,
+                                          color: Colors.black,
+                                        )),
                                     Spacer(),
                                     GestureDetector(
                                       onTap: () => Navigator.of(context).pop(),
-                                      child: SVGIcons.localSVG(closeIconSvg, width: 32, height: 32),
+                                      child: SVGIcons.localSVG(closeIconSvg,
+                                          width: 32, height: 32),
                                     ),
                                   ],
                                 ),
@@ -1707,7 +1808,9 @@ class _ProductAndServiceDetailsScreenState
                                       ? "These gift will be delivered\nwith no packaging."
                                       : "These gift come with\ncustomizable packaging\nbefore delivery!",
                                   textAlign: TextAlign.center,
-                                  style: AppTheme.styleWithTextBlackAdelleSansExtendedFonts16w500.copyWith(height: 1.5),
+                                  style: AppTheme
+                                      .styleWithTextBlackAdelleSansExtendedFonts16w500
+                                      .copyWith(height: 1.5),
                                 ),
                                 SizedBox(height: 16),
                               ],
@@ -1736,4 +1839,48 @@ class _ProductAndServiceDetailsScreenState
     );
   }
 
+  handleAddProductToWishList(ProductDetails? data) {
+    if (data?.inWishlist == true) {
+      productWishlistToggle(data?.id?.toInt() ?? 0);
+    } else {
+      ref.read(handelAddItemToWishListStateNotifier.notifier).addItemToWishList(
+          itemId: (data?.id ?? 0).toInt(),
+          collectionId: int.tryParse(data?.wishlistCollectionId ?? "0"),
+          type: OrderItemType.Product);
+    }
+  }
+
+  handleAddServiceToWishList(ServiceShowData? data) {
+    if (data?.inWishlist == true) {
+      productWishlistToggle(data?.id?.toInt() ?? 0);
+    } else {
+      ref.read(handelAddItemToWishListStateNotifier.notifier).addItemToWishList(
+          itemId: (data?.id ?? 0).toInt(),
+          collectionId: int.tryParse(data?.wishlistCollectionId ?? "0"),
+          type: OrderItemType.Service);
+    }
+  }
+
+  void handleItemPrice() {
+
+    // if (widget.itemType == ItemType.Products) {
+    //   widget.productDetails?.lists?.forEach((element) {
+    //     if (element.clientSelectedItemsInCart?.isNotEmpty == true) {
+    //       productSelectedItemsIds[int.tryParse((element.id ?? 0).toString()) ??
+    //           0] = element.clientSelectedItemsInCart
+    //           ?.map((item) {
+    //         debugPrint("alkdjsfalksdjfskj ${item}");
+    //
+    //         return item.id.toString();
+    //       })
+    //           .toList() ??
+    //           [];
+    //     }
+    //   });
+    // } else {
+    //   ref
+    //       .read(getServiceDetails.notifier)
+    //       .getServiceDetails(serviceId: widget.id);
+    // }
+  }
 }

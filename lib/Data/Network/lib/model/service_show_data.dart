@@ -29,6 +29,7 @@ class ServiceShowData {
     this.images = const [],
     this.imagePath,
     this.isServiceDeliverableOutsideStore,
+    this.deliveryPrice,
     this.isVisible,
     this.lists = const [],
     this.name,
@@ -153,6 +154,8 @@ class ServiceShowData {
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
   num? isServiceDeliverableOutsideStore;
+
+  num? deliveryPrice;
 
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
@@ -294,6 +297,7 @@ class ServiceShowData {
     _deepEquality.equals(other.images, images) &&
     other.imagePath == imagePath &&
     other.isServiceDeliverableOutsideStore == isServiceDeliverableOutsideStore &&
+    other.deliveryPrice == deliveryPrice &&
     other.isVisible == isVisible &&
     _deepEquality.equals(other.lists, lists) &&
     other.name == name &&
@@ -333,6 +337,7 @@ class ServiceShowData {
     (images == null ? 0 : images!.hashCode) +
     (imagePath == null ? 0 : imagePath!.hashCode) +
     (isServiceDeliverableOutsideStore == null ? 0 : isServiceDeliverableOutsideStore!.hashCode) +
+    (deliveryPrice == null ? 0 : deliveryPrice!.hashCode) +
     (isVisible == null ? 0 : isVisible!.hashCode) +
     (lists == null ? 0 : lists!.hashCode) +
     (name == null ? 0 : name!.hashCode) +
@@ -354,7 +359,7 @@ class ServiceShowData {
     (provider == null ? 0 : provider!.hashCode);
 
   @override
-  String toString() => 'ServiceShowData[cardExpiration=$cardExpiration, cardPrice=$cardPrice, cardType=$cardType, categories=$categories, categoryMenu=$categoryMenu, coverImagePath=$coverImagePath, coverImage=$coverImage, createdAt=$createdAt, description=$description, descriptionAr=$descriptionAr, descriptionEn=$descriptionEn, duration=$duration, id=$id, images=$images, imagePath=$imagePath, isServiceDeliverableOutsideStore=$isServiceDeliverableOutsideStore, isVisible=$isVisible, lists=$lists, name=$name, nameAr=$nameAr, nameEn=$nameEn, price=$price, priceAfterDiscount=$priceAfterDiscount, providerId=$providerId, providerName=$providerName, updatedAt=$updatedAt, inCart=$inCart, cartItemId=$cartItemId, cartItemQuantity=$cartItemQuantity, inWishlist=$inWishlist, wishlistCollectionId=$wishlistCollectionId, overallRating=$overallRating, ratingsCount=$ratingsCount, ratings=$ratings, provider=$provider]';
+  String toString() => 'ServiceShowData[cardExpiration=$cardExpiration, cardPrice=$cardPrice, cardType=$cardType, categories=$categories, categoryMenu=$categoryMenu, coverImagePath=$coverImagePath, coverImage=$coverImage, createdAt=$createdAt, description=$description, descriptionAr=$descriptionAr, descriptionEn=$descriptionEn, duration=$duration, id=$id, images=$images, imagePath=$imagePath, isServiceDeliverableOutsideStore=$isServiceDeliverableOutsideStore, deliveryPrice=$deliveryPrice, isVisible=$isVisible, lists=$lists, name=$name, nameAr=$nameAr, nameEn=$nameEn, price=$price, priceAfterDiscount=$priceAfterDiscount, providerId=$providerId, providerName=$providerName, updatedAt=$updatedAt, inCart=$inCart, cartItemId=$cartItemId, cartItemQuantity=$cartItemQuantity, inWishlist=$inWishlist, wishlistCollectionId=$wishlistCollectionId, overallRating=$overallRating, ratingsCount=$ratingsCount, ratings=$ratings, provider=$provider]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -429,6 +434,11 @@ class ServiceShowData {
       json[r'is_service_deliverable_outside_store'] = this.isServiceDeliverableOutsideStore;
     } else {
       json[r'is_service_deliverable_outside_store'] = null;
+    }
+    if (this.deliveryPrice != null) {
+      json[r'delivery_price'] = this.deliveryPrice;
+    } else {
+      json[r'delivery_price'] = null;
     }
     if (this.isVisible != null) {
       json[r'is_visible'] = this.isVisible;
@@ -563,6 +573,9 @@ class ServiceShowData {
         images: ImageItem.listFromJson(json[r'images']),
         imagePath: mapValueOfType<String>(json, r'imagePath'),
         isServiceDeliverableOutsideStore: num.tryParse('${json[r'is_service_deliverable_outside_store']}'),
+        deliveryPrice: json[r'delivery_price'] == null
+            ? null
+            : num.tryParse('${json[r'delivery_price']}'),
         isVisible: num.tryParse('${json[r'is_visible']}'),
         lists: ServiceList.listFromJson(json[r'lists']),
         name: mapValueOfType<String>(json, r'name'),

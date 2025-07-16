@@ -273,7 +273,15 @@ class _ServiceSearchScreenState extends ConsumerState<ServiceSearchScreen> {
                     },
                     onAddItemToWishList: (id,collectionId,inWishlist) {
                       if (client != null) {
-                        serviceWishlistToggle(id.toString());
+                        if(inWishlist) {
+                          serviceWishlistToggle(id.toString());
+                        }else{
+                          ref.read(handelAddItemToWishListStateNotifier.notifier).addItemToWishList(
+                            itemId: id,
+                            collectionId: int.tryParse(collectionId??"0"),
+                            type: OrderItemType.Service
+                          );
+                        }
                       } else {
                         widget.showAuthenticated?.call();
                       }

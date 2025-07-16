@@ -5,10 +5,10 @@ import 'package:lazo_client/Presentation/Screens/details/componants/ProductRowIt
 import '../../../../Data/Models/ItemSelector.dart';
 import '../../../Theme/AppTheme.dart';
 
-typedef OnItemSelect = Function(ItemSelector?,int);
+typedef OnItemSelect = Function(ItemSelectorV3?,int ,double);
 
 class ProductSingleSelectItemsModify extends StatefulWidget {
-  final List<ItemSelector> list;
+  final List<ItemSelectorV3> list;
   final OnItemSelect onItemSelect;
   final int? itemSelectedId;
   const ProductSingleSelectItemsModify(
@@ -45,9 +45,9 @@ class _ProductSingleSelectItemsModifyState
                     }
                   });
                   if(itemSelectedId != null) {
-                    widget.onItemSelect.call(widget.list[itemIndex],widget.list[itemIndex].id);
+                    widget.onItemSelect.call(widget.list[itemIndex],widget.list[itemIndex].id,widget.list[itemIndex].price ?? 0.0);
                   }else{
-                    widget.onItemSelect.call(null,widget.list[itemIndex].id);
+                    widget.onItemSelect.call(null,widget.list[itemIndex].id, 0.0);
                   }
                 },
                 child: Container(
@@ -108,9 +108,9 @@ class _ProductSingleSelectItemsModifyState
                                       }
                                     });
                                     if(itemSelectedId != null) {
-                                      widget.onItemSelect.call(widget.list[itemIndex],widget.list[itemIndex].id);
+                                      widget.onItemSelect.call(widget.list[itemIndex],widget.list[itemIndex].id,widget.list[itemIndex].price ?? 0.0);
                                     }else{
-                                      widget.onItemSelect.call(null,widget.list[itemIndex].id);
+                                      widget.onItemSelect.call(null,widget.list[itemIndex].id,0.0);
                                     }
                                   }),
                             ),

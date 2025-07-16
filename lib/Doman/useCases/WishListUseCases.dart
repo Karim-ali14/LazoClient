@@ -1,6 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lazo_client/Doman/CommenProviders/ApiProvider.dart';
 
+import '../../Constants/Eunms.dart';
+import '../../Data/Models/AddItemToWishListInfo.dart';
 import '../../Data/Models/StateModel.dart';
 import '../../Data/Network/lib/api.dart';
 
@@ -25,6 +27,13 @@ class ToggleProductServiceInWishlistUseCase extends StateNotifier<
   }
 }
 
+class HandelAddItemToWishListUseCase extends StateNotifier<StateModel<AddItemToWishlistInfo?>> {
+  HandelAddItemToWishListUseCase():super(StateModel.loading());
+
+  void addItemToWishList({int? collectionId, int? itemId, OrderItemType? type}){
+    state = StateModel.success(AddItemToWishlistInfo(collectionId: collectionId, itemId: itemId, type: type));
+  }
+}
 class WishListProductsUseCase extends StateNotifier<
     StateModel<ShowWishlistItemsWithSearchByName200Response?>> {
   final Ref _ref;

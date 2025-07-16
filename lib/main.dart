@@ -366,6 +366,7 @@ class MyApp extends ConsumerWidget {
               productDetails: extra["product"],
               serviceShowData: extra["service"],
               cartId: extra["cartId"],
+              isOutsideDelivery: extra["isOutsideDelivery"],
             ),
           );
         },

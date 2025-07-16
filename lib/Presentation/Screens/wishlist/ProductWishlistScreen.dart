@@ -66,6 +66,7 @@ class _ProductSearchScreenState extends ConsumerState<ProductWishlistScreen> {
 
     handleState(productToggleStateNotifier, showLoading: true,
         onSuccess: (res) {
+      print("productId : ${res.data?.data?.productId} categoriesIds : ${res.data?.data?.categoriesIds} inWishlist : ${res.data?.data?.inWishlist} collectionId : ${res.data?.data?.collectionId}");
       ref
           .read(getSellerDetailsWithProductStateNotifier.notifier)
           .handleAddProductToWishList(
