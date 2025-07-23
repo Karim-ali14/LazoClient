@@ -24,7 +24,7 @@ import '../../../Widgets/TextWithoutPadding.dart';
 
 typedef OnUpdateQuantity = Function(num, num);
 typedef OnDeleteItem = Function(num);
-typedef ToggleItem = Function(CartItemType, num);
+typedef ToggleItem = Function(CartItemType, num,String,bool);
 typedef OnProductClickListener = Function(ProductDetails?, int?);
 typedef OnServiceClickListener = Function(ServiceShowData?, int?);
 
@@ -61,7 +61,7 @@ class _CartItemViewState extends ConsumerState<CartItemView> {
   @override
   void initState() {
     quantity = widget.cartItem?.quantity;
-    print("asdfasdfsda ${widget.cartItem.toString()}");
+    print("asdfasdfsda ${widget.orderItem}");
     super.initState();
   }
 
@@ -215,10 +215,10 @@ class _CartItemViewState extends ConsumerState<CartItemView> {
                               ? (widget.orderItem?.type ?? "") ==
                                       CartItemType.Product.name.toLowerCase()
                                   ? widget.orderItem
-                                          ?.selectedProductsListItemsNames ??
+                                          ?.selectedProductsListItemsNames?.join(",") ??
                                       ""
                                   : widget.orderItem
-                                          ?.selectedServicesListItemsNames ??
+                                          ?.selectedServicesListItemsNames?.join(",") ??
                                       ""
                               : (widget.cartItem?.type ?? "") ==
                                       CartItemType.Product.name.toLowerCase()
@@ -252,12 +252,12 @@ class _CartItemViewState extends ConsumerState<CartItemView> {
                             widget.isOrderMode == true
                                 ? (widget.orderItem?.type ?? "") ==
                                         CartItemType.Product.name.toLowerCase()
-                                    ? "${context.tr(sarKey)} ${countItemPrice(widget.orderItem?.product?.priceAfterDiscount ?? 0, widget.cartItem?.quantity ?? 1)}"
-                                    : "${context.tr(sarKey)} ${countItemPrice(widget.orderItem?.service?.priceAfterDiscount ?? 0, widget.cartItem?.quantity ?? 1)}"
+                                    ? "${context.tr(sarKey)} ${countItemPrice(widget.orderItem?.product?.priceAfterDiscount ?? 0, widget.cartItem?.quantity ?? 1,widget.orderItem?.cardPrice ?? 0)}"
+                                    : "${context.tr(sarKey)} ${countItemPrice(widget.orderItem?.service?.priceAfterDiscount ?? 0, widget.cartItem?.quantity ?? 1,widget.orderItem?.cardPrice ?? 0)}"
                                 : (widget.cartItem?.type ?? "") ==
                                         CartItemType.Product.name.toLowerCase()
-                                    ? "${context.tr(sarKey)} ${countItemPrice(widget.cartItem?.cartItemTotalAfterDiscount ?? 0, widget.cartItem?.quantity ?? 1)}"
-                                    : "${context.tr(sarKey)} ${countItemPrice(widget.cartItem?.cartItemTotalAfterDiscount ?? 0, widget.cartItem?.quantity ?? 1)}",
+                                    ? "${context.tr(sarKey)} ${countItemPrice(widget.cartItem?.cartItemTotalAfterDiscount ?? 0, widget.cartItem?.quantity ?? 1,widget.orderItem?.cardPrice ?? 0)}"
+                                    : "${context.tr(sarKey)} ${countItemPrice(widget.cartItem?.cartItemTotalAfterDiscount ?? 0, widget.cartItem?.quantity ?? 1,widget.orderItem?.cardPrice ?? 0)}",
                             style: AppTheme
                                 .styleWithTextMainAppColorAdelleSansExtendedFonts14w400,
                           ),
@@ -278,7 +278,7 @@ class _CartItemViewState extends ConsumerState<CartItemView> {
                                           width: 6,
                                         ),
                                         TextWithoutPadding(
-                                          "${context.tr(sarKey)} ${countItemPrice(widget.orderItem?.product?.price ?? 0, widget.orderItem?.quantity ?? 1)}",
+                                          "${context.tr(sarKey)} ${countItemPrice(widget.orderItem?.product?.price ?? 0, widget.orderItem?.quantity ?? 1,widget.orderItem?.cardPrice ?? 0)}",
                                           style: AppTheme
                                               .styleWithTextGray7AdelleSansExtendedFonts12w400
                                               .copyWith(
@@ -304,7 +304,7 @@ class _CartItemViewState extends ConsumerState<CartItemView> {
                                           width: 6,
                                         ),
                                         TextWithoutPadding(
-                                          "${context.tr(sarKey)} ${countItemPrice(widget.cartItem?.product?.price ?? 0, widget.cartItem?.quantity ?? 1)}",
+                                          "${context.tr(sarKey)} ${countItemPrice(widget.cartItem?.product?.price ?? 0, widget.cartItem?.quantity ?? 1,widget.orderItem?.cardPrice ?? 0)}",
                                           style: AppTheme
                                               .styleWithTextGray7AdelleSansExtendedFonts12w400
                                               .copyWith(
@@ -331,7 +331,7 @@ class _CartItemViewState extends ConsumerState<CartItemView> {
                                           width: 6,
                                         ),
                                         TextWithoutPadding(
-                                          "${context.tr(sarKey)} ${countItemPrice(widget.orderItem?.service?.price ?? 0, widget.orderItem?.quantity ?? 1)}",
+                                          "${context.tr(sarKey)} ${countItemPrice(widget.orderItem?.service?.price ?? 0, widget.orderItem?.quantity ?? 1,widget.orderItem?.cardPrice ?? 0)}",
                                           style: AppTheme
                                               .styleWithTextGray7AdelleSansExtendedFonts12w400
                                               .copyWith(
@@ -357,7 +357,7 @@ class _CartItemViewState extends ConsumerState<CartItemView> {
                                           width: 6,
                                         ),
                                         TextWithoutPadding(
-                                          "${context.tr(sarKey)} ${countItemPrice(widget.cartItem?.service?.price ?? 0, widget.cartItem?.quantity ?? 1)}",
+                                          "${context.tr(sarKey)} ${countItemPrice(widget.cartItem?.service?.price ?? 0, widget.cartItem?.quantity ?? 1,widget.orderItem?.cardPrice ?? 0)}",
                                           style: AppTheme
                                               .styleWithTextGray7AdelleSansExtendedFonts12w400
                                               .copyWith(
@@ -433,8 +433,8 @@ class _CartItemViewState extends ConsumerState<CartItemView> {
     );
   }
 
-  double countItemPrice(num priceAfterDiscount, num quantity) {
-    return (priceAfterDiscount * quantity).toDouble();
+  double countItemPrice(num priceAfterDiscount, num quantity,num cartPrice) {
+    return (priceAfterDiscount * quantity).toDouble() + cartPrice;
   }
 
   void incrementQuantity() {
@@ -466,13 +466,13 @@ class _CartItemViewState extends ConsumerState<CartItemView> {
       // widget.cartItem?.product?.inWishlist =
       //     !(widget.cartItem?.product?.inWishlist ?? false);
       widget.toggleItem
-          .call(CartItemType.Product, widget.cartItem?.product?.id ?? 0);
+          .call(CartItemType.Product, widget.cartItem?.product?.id ?? 0,widget.cartItem?.product?.wishlistCollectionId??"",widget.cartItem?.product?.inWishlist ?? false);
     } else {
       // widget.cartItem?.service?.inWishlist =
       //     !(widget.cartItem?.service?.inWishlist ?? false);
 
       widget.toggleItem
-          .call(CartItemType.Service, widget.cartItem?.service?.id ?? 0);
+          .call(CartItemType.Service, widget.cartItem?.service?.id ?? 0,widget.cartItem?.service?.wishlistCollectionId??"",widget.cartItem?.service?.inWishlist ?? false);
     }
   }
 }

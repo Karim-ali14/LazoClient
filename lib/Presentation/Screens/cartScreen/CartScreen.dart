@@ -56,6 +56,7 @@ class CartScreenState extends ConsumerState<CartScreen> with AutomaticKeepAliveC
           .checkIfSessionIdExist();
       getCartDetails(sessionId);
       calculateHeight();
+      getPackagingData();
     });
     super.initState();
   }
@@ -73,10 +74,6 @@ class CartScreenState extends ConsumerState<CartScreen> with AutomaticKeepAliveC
     handleState(fetchCardDetailsStateNotifies, onSuccess: (res) {
       var cartId = res.data?.data?.id;
       calculateCartItems(cartId: cartId.toString());
-      if (res.data?.data?.shipmentType ==
-          CartItemTypes.unready_made.name.toLowerCase()) {
-        getPackagingData();
-      }
     }, onEmpty: (res) {
       promocode = null;
       voucherTextController.clear();

@@ -151,8 +151,15 @@ class _CartItemsWithNotesState extends ConsumerState<CartItemsWithNotes> {
                                 ?.data
                                 ?.cartItems[index]
                                 .items![cartIndex].isOutsideDelivery);
-                          }, toggleItem: (type , id ) {
-                            toggleItem(type,id.toInt());
+                          }, toggleItem: (type , id,collectionId,inWishlist ) {
+                            if(inWishlist) {
+                              toggleItem(type,id.toInt());
+                            }else{
+                              ref.read(handelAddItemToWishListStateNotifier.notifier).addItemToWishList(
+                                  itemId: id.toInt(),
+                                  collectionId: int.tryParse(collectionId ?? "0"),
+                                  type:type == CartItemType.Product? OrderItemType.Product : OrderItemType.Service);
+                            }
                         }, orderItem: null,
                         );
                       })),

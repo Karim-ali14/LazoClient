@@ -14,7 +14,7 @@ import 'package:lazo_client/Presentation/Screens/home/Componants/CategoryFilterI
 import 'package:lazo_client/Presentation/Screens/home/Componants/CategoryItemCard.dart';
 import 'package:lazo_client/Presentation/Theme/AppTheme.dart';
 import 'package:lazo_client/Presentation/Widgets/CustomAppBar.dart';
-import 'package:lazo_client/Presentation/Widgets/DataListView.dart';
+import 'package:lazo_client/Presentation/Widgets/data_list_view/DataListView.dart';
 import 'package:lazo_client/Presentation/Widgets/SellerItemCard.dart';
 import 'package:lazo_client/Presentation/Widgets/SvgIcons.dart';
 import 'package:lazo_client/Utils/CategoryUtils.dart';

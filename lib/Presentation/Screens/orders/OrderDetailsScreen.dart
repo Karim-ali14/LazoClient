@@ -535,10 +535,11 @@ class _OrderDetailsScreenState extends ConsumerState<OrderDetailsScreen> {
                                                     .orderItems
                                                     ?.length ??
                                                     0
-                                                    : [][index].items?.length ??
+                                                    : [][index].orderItems?.length ??
                                                     0, (cartIndex) {
                                               return CartItemView(
                                                 isReadOnlyMode: true,
+                                                isOrderMode: true,
                                                 orderItem:
                                                 orderDetails.state != DataState.LOADING
                                                     ? orderDetails
@@ -546,7 +547,7 @@ class _OrderDetailsScreenState extends ConsumerState<OrderDetailsScreen> {
                                                     ?.data
                                                     ?.orderItems[index]
                                                     .orderItems![cartIndex]
-                                                    : [][index].items?[cartIndex],
+                                                    : [][index].orderItems?[cartIndex],
                                                 onUpdateQuantity:
                                                     (cartItemId, quantity) {
                                                   // updateItemQuantity(
@@ -576,7 +577,7 @@ class _OrderDetailsScreenState extends ConsumerState<OrderDetailsScreen> {
                                                   //     null,
                                                   //     service,
                                                   //     cartId);
-                                                }, toggleItem: (type , id ) {
+                                                }, toggleItem: (type , id ,collectionId,inWishlist) {
                                                 // toggleItem(type,id.toInt());
                                               }, cartItem: null,
                                               );

@@ -150,7 +150,8 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
 
     handleState(productToggleStateNotifier, showLoading: true,
         onSuccess: (res) {
-      print("product details after toggle : ${sellerProducts.data?.data?.categories}");
+      print(
+          "product details after toggle : ${sellerProducts.data?.data?.categories}");
       ref
           .read(getSellerDetailsWithProductStateNotifier.notifier)
           .handleAddProductToWishList(
@@ -622,10 +623,21 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
                                     sellerProducts.state == DataState.LOADING,
                                 onAddItemToCart: (id) => addProductToCart(id),
                                 onAddItemToWishList:
-                                    (id, collectionId, inWishlist) =>
-                                        client != null
-                                            ? productWishlistToggle(id)
-                                            : showAuthenticated(),
+                                    (id, collectionId, inWishlist) {
+                                  if (client != null) {
+                                    if (inWishlist) {
+                                      productWishlistToggle(id);
+                                    }else{
+                                      ref.read(handelAddItemToWishListStateNotifier.notifier).addItemToWishList(
+                                          itemId: id,
+                                          collectionId: int.tryParse(collectionId ?? "0"),
+                                          type: OrderItemType.Product);
+                                    }
+                                  }else
+                                  {
+                                    showAuthenticated();
+                                  }
+                                },
                                 onItemClick: (itemId, itemName, categoryIds) {
                                   navigateToItemDetails(ItemType.Products,
                                       itemId, itemName, categoryIds);
@@ -687,7 +699,14 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
                                   onAddItemToWishList:
                                       (id, collectionId, inWishlist) {
                                     if (client != null) {
-                                      serviceWishlistToggle(id.toString());
+                                      if(inWishlist) {
+                                        serviceWishlistToggle(id.toString());
+                                      }else{
+                                        ref.read(handelAddItemToWishListStateNotifier.notifier).addItemToWishList(
+                                            itemId: id,
+                                            collectionId: int.tryParse(collectionId ?? "0"),
+                                            type: OrderItemType.Service);
+                                      }
                                     } else {
                                       showAuthenticated();
                                     }

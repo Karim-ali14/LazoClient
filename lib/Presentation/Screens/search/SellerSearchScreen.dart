@@ -19,7 +19,7 @@ import '../../../main.dart';
 import '../../StateNotifiersViewModel/PublicStateNotifiers.dart';
 import '../../StateNotifiersViewModel/UserAuthStateNotifiers.dart';
 import '../../Theme/AppTheme.dart';
-import '../../Widgets/DataListView.dart';
+import '../../Widgets/data_list_view/DataListView.dart';
 import '../../Widgets/EmptyDataView.dart';
 import '../../Widgets/RecentScreen.dart';
 import '../../Widgets/SellerItemCard.dart';

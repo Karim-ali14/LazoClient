@@ -614,7 +614,7 @@ class GetSellerDetailsUseCase
       int id, List<String> categories, bool inWishlist, int? collectionId) {
     final data = state.data;
 
-    print("before ${data?.data?.categories} categories $categories");
+    print("before categoriessdfas $categories");
 
     for (var categoryId in categories) {
       print("processing categoryId $categoryId");

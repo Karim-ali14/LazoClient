@@ -3368,10 +3368,14 @@ components:
             type: string
             nullable: true
           selected_products_list_items_names:
-            type: string
+            type: array
+            items:
+              type: string
             nullable: true
           selected_services_list_items_names:
-            type: string
+            type: array
+            items:
+              type: string
             nullable: true
           service:
             nullable: true

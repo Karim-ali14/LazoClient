@@ -9,19 +9,25 @@ import 'package:lazo_client/Doman/CommenProviders/ApiProvider.dart';
 import 'package:lazo_client/Presentation/Screens/orders/componants/OrderRatingItem.dart';
 import 'package:lazo_client/Presentation/Widgets/AppButton.dart';
 import 'package:lazo_client/Presentation/Widgets/CustomAppBar.dart';
+import 'package:skeletonizer/skeletonizer.dart';
+import '../../../Constants/Constants.dart';
 import '../../../Data/Network/lib/api.dart';
 import '../../../Localization/Keys.dart';
 import '../../StateNotifiersViewModel/ClientStateNotifiers.dart';
+import '../../Theme/AppTheme.dart';
+import '../../Widgets/TextWithoutPadding.dart';
 
 class RatingOrderItemsScreen extends ConsumerStatefulWidget {
   final ClientOrderDetails? order;
   const RatingOrderItemsScreen({super.key, this.order});
 
   @override
-  ConsumerState<RatingOrderItemsScreen> createState() => _RatingOrderItemsScreenState();
+  ConsumerState<RatingOrderItemsScreen> createState() =>
+      _RatingOrderItemsScreenState();
 }
 
-class _RatingOrderItemsScreenState extends ConsumerState<RatingOrderItemsScreen> {
+class _RatingOrderItemsScreenState
+    extends ConsumerState<RatingOrderItemsScreen> {
   final List<int> _itemIds = [];
   final List<double> _ratings = [];
   final List<String> _comments = [];
@@ -48,8 +54,10 @@ class _RatingOrderItemsScreenState extends ConsumerState<RatingOrderItemsScreen>
   // Validation function
   bool _validateRatings() {
     // Check if there are any items with a rating of 0 or empty comment
-    print("order item : ${widget.order?.orderItems.length} => ${_itemIds.length}");
-    if (_itemIds.isEmpty || widget.order?.orderItems.length != _itemIds.length) {
+    print(
+        "order item : ${(widget.order?.orderItems.expand<OrderItemsInner?>((provider) => provider.orderItems??[]))?.toList().length} => ${_itemIds.length}");
+    if (_itemIds.isEmpty ||
+        (widget.order?.orderItems.expand<OrderItemsInner?>((provider) => provider.orderItems??[]))?.toList().length != _itemIds.length) {
       return false; // Invalid if no items are rated
     }
     for (int i = 0; i < _ratings.length; i++) {
@@ -67,7 +75,7 @@ class _RatingOrderItemsScreenState extends ConsumerState<RatingOrderItemsScreen>
 
   @override
   Widget build(BuildContext context) {
-    handleState(ratingOrderStateProvider, showLoading: true,onSuccess: (res){
+    handleState(ratingOrderStateProvider, showLoading: true, onSuccess: (res) {
       context.pop(true);
     });
 
@@ -78,61 +86,81 @@ class _RatingOrderItemsScreenState extends ConsumerState<RatingOrderItemsScreen>
         isCenter: false,
         appContext: context,
       ),
-      body: Column(
-        children: [
-          Expanded(
-            child: ListView.builder(
-              itemBuilder: (context, index) {
-                var orderItem = widget.order?.orderItems[index];
-
-                return Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: /*OrderRatingItem(
-                    item: orderItem,
-                    onUpdate: _onUpdateRating,
-                  )*/
-                  SizedBox()
-                );
-              },
-              itemCount: widget.order?.orderItems.length ?? 0,
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: AppButton(
-                text: context.tr(saveRatingKey),
-                width: double.infinity,
-                height: 46,
-                onPress: () {
-                  if (_validateRatings()) {
-                    // If valid, get the final arrays (itemIds, ratings, comments)
-                    print("All ratings are valid.");
-                    print("Item IDs: $_itemIds");
-                    print("Ratings: ${_ratings}");
-                    print("Comments: $_comments");
-                    rateOrder(
-                      comments: _comments,
-                      orderItemsIds: _itemIds.map((item) => item.toString()).toList(),
-                      ratings: _ratings.map((rating) => rating.toString()).toList(),
-                    );
-                  } else {
-                    // If invalid, show error message
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text(context.tr(pleaseRateAndCommentOnAllOrderItemsKey))),
-                    );
-                  }
-                }),
-          )
-        ],
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          children: [
+            Expanded(child: ListView.builder(itemBuilder: (context, index) {
+              return Padding(
+                padding: const EdgeInsets.only(top: 16),
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      TextWithoutPadding(
+                        widget.order?.orderItems[index].name ?? "",
+                        style: AppTheme
+                            .styleWithTextBlackColor2AdelleSansExtendedFonts14w500,
+                      ),
+                      const SizedBox(
+                        height: defaultPaddingHorizontal,
+                      ),
+                      ...(List.generate(
+                          widget.order?.orderItems[index].orderItems?.length ?? 0,
+                          (cartIndex) {
+                        var orderItem = widget
+                            .order?.orderItems[index].orderItems?[cartIndex];
+                        return OrderRatingItem(
+                          item: orderItem,
+                          onUpdate: _onUpdateRating,
+                        );
+                      }))
+                    ]),
+              );
+            },itemCount: widget.order?.orderItems.length ?? 0,)),
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: AppButton(
+                  text: context.tr(saveRatingKey),
+                  width: double.infinity,
+                  height: 46,
+                  onPress: () {
+                    if (_validateRatings()) {
+                      // If valid, get the final arrays (itemIds, ratings, comments)
+                      print("All ratings are valid.");
+                      print("Item IDs: $_itemIds");
+                      print("Ratings: ${_ratings}");
+                      print("Comments: $_comments");
+                      rateOrder(
+                        comments: _comments,
+                        orderItemsIds:
+                            _itemIds.map((item) => item.toString()).toList(),
+                        ratings:
+                            _ratings.map((rating) => rating.toString()).toList(),
+                      );
+                    } else {
+                      // If invalid, show error message
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                            content: Text(context
+                                .tr(pleaseRateAndCommentOnAllOrderItemsKey))),
+                      );
+                    }
+                  }),
+            )
+          ],
+        ),
       ),
     );
   }
 
-  void rateOrder({required List<String> comments, required List<String> orderItemsIds, required List<String> ratings}) {
+  void rateOrder(
+      {required List<String> comments,
+      required List<String> orderItemsIds,
+      required List<String> ratings}) {
     ref.read(ratingOrderStateProvider.notifier).ratingOrder(
-      comments: comments,
-      orderItemsIds: orderItemsIds,
-      ratings: ratings,
-    );
+          comments: comments,
+          orderItemsIds: orderItemsIds,
+          ratings: ratings,
+        );
   }
 }

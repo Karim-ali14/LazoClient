@@ -21,7 +21,7 @@ import '../../StateNotifiersViewModel/SearchLocalStoragStateNotifiers.dart';
 import '../../StateNotifiersViewModel/UserAuthStateNotifiers.dart';
 import '../../StateNotifiersViewModel/WishListStateNotifiers.dart';
 import '../../Theme/AppTheme.dart';
-import '../../Widgets/DataListView.dart';
+import '../../Widgets/data_list_view/DataListView.dart';
 import '../../Widgets/EmptyDataView.dart';
 import '../../Widgets/RecentScreen.dart';
 import '../../Widgets/ServiceAndProductItemCard.dart';

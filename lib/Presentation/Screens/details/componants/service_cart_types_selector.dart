@@ -36,7 +36,13 @@ class _ServiceCartTypesSelectorState extends State<ServiceCartTypesSelector> {
       List<ItemSelectorV3> listOfCartType = [];
       List<ItemSelectorV3> listOfServiceLocation = [
         ItemSelectorV3(id: 0, text: "Inside the store"),
-        ItemSelectorV3(id: 1, text: "Outside the store"),
+        ItemSelectorV3(id: 1, text: "Outside the store",widget: TextWithoutPadding(
+          "(+SAR ${(serviceItemState.data?.data?.deliveryPrice??0).toString()})",
+          style: AppTheme
+              .styleWithTextAppGrey18AdelleSansExtendedFonts14w400,
+        ),
+            price: double.parse(
+                (serviceItemState.data?.data?.deliveryPrice??0).toString() ?? "0")),
       ];
       if (serviceItemState.state == DataState.SUCCESS) {
         listOfCartType = [
@@ -45,7 +51,7 @@ class _ServiceCartTypesSelectorState extends State<ServiceCartTypesSelector> {
               id: 1,
               text: "Hard card",
               widget: TextWithoutPadding(
-                "(+SAR ${serviceItemState.data?.data?.cardPrice?.toString()})",
+                "(+SAR ${(serviceItemState.data?.data?.cardPrice)?.toString()})",
                 style: AppTheme
                     .styleWithTextAppGrey18AdelleSansExtendedFonts14w400,
               ),

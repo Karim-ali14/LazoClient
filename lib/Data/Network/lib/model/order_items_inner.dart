@@ -33,8 +33,8 @@ class OrderItemsInner {
     this.productSelectedListItemsIds,
     this.serviceSelectedListIds,
     this.serviceSelectedListItemsIds,
-    this.selectedProductsListItemsNames,
-    this.selectedServicesListItemsNames,
+    this.selectedProductsListItemsNames = const [],
+    this.selectedServicesListItemsNames = const [],
     this.service,
     this.serviceId,
     this.updatedAt,
@@ -151,9 +151,9 @@ class OrderItemsInner {
 
   String? serviceSelectedListItemsIds;
 
-  String? selectedProductsListItemsNames;
+  List<String>? selectedProductsListItemsNames;
 
-  String? selectedServicesListItemsNames;
+  List<String>? selectedServicesListItemsNames;
 
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
@@ -205,8 +205,8 @@ class OrderItemsInner {
     other.productSelectedListItemsIds == productSelectedListItemsIds &&
     other.serviceSelectedListIds == serviceSelectedListIds &&
     other.serviceSelectedListItemsIds == serviceSelectedListItemsIds &&
-    other.selectedProductsListItemsNames == selectedProductsListItemsNames &&
-    other.selectedServicesListItemsNames == selectedServicesListItemsNames &&
+    _deepEquality.equals(other.selectedProductsListItemsNames, selectedProductsListItemsNames) &&
+    _deepEquality.equals(other.selectedServicesListItemsNames, selectedServicesListItemsNames) &&
     other.service == service &&
     other.serviceId == serviceId &&
     other.updatedAt == updatedAt &&
@@ -453,8 +453,12 @@ class OrderItemsInner {
         productSelectedListItemsIds: mapValueOfType<String>(json, r'product_selected_list_items_ids'),
         serviceSelectedListIds: mapValueOfType<String>(json, r'service_selected_list_ids'),
         serviceSelectedListItemsIds: mapValueOfType<String>(json, r'service_selected_list_items_ids'),
-        selectedProductsListItemsNames: mapValueOfType<String>(json, r'selected_products_list_items_names'),
-        selectedServicesListItemsNames: mapValueOfType<String>(json, r'selected_services_list_items_names'),
+        selectedProductsListItemsNames: json[r'selected_products_list_items_names'] is Iterable
+            ? (json[r'selected_products_list_items_names'] as Iterable).cast<String>().toList(growable: false)
+            : const [],
+        selectedServicesListItemsNames: json[r'selected_services_list_items_names'] is Iterable
+            ? (json[r'selected_services_list_items_names'] as Iterable).cast<String>().toList(growable: false)
+            : const [],
         service: ServiceShowData.fromJson(json[r'service']),
         serviceId: json[r'service_id'] == null
             ? null
