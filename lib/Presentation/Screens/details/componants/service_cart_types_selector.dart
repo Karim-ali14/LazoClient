@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lazo_client/Data/Models/ItemSelector.dart';
 import 'package:lazo_client/Data/Models/StateModel.dart';
+import 'package:lazo_client/Presentation/Widgets/TextPrice.dart';
 import '../../../../Constants/Eunms.dart';
 import '../../../StateNotifiersViewModel/PublicStateNotifiers.dart';
 import '../../../Theme/AppTheme.dart';
@@ -36,8 +37,10 @@ class _ServiceCartTypesSelectorState extends State<ServiceCartTypesSelector> {
       List<ItemSelectorV3> listOfCartType = [];
       List<ItemSelectorV3> listOfServiceLocation = [
         ItemSelectorV3(id: 0, text: "Inside the store"),
-        ItemSelectorV3(id: 1, text: "Outside the store",widget: TextWithoutPadding(
-          "(+SAR ${(serviceItemState.data?.data?.deliveryPrice??0).toString()})",
+        ItemSelectorV3(id: 1, text: "Outside the store",widget: TextPrice(
+          "${(serviceItemState.data?.data?.deliveryPrice??0).toString()}",
+          showPlus: true,
+          showRoundBrackets: true,
           style: AppTheme
               .styleWithTextAppGrey18AdelleSansExtendedFonts14w400,
         ),
@@ -50,8 +53,10 @@ class _ServiceCartTypesSelectorState extends State<ServiceCartTypesSelector> {
           ItemSelectorV3(
               id: 1,
               text: "Hard card",
-              widget: TextWithoutPadding(
-                "(+SAR ${(serviceItemState.data?.data?.cardPrice)?.toString()})",
+              widget: TextPrice(
+                "${(serviceItemState.data?.data?.cardPrice)?.toString()}",
+                showRoundBrackets: true,
+                showPlus:true,
                 style: AppTheme
                     .styleWithTextAppGrey18AdelleSansExtendedFonts14w400,
               ),

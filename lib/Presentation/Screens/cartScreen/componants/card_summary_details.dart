@@ -70,7 +70,8 @@ class CardSummaryDetails extends StatelessWidget {
                 hasDivider: false,
                 title: "Package Fees",
                 textValue:
-                "SAR ${(cartInfo.data?.data?.packagingFee ?? 0)}",
+                "${(cartInfo.data?.data?.packagingFee ?? 0)}",
+                valueIsPrice: true,
                 titleTextStyle: AppTheme
                     .styleWithTextBlack2AdelleSansExtendedFonts14w400,
                 desTextStyle: AppTheme
@@ -91,7 +92,8 @@ class CardSummaryDetails extends StatelessWidget {
                 hasDivider: false,
                 title: context.tr(discountKey),
                 textValue:
-                "${context.tr(sarKey)} ${type == CheckoutTypes.HartCard ? (cartInfo.data?.data?.discountTotal ?? 0) : calculateSoftService.data?.data?.discount ?? 0}",
+                "${type == CheckoutTypes.HartCard ? (cartInfo.data?.data?.discountTotal ?? 0) : calculateSoftService.data?.data?.discount ?? 0}",
+                valueIsPrice: true,
                 titleTextStyle: AppTheme
                     .styleColorCode167D2DFonts14w500,
                 desTextStyle: AppTheme
@@ -108,7 +110,8 @@ class CardSummaryDetails extends StatelessWidget {
               child: ProductRowItem(
                 title: context.tr(totalPriceKey),
                 textValue:
-                "${context.tr(sarKey)} ${type == CheckoutTypes.HartCard ? (cartInfo.data?.data?.totalAfter ?? 0) : (calculateSoftService.data?.data?.total ?? 0)}",
+                "${type == CheckoutTypes.HartCard ? (cartInfo.data?.data?.totalAfter ?? 0) : (calculateSoftService.data?.data?.total ?? 0)}",
+                valueIsPrice: true,
                 titleTextStyle: AppTheme
                     .styleWithTextAppBlackAdelleSansExtendedFonts14w700,
                 desTextStyle: AppTheme

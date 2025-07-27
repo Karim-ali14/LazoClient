@@ -30,14 +30,14 @@ import 'componants/GiftCardListView.dart';
 import 'componants/cart_items_with_notes.dart';
 
 class CartScreen extends ConsumerStatefulWidget {
-
   const CartScreen({super.key});
 
   @override
   ConsumerState<CartScreen> createState() => CartScreenState();
 }
 
-class CartScreenState extends ConsumerState<CartScreen> with AutomaticKeepAliveClientMixin{
+class CartScreenState extends ConsumerState<CartScreen>
+    with AutomaticKeepAliveClientMixin {
   final TextEditingController voucherTextController = TextEditingController();
   GiftCard? giftCartSelected;
   GiftBox? giftBoxSelected;
@@ -60,12 +60,14 @@ class CartScreenState extends ConsumerState<CartScreen> with AutomaticKeepAliveC
     });
     super.initState();
   }
+
   @override
   bool get wantKeepAlive => true; // This keeps the screen alive
 
   @override
   Widget build(BuildContext context) {
-    super.build(context); // Required to call in widgets with AutomaticKeepAliveClientMixin
+    super.build(
+        context); // Required to call in widgets with AutomaticKeepAliveClientMixin
     var cartData = ref.watch(fetchCardDetailsStateNotifies);
     var cartInfo = ref.watch(cartCalculationStateNotifies);
     var giftBox = ref.watch(fetchAllGiftBoxStateNotifies);
@@ -104,12 +106,27 @@ class CartScreenState extends ConsumerState<CartScreen> with AutomaticKeepAliveC
       body: SafeArea(
         child: cartData.state == DataState.EMPTY ||
                 cartData.state == DataState.ERROR
-            ? EmptyDataPlaceHolder(
-                icon: SVGIcons.noCartItemsGifIcon(),
-                title: "No Product Added",
-                description:
-                    "When you add any product to your cart, it will appear here",
-                onAddOrderClick: () {})
+            ? RefreshIndicator(
+                triggerMode: RefreshIndicatorTriggerMode.onEdge,
+                onRefresh: () {
+                  var sessionId = ref
+                      .read(getSessionHandlerStateNotifier.notifier)
+                      .checkIfSessionIdExist();
+                  getCartDetails(sessionId);
+                  getPackagingData();
+                  return Future.delayed(const Duration(seconds: 1));
+                },
+                child: SingleChildScrollView(child: SizedBox(
+                  width: double.infinity,
+                  height: MediaQuery.of(context).size.height - 200,
+                  child: EmptyDataPlaceHolder(
+                      icon: SVGIcons.noCartItemsGifIcon(),
+                      title: "No Product Added",
+                      description:
+                      "When you add any product to your cart, it will appear here",
+                      onAddOrderClick: () {}),
+                )),
+              )
             : RefreshIndicator(
                 triggerMode: RefreshIndicatorTriggerMode.onEdge,
                 onRefresh: () {
@@ -191,51 +208,76 @@ class CartScreenState extends ConsumerState<CartScreen> with AutomaticKeepAliveC
                             height: 24,
                           ),
                           ValueListenableBuilder(
-                            valueListenable: promoCodeState,
-                            builder: (context,value,_) {
-                              return AppTextField( /*New Money*/
-                                readOnly: value,
-                                hint: "Enter Voucher code",
-                                label: null,
-                                style: !value ? TextStyle(color: Theme.of(context).textTheme.bodyMedium!.color,fontSize: 16) : const TextStyle(fontSize: 0),
-                                startWidget: value ? Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsetsDirectional.only(start: 16.0,end: 8),
-                                      child: Text("${voucherTextController.text}",
-                                        style: TextStyle(color: Theme.of(context).textTheme.bodyMedium!.color,fontSize: 16),),
-                                    ),
-                                    const SizedBox(width: 4),
-                                    SVGIcons.localSVG(correctVoucherIcons,width: 16,height: 16,),
-                                  ],
-                                ) : null,
-                                textEditingController: voucherTextController,
-                                endWidget: InkWell(
-                                  onTap: () {
-                                    if(value){
+                              valueListenable: promoCodeState,
+                              builder: (context, value, _) {
+                                return AppTextField(
+                                  /*New Money*/
+                                  readOnly: value,
+                                  hint: "Enter Voucher code",
+                                  label: null,
+                                  style: !value
+                                      ? TextStyle(
+                                          color: Theme.of(context)
+                                              .textTheme
+                                              .bodyMedium!
+                                              .color,
+                                          fontSize: 16)
+                                      : const TextStyle(fontSize: 0),
+                                  startWidget: value
+                                      ? Row(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsetsDirectional
+                                                      .only(
+                                                      start: 16.0, end: 8),
+                                              child: Text(
+                                                "${voucherTextController.text}",
+                                                style: TextStyle(
+                                                    color: Theme.of(context)
+                                                        .textTheme
+                                                        .bodyMedium!
+                                                        .color,
+                                                    fontSize: 16),
+                                              ),
+                                            ),
+                                            const SizedBox(width: 4),
+                                            SVGIcons.localSVG(
+                                              correctVoucherIcons,
+                                              width: 16,
+                                              height: 16,
+                                            ),
+                                          ],
+                                        )
+                                      : null,
+                                  textEditingController: voucherTextController,
+                                  endWidget: InkWell(
+                                    onTap: () {
+                                      if (value) {
                                         voucherTextController.text = "";
                                         promocode = null;
                                         promoCodeState.value = false;
-                                    }else if (voucherTextController.text.isNotEmpty) {
-                                      getPromoCodeDetails();
-                                    }
-                                  },
-                                  child: SizedBox(
-                                      width: 70,
-                                      height: 56,
-                                      child: Center(
-                                          child: Text(
-                                            value ? "Remove" : "Apply",
-                                        style: AppTheme
-                                            .styleWithTextMainAppColorAdelleSansExtendedFonts14w400
-                                            .copyWith(
-                                                decoration: TextDecoration.underline),
-                                      ))),
-                                ),
-                              );
-                            }
-                          ),
+                                      } else if (voucherTextController
+                                          .text.isNotEmpty) {
+                                        getPromoCodeDetails();
+                                      }
+                                    },
+                                    child: SizedBox(
+                                        width: 70,
+                                        height: 56,
+                                        child: Center(
+                                            child: Text(
+                                          value ? "Remove" : "Apply",
+                                          style: AppTheme
+                                              .styleWithTextMainAppColorAdelleSansExtendedFonts14w400
+                                              .copyWith(
+                                                  decoration:
+                                                      TextDecoration.underline),
+                                        ))),
+                                  ),
+                                );
+                              }),
                           SizedBox(
                             height: 24,
                           ),
@@ -264,7 +306,8 @@ class CartScreenState extends ConsumerState<CartScreen> with AutomaticKeepAliveC
                                     hasDivider: false,
                                     title: "Order Price",
                                     textValue:
-                                        "SAR ${(cartInfo.data?.data?.totalBefore ?? 0)}",
+                                        "${(cartInfo.data?.data?.totalBefore ?? 0)}",
+                                    valueIsPrice: true,
                                     titleTextStyle: AppTheme
                                         .styleWithTextBlack2AdelleSansExtendedFonts14w400,
                                     desTextStyle: AppTheme
@@ -280,7 +323,8 @@ class CartScreenState extends ConsumerState<CartScreen> with AutomaticKeepAliveC
                                           hasDivider: false,
                                           title: "Shipping Fees",
                                           textValue:
-                                              "SAR ${(cartInfo.data?.data?.shippingFee ?? 0)}",
+                                              "${(cartInfo.data?.data?.shippingFee ?? 0)}",
+                                          valueIsPrice: true,
                                           titleTextStyle: AppTheme
                                               .styleWithTextBlack2AdelleSansExtendedFonts14w400,
                                           desTextStyle: AppTheme
@@ -297,7 +341,8 @@ class CartScreenState extends ConsumerState<CartScreen> with AutomaticKeepAliveC
                                           hasDivider: false,
                                           title: "Package Fees",
                                           textValue:
-                                              "SAR ${(cartInfo.data?.data?.packagingFee ?? 0)}",
+                                              "${(cartInfo.data?.data?.packagingFee ?? 0)}",
+                                          valueIsPrice: true,
                                           titleTextStyle: AppTheme
                                               .styleWithTextBlack2AdelleSansExtendedFonts14w400,
                                           desTextStyle: AppTheme
@@ -313,7 +358,8 @@ class CartScreenState extends ConsumerState<CartScreen> with AutomaticKeepAliveC
                                         child: ProductRowItem(
                                           title: "Discount",
                                           textValue:
-                                              "SAR ${(cartInfo.data?.data?.discountTotal ?? 0)}",
+                                              "${(cartInfo.data?.data?.discountTotal ?? 0)}",
+                                          valueIsPrice: true,
                                           titleTextStyle: AppTheme
                                               .styleColorCode167D2DFonts14w500,
                                           desTextStyle: AppTheme
@@ -334,7 +380,8 @@ class CartScreenState extends ConsumerState<CartScreen> with AutomaticKeepAliveC
                                         title: "Total Price",
                                         subTitle: "(Incl. VAT)",
                                         textValue:
-                                            "SAR ${(cartInfo.data?.data?.totalAfter ?? 0)}",
+                                            "${(cartInfo.data?.data?.totalAfter ?? 0)}",
+                                        valueIsPrice: true,
                                         titleTextStyle: AppTheme
                                             .styleWithTextAppBlackAdelleSansExtendedFonts14w700,
                                         desTextStyle: AppTheme
@@ -385,9 +432,10 @@ class CartScreenState extends ConsumerState<CartScreen> with AutomaticKeepAliveC
         builder: (BuildContext context) => AuthenticateBottomSheet(
               onLoginClicked: () {
                 navigateToLogin();
-              }, onSignUpClicked: () {
+              },
+              onSignUpClicked: () {
                 navigateToSignUp();
-        },
+              },
             ));
   }
 
@@ -398,9 +446,11 @@ class CartScreenState extends ConsumerState<CartScreen> with AutomaticKeepAliveC
       getCartDetails(null);
     }
   }
+
   void navigateToSignUp() async {
     context.push(R_SignUp, extra: {"typeOfMode": TypeOfMode.ViewMode});
   }
+
   void calculateCartItems({String? cartId}) {
     print(
         "cartId :$cartId giftCardId: ${giftCartSelected?.id} giftBoxId: ${giftBoxSelected?.id}");
@@ -451,53 +501,39 @@ class CartScreenState extends ConsumerState<CartScreen> with AutomaticKeepAliveC
     });
   }
 
-  void actionClick({Function? afterPassConditions,Function? onCannotPassConditions}){
+  void actionClick(
+      {Function? afterPassConditions, Function? onCannotPassConditions}) {
     var cartData = ref.watch(fetchCardDetailsStateNotifies);
-    if (ref
-        .read(clientStateProvider.notifier)
-        .checkIfUserExist() !=
-        null) {
+    if (ref.read(clientStateProvider.notifier).checkIfUserExist() != null) {
       if (giftBoxSelected != null &&
           cartData.data?.data?.shipmentType ==
-              CartItemTypes.unready_made.name
-                  .toLowerCase()) {
+              CartItemTypes.unready_made.name.toLowerCase()) {
         var data = {
-          giftBoxIdKey:
-          giftBoxSelected?.id.toString() ?? "",
-          orderTypeKey:
-          OrderTypes.receiver_order.name
+          giftBoxIdKey: giftBoxSelected?.id.toString() ?? "",
+          orderTypeKey: OrderTypes.receiver_order.name
         };
         if (giftCartSelected != null &&
             cartData.data?.data?.shipmentType ==
-                CartItemTypes.unready_made.name
-                    .toLowerCase()) {
-          data[giftCardIdKey] =
-              giftCartSelected?.id?.toString() ??
-                  "";
+                CartItemTypes.unready_made.name.toLowerCase()) {
+          data[giftCardIdKey] = giftCartSelected?.id?.toString() ?? "";
         }
         if (promocode?.isNotEmpty == true) {
           data[promocodeKey] = promocode ?? "";
         }
         ref
-            .read(cartDateSelectedStateNotifiers
-            .notifier)
+            .read(cartDateSelectedStateNotifiers.notifier)
             .setCartDataSelection(data);
         // checkout();
         afterPassConditions?.call();
-      } else if (cartData
-          .data?.data?.shipmentType ==
+      } else if (cartData.data?.data?.shipmentType ==
           CartItemTypes.ready_made.name) {
-        var data = {
-          orderTypeKey:
-          OrderTypes.receiver_order.name
-        };
+        var data = {orderTypeKey: OrderTypes.receiver_order.name};
 
         if (promocode?.isNotEmpty == true) {
           data[promocodeKey] = promocode ?? "";
         }
         ref
-            .read(cartDateSelectedStateNotifiers
-            .notifier)
+            .read(cartDateSelectedStateNotifiers.notifier)
             .setCartDataSelection(data);
         afterPassConditions?.call();
         // checkout();

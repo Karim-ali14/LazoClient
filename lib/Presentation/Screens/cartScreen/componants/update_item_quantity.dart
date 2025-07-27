@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../../../../Constants/Eunms.dart';
 import '../../../../Data/Network/lib/api.dart';
 import '../../../../Utils/DelayedAction.dart';
 import '../../../../Utils/Snaks.dart';
@@ -60,7 +61,7 @@ class _UpdateItemQuantityState extends State<UpdateItemQuantity> {
           InkWell(
               onTap: () {
                 var amount = widget.cartItem?.product?.amount ?? 0;
-                if((quantity??0) < amount) {
+                if((quantity??0) < amount || widget.cartItem?.type == CartItemType.Service.name.toLowerCase()) {
                   setState(() {
                     quantity = (quantity ?? 1) + 1;
                   });

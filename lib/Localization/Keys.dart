@@ -213,6 +213,7 @@ const String serviceIdKey = "serviceId";
 const String serviceSelectedListIdsKey = "serviceSelectedListIds";
 const String serviceSelectedListItemsIdsKey = "serviceSelectedListItemsIds";
 const String serviceSelectedListItemsNamesKey = "serviceSelectedListItemsNames";
+const String isOutSideKey = "isOutSide";
 const String paymentMethodKey = "paymentMethod";
 const String receiverPhoneNumberKey = "receiverPhoneNumber";
 const String receiverNameKey = "receiverName";

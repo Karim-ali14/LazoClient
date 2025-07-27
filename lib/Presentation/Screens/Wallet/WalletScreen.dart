@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lazo_client/Constants/Constants.dart';
+import 'package:lazo_client/Presentation/Widgets/TextPrice.dart';
 
 import '../../../Localization/Keys.dart';
 import '../../StateNotifiersViewModel/UserAuthStateNotifiers.dart';
@@ -52,7 +53,7 @@ class _WalletscreenState extends ConsumerState<Walletscreen> {
                   decoration: BoxDecoration(
                     color: AppTheme.appPink,
                   ),
-                  child: Center(child: Text("SAR ${client?.client?.balance}")),
+                  child: Center(child: TextPrice("${client?.client?.balance}")),
                 )
               ],
             ),

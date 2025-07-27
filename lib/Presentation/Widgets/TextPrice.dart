@@ -13,6 +13,9 @@ class TextPrice extends StatelessWidget {
   final TextOverflow? overflow;
   final double? height;
   final bool? showCurrency;
+  final bool? showRoundBrackets;
+  final bool? showPlus;
+  final bool? showMinus;
 
   const TextPrice(this.text,
       {super.key,
@@ -21,7 +24,7 @@ class TextPrice extends StatelessWidget {
       this.textAlign,
       this.overflow,
       this.height,
-      this.showCurrency = true});
+      this.showCurrency = true, this.showRoundBrackets, this.showPlus, this.showMinus});
 
   @override
   Widget build(BuildContext context) {
@@ -29,6 +32,10 @@ class TextPrice extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
+        showRoundBrackets == true ? Text("(",style:style): const SizedBox(),
+
+        showPlus == true ? Text("+ ",style: style,): const SizedBox(),
+        showMinus == true ? Text("- ",style: style,): const SizedBox(),
         showCurrency == true
             ? SVGIcons.localSVG(saudiRiyalSymboIcons, width: 19.w, height: 21.h)
             : const SizedBox(),
@@ -42,7 +49,10 @@ class TextPrice extends StatelessWidget {
             maxLines: maxLines,
             textAlign: textAlign,
             overflow: overflow,
-            strutStyle: StrutStyle(forceStrutHeight: true, height: height))
+            strutStyle: StrutStyle(forceStrutHeight: true, height: height)),
+
+        showRoundBrackets == true ? Text(")",style:style): const SizedBox(),
+
       ],
     );
   }

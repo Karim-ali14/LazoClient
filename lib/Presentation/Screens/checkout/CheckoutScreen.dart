@@ -100,6 +100,7 @@ class CheckoutScreenState extends ConsumerState<CheckoutScreen>  with AutomaticK
     initCity();
     WidgetsBinding.instance.addPostFrameCallback((callback) {
       ref.read(fetchAddressForCheckoutStateNotifiers.notifier).fetchAddresses();
+      print("calculateData: serviceid : ${widget.service?.id} ${widget.type}");
       if (widget.type == CheckoutTypes.SoftCard) {
         print("calculateData: serviceid : ${widget.service?.id}");
         handleCalculateInstantOrder();

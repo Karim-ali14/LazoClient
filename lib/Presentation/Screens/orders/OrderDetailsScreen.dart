@@ -316,7 +316,8 @@ class _OrderDetailsScreenState extends ConsumerState<OrderDetailsScreen> {
                                 titleStyle: AppTheme
                                     .styleWithTextAppGrey18AdelleSansExtendedFonts14w400,
                                 value:
-                                    "${context.tr(sarKey)} ${orderDetails.data?.data?.totalWithShippingFee ?? 0}",
+                                    "${orderDetails.data?.data?.totalWithShippingFee ?? 0}",
+                                valueIsPrice: true,
                                 valueStyle: AppTheme
                                     .styleWithTextBlack2AdelleSansExtendedFonts14w400,
                                 hasDivider: false,
@@ -652,7 +653,8 @@ class _OrderDetailsScreenState extends ConsumerState<OrderDetailsScreen> {
                               ProductRowItem(
                                 title: context.tr(orderPriceKey),
                                 textValue:
-                                    "${context.tr(sarKey)} ${(orderDetails.data?.data?.totalBeforeDiscount ?? 0)}",
+                                    "${(orderDetails.data?.data?.totalBeforeDiscount ?? 0)}",
+                                valueIsPrice: true,
                                 titleTextStyle: AppTheme
                                     .styleWithTextBlack2AdelleSansExtendedFonts14w400,
                                 desTextStyle: AppTheme
@@ -664,8 +666,9 @@ class _OrderDetailsScreenState extends ConsumerState<OrderDetailsScreen> {
                                   ? ProductRowItem(
                                       title: context.tr(shippingFeeKey),
                                       textValue:
-                                          "${context.tr(sarKey)} ${(orderDetails.data?.data?.shippingFee ?? 0)}",
-                                      titleTextStyle: AppTheme
+                                          "${(orderDetails.data?.data?.shippingFee ?? 0)}",
+                                valueIsPrice: true,
+                                titleTextStyle: AppTheme
                                           .styleWithTextBlack2AdelleSansExtendedFonts14w400,
                                       desTextStyle: AppTheme
                                           .styleWithTextAppGrey26AdelleSansExtendedFonts14w400,
@@ -677,7 +680,9 @@ class _OrderDetailsScreenState extends ConsumerState<OrderDetailsScreen> {
                                   ? ProductRowItem(
                                       title: context.tr(discountKey),
                                       textValue:
-                                          "-${context.tr(sarKey)} ${(orderDetails.data?.data?.discount ?? 0)}",
+                                          "${(orderDetails.data?.data?.discount ?? 0)}",
+                                      valueIsPrice: true,
+                                      showMinus: true,
                                       titleTextStyle: AppTheme
                                           .styleColorCode167D2DFonts14w500,
                                       desTextStyle: AppTheme
@@ -693,7 +698,8 @@ class _OrderDetailsScreenState extends ConsumerState<OrderDetailsScreen> {
                                 title: context.tr(totalPriceKey),
                                 subTitle: "(Incl. VAT)",
                                 textValue:
-                                    "${context.tr(sarKey)} ${(orderDetails.data?.data?.totalWithShippingFee ?? 0)}",
+                                    "${(orderDetails.data?.data?.totalWithShippingFee ?? 0)}",
+                                valueIsPrice: true,
                                 titleTextStyle: AppTheme
                                     .styleWithTextAppBlackAdelleSansExtendedFonts14w700,
                                 desTextStyle: AppTheme
@@ -704,7 +710,7 @@ class _OrderDetailsScreenState extends ConsumerState<OrderDetailsScreen> {
                           ),
                         ),
                         SizedBox(
-                          height: 25,
+                          height: 50.h,
                         )
                       ],
                     ),

@@ -11,6 +11,7 @@ import 'package:lazo_client/Presentation/Screens/cartScreen/componants/update_it
 import 'package:lazo_client/Presentation/Theme/AppTheme.dart';
 import 'package:lazo_client/Presentation/Widgets/CircleImage.dart';
 import 'package:lazo_client/Presentation/Widgets/SvgIcons.dart';
+import 'package:lazo_client/Presentation/Widgets/TextPrice.dart';
 import 'package:lazo_client/Utils/DelayedAction.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
@@ -248,16 +249,20 @@ class _CartItemViewState extends ConsumerState<CartItemView> {
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          TextWithoutPadding(
+                          TextPrice(
                             widget.isOrderMode == true
                                 ? (widget.orderItem?.type ?? "") ==
                                         CartItemType.Product.name.toLowerCase()
-                                    ? "${context.tr(sarKey)} ${countItemPrice(widget.orderItem?.product?.priceAfterDiscount ?? 0, widget.cartItem?.quantity ?? 1,widget.orderItem?.cardPrice ?? 0)}"
-                                    : "${context.tr(sarKey)} ${countItemPrice(widget.orderItem?.service?.priceAfterDiscount ?? 0, widget.cartItem?.quantity ?? 1,widget.orderItem?.cardPrice ?? 0)}"
+                                    ? "${countItemPrice(priceAfterDiscount: widget.orderItem?.totalPriceAfterDiscount ?? 0,quantity: widget.cartItem?.quantity ?? 1,
+                                cartPrice:  widget.orderItem?.cardPrice ?? 0)}"
+                                    : "${countItemPrice(priceAfterDiscount: widget.orderItem?.totalPriceAfterDiscount ?? 0,quantity: widget.cartItem?.quantity ?? 1,
+                                cartPrice:  widget.orderItem?.cardPrice ?? 0)}"
                                 : (widget.cartItem?.type ?? "") ==
                                         CartItemType.Product.name.toLowerCase()
-                                    ? "${context.tr(sarKey)} ${countItemPrice(widget.cartItem?.cartItemTotalAfterDiscount ?? 0, widget.cartItem?.quantity ?? 1,widget.orderItem?.cardPrice ?? 0)}"
-                                    : "${context.tr(sarKey)} ${countItemPrice(widget.cartItem?.cartItemTotalAfterDiscount ?? 0, widget.cartItem?.quantity ?? 1,widget.orderItem?.cardPrice ?? 0)}",
+                                    ? "${countItemPrice(priceAfterDiscount:  widget.cartItem?.cartItemTotalAfterDiscount ?? 0,quantity: widget.cartItem?.quantity ?? 1,
+                                cartPrice:  widget.cartItem?.cardPrice ?? 0,deliveryPrice: widget.cartItem?.deliveryPrice ?? 0)}"
+                                    : "${countItemPrice(priceAfterDiscount:  widget.cartItem?.cartItemTotalAfterDiscount ?? 0,quantity: widget.cartItem?.quantity ?? 1,
+                                cartPrice:  widget.cartItem?.cardPrice ?? 0,deliveryPrice: widget.cartItem?.deliveryPrice ?? 0)}",
                             style: AppTheme
                                 .styleWithTextMainAppColorAdelleSansExtendedFonts14w400,
                           ),
@@ -265,11 +270,10 @@ class _CartItemViewState extends ConsumerState<CartItemView> {
                               ? (widget.orderItem?.type ?? "") ==
                                           CartItemType.Product.name
                                               .toLowerCase() &&
-                                      (widget.orderItem?.product?.price
+                                      (widget.orderItem?.totalPriceBeforeDiscount
                                                   ?.toDouble() ??
                                               0.0) >
-                                          (widget.orderItem?.product
-                                                  ?.priceAfterDiscount
+                                          (widget.orderItem?.totalPriceAfterDiscount
                                                   ?.toDouble() ??
                                               0.0)
                                   ? Row(
@@ -277,8 +281,8 @@ class _CartItemViewState extends ConsumerState<CartItemView> {
                                         const SizedBox(
                                           width: 6,
                                         ),
-                                        TextWithoutPadding(
-                                          "${context.tr(sarKey)} ${countItemPrice(widget.orderItem?.product?.price ?? 0, widget.orderItem?.quantity ?? 1,widget.orderItem?.cardPrice ?? 0)}",
+                                        TextPrice(
+                                          "${countItemPrice(priceAfterDiscount:  widget.orderItem?.totalPriceBeforeDiscount ?? 0,quantity:  widget.orderItem?.quantity ?? 1,cartPrice:  widget.orderItem?.cardPrice ?? 0)}",
                                           style: AppTheme
                                               .styleWithTextGray7AdelleSansExtendedFonts12w400
                                               .copyWith(
@@ -291,11 +295,10 @@ class _CartItemViewState extends ConsumerState<CartItemView> {
                               : (widget.cartItem?.type ?? "") ==
                                           CartItemType.Product.name
                                               .toLowerCase() &&
-                                      (widget.cartItem?.product?.price
+                                      (widget.cartItem?.cartItemTotalBeforeDiscount
                                                   ?.toDouble() ??
                                               0.0) >
-                                          (widget.cartItem?.product
-                                                  ?.priceAfterDiscount
+                                          (widget.cartItem?.cartItemTotalAfterDiscount
                                                   ?.toDouble() ??
                                               0.0)
                                   ? Row(
@@ -303,8 +306,9 @@ class _CartItemViewState extends ConsumerState<CartItemView> {
                                         const SizedBox(
                                           width: 6,
                                         ),
-                                        TextWithoutPadding(
-                                          "${context.tr(sarKey)} ${countItemPrice(widget.cartItem?.product?.price ?? 0, widget.cartItem?.quantity ?? 1,widget.orderItem?.cardPrice ?? 0)}",
+                                        TextPrice(
+                                          "${countItemPrice(priceAfterDiscount:  widget.cartItem?.cartItemTotalBeforeDiscount ?? 0,quantity:  widget.cartItem?.quantity ?? 1,
+                                              cartPrice:  widget.orderItem?.cardPrice ?? 0)}",
                                           style: AppTheme
                                               .styleWithTextGray7AdelleSansExtendedFonts12w400
                                               .copyWith(
@@ -318,11 +322,10 @@ class _CartItemViewState extends ConsumerState<CartItemView> {
                               ? (widget.orderItem?.type ?? "") ==
                                           CartItemType.Service.name
                                               .toLowerCase() &&
-                                      (widget.orderItem?.service?.price
+                                      (widget.orderItem?.totalPriceBeforeDiscount
                                                   ?.toDouble() ??
                                               0.0) >
-                                          (widget.orderItem?.service
-                                                  ?.priceAfterDiscount
+                                          (widget.orderItem?.totalPriceAfterDiscount
                                                   ?.toDouble() ??
                                               0.0)
                                   ? Row(
@@ -330,8 +333,9 @@ class _CartItemViewState extends ConsumerState<CartItemView> {
                                         SizedBox(
                                           width: 6,
                                         ),
-                                        TextWithoutPadding(
-                                          "${context.tr(sarKey)} ${countItemPrice(widget.orderItem?.service?.price ?? 0, widget.orderItem?.quantity ?? 1,widget.orderItem?.cardPrice ?? 0)}",
+                                        TextPrice(
+                                          "${countItemPrice(priceAfterDiscount:  widget.orderItem?.totalPriceBeforeDiscount ?? 0,quantity:  widget.orderItem?.quantity ?? 1,
+                                              cartPrice:  widget.orderItem?.cardPrice ?? 0)}",
                                           style: AppTheme
                                               .styleWithTextGray7AdelleSansExtendedFonts12w400
                                               .copyWith(
@@ -344,11 +348,10 @@ class _CartItemViewState extends ConsumerState<CartItemView> {
                               : (widget.cartItem?.type ?? "") ==
                                           CartItemType.Service.name
                                               .toLowerCase() &&
-                                      (widget.cartItem?.service?.price
+                                      (widget.cartItem?.cartItemTotalBeforeDiscount
                                                   ?.toDouble() ??
                                               0.0) >
-                                          (widget.cartItem?.service
-                                                  ?.priceAfterDiscount
+                                          (widget.cartItem?.cartItemTotalAfterDiscount
                                                   ?.toDouble() ??
                                               0.0)
                                   ? Row(
@@ -356,8 +359,10 @@ class _CartItemViewState extends ConsumerState<CartItemView> {
                                         SizedBox(
                                           width: 6,
                                         ),
-                                        TextWithoutPadding(
-                                          "${context.tr(sarKey)} ${countItemPrice(widget.cartItem?.service?.price ?? 0, widget.cartItem?.quantity ?? 1,widget.orderItem?.cardPrice ?? 0)}",
+                                        TextPrice(
+                                          "${countItemPrice(priceAfterDiscount:  widget.cartItem?.cartItemTotalBeforeDiscount?? 0,
+                                              quantity:  widget.cartItem?.quantity ?? 1,cartPrice:  widget.cartItem?.cardPrice ?? 0,
+                                              deliveryPrice: widget.cartItem?.deliveryPrice??0)}",
                                           style: AppTheme
                                               .styleWithTextGray7AdelleSansExtendedFonts12w400
                                               .copyWith(
@@ -433,8 +438,12 @@ class _CartItemViewState extends ConsumerState<CartItemView> {
     );
   }
 
-  double countItemPrice(num priceAfterDiscount, num quantity,num cartPrice) {
-    return (priceAfterDiscount * quantity).toDouble() + cartPrice;
+  double countItemPrice(
+      {num priceAfterDiscount = 0,
+      num quantity = 0,
+      num cartPrice = 0,
+      num deliveryPrice = 0}) {
+    return (priceAfterDiscount).toDouble();
   }
 
   void incrementQuantity() {

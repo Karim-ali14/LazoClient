@@ -61,6 +61,7 @@ class CreateOrderUseCase
     String? cardTo,
     String? deliveryDate,
     String? deliveryTime,
+    int? isOutsideDelivery
   }) {
     state = StateModel.loading();
     request(() => _clientApi.creatInstantOrder(
@@ -76,7 +77,7 @@ class CreateOrderUseCase
         cardFrom: cardFrom,
         cardTo: cardTo,
         deliveryDate: deliveryDate,
-        deliveryTime: deliveryTime));
+        deliveryTime: deliveryTime,isOutsideDelivery: isOutsideDelivery));
   }
 }
 

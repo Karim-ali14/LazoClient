@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:lazo_client/Presentation/Widgets/TextPrice.dart';
 
 import '../../../Theme/AppTheme.dart';
 typedef OnValueClick = Function();
@@ -7,11 +8,11 @@ class ItemDetailsRow extends StatelessWidget {
   final String? title;
   final TextStyle? titleTextStyle;
   final String? textValue;
-  final bool? valueIsLink;
+  final bool? valueIsPrice;
   final TextStyle? valueTextStyle;
   final Widget? extraWidget;
   final OnValueClick? onValueClick;
-  const ItemDetailsRow({super.key, this.title, this.titleTextStyle, this.textValue, this.valueTextStyle, this.extraWidget, this.valueIsLink, this.onValueClick});
+  const ItemDetailsRow({super.key, this.title, this.titleTextStyle, this.textValue, this.valueTextStyle, this.extraWidget, this.valueIsPrice = false , this.onValueClick, });
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +42,11 @@ class ItemDetailsRow extends StatelessWidget {
             onTap: (){
               onValueClick?.call();
             },
-            child: Text(
+            child: valueIsPrice != true ? Text(
+              "$textValue",
+              style: valueTextStyle ?? AppTheme
+                  .styleWithTextAppGrey18AdelleSansExtendedFonts14w400,
+            ) : TextPrice(
               "$textValue",
               style: valueTextStyle ?? AppTheme
                   .styleWithTextAppGrey18AdelleSansExtendedFonts14w400,

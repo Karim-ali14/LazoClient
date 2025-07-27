@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:lazo_client/Presentation/Widgets/TextPrice.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../../Theme/AppTheme.dart';
@@ -10,6 +11,7 @@ class InformationRowItem extends StatelessWidget {
   final String? title;
   final TextStyle? titleStyle;
   final String? value;
+  final bool? valueIsPrice;
   final TextStyle? valueStyle;
   final bool? hasDivider;
   final bool? ifSetValueInNewLine;
@@ -19,7 +21,7 @@ class InformationRowItem extends StatelessWidget {
       this.title,
       this.value,
       this.hasDivider = true,
-      this.ifSetValueInNewLine = false, this.titleStyle, this.valueStyle});
+      this.ifSetValueInNewLine = false, this.titleStyle, this.valueStyle, this.valueIsPrice});
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +40,11 @@ class InformationRowItem extends StatelessWidget {
             ),
             const Spacer(),
             ifSetValueInNewLine == false
-                ? Text(
+                ? valueIsPrice == true ? TextPrice(
+              "$value",
+              style: valueStyle ?? AppTheme
+                  .styleWithTextAppGrey7AdelleSansExtendedFonts14w400,textAlign: TextAlign.end,
+            ): Text(
                     "$value",
                     style: valueStyle ?? AppTheme
                         .styleWithTextAppGrey7AdelleSansExtendedFonts14w400,textAlign: TextAlign.end,

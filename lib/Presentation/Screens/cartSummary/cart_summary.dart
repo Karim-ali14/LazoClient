@@ -245,7 +245,7 @@ class CartSummaryScreenState extends ConsumerState<CartSummaryScreen> {
             : null,
         deliveryTime: cartSelectionData.containsKey(deliveryTimeKey)
             ? cartSelectionData[deliveryTimeKey].toString()
-            : null);
+            : null,isOutsideDelivery: cartSelectionData.containsKey(isOutSideKey) ? int.parse(cartSelectionData[isOutSideKey]?.toString() ?? "0") : null);
   }
 
   void createOrderHardType() {

@@ -84,7 +84,8 @@ class _OrderCardItemState extends ConsumerState<OrderCardItem> {
                   titleStyle: AppTheme
                       .styleWithTextAppGrey18AdelleSansExtendedFonts14w400,
                   value:
-                      "${context.tr(sarKey)} ${widget.orderModel?.totalWithShippingFee ?? 0}",
+                      "${widget.orderModel?.totalWithShippingFee ?? 0}",
+                  valueIsPrice: true,
                   valueStyle: AppTheme
                       .styleWithTextBlack2AdelleSansExtendedFonts14w400,
                   hasDivider: false,

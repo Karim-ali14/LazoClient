@@ -94,6 +94,8 @@ class _ProductAndServiceDetailsScreenState
 
   ItemSelectorV3? cartTypeSelector;
   ItemSelectorV3? serviceLocationSelector;
+
+  bool canUpdatePrice = true;
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((callback) {
@@ -140,7 +142,7 @@ class _ProductAndServiceDetailsScreenState
     }, onEmpty: (res) {
       DialogManager.tryPopDialog(context);
     }, onSuccess: (res) {
-      if(priceStateNotifier.value.isEmpty){
+      if(canUpdatePrice){
         res.data?.data?.lists?.forEach((item) {
           if (item.clientSelectedItemsInCart?.isNotEmpty == true) {
             final itemId = int.tryParse((item.id ?? 0).toString()) ?? 0;
@@ -163,6 +165,10 @@ class _ProductAndServiceDetailsScreenState
         priceStateNotifier.value =
         "${(totalExtra + double.parse((res.data?.data?.priceAfterDiscount ?? 0).toString())).toStringAsFixed(2)}";
       }
+      else{
+        handleUpdatePrice(totalExtra: 0, price: double.parse((res.data?.data?.priceAfterDiscount ?? 0).toString()));
+        canUpdatePrice = true;
+      }
 
       print(
           "productSelectedItemsIds : $productSelectedItemsIds , productSelectedMultipleItems : $productSelectedMultipleItems");
@@ -172,7 +178,7 @@ class _ProductAndServiceDetailsScreenState
     handleState(
       getServiceDetails,
       onSuccess: (res) {
-        if(priceStateNotifier.value.isEmpty){
+        if(canUpdatePrice){
           res.data?.data?.lists?.forEach((item) {
             debugPrint("alkdjsfalksdjfskj ${item.clientSelectedItemsInCart}");
             if (item.clientSelectedItemsInCart?.isNotEmpty == true) {
@@ -197,6 +203,11 @@ class _ProductAndServiceDetailsScreenState
           handleUpdatePrice(totalExtra : totalExtra,price:  double.parse((res.data?.data?.priceAfterDiscount ?? 0).toString()));
           print(
               "productSelectedItemsIds : $productSelectedItemsIds , productSelectedMultipleItems : $productSelectedMultipleItems");
+
+        }else{
+          debugPrint("alkdjsfalksdjfskj ${double.parse((res.data?.data?.priceAfterDiscount ?? 0).toString())}");
+          priceStateNotifier.value = double.parse((res.data?.data?.priceAfterDiscount ?? 0).toString()).toString();
+          canUpdatePrice = true;
         }
 
         DialogManager.tryPopDialog(context);
@@ -227,6 +238,8 @@ class _ProductAndServiceDetailsScreenState
       var id = res.data?.data?.productId;
       print("product id : $id");
       if (id != null) {
+
+        canUpdatePrice = false;
         ref
             .read(fetchCardDetailsStateNotifies.notifier)
             .getCardDetails(sessionId: res.data?.data?.sessionId);
@@ -243,6 +256,8 @@ class _ProductAndServiceDetailsScreenState
         showLoading: true, showToast: true, onSuccess: (res) {
       var id = res.data?.data?.serviceId;
       if (id != null) {
+
+        canUpdatePrice = false;
         var sessionId = ref
             .read(getSessionHandlerStateNotifier.notifier)
             .checkIfSessionIdExist();
@@ -260,6 +275,8 @@ class _ProductAndServiceDetailsScreenState
 
     handleState(productToggleStateNotifier, showLoading: true,
         onSuccess: (res) {
+
+          canUpdatePrice = false;
       ref
           .read(getSellerDetailsWithProductStateNotifier.notifier)
           .handleAddProductToWishList(
@@ -293,6 +310,8 @@ class _ProductAndServiceDetailsScreenState
 
     handleState(serviceToggleStateNotifier, showLoading: true,
         onSuccess: (res) {
+
+          canUpdatePrice = false;
       ref
           .read(getSellerDetailsWithServicesStateNotifier.notifier)
           .handleAddServiceToWishList(
@@ -706,8 +725,9 @@ class _ProductAndServiceDetailsScreenState
                                       null && serviceItemState.data?.data?.cardType == ServiceTypes.hard_card.name)
                                     ItemDetailsRow(
                                       title: "Price for hard card",
+                                      valueIsPrice: true,
                                       textValue:
-                                          "SAR ${serviceItemState.data?.data?.cardPrice ?? ""}",
+                                          "${serviceItemState.data?.data?.cardPrice ?? ""}",
                                     ),
                                   ItemDetailsRow(
                                     title: "Card Duration",
@@ -821,7 +841,7 @@ class _ProductAndServiceDetailsScreenState
                             ServiceCartTypesSelector(
                               initialServiceLocationSelectedId: widget.isOutsideDelivery,
                               initialCartTypeSelectedId: widget.serviceShowData != null ? 1 : null,
-                              onCartTypeSelect: (item , id , price ) {
+                              onCartTypeSelect: (item , id , price) {
                                 cartTypeSelector = item;
                                 serviceExtraPrice = price;
                                 serviceTypeSelected.value = item?.id == 0 ? ServiceTypes.soft_card : ServiceTypes.hard_card;
@@ -911,8 +931,9 @@ class _ProductAndServiceDetailsScreenState
                                                                       item.name ??
                                                                           "",
                                                                   widget:
-                                                                      TextWithoutPadding(
-                                                                    "(+SAR ${item.price})",
+                                                                      TextPrice(
+                                                                    "${item.price}", showPlus: true,
+                                                                        showRoundBrackets: true,
                                                                     style: AppTheme
                                                                         .styleWithTextAppGrey18AdelleSansExtendedFonts14w400,
                                                                   ),
@@ -985,8 +1006,10 @@ class _ProductAndServiceDetailsScreenState
                                                                       item.name ??
                                                                           "",
                                                                   widget:
-                                                                      TextWithoutPadding(
-                                                                    "(+SAR ${item.price})",
+                                                                      TextPrice(
+                                                                    "${item.price}",
+                                                                    showPlus: true,
+                                                                    showRoundBrackets: true,
                                                                     style: AppTheme
                                                                         .styleWithTextAppGrey18AdelleSansExtendedFonts14w400,
                                                                   ),
@@ -1415,14 +1438,12 @@ class _ProductAndServiceDetailsScreenState
                           if ((serviceItemState.data?.data?.cardType ==
                                   ServiceTypes.soft_card.name || value == ServiceTypes.soft_card) &&
                               serviceItemState.data?.data?.id != null) {
-                            if(value == ServiceTypes.soft_card){
-                              if(cartTypeSelector == null){
-                                AppSnackBar.showSnackBar(context, isSuccess: false ,message:  "Please select cart type");
-                                return;
-                              }else if(serviceLocationSelector == null){
-                                AppSnackBar.showSnackBar(context, isSuccess: false ,message:  "Please select service location");
-                                return;
-                              }
+                            if(value == ServiceTypes.soft_card && cartTypeSelector == null){
+                              AppSnackBar.showSnackBar(context, isSuccess: false ,message:  "Please select cart type");
+                              return;
+                            }else if(serviceLocationSelector == null && serviceItemState.data?.data?.isServiceDeliverableOutsideStore == 1){
+                              AppSnackBar.showSnackBar(context, isSuccess: false ,message:  "Please select service location");
+                              return;
                             }
                             calculateSoftService(
                                 serviceItemState.data?.data?.priceAfterDiscount ??
@@ -1662,9 +1683,19 @@ class _ProductAndServiceDetailsScreenState
   void navigateToLogin() async {
     var makeRefresh =
         await context.push(R_LoginScreen, extra: {"type": TypeOfMode.ViewMode});
+    print("makeRefresh $makeRefresh");
     if (makeRefresh == true) {
       // Todo make this action butter
       this.makeRefresh = true;
+      canUpdatePrice = false;
+      serviceLocationSelector = null;
+      serviceTypeSelected.value = ServiceTypes.both;
+      cartTypeSelector = null;
+      productSelectedItemsIds.clear();
+      productSelectedMultipleItems.clear();
+      serviceSelectedItemsIds.clear();
+      serviceSelectedItemsNames.clear();
+      priceStateNotifier.value = "";
       if (widget.itemType == ItemType.Products) {
         getDetailsForProduct();
         getRelatedProducts();
@@ -1674,8 +1705,10 @@ class _ProductAndServiceDetailsScreenState
         getRelatedServices();
         refreshHomeData();
       }
-    } else {
+    }
+    else {
       this.makeRefresh = false;
+      canUpdatePrice = true;
     }
   }
 
@@ -1740,6 +1773,7 @@ class _ProductAndServiceDetailsScreenState
         serviceSelectedListIdsKey: parentItemIds.toString(),
         serviceSelectedListItemsIdsKey: childItemIds.toString(),
         serviceSelectedListItemsNamesKey: childItemNames.toString(),
+        isOutSideKey: serviceLocationSelector?.id.toString(),
       });
 
       context.push(R_CartScreen, extra: {

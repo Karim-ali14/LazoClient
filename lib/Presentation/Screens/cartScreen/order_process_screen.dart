@@ -11,6 +11,7 @@ import 'package:lazo_client/Presentation/Screens/cartSummary/cart_summary.dart';
 import 'package:lazo_client/Presentation/Screens/checkout/CheckoutScreen.dart';
 import 'package:lazo_client/Presentation/Theme/AppTheme.dart';
 import 'package:lazo_client/Presentation/Widgets/CustomAppBar.dart';
+import 'package:lazo_client/Presentation/Widgets/TextPrice.dart';
 
 import '../../../Constants.dart';
 import '../../../Constants/Eunms.dart';
@@ -108,7 +109,6 @@ class _OrderProcessScreenState extends ConsumerState<OrderProcessScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var cartData = ref.watch(fetchCardDetailsStateNotifies);
     var cartInfo = ref.watch(cartCalculationStateNotifies);
 
     handleState(createOrderStateNotifiers, showLoading: true, showToast: true, onSuccess: (res) {
@@ -166,74 +166,77 @@ class _OrderProcessScreenState extends ConsumerState<OrderProcessScreen> {
               ),
             ),
           ),
-          cartData.data?.data?.cartItems.isNotEmpty == true ? Align(
-            alignment: Alignment.bottomCenter,
-            child: Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.1),
-                    offset: const Offset(0, -1),
-                    blurRadius: 6,
-                    spreadRadius: 0,
-                  ),
-                ],
-              ),
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-              child: Row(
-                children: [
-                  SizedBox(
-                    height: 46,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        TextWithoutPadding(
-                          widget.type == CheckoutTypes.HartCard
-                              ? "${cartData.data?.data?.cartItems.length ?? 0} items"
-                              : "1 Item",
-                          style: AppTheme.styleWithTextGray7AdelleSansExtendedFonts12w400,
-                        ),
-                        TextWithoutPadding(
-                          "SAR ${widget.type == CheckoutTypes.HartCard ? cartInfo.data?.data?.totalAfter ?? 0 : widget.service?.priceAfterDiscount ?? 0}",
-                          style: AppTheme.styleWithTextBlackAdelleSansExtendedFonts18w500,
-                        ),
-                      ],
+          Consumer(builder: (context,ref,_){
+            var cartData = ref.watch(fetchCardDetailsStateNotifies);
+            return cartData.data?.data?.cartItems.isNotEmpty == true || widget.type == CheckoutTypes.SoftCard ? Align(
+              alignment: Alignment.bottomCenter,
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.1),
+                      offset: const Offset(0, -1),
+                      blurRadius: 6,
+                      spreadRadius: 0,
                     ),
-                  ),
-                  const SizedBox(width: 26),
-                  Expanded(
-                    child: AppButton(
-                      onPress: () {
-                        if (_currentPage == 0 && widget.type == CheckoutTypes.HartCard) {
-                          (_keys[0].currentState as CartScreenState).actionClick(afterPassConditions: () {
-                            navigateToPage(++_currentPage);
-                          }, onCannotPassConditions: () {
-                            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                              content: TextWithoutPadding("Please select a gift box"),
-                            ));
-                          });
-                        } else if (_currentPage == 1 || (_currentPage == 0 && widget.type == CheckoutTypes.SoftCard)) {
-                          (_keys[1].currentState as CheckoutScreenState).continueToPayment(afterPassConditions: () {
-                            navigateToPage(++_currentPage);
-                          });
-                        } else if (_currentPage == 2 || (_currentPage == 1 && widget.type == CheckoutTypes.SoftCard)) {
-                          (_keys[2].currentState as CartSummaryScreenState).createOrder();
-                        }
-                      },
-                      text: _currentPage == 0
-                          ? "Continue to Delivery"
-                          : _currentPage == 1
-                          ? "Continue to Payment"
-                          : "Complete Payment",
-                      height: 48,
-                      backColor: AppTheme.mainAppColorDark,
+                  ],
+                ),
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                child: Row(
+                  children: [
+                    SizedBox(
+                      height: 46,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          TextWithoutPadding(
+                            widget.type == CheckoutTypes.HartCard
+                                ? "${cartData.data?.data?.cartItems.length ?? 0} items"
+                                : "1 Item",
+                            style: AppTheme.styleWithTextGray7AdelleSansExtendedFonts12w400,
+                          ),
+                          TextPrice(
+                            "${widget.type == CheckoutTypes.HartCard ? cartInfo.data?.data?.totalAfter ?? 0 : widget.service?.priceAfterDiscount ?? 0}",
+                            style: AppTheme.styleWithTextBlackAdelleSansExtendedFonts18w500,
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                ],
+                    const SizedBox(width: 26),
+                    Expanded(
+                      child: AppButton(
+                        onPress: () {
+                          if (_currentPage == 0 && widget.type == CheckoutTypes.HartCard) {
+                            (_keys[0].currentState as CartScreenState).actionClick(afterPassConditions: () {
+                              navigateToPage(++_currentPage);
+                            }, onCannotPassConditions: () {
+                              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                                content: TextWithoutPadding("Please select a gift box"),
+                              ));
+                            });
+                          } else if (_currentPage == 1 || (_currentPage == 0 && widget.type == CheckoutTypes.SoftCard)) {
+                            (_keys[1].currentState as CheckoutScreenState).continueToPayment(afterPassConditions: () {
+                              navigateToPage(++_currentPage);
+                            });
+                          } else if (_currentPage == 2 || (_currentPage == 1 && widget.type == CheckoutTypes.SoftCard)) {
+                            (_keys[2].currentState as CartSummaryScreenState).createOrder();
+                          }
+                        },
+                        text: _currentPage == 0
+                            ? "Continue to Delivery"
+                            : _currentPage == 1
+                            ? "Continue to Payment"
+                            : "Complete Payment",
+                        height: 48,
+                        backColor: AppTheme.mainAppColorDark,
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ):const SizedBox(),
+            ):const SizedBox();
+          }),
         ],
       ),
     );
