@@ -142,7 +142,7 @@ class _OrderProcessScreenState extends ConsumerState<OrderProcessScreen> {
       ),
       body: Stack(
         children: [
-          Expanded(
+          Positioned.fill(
             child: SingleChildScrollView(
               child: Column(
                 children: [
@@ -166,11 +166,12 @@ class _OrderProcessScreenState extends ConsumerState<OrderProcessScreen> {
               ),
             ),
           ),
-          Consumer(builder: (context,ref,_){
-            var cartData = ref.watch(fetchCardDetailsStateNotifies);
-            return cartData.data?.data?.cartItems.isNotEmpty == true || widget.type == CheckoutTypes.SoftCard ? Align(
-              alignment: Alignment.bottomCenter,
-              child: Container(
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Consumer(builder: (context,ref,_){
+              var cartData = ref.watch(fetchCardDetailsStateNotifies);
+              return cartData.data?.data?.cartItems.isNotEmpty == true || widget.type == CheckoutTypes.SoftCard ?
+              Container(
                 decoration: BoxDecoration(
                   color: Colors.white,
                   boxShadow: [
@@ -234,9 +235,9 @@ class _OrderProcessScreenState extends ConsumerState<OrderProcessScreen> {
                     ),
                   ],
                 ),
-              ),
-            ):const SizedBox();
-          }),
+              ):const SizedBox();
+            }),
+          ),
         ],
       ),
     );

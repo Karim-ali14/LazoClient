@@ -145,15 +145,15 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           },
           child: Stack(
             children: [
-              Expanded(
+              Positioned.fill(
                 child: SingleChildScrollView(
                   child: Padding(
                     padding: const EdgeInsets.all(16),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const SizedBox(
-                          height: 125,
+                        SizedBox(
+                          height: 125.h,
                         ),
                         (homeDataState.state == DataState.SUCCESS &&
                                 homeDataState.data?.data?.banners.isEmpty ==
@@ -412,12 +412,14 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   ),
                 ),
               ),
-              IntrinsicHeight(
+              Align(
+                alignment: Alignment.topCenter,
                 child: Container(
                   color: Colors.white.withOpacity(_opacity),
                   padding: const EdgeInsets.symmetric(
                       horizontal: 16.0, vertical: 20),
                   child: Column(
+                    mainAxisSize: MainAxisSize.min,
                     children: [
                       Row(
                         children: [
