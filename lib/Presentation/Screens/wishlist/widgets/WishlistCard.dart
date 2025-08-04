@@ -66,17 +66,16 @@ class WishlistCard extends StatelessWidget {
                       );
                       },
                   )
-                : Expanded(
-                    child: collection?.items.isEmpty == false
-                        ? ImageView(
-                            width: double.infinity,
-                            height: double.infinity,
-                            initialImg: collection?.items.first.imagePath ?? "")
-                        : Container(
-                            width: double.infinity,
-                            height: double.infinity,
-                            color: AppTheme.appGrey20,
-                          )),
+                : collection?.items.isEmpty == false
+                    ? ImageView(
+                        width: double.infinity,
+                        height: double.infinity,
+                        initialImg: collection?.items.first.imagePath ?? "")
+                    : Container(
+                        width: double.infinity,
+                        height: double.infinity,
+                        color: AppTheme.appGrey20,
+                      ),
           ),
         ),
         Skeleton.replace(
