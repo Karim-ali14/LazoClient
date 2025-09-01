@@ -144,7 +144,7 @@ class _ServiceAndProductItemCardHorizontalState
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.symmetric(vertical: 12),
+                  padding: const EdgeInsets.only(top: 6),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [

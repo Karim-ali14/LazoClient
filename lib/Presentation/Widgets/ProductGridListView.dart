@@ -56,7 +56,7 @@ class _ProductGridListviewWithCategoryNameState
             physics: NeverScrollableScrollPhysics(),
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
-              mainAxisSpacing: 8,
+              mainAxisSpacing: 0,
               crossAxisSpacing: 15,
               childAspectRatio: .77,
             ),

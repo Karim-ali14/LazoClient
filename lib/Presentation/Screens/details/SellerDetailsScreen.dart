@@ -592,61 +592,64 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
                             .toList();
                       }
                       return SliverToBoxAdapter(
-                        child: Column(
-                          children: List.generate(
-                            sellerProducts.state == DataState.LOADING
-                                ? 5
-                                : sellerProducts
-                                        .data?.data?.categories?.length ??
-                                    0,
-                            (index) => Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 16.0, vertical: 9),
-                              child: ProductGridListviewWithCategoryName(
-                                showSeeMore: false,
-                                key: sellerProducts.state == DataState.LOADING
-                                    ? GlobalKey()
-                                    : _categoryForProductKeys[index],
-                                title: sellerProducts
-                                        .data?.data?.categories?[index].name ??
-                                    "",
-                                rootId: sellerProducts
-                                    .data?.data?.categories?[index].id
-                                    ?.toInt(),
-                                list: sellerProducts.state == DataState.LOADING
-                                    ? [
-                                        ProviderProduct(),
-                                        ProviderProduct(),
-                                        ProviderProduct(),
-                                        ProviderProduct(),
-                                        ProviderProduct(),
-                                      ]
-                                    : sellerProducts.data?.data
-                                            ?.categories?[index].products ??
-                                        [],
-                                showLoading:
-                                    sellerProducts.state == DataState.LOADING,
-                                onAddItemToCart: (id) => addProductToCart(id),
-                                onAddItemToWishList:
-                                    (id, collectionId, inWishlist) {
-                                  if (client != null) {
-                                    if (inWishlist) {
-                                      productWishlistToggle(id);
-                                    }else{
-                                      ref.read(handelAddItemToWishListStateNotifier.notifier).addItemToWishList(
-                                          itemId: id,
-                                          collectionId: int.tryParse(collectionId ?? "0"),
-                                          type: OrderItemType.Product);
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 16),
+                          child: Column(
+                            children: List.generate(
+                              sellerProducts.state == DataState.LOADING
+                                  ? 5
+                                  : sellerProducts
+                                          .data?.data?.categories?.length ??
+                                      0,
+                              (index) => Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 16.0, vertical: 0),
+                                child: ProductGridListviewWithCategoryName(
+                                  showSeeMore: false,
+                                  key: sellerProducts.state == DataState.LOADING
+                                      ? GlobalKey()
+                                      : _categoryForProductKeys[index],
+                                  title: sellerProducts
+                                          .data?.data?.categories?[index].name ??
+                                      "",
+                                  rootId: sellerProducts
+                                      .data?.data?.categories?[index].id
+                                      ?.toInt(),
+                                  list: sellerProducts.state == DataState.LOADING
+                                      ? [
+                                          ProviderProduct(),
+                                          ProviderProduct(),
+                                          ProviderProduct(),
+                                          ProviderProduct(),
+                                          ProviderProduct(),
+                                        ]
+                                      : sellerProducts.data?.data
+                                              ?.categories?[index].products ??
+                                          [],
+                                  showLoading:
+                                      sellerProducts.state == DataState.LOADING,
+                                  onAddItemToCart: (id) => addProductToCart(id),
+                                  onAddItemToWishList:
+                                      (id, collectionId, inWishlist) {
+                                    if (client != null) {
+                                      if (inWishlist) {
+                                        productWishlistToggle(id);
+                                      }else{
+                                        ref.read(handelAddItemToWishListStateNotifier.notifier).addItemToWishList(
+                                            itemId: id,
+                                            collectionId: int.tryParse(collectionId ?? "0"),
+                                            type: OrderItemType.Product);
+                                      }
+                                    }else
+                                    {
+                                      showAuthenticated();
                                     }
-                                  }else
-                                  {
-                                    showAuthenticated();
-                                  }
-                                },
-                                onItemClick: (itemId, itemName, categoryIds) {
-                                  navigateToItemDetails(ItemType.Products,
-                                      itemId, itemName, categoryIds);
-                                },
+                                  },
+                                  onItemClick: (itemId, itemName, categoryIds) {
+                                    navigateToItemDetails(ItemType.Products,
+                                        itemId, itemName, categoryIds);
+                                  },
+                                ),
                               ),
                             ),
                           ),
@@ -662,68 +665,71 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
                             .toList();
                       }
                       return SliverToBoxAdapter(
-                        child: Column(
-                          children: List.generate(
-                            sellerServices.state == DataState.LOADING
-                                ? 5
-                                : sellerServices
-                                        .data?.data?.categories?.length ??
-                                    0,
-                            (index) => Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 16.0, vertical: 9),
-                                child: ServiceGridListviewWithCategoryName(
-                                  showSeeMore: false,
-                                  key: sellerServices.state == DataState.LOADING
-                                      ? GlobalKey()
-                                      : _categoryForServiceKeys[index],
-                                  list:
-                                      sellerServices.state == DataState.LOADING
-                                          ? [
-                                              ServiceShowData(),
-                                              ServiceShowData(),
-                                              ServiceShowData(),
-                                              ServiceShowData(),
-                                              ServiceShowData(),
-                                            ]
-                                          : sellerServices
-                                                  .data
-                                                  ?.data
-                                                  ?.categories?[index]
-                                                  .services ??
-                                              [],
-                                  showLoading:
-                                      sellerServices.state == DataState.LOADING,
-                                  onItemClick: (itemId, itemName, categoryIds) {
-                                    navigateToItemDetails(ItemType.Services,
-                                        itemId, itemName, categoryIds);
-                                  },
-                                  onAddItemToCart: (id) {
-                                    addServiceToCart(id);
-                                  },
-                                  onAddItemToWishList:
-                                      (id, collectionId, inWishlist) {
-                                    if (client != null) {
-                                      if(inWishlist) {
-                                        serviceWishlistToggle(id.toString());
-                                      }else{
-                                        ref.read(handelAddItemToWishListStateNotifier.notifier).addItemToWishList(
-                                            itemId: id,
-                                            collectionId: int.tryParse(collectionId ?? "0"),
-                                            type: OrderItemType.Service);
-                                      }
-                                    } else {
-                                      showAuthenticated();
-                                    }
-                                  },
-                                  title: sellerServices.data?.data
-                                          ?.categories?[index].name ??
-                                      "",
-                                  rootId: sellerServices
-                                          .data?.data?.categories?[index].id
-                                          ?.toInt() ??
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 16),
+                          child: Column(
+                            children: List.generate(
+                              sellerServices.state == DataState.LOADING
+                                  ? 5
+                                  : sellerServices
+                                          .data?.data?.categories?.length ??
                                       0,
-                                )),
+                              (index) => Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 16.0, vertical: 0),
+                                  child: ServiceGridListviewWithCategoryName(
+                                    showSeeMore: false,
+                                    key: sellerServices.state == DataState.LOADING
+                                        ? GlobalKey()
+                                        : _categoryForServiceKeys[index],
+                                    list:
+                                        sellerServices.state == DataState.LOADING
+                                            ? [
+                                                ServiceShowData(),
+                                                ServiceShowData(),
+                                                ServiceShowData(),
+                                                ServiceShowData(),
+                                                ServiceShowData(),
+                                              ]
+                                            : sellerServices
+                                                    .data
+                                                    ?.data
+                                                    ?.categories?[index]
+                                                    .services ??
+                                                [],
+                                    showLoading:
+                                        sellerServices.state == DataState.LOADING,
+                                    onItemClick: (itemId, itemName, categoryIds) {
+                                      navigateToItemDetails(ItemType.Services,
+                                          itemId, itemName, categoryIds);
+                                    },
+                                    onAddItemToCart: (id) {
+                                      addServiceToCart(id);
+                                    },
+                                    onAddItemToWishList:
+                                        (id, collectionId, inWishlist) {
+                                      if (client != null) {
+                                        if(inWishlist) {
+                                          serviceWishlistToggle(id.toString());
+                                        }else{
+                                          ref.read(handelAddItemToWishListStateNotifier.notifier).addItemToWishList(
+                                              itemId: id,
+                                              collectionId: int.tryParse(collectionId ?? "0"),
+                                              type: OrderItemType.Service);
+                                        }
+                                      } else {
+                                        showAuthenticated();
+                                      }
+                                    },
+                                    title: sellerServices.data?.data
+                                            ?.categories?[index].name ??
+                                        "",
+                                    rootId: sellerServices
+                                            .data?.data?.categories?[index].id
+                                            ?.toInt() ??
+                                        0,
+                                  )),
+                            ),
                           ),
                         ),
                       );
