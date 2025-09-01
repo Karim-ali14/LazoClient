@@ -113,7 +113,7 @@ class _OccasionResultScreenState extends ConsumerState<OccasionResultScreen>
                   height: headerHeightPresent,
                   child: Stack(
                     children: [
-                      Container(
+                      SizedBox(
                         height: headerHeightPresent,
                         width: double.infinity,
                         child: ImageView(
@@ -131,6 +131,7 @@ class _OccasionResultScreenState extends ConsumerState<OccasionResultScreen>
                         ),
                       ),
                       Column(
+                        mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           SizedBox(
                             height: 20,
@@ -196,64 +197,61 @@ class _OccasionResultScreenState extends ConsumerState<OccasionResultScreen>
                               }
                             },
                           ),
-                        ],
-                      ),
-                      Align(
-                        alignment: Alignment.bottomCenter,
-                        child: TabBar(
-                          isScrollable: true,
-                          indicatorWeight: 5,
-                          labelColor: Colors.transparent,
-                          unselectedLabelColor: Colors.transparent,
-                          indicatorPadding: EdgeInsets.zero,
-                          indicatorColor: AppTheme.appRedColor,
-                          tabs: [
-                            Tab(
-                                child: Text("All",
-                                    style: activeTabIndex == 0
+                          TabBar(
+                            isScrollable: true,
+                            indicatorWeight: 5,
+                            labelColor: Colors.transparent,
+                            unselectedLabelColor: Colors.transparent,
+                            indicatorPadding: EdgeInsets.zero,
+                            indicatorColor: AppTheme.appRedColor,
+                            tabs: [
+                              Tab(
+                                  child: Text("All",
+                                      style: activeTabIndex == 0
+                                          ? AppTheme
+                                          .styleWithTextBlackColor2AdelleSansExtendedFonts14w400
+                                          .copyWith(color: Colors.white)
+                                          : AppTheme
+                                          .styleWithTextAppGrey7AdelleSansExtendedFonts14w400
+                                          .copyWith(
+                                          color: AppTheme.appGrey19))),
+                              Tab(
+                                child: Text("Ready Gifts",
+                                    style: activeTabIndex == 1
                                         ? AppTheme
-                                            .styleWithTextBlackColor2AdelleSansExtendedFonts14w400
-                                            .copyWith(color: Colors.white)
+                                        .styleWithTextBlackColor2AdelleSansExtendedFonts14w400
+                                        .copyWith(color: Colors.white)
                                         : AppTheme
-                                            .styleWithTextAppGrey7AdelleSansExtendedFonts14w400
-                                            .copyWith(
-                                                color: AppTheme.appGrey19))),
-                            Tab(
-                              child: Text("Ready Gifts",
-                                  style: activeTabIndex == 1
-                                      ? AppTheme
-                                          .styleWithTextBlackColor2AdelleSansExtendedFonts14w400
-                                          .copyWith(color: Colors.white)
-                                      : AppTheme
-                                          .styleWithTextAppGrey7AdelleSansExtendedFonts14w400
-                                          .copyWith(
-                                              color: AppTheme.appGrey19)),
-                            ),
-                            Tab(
-                              child: Text("Unready Gifts",
-                                  style: activeTabIndex == 2
-                                      ? AppTheme
-                                          .styleWithTextBlackColor2AdelleSansExtendedFonts14w400
-                                          .copyWith(color: Colors.white)
-                                      : AppTheme
-                                          .styleWithTextAppGrey7AdelleSansExtendedFonts14w400
-                                          .copyWith(
-                                              color: AppTheme.appGrey19)),
-                            ),
-                            Tab(
-                              child: Text("Service",
-                                  style: activeTabIndex == 3
-                                      ? AppTheme
-                                          .styleWithTextBlackColor2AdelleSansExtendedFonts14w400
-                                          .copyWith(color: Colors.white)
-                                      : AppTheme
-                                          .styleWithTextAppGrey7AdelleSansExtendedFonts14w400
-                                          .copyWith(
-                                              color: AppTheme.appGrey19)),
-                            ),
-                          ],
-                          controller: tabController,
-                        ),
+                                        .styleWithTextAppGrey7AdelleSansExtendedFonts14w400
+                                        .copyWith(
+                                        color: AppTheme.appGrey19)),
+                              ),
+                              Tab(
+                                child: Text("Unready Gifts",
+                                    style: activeTabIndex == 2
+                                        ? AppTheme
+                                        .styleWithTextBlackColor2AdelleSansExtendedFonts14w400
+                                        .copyWith(color: Colors.white)
+                                        : AppTheme
+                                        .styleWithTextAppGrey7AdelleSansExtendedFonts14w400
+                                        .copyWith(
+                                        color: AppTheme.appGrey19)),
+                              ),
+                              Tab(
+                                child: Text("Service",
+                                    style: activeTabIndex == 3
+                                        ? AppTheme
+                                        .styleWithTextBlackColor2AdelleSansExtendedFonts14w400
+                                        .copyWith(color: Colors.white)
+                                        : AppTheme
+                                        .styleWithTextAppGrey7AdelleSansExtendedFonts14w400
+                                        .copyWith(
+                                        color: AppTheme.appGrey19)),
+                              ),
+                            ],
+                            controller: tabController,
+                          ),
+                        ],
                       ),
                     ],
                   ),
