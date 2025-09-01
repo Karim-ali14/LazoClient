@@ -101,12 +101,12 @@ class CartSummaryScreenState extends ConsumerState<CartSummaryScreen> {
                     )
                   : Column(
                       children: [
-                        AddressSummaryCart(
+                        address?.isNotEmpty == true && cityName?.isNotEmpty == true ? AddressSummaryCart(
                           addressItem: AddressItem(
                             recipientAddress: address,
                             city: AddressItemCity(name: cityName),
                           ), changeAddressAction: widget.changeAddressAction,
-                        ),
+                        ):const SizedBox(),
                         Consumer(builder: (context, ref, _) {
                           var cartData =
                               ref.watch(fetchCardDetailsStateNotifies);

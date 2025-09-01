@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lazo_client/Doman/CommenProviders/ApiProvider.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import '../../../Constants/Assets.dart';
@@ -260,7 +261,7 @@ class _ProductSearchScreenState
                             : []),
                     paginated: true,
                     gridView: true,
-                    childAspectRatio: .79,
+                    childAspectRatio: .78,
                     heightPresent: ref
                                 .watch(widget.productType ==
                                         ProductOccasionType.All
@@ -287,7 +288,7 @@ class _ProductSearchScreenState
                             child: ServiceAndProductItemCardHorizontal(
                               type: ItemType.Products,
                               product: item,
-                              height: 156,
+                              height: 155.h,
                               onAddItemToCart: (id) {
                                 addProductToCart(id);
                               },

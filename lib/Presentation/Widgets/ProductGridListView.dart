@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../Constants/Eunms.dart';
@@ -57,7 +58,7 @@ class _ProductGridListviewWithCategoryNameState
               crossAxisCount: 2,
               mainAxisSpacing: 8,
               crossAxisSpacing: 15,
-              childAspectRatio: .78,
+              childAspectRatio: .77,
             ),
             itemBuilder: (context, gridIndex) => Skeletonizer(
                   enabled: widget.showLoading ?? false,
@@ -67,7 +68,7 @@ class _ProductGridListviewWithCategoryNameState
                     child: ServiceAndProductItemCardHorizontal(
                       type: ItemType.Products,
                       product: widget.list?[gridIndex],
-                      height: 160,
+                      height: 158.h,
                       onAddItemToCart: (id) {
                         widget.onAddItemToCart(id);
                       },

@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -57,7 +58,8 @@ class CheckoutScreen extends ConsumerStatefulWidget {
   ConsumerState<CheckoutScreen> createState() => CheckoutScreenState();
 }
 
-class CheckoutScreenState extends ConsumerState<CheckoutScreen>  with AutomaticKeepAliveClientMixin{
+class CheckoutScreenState extends ConsumerState<CheckoutScreen>
+    with AutomaticKeepAliveClientMixin {
   final ValueNotifier<String> codeNotifier = ValueNotifier("");
   final ValueNotifier<bool> saveAddressValueNotifier = ValueNotifier(false);
   final sendTypeController = TextEditingController();
@@ -70,7 +72,7 @@ class CheckoutScreenState extends ConsumerState<CheckoutScreen>  with AutomaticK
   final messageToController = TextEditingController();
   final messageFromController = TextEditingController();
   final messageController = TextEditingController();
-  bool _enable = false;
+  ValueNotifier<bool> _enable = ValueNotifier(false);
   bool _enableIsSecret = false;
   String? promocode;
 
@@ -113,7 +115,8 @@ class CheckoutScreenState extends ConsumerState<CheckoutScreen>  with AutomaticK
   bool get wantKeepAlive => true; // This keeps the screen alive
   @override
   Widget build(BuildContext context) {
-    super.build(context); // Required to call in widgets with AutomaticKeepAliveClientMixin
+    super.build(
+        context); // Required to call in widgets with AutomaticKeepAliveClientMixin
     var calculateSoftService = ref.watch(calculateInstantOrderStateProvider);
     var cartInfo = widget.type == CheckoutTypes.HartCard
         ? ref.watch(cartCalculationStateNotifies)
@@ -160,7 +163,10 @@ class CheckoutScreenState extends ConsumerState<CheckoutScreen>  with AutomaticK
                         ),
                         ServiceInfoView(
                           item: widget.service,
-                          selectedServicesListItemsNames: cartSelectionData[serviceSelectedListItemsNamesKey]?.toString() ?? "",
+                          selectedServicesListItemsNames: cartSelectionData[
+                                      serviceSelectedListItemsNamesKey]
+                                  ?.toString() ??
+                              "",
                         ),
                         SizedBox(
                           height: 16,
@@ -293,347 +299,409 @@ class CheckoutScreenState extends ConsumerState<CheckoutScreen>  with AutomaticK
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          selectTypeOfSend == 0 || widget.type == CheckoutTypes.HartCard
+                          selectTypeOfSend == 0 ||
+                                  widget.type == CheckoutTypes.HartCard
                               ? context.tr(locationKey)
                               : context.tr(recipientInfoKey),
-                          style: AppTheme.styleWithTextBlackAdelleSansExtendedFonts18w700,
+                          style: AppTheme
+                              .styleWithTextBlackAdelleSansExtendedFonts18w700,
                         ),
                         selectTypeOfSend != 0
                             ? const SizedBox(
-                          height: 8,
-                        )
-                            : const SizedBox(
-                          height: 5,
-                        ),
-                        selectTypeOfSend != 0 && widget.type == CheckoutTypes.HartCard
-                            ? Container(
-                          decoration: BoxDecoration(
-                              color: AppTheme.appGrey28,
-                              borderRadius: BorderRadius.circular(4)),
-                          padding: EdgeInsets.all(defaultPaddingHorizontal),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                children: [
-                                  Text(
-                                    context.tr(askTheRecipientForTheAddressKey),
-                                    style: AppTheme
-                                        .styleWithTextBlackAdelleSansExtendedFonts16w500,
-                                  ),
-                                  const Spacer(),
-                                  CustomSwitch(
-                                    value: _enable,
-                                    onChanged: (bool val) {
-                                      print(val);
-                                      setState(() {
-                                        _enable = val;
-                                      });
-                                    },
-                                  ),
-                                ],
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Text(
-                                context
-                                    .tr(weWillCollectTheAddressFromTheRecipientKey),
-                                style: AppTheme
-                                    .styleWithTextGray7AdelleSansExtendedFonts12w400
-                                    .copyWith(height: 1.3),
+                                height: 8,
                               )
-                            ],
-                          ),
-                        )
+                            : const SizedBox(
+                                height: 5,
+                              ),
+                        selectTypeOfSend != 0 &&
+                                widget.type == CheckoutTypes.HartCard
+                            ? Container(
+                                decoration: BoxDecoration(
+                                    color: AppTheme.appGrey28,
+                                    borderRadius: BorderRadius.circular(4)),
+                                padding:
+                                    EdgeInsets.all(defaultPaddingHorizontal),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Text(
+                                          context.tr(
+                                              askTheRecipientForTheAddressKey),
+                                          style: AppTheme
+                                              .styleWithTextBlackAdelleSansExtendedFonts16w500,
+                                        ),
+                                        const Spacer(),
+                                        ValueListenableBuilder(
+                                          valueListenable: _enable,
+                                          builder: (context,value,_) {
+                                            return CustomSwitch(
+                                              enable: value,
+                                              onChanged: (bool val) {
+                                                _enable.value = val;
+                                              },
+                                            );
+                                          }
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    Text(
+                                      context.tr(
+                                          weWillCollectTheAddressFromTheRecipientKey),
+                                      style: AppTheme
+                                          .styleWithTextGray7AdelleSansExtendedFonts12w400
+                                          .copyWith(height: 1.3),
+                                    )
+                                  ],
+                                ),
+                              )
                             : const SizedBox(),
                         SizedBox(
                           height: 8.h,
                         ),
-                        selectTypeOfSend != null || widget.type == CheckoutTypes.SoftCard
-                            ? Column(
-                          children: [
-                            widget.type == CheckoutTypes.HartCard
-                                ? SavedRecipientsAddresses(
-                              onItemPressed: (addressItem) {
-                                autoFillAddress(addressItem);
-                              },
+                        selectTypeOfSend != null ||
+                                widget.type == CheckoutTypes.SoftCard
+                            ? ValueListenableBuilder(
+                          valueListenable: _enable,
+                              builder: (context,show,_) {
+                                return widget.type == CheckoutTypes.HartCard && !show
+                                    ? Column(
+                                        children: [
+                                          SavedRecipientsAddresses(
+                                            onItemPressed: (addressItem) {
+                                              autoFillAddress(addressItem);
+                                            },
+                                          ),
+                                          Row(
+                                            children: [
+                                              SizedBox(
+                                                width: MediaQuery.of(context)
+                                                            .size
+                                                            .width /
+                                                        2 -
+                                                    25,
+                                                child: TextFormField(
+                                                  autovalidateMode: AutovalidateMode
+                                                      .onUserInteraction,
+                                                  keyboardType: TextInputType.text,
+                                                  cursorColor: AppTheme.blackColor2,
+                                                  decoration: InputDecoration(
+                                                      hintText: context
+                                                          .tr(recipientNameKey),
+                                                      focusedBorder:
+                                                          const UnderlineInputBorder(
+                                                              borderSide:
+                                                                  BorderSide(
+                                                        color: AppTheme.appGrey20,
+                                                      )),
+                                                      enabledBorder:
+                                                          const UnderlineInputBorder(
+                                                              borderSide:
+                                                                  BorderSide(
+                                                        color: AppTheme.appGrey20,
+                                                      ))),
+                                                  controller:
+                                                      recipientNameController,
+                                                  validator: (value) {
+                                                    if (value?.isEmpty == true) {
+                                                      return "Select type of send";
+                                                    } else {
+                                                      return null;
+                                                    }
+                                                  },
+                                                ),
+                                              ),
+                                              const SizedBox(
+                                                width: defaultPaddingHorizontal,
+                                              ),
+                                              SizedBox(
+                                                width: MediaQuery.of(context)
+                                                            .size
+                                                            .width /
+                                                        2 -
+                                                    25,
+                                                child:
+                                                    PhoneFieldWithCountryCodeForAddress(
+                                                  phoneController:
+                                                      recipientPhoneController,
+                                                  isCountryCodeEmpty:
+                                                      isCountryCodeEmpty,
+                                                  onSelectCountryCode: (value) {
+                                                    code = value;
+                                                  },
+                                                  code: codeNotifier,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          SizedBox(
+                                            height: 16.h,
+                                          ),
+                                          const SizedBox(
+                                            height: spaceBetweenItems,
+                                          ),
+                                          widget.type == CheckoutTypes.HartCard
+                                              ? MapViewContainer(
+                                                  onMapSelectedLocation:
+                                                      (location) {
+                                                    selectedLocation = location;
+                                                    setAddressName(location);
+                                                  },
+                                                  city: city,
+                                                  selectedLocation:
+                                                      selectedLocation,
+                                                )
+                                              : const SizedBox(),
+                                          const SizedBox(
+                                            height: spaceBetweenItems,
+                                          ),
+                                          widget.type == CheckoutTypes.HartCard
+                                              ? TextFormField(
+                                                  keyboardType: TextInputType.text,
+                                                  autovalidateMode: AutovalidateMode
+                                                      .onUserInteraction,
+                                                  decoration: InputDecoration(
+                                                      hintText: context.tr(
+                                                          selectLocationOnMapKey),
+                                                      focusedBorder:
+                                                          const UnderlineInputBorder(
+                                                              borderSide:
+                                                                  BorderSide(
+                                                        color: AppTheme.appGrey20,
+                                                      )),
+                                                      enabledBorder:
+                                                          const UnderlineInputBorder(
+                                                              borderSide:
+                                                                  BorderSide(
+                                                        color: AppTheme.appGrey20,
+                                                      ))),
+                                                  controller: locationController,
+                                                  validator: (value) {
+                                                    if (value?.isEmpty == true &&
+                                                        (!show &&
+                                                            selectTypeOfSend ==
+                                                                1)) {
+                                                      return "Select location of send";
+                                                    } else {
+                                                      return null;
+                                                    }
+                                                  },
+                                                )
+                                              : const SizedBox(),
+                                          widget.type == CheckoutTypes.HartCard
+                                              ? const SizedBox(
+                                                  height: spaceBetweenItems,
+                                                )
+                                              : const SizedBox(),
+                                          widget.type == CheckoutTypes.HartCard
+                                              ? TextFormField(
+                                                  keyboardType: TextInputType.text,
+                                                  autovalidateMode: AutovalidateMode
+                                                      .onUserInteraction,
+                                                  decoration: InputDecoration(
+                                                      hintText: context
+                                                          .tr(addressDetailsKey),
+                                                      focusedBorder:
+                                                          const UnderlineInputBorder(
+                                                              borderSide:
+                                                                  BorderSide(
+                                                        color: AppTheme.appGrey20,
+                                                      )),
+                                                      enabledBorder:
+                                                          const UnderlineInputBorder(
+                                                              borderSide:
+                                                                  BorderSide(
+                                                        color: AppTheme.appGrey20,
+                                                      ))),
+                                                  controller:
+                                                      addressDescriptionController,
+                                                )
+                                              : const SizedBox(),
+                                          widget.type == CheckoutTypes.HartCard
+                                              ? Row(
+                                                  children: [
+                                                    ValueListenableBuilder(
+                                                        valueListenable:
+                                                            saveAddressValueNotifier,
+                                                        builder:
+                                                            (context, value, _) {
+                                                          return Transform.scale(
+                                                            scale: 1,
+                                                            child: Checkbox(
+                                                              visualDensity:
+                                                                  VisualDensity(
+                                                                      horizontal:
+                                                                          -4),
+                                                              activeColor: AppTheme
+                                                                  .mainAppColor,
+                                                              fillColor:
+                                                                  MaterialStateProperty
+                                                                      .resolveWith(
+                                                                          (states) {
+                                                                if (states.contains(
+                                                                    MaterialState
+                                                                        .selected)) {
+                                                                  return AppTheme
+                                                                      .mainAppColor;
+                                                                }
+                                                                return Colors.white;
+                                                              }),
+                                                              onChanged:
+                                                                  (newValue) {
+                                                                saveAddressValueNotifier
+                                                                        .value =
+                                                                    newValue ??
+                                                                        false;
+                                                              },
+                                                              value: value,
+                                                            ),
+                                                          );
+                                                        }),
+                                                    SizedBox(
+                                                      width: 5,
+                                                    ),
+                                                    Text(
+                                                      "Save this address for future orders",
+                                                      style: AppTheme
+                                                          .styleWithTextBlack2AdelleSansExtendedFonts14w400,
+                                                    )
+                                                  ],
+                                                )
+                                              : const SizedBox(),
+                                        ],
+                                      )
+                                    : SizedBox();
+                              }
                             )
-                                : const SizedBox(),
-                            Row(
-                              children: [
-                                SizedBox(
-                                  width: MediaQuery.of(context).size.width / 2 - 25,
-                                  child: TextFormField(
-                                    autovalidateMode:
-                                    AutovalidateMode.onUserInteraction,
-                                    keyboardType: TextInputType.text,
-                                    cursorColor: AppTheme.blackColor2,
-                                    decoration: InputDecoration(
-                                        hintText: context.tr(recipientNameKey),
-                                        focusedBorder: const UnderlineInputBorder(
-                                            borderSide: BorderSide(
-                                              color: AppTheme.appGrey20,
-                                            )),
-                                        enabledBorder: const UnderlineInputBorder(
-                                            borderSide: BorderSide(
-                                              color: AppTheme.appGrey20,
-                                            ))),
-                                    controller: recipientNameController,
-                                    validator: (value) {
-                                      if (value?.isEmpty == true) {
-                                        return "Select type of send";
-                                      } else {
-                                        return null;
-                                      }
-                                    },
-                                  ),
-                                ),
-                                const SizedBox(
-                                  width: defaultPaddingHorizontal,
-                                ),
-                                SizedBox(
-                                  width: MediaQuery.of(context).size.width / 2 - 25,
-                                  child: PhoneFieldWithCountryCodeForAddress(
-                                    phoneController: recipientPhoneController,
-                                    isCountryCodeEmpty: isCountryCodeEmpty,
-                                    onSelectCountryCode: (value) {
-                                      code = value;
-                                    },
-                                    code: codeNotifier,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            SizedBox(
-                              height: 16.h,
-                            ),
-                            const SizedBox(
-                              height: spaceBetweenItems,
-                            ),
-                            widget.type == CheckoutTypes.HartCard
-                                ? MapViewContainer(
-                              onMapSelectedLocation: (location) {
-                                selectedLocation = location;
-                                setAddressName(location);
-                              },
-                              city: city,
-                              selectedLocation: selectedLocation,
-                            )
-                                : const SizedBox(),
-                            const SizedBox(
-                              height: spaceBetweenItems,
-                            ),
-                            widget.type == CheckoutTypes.HartCard
-                                ? TextFormField(
-                              keyboardType: TextInputType.text,
-                              autovalidateMode:
-                              AutovalidateMode.onUserInteraction,
-                              decoration: InputDecoration(
-                                  hintText:
-                                  context.tr(selectLocationOnMapKey),
-                                  focusedBorder: const UnderlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: AppTheme.appGrey20,
-                                      )),
-                                  enabledBorder: const UnderlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: AppTheme.appGrey20,
-                                      ))),
-                              controller: locationController,
-                              validator: (value) {
-                                if (value?.isEmpty == true &&
-                                    (!_enable && selectTypeOfSend == 1)) {
-                                  return "Select location of send";
-                                } else {
-                                  return null;
-                                }
-                              },
-                            )
-                                : const SizedBox(),
-                            widget.type == CheckoutTypes.HartCard
-                                ? const SizedBox(
-                              height: spaceBetweenItems,
-                            )
-                                : const SizedBox(),
-                            widget.type == CheckoutTypes.HartCard
-                                ? TextFormField(
-                              keyboardType: TextInputType.text,
-                              autovalidateMode:
-                              AutovalidateMode.onUserInteraction,
-                              decoration: InputDecoration(
-                                  hintText: context.tr(addressDetailsKey),
-                                  focusedBorder: const UnderlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: AppTheme.appGrey20,
-                                      )),
-                                  enabledBorder: const UnderlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: AppTheme.appGrey20,
-                                      ))),
-                              controller: addressDescriptionController,
-                            )
-                                : const SizedBox(),
-                            widget.type == CheckoutTypes.HartCard
-                                ? Row(
-                              children: [
-                                ValueListenableBuilder(
-                                    valueListenable: saveAddressValueNotifier,
-                                    builder: (context, value, _) {
-                                      return Transform.scale(
-                                        scale: 1,
-                                        child: Checkbox(
-                                          visualDensity: VisualDensity(horizontal: -4),
-                                          activeColor: AppTheme.mainAppColor,
-                                          fillColor: MaterialStateProperty.resolveWith((states) {
-                                            if (states.contains(MaterialState.selected)) {
-                                              return AppTheme.mainAppColor;
-                                            }
-                                            return Colors.white;
-                                          }),
-                                          onChanged: (newValue) {
-                                            saveAddressValueNotifier.value =
-                                                newValue ?? false;
-                                          },
-                                          value: value,
-                                        ),
-                                      );
-                                    }),
-                                SizedBox(
-                                  width: 5,
-                                ),
-                                Text(
-                                  "Save this address for future orders",
-                                  style: AppTheme
-                                      .styleWithTextBlack2AdelleSansExtendedFonts14w400,
-                                )
-                              ],
-                            )
-                                : const SizedBox(),
-                          ],
-                        )
                             : const SizedBox(),
                       ])),
               /*selectTypeOfSend == 1 ?*/ Container(
-              padding: const EdgeInsets.symmetric(
-                  horizontal: defaultPaddingHorizontal, vertical: 24),
-              color: Colors.white,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      Text(
-                        "Add a personal message",
-                        style: AppTheme
-                            .styleWithTextBlackAdelleSansExtendedFonts18w700,
-                      ),
-                      Spacer(),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: spaceBetweenItems,
-                  ),
-                  TextFormField(
-                    keyboardType: TextInputType.text,
-                    autovalidateMode: AutovalidateMode.onUserInteraction,
-                    decoration: InputDecoration(
-                        hintText:"To Fatma (Optional)",
-                        focusedBorder: const UnderlineInputBorder(
-                            borderSide: BorderSide(
-                              color: AppTheme.appGrey20,
-                            )),
-                        enabledBorder: const UnderlineInputBorder(
-                            borderSide: BorderSide(
-                              color: AppTheme.appGrey20,
-                            ))),
-                    controller: messageToController,
-                  ),
-                  const SizedBox(
-                    height: spaceBetweenItems,
-                  ),
-                  TextFormField(
-                    keyboardType: TextInputType.text,
-                    autovalidateMode: AutovalidateMode.onUserInteraction,
-                    decoration: InputDecoration(
-                        hintText:"Eg: Get well soon*",
-                        focusedBorder: const UnderlineInputBorder(
-                            borderSide: BorderSide(
-                              color: AppTheme.appGrey20,
-                            )),
-                        enabledBorder: const UnderlineInputBorder(
-                            borderSide: BorderSide(
-                              color: AppTheme.appGrey20,
-                            ))),
-                    controller: messageController,
-                    validator: (value) {
-                      if (value?.isEmpty == true) {
-                        return "Enter message";
-                      } else {
-                        return null;
-                      }
-                    },
-                  ),
-                  const SizedBox(
-                    height: spaceBetweenItems,
-                  ),
-                  TextFormField(
-                    keyboardType: TextInputType.text,
-                    autovalidateMode: AutovalidateMode.onUserInteraction,
-                    decoration: InputDecoration(
-                        hintText:"From Sara (Optional)",
-                        focusedBorder: const UnderlineInputBorder(
-                            borderSide: BorderSide(
-                              color: AppTheme.appGrey20,
-                            )),
-                        enabledBorder: const UnderlineInputBorder(
-                            borderSide: BorderSide(
-                              color: AppTheme.appGrey20,
-                            ))),
-                    controller: messageFromController,
-                  ),
-
-                  widget.type == CheckoutTypes.HartCard && selectTypeOfSend == 1
-                      ? Container(
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(4)),
-                    padding: const EdgeInsetsDirectional.only(start: defaultPaddingHorizontal,end: defaultPaddingHorizontal,top: 24),
-                    child: Column(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: defaultPaddingHorizontal, vertical: 24),
+                  color: Colors.white,
+                  child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Row(
                           children: [
                             Text(
-                              context.tr(keepMyIdentitySecretKey),
+                              "Add a personal message",
                               style: AppTheme
-                                  .styleWithTextBlackAdelleSansExtendedFonts16w500,
+                                  .styleWithTextBlackAdelleSansExtendedFonts18w700,
                             ),
                             Spacer(),
-                            CustomSwitch(
-                              value: _enableIsSecret,
-                              onChanged: (bool val) {
-                                setState(() {
-                                  _enableIsSecret = val;
-                                });
-                              },
-                            ),
                           ],
                         ),
-                        SizedBox(
-                          height: 10,
+                        const SizedBox(
+                          height: spaceBetweenItems,
                         ),
-                        Text(
-                          context.tr(byCheckingThisBoxKey),
-                          style: AppTheme
-                              .styleWithTextGray7AdelleSansExtendedFonts12w400
-                              .copyWith(height: 1.3),
-                        )
-                      ],
-                    ),
-                  )
-                      : const SizedBox(),
-                  ])) /*:const SizedBox()*/,
+                        TextFormField(
+                          keyboardType: TextInputType.text,
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          decoration: InputDecoration(
+                              hintText: "To Fatma (Optional)",
+                              focusedBorder: const UnderlineInputBorder(
+                                  borderSide: BorderSide(
+                                color: AppTheme.appGrey20,
+                              )),
+                              enabledBorder: const UnderlineInputBorder(
+                                  borderSide: BorderSide(
+                                color: AppTheme.appGrey20,
+                              ))),
+                          controller: messageToController,
+                        ),
+                        const SizedBox(
+                          height: spaceBetweenItems,
+                        ),
+                        TextFormField(
+                          keyboardType: TextInputType.text,
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          decoration: InputDecoration(
+                              hintText: "Eg: Get well soon*",
+                              focusedBorder: const UnderlineInputBorder(
+                                  borderSide: BorderSide(
+                                color: AppTheme.appGrey20,
+                              )),
+                              enabledBorder: const UnderlineInputBorder(
+                                  borderSide: BorderSide(
+                                color: AppTheme.appGrey20,
+                              ))),
+                          controller: messageController,
+                          validator: (value) {
+                            if (value?.isEmpty == true) {
+                              return "Enter message";
+                            } else {
+                              return null;
+                            }
+                          },
+                        ),
+                        const SizedBox(
+                          height: spaceBetweenItems,
+                        ),
+                        TextFormField(
+                          keyboardType: TextInputType.text,
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          decoration: InputDecoration(
+                              hintText: "From Sara (Optional)",
+                              focusedBorder: const UnderlineInputBorder(
+                                  borderSide: BorderSide(
+                                color: AppTheme.appGrey20,
+                              )),
+                              enabledBorder: const UnderlineInputBorder(
+                                  borderSide: BorderSide(
+                                color: AppTheme.appGrey20,
+                              ))),
+                          controller: messageFromController,
+                        ),
+                        widget.type == CheckoutTypes.HartCard &&
+                                selectTypeOfSend == 1
+                            ? Container(
+                                decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(4)),
+                                padding: const EdgeInsetsDirectional.only(
+                                    start: defaultPaddingHorizontal,
+                                    end: defaultPaddingHorizontal,
+                                    top: 24),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Text(
+                                          context.tr(keepMyIdentitySecretKey),
+                                          style: AppTheme
+                                              .styleWithTextBlackAdelleSansExtendedFonts16w500,
+                                        ),
+                                        Spacer(),
+                                        CustomSwitch(
+                                          enable: _enableIsSecret,
+                                          onChanged: (bool val) {
+                                            setState(() {
+                                              _enableIsSecret = val;
+                                            });
+                                          },
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    Text(
+                                      context.tr(byCheckingThisBoxKey),
+                                      style: AppTheme
+                                          .styleWithTextGray7AdelleSansExtendedFonts12w400
+                                          .copyWith(height: 1.3),
+                                    )
+                                  ],
+                                ),
+                              )
+                            : const SizedBox(),
+                      ])) /*:const SizedBox()*/,
               SizedBox(
                 height: 16,
               ),
@@ -661,8 +729,9 @@ class CheckoutScreenState extends ConsumerState<CheckoutScreen>  with AutomaticK
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
                                       Padding(
-                                        padding: const EdgeInsetsDirectional.only(
-                                            start: 16.0, end: 8),
+                                        padding:
+                                            const EdgeInsetsDirectional.only(
+                                                start: 16.0, end: 8),
                                         child: Text(
                                           "${voucherTextController.text}",
                                           style: TextStyle(
@@ -703,7 +772,8 @@ class CheckoutScreenState extends ConsumerState<CheckoutScreen>  with AutomaticK
                                     style: AppTheme
                                         .styleWithTextMainAppColorAdelleSansExtendedFonts14w400
                                         .copyWith(
-                                            decoration: TextDecoration.underline),
+                                            decoration:
+                                                TextDecoration.underline),
                                   ))),
                             ),
                           ),
@@ -723,7 +793,7 @@ class CheckoutScreenState extends ConsumerState<CheckoutScreen>  with AutomaticK
                 ),
               ),
               SizedBox(
-                height: widget.type == CheckoutTypes.SoftCard? 200:0,
+                height: widget.type == CheckoutTypes.SoftCard ? 200 : 0,
               ),
               // widget.withInStepper == true
               //     ? const SizedBox()
@@ -798,7 +868,9 @@ class CheckoutScreenState extends ConsumerState<CheckoutScreen>  with AutomaticK
   Future<void> _selectDate(BuildContext context) async {
     var cart = ref.read(fetchCardDetailsStateNotifies);
     final DateTime now = DateTime.now();
-    final int disabledDays = widget.type == CheckoutTypes.HartCard ? int.parse(cart.data?.data?.expectedProcessingTime ?? "0") : 1; // Number of days to disable from today
+    final int disabledDays = widget.type == CheckoutTypes.HartCard
+        ? int.parse(cart.data?.data?.expectedProcessingTime ?? "0")
+        : 1; // Number of days to disable from today
 
     final DateTime? pickedDate = await showDatePicker(
       context: context,
@@ -806,7 +878,6 @@ class CheckoutScreenState extends ConsumerState<CheckoutScreen>  with AutomaticK
       firstDate: now,
       lastDate: DateTime(7200),
       selectableDayPredicate: (DateTime day) {
-
         final DateTime allowedFrom = now.add(Duration(days: disabledDays - 1));
 
         if (day.isBefore(allowedFrom)) {
@@ -841,7 +912,8 @@ class CheckoutScreenState extends ConsumerState<CheckoutScreen>  with AutomaticK
       cartSelectionData[deliveryTimeKey] = selectDeliveryTimeOfSend != null
           ? deliveryTimeArray[selectDeliveryTimeOfSend!].text
           : null;
-      cartSelectionData[saveAddressKey] = saveAddressValueNotifier.value.toString();
+      cartSelectionData[saveAddressKey] =
+          saveAddressValueNotifier.value.toString();
 
       ref
           .read(cartDateSelectedStateNotifiers.notifier)

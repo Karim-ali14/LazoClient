@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:lazo_client/Presentation/Theme/AppTheme.dart';
 
 class CustomSwitch extends StatefulWidget {
-  final bool value;
+  final bool enable;
   final ValueChanged<bool> onChanged;
 
-  CustomSwitch({Key? key, required this.value, required this.onChanged})
+  CustomSwitch({Key? key, required this.enable, required this.onChanged})
       : super(key: key);
 
   @override
@@ -24,8 +24,8 @@ class _CustomSwitchState extends State<CustomSwitch>
     _animationController =
         AnimationController(vsync: this, duration: Duration(milliseconds: 60));
     _circleAnimation = AlignmentTween(
-        begin: widget.value ? Alignment.centerRight : Alignment.centerLeft,
-        end: widget.value ? Alignment.centerLeft : Alignment.centerRight)
+        begin: widget.enable ? Alignment.centerRight : Alignment.centerLeft,
+        end: widget.enable ? Alignment.centerLeft : Alignment.centerRight)
         .animate(CurvedAnimation(
         parent: _animationController!, curve: Curves.linear));
   }
@@ -42,7 +42,7 @@ class _CustomSwitchState extends State<CustomSwitch>
             } else {
               _animationController!.forward();
             }
-            widget.value == false
+            widget.enable == false
                 ? widget.onChanged(true)
                 : widget.onChanged(false);
           },
@@ -60,7 +60,7 @@ class _CustomSwitchState extends State<CustomSwitch>
                   top: 2.0, bottom: 2.0, right: 2.0, left: 2.0),
               child: Container(
                 alignment:
-                widget.value ? ((Directionality.of(context) != TextDirection.rtl) ? Alignment.centerRight : Alignment.centerLeft ) : ((Directionality.of(context) != TextDirection.rtl) ? Alignment.centerLeft : Alignment.centerRight),
+                widget.enable ? ((Directionality.of(context) != TextDirection.rtl) ? Alignment.centerRight : Alignment.centerLeft ) : ((Directionality.of(context) != TextDirection.rtl) ? Alignment.centerLeft : Alignment.centerRight),
                 child: Container(
                   width: 16.0,
                   height: 18.0,
