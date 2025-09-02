@@ -48,13 +48,15 @@ class _ServiceGridListviewWithCategoryNameState
           ),
         ),
         GridView.builder(
+            padding: EdgeInsets.only(top: 12),
+            primary: false,
             itemCount: widget.list?.length,
             shrinkWrap: true,
             physics:
                 NeverScrollableScrollPhysics(), // disable internal scrolling
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
-              mainAxisSpacing: 8,
+              mainAxisSpacing: 0,
               crossAxisSpacing: 15,
               childAspectRatio: .77,
             ),

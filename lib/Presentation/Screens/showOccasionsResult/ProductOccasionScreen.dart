@@ -234,79 +234,87 @@ class _ProductSearchScreenState
                 )
               : const SizedBox();
         }),
-        productsState.state == DataState.EMPTY
-            ? EmptyDataView(
-                icon: SVGIcons.localSVG(searchIconNoDataSvg,
-                    width: 114, height: 97),
-                btuName: null,
-                description:
-                    "Oops! Use different keywords to see more results.",
-                btuAction: () {},
-              )
-            : Container(
-                margin: const EdgeInsets.only(top: 10),
-                padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-                decoration: const BoxDecoration(
-                  color: Colors.white,
-                  border: Border(
-                      top: BorderSide(color: AppTheme.appGrey12, width: 1)),
-                ),
-                child: DataListView<ProviderProduct>(
-                    dataList: productsState.data?.data?.products?.data ??
-                        (productsState.state == DataState.LOADING
-                            ? [
-                                ...List.generate(
-                                    8, (index) => ProviderProduct())
-                              ]
-                            : []),
-                    paginated: true,
-                    gridView: true,
-                    childAspectRatio: .78,
-                    heightPresent: ref
-                                .watch(widget.productType ==
-                                        ProductOccasionType.All
-                                    ? updateOccasionAllProductListOfFilterSelectedStateNotifiers
-                                    : widget.productType ==
-                                            ProductOccasionType.Ready
-                                        ? updateOccasionReadyProductListOfFilterSelectedStateNotifiers
-                                        : updateOccasionUnReadyProductListOfFilterSelectedStateNotifiers)
-                                .isNotEmpty ==
-                            true
-                        ? 0.623
-                        : 0.699,
-                    loadingHeightPresent: 0.725,
-                    crossAxisSpacing: 18,
-                    pageLoading: productsState.state == DataState.MORE_LOADING,
-                    onBottomReached: () {
-                      fetchProducts(++currentPageForProducts);
-                    },
-                    builder: (item) => Skeletonizer(
-                          enabled: productsState.state == DataState.LOADING,
-                          child: Padding(
-                            padding: const EdgeInsetsDirectional.symmetric(
-                                horizontal: 0, vertical: 0),
-                            child: ServiceAndProductItemCardHorizontal(
-                              type: ItemType.Products,
-                              product: item,
-                              height: 155.h,
-                              onAddItemToCart: (id) {
-                                addProductToCart(id);
-                              },
-                              onAddItemToWishList: (id,collectionId,inWishlist) {
-                                if (client != null) {
-                                  productWishlistToggle(id);
-                                } else {
-                                  widget.showAuthenticated?.call();
-                                }
-                              },
-                              onItemClick: (id, name, categoriesIds) {
-                                widget.navigateToItemDetails?.call(
-                                    ItemType.Products, id, name, categoriesIds);
-                              },
-                            ),
-                          ),
-                        )),
-              )
+        Expanded(
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                productsState.state == DataState.EMPTY
+                    ? EmptyDataView(
+                        icon: SVGIcons.localSVG(searchIconNoDataSvg,
+                            width: 114, height: 97),
+                        btuName: null,
+                        description:
+                            "Oops! Use different keywords to see more results.",
+                        btuAction: () {},
+                      )
+                    : Container(
+                        margin: const EdgeInsets.only(top: 10),
+                        padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+                        decoration: const BoxDecoration(
+                          color: Colors.white,
+                          border: Border(
+                              top: BorderSide(color: AppTheme.appGrey12, width: 1)),
+                        ),
+                        child: DataListView<ProviderProduct>(
+                            dataList: productsState.data?.data?.products?.data ??
+                                (productsState.state == DataState.LOADING
+                                    ? [
+                                        ...List.generate(
+                                            8, (index) => ProviderProduct())
+                                      ]
+                                    : []),
+                            paginated: true,
+                            gridView: true,
+                            childAspectRatio: .78,
+                            heightPresent: .7,
+                            //             .watch(widget.productType ==
+                            //                     ProductOccasionType.All
+                            //                 ? updateOccasionAllProductListOfFilterSelectedStateNotifiers
+                            //                 : widget.productType ==
+                            //                         ProductOccasionType.Ready
+                            //                     ? updateOccasionReadyProductListOfFilterSelectedStateNotifiers
+                            //                     : updateOccasionUnReadyProductListOfFilterSelectedStateNotifiers)
+                            //             .isNotEmpty ==
+                            //         true
+                            //     ? 0.623
+                            //     : 0.699,
+                            loadingHeightPresent: .685,
+                            crossAxisSpacing: 18,
+                            pageLoading: productsState.state == DataState.MORE_LOADING,
+                            onBottomReached: () {
+                              fetchProducts(++currentPageForProducts);
+                            },
+                            builder: (item) => Skeletonizer(
+                                  enabled: productsState.state == DataState.LOADING,
+                                  child: Padding(
+                                    padding: const EdgeInsetsDirectional.symmetric(
+                                        horizontal: 0, vertical: 0),
+                                    child: ServiceAndProductItemCardHorizontal(
+                                      type: ItemType.Products,
+                                      product: item,
+                                      height: 155.h,
+                                      onAddItemToCart: (id) {
+                                        addProductToCart(id);
+                                      },
+                                      onAddItemToWishList: (id,collectionId,inWishlist) {
+                                        if (client != null) {
+                                          productWishlistToggle(id);
+                                        } else {
+                                          widget.showAuthenticated?.call();
+                                        }
+                                      },
+                                      onItemClick: (id, name, categoriesIds) {
+                                        widget.navigateToItemDetails?.call(
+                                            ItemType.Products, id, name, categoriesIds);
+                                      },
+                                    ),
+                                  ),
+                                )),
+                      ),
+              ],
+            ),
+          ),
+        )
       ],
     );
   }

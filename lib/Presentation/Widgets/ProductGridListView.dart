@@ -51,6 +51,8 @@ class _ProductGridListviewWithCategoryNameState
         ),
 
         GridView.builder(
+            padding: EdgeInsets.only(top: 12),
+            primary: false,
             itemCount: widget.list?.length,
             shrinkWrap: true,
             physics: NeverScrollableScrollPhysics(),
