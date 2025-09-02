@@ -908,11 +908,13 @@ class CheckoutScreenState extends ConsumerState<CheckoutScreen>
       var cartSelectionData = ref.read(cartDateSelectedStateNotifiers);
       cartSelectionData[selectTypeOfSendKey] = selectTypeOfSend.toString();
       cartSelectionData[enableIsSecretKey] = _enableIsSecret.toString();
-      cartSelectionData[cartLatLngKey] =
-          _enable.value == false ? "${selectedLocation?.latitude}, ${selectedLocation?.longitude}" ?? "":null;
-      cartSelectionData[receiverAddressKey] = _enable.value == false ? locationController.text : null;
-      cartSelectionData[receiverAddressDetailsKey] = _enable.value == false ?
-          addressDescriptionController.text : null;
+      if(_enable.value == false){
+        cartSelectionData[cartLatLngKey] =
+        "${selectedLocation?.latitude}, ${selectedLocation?.longitude}" ?? "";
+        cartSelectionData[receiverAddressKey] = locationController.text ;
+        cartSelectionData[receiverAddressDetailsKey] =
+        addressDescriptionController.text ;
+      }
       cartSelectionData[receiverNameKey] = recipientNameController.text;
       cartSelectionData[receiverPhoneKey] = recipientPhoneController.text;
       cartSelectionData[deliveryDateKey] =
