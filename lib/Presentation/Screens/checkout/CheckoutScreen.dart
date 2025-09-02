@@ -366,7 +366,7 @@ class CheckoutScreenState extends ConsumerState<CheckoutScreen>
                         ValueListenableBuilder(
                           valueListenable: _enable,
                           builder: (context,show,_) {
-                            return show ? SavedRecipientsAddresses(
+                            return widget.type == CheckoutTypes.HartCard && !show ? SavedRecipientsAddresses(
                               onItemPressed: (addressItem) {
                                 autoFillAddress(addressItem);
                               },
