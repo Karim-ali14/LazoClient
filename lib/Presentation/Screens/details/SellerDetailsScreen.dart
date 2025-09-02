@@ -99,7 +99,7 @@ class _SellerDetailsScreenState extends ConsumerState<SellerDetailsScreen>
         ?.findRenderObject() as RenderBox;
     final position = renderBox.localToGlobal(Offset.zero,
         ancestor: context.findRenderObject());
-    final offset = position.dy + _scrollController.offset - 150;
+    final offset = position.dy + _scrollController.offset - 158;
 
     _scrollController.animateTo(
       offset,

@@ -93,8 +93,8 @@ class _OccasionResultScreenState extends ConsumerState<OccasionResultScreen>
     return false; // Return true to allow the pop action, false to prevent it
   }
 
-  final headerHeightPresent = .25;
-  final bodyHeightPresent = .75;
+  final headerHeightPresent = .30;
+  final bodyHeightPresent = .70;
   @override
   Widget build(BuildContext context) {
     filterForAllProductData = ref.watch(filterForProductStateNotifiers);
