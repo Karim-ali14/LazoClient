@@ -91,63 +91,67 @@ class _ProductSearchScreenState extends ConsumerState<ProductWishlistScreen> {
           res.data?.data?.collectionId);
     });
 
-    return Column(
-      children: [
-        productsState.state == DataState.EMPTY
-            ? EmptyDataView(
-                icon: SVGIcons.localSVG(noFavoriteDataIcon,
-                    width: 79.w, height: 88.h),
-                btuName: null,
-                description:
-                    "Looks like this collection has no gifts saved yet.",
-                btuAction: () {},
-              )
-            : Container(
-                padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-                child: DataListView<ProviderProduct>(
-                    dataList: productsState.data?.data?.products ??
-                        (productsState.state == DataState.LOADING
-                            ? [
-                                ...List.generate(
-                                    8, (index) => ProviderProduct())
-                              ]
-                            : []),
-                    paginated: true,
-                    gridView: true,
-                    childAspectRatio: .79,
-                    heightPresent: .75.h,
-                    loadingHeightPresent: .83,
-                    crossAxisSpacing: 18,
-                    pageLoading: productsState.state == DataState.MORE_LOADING,
-                    onBottomReached: () {},
-                    builder: (item) => Skeletonizer(
-                          enabled: productsState.state == DataState.LOADING,
-                          child: Padding(
-                            padding: const EdgeInsetsDirectional.symmetric(
-                                horizontal: 0, vertical: 0),
-                            child: ServiceAndProductItemCardHorizontal(
-                              type: ItemType.Products,
-                              product: item,
-                              height: 156.h,
-                              onAddItemToCart: (id) {
-                                addProductToCart(id);
-                              },
-                              onAddItemToWishList: (id, collectionId,inWishlist) {
-                                if (client != null) {
-                                  productWishlistToggle(id);
-                                } else {
-                                  widget.showAuthenticated?.call();
-                                }
-                              },
-                              onItemClick: (id, name, categoriesIds) {
-                                widget.navigateToItemDetails?.call(
-                                    ItemType.Products, id, name, categoriesIds);
-                              },
-                            ),
-                          ),
-                        )),
-              )
-      ],
+    return Expanded(
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            productsState.state == DataState.EMPTY
+                ? EmptyDataView(
+                    icon: SVGIcons.localSVG(noFavoriteDataIcon,
+                        width: 79.w, height: 88.h),
+                    btuName: null,
+                    description:
+                        "Looks like this collection has no gifts saved yet.",
+                    btuAction: () {},
+                  )
+                : Container(
+                    padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+                    child: DataListView<ProviderProduct>(
+                        dataList: productsState.data?.data?.products ??
+                            (productsState.state == DataState.LOADING
+                                ? [
+                                    ...List.generate(
+                                        8, (index) => ProviderProduct())
+                                  ]
+                                : []),
+                        paginated: true,
+                        gridView: true,
+                        childAspectRatio: .79,
+                        heightPresent: .82,
+                        loadingHeightPresent: .82,
+                        crossAxisSpacing: 18,
+                        pageLoading: productsState.state == DataState.MORE_LOADING,
+                        onBottomReached: () {},
+                        builder: (item) => Skeletonizer(
+                              enabled: productsState.state == DataState.LOADING,
+                              child: Padding(
+                                padding: const EdgeInsetsDirectional.symmetric(
+                                    horizontal: 0, vertical: 0),
+                                child: ServiceAndProductItemCardHorizontal(
+                                  type: ItemType.Products,
+                                  product: item,
+                                  height: 156.h,
+                                  onAddItemToCart: (id) {
+                                    addProductToCart(id);
+                                  },
+                                  onAddItemToWishList: (id, collectionId,inWishlist) {
+                                    if (client != null) {
+                                      productWishlistToggle(id);
+                                    } else {
+                                      widget.showAuthenticated?.call();
+                                    }
+                                  },
+                                  onItemClick: (id, name, categoriesIds) {
+                                    widget.navigateToItemDetails?.call(
+                                        ItemType.Products, id, name, categoriesIds);
+                                  },
+                                ),
+                              ),
+                            )),
+                  )
+          ],
+        ),
+      ),
     );
   }
 

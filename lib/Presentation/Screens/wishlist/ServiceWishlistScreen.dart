@@ -88,70 +88,74 @@ class _ServiceOccasionScreenState extends ConsumerState<ServiceWishlistScreen> {
     final servicesState = ref.watch(getWishListServicesStateNotifier);
     print("jhkjhkjhkjhkjhjk : ${servicesState.state}");
 
-    return Column(
-      children: [
-         servicesState.state == DataState.EMPTY
-            ? EmptyDataView(
-           icon: SVGIcons.localSVG(noFavoriteDataIcon,
-               width: 79.w, height: 88.h),
-           btuName: null,
-           description:
-           "Looks like this collection has no gifts saved yet.",
-           btuAction: () {},
-         )
-            : Container(
-          padding: const EdgeInsets.symmetric(vertical: 4,horizontal: 5),
-          decoration: const BoxDecoration(
-            color: Colors.white,
-            border: Border(
-                top: BorderSide(color: AppTheme.appGrey12, width: 1)),
-          ),
-          child: DataListView<ServiceShowData>(
-              dataList: servicesState.data?.data?.services ??
-                  (servicesState.state == DataState.LOADING
-                      ? [
-                    ...List.generate(
-                        8, (index) => ServiceShowData())
-                  ]
-                      : []),
-              paginated: true,
-              gridView: true,
-              childAspectRatio: .78,
-              heightPresent: .828,
-              loadingHeightPresent: .828,
-              crossAxisSpacing: 12,
-              pageLoading: servicesState.state == DataState.MORE_LOADING,
-              onBottomReached: () {
-
-              },
-              builder: (item) => Skeletonizer(
-                enabled: servicesState.state == DataState.LOADING,
-                child: Padding(
-                  padding: EdgeInsetsDirectional.symmetric(
-                      horizontal: 0, vertical: 0),
-                  child: ServiceAndProductItemCardHorizontal(
-                    service: item,
-                    height: 160,
-                    type: ItemType.Services,
-                    onAddItemToCart: (id) {
-                      addServiceToCart(id);
-                    },
-                    onAddItemToWishList: (id,collectionId,inWishlist) {
-                      if (client != null) {
-                        serviceWishlistToggle(id.toString());
-                      } else {
-                        widget.showAuthenticated?.call();
-                      }
-                    },
-                    onItemClick: (id, name, categoriesIds) {
-                      widget.navigateToItemDetails?.call(
-                          ItemType.Services, id, name, categoriesIds);
-                    },
-                  ),
-                ),
-              )),
-        )
-      ],
+    return Expanded(
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+             servicesState.state == DataState.EMPTY
+                ? EmptyDataView(
+               icon: SVGIcons.localSVG(noFavoriteDataIcon,
+                   width: 79.w, height: 88.h),
+               btuName: null,
+               description:
+               "Looks like this collection has no gifts saved yet.",
+               btuAction: () {},
+             )
+                : Container(
+              padding: const EdgeInsets.symmetric(vertical: 4,horizontal: 5),
+              decoration: const BoxDecoration(
+                color: Colors.white,
+                border: Border(
+                    top: BorderSide(color: AppTheme.appGrey12, width: 1)),
+              ),
+              child: DataListView<ServiceShowData>(
+                  dataList: servicesState.data?.data?.services ??
+                      (servicesState.state == DataState.LOADING
+                          ? [
+                        ...List.generate(
+                            8, (index) => ServiceShowData())
+                      ]
+                          : []),
+                  paginated: true,
+                  gridView: true,
+                  childAspectRatio: .78,
+                  heightPresent:.82,
+                  loadingHeightPresent: .82,
+                  crossAxisSpacing: 12,
+                  pageLoading: servicesState.state == DataState.MORE_LOADING,
+                  onBottomReached: () {
+        
+                  },
+                  builder: (item) => Skeletonizer(
+                    enabled: servicesState.state == DataState.LOADING,
+                    child: Padding(
+                      padding: EdgeInsetsDirectional.symmetric(
+                          horizontal: 0, vertical: 0),
+                      child: ServiceAndProductItemCardHorizontal(
+                        service: item,
+                        height: 160,
+                        type: ItemType.Services,
+                        onAddItemToCart: (id) {
+                          addServiceToCart(id);
+                        },
+                        onAddItemToWishList: (id,collectionId,inWishlist) {
+                          if (client != null) {
+                            serviceWishlistToggle(id.toString());
+                          } else {
+                            widget.showAuthenticated?.call();
+                          }
+                        },
+                        onItemClick: (id, name, categoriesIds) {
+                          widget.navigateToItemDetails?.call(
+                              ItemType.Services, id, name, categoriesIds);
+                        },
+                      ),
+                    ),
+                  )),
+            )
+          ],
+        ),
+      ),
     )
       ;
   }
