@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:lazo_client/Utils/Extintions.dart';
 import 'package:lazo_client/Utils/OrderEx.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
@@ -48,7 +49,7 @@ class OrderUserInformationWithOrderStatus extends StatelessWidget {
               const SizedBox(width: 8),
               Skeleton.replace(
                 child: Text(
-                  clientName ?? "",
+                  clientName?.ellipsize(20) ?? "",
                   style: AppTheme.styleWithTextBlackAdelleSansExtendedFonts16w700,
                 ),
                 replacement: const Text("Mohamed Farag",

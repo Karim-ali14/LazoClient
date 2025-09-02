@@ -287,7 +287,7 @@ class _OrderDetailsScreenState extends ConsumerState<OrderDetailsScreen> {
                                                 hasDivider: false,
                                                 ifSetValueInNewLine: true,
                                                 value:
-                                                    "${orderDetails.data?.data?.cancellationReason}}",
+                                                    orderDetails.data?.data?.cancellationReason ?? "------",
                                               )
                                             : const SizedBox(),
                                       ],

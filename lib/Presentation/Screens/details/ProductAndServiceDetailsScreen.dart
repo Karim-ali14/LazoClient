@@ -538,7 +538,7 @@ class _ProductAndServiceDetailsScreenState
                             height: 10,
                           ),
                           TextWithoutPadding(
-                            "By ${productItemState.data?.data?.provider?.name ?? ""}",
+                            "By ${widget.itemType == ItemType.Products ? productItemState.data?.data?.provider?.name ?? "" : serviceItemState.data?.data?.provider?.name ?? ""}",
                             style: AppTheme
                                 .styleWithTextAppGrey18ColorAdelleSansExtendedFonts16w400,
                           ),
