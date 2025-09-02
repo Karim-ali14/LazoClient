@@ -363,6 +363,78 @@ class CheckoutScreenState extends ConsumerState<CheckoutScreen>
                         SizedBox(
                           height: 8.h,
                         ),
+                        ValueListenableBuilder(
+                          valueListenable: _enable,
+                          builder: (context,show,_) {
+                            return show ? SavedRecipientsAddresses(
+                              onItemPressed: (addressItem) {
+                                autoFillAddress(addressItem);
+                              },
+                            ):const SizedBox();
+                          }
+                        ),
+                        Row(
+                          children: [
+                            SizedBox(
+                              width: MediaQuery.of(context)
+                                  .size
+                                  .width /
+                                  2 -
+                                  25,
+                              child: TextFormField(
+                                autovalidateMode: AutovalidateMode
+                                    .onUserInteraction,
+                                keyboardType: TextInputType.text,
+                                cursorColor: AppTheme.blackColor2,
+                                decoration: InputDecoration(
+                                    hintText: context
+                                        .tr(recipientNameKey),
+                                    focusedBorder:
+                                    const UnderlineInputBorder(
+                                        borderSide:
+                                        BorderSide(
+                                          color: AppTheme.appGrey20,
+                                        )),
+                                    enabledBorder:
+                                    const UnderlineInputBorder(
+                                        borderSide:
+                                        BorderSide(
+                                          color: AppTheme.appGrey20,
+                                        ))),
+                                controller:
+                                recipientNameController,
+                                validator: (value) {
+                                  if (value?.isEmpty == true) {
+                                    return "Select type of send";
+                                  } else {
+                                    return null;
+                                  }
+                                },
+                              ),
+                            ),
+                            const SizedBox(
+                              width: defaultPaddingHorizontal,
+                            ),
+                            SizedBox(
+                              width: MediaQuery.of(context)
+                                  .size
+                                  .width /
+                                  2 -
+                                  25,
+                              child:
+                              PhoneFieldWithCountryCodeForAddress(
+                                phoneController:
+                                recipientPhoneController,
+                                isCountryCodeEmpty:
+                                isCountryCodeEmpty,
+                                onSelectCountryCode: (value) {
+                                  code = value;
+                                },
+                                code: codeNotifier,
+                              ),
+                            ),
+                          ],
+                        ),
                         selectTypeOfSend != null ||
                                 widget.type == CheckoutTypes.SoftCard
                             ? ValueListenableBuilder(
@@ -371,73 +443,6 @@ class CheckoutScreenState extends ConsumerState<CheckoutScreen>
                                 return widget.type == CheckoutTypes.HartCard && !show
                                     ? Column(
                                         children: [
-                                          SavedRecipientsAddresses(
-                                            onItemPressed: (addressItem) {
-                                              autoFillAddress(addressItem);
-                                            },
-                                          ),
-                                          Row(
-                                            children: [
-                                              SizedBox(
-                                                width: MediaQuery.of(context)
-                                                            .size
-                                                            .width /
-                                                        2 -
-                                                    25,
-                                                child: TextFormField(
-                                                  autovalidateMode: AutovalidateMode
-                                                      .onUserInteraction,
-                                                  keyboardType: TextInputType.text,
-                                                  cursorColor: AppTheme.blackColor2,
-                                                  decoration: InputDecoration(
-                                                      hintText: context
-                                                          .tr(recipientNameKey),
-                                                      focusedBorder:
-                                                          const UnderlineInputBorder(
-                                                              borderSide:
-                                                                  BorderSide(
-                                                        color: AppTheme.appGrey20,
-                                                      )),
-                                                      enabledBorder:
-                                                          const UnderlineInputBorder(
-                                                              borderSide:
-                                                                  BorderSide(
-                                                        color: AppTheme.appGrey20,
-                                                      ))),
-                                                  controller:
-                                                      recipientNameController,
-                                                  validator: (value) {
-                                                    if (value?.isEmpty == true) {
-                                                      return "Select type of send";
-                                                    } else {
-                                                      return null;
-                                                    }
-                                                  },
-                                                ),
-                                              ),
-                                              const SizedBox(
-                                                width: defaultPaddingHorizontal,
-                                              ),
-                                              SizedBox(
-                                                width: MediaQuery.of(context)
-                                                            .size
-                                                            .width /
-                                                        2 -
-                                                    25,
-                                                child:
-                                                    PhoneFieldWithCountryCodeForAddress(
-                                                  phoneController:
-                                                      recipientPhoneController,
-                                                  isCountryCodeEmpty:
-                                                      isCountryCodeEmpty,
-                                                  onSelectCountryCode: (value) {
-                                                    code = value;
-                                                  },
-                                                  code: codeNotifier,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
                                           SizedBox(
                                             height: 16.h,
                                           ),
@@ -836,6 +841,9 @@ class CheckoutScreenState extends ConsumerState<CheckoutScreen>
                 'Choose Myself if the gift is for you, or Someone to send it to a loved one.',
             onSelect: (index) {
               sendTypeController.text = typeSendArray[index].text;
+              if(index == 0) {
+                _enable.value = false;
+              }
               setState(() {
                 selectTypeOfSend = index;
               });
@@ -901,10 +909,10 @@ class CheckoutScreenState extends ConsumerState<CheckoutScreen>
       cartSelectionData[selectTypeOfSendKey] = selectTypeOfSend.toString();
       cartSelectionData[enableIsSecretKey] = _enableIsSecret.toString();
       cartSelectionData[cartLatLngKey] =
-          "${selectedLocation?.latitude}, ${selectedLocation?.longitude}" ?? "";
-      cartSelectionData[receiverAddressKey] = locationController.text;
-      cartSelectionData[receiverAddressDetailsKey] =
-          addressDescriptionController.text;
+          _enable.value == false ? "${selectedLocation?.latitude}, ${selectedLocation?.longitude}" ?? "":null;
+      cartSelectionData[receiverAddressKey] = _enable.value == false ? locationController.text : null;
+      cartSelectionData[receiverAddressDetailsKey] = _enable.value == false ?
+          addressDescriptionController.text : null;
       cartSelectionData[receiverNameKey] = recipientNameController.text;
       cartSelectionData[receiverPhoneKey] = recipientPhoneController.text;
       cartSelectionData[deliveryDateKey] =
