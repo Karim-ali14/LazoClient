@@ -60,7 +60,7 @@ class CheckoutScreen extends ConsumerStatefulWidget {
 
 class CheckoutScreenState extends ConsumerState<CheckoutScreen>
     with AutomaticKeepAliveClientMixin {
-  final ValueNotifier<String> codeNotifier = ValueNotifier("");
+  final ValueNotifier<String> codeNotifier = ValueNotifier("966");
   final ValueNotifier<bool> saveAddressValueNotifier = ValueNotifier(false);
   final sendTypeController = TextEditingController();
   final calenderController = TextEditingController();
@@ -115,6 +115,7 @@ class CheckoutScreenState extends ConsumerState<CheckoutScreen>
   bool get wantKeepAlive => true; // This keeps the screen alive
   @override
   Widget build(BuildContext context) {
+
     super.build(
         context); // Required to call in widgets with AutomaticKeepAliveClientMixin
     var calculateSoftService = ref.watch(calculateInstantOrderStateProvider);
@@ -431,6 +432,7 @@ class CheckoutScreenState extends ConsumerState<CheckoutScreen>
                                   code = value;
                                 },
                                 code: codeNotifier,
+                                initCodeValue: "966",
                               ),
                             ),
                           ],
