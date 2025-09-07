@@ -28,9 +28,6 @@ doc/ClientAuthResponseData.md
 doc/ClientAuthResponseDataClient.md
 doc/ClientNotification.md
 doc/ClientOrderDetails.md
-doc/ClientOrderDetailsOrderItemsInner.md
-doc/ClientOrderDetailsOrderItemsInnerProduct.md
-doc/ClientOrderDetailsOrderItemsInnerProvider.md
 doc/ClientOrderDetailsResponse.md
 doc/CodeConfirmRequest.md
 doc/CodeConfirmResponse.md
@@ -65,6 +62,7 @@ doc/ImageItem.md
 doc/NotificationsApi.md
 doc/Occasion.md
 doc/OccasionsResponse.md
+doc/OrderItemsInner.md
 doc/Orders12Api.md
 doc/OrdersApi.md
 doc/ProductDetails.md
@@ -216,9 +214,6 @@ lib/model/client_auth_response_data.dart
 lib/model/client_auth_response_data_client.dart
 lib/model/client_notification.dart
 lib/model/client_order_details.dart
-lib/model/client_order_details_order_items_inner.dart
-lib/model/client_order_details_order_items_inner_product.dart
-lib/model/client_order_details_order_items_inner_provider.dart
 lib/model/client_order_details_response.dart
 lib/model/code_confirm_request.dart
 lib/model/code_confirm_response.dart
@@ -252,6 +247,7 @@ lib/model/gift_card.dart
 lib/model/image_item.dart
 lib/model/occasion.dart
 lib/model/occasions_response.dart
+lib/model/order_items_inner.dart
 lib/model/product_details.dart
 lib/model/product_details_ratings_inner.dart
 lib/model/product_details_response.dart

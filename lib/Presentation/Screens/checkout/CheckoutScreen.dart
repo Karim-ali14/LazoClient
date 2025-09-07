@@ -908,6 +908,7 @@ class CheckoutScreenState extends ConsumerState<CheckoutScreen>
   void navigateToPaymentOrder({Function? afterPassConditions}) {
     if (formKey.currentState?.validate() == true) {
       var cartSelectionData = ref.read(cartDateSelectedStateNotifiers);
+      cartSelectionData.clear();
       cartSelectionData[selectTypeOfSendKey] = selectTypeOfSend.toString();
       cartSelectionData[enableIsSecretKey] = _enableIsSecret.toString();
       if(_enable.value == false){
@@ -936,7 +937,7 @@ class CheckoutScreenState extends ConsumerState<CheckoutScreen>
 
   void createInstantOrder({Function? afterPassConditions}) {
     var cartSelectionData = ref.read(cartDateSelectedStateNotifiers);
-
+    cartSelectionData.clear();
     if (formKey.currentState?.validate() == true) {
       cartSelectionData[serviceIdKey] = widget.service?.id ?? "";
       cartSelectionData[receiverPhoneNumberKey] = recipientPhoneController.text;

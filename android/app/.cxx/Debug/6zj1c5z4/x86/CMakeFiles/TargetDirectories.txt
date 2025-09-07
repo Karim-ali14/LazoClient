@@ -1,0 +1,2 @@
+F:/App/POMAC/Lazo/LazoClient/android/app/.cxx/Debug/6zj1c5z4/x86/CMakeFiles/edit_cache.dir
+F:/App/POMAC/Lazo/LazoClient/android/app/.cxx/Debug/6zj1c5z4/x86/CMakeFiles/rebuild_cache.dir

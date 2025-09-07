@@ -101,7 +101,7 @@ flutter:
   assets:
     - assets/images/
     - assets/translations/
-    - packages/country_code_picker/flags/
+    # - packages/country_code_picker/flags/
 
   fonts:
     - family: tajawal
