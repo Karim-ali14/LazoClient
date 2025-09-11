@@ -123,13 +123,13 @@ class CartCalculation200ResponseData {
       }());
 
       return CartCalculation200ResponseData(
-        totalBefore: num.tryParse('${json[r'total_before']}'),
-        discountTotal: num.tryParse('${json[r'discount_total']}'),
-        shippingFee: num.tryParse('${json[r'shipping_fee']}'),
+        totalBefore: num.parse('${json[r'total_before']}'),
+        discountTotal: num.parse('${json[r'discount_total']}'),
+        shippingFee: num.parse('${json[r'shipping_fee']}'),
         packagingFee: json[r'packaging_fee'] == null
             ? null
-            : num.tryParse('${json[r'packaging_fee']}'),
-        totalAfter: num.tryParse('${json[r'total_after']}'),
+            : num.parse('${json[r'packaging_fee']}'),
+        totalAfter: num.parse('${json[r'total_after']}'),
       );
     }
     return null;

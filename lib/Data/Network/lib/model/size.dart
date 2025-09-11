@@ -146,7 +146,7 @@ class Size {
 
       return Size(
         createdAt: mapDateTime(json, r'created_at', r''),
-        id: num.tryParse('${json[r'id']}'),
+        id: num.parse('${json[r'id']}'),
         name: mapValueOfType<String>(json, r'name'),
         nameAr: mapValueOfType<String>(json, r'name_ar'),
         nameEn: mapValueOfType<String>(json, r'name_en'),

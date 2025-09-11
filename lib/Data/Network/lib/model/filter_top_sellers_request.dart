@@ -122,14 +122,14 @@ class FilterTopSellersRequest {
       return FilterTopSellersRequest(
         page: json[r'page'] == null
             ? null
-            : num.tryParse('${json[r'page']}'),
+            : num.parse('${json[r'page']}'),
         searchByName: mapValueOfType<String>(json, r'search_by_name'),
         categoriesIds: json[r'categories_ids'] is Iterable
             ? (json[r'categories_ids'] as Iterable).cast<String>().toList(growable: false)
             : const [],
         isPromoted: json[r'is_promoted'] == null
             ? null
-            : num.tryParse('${json[r'is_promoted']}'),
+            : num.parse('${json[r'is_promoted']}'),
         cityId: mapValueOfType<String>(json, r'city_id'),
         occasionsIds: json[r'occasions_ids'] is Iterable
             ? (json[r'occasions_ids'] as Iterable).cast<String>().toList(growable: false)

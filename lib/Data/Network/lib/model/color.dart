@@ -163,7 +163,7 @@ class Color {
       return Color(
         createdAt: mapDateTime(json, r'created_at', r''),
         hexcode: mapValueOfType<String>(json, r'hexcode'),
-        id: num.tryParse('${json[r'id']}'),
+        id: num.parse('${json[r'id']}'),
         name: mapValueOfType<String>(json, r'name'),
         nameAr: mapValueOfType<String>(json, r'name_ar'),
         nameEn: mapValueOfType<String>(json, r'name_en'),

@@ -168,11 +168,11 @@ class FilterTopProductsServicesRequest {
       return FilterTopProductsServicesRequest(
         page: json[r'page'] == null
             ? null
-            : num.tryParse('${json[r'page']}'),
+            : num.parse('${json[r'page']}'),
         searchByName: mapValueOfType<String>(json, r'search_by_name'),
         providerId: json[r'provider_id'] == null
             ? null
-            : num.tryParse('${json[r'provider_id']}'),
+            : num.parse('${json[r'provider_id']}'),
         categoriesIds: json[r'categories_ids'] is Iterable
             ? (json[r'categories_ids'] as Iterable).cast<num>().toList(growable: false)
             : const [],
@@ -181,10 +181,10 @@ class FilterTopProductsServicesRequest {
             : const [],
         priceFrom: json[r'price_from'] == null
             ? null
-            : num.tryParse('${json[r'price_from']}'),
+            : num.parse('${json[r'price_from']}'),
         priceTo: json[r'price_to'] == null
             ? null
-            : num.tryParse('${json[r'price_to']}'),
+            : num.parse('${json[r'price_to']}'),
         shipmentType: mapValueOfType<String>(json, r'shipment_type'),
         ratings: json[r'ratings'] is Iterable
             ? (json[r'ratings'] as Iterable).cast<String>().toList(growable: false)

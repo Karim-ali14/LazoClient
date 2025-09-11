@@ -185,10 +185,10 @@ class ShowCartDetails200ResponseData {
       return ShowCartDetails200ResponseData(
         cartItems: ProviderData.listFromJson(json[r'cart_items']),
         createdAt: mapValueOfType<String>(json, r'created_at'),
-        id: num.tryParse('${json[r'id']}'),
-        total: num.tryParse('${json[r'total']}'),
+        id: num.parse('${json[r'id']}'),
+        total: num.parse('${json[r'total']}'),
         updatedAt: mapValueOfType<String>(json, r'updated_at'),
-        userId: num.tryParse('${json[r'user_id']}'),
+        userId: num.parse('${json[r'user_id']}'),
         type: mapValueOfType<String>(json, r'type'),
         shipmentType: mapValueOfType<String>(json, r'shipment_type'),
         expectedProcessingTime: mapValueOfType<String>(json, r'expected_processing_time'),

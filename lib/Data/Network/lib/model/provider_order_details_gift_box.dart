@@ -163,7 +163,7 @@ class ProviderOrderDetailsGiftBox {
       return ProviderOrderDetailsGiftBox(
         id: mapValueOfType<String>(json, r'id'),
         name: mapValueOfType<String>(json, r'name'),
-        price: num.tryParse('${json[r'price']}'),
+        price: num.parse('${json[r'price']}'),
         image: mapValueOfType<String>(json, r'image'),
         createdAt: mapValueOfType<String>(json, r'created_at'),
         updatedAt: mapValueOfType<String>(json, r'updated_at'),

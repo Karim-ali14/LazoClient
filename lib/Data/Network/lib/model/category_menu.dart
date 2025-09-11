@@ -193,13 +193,13 @@ class CategoryMenu {
       }());
 
       return CategoryMenu(
-        id: num.tryParse('${json[r'id']}'),
+        id: num.parse('${json[r'id']}'),
         name: mapValueOfType<String>(json, r'name'),
         nameEn: mapValueOfType<String>(json, r'name_en'),
         nameAr: mapValueOfType<String>(json, r'name_ar'),
-        providerId: num.tryParse('${json[r'provider_id']}'),
-        servicesCount: num.tryParse('${json[r'services_count']}'),
-        productsCount: num.tryParse('${json[r'products_count']}'),
+        providerId: num.parse('${json[r'provider_id']}'),
+        servicesCount: num.parse('${json[r'services_count']}'),
+        productsCount: num.parse('${json[r'products_count']}'),
         createdAt: mapValueOfType<String>(json, r'created_at'),
         updatedAt: mapValueOfType<String>(json, r'updated_at'),
       );

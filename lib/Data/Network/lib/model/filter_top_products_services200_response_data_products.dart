@@ -221,14 +221,14 @@ class FilterTopProductsServices200ResponseDataProducts {
       }());
 
       return FilterTopProductsServices200ResponseDataProducts(
-        currentPage: num.tryParse('${json[r'current_page']}'),
+        currentPage: num.parse('${json[r'current_page']}'),
         firstPageUrl: mapValueOfType<String>(json, r'first_page_url'),
         nextPageUrl: mapValueOfType<String>(json, r'next_page_url'),
         prevPageUrl: mapValueOfType<String>(json, r'prev_page_url'),
-        lastPage: num.tryParse('${json[r'last_page']}'),
+        lastPage: num.parse('${json[r'last_page']}'),
         lastPageUrl: mapValueOfType<String>(json, r'last_page_url'),
-        from: num.tryParse('${json[r'from']}'),
-        to: num.tryParse('${json[r'to']}'),
+        from: num.parse('${json[r'from']}'),
+        to: num.parse('${json[r'to']}'),
         path: mapValueOfType<String>(json, r'path'),
         total: mapValueOfType<String>(json, r'total'),
         links: FilterTopSellers200ResponseDataLinksInner.listFromJson(json[r'links']),
