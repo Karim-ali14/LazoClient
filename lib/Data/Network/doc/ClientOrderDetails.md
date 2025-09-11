@@ -8,6 +8,7 @@ import 'package:lazo/api.dart';
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**checkoutId** | **String** |  | [optional] 
 **cancellationReason** | **String** |  | [optional] 
 **cancelledBy** | **String** |  | [optional] 
 **createdAt** | **String** |  | [optional] 

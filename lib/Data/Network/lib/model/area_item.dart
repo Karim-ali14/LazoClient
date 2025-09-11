@@ -81,7 +81,7 @@ class AreaItem {
       }());
 
       return AreaItem(
-        id: num.tryParse('${json[r'id']}'),
+        id: num.parse('${json[r'id']}'),
         name: mapValueOfType<String>(json, r'name'),
       );
     }

@@ -223,8 +223,8 @@ class AddressItem {
       }());
 
       return AddressItem(
-        id: num.tryParse('${json[r'id']}'),
-        userId: num.tryParse('${json[r'user_id']}'),
+        id: num.parse('${json[r'id']}'),
+        userId: num.parse('${json[r'user_id']}'),
         recipientName: mapValueOfType<String>(json, r'recipient_name'),
         recipientPhone: mapValueOfType<String>(json, r'recipient_phone'),
         recipientLandmark: mapValueOfType<String>(json, r'recipient_landmark'),

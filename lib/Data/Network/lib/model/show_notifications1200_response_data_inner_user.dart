@@ -273,19 +273,19 @@ class ShowNotifications1200ResponseDataInnerUser {
       }());
 
       return ShowNotifications1200ResponseDataInnerUser(
-        id: num.tryParse('${json[r'id']}'),
+        id: num.parse('${json[r'id']}'),
         name: mapValueOfType<String>(json, r'name'),
         email: mapValueOfType<String>(json, r'email'),
         phone: mapValueOfType<String>(json, r'phone'),
         image: mapValueOfType<String>(json, r'image'),
         imagePath: mapValueOfType<String>(json, r'imagePath'),
-        balance: num.tryParse('${json[r'balance']}'),
+        balance: num.parse('${json[r'balance']}'),
         deviceType: mapValueOfType<String>(json, r'device_type'),
         lang: mapValueOfType<String>(json, r'lang'),
         status: mapValueOfType<String>(json, r'status'),
         createdAt: mapValueOfType<String>(json, r'created_at'),
         updatedAt: mapValueOfType<String>(json, r'updated_at'),
-        cityId: num.tryParse('${json[r'city_id']}'),
+        cityId: num.parse('${json[r'city_id']}'),
         fcmToken: mapValueOfType<String>(json, r'fcm_token'),
       );
     }

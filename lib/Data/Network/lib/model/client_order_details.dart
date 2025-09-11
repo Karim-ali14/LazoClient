@@ -13,6 +13,7 @@ part of openapi.api;
 class ClientOrderDetails {
   /// Returns a new [ClientOrderDetails] instance.
   ClientOrderDetails({
+    this.checkoutId,
     this.cancellationReason,
     this.cancelledBy,
     this.createdAt,
@@ -55,6 +56,14 @@ class ClientOrderDetails {
     this.giftBox,
     this.giftCard,
   });
+
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  String? checkoutId;
 
   String? cancellationReason;
 
@@ -290,6 +299,7 @@ class ClientOrderDetails {
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is ClientOrderDetails &&
+    other.checkoutId == checkoutId &&
     other.cancellationReason == cancellationReason &&
     other.cancelledBy == cancelledBy &&
     other.createdAt == createdAt &&
@@ -335,6 +345,7 @@ class ClientOrderDetails {
   @override
   int get hashCode =>
     // ignore: unnecessary_parenthesis
+    (checkoutId == null ? 0 : checkoutId!.hashCode) +
     (cancellationReason == null ? 0 : cancellationReason!.hashCode) +
     (cancelledBy == null ? 0 : cancelledBy!.hashCode) +
     (createdAt == null ? 0 : createdAt!.hashCode) +
@@ -378,10 +389,15 @@ class ClientOrderDetails {
     (giftCard == null ? 0 : giftCard!.hashCode);
 
   @override
-  String toString() => 'ClientOrderDetails[cancellationReason=$cancellationReason, cancelledBy=$cancelledBy, createdAt=$createdAt, deliveryDate=$deliveryDate, deliveryTime=$deliveryTime, finishedAt=$finishedAt, cancelledAt=$cancelledAt, id=$id, orderFamily=$orderFamily, rejectedProvidersIds=$rejectedProvidersIds, rejectedOrderItems=$rejectedOrderItems, paymentLink=$paymentLink, isMultiProviders=$isMultiProviders, orderItems=$orderItems, packagingProviderId=$packagingProviderId, paymentMethod=$paymentMethod, promocode=$promocode, promocodeDiscountType=$promocodeDiscountType, promocodeDiscountValue=$promocodeDiscountValue, promocodeId=$promocodeId, rating=$rating, ratingComment=$ratingComment, receiverAddress=$receiverAddress, receiverAddressDetails=$receiverAddressDetails, receiverName=$receiverName, latLng=$latLng, receiverPhoneNumber=$receiverPhoneNumber, referenceNumber=$referenceNumber, shippingFee=$shippingFee, packagingFee=$packagingFee, statusId=$statusId, totalBeforeDiscount=$totalBeforeDiscount, discount=$discount, total=$total, totalWithShippingFee=$totalWithShippingFee, totalDeliveryPrice=$totalDeliveryPrice, type=$type, updatedAt=$updatedAt, userId=$userId, giftBox=$giftBox, giftCard=$giftCard]';
+  String toString() => 'ClientOrderDetails[checkoutId=$checkoutId, cancellationReason=$cancellationReason, cancelledBy=$cancelledBy, createdAt=$createdAt, deliveryDate=$deliveryDate, deliveryTime=$deliveryTime, finishedAt=$finishedAt, cancelledAt=$cancelledAt, id=$id, orderFamily=$orderFamily, rejectedProvidersIds=$rejectedProvidersIds, rejectedOrderItems=$rejectedOrderItems, paymentLink=$paymentLink, isMultiProviders=$isMultiProviders, orderItems=$orderItems, packagingProviderId=$packagingProviderId, paymentMethod=$paymentMethod, promocode=$promocode, promocodeDiscountType=$promocodeDiscountType, promocodeDiscountValue=$promocodeDiscountValue, promocodeId=$promocodeId, rating=$rating, ratingComment=$ratingComment, receiverAddress=$receiverAddress, receiverAddressDetails=$receiverAddressDetails, receiverName=$receiverName, latLng=$latLng, receiverPhoneNumber=$receiverPhoneNumber, referenceNumber=$referenceNumber, shippingFee=$shippingFee, packagingFee=$packagingFee, statusId=$statusId, totalBeforeDiscount=$totalBeforeDiscount, discount=$discount, total=$total, totalWithShippingFee=$totalWithShippingFee, totalDeliveryPrice=$totalDeliveryPrice, type=$type, updatedAt=$updatedAt, userId=$userId, giftBox=$giftBox, giftCard=$giftCard]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
+    if (this.checkoutId != null) {
+      json[r'checkout_id'] = this.checkoutId;
+    } else {
+      json[r'checkout_id'] = null;
+    }
     if (this.cancellationReason != null) {
       json[r'cancellation_reason'] = this.cancellationReason;
     } else {
@@ -605,6 +621,7 @@ class ClientOrderDetails {
       }());
 
       return ClientOrderDetails(
+        checkoutId: mapValueOfType<String>(json, r'checkout_id'),
         cancellationReason: mapValueOfType<String>(json, r'cancellation_reason'),
         cancelledBy: mapValueOfType<String>(json, r'cancelled_by'),
         createdAt: mapValueOfType<String>(json, r'created_at'),
@@ -612,7 +629,7 @@ class ClientOrderDetails {
         deliveryTime: mapValueOfType<String>(json, r'delivery_time'),
         finishedAt: mapValueOfType<String>(json, r'finished_at'),
         cancelledAt: mapValueOfType<String>(json, r'cancelled_at'),
-        id: num.tryParse('${json[r'id']}'),
+        id: num.parse('${json[r'id']}'),
         orderFamily: mapValueOfType<String>(json, r'order_family'),
         rejectedProvidersIds: mapValueOfType<String>(json, r'rejected_providers_ids'),
         rejectedOrderItems: mapValueOfType<String>(json, r'rejected_order_items'),
@@ -621,13 +638,13 @@ class ClientOrderDetails {
         orderItems: ProviderData.listFromJson(json[r'order_items']),
         packagingProviderId: json[r'packaging_provider_id'] == null
             ? null
-            : num.tryParse('${json[r'packaging_provider_id']}'),
+            : num.parse('${json[r'packaging_provider_id']}'),
         paymentMethod: mapValueOfType<String>(json, r'payment_method'),
         promocode: ProviderOrderDetailsPromocode.fromJson(json[r'promocode']),
         promocodeDiscountType: mapValueOfType<String>(json, r'promocode_discount_type'),
-        promocodeDiscountValue: num.tryParse('${json[r'promocode_discount_value']}'),
-        promocodeId: num.tryParse('${json[r'promocode_id']}'),
-        rating: num.tryParse('${json[r'rating']}'),
+        promocodeDiscountValue: num.parse('${json[r'promocode_discount_value']}'),
+        promocodeId: num.parse('${json[r'promocode_id']}'),
+        rating: num.parse('${json[r'rating']}'),
         ratingComment: mapValueOfType<String>(json, r'rating_comment'),
         receiverAddress: mapValueOfType<String>(json, r'receiver_address'),
         receiverAddressDetails: mapValueOfType<String>(json, r'receiver_address_details'),
@@ -635,21 +652,21 @@ class ClientOrderDetails {
         latLng: mapValueOfType<String>(json, r'lat_lng'),
         receiverPhoneNumber: mapValueOfType<String>(json, r'receiver_phone_number'),
         referenceNumber: mapValueOfType<String>(json, r'reference_number'),
-        shippingFee: num.tryParse('${json[r'shipping_fee']}'),
+        shippingFee: num.parse('${json[r'shipping_fee']}'),
         packagingFee: json[r'packaging_fee'] == null
             ? null
-            : num.tryParse('${json[r'packaging_fee']}'),
-        statusId: num.tryParse('${json[r'status_id']}'),
-        totalBeforeDiscount: num.tryParse('${json[r'total_before_discount']}'),
-        discount: num.tryParse('${json[r'discount']}'),
-        total: num.tryParse('${json[r'total']}'),
-        totalWithShippingFee: num.tryParse('${json[r'total_with_shipping_fee']}'),
+            : num.parse('${json[r'packaging_fee']}'),
+        statusId: num.parse('${json[r'status_id']}'),
+        totalBeforeDiscount: num.parse('${json[r'total_before_discount']}'),
+        discount: num.parse('${json[r'discount']}'),
+        total: num.parse('${json[r'total']}'),
+        totalWithShippingFee: num.parse('${json[r'total_with_shipping_fee']}'),
         totalDeliveryPrice: json[r'total_delivery_price'] == null
             ? null
-            : num.tryParse('${json[r'total_delivery_price']}'),
+            : num.parse('${json[r'total_delivery_price']}'),
         type: mapValueOfType<String>(json, r'type'),
         updatedAt: mapValueOfType<String>(json, r'updated_at'),
-        userId: num.tryParse('${json[r'user_id']}'),
+        userId: num.parse('${json[r'user_id']}'),
         giftBox: ProviderOrderDetailsGiftBox.fromJson(json[r'gift_box']),
         giftCard: ProviderOrderDetailsGiftBox.fromJson(json[r'gift_card']),
       );

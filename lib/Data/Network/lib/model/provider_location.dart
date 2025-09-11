@@ -146,10 +146,10 @@ class ProviderLocation {
 
       return ProviderLocation(
         createdAt: mapValueOfType<String>(json, r'created_at'),
-        id: num.tryParse('${json[r'id']}'),
+        id: num.parse('${json[r'id']}'),
         location: mapValueOfType<String>(json, r'location'),
         address: mapValueOfType<String>(json, r'address'),
-        providerId: num.tryParse('${json[r'provider_id']}'),
+        providerId: num.parse('${json[r'provider_id']}'),
         updatedAt: mapValueOfType<String>(json, r'updated_at'),
       );
     }

@@ -2442,6 +2442,8 @@ components:
     ClientOrderDetails:
       type: object
       properties:
+        checkout_id:
+          type: string
         cancellation_reason:
           type: string
           nullable: true
