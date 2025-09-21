@@ -1,5 +1,5 @@
 //const mainAppUrl = 'https://7095-156-218-80-56.eu.ngrok.io/api/';
-const mainAppUrl = 'https://lazo.sa/backend/public/api';
+const mainAppUrl = 'https://backend-dev.lazo.sa/public/api';
 const mainAppUrlDomain = 'https://lazo-backend.pomac.info/public';
 
 const userRegisterEndPoint = "auth/register";

@@ -146,7 +146,7 @@ class Banner {
 
       return Banner(
         createdAt: mapValueOfType<String>(json, r'created_at'),
-        id: num.parse('${json[r'id']}'),
+        id: num.tryParse('${json[r'id']}'),
         image: mapValueOfType<String>(json, r'image'),
         imagePath: mapValueOfType<String>(json, r'imagePath'),
         title: mapValueOfType<String>(json, r'title'),

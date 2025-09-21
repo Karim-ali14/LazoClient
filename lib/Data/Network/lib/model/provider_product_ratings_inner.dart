@@ -130,7 +130,7 @@ class ProviderProductRatingsInner {
 
       return ProviderProductRatingsInner(
         orderItemId: mapValueOfType<String>(json, r'order_item_id'),
-        rating: num.parse('${json[r'rating']}'),
+        rating: num.tryParse('${json[r'rating']}'),
         ratingComment: mapValueOfType<String>(json, r'rating_comment'),
         date: mapValueOfType<String>(json, r'date'),
         userName: mapValueOfType<String>(json, r'user_name'),

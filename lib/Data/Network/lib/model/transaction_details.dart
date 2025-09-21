@@ -225,7 +225,7 @@ class TransactionDetails {
       }());
 
       return TransactionDetails(
-        id: num.parse('${json[r'id']}'),
+        id: num.tryParse('${json[r'id']}'),
         providerId: mapValueOfType<String>(json, r'provider_id'),
         number: mapValueOfType<String>(json, r'number'),
         amount: mapValueOfType<String>(json, r'amount'),

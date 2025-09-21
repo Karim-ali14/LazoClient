@@ -193,7 +193,7 @@ class GetAppInfo200ResponseDataProviderAppInfo {
       }());
 
       return GetAppInfo200ResponseDataProviderAppInfo(
-        id: num.parse('${json[r'id']}'),
+        id: num.tryParse('${json[r'id']}'),
         type: mapValueOfType<String>(json, r'type'),
         termsConditions: mapValueOfType<String>(json, r'terms_conditions'),
         aboutApp: mapValueOfType<String>(json, r'about_app'),

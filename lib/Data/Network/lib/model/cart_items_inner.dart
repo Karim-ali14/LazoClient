@@ -389,26 +389,26 @@ class CartItemsInner {
       return CartItemsInner(
         cardPrice: json[r'card_price'] == null
             ? null
-            : num.parse('${json[r'card_price']}'),
+            : num.tryParse('${json[r'card_price']}'),
         isOutsideDelivery: mapValueOfType<int>(json, r'is_outside_delivery'),
         deliveryPrice: json[r'delivery_price'] == null
             ? null
-            : num.parse('${json[r'delivery_price']}'),
+            : num.tryParse('${json[r'delivery_price']}'),
         cardType: mapValueOfType<String>(json, r'card_type'),
-        cartId: num.parse('${json[r'cart_id']}'),
+        cartId: num.tryParse('${json[r'cart_id']}'),
         cityId: mapValueOfType<String>(json, r'city_id'),
         createdAt: mapValueOfType<String>(json, r'created_at'),
-        id: num.parse('${json[r'id']}'),
-        listsTotalPrice: num.parse('${json[r'lists_total_price']}'),
-        price: num.parse('${json[r'price']}'),
+        id: num.tryParse('${json[r'id']}'),
+        listsTotalPrice: num.tryParse('${json[r'lists_total_price']}'),
+        price: num.tryParse('${json[r'price']}'),
         product: ProductDetails.fromJson(json[r'product']),
         productId: json[r'product_id'] == null
             ? null
-            : num.parse('${json[r'product_id']}'),
-        quantity: num.parse('${json[r'quantity']}'),
+            : num.tryParse('${json[r'product_id']}'),
+        quantity: num.tryParse('${json[r'quantity']}'),
         type: mapValueOfType<String>(json, r'type'),
-        cartItemTotalBeforeDiscount: num.parse('${json[r'cart_item_total_before_discount']}'),
-        cartItemTotalAfterDiscount: num.parse('${json[r'cart_item_total_after_discount']}'),
+        cartItemTotalBeforeDiscount: num.tryParse('${json[r'cart_item_total_before_discount']}'),
+        cartItemTotalAfterDiscount: num.tryParse('${json[r'cart_item_total_after_discount']}'),
         productSelectedListIds: mapValueOfType<String>(json, r'product_selected_list_ids'),
         productSelectedListItemsIds: mapValueOfType<String>(json, r'product_selected_list_items_ids'),
         serviceSelectedListIds: mapValueOfType<String>(json, r'service_selected_list_ids'),
@@ -419,7 +419,7 @@ class CartItemsInner {
         service: ServiceShowData.fromJson(json[r'service']),
         serviceId: json[r'service_id'] == null
             ? null
-            : num.parse('${json[r'service_id']}'),
+            : num.tryParse('${json[r'service_id']}'),
         updatedAt: mapValueOfType<String>(json, r'updated_at'),
       );
     }

@@ -133,9 +133,9 @@ class CreateWishlistCollection200ResponseData {
       }());
 
       return CreateWishlistCollection200ResponseData(
-        id: num.parse('${json[r'id']}'),
-        userId: num.parse('${json[r'user_id']}'),
-        tagId: num.parse('${json[r'tag_id']}'),
+        id: num.tryParse('${json[r'id']}'),
+        userId: num.tryParse('${json[r'user_id']}'),
+        tagId: num.tryParse('${json[r'tag_id']}'),
         name: mapValueOfType<String>(json, r'name'),
         createdAt: mapValueOfType<String>(json, r'created_at'),
         updatedAt: mapValueOfType<String>(json, r'updated_at'),

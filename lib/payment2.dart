@@ -45,10 +45,7 @@ class _PaymentScreen2State extends State<PaymentScreen2> {
   }
 
   Future<void> _payWithReadyUI() async {
-    final checkoutId = "A0801C8113556B807EFDE705CC5FF164.uat01-vm-tx03";
-    // if (checkoutId == null) return;
-
-    setState(() => _statusMessage = "Processing ReadyUI...");
+    final checkoutId = "5056AD0F4072A534909F748CE476660A.uat01-vm-tx04";
 
     final paymentResult = await flutterHyperPay.readyUICards(
       readyUI: ReadyUI(
@@ -66,10 +63,7 @@ class _PaymentScreen2State extends State<PaymentScreen2> {
   }
 
   Future<void> _payWithCustomUI() async {
-    final checkoutId = "A0801C8113556B807EFDE705CC5FF164.uat01-vm-tx03";
-    // if (checkoutId == null) return;
-
-    setState(() => _statusMessage = "Processing CustomUI...");
+    final checkoutId = "5056AD0F4072A534909F748CE476660A.uat01-vm-tx04";
 
     final paymentResult = await flutterHyperPay.customUICards(
       customUI: CustomUI(
@@ -88,10 +82,7 @@ class _PaymentScreen2State extends State<PaymentScreen2> {
   }
 
   Future<void> _payWithSTCPay() async {
-    final checkoutId = "A0801C8113556B807EFDE705CC5FF164.uat01-vm-tx03";
-    // if (checkoutId == null) return;
-
-    setState(() => _statusMessage = "Processing STC Pay...");
+    final checkoutId = "5056AD0F4072A534909F748CE476660A.uat01-vm-tx04";
 
     final paymentResult = await flutterHyperPay.customUISTC(
       customUISTC: CustomUISTC(
@@ -104,6 +95,7 @@ class _PaymentScreen2State extends State<PaymentScreen2> {
   }
 
   void _handleResult(PaymentResultData result) {
+    print("sadfsafsadf ${result.paymentResult.name}");
     if (result.paymentResult == PaymentResult.success ||
         result.paymentResult == PaymentResult.sync) {
       setState(() => _statusMessage = "✅ Payment Success");

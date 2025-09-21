@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:lazo_client/Doman/CommenProviders/ApiProvider.dart';
-import 'package:lazo_client/Presentation/Dialogs/LoadingDialog.dart';
+import 'package:hyperpay_plugin/flutter_hyperpay.dart';
+import 'package:hyperpay_plugin/model/custom_ui.dart';
+import 'package:hyperpay_plugin/model/custom_ui_stc.dart';
+import 'package:hyperpay_plugin/model/ready_ui.dart';
 import 'package:lazo_client/Presentation/Screens/cartScreen/CartScreen.dart';
 import 'package:lazo_client/Presentation/Screens/cartScreen/componants/custom_stepper/stepper_indicator.dart';
 import 'package:lazo_client/Presentation/Screens/cartSummary/cart_summary.dart';
@@ -14,11 +16,10 @@ import 'package:lazo_client/Presentation/Widgets/CustomAppBar.dart';
 import 'package:lazo_client/Presentation/Widgets/TextPrice.dart';
 
 import '../../../Constants.dart';
+import '../../../Constants/Constants.dart';
 import '../../../Constants/Eunms.dart';
 import '../../../Data/Network/lib/api.dart';
-import '../../StateNotifiersViewModel/ClientStateNotifiers.dart';
 import '../../StateNotifiersViewModel/PublicStateNotifiers.dart';
-import '../../StateNotifiersViewModel/UserAuthStateNotifiers.dart';
 import '../../Widgets/AppButton.dart';
 import '../../Widgets/TextWithoutPadding.dart';
 
@@ -43,13 +44,17 @@ class OrderProcessScreen extends ConsumerStatefulWidget {
 }
 
 class _OrderProcessScreenState extends ConsumerState<OrderProcessScreen> {
+  late FlutterHyperPay flutterHyperPay;
+
   List<String> steps = ['Customize', 'Delivery', 'Payment'];
   List<Widget> screens = [
     const CartScreen(),
     const CheckoutScreen(
       withInStepper: true,
     ),
-    CartSummaryScreen(changeAddressAction: (){},),
+    CartSummaryScreen(changeAddressAction: (){}, afterCreateOrderAction: (String ) {
+
+    },),
   ];
   final PageController _pageController = PageController();
   final List<GlobalKey> _keys = [
@@ -63,7 +68,11 @@ class _OrderProcessScreenState extends ConsumerState<OrderProcessScreen> {
   @override
   void initState() {
     super.initState();
-
+    flutterHyperPay = FlutterHyperPay(
+      shopperResultUrl: InAppPaymentSetting.shopperResultUrl,
+      paymentMode: PaymentMode.test, // test | live
+      lang: InAppPaymentSetting.getLang(),
+    );
     if (widget.type == CheckoutTypes.SoftCard) {
       steps = ['Delivery', 'Payment'];
       screens = [
@@ -84,7 +93,7 @@ class _OrderProcessScreenState extends ConsumerState<OrderProcessScreen> {
           changeAddressAction: (){
             print("object");
             context.pop();
-          },
+          }, afterCreateOrderAction: paymentOrder,
         ),
       ];
     } else {
@@ -101,7 +110,7 @@ class _OrderProcessScreenState extends ConsumerState<OrderProcessScreen> {
 
           print("object");
           navigateToPage(--_currentPage);
-        },
+        }, afterCreateOrderAction: paymentOrder,
         ),
       ];
     }
@@ -110,16 +119,6 @@ class _OrderProcessScreenState extends ConsumerState<OrderProcessScreen> {
   @override
   Widget build(BuildContext context) {
     var cartInfo = ref.watch(cartCalculationStateNotifies);
-
-    handleState(createOrderStateNotifiers, showLoading: true, showToast: true, onSuccess: (res) {
-      print("create order Response payment link : ${res.data?.data?.paymentLink}");
-      ref.watch(fetchCardDetailsStateNotifies);
-      if (res.data?.data?.paymentLink != null) {
-        navigateToPaymentScreen(res.data?.data?.paymentLink ?? "");
-      } else {
-        context.pop(true);
-      }
-    });
 
     return Scaffold(
       appBar: CustomAppBar(
@@ -259,5 +258,71 @@ class _OrderProcessScreenState extends ConsumerState<OrderProcessScreen> {
         curve: Curves.easeInOut,
       );
     });
+  }
+
+  void paymentOrder(String checkoutId) {
+    print("object $checkoutId");
+    _payWithCustomUI(checkoutId);
+  }
+
+  Future<void> _payWithReadyUI(String checkId) async {
+    final checkoutId = checkId;
+    print(checkoutId);
+    final paymentResult = await flutterHyperPay.readyUICards(
+      readyUI: ReadyUI(
+        brandsName: ["VISA", "MASTER", "MADA", "STC_PAY", "APPLEPAY"],
+        checkoutId: checkoutId,
+        companyNameApplePayIOS: "Test Co",
+        themColorHexIOS: "#000000",
+        setStorePaymentDetailsMode: true,
+      ),
+    );
+
+    _handleResult(paymentResult);
+  }
+
+  Future<void> _payWithCustomUI(String checkoutId) async {
+
+    final paymentResult = await flutterHyperPay.customUICards(
+      customUI: CustomUI(
+        brandName: "MADA",
+        checkoutId: checkoutId,
+        cardNumber: "5212345678901234", // test card
+        holderName: "test",
+        month: "01",
+        year: "2026",
+        cvv: "123",
+        enabledTokenization: false,
+      ),
+    );
+
+    _handleResult(paymentResult);
+  }
+
+  Future<void> _payWithSTCPay() async {
+    final checkoutId = "5056AD0F4072A534909F748CE476660A.uat01-vm-tx04";
+
+    final paymentResult = await flutterHyperPay.customUISTC(
+      customUISTC: CustomUISTC(
+        checkoutId: checkoutId,
+        phoneNumber: "0588987147", // test phone
+      ),
+    );
+
+    _handleResult(paymentResult);
+  }
+
+  void _handleResult(PaymentResultData result) {
+    print("sadfsafsadf ${result.errorString}");
+    print("sadfsafsadf ${result.errorString}");
+    if (result.paymentResult == PaymentResult.success ||
+        result.paymentResult == PaymentResult.sync) {
+      print("✅ Payment Success");
+      context.pop();
+    } else if (result.paymentResult == PaymentResult.error) {
+      print("❌ Payment Failed");
+    } else {
+      print("⚠️Payment Canceled/Unknown");
+    }
   }
 }

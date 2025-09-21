@@ -1,5 +1,6 @@
 
 import 'dart:ffi';
+import 'dart:io';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
@@ -49,5 +50,18 @@ class ConstantsMethods{
         isChecked: false))
         .toList();
     return ratingsList;
+  }
+}
+class InAppPaymentSetting {
+  static const String shopperResultUrl = "com.testpayment.payment";
+  static const String merchantId = "MerchantId";
+  static const String countryCode = "SA";
+
+  static String getLang() {
+    if (Platform.isIOS) {
+      return "en"; // or "ar"
+    } else {
+      return "en_US"; // or "ar_AR"
+    }
   }
 }

@@ -6,7 +6,7 @@ import '../../../Widgets/TextWithoutPadding.dart';
 
 class PaymentMethodSelector extends StatefulWidget {
   final List<PaymentMethod> methods;
-  final ValueChanged<String> onSelected;
+  final ValueChanged<PaymentMethod> onSelected;
   final String? initialSelectedId;
 
   const PaymentMethodSelector({
@@ -26,7 +26,7 @@ class _PaymentMethodSelectorState extends State<PaymentMethodSelector> {
   @override
   void initState() {
     super.initState();
-    selectedId = widget.initialSelectedId ?? widget.methods.first.id;
+    selectedId = widget.initialSelectedId;
   }
 
   @override
@@ -55,7 +55,8 @@ class _PaymentMethodSelectorState extends State<PaymentMethodSelector> {
                     setState(() {
                       selectedId = value;
                     });
-                    widget.onSelected(value!);
+                    var index = widget.methods.indexWhere((item)=>item.id == selectedId);
+                    widget.onSelected(widget.methods[index]);
                   },
                   activeColor: Colors.red,
                 ),
@@ -65,7 +66,7 @@ class _PaymentMethodSelectorState extends State<PaymentMethodSelector> {
                   setState(() {
                     selectedId = method.id;
                   });
-                  widget.onSelected(method.id);
+                  widget.onSelected(method);
                 },
               ),
               if (!isLast)

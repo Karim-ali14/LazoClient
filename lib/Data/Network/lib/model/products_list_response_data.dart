@@ -225,19 +225,19 @@ class ProductsListResponseData {
       }());
 
       return ProductsListResponseData(
-        currentPage: num.parse('${json[r'current_page']}'),
+        currentPage: num.tryParse('${json[r'current_page']}'),
         data: ProviderProduct.listFromJson(json[r'data']),
         firstPageUrl: mapValueOfType<String>(json, r'first_page_url'),
-        from: num.parse('${json[r'from']}'),
-        lastPage: num.parse('${json[r'last_page']}'),
+        from: num.tryParse('${json[r'from']}'),
+        lastPage: num.tryParse('${json[r'last_page']}'),
         lastPageUrl: mapValueOfType<String>(json, r'last_page_url'),
         links: ShowAllProviderSOrders200ResponseDataLinksInner.listFromJson(json[r'links']),
         nextPageUrl: mapValueOfType<Object>(json, r'next_page_url'),
         path: mapValueOfType<String>(json, r'path'),
-        perPage: num.parse('${json[r'per_page']}'),
+        perPage: num.tryParse('${json[r'per_page']}'),
         prevPageUrl: mapValueOfType<Object>(json, r'prev_page_url'),
-        to: num.parse('${json[r'to']}'),
-        total: num.parse('${json[r'total']}'),
+        to: num.tryParse('${json[r'to']}'),
+        total: num.tryParse('${json[r'total']}'),
       );
     }
     return null;

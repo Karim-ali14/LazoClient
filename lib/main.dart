@@ -39,7 +39,6 @@ import 'Presentation/Screens/Auth/Otp/OTPScreen.dart';
 import 'Presentation/Screens/More/FAQScreen.dart';
 import 'Presentation/Screens/More/MoreScreen.dart';
 import 'Presentation/Screens/Notification/NotificationScreen.dart';
-import 'Presentation/Screens/Payment2.dart';
 import 'Presentation/Screens/Wallet/WalletScreen.dart';
 import 'Presentation/Screens/addresses/addresses_screen.dart';
 import 'Presentation/Screens/cartScreen/order_process_screen.dart';
@@ -218,7 +217,7 @@ class MyApp extends ConsumerWidget {
           path: R_splashScreenRout,
           pageBuilder: (context, state) => buildPageWithPushStyle(
                 key: state.pageKey,
-                child: PaymentScreen2(),
+                child: SplashScreen(),
               )),
       GoRoute(
           path: R_OnBoardingScreen,

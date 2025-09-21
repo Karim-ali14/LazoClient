@@ -1,22 +1,28 @@
-import 'dart:math';
+import 'dart:io';
 
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:go_router/go_router.dart';
+import 'package:hyperpay_plugin/flutter_hyperpay.dart';
+import 'package:hyperpay_plugin/model/custom_ui.dart';
+import 'package:hyperpay_plugin/model/custom_ui_stc.dart';
+import 'package:hyperpay_plugin/model/ready_ui.dart';
 import 'package:lazo_client/Constants/Assets.dart';
 import 'package:lazo_client/Data/Network/lib/api.dart';
+import 'package:lazo_client/Doman/CommenProviders/ApiProvider.dart';
 import 'package:lazo_client/Presentation/Screens/cartScreen/componants/cart_items_with_notes.dart';
 import 'package:lazo_client/Presentation/Screens/cartSummary/componants/address_summary_cart.dart';
 import 'package:lazo_client/Presentation/Screens/cartSummary/componants/payment_methods_card.dart';
 import 'package:lazo_client/Presentation/Theme/AppTheme.dart';
 import 'package:lazo_client/Presentation/Widgets/SvgIcons.dart';
+import '../../../Constants/Constants.dart';
 import '../../../Constants/Eunms.dart';
 import '../../../Data/Models/PaymentMethod.dart';
 import '../../../Data/Models/StateModel.dart';
 import '../../../Localization/Keys.dart';
 import '../../../Utils/LocationHandler.dart';
+import '../../../Utils/Snaks.dart';
 import '../../StateNotifiersViewModel/ClientStateNotifiers.dart';
 import '../../StateNotifiersViewModel/PublicStateNotifiers.dart';
 import '../../Widgets/TextWithoutPadding.dart';
@@ -29,12 +35,13 @@ class CartSummaryScreen extends ConsumerStatefulWidget {
   final String? serviceSelectedListIds;
   final String? serviceSelectedListItemsIds;
   final Function changeAddressAction;
-  const CartSummaryScreen( {
+  final Function(String) afterCreateOrderAction;
+  const CartSummaryScreen(  {
     super.key,
     this.type,
     this.service,
     this.serviceSelectedListIds,
-    this.serviceSelectedListItemsIds, required this.changeAddressAction,
+    this.serviceSelectedListItemsIds, required this.changeAddressAction,required this.afterCreateOrderAction,
   });
 
   @override
@@ -43,15 +50,12 @@ class CartSummaryScreen extends ConsumerStatefulWidget {
 
 class CartSummaryScreenState extends ConsumerState<CartSummaryScreen> {
   ValueNotifier<bool> expandedCardItem = ValueNotifier(false);
+  PaymentMethod? paymentMethodSelected;
 
-  final List<PaymentMethod> paymentMethods = [
-    PaymentMethod(id: 'apple', name: 'Apple Pay', icon: Icons.phone_iphone),
-    PaymentMethod(
-        id: 'card', name: 'Debit/Credit Card', icon: Icons.credit_card),
-  ];
   String? address, cityName;
   @override
   void initState() {
+
     WidgetsBinding.instance.addPostFrameCallback((_) {
       var cartSelectionData = ref.read(cartDateSelectedStateNotifiers);
 
@@ -72,6 +76,17 @@ class CartSummaryScreenState extends ConsumerState<CartSummaryScreen> {
   Widget build(BuildContext context) {
     var calculateSoftService = ref.watch(calculateInstantOrderStateProvider);
     var cartSelectionData = ref.watch(cartDateSelectedStateNotifiers);
+
+    handleState(createOrderStateNotifiers, showLoading: true, showToast: true, onSuccess: (res) {
+      print("create order Response payment link : ${res.data?.data?.checkoutId}");
+      ref.watch(fetchCardDetailsStateNotifies);
+      if (res.data?.data?.checkoutId != null) {
+        // navigateToPaymentScreen(res.data?.data?.paymentLink ?? "");
+        widget.afterCreateOrderAction.call(res.data?.data?.checkoutId ?? "");
+      } else {
+        context.pop(true);
+      }
+    });
 
     return Scaffold(
       body: Container(
@@ -170,7 +185,9 @@ class CartSummaryScreenState extends ConsumerState<CartSummaryScreen> {
                       ],
                     ),
               PaymentMethodSelector(
-                  methods: paymentMethods, onSelected: (methodId) {}),
+                  methods: getPaymentMethods(), onSelected: (methodSelected) {
+                    paymentMethodSelected = methodSelected;
+              }),
               SizedBox(
                 height: 24,
               ),
@@ -186,6 +203,62 @@ class CartSummaryScreenState extends ConsumerState<CartSummaryScreen> {
       ),
     );
   }
+
+  List<PaymentMethod> getPaymentMethods() {
+    List<PaymentMethod> methods = [];
+
+    if (Platform.isIOS) {
+      methods.add(PaymentMethod(
+          id: 'APPLEPAY', name: 'Apple Pay', icon: Icons.phone_iphone));
+    }
+
+    methods.addAll([
+      PaymentMethod(id: 'VISA', name: 'Debit/Credit Card', icon: Icons.credit_card),
+      PaymentMethod(id: 'STC_PAY', name: 'STC', icon: Icons.credit_card),
+    ]);
+
+    return methods;
+  }
+
+  // Future<void> _payWithReadyUI(String checkId) async {
+  //   final checkoutId = checkId;
+  //
+  //   List<String> methods = [];
+  //   if(paymentMethodSelected?.id == "VISA"){
+  //     methods = ["VISA", "MASTER", "MADA"];
+  //   }else{
+  //     methods = [paymentMethodSelected?.id ?? ""];
+  //   }
+  //   final paymentResult = await flutterHyperPay.readyUICards(
+  //     readyUI: ReadyUI(
+  //       brandsName: methods,
+  //       checkoutId: checkoutId,
+  //       merchantIdApplePayIOS: InAppPaymentSetting.merchantId,
+  //       countryCodeApplePayIOS: InAppPaymentSetting.countryCode,
+  //       companyNameApplePayIOS: "Test Co",
+  //       themColorHexIOS:"#E21B33",
+  //       setStorePaymentDetailsMode: true,
+  //     ),
+  //   );
+  //
+  //   _handleResult(paymentResult);
+  // }
+
+  // void _handleResult(PaymentResultData result) {
+  //   print("Result Code: ${result.paymentResult}");
+  //   print("Transaction: ${result.errorString}");
+  //   print("Transaction: ${result.paymentResult.name}");
+  //   print("Transaction: ${result.paymentResult}");
+  //   if (result.paymentResult == PaymentResult.success ||
+  //       result.paymentResult == PaymentResult.sync) {
+  //     AppSnackBar.showSnackBar(context, isSuccess: true, message: "✅ Payment Success");
+  //     context.pop(true);
+  //   } else if (result.paymentResult == PaymentResult.error) {
+  //     AppSnackBar.showSnackBar(context, isSuccess: false,message:  "❌ Payment Failed");
+  //   } else {
+  //     AppSnackBar.showSnackBar(context, isSuccess: false,message:  "⚠️ Payment Canceled/Unknown");
+  //   }
+  // }
 
   calculateItemInCart(List<ProviderData>? cartItems) {
     return cartItems?.fold(0, (sum, store) => sum + (store.items?.length ?? 0));
@@ -221,9 +294,7 @@ class CartSummaryScreenState extends ConsumerState<CartSummaryScreen> {
             ? cartSelectionData[promocodeKey].toString()
             : null,
         serviceQuantity: "1",
-        paymentMethod: cartSelectionData.containsKey(paymentMethodKey)
-            ? cartSelectionData[paymentMethodKey].toString()
-            : null,
+        paymentMethod:paymentMethodSelected?.name,
         receiverPhoneNumber:
             cartSelectionData.containsKey(receiverPhoneNumberKey)
                 ? cartSelectionData[receiverPhoneNumberKey].toString()
@@ -269,7 +340,7 @@ class CartSummaryScreenState extends ConsumerState<CartSummaryScreen> {
                     0
                 ? OrderTypes.self_order.name.toString()
                 : OrderTypes.receiver_order.name.toString(),
-        paymentMethod: "Credit Card",
+        paymentMethod: paymentMethodSelected?.name,
         promocode: cartSelectionData.containsKey(promocodeKey)
             ? cartSelectionData[promocodeKey].toString()
             : null,
@@ -286,11 +357,14 @@ class CartSummaryScreenState extends ConsumerState<CartSummaryScreen> {
   }
 
   void createOrder() {
-    print("lksjdfljasldf ${widget.type}");
-    if (widget.type == CheckoutTypes.HartCard) {
-      createOrderHardType();
-    } else if (widget.type == CheckoutTypes.SoftCard) {
-      createInstantOrder();
+    if(paymentMethodSelected != null) {
+      if (widget.type == CheckoutTypes.HartCard) {
+        createOrderHardType();
+      } else if (widget.type == CheckoutTypes.SoftCard) {
+        createInstantOrder();
+      }
+    }else{
+      AppSnackBar.showSnackBar(context, isSuccess: false, message:"Select payment method");
     }
   }
 

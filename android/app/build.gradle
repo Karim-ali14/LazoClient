@@ -16,12 +16,12 @@ def flutterVersionName = localProperties.getProperty('flutter.versionName', '1.0
 
 android {
     namespace "com.pomac.lazo_client"
-    compileSdkVersion 34
+    compileSdkVersion 35
 
     defaultConfig {
         applicationId "com.pomac.lazo_client"
         minSdkVersion 24
-        targetSdkVersion 34
+        targetSdkVersion 35
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
 
@@ -37,6 +37,10 @@ android {
 
     kotlinOptions {
         jvmTarget = '17'
+    }
+
+    buildFeatures {
+        viewBinding true
     }
 
     buildTypes {
@@ -65,10 +69,12 @@ dependencies {
 
     implementation 'androidx.multidex:multidex:2.0.1'
 
+    // Hyperpay SDK
     implementation(name: 'oppwa.mobile-release', ext: 'aar')
-    implementation(name: 'ipworks3ds_sdk', ext: 'aar')
-    implementation(name: 'ipworks3ds_sdk_deploy', ext: 'aar')
+    debugImplementation(name: 'ipworks3ds_sdk', ext: 'aar')
+    releaseImplementation(name: 'ipworks3ds_sdk_deploy', ext: 'aar')
 
+    // AndroidX & Google
     implementation "androidx.appcompat:appcompat:1.7.0"
     implementation "androidx.recyclerview:recyclerview:1.4.0"
     implementation "androidx.browser:browser:1.8.0"
