@@ -28,6 +28,8 @@ class CreateOrderUseCase
     String? receiverPhone,
     String? latLng,
   }) {
+    print("promocode is ${promocode}");
+
     state = StateModel.loading();
     requestWithHandleMessage(() => _clientApi.createOrder(
       saveAddress: saveAddress,

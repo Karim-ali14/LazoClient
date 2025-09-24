@@ -35,13 +35,13 @@ class CartSummaryScreen extends ConsumerStatefulWidget {
   final String? serviceSelectedListIds;
   final String? serviceSelectedListItemsIds;
   final Function changeAddressAction;
-  final Function(String) afterCreateOrderAction;
+  // final Function(String) afterCreateOrderAction;
   const CartSummaryScreen(  {
     super.key,
     this.type,
     this.service,
     this.serviceSelectedListIds,
-    this.serviceSelectedListItemsIds, required this.changeAddressAction,required this.afterCreateOrderAction,
+    this.serviceSelectedListItemsIds, required this.changeAddressAction,
   });
 
   @override
@@ -51,11 +51,16 @@ class CartSummaryScreen extends ConsumerStatefulWidget {
 class CartSummaryScreenState extends ConsumerState<CartSummaryScreen> {
   ValueNotifier<bool> expandedCardItem = ValueNotifier(false);
   PaymentMethod? paymentMethodSelected;
+  late FlutterHyperPay flutterHyperPay;
 
   String? address, cityName;
   @override
   void initState() {
-
+    flutterHyperPay = FlutterHyperPay(
+      shopperResultUrl: InAppPaymentSetting.shopperResultUrl,
+      paymentMode: PaymentMode.test, // test | live
+      lang: InAppPaymentSetting.getLang(),
+    );
     WidgetsBinding.instance.addPostFrameCallback((_) {
       var cartSelectionData = ref.read(cartDateSelectedStateNotifiers);
 
@@ -82,7 +87,7 @@ class CartSummaryScreenState extends ConsumerState<CartSummaryScreen> {
       ref.watch(fetchCardDetailsStateNotifies);
       if (res.data?.data?.checkoutId != null) {
         // navigateToPaymentScreen(res.data?.data?.paymentLink ?? "");
-        widget.afterCreateOrderAction.call(res.data?.data?.checkoutId ?? "");
+        _payWithReadyUI(res.data?.data?.checkoutId ?? "");
       } else {
         context.pop(true);
       }
@@ -220,45 +225,40 @@ class CartSummaryScreenState extends ConsumerState<CartSummaryScreen> {
     return methods;
   }
 
-  // Future<void> _payWithReadyUI(String checkId) async {
-  //   final checkoutId = checkId;
-  //
-  //   List<String> methods = [];
-  //   if(paymentMethodSelected?.id == "VISA"){
-  //     methods = ["VISA", "MASTER", "MADA"];
-  //   }else{
-  //     methods = [paymentMethodSelected?.id ?? ""];
-  //   }
-  //   final paymentResult = await flutterHyperPay.readyUICards(
-  //     readyUI: ReadyUI(
-  //       brandsName: methods,
-  //       checkoutId: checkoutId,
-  //       merchantIdApplePayIOS: InAppPaymentSetting.merchantId,
-  //       countryCodeApplePayIOS: InAppPaymentSetting.countryCode,
-  //       companyNameApplePayIOS: "Test Co",
-  //       themColorHexIOS:"#E21B33",
-  //       setStorePaymentDetailsMode: true,
-  //     ),
-  //   );
-  //
-  //   _handleResult(paymentResult);
-  // }
+  Future<void> _payWithReadyUI(String checkId) async {
+    final checkoutId = checkId;
 
-  // void _handleResult(PaymentResultData result) {
-  //   print("Result Code: ${result.paymentResult}");
-  //   print("Transaction: ${result.errorString}");
-  //   print("Transaction: ${result.paymentResult.name}");
-  //   print("Transaction: ${result.paymentResult}");
-  //   if (result.paymentResult == PaymentResult.success ||
-  //       result.paymentResult == PaymentResult.sync) {
-  //     AppSnackBar.showSnackBar(context, isSuccess: true, message: "✅ Payment Success");
-  //     context.pop(true);
-  //   } else if (result.paymentResult == PaymentResult.error) {
-  //     AppSnackBar.showSnackBar(context, isSuccess: false,message:  "❌ Payment Failed");
-  //   } else {
-  //     AppSnackBar.showSnackBar(context, isSuccess: false,message:  "⚠️ Payment Canceled/Unknown");
-  //   }
-  // }
+    List<String> methods = [];
+    if(paymentMethodSelected?.id == "VISA"){
+      methods = ["VISA", "MASTER", "MADA"];
+    }else{
+      methods = [paymentMethodSelected?.id ?? ""];
+    }
+    final paymentResult = await flutterHyperPay.readyUICards(
+      readyUI: ReadyUI(
+        brandsName: methods,
+        checkoutId: checkoutId,
+        merchantIdApplePayIOS: InAppPaymentSetting.merchantId,
+        countryCodeApplePayIOS: InAppPaymentSetting.countryCode,
+        companyNameApplePayIOS: "Test Co",
+        setStorePaymentDetailsMode: true,
+      ),
+    );
+
+    _handleResult(paymentResult);
+  }
+
+  void _handleResult(PaymentResultData result) {
+    if (result.paymentResult == PaymentResult.success ||
+        result.paymentResult == PaymentResult.sync) {
+      AppSnackBar.showSnackBar(context, isSuccess: true, message: "✅ Payment Success");
+      context.pop(true);
+    } else if (result.paymentResult == PaymentResult.error) {
+      AppSnackBar.showSnackBar(context, isSuccess: false,message:  "❌ Payment Failed");
+    } else {
+      AppSnackBar.showSnackBar(context, isSuccess: false,message:  "⚠️ Payment Canceled/Unknown");
+    }
+  }
 
   calculateItemInCart(List<ProviderData>? cartItems) {
     return cartItems?.fold(0, (sum, store) => sum + (store.items?.length ?? 0));
@@ -317,12 +317,15 @@ class CartSummaryScreenState extends ConsumerState<CartSummaryScreen> {
         deliveryTime: cartSelectionData.containsKey(deliveryTimeKey)
             ? cartSelectionData[deliveryTimeKey].toString()
             : null,isOutsideDelivery: cartSelectionData.containsKey(isOutSideKey) ? int.parse(cartSelectionData[isOutSideKey]?.toString() ?? "0") : null);
+
+    print("${cartSelectionData.containsKey(promocodeKey)}");
   }
 
   void createOrderHardType() {
     var cartSelectionData = ref.read(cartDateSelectedStateNotifiers);
 
-    ref.read(createOrderStateNotifiers.notifier).createOrder(
+    ref.read(createOrderStateNotifiers.notifier)
+        .createOrder(
         isIdentitySecret: bool.parse(
                     cartSelectionData[enableIsSecretKey]?.toString() ??
                         "false") ==

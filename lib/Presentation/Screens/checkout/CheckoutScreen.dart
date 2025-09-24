@@ -818,6 +818,7 @@ class CheckoutScreenState extends ConsumerState<CheckoutScreen>
 
   void continueToPayment({Function? afterPassConditions}) {
     var cartSelectionData = ref.read(cartDateSelectedStateNotifiers);
+    print("promocodeKey ${(cartSelectionData[promocodeKey])}");
     if ((cartSelectionData[orderTypeKey]).toString() ==
         OrderTypes.receiver_order.name) {
       navigateToPaymentOrder(afterPassConditions: afterPassConditions);
@@ -894,7 +895,7 @@ class CheckoutScreenState extends ConsumerState<CheckoutScreen>
           return false;
         }
 
-        return true; // الباقي مسموح
+        return true;
       },
     );
     if (pickedDate != null && pickedDate != _selectedDate) {
@@ -908,7 +909,8 @@ class CheckoutScreenState extends ConsumerState<CheckoutScreen>
   void navigateToPaymentOrder({Function? afterPassConditions}) {
     if (formKey.currentState?.validate() == true) {
       var cartSelectionData = ref.read(cartDateSelectedStateNotifiers);
-      cartSelectionData.clear();
+      clearDefaultAddressData();
+      
       cartSelectionData[selectTypeOfSendKey] = selectTypeOfSend.toString();
       cartSelectionData[enableIsSecretKey] = _enableIsSecret.toString();
       if(_enable.value == false){
@@ -995,5 +997,13 @@ class CheckoutScreenState extends ConsumerState<CheckoutScreen>
       selectedLocation = LatLng(double.parse(addressItem.lat ?? "0.0"),
           double.parse(addressItem.lng ?? "0.0"));
     }
+  }
+
+  void clearDefaultAddressData() {
+    var cartSelectionData = ref.read(cartDateSelectedStateNotifiers);
+
+      cartSelectionData.removeWhere((key,_) => key == cartLatLngKey);
+      cartSelectionData.removeWhere((key,_) => key == receiverAddressKey);
+      cartSelectionData.removeWhere((key,_) => key == receiverAddressDetailsKey);
   }
 }

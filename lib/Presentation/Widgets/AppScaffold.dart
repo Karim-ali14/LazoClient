@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import '../../Constants.dart';
 import '../../Constants/Assets.dart';
 import '../../Constants/Eunms.dart';
+import '../StateNotifiersViewModel/ClientStateNotifiers.dart';
 import '../StateNotifiersViewModel/PublicStateNotifiers.dart';
 import '../Theme/AppTheme.dart';
 import 'SvgIcons.dart';
@@ -28,8 +29,14 @@ class AppScaffold extends StatelessWidget {
         final cartData = ref.watch(fetchCardDetailsStateNotifies);
 
         return (cartData.data?.data?.cartItems.length??0) > 0 ? FloatingActionButton(
-          onPressed: () {
-            context.push(R_CartScreen,extra: {"type":CheckoutTypes.HartCard});
+          onPressed: () async {
+            var update = await context.push(R_CartScreen,extra: {"type":CheckoutTypes.HartCard});
+            if(update == true){
+              print("update cart after order");
+              ref.read(fetchCardDetailsStateNotifies.notifier).getCardDetails();
+              ref.read(getNewOrderStateProvider.notifier).getOrders();
+              ref.read(getCurrentOrderStateProvider.notifier).getOrders();
+            }
           },
           backgroundColor: AppTheme.appRedColor,
           child: Stack(

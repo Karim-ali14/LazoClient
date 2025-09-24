@@ -54,6 +54,7 @@ class ConstantsMethods{
 }
 class InAppPaymentSetting {
   static const String shopperResultUrl = "com.testpayment.payment";
+  // static const String shopperResultUrl = "backend-dev.lazo.sa/public/api/payment/verify";
   static const String merchantId = "MerchantId";
   static const String countryCode = "SA";
 

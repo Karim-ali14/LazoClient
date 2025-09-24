@@ -517,6 +517,7 @@ class CartScreenState extends ConsumerState<CartScreen>
                 CartItemTypes.unready_made.name.toLowerCase()) {
           data[giftCardIdKey] = giftCartSelected?.id?.toString() ?? "";
         }
+        print("promocodeKey : $promocode");
         if (promocode?.isNotEmpty == true) {
           data[promocodeKey] = promocode ?? "";
         }
@@ -528,6 +529,7 @@ class CartScreenState extends ConsumerState<CartScreen>
       } else if (cartData.data?.data?.shipmentType ==
           CartItemTypes.ready_made.name) {
         var data = {orderTypeKey: OrderTypes.receiver_order.name};
+        print("promocodeKey : $promocode");
 
         if (promocode?.isNotEmpty == true) {
           data[promocodeKey] = promocode ?? "";
