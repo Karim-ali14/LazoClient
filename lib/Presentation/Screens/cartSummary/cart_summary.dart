@@ -2,12 +2,9 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:hyperpay_plugin/flutter_hyperpay.dart';
-import 'package:hyperpay_plugin/model/custom_ui.dart';
-import 'package:hyperpay_plugin/model/custom_ui_stc.dart';
-import 'package:hyperpay_plugin/model/ready_ui.dart';
 import 'package:lazo_client/Constants/Assets.dart';
 import 'package:lazo_client/Data/Network/lib/api.dart';
 import 'package:lazo_client/Doman/CommenProviders/ApiProvider.dart';
@@ -51,16 +48,17 @@ class CartSummaryScreen extends ConsumerStatefulWidget {
 class CartSummaryScreenState extends ConsumerState<CartSummaryScreen> {
   ValueNotifier<bool> expandedCardItem = ValueNotifier(false);
   PaymentMethod? paymentMethodSelected;
-  late FlutterHyperPay flutterHyperPay;
+  // late FlutterHyperPay flutterHyperPay;
+  static const platform = const MethodChannel('Hyperpay.demo.fultter/channel');
 
   String? address, cityName;
   @override
   void initState() {
-    flutterHyperPay = FlutterHyperPay(
-      shopperResultUrl: InAppPaymentSetting.shopperResultUrl,
-      paymentMode: PaymentMode.test, // test | live
-      lang: InAppPaymentSetting.getLang(),
-    );
+    // flutterHyperPay = FlutterHyperPay(
+    //   shopperResultUrl: InAppPaymentSetting.shopperResultUrl,
+    //   paymentMode: PaymentMode.test, // test | live
+    //   lang: InAppPaymentSetting.getLang(),
+    // );
     WidgetsBinding.instance.addPostFrameCallback((_) {
       var cartSelectionData = ref.read(cartDateSelectedStateNotifiers);
 
@@ -87,7 +85,7 @@ class CartSummaryScreenState extends ConsumerState<CartSummaryScreen> {
       ref.watch(fetchCardDetailsStateNotifies);
       if (res.data?.data?.checkoutId != null) {
         // navigateToPaymentScreen(res.data?.data?.paymentLink ?? "");
-        _payWithReadyUI(res.data?.data?.checkoutId ?? "");
+        payWithReadyUI(res.data?.data?.checkoutId ?? "");
       } else {
         context.pop(true);
       }
@@ -225,39 +223,61 @@ class CartSummaryScreenState extends ConsumerState<CartSummaryScreen> {
     return methods;
   }
 
-  Future<void> _payWithReadyUI(String checkId) async {
-    final checkoutId = checkId;
+  Future<void> payWithReadyUI(String checkId) async {
 
-    List<String> methods = [];
-    if(paymentMethodSelected?.id == "VISA"){
-      methods = ["VISA", "MASTER", "MADA"];
-    }else{
-      methods = [paymentMethodSelected?.id ?? ""];
+    String transactionStatus;
+    try {
+      final String result = await platform.invokeMethod('gethyperpayresponse',
+          {"type": "ReadyUI", "mode": "TEST", "checkoutid": checkId,"brand": "VISA",
+          });
+      transactionStatus = '$result';
+    } on PlatformException catch (e) {
+      transactionStatus = "${e.message}";
     }
-    final paymentResult = await flutterHyperPay.readyUICards(
-      readyUI: ReadyUI(
-        brandsName: methods,
-        checkoutId: checkoutId,
-        merchantIdApplePayIOS: InAppPaymentSetting.merchantId,
-        countryCodeApplePayIOS: InAppPaymentSetting.countryCode,
-        companyNameApplePayIOS: "Test Co",
-        setStorePaymentDetailsMode: true,
-      ),
-    );
 
-    _handleResult(paymentResult);
+    if (transactionStatus != null ||
+        transactionStatus == "success" ||
+        transactionStatus == "SYNC") {
+      print(transactionStatus);
+      // getpaymentstatus();
+    } else {
+      // setState(() {
+      //   _resultText = transactionStatus;
+      // });
+    }
+
+    // final checkoutId = checkId;
+    //
+    // List<String> methods = [];
+    // if(paymentMethodSelected?.id == "VISA"){
+    //   methods = ["VISA", "MASTER", "MADA"];
+    // }else{
+    //   methods = [paymentMethodSelected?.id ?? ""];
+    // }
+    // final paymentResult = await flutterHyperPay.readyUICards(
+    //   readyUI: ReadyUI(
+    //     brandsName: methods,
+    //     checkoutId: checkoutId,
+    //     merchantIdApplePayIOS: InAppPaymentSetting.merchantId,
+    //     countryCodeApplePayIOS: InAppPaymentSetting.countryCode,
+    //     companyNameApplePayIOS: "Test Co",
+    //     setStorePaymentDetailsMode: true,
+    //   ),
+    // );
+    //
+    // _handleResult();
   }
 
-  void _handleResult(PaymentResultData result) {
-    if (result.paymentResult == PaymentResult.success ||
-        result.paymentResult == PaymentResult.sync) {
-      AppSnackBar.showSnackBar(context, isSuccess: true, message: "✅ Payment Success");
-      context.pop(true);
-    } else if (result.paymentResult == PaymentResult.error) {
-      AppSnackBar.showSnackBar(context, isSuccess: false,message:  "❌ Payment Failed");
-    } else {
-      AppSnackBar.showSnackBar(context, isSuccess: false,message:  "⚠️ Payment Canceled/Unknown");
-    }
+  void _handleResult() {
+    // if (result.paymentResult == PaymentResult.success ||
+    //     result.paymentResult == PaymentResult.sync) {
+    //   AppSnackBar.showSnackBar(context, isSuccess: true, message: "✅ Payment Success");
+    //   context.pop(true);
+    // } else if (result.paymentResult == PaymentResult.error) {
+    //   AppSnackBar.showSnackBar(context, isSuccess: false,message:  "❌ Payment Failed");
+    // } else {
+    //   AppSnackBar.showSnackBar(context, isSuccess: false,message:  "⚠️ Payment Canceled/Unknown");
+    // }
   }
 
   calculateItemInCart(List<ProviderData>? cartItems) {

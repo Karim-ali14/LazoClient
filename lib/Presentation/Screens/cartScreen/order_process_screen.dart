@@ -5,10 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:hyperpay_plugin/flutter_hyperpay.dart';
-import 'package:hyperpay_plugin/model/custom_ui.dart';
-import 'package:hyperpay_plugin/model/custom_ui_stc.dart';
-import 'package:hyperpay_plugin/model/ready_ui.dart';
+// import 'package:hyperpay_plugin/flutter_hyperpay.dart';
+// import 'package:hyperpay_plugin/model/custom_ui.dart';
+// import 'package:hyperpay_plugin/model/custom_ui_stc.dart';
+// import 'package:hyperpay_plugin/model/ready_ui.dart';
 import 'package:lazo_client/Presentation/Screens/cartScreen/CartScreen.dart';
 import 'package:lazo_client/Presentation/Screens/cartScreen/componants/custom_stepper/stepper_indicator.dart';
 import 'package:lazo_client/Presentation/Screens/cartSummary/cart_summary.dart';
@@ -47,8 +47,7 @@ class OrderProcessScreen extends ConsumerStatefulWidget {
 }
 
 class _OrderProcessScreenState extends ConsumerState<OrderProcessScreen> {
-  late FlutterHyperPay flutterHyperPay;
-
+  // late FlutterHyperPay flutterHyperPay;
   List<String> steps = ['Customize', 'Delivery', 'Payment'];
   List<Widget> screens = [
     const CartScreen(),
@@ -69,11 +68,11 @@ class _OrderProcessScreenState extends ConsumerState<OrderProcessScreen> {
   @override
   void initState() {
     super.initState();
-    flutterHyperPay = FlutterHyperPay(
-      shopperResultUrl: InAppPaymentSetting.shopperResultUrl,
-      paymentMode: PaymentMode.test, // test | live
-      lang: InAppPaymentSetting.getLang(),
-    );
+    // flutterHyperPay = FlutterHyperPay(
+    //   shopperResultUrl: InAppPaymentSetting.shopperResultUrl,
+    //   paymentMode: PaymentMode.test, // test | live
+    //   lang: InAppPaymentSetting.getLang(),
+    // );
     if (widget.type == CheckoutTypes.SoftCard) {
       steps = ['Delivery', 'Payment'];
       screens = [
@@ -221,7 +220,7 @@ class _OrderProcessScreenState extends ConsumerState<OrderProcessScreen> {
                               navigateToPage(++_currentPage);
                             });
                           } else if (_currentPage == 2 || (_currentPage == 1 && widget.type == CheckoutTypes.SoftCard)) {
-                            (_keys[2].currentState as CartSummaryScreenState).createOrder();
+                            (_keys[2].currentState as CartSummaryScreenState).payWithReadyUI("C8B21653BAC5C09074DB8170DE3BAB03.uat01-vm-tx02");
                           }
                         },
                         text: _currentPage == 0

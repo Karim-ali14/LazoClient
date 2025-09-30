@@ -70,7 +70,7 @@ dependencies:
   flutter_screenutil: ^5.9.3
   fl_country_code_picker: ^0.1.9+1
   lottie: ^3.1.0
-  hyperpay_plugin: ^3.1.4
+#  hyperpay_plugin: ^3.1.4
 
 
 dev_dependencies:
