@@ -220,7 +220,7 @@ class _OrderProcessScreenState extends ConsumerState<OrderProcessScreen> {
                               navigateToPage(++_currentPage);
                             });
                           } else if (_currentPage == 2 || (_currentPage == 1 && widget.type == CheckoutTypes.SoftCard)) {
-                            (_keys[2].currentState as CartSummaryScreenState).payWithReadyUI("C8B21653BAC5C09074DB8170DE3BAB03.uat01-vm-tx02");
+                            (_keys[2].currentState as CartSummaryScreenState).createOrder();
                           }
                         },
                         text: _currentPage == 0

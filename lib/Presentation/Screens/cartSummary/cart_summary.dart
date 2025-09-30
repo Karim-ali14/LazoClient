@@ -225,10 +225,17 @@ class CartSummaryScreenState extends ConsumerState<CartSummaryScreen> {
 
   Future<void> payWithReadyUI(String checkId) async {
 
+    List<String> methods = [];
+    if(paymentMethodSelected?.id == "VISA"){
+      methods = ["VISA", "MASTER", "MADA"];
+    }else{
+      methods = [paymentMethodSelected?.id ?? ""];
+    }
+
     String transactionStatus;
     try {
       final String result = await platform.invokeMethod('gethyperpayresponse',
-          {"type": "ReadyUI", "mode": "TEST", "checkoutid": checkId,"brand": "VISA",
+          {"type": "ReadyUI", "mode": "TEST", "checkoutid": checkId,"brands": methods,
           });
       transactionStatus = '$result';
     } on PlatformException catch (e) {
@@ -246,14 +253,6 @@ class CartSummaryScreenState extends ConsumerState<CartSummaryScreen> {
       // });
     }
 
-    // final checkoutId = checkId;
-    //
-    // List<String> methods = [];
-    // if(paymentMethodSelected?.id == "VISA"){
-    //   methods = ["VISA", "MASTER", "MADA"];
-    // }else{
-    //   methods = [paymentMethodSelected?.id ?? ""];
-    // }
     // final paymentResult = await flutterHyperPay.readyUICards(
     //   readyUI: ReadyUI(
     //     brandsName: methods,

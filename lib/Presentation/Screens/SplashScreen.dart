@@ -63,30 +63,30 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
       final isSelectedCity = prefs.getBool(selectedCityKey);
       print("🚨 selectedCityKey value = $isSelectedCity $client");
 
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => Ready_UI(),
-        ), );
+      // Navigator.push(
+      //   context,
+      //   MaterialPageRoute(
+      //     builder: (context) => Ready_UI(),
+      //   ), );
 
-      // if(client != null){
-      //   initFcmToken();
-      //   if ((prefs.getBool(selectedCityKey) ?? false) == true) {
-      //     context.go(R_MainScreen);
-      //   }else{
-      //     context.push(R_SelectCountriesScreen);
-      //   }
-      // }else {
-      //   if(prefs.getBool(doneLandingKey) == true){
-      //     if ((prefs.getBool(selectedCityKey) ?? false) == true){
-      //       context.go(R_MainScreen);
-      //     }else{
-      //       context.push(R_SelectCountriesScreen);
-      //     }
-      //   }else {
-      //     context.push(R_OnBoardingScreen);
-      //   }
-      // }
+      if(client != null){
+        initFcmToken();
+        if ((prefs.getBool(selectedCityKey) ?? false) == true) {
+          context.go(R_MainScreen);
+        }else{
+          context.push(R_SelectCountriesScreen);
+        }
+      }else {
+        if(prefs.getBool(doneLandingKey) == true){
+          if ((prefs.getBool(selectedCityKey) ?? false) == true){
+            context.go(R_MainScreen);
+          }else{
+            context.push(R_SelectCountriesScreen);
+          }
+        }else {
+          context.push(R_OnBoardingScreen);
+        }
+      }
       WidgetsBinding.instance.addPostFrameCallback((_){
         ref.read(apiClient).defaultHeaderMap["lang"] = "en";
         var sessionId = ref.read(getSessionHandlerStateNotifier.notifier)

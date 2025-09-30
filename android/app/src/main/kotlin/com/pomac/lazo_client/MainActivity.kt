@@ -3,7 +3,6 @@ package com.pomac.lazo_client
 import android.app.Activity
 import android.content.Intent
 import android.net.Uri
-import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
@@ -53,7 +52,7 @@ class MainActivity : FlutterFragmentActivity(),
     private var STCPAY: String = ""
     private var ptMadaVExp: String = ""
     private var ptMadaMExp: String = ""
-    private var brands: String = ""
+    private var brands: ArrayList<String> = arrayListOf()
     private var isToken: String = ""
     private var token: String = ""
 
@@ -108,11 +107,11 @@ class MainActivity : FlutterFragmentActivity(),
                 type = call.argument("type") ?: ""
                 mode = call.argument("mode") ?: ""
                 checkoutId = call.argument("checkoutid") ?: ""
+                brands = call.argument<ArrayList<String>>("brands") ?: arrayListOf()
 
                 if (type == "ReadyUI") {
                     openCheckoutUI(checkoutId)
                 } else {
-                    brands = call.argument("brand") ?: ""
                     STCPAY = call.argument("STCPAY") ?: ""
                     number = call.argument("card_number")
                     holder = call.argument("holder_name")
@@ -134,11 +133,11 @@ class MainActivity : FlutterFragmentActivity(),
 
     private fun openCheckoutUI(checkoutId: String) {
         val paymentBrands = linkedSetOf<String>()
-        if (brands == "mada") {
-            paymentBrands.add("MADA")
-        } else {
+        if (brands.isEmpty()) {
             paymentBrands.add("VISA")
             paymentBrands.add("MASTER")
+        } else {
+            paymentBrands.addAll(brands)
         }
 
         checkoutSettings = CheckoutSettings(
@@ -218,13 +217,15 @@ class MainActivity : FlutterFragmentActivity(),
 
                     val firstNumber = cardNumber.first().toString()
                     brand = when {
-                        brands == "mada" && (cardNumber.substring(0, 6)
-                            .matches(ptMadaVExp.toRegex()) ||
-                                cardNumber.substring(0, 6).matches(ptMadaMExp.toRegex())) -> "MADA"
-                        firstNumber == "4" -> "VISA"
-                        firstNumber == "5" -> "MASTER"
+                        brands.any { it.equals("MADA", ignoreCase = true) } &&
+                                (cardNumber.substring(0, 6).matches(Regex(ptMadaVExp, RegexOption.IGNORE_CASE)) ||
+                                        cardNumber.substring(0, 6).matches(Regex(ptMadaMExp, RegexOption.IGNORE_CASE))) -> "MADA"
+
+                        firstNumber == "4" && brands.any { it.equals("VISA", ignoreCase = true) } -> "VISA"
+                        firstNumber == "5" && brands.any { it.equals("MASTER", ignoreCase = true) } -> "MASTER"
                         else -> null
                     }
+
 
                     val paymentParams = CardPaymentParams(
                         checkoutId, brand, cardNumber, holder, month, year, cvv
