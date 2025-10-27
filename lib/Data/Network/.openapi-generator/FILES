@@ -65,6 +65,9 @@ doc/OccasionsResponse.md
 doc/OrderItemsInner.md
 doc/Orders12Api.md
 doc/OrdersApi.md
+doc/PaymentApi.md
+doc/PaymentVerifyResponse.md
+doc/PaymentVerifyResponseData.md
 doc/ProductDetails.md
 doc/ProductDetailsRatingsInner.md
 doc/ProductDetailsResponse.md
@@ -181,6 +184,7 @@ lib/api/client_api.dart
 lib/api/notifications_api.dart
 lib/api/orders12_api.dart
 lib/api/orders_api.dart
+lib/api/payment_api.dart
 lib/api/provider_api.dart
 lib/api/public_api.dart
 lib/api/public_auth_api.dart
@@ -248,6 +252,8 @@ lib/model/image_item.dart
 lib/model/occasion.dart
 lib/model/occasions_response.dart
 lib/model/order_items_inner.dart
+lib/model/payment_verify_response.dart
+lib/model/payment_verify_response_data.dart
 lib/model/product_details.dart
 lib/model/product_details_ratings_inner.dart
 lib/model/product_details_response.dart
@@ -349,3 +355,6 @@ lib/model/upload_files.dart
 lib/model/upload_files_response.dart
 lib/model/wishlist_item.dart
 pubspec.yaml
+test/payment_api_test.dart
+test/payment_verify_response_data_test.dart
+test/payment_verify_response_test.dart

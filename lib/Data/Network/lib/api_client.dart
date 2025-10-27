@@ -290,6 +290,10 @@ class ApiClient {
           return OccasionsResponse.fromJson(value);
         case 'OrderItemsInner':
           return OrderItemsInner.fromJson(value);
+        case 'PaymentVerifyResponse':
+          return PaymentVerifyResponse.fromJson(value);
+        case 'PaymentVerifyResponseData':
+          return PaymentVerifyResponseData.fromJson(value);
         case 'ProductDetails':
           return ProductDetails.fromJson(value);
         case 'ProductDetailsRatingsInner':

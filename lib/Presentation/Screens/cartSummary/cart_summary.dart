@@ -216,7 +216,8 @@ class CartSummaryScreenState extends ConsumerState<CartSummaryScreen> {
     }
 
     methods.addAll([
-      PaymentMethod(id: 'VISA', name: 'Debit/Credit Card', icon: Icons.credit_card),
+      PaymentMethod(id: 'VISA', name: 'VISA/MASTER', icon: Icons.credit_card),
+      PaymentMethod(id: 'MADA', name: 'MADA', icon: Icons.credit_card),
       PaymentMethod(id: 'STC_PAY', name: 'STC', icon: Icons.credit_card),
     ]);
 
@@ -227,7 +228,7 @@ class CartSummaryScreenState extends ConsumerState<CartSummaryScreen> {
 
     List<String> methods = [];
     if(paymentMethodSelected?.id == "VISA"){
-      methods = ["VISA", "MASTER", "MADA"];
+      methods = ["VISA", "MASTER"];
     }else{
       methods = [paymentMethodSelected?.id ?? ""];
     }
@@ -246,7 +247,7 @@ class CartSummaryScreenState extends ConsumerState<CartSummaryScreen> {
         transactionStatus == "success" ||
         transactionStatus == "SYNC") {
       print(transactionStatus);
-      // getpaymentstatus();
+      verifyPayment();
     } else {
       // setState(() {
       //   _resultText = transactionStatus;
@@ -313,7 +314,7 @@ class CartSummaryScreenState extends ConsumerState<CartSummaryScreen> {
             ? cartSelectionData[promocodeKey].toString()
             : null,
         serviceQuantity: "1",
-        paymentMethod:paymentMethodSelected?.name,
+        paymentMethod:paymentMethodSelected?.id,
         receiverPhoneNumber:
             cartSelectionData.containsKey(receiverPhoneNumberKey)
                 ? cartSelectionData[receiverPhoneNumberKey].toString()
@@ -362,7 +363,7 @@ class CartSummaryScreenState extends ConsumerState<CartSummaryScreen> {
                     0
                 ? OrderTypes.self_order.name.toString()
                 : OrderTypes.receiver_order.name.toString(),
-        paymentMethod: paymentMethodSelected?.name,
+        paymentMethod: paymentMethodSelected?.id,
         promocode: cartSelectionData.containsKey(promocodeKey)
             ? cartSelectionData[promocodeKey].toString()
             : null,
@@ -398,5 +399,9 @@ class CartSummaryScreenState extends ConsumerState<CartSummaryScreen> {
 
   void resetCartSelectionData() {
     ref.read(cartDateSelectedStateNotifiers.notifier).setCartDataSelection({});
+  }
+
+  void verifyPayment() {
+
   }
 }

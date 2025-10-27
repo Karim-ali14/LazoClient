@@ -121,6 +121,7 @@ Class | Method | HTTP request | Description
 *Orders12Api* | [**manageOrders1**](doc//Orders12Api.md#manageorders1) | **POST** /provider/order/manage | manage orders
 *Orders12Api* | [**showAllProviderSOrders**](doc//Orders12Api.md#showallprovidersorders) | **GET** /provider/orders | show all provider's orders
 *Orders12Api* | [**showOrderDetails2**](doc//Orders12Api.md#showorderdetails2) | **GET** /provider/order/show | show order details
+*PaymentApi* | [**paymentVerifyGet**](doc//PaymentApi.md#paymentverifyget) | **GET** /payment/verify | verify payment
 *ProviderApi* | [**assignChatNotificationToAClient**](doc//ProviderApi.md#assignchatnotificationtoaclient) | **POST** /provider/chat/notification/assign | Assign chat notification to a client
 *ProviderApi* | [**manageOrders1**](doc//ProviderApi.md#manageorders1) | **POST** /provider/order/manage | manage orders
 *ProviderApi* | [**providerAccountDeleteGet**](doc//ProviderApi.md#provideraccountdeleteget) | **GET** /provider/account-delete | provider\\'s account deleted successfully
@@ -239,6 +240,8 @@ Class | Method | HTTP request | Description
  - [Occasion](doc//Occasion.md)
  - [OccasionsResponse](doc//OccasionsResponse.md)
  - [OrderItemsInner](doc//OrderItemsInner.md)
+ - [PaymentVerifyResponse](doc//PaymentVerifyResponse.md)
+ - [PaymentVerifyResponseData](doc//PaymentVerifyResponseData.md)
  - [ProductDetails](doc//ProductDetails.md)
  - [ProductDetailsRatingsInner](doc//ProductDetailsRatingsInner.md)
  - [ProductDetailsResponse](doc//ProductDetailsResponse.md)

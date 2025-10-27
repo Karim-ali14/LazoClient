@@ -3435,6 +3435,28 @@ components:
         sender:
           type: string
 
+    PaymentVerifyResponse:
+      type: object
+      properties:
+        status:
+          type: boolean
+        message:
+          type: string
+        data:
+          type: object
+          properties:
+            status:
+              type: string
+            message:
+              type: string
+            order_id:
+              type: number
+            type:
+              type: string
+            service_id:
+              type: number
+            shipment_type:
+              type: string
 
 tags:
   - name: public
@@ -11009,3 +11031,28 @@ paths:
 
       security:
         - bearerAuth: []
+  /payment/verify:
+    get:
+      tags:
+        - payment
+      summary: verify payment
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: resourcePath
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: paymentBrand
+          in: query
+          required: true
+          schema:
+            enum: [VISA,MASTER,APPLEPAY,STC_PAY,MADA,AMEX]
+      responses:
+        '200':
+          description: payment verified successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaymentVerifyResponse'
